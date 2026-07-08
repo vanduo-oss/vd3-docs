@@ -1,0 +1,37 @@
+schema: spec-driven
+
+context: |
+  Package: @vanduo-oss/vd3-docs (private, not published). Documentation site for the vd3
+  line — a Vue3-only clone of the vd2 docs site with all vanilla-engine machinery removed.
+  Stack: Vue 3 + vite + vite-ssg (prerenders every route) + vue-router + pinia (docs-site
+  stores only) + @unhead/vue + highlight.js. nav.ts is the single source of truth for
+  routes (buildRoutes + pageComponents maps). Single engine: NO EngineSwitch/EngineBadge/
+  useEngineStore — pages document Vue3 usage only.
+  Dogfoods the real packages: "@vanduo-oss/vd3": "link:../vd3" and
+  "@vanduo-oss/vd3-cbun": "link:../vd3-cbun" while unpublished (vite resolve.dedupe
+  ['vue','pinia'] + optimizeDeps.exclude for both); flips to published ^1.0.0 at launch.
+  main.ts imports @vanduo-oss/vd3/css + per-component cbun css; NO framework IIFE, no
+  loadVanduoRuntime, zero window.Vanduo* references in the built bundle (grep gate).
+  Tests: vitest units, Playwright visual parity (all routes, committed baselines),
+  layout-navigation interactions, gzip size budget, @axe-core/playwright a11y smoke.
+  Changelog policy: documents PACKAGE releases only (@vanduo-oss/vd3, @vanduo-oss/vd3-cbun),
+  never docs-site content. Deploy workflow exists but stays disabled until launch; no CNAME.
+  Old-line repos (vd2 especially) are READ-ONLY reference material — never edit.
+
+rules:
+  proposal:
+    - State which pages/routes are added, changed, or removed
+    - Always include a "Non-goals" section
+  specs:
+    - Use Given/When/Then scenario format under each requirement
+    - Use SHALL/MUST for normative requirements
+  design:
+    - Docs pages render real vd3/vd3-cbun components (dogfooding) — no invented APIs; verify against package source
+    - No vanilla-engine references in prose, snippets, or runtime
+    - app.css stays shell/layout-only; component styling belongs to the vd3 package
+  tasks:
+    - Include vite-ssg build (all routes prerender clean) when pages/nav change
+    - Include Playwright visual-baseline update step when page markup changes
+    - Include search-index/nav keywords update when adding pages
+  changelog:
+    - Track packages only (@vanduo-oss/vd3, @vanduo-oss/vd3-cbun); never docs-site content
