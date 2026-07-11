@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" height="400">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="6" flood-color="#000" flood-opacity="0.2"/>
+    </filter>
+
+    <radialGradient id="centralGrad" cx="50%" cy="50%" r="50%">
+      
+      <stop offset="0%" stop-color="#a3c7ff">
+         <animate attributeName="stop-color" 
+                  values="#a3c7ff; #a3c7ff; #1e4072; #70a6f2; #a3c7ff" 
+                  keyTimes="0; 0.35; 0.6; 0.85; 1" 
+                  dur="14s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="45%" stop-color="#70a6f2" />
+      <stop offset="85%" stop-color="#1e4072" />
+      <stop offset="100%" stop-color="#0a1b38" />
+      
+      <animate attributeName="fx" 
+               values="20%; 85%; 60%; 15%; 20%" 
+               keyTimes="0; 0.35; 0.6; 0.85; 1" 
+               calcMode="spline" 
+               keySplines="0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1" 
+               dur="14s" repeatCount="indefinite" />
+      <animate attributeName="fy" 
+               values="20%; 40%; 85%; 60%; 20%" 
+               keyTimes="0; 0.35; 0.6; 0.85; 1" 
+               calcMode="spline" 
+               keySplines="0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1" 
+               dur="14s" repeatCount="indefinite" />
+    </radialGradient>
+
+    <radialGradient id="smallGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e3eef8">
+         <animate attributeName="stop-color" 
+                  values="#e3eef8; #e3eef8; #5c728a; #c8daec; #e3eef8" 
+                  keyTimes="0; 0.35; 0.6; 0.85; 1" 
+                  dur="14s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="45%" stop-color="#c8daec" />
+      <stop offset="85%" stop-color="#5c728a" />
+      <stop offset="100%" stop-color="#2a3b4c" />
+      
+      <animate attributeName="fx" 
+               values="20%; 85%; 60%; 15%; 20%" 
+               keyTimes="0; 0.35; 0.6; 0.85; 1" 
+               calcMode="spline" 
+               keySplines="0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1" 
+               dur="14s" repeatCount="indefinite" />
+      <animate attributeName="fy" 
+               values="20%; 40%; 85%; 60%; 20%" 
+               keyTimes="0; 0.35; 0.6; 0.85; 1" 
+               calcMode="spline" 
+               keySplines="0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1" 
+               dur="14s" repeatCount="indefinite" />
+    </radialGradient>
+
+    <style>
+      @keyframes gentleFloat {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-4px); }
+      }
+      .molecule {
+        animation: gentleFloat 8s ease-in-out infinite;
+      }
+    </style>
+  </defs>
+
+  <g class="molecule" filter="url(#shadow)">
+    <circle cx="50" cy="140" r="30" fill="url(#smallGrad)" />
+    <circle cx="150" cy="140" r="30" fill="url(#smallGrad)" />
+    <circle cx="100" cy="100" r="75" fill="url(#centralGrad)" />
+  </g>
+</svg>

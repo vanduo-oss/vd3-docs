@@ -6,3 +6,12 @@ dist
 playwright-report
 test-results
 tsconfig.tsbuildinfo
+
+# Demo audio tracks (track only the bundled sample and attribution note)
+public/music/*
+!public/music/README.md
+!public/music/Stellardrone/
+public/music/Stellardrone/*
+!public/music/Stellardrone/Invent the Universe/
+public/music/Stellardrone/Invent the Universe/*
+!public/music/Stellardrone/Invent the Universe/*.mp3

@@ -1,0 +1,958 @@
+/** Which engine(s) a guide applies to — drives the sidebar hint badge. */
+export type EngineScope = "both" | "vanilla" | "vue";
+
+export interface NavSection {
+  id: string;
+  title: string;
+  route: string;
+  icon?: string;
+  keywords: string[];
+  file?: string;
+  /**
+   * For guides: which engine(s) the guide is relevant to. Defaults to "both"
+   * when omitted. Set "vanilla" or "vue" for engine-specific guides.
+   */
+  engine?: EngineScope;
+}
+
+export interface NavCategory {
+  id: string;
+  title: string;
+  icon?: string;
+  sections: NavSection[];
+}
+
+export interface NavTab {
+  id: string;
+  title: string;
+  icon?: string;
+  categories: NavCategory[];
+}
+
+export interface NavPage {
+  id: string;
+  title: string;
+  route: string;
+  icon?: string;
+  keywords: string[];
+}
+
+export interface NavTree {
+  pages: NavPage[];
+  tabs: NavTab[];
+}
+
+export const nav: NavTree = {
+  pages: [
+    {
+      id: "home",
+      title: "Home",
+      route: "/",
+      icon: "house",
+      keywords: ["home", "vanduo", "framework"],
+    },
+    {
+      id: "docs-landing",
+      title: "Docs",
+      route: "/docs-landing",
+      icon: "book",
+      keywords: ["docs", "documentation", "guide"],
+    },
+    {
+      id: "about",
+      title: "About",
+      route: "/about",
+      icon: "info",
+      keywords: ["about", "vanduo", "mission"],
+    },
+    {
+      id: "changelog",
+      title: "Changelog",
+      route: "/changelog",
+      icon: "clock",
+      keywords: ["changelog", "releases", "versions"],
+    },
+    {
+      id: "kilo-oss",
+      title: "kilo-oss",
+      route: "/kilo-oss",
+      icon: "star",
+      keywords: ["kilo", "oss", "open source"],
+    },
+  ],
+  tabs: [
+    {
+      id: "core-foundation",
+      title: "Core",
+      icon: "cube",
+      categories: [
+        {
+          id: "foundation",
+          title: "Foundation",
+          icon: "shapes",
+          sections: [
+            {
+              id: "color-palette",
+              title: "Color palette",
+              route: "/core/color-palette",
+              icon: "palette",
+              keywords: [
+                "color",
+                "palette",
+                "tokens",
+                "fibonacci",
+                "golden",
+                "open color",
+              ],
+              file: "core/color-palette.html",
+            },
+            {
+              id: "typography",
+              title: "Typography",
+              route: "/core/typography",
+              icon: "text-aa",
+              keywords: ["typography", "font", "type"],
+              file: "core/typography.html",
+            },
+            {
+              id: "icons",
+              title: "Icons",
+              route: "/core/icons",
+              icon: "images",
+              keywords: ["icons", "phosphor", "glyph"],
+              file: "core/icons.html",
+            },
+            {
+              id: "golden-ratio",
+              title: "Golden ratio",
+              route: "/core/golden-ratio",
+              icon: "shapes",
+              keywords: ["ratio", "phi", "fibonacci"],
+              file: "core/golden-ratio.html",
+            },
+            {
+              id: "grid-system",
+              title: "Grid system",
+              route: "/core/grid-system",
+              icon: "grid-four",
+              keywords: ["grid", "layout", "columns"],
+              file: "core/grid-system.html",
+            },
+            {
+              id: "shadows-glow",
+              title: "Shadows & glow",
+              route: "/core/shadows-glow",
+              icon: "square",
+              keywords: ["shadow", "elevation", "glow"],
+              file: "core/shadows-glow.html",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "components",
+      title: "Components",
+      icon: "squares-four",
+      categories: [
+        {
+          id: "theme",
+          title: "Theme",
+          icon: "paint-brush",
+          sections: [
+            {
+              id: "theme-switcher",
+              title: "Theme switcher",
+              route: "/components/theme-switcher",
+              icon: "palette",
+              keywords: ["theme", "dark", "light", "contrast"],
+              file: "components/theme-switcher.html",
+            },
+            {
+              id: "theme-customizer",
+              title: "Theme customizer",
+              route: "/components/theme-customizer",
+              icon: "sliders",
+              keywords: ["customizer", "tokens", "live-edit"],
+              file: "components/theme-customizer.html",
+            },
+          ],
+        },
+        {
+          id: "core",
+          title: "Core",
+          icon: "cube",
+          sections: [
+            {
+              id: "button",
+              title: "Button",
+              route: "/components/button",
+              icon: "cursor-click",
+              keywords: ["button", "click", "cta"],
+              file: "components/button.html",
+            },
+            {
+              id: "badge",
+              title: "Badge",
+              route: "/components/badge",
+              icon: "tag",
+              keywords: ["badge", "tag", "pill"],
+              file: "components/badge.html",
+            },
+            {
+              id: "alert",
+              title: "Alert",
+              route: "/components/alert",
+              icon: "warning",
+              keywords: ["alert", "notice", "banner"],
+              file: "components/alert.html",
+            },
+            {
+              id: "card",
+              title: "Card",
+              route: "/components/card",
+              icon: "credit-card",
+              keywords: ["card", "panel", "container"],
+              file: "components/card.html",
+            },
+            {
+              id: "dropdown",
+              title: "Dropdown",
+              route: "/components/dropdown",
+              icon: "caret-down",
+              keywords: ["dropdown", "menu", "split", "select"],
+              file: "components/dropdown.html",
+            },
+            {
+              id: "menu",
+              title: "Menu",
+              route: "/components/menu",
+              icon: "list-dashes",
+              keywords: ["menu", "dropdown", "actions", "context", "items"],
+            },
+            {
+              id: "popover",
+              title: "Popover",
+              route: "/components/popover",
+              icon: "chat-circle-dots",
+              keywords: ["popover", "hover", "click", "focus", "tooltip"],
+              file: "components/popover.html",
+            },
+            {
+              id: "fab",
+              title: "Floating Action Button",
+              route: "/components/fab",
+              icon: "plus-circle",
+              keywords: ["fab", "floating", "action", "button"],
+              file: "components/fab.html",
+            },
+            {
+              id: "ripple",
+              title: "Ripple",
+              route: "/components/ripple",
+              icon: "drop",
+              keywords: ["ripple", "click", "material"],
+              file: "components/ripple.html",
+            },
+            {
+              id: "expanding-cards",
+              title: "Expanding Cards",
+              route: "/components/expanding-cards",
+              icon: "squares-four",
+              keywords: ["expanding", "cards", "gallery", "showcase"],
+              file: "components/expanding-cards.html",
+            },
+            {
+              id: "spotlight",
+              title: "Spotlight",
+              route: "/components/spotlight",
+              icon: "frame-corners",
+              keywords: ["spotlight", "lightbox", "zoom", "gallery"],
+              file: "components/spotlight.html",
+            },
+            {
+              id: "timeline",
+              title: "Timeline",
+              route: "/components/timeline",
+              icon: "clock-clockwise",
+              keywords: ["timeline", "history", "changelog", "steps"],
+              file: "components/timeline.html",
+            },
+            {
+              id: "template",
+              title: "Template",
+              route: "/components/template",
+              icon: "layout",
+              keywords: ["template", "layout", "skeleton", "starter"],
+              file: "components/template.html",
+            },
+            {
+              id: "navigation",
+              title: "Navigation",
+              route: "/components/navigation",
+              icon: "compass",
+              keywords: [
+                "navigation",
+                "nav",
+                "navbar",
+                "sidenav",
+                "breadcrumb",
+                "pagination",
+              ],
+              file: "components/navigation.html",
+            },
+          ],
+        },
+        {
+          id: "feedback",
+          title: "Feedback",
+          icon: "chat-circle",
+          sections: [
+            {
+              id: "modal",
+              title: "Modal",
+              route: "/components/modal",
+              icon: "rectangle",
+              keywords: ["modal", "dialog", "overlay"],
+              file: "components/modal.html",
+            },
+            {
+              id: "toast",
+              title: "Toast",
+              route: "/components/toast",
+              icon: "bell",
+              keywords: ["toast", "notification", "snackbar"],
+              file: "components/toast.html",
+            },
+            {
+              id: "tooltip",
+              title: "Tooltip",
+              route: "/components/tooltip",
+              icon: "chat-text",
+              keywords: ["tooltip", "hover", "hint"],
+              file: "components/tooltip.html",
+            },
+            {
+              id: "chip",
+              title: "Chip",
+              route: "/components/chip",
+              icon: "tag",
+              keywords: ["chip", "tag", "token"],
+              file: "feedback/chips.html",
+            },
+            {
+              id: "skeleton",
+              title: "Skeleton",
+              route: "/components/skeleton",
+              icon: "shapes",
+              keywords: ["skeleton", "placeholder", "loading"],
+              file: "components/skeleton.html",
+            },
+            {
+              id: "preloader",
+              title: "Preloader",
+              route: "/components/preloader",
+              icon: "circle-notch",
+              keywords: ["preloader", "spinner", "loader"],
+              file: "feedback/preloader.html",
+            },
+          ],
+        },
+        {
+          id: "data-display",
+          title: "Data display",
+          icon: "table",
+          sections: [
+            {
+              id: "avatar",
+              title: "Avatar",
+              route: "/components/avatar",
+              icon: "user-circle",
+              keywords: ["avatar", "user", "profile"],
+              file: "data-display/avatars.html",
+            },
+            {
+              id: "table",
+              title: "Table",
+              route: "/components/table",
+              icon: "table",
+              keywords: ["table", "grid", "data"],
+              file: "data-display/tables.html",
+            },
+            {
+              id: "collection",
+              title: "Collection",
+              route: "/components/collection",
+              icon: "list-bullets",
+              keywords: ["collection", "list", "items"],
+              file: "data-display/collections.html",
+            },
+            {
+              id: "breadcrumb",
+              title: "Breadcrumb",
+              route: "/components/breadcrumb",
+              icon: "caret-right",
+              keywords: ["breadcrumb", "crumbs", "trail"],
+              file: "components/breadcrumbs.html",
+            },
+          ],
+        },
+        {
+          id: "interactive",
+          title: "Interactive",
+          icon: "hand-pointing",
+          sections: [
+            {
+              id: "tabs",
+              title: "Tabs",
+              route: "/components/tabs",
+              icon: "tabs",
+              keywords: ["tabs", "tab", "segmented"],
+              file: "components/tabs.html",
+            },
+            {
+              id: "accordion",
+              title: "Accordion",
+              route: "/components/accordion",
+              icon: "list",
+              keywords: ["accordion", "collapse", "expand"],
+              file: "components/accordion.html",
+            },
+            {
+              id: "flow",
+              title: "Flow",
+              route: "/components/flow",
+              icon: "slideshow",
+              keywords: ["flow", "carousel", "slideshow"],
+              file: "components/flow.html",
+            },
+            {
+              id: "draggable",
+              title: "Draggable",
+              route: "/interactive/draggable",
+              icon: "arrows-out-cardinal",
+              keywords: ["draggable", "drag", "drop", "dropzone"],
+              file: "interactive/draggable.html",
+            },
+            {
+              id: "search",
+              title: "Search",
+              route: "/interactive/search",
+              icon: "magnifying-glass",
+              keywords: ["search", "find", "query", "autocomplete", "registry"],
+              file: "interactive/search.html",
+            },
+          ],
+        },
+        {
+          id: "canvas",
+          title: "Canvas",
+          icon: "chart-donut",
+          sections: [
+            {
+              id: "charts",
+              title: "Charts",
+              route: "/canvas/charts",
+              icon: "chart-donut",
+              keywords: [
+                "charts",
+                "chart",
+                "bar",
+                "line",
+                "donut",
+                "svg",
+                "dashboard",
+                "graph",
+              ],
+              file: "canvas/vd-charts.html",
+            },
+            {
+              id: "flowchart",
+              title: "Flowchart",
+              route: "/canvas/flowchart",
+              icon: "flow-arrow",
+              keywords: [
+                "flowchart",
+                "diagram",
+                "editor",
+                "workflow",
+                "svg",
+                "nodes",
+                "edges",
+              ],
+              file: "canvas/vd-flowchart.html",
+            },
+            {
+              id: "hex",
+              title: "Hex Grid",
+              route: "/canvas/hex",
+              icon: "hexagon",
+              keywords: [
+                "hex",
+                "hexagon",
+                "grid",
+                "canvas",
+                "axial",
+                "pathfinding",
+                "terrain",
+              ],
+              file: "canvas/vd-hex.html",
+            },
+          ],
+        },
+        {
+          id: "media",
+          title: "Media",
+          icon: "music-note",
+          sections: [
+            {
+              id: "music-player",
+              title: "Music Player",
+              route: "/media/music-player",
+              icon: "music-note",
+              keywords: [
+                "music",
+                "player",
+                "audio",
+                "html5",
+                "playlist",
+                "media",
+                "sound",
+              ],
+              file: "media/music-player.html",
+            },
+            {
+              id: "image-box",
+              title: "Image Box",
+              route: "/media/image-box",
+              icon: "image-square",
+              keywords: ["image", "box", "caption", "zoom", "gallery"],
+              file: "media/image-box.html",
+            },
+          ],
+        },
+        {
+          id: "guides",
+          title: "Guides",
+          icon: "book",
+          sections: [
+            {
+              id: "getting-started",
+              title: "Getting started",
+              route: "/guides/getting-started",
+              icon: "rocket-launch",
+              keywords: ["getting started", "install", "setup"],
+              file: "guides/getting-started-guide.html",
+            },
+            {
+              id: "first-layout",
+              title: "Your first layout",
+              route: "/guides/first-layout",
+              icon: "layout",
+              keywords: ["layout", "first", "navbar"],
+              file: "guides/first-layout.html",
+            },
+            {
+              id: "framework-integration",
+              title: "Framework integration",
+              route: "/guides/framework-integration",
+              icon: "plug",
+              keywords: ["integration", "vue", "react", "svelte"],
+              file: "guides/framework-integration.html",
+            },
+            {
+              id: "esm-vs-iife",
+              title: "ESM vs IIFE",
+              route: "/guides/esm-vs-iife",
+              icon: "package",
+              keywords: ["esm", "iife", "bundle"],
+              file: "guides/esm-vs-iife.html",
+            },
+            {
+              id: "runtime-architecture",
+              title: "Runtime architecture",
+              route: "/guides/runtime-architecture",
+              icon: "cpu",
+              keywords: ["runtime", "architecture", "css", "js"],
+              file: "guides/runtime-architecture.html",
+            },
+            {
+              id: "lifecycle-manager",
+              title: "Lifecycle manager",
+              route: "/guides/lifecycle-manager",
+              icon: "arrows-clockwise",
+              keywords: ["lifecycle", "init", "destroy"],
+              file: "guides/lifecycle-manager.html",
+            },
+            {
+              id: "lazy-loading",
+              title: "Lazy loading",
+              route: "/guides/lazy-loading",
+              icon: "download",
+              keywords: ["lazy", "load", "tree-shake"],
+              file: "guides/lazy-loading-guide.html",
+            },
+            {
+              id: "css-variables",
+              title: "CSS variables & theming",
+              route: "/guides/css-variables",
+              icon: "sliders",
+              keywords: ["css", "variables", "theme"],
+              file: "guides/css-variables-theming.html",
+            },
+            {
+              id: "theme-customizer-guide",
+              title: "Theme customizer",
+              route: "/guides/theme-customizer",
+              icon: "paint-brush",
+              keywords: ["customizer", "live-edit"],
+              file: "guides/theme-customizer-guide.html",
+            },
+            {
+              id: "fibonacci",
+              title: "Fibonacci scale",
+              route: "/guides/fibonacci",
+              icon: "shapes",
+              keywords: ["fibonacci", "scale", "spacing"],
+              file: "guides/fibonacci-vs-standard.html",
+            },
+            {
+              id: "accessibility",
+              title: "Accessibility",
+              route: "/guides/accessibility",
+              icon: "wheelchair",
+              keywords: ["accessibility", "a11y", "aria"],
+              file: "guides/accessibility-essentials.html",
+            },
+            {
+              id: "security",
+              title: "Security",
+              route: "/guides/security",
+              icon: "shield-check",
+              keywords: ["security", "xss", "csp"],
+              file: "guides/security-practices.html",
+            },
+            {
+              id: "production",
+              title: "Production",
+              route: "/guides/production",
+              icon: "rocket",
+              keywords: ["production", "build", "bundle"],
+              file: "guides/production-best-practices.html",
+            },
+            {
+              id: "migration",
+              title: "Migration",
+              route: "/guides/migration",
+              icon: "arrow-right",
+              keywords: ["migration", "tailwind", "bootstrap"],
+              file: "guides/migration-comparison.html",
+            },
+            {
+              id: "troubleshooting",
+              title: "Troubleshooting",
+              route: "/guides/troubleshooting",
+              icon: "wrench",
+              keywords: ["troubleshoot", "fix", "debug"],
+              file: "guides/troubleshooting.html",
+            },
+            {
+              id: "utilities-cheat-sheet",
+              title: "Utilities cheat sheet",
+              route: "/guides/utilities-cheat-sheet",
+              icon: "list-bullets",
+              keywords: ["utilities", "cheat", "reference"],
+              file: "guides/utilities-cheat-sheet.html",
+            },
+            {
+              id: "vanduo-ecosystem",
+              title: "Vanduo ecosystem",
+              route: "/guides/vanduo-ecosystem",
+              icon: "globe",
+              keywords: ["ecosystem", "tools", "projects"],
+              file: "guides/vanduo-ecosystem.html",
+            },
+          ],
+        },
+        {
+          id: "effects",
+          title: "Effects",
+          icon: "sparkle",
+          sections: [
+            {
+              id: "glass",
+              title: "Glass",
+              route: "/effects/glass",
+              icon: "drop",
+              keywords: ["glass", "blur", "frosted"],
+              file: "effects/glass.html",
+            },
+            {
+              id: "morph",
+              title: "Morph",
+              route: "/effects/morph",
+              icon: "shapes",
+              keywords: ["morph", "shape", "animation"],
+              file: "effects/morph.html",
+            },
+            {
+              id: "parallax",
+              title: "Parallax",
+              route: "/effects/parallax",
+              icon: "mountains",
+              keywords: ["parallax", "scroll", "background"],
+              file: "effects/parallax.html",
+            },
+          ],
+        },
+        {
+          id: "forms",
+          title: "Forms",
+          icon: "textbox",
+          sections: [
+            {
+              id: "forms",
+              title: "Form controls",
+              route: "/components/forms",
+              icon: "list",
+              keywords: ["form", "input", "select"],
+              file: "components/forms.html",
+            },
+            {
+              id: "form-validation",
+              title: "Form validation",
+              route: "/components/form-validation",
+              icon: "check",
+              keywords: ["form", "validation", "error"],
+              file: "components/form-validation.html",
+            },
+            {
+              id: "datepicker",
+              title: "Datepicker",
+              route: "/components/datepicker",
+              icon: "calendar",
+              keywords: ["date", "datepicker", "calendar"],
+              file: "components/datepicker.html",
+            },
+            {
+              id: "timepicker",
+              title: "Timepicker",
+              route: "/components/timepicker",
+              icon: "clock",
+              keywords: ["time", "timepicker", "clock"],
+              file: "components/timepicker.html",
+            },
+            {
+              id: "rating",
+              title: "Rating",
+              route: "/components/rating",
+              icon: "star",
+              keywords: ["rating", "stars", "review"],
+              file: "components/rating.html",
+            },
+            {
+              id: "switch",
+              title: "Switch",
+              route: "/components/switch",
+              icon: "toggle-right",
+              keywords: [
+                "switch",
+                "toggle",
+                "on",
+                "off",
+                "checkbox",
+                "boolean",
+              ],
+            },
+            {
+              id: "slider",
+              title: "Slider",
+              route: "/components/slider",
+              icon: "sliders-horizontal",
+              keywords: ["slider", "range", "input", "value", "drag"],
+            },
+            {
+              id: "stepper",
+              title: "Stepper",
+              route: "/components/stepper",
+              icon: "steps",
+              keywords: ["stepper", "wizard", "steps"],
+              file: "components/stepper.html",
+            },
+            {
+              id: "autocomplete",
+              title: "Autocomplete",
+              route: "/components/autocomplete",
+              icon: "text-aa",
+              keywords: ["autocomplete", "typeahead", "search"],
+              file: "components/autocomplete.html",
+            },
+            {
+              id: "transfer",
+              title: "Transfer",
+              route: "/components/transfer",
+              icon: "arrows-left-right",
+              keywords: ["transfer", "shuttle", "list"],
+              file: "components/transfer.html",
+            },
+            {
+              id: "tree",
+              title: "Tree",
+              route: "/components/tree",
+              icon: "tree",
+              keywords: ["tree", "hierarchy", "nested"],
+              file: "components/tree-view.html",
+            },
+            {
+              id: "pagination",
+              title: "Pagination",
+              route: "/components/pagination",
+              icon: "dots-three",
+              keywords: ["pagination", "pages", "pager"],
+              file: "components/button-groups.html",
+            },
+            {
+              id: "button-groups",
+              title: "Button group",
+              route: "/components/button-groups",
+              icon: "squares-four",
+              keywords: ["button", "group", "toolbar"],
+              file: "components/button-groups.html",
+            },
+          ],
+        },
+        {
+          id: "primitives",
+          title: "Primitives",
+          icon: "shapes",
+          sections: [
+            {
+              id: "progress",
+              title: "Progress",
+              route: "/components/progress",
+              icon: "chart-bar",
+              keywords: ["progress", "bar", "loading"],
+              file: "components/progress.html",
+            },
+            {
+              id: "spinner",
+              title: "Spinner",
+              route: "/components/spinner",
+              icon: "spinner",
+              keywords: ["spinner", "loader", "spinner-gap"],
+              file: "components/spinner.html",
+            },
+            {
+              id: "code-snippet",
+              title: "Code snippet",
+              route: "/components/code-snippet",
+              icon: "code",
+              keywords: ["code", "snippet", "highlight"],
+              file: "components/code-snippet.html",
+            },
+            {
+              id: "icon",
+              title: "Icon",
+              route: "/components/icon",
+              icon: "image",
+              keywords: ["icon", "phosphor", "glyph"],
+              file: "components/icon.html",
+            },
+          ],
+        },
+        {
+          id: "layout",
+          title: "Layout",
+          icon: "layout",
+          sections: [
+            {
+              id: "layout-primitives",
+              title: "Primitives",
+              route: "/components/primitives",
+              icon: "shapes",
+              keywords: [
+                "primitives",
+                "box",
+                "stack",
+                "inline",
+                "center",
+                "cover",
+                "frame",
+                "switcher",
+                "layout",
+              ],
+              file: "primitives/primitives.html",
+            },
+            {
+              id: "separator",
+              title: "Separator",
+              route: "/components/separator",
+              icon: "minus",
+              keywords: ["separator", "divider", "hr", "rule", "split"],
+            },
+            {
+              id: "sidenav",
+              title: "Sidenav",
+              route: "/components/sidenav",
+              icon: "sidebar",
+              keywords: ["sidenav", "drawer", "panel"],
+              file: "components/sidenav.html",
+            },
+            {
+              id: "sticky",
+              title: "Sticky",
+              route: "/components/sticky",
+              icon: "bookmark-simple",
+              keywords: ["sticky", "affix", "pinned"],
+              file: "components/affix.html",
+            },
+            {
+              id: "scrollspy",
+              title: "Waypoint (Scrollspy)",
+              route: "/components/scrollspy",
+              icon: "map-trifold",
+              keywords: ["scrollspy", "waypoint", "nav"],
+              file: "components/scrollspy.html",
+            },
+            {
+              id: "offcanvas",
+              title: "Off-canvas",
+              route: "/components/offcanvas",
+              icon: "rectangle",
+              keywords: ["offcanvas", "panel", "slide"],
+              file: "components/offcanvas.html",
+            },
+            {
+              id: "navbar",
+              title: "Navbar",
+              route: "/components/navbar",
+              icon: "browser",
+              keywords: ["navbar", "header", "top"],
+              file: "components/navbar.html",
+            },
+            {
+              id: "footer",
+              title: "Footer",
+              route: "/components/footer",
+              icon: "layout",
+              keywords: ["footer", "bottom", "columns"],
+              file: "components/footer.html",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+export const flattenNav = (tree: NavTree): NavSection[] => {
+  const sections: NavSection[] = [];
+  for (const tab of tree.tabs) {
+    for (const category of tab.categories) {
+      for (const section of category.sections) {
+        sections.push(section);
+      }
+    }
+  }
+  return sections;
+};

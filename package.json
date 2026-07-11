@@ -1,0 +1,77 @@
+{
+  "name": "@vanduo-oss/vd2",
+  "version": "1.0.1",
+  "description": "Vue 3 + vite-ssg documentation site for @vanduo-oss/framework",
+  "private": true,
+  "type": "module",
+  "homepage": "https://vanduo.dev",
+  "license": "MIT",
+  "author": "vanduo-oss",
+  "exports": {
+    ".": "./src/main.ts"
+  },
+  "files": [
+    "dist/",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite-ssg build && node scripts/generate-sitemap.mjs",
+    "preview": "vite preview --port 8787 --host",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "format": "prettier --write \"src/**/*.{ts,vue,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,vue,css}\"",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:size": "node tests/scripts/size.mjs",
+    "test:e2e": "playwright test --project='Chromium Desktop'",
+    "test:e2e:full": "playwright test"
+  },
+  "dependencies": {
+    "@unhead/vue": "2.1.15",
+    "@vanduo-oss/charts": "^0.2.0",
+    "@vanduo-oss/core": "^1.0.1",
+    "@vanduo-oss/flowchart": "^1.1.0",
+    "@vanduo-oss/framework": "^1.7.1",
+    "@vanduo-oss/hex-grid": "^1.1.0",
+    "@vanduo-oss/music-player": "^1.1.0",
+    "@vanduo-oss/vue": "^0.3.1",
+    "highlight.js": "11.11.1",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.39",
+    "vue-router": "^5.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.0",
+    "@typescript-eslint/parser": "8.62.0",
+    "@vitejs/plugin-vue": "^6.0.7",
+    "@vue/test-utils": "^2.4.11",
+    "@vue/tsconfig": "^0.9.1",
+    "eslint": "^10.6.0",
+    "eslint-plugin-vue": "^10.9.2",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.9.4",
+    "stylelint": "^17.14.0",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "8.62.0",
+    "vite": "^8.1.3",
+    "vite-ssg": "^28.3.0",
+    "vitest": "^4.1.9",
+    "vue-eslint-parser": "10.4.1",
+    "vue-tsc": "^3.3.6"
+  },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
+  },
+  "packageManager": "pnpm@10.28.2"
+}

@@ -1,0 +1,19 @@
+# pnpm settings live here (pnpm 10+ no longer reads the package.json "pnpm" field).
+packages: []
+
+onlyBuiltDependencies:
+  - esbuild
+  - "@playwright/test"
+
+overrides:
+  brace-expansion: "5.0.6"
+  picomatch: "2.3.2"
+  "flatted@<=3.4.1": ">=3.4.2"
+
+# vite-ssg 28 ships an internally-inconsistent @unhead set (@unhead/dom@2.1.15
+# peer-wants unhead@3.x while @unhead/vue@2.1.15 brings unhead@2.x). vd2 does not
+# use @unhead directly, so this is harmless here — allow it without disabling
+# strict-peer globally.
+peerDependencyRules:
+  allowedVersions:
+    unhead: "2 || 3"
