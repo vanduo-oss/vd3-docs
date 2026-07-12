@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
 
 const vue3Usage = `<script setup lang="ts">
 import { VdTable } from "@vanduo-oss/vue";
@@ -216,14 +215,7 @@ const apiRows: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Usage</h6></div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="borderedHtml" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
           </div>
         </div>
       </div>
@@ -251,29 +243,24 @@ const apiRows: [string, string, string][] = [
       </table>
     </div>
 
-    <EngineSwitch>
-      <template #vue3>
-        <h4 class="docs-heading vd-mt-6">Component API (Vue 3)</h4>
-        <div class="vd-table-responsive" style="margin-bottom: 3rem">
-          <table class="vd-table vd-table-hover">
-            <thead>
-              <tr>
-                <th style="width: 25%">Prop</th>
-                <th style="width: 75%">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in vue3Api" :key="row[0]">
-                <td>
-                  <code>{{ row[0] }}</code>
-                </td>
-                <td>{{ row[1] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </template>
-      <template #vanilla><div style="margin-bottom: 3rem"></div></template>
-    </EngineSwitch>
+    <h4 class="docs-heading vd-mt-6">Component API (Vue 3)</h4>
+    <div class="vd-table-responsive" style="margin-bottom: 3rem">
+      <table class="vd-table vd-table-hover">
+        <thead>
+          <tr>
+            <th style="width: 25%">Prop</th>
+            <th style="width: 75%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="row in vue3Api" :key="row[0]">
+            <td>
+              <code>{{ row[0] }}</code>
+            </td>
+            <td>{{ row[1] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </template>

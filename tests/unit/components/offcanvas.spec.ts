@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { VdOffcanvas } from "@vanduo-oss/vue";
+import { VdOffcanvas } from "@vanduo-oss/vd3";
 
 describe('VdOffcanvas', () => {
   it('does not render when modelValue is false', () => {

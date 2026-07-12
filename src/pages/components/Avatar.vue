@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
 
 const vue3Usage = `<script setup lang="ts">
 import { VdAvatar } from "@vanduo-oss/vue";
@@ -23,27 +22,6 @@ const vue3Api: [string, string][] = [
   [":shape", "circle | rounded | square (default circle)."],
   [":status", "online | offline | away | busy — renders a presence dot."],
 ];
-
-const usageHtml = `<!-- Avatar Sizes -->
-<span class="vd-avatar vd-avatar-xs">XS</span>
-<span class="vd-avatar vd-avatar-sm">SM</span>
-<span class="vd-avatar">MD</span>
-<span class="vd-avatar vd-avatar-lg">LG</span>
-<span class="vd-avatar vd-avatar-xl">XL</span>
-<span class="vd-avatar vd-avatar-2xl">2XL</span>
-
-<!-- With Status -->
-<span class="vd-avatar vd-avatar-status-online">JD</span>
-<span class="vd-avatar vd-avatar-status-offline">AB</span>
-<span class="vd-avatar vd-avatar-status-busy">CD</span>
-<span class="vd-avatar vd-avatar-status-away">EF</span>
-
-<!-- Avatar Group -->
-<div class="vd-avatar-group">
-  <span class="vd-avatar">A</span>
-  <span class="vd-avatar">B</span>
-  <span class="vd-avatar">+5</span>
-</div>`;
 
 const apiRows: [string, string, string][] = [
   [
@@ -183,14 +161,7 @@ const apiRows: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Usage</h6></div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="usageHtml" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
           </div>
         </div>
       </div>
@@ -218,29 +189,24 @@ const apiRows: [string, string, string][] = [
       </table>
     </div>
 
-    <EngineSwitch>
-      <template #vue3>
-        <h4 class="docs-heading vd-mt-6">Component API (Vue 3)</h4>
-        <div class="vd-table-responsive" style="margin-bottom: 3rem">
-          <table class="vd-table vd-table-hover">
-            <thead>
-              <tr>
-                <th style="width: 25%">Prop</th>
-                <th style="width: 75%">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in vue3Api" :key="row[0]">
-                <td>
-                  <code>{{ row[0] }}</code>
-                </td>
-                <td>{{ row[1] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </template>
-      <template #vanilla><div style="margin-bottom: 3rem"></div></template>
-    </EngineSwitch>
+    <h4 class="docs-heading vd-mt-6">Component API (Vue 3)</h4>
+    <div class="vd-table-responsive" style="margin-bottom: 3rem">
+      <table class="vd-table vd-table-hover">
+        <thead>
+          <tr>
+            <th style="width: 25%">Prop</th>
+            <th style="width: 75%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="row in vue3Api" :key="row[0]">
+            <td>
+              <code>{{ row[0] }}</code>
+            </td>
+            <td>{{ row[1] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </template>

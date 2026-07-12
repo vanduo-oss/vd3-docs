@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useWaypoint } from "@vanduo-oss/vue";
+import { useWaypoint } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useWaypoint(root);
@@ -18,12 +17,6 @@ useWaypoint(root);   // wires [data-vd-waypoint-nav] inside root; cleanup on unm
 root.value?.addEventListener('waypoint:change', (e) => {
   console.log('active', e.detail.activeId);
 });`;
-
-const vanillaWiring = `// Wire every [data-vd-waypoint-nav] (document, or a root element)
-VanduoWaypoint.init();
-
-// after dynamic content changes
-VanduoWaypoint.refresh(navEl);`;
 
 const vue3Api: [string, string][] = [
   [
@@ -137,21 +130,6 @@ const dataAttrs: [string, string, string][] = [
     "0",
   ],
   ["data-vd-scrollspy-nav", "Alias for data-vd-waypoint-nav", "—"],
-];
-
-const jsMethods: [string, string][] = [
-  [
-    "VanduoWaypoint.init()",
-    "Initialize all [data-vd-waypoint-nav] elements on the page",
-  ],
-  [
-    "VanduoWaypoint.refresh(nav)",
-    "Recalculate section positions after dynamic content changes",
-  ],
-  [
-    "VanduoWaypoint.destroy(nav)",
-    "Remove scroll listeners and IntersectionObservers for the given nav",
-  ],
 ];
 
 const events: [string, string, string][] = [
@@ -361,14 +339,7 @@ const events: [string, string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Wiring</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -416,50 +387,25 @@ const events: [string, string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4>Composable API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4>JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4>Composable API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4>Events</h4>
         <div class="vd-table-responsive">

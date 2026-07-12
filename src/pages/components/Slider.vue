@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdSlider } from "@vanduo-oss/vue";
+import { VdSlider } from "@vanduo-oss/vd3";
 
 const volume = ref(60);
 const brightness = ref(40);
@@ -57,16 +56,6 @@ const volume = ref(60);
 <template>
   <VdSlider v-model="volume" label="Volume" :min="0" :max="100" show-value />
 </template>`;
-
-const vanillaUsage = `<div class="vd-slider-field">
-  <label for="volume" class="vd-form-label">Volume</label>
-  <div class="vd-slider-row">
-    <input id="volume" type="range" class="vd-slider" min="0" max="100" value="60" />
-    <span class="vd-slider-value">60</span>
-  </div>
-</div>
-
-<!-- No JavaScript required — it's a styled native range input. -->`;
 
 const vue3Api: [string, string][] = [
   ["v-model (modelValue)", "Two-way bound value (number)."],
@@ -179,14 +168,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :html="vanillaUsage" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -208,36 +190,25 @@ const vue3Api: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop / event</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript</h4>
-            <p class="vd-text-muted">
-              None — read <code>input.valueAsNumber</code> and listen for the
-              native <code>input</code> event to react to changes.
-            </p>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / event</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdTree } from "@vanduo-oss/vue";
-import type { TreeNode } from "@vanduo-oss/vue";
+import { VdTree } from "@vanduo-oss/vd3";
+import type { TreeNode } from "@vanduo-oss/vd3";
 
 const basicTree: TreeNode[] = [
   {
@@ -244,21 +243,6 @@ const nodeShape: [string, string, string][] = [
   ["children", "Node[]?", "Nested child nodes (makes this a branch node)"],
 ];
 
-const jsMethods: [string, string][] = [
-  [
-    "VanduoTree.init()",
-    "Scans for all [data-vd-tree] elements and renders tree widgets",
-  ],
-  [
-    "VanduoTree.getChecked(el)",
-    "Returns an array of id strings for all checked nodes (checkbox trees only)",
-  ],
-  [
-    "VanduoTree.destroy(el)",
-    "Removes the rendered tree and event listeners from the element",
-  ],
-];
-
 const events: [string, string][] = [
   [
     "tree:check",
@@ -283,14 +267,6 @@ const nodes = [
 <template>
   <VdTree :nodes="nodes" checkbox cascade />
 </template>`;
-
-const vanillaUsage = `<div data-vd-tree='[
-  { "id": "src", "label": "src", "icon": "ph ph-folder", "children": [
-    { "id": "btn", "label": "Button.vue", "icon": "ph ph-file-vue" }
-  ]}
-]' data-vd-tree-checkbox data-vd-tree-cascade></div>
-
-<script>VanduoTree.init();<\/script>`;
 
 const vue3Api: [string, string][] = [
   [
@@ -389,14 +365,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :html="vanillaUsage" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -462,50 +431,25 @@ const vue3Api: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop / event / method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / event / method</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

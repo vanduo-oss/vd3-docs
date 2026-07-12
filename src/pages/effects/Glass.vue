@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useGlass } from "@vanduo-oss/vue";
+import { useGlass } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useGlass(root);
@@ -21,9 +20,6 @@ useGlass(root);   // IntersectionObserver toggles .is-glass-active; cleanup on u
 const navRef = ref<HTMLElement | null>(null);
 const isScrolled = useNavbarGlassScroll(navRef);
 // <nav ref="navRef" class="vd-navbar vd-navbar-fixed vd-navbar-glass" :class="{ 'vd-navbar-scrolled': isScrolled }">`;
-
-const vanillaWiring = `// The framework auto-initialises scroll-activated glass on Vanduo.init()
-VanduoGlass.init();`;
 
 const glassModalOpen = ref(false);
 
@@ -636,14 +632,7 @@ const sizeVariants = [
           observer/listener logic — no custom JavaScript required beyond a
           single wiring call.
         </p>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
       </div>
     </div>
 

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, reactive, ref } from "vue";
-import { PRIMARY_COLORS, type RadiusOption } from "@vanduo-oss/vue";
+import { PRIMARY_COLORS, type RadiusOption } from "@vanduo-oss/vd3";
 import { CUSTOMIZER_REGISTRY } from "@/customizer/registry";
 import type {
   CustomizerEntry,
@@ -10,11 +10,11 @@ import type {
 import { useThemeStore } from "@/stores/theme";
 
 /**
- * State for the Live Component Customizer overlay. Follows the SSR-safe pattern
- * of `stores/engine.ts`: reactive state starts at deterministic defaults, all
- * `localStorage` access is guarded, and hydration happens once in `init()` on
- * the client. Only the drawer *placement* is persisted — knob state is seeded
- * fresh from the current theme each time the customizer opens.
+ * State for the Live Component Customizer overlay. SSR-safe: reactive state
+ * starts at deterministic defaults, all `localStorage` access is guarded, and
+ * hydration happens once in `init()` on the client. Only the drawer *placement*
+ * is persisted — knob state is seeded fresh from the current theme each time the
+ * customizer opens.
  */
 const STORAGE_KEY = "vanduo-docs-customizer";
 const PLACEMENTS: Placement[] = ["left", "right", "top", "bottom"];

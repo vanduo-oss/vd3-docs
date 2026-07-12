@@ -1,4 +1,4 @@
-import type { RadiusOption } from "@vanduo-oss/vue";
+import type { RadiusOption } from "@vanduo-oss/vd3";
 
 /** Where the off-canvas drawer slides in from. Persisted per-user. */
 export type Placement = "left" | "right" | "top" | "bottom";

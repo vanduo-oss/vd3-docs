@@ -19,12 +19,20 @@ export default defineConfig({
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
+    // The vd3 packages are consumed via pnpm `link:` to sibling working trees,
+    // each with its own node_modules; dedupe so the app and the linked libs
+    // share one Vue/Pinia copy (avoids the "different pinia instance" error).
+    dedupe: ["vue", "pinia"],
   },
   optimizeDeps: {
-    include: ["@vanduo-oss/framework/css"],
+    // Never pre-bundle the symlinked source packages — serve them as source so
+    // edits to the sibling builds are always reflected in dev and SSG.
+    exclude: ["@vanduo-oss/vd3", "@vanduo-oss/vd3-cbun"],
   },
   ssr: {
-    noExternal: ["@vanduo-oss/framework"],
+    // SSG must transform the linked packages' .vue components (not require them
+    // as CJS) during prerender.
+    noExternal: ["@vanduo-oss/vd3", "@vanduo-oss/vd3-cbun"],
   },
   build: {
     target: "es2020",

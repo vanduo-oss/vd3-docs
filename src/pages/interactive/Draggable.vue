@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useDraggable } from "@vanduo-oss/vue";
+import { useDraggable } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useDraggable(root);
@@ -26,14 +25,6 @@ const sortItems = [
   { id: "sort-3", label: "Third item" },
   { id: "sort-4", label: "Fourth item" },
 ];
-
-const vanillaWiring = `// Auto-wired on init for every .vd-draggable / .vd-draggable-container / .vd-drop-zone.
-VanduoDraggable.init();
-
-// Listen for drag lifecycle events (they bubble from the dragged element)
-document.addEventListener('draggable:start', (e) => console.log('start', e.detail));
-document.addEventListener('draggable:drag',  (e) => console.log('drag',  e.detail));
-document.addEventListener('draggable:end',   (e) => console.log('end',   e.detail));`;
 
 const vue3Wiring = `import { ref } from 'vue';
 import { useDraggable } from "@vanduo-oss/vue";
@@ -243,12 +234,7 @@ const eventRows: [string, string][] = [
             <h6><i class="ph ph-code"></i> Engine wiring</h6>
           </div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :js="vue3Wiring" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" />
           </div>
         </div>
       </div>

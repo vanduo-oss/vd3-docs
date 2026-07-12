@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdTransfer } from "@vanduo-oss/vue";
+import { VdTransfer } from "@vanduo-oss/vd3";
 
 const items = [
   { id: "html", label: "HTML" },
@@ -56,21 +55,6 @@ const cssClasses: [string, string][] = [
   ],
   [".vd-transfer-actions", "Center column holding the move buttons"],
   [".vd-transfer-btn", "Arrow button to move checked items between panels"],
-];
-
-const jsMethods: [string, string][] = [
-  [
-    "VanduoTransfer.init()",
-    "Scans for all [data-vd-transfer] elements and renders dual-list widgets",
-  ],
-  [
-    "VanduoTransfer.getSelected(el)",
-    'Returns an array of id strings currently in the "Selected" panel',
-  ],
-  [
-    "VanduoTransfer.destroy(el)",
-    "Removes the rendered widget and event listeners from the element",
-  ],
 ];
 
 const events: [string, string][] = [
@@ -143,17 +127,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet
-              :html="transferHtml"
-              :js="transferJs"
-              :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -196,50 +170,25 @@ const vue3Api: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop / event / method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / event / method</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

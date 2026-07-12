@@ -1,21 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useDropdown } from "@vanduo-oss/vue";
+import { useDropdown } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useDropdown(root);
-
-const vanillaWiring = `// Wire every .vd-dropdown under document (or pass a root element)
-VanduoDropdown.init();
-
-// Programmatic control
-VanduoDropdown.open(document.querySelector('#my-dropdown'));
-VanduoDropdown.close(document.querySelector('#my-dropdown'));
-
-// Tear down
-VanduoDropdown.destroyAll();`;
 
 const vue3Wiring = `import { ref } from 'vue';
 import { useDropdown } from "@vanduo-oss/vue";
@@ -340,14 +329,7 @@ const placementHtml = `<!-- Dropup (opens above) -->
             <h6><i class="ph ph-code"></i> Engine wiring</h6>
           </div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3>
-                <DocCodeSnippet :js="vue3Wiring" />
-              </template>
-              <template #vanilla>
-                <DocCodeSnippet :js="vanillaWiring" />
-              </template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" />
           </div>
         </div>
       </div>

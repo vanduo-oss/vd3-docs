@@ -1,25 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useValidate } from "@vanduo-oss/vue";
+import { useValidate } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useValidate(root);
 
-// Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
 import { useValidate } from "@vanduo-oss/vue";
 
 const root = ref<HTMLElement | null>(null);
 useValidate(root);   // wires [data-vd-validate] forms inside root; cleanup on unmount`;
-
-const vanillaWiring = `// Wire every [data-vd-validate] form (document, or a root element)
-VanduoValidate.init();
-
-// validate programmatically / add a custom rule
-VanduoValidate.validateForm(formEl);
-VanduoValidate.addRule('zip', (v) => /^\\d{5}$/.test(v), 'Invalid ZIP');`;
 
 const vue3Api: [string, string][] = [
   [
@@ -126,21 +117,6 @@ const dataAttrs: [string, string][] = [
   [
     "data-vd-msg-*",
     'Custom error message per rule, e.g. data-vd-msg-required="Name is required"',
-  ],
-];
-
-const jsMethods: [string, string][] = [
-  [
-    "VanduoValidate.init()",
-    "Scans the DOM for [data-vd-validate] forms and attaches validation",
-  ],
-  [
-    "VanduoValidate.validateForm(form)",
-    "Programmatically validates all fields in the given <form> element. Returns true if valid",
-  ],
-  [
-    "VanduoValidate.addRule(name, validator, message)",
-    "Register a custom rule. validator(value, param) must return true or false",
   ],
 ];
 
@@ -363,14 +339,7 @@ const noop = (e: Event): void => e.preventDefault();
       </div>
       <div class="vd-card-body">
         <h4>Wiring</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -412,50 +381,25 @@ const noop = (e: Event): void => e.preventDefault();
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Composable API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-hover">
-                <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-hover">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Composable API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

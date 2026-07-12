@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useTooltips } from "@vanduo-oss/vue";
+import { useTooltips } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useTooltips(root);

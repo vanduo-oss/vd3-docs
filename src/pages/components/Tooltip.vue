@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useTooltips } from "@vanduo-oss/vue";
+import { useTooltips } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useTooltips(root);
@@ -13,13 +12,6 @@ import { useTooltips } from "@vanduo-oss/vue";
 
 const root = ref<HTMLElement | null>(null);
 useTooltips(root);   // wires [data-tooltip] inside root; cleanup on unmount`;
-
-const vanillaWiring = `// Wire every [data-tooltip] element (document, or a root element)
-VanduoTooltips.init();
-
-// show / hide programmatically
-VanduoTooltips.show(el);
-VanduoTooltips.hide(el);`;
 
 const vue3Api: [string, string][] = [
   [
@@ -153,22 +145,6 @@ const dataAttrs: [string, string][] = [
     "Visual style variant. Default: standard (white).",
   ],
   ['data-tooltip-size="sm|lg"', "Size modifier. Default: medium."],
-];
-
-const jsMethods: [string, string][] = [
-  [
-    "VanduoTooltips.init()",
-    "Scans for [data-tooltip] and [data-tooltip-html] elements and wires hover events.",
-  ],
-  [
-    "VanduoTooltips.show(el)",
-    "Programmatically show a tooltip for an initialized element.",
-  ],
-  [
-    "VanduoTooltips.hide(el)",
-    "Hide the tooltip currently attached to the element.",
-  ],
-  ["VanduoTooltips.destroy(el)", "Remove tooltip listeners from the element."],
 ];
 </script>
 
@@ -385,14 +361,7 @@ const jsMethods: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <h4>Wiring</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">
@@ -434,50 +403,25 @@ const jsMethods: [string, string][] = [
               </table>
             </div>
 
-            <EngineSwitch>
-              <template #vue3>
-                <h4 class="vd-mt-6">Composable API</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Symbol</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in vue3Api" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-              <template #vanilla>
-                <h4 class="vd-mt-6">JavaScript Methods</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Method</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in jsMethods" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-            </EngineSwitch>
+            <h4 class="vd-mt-6">Composable API</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in vue3Api" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div class="vd-alert vd-alert-info vd-mt-4">
               <i class="ph ph-shield-check"></i>
               <div>

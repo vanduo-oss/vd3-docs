@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
 
 type ModalId = "sm" | "default" | "lg" | "xl" | "glass" | "static" | null;
 
@@ -113,15 +112,6 @@ const dataAttrs: [string, string][] = [
   [
     'data-dismiss="modal"',
     "Placed on any button inside the modal to close it when clicked.",
-  ],
-];
-const jsMethods: [string, string][] = [
-  ["VanduoModals.open(el)", "Open the modal element programmatically."],
-  ["VanduoModals.close(el)", "Close the modal element."],
-  ["VanduoModals.toggle(el)", "Toggle open/closed state."],
-  [
-    "VanduoModals.init()",
-    'Wire up all [data-modal] and [data-dismiss="modal"] triggers.',
   ],
 ];
 const events: [string, string][] = [
@@ -295,14 +285,7 @@ const vue3Api: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <h4>Usage</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="triggerHtml" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">
@@ -342,50 +325,25 @@ const vue3Api: [string, string][] = [
                 </tbody>
               </table>
             </div>
-            <EngineSwitch>
-              <template #vue3>
-                <h4 class="vd-mt-6">Component Approach</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Pattern</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="r in vue3Api" :key="r[0]">
-                        <td>
-                          <code>{{ r[0] }}</code>
-                        </td>
-                        <td>{{ r[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-              <template #vanilla>
-                <h4 class="vd-mt-6">JavaScript Methods</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Method</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="r in jsMethods" :key="r[0]">
-                        <td>
-                          <code>{{ r[0] }}</code>
-                        </td>
-                        <td>{{ r[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-            </EngineSwitch>
+            <h4 class="vd-mt-6">Component Approach</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Pattern</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="r in vue3Api" :key="r[0]">
+                    <td>
+                      <code>{{ r[0] }}</code>
+                    </td>
+                    <td>{{ r[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <h4 class="vd-mt-6">Events</h4>
             <div class="vd-table-responsive">
               <table class="vd-table vd-table-striped">

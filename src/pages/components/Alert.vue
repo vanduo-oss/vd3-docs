@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
 
 const dismissed = ref(false);
 
@@ -17,17 +16,6 @@ import { VdAlert } from "@vanduo-oss/vue";
     Unable to connect to the server.
   </VdAlert>
 </template>`;
-
-const vanillaUsage = `<div class="vd-alert vd-alert-success">
-  <i class="ph ph-check-circle"></i>
-  <div>Your changes are saved.</div>
-</div>
-
-<div class="vd-alert vd-alert-danger vd-alert-dismissible">
-  <i class="ph ph-x-circle"></i>
-  <div>Unable to connect to the server.</div>
-  <button class="vd-alert-close" aria-label="Close alert">&times;</button>
-</div>`;
 
 const vue3Api: [string, string][] = [
   [
@@ -300,14 +288,7 @@ const classRows: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <h4>Usage</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="vanillaUsage" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">
@@ -329,34 +310,25 @@ const classRows: [string, string][] = [
               </table>
             </div>
 
-            <EngineSwitch>
-              <template #vue3>
-                <h4 class="vd-mt-6">Component API (Vue 3)</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Prop / slot / event</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in vue3Api" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-              <template #vanilla>
-                <p class="vd-text-muted vd-mt-6">
-                  Pure CSS — apply the classes above. No JavaScript API.
-                </p>
-              </template>
-            </EngineSwitch>
+            <h4 class="vd-mt-6">Component API (Vue 3)</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Prop / slot / event</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in vue3Api" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

@@ -1,26 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useSearch } from "@vanduo-oss/vue";
+import { useSearch } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useSearch(root);
-
-const vanillaWiring = `// 1. Register one or more sources
-VanduoSearch.register({
-  name: 'sections',
-  label: 'Documentation Sections',
-  icon: 'ph-book-open',
-  fetch: async (query) => fetch('/api/sections?q=' + encodeURIComponent(query))
-    .then(r => r.json())
-});
-
-// 2. Query the registry
-const { sources } = await VanduoSearch.query('button');
-
-// 3. Unregister on teardown
-VanduoSearch.unregister('sections');`;
 
 const vue3Wiring = `import { ref, onMounted } from 'vue';
 import { useSearch } from "@vanduo-oss/vue";
@@ -124,12 +108,7 @@ VanduoSearch.register({
             <h6><i class="ph ph-code"></i> Engine wiring</h6>
           </div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :js="vue3Wiring" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" />
           </div>
         </div>
       </div>

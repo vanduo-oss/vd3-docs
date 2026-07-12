@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useParallax } from "@vanduo-oss/vue";
+import { useParallax } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useParallax(root);
@@ -13,12 +12,6 @@ import { useParallax } from "@vanduo-oss/vue";
 
 const root = ref<HTMLElement | null>(null);
 useParallax(root);   // rAF scroll handler + reduced-motion guard; cleanup on unmount`;
-
-const vanillaWiring = `// The framework auto-initialises parallax on Vanduo.init()
-VanduoParallax.init();
-
-// after layout changes
-VanduoParallax.refresh();`;
 
 const markupHtml = `<!-- Slow background drift + fixed foreground content -->
 <div class="vd-parallax vd-parallax-md vd-parallax-slow">
@@ -158,14 +151,7 @@ const apiRows: [string, string, string][] = [
           <div class="vd-card-header"><h6>Classes &amp; attributes</h6></div>
           <div class="vd-card-body">
             <h4 class="vd-mt-0">Wiring</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
             <h4 class="vd-mt-6">Classes &amp; attributes</h4>
             <div class="vd-table-responsive">
@@ -188,29 +174,14 @@ const apiRows: [string, string, string][] = [
                 </tbody>
               </table>
             </div>
-            <EngineSwitch>
-              <template #vue3>
-                <p class="vd-text-sm vd-text-muted vd-mt-5">
-                  <strong>Composable API:</strong>
-                  <code>useParallax(root)</code> wires every
-                  <code>.vd-parallax</code> inside the root ref. The rAF scroll
-                  handler and <code>prefers-reduced-motion</code>
-                  guard are set up automatically and torn down on unmount — no
-                  manual refresh/destroy needed.
-                </p>
-              </template>
-              <template #vanilla>
-                <p class="vd-text-sm vd-text-muted vd-mt-5">
-                  <strong>JavaScript API:</strong> components auto-initialize on
-                  <code>Vanduo.init()</code>.
-                  <code>VanduoParallax.refresh()</code>
-                  recalculates positions (call after layout changes),
-                  <code>VanduoParallax.destroy(el)</code> resets a single
-                  container, and <code>VanduoParallax.destroyAll()</code> tears
-                  down all listeners.
-                </p>
-              </template>
-            </EngineSwitch>
+            <p class="vd-text-sm vd-text-muted vd-mt-5">
+              <strong>Composable API:</strong>
+              <code>useParallax(root)</code> wires every
+              <code>.vd-parallax</code> inside the root ref. The rAF scroll
+              handler and <code>prefers-reduced-motion</code>
+              guard are set up automatically and torn down on unmount — no
+              manual refresh/destroy needed.
+            </p>
           </div>
         </div>
       </div>

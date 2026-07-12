@@ -7,21 +7,19 @@ import VdFooter from "@/layout/VdFooter.vue";
 import DocsLayout from "@/layout/DocsLayout.vue";
 import GlobalSearchModal from "@/overlays/GlobalSearchModal.vue";
 import LiveCustomizer from "@/overlays/LiveCustomizer.vue";
-import { VdToastContainer } from "@vanduo-oss/vue";
+import { VdToastContainer } from "@vanduo-oss/vd3";
 import { useThemeStore } from "@/stores/theme";
-import { useEngineStore } from "@/stores/engine";
 import { useCustomizerStore } from "@/stores/customizer";
 
 const route = useRoute();
 const theme = useThemeStore();
-const engine = useEngineStore();
 const customizer = useCustomizerStore();
 
 // ── Per-route SEO (baked into the SSG HTML via @unhead) ──────────────
 const BASE_URL = "https://vanduo.dev";
-const BRAND_TITLE = "Vanduo — Two-Engine Design System (Vanilla + Vue 3)";
+const BRAND_TITLE = "Vanduo — Fibonacci-Tuned Vue 3 Design System";
 const DEFAULT_DESCRIPTION =
-  "Vanduo is a Fibonacci-tuned, dual-engine design system: drop-in Vanilla CSS/JS or first-class Vue 3 components — identical tokens, identical look.";
+  "Vanduo is a Fibonacci-tuned Vue 3 design system: first-class components and composables on a golden-ratio scale with a single, consistent token set.";
 
 const pageTitle = computed(() => {
   const t = route.meta?.title as string | undefined;
@@ -33,7 +31,7 @@ const pageDescription = computed(() => {
   if (d) return d;
   const t = route.meta?.title as string | undefined;
   return t && route.path !== "/"
-    ? `${t} in Vanduo — the dual-engine design system with drop-in Vanilla CSS/JS and first-class Vue 3 components.`
+    ? `${t} in Vanduo — the Fibonacci-tuned Vue 3 design system with first-class components and a single consistent token set.`
     : DEFAULT_DESCRIPTION;
 });
 const canonical = computed(() => `${BASE_URL}${route.path}`);
@@ -53,7 +51,6 @@ useHead({
 
 onMounted(() => {
   theme.init();
-  engine.init();
   customizer.init();
 });
 </script>

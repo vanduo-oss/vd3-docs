@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
 import LaunchCustomizerButton from "@/components/LaunchCustomizerButton.vue";
 
 const vue3Usage = `<script setup lang="ts">
@@ -13,10 +12,6 @@ const saving = ref(false);
   <VdButton variant="danger" size="sm">Delete</VdButton>
   <VdButton variant="ghost" :loading="saving">Save</VdButton>
 </template>`;
-
-const vanillaUsage = `<button class="vd-btn vd-btn-primary">Primary</button>
-<button class="vd-btn vd-btn-danger vd-btn-sm">Delete</button>
-<button class="vd-btn vd-btn-ghost is-loading">Save</button>`;
 
 const vue3Api: [string, string][] = [
   [
@@ -333,14 +328,7 @@ const classRef: ClassRef[] = [
           </div>
           <div class="vd-card-body">
             <h4>Usage</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="vanillaUsage" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">Classes</h4>
             <div class="vd-table-responsive">
@@ -364,34 +352,25 @@ const classRef: ClassRef[] = [
               </table>
             </div>
 
-            <EngineSwitch>
-              <template #vue3>
-                <h4 class="vd-mt-6">Component API (Vue 3)</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-hover">
-                    <thead>
-                      <tr>
-                        <th>Prop / event</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in vue3Api" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-              <template #vanilla>
-                <p class="vd-text-muted vd-mt-6">
-                  Pure CSS — apply the classes above. No JavaScript API.
-                </p>
-              </template>
-            </EngineSwitch>
+            <h4 class="vd-mt-6">Component API (Vue 3)</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-hover">
+                <thead>
+                  <tr>
+                    <th>Prop / event</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in vue3Api" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

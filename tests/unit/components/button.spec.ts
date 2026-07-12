@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { VdButton } from "@vanduo-oss/vue";
+import { VdButton } from "@vanduo-oss/vd3";
 
 describe('VdButton', () => {
   it('renders with the default primary variant class', () => {

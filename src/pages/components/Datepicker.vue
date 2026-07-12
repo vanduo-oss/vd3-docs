@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useDatepicker } from "@vanduo-oss/vue";
+import { useDatepicker } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useDatepicker(root);
 
-// Engine-specific wiring (the HTML markup + data-* are identical across engines).
 const vue3Wiring = `// Vue 3 — the useDatepicker composable wires every
 // [data-vd-datepicker] input inside the root ref.
 import { ref } from 'vue';
@@ -18,15 +16,6 @@ useDatepicker(root);   // cleanup is automatic on unmount
 
 // listen for picks
 root.value?.addEventListener('datepicker:select', (e) => {
-  console.log(e.detail.date, e.detail.formatted);
-});`;
-
-const vanillaWiring = `// Vanilla — the global runtime scans the document (or a root)
-// for [data-vd-datepicker] inputs.
-VanduoDatepicker.init();
-
-// listen for picks
-input.addEventListener('datepicker:select', (e) => {
   console.log(e.detail.date, e.detail.formatted);
 });`;
 
@@ -118,17 +107,6 @@ const dataAttrs: [string, string][] = [
   [
     "data-vd-datepicker-max",
     "Latest selectable date in <code>YYYY-MM-DD</code> format",
-  ],
-];
-
-const jsMethods: [string, string][] = [
-  [
-    "VanduoDatepicker.init()",
-    "Scans for all [data-vd-datepicker] inputs and attaches calendar popups",
-  ],
-  [
-    "VanduoDatepicker.destroy(el)",
-    "Removes the calendar popup and event listeners from the given input",
   ],
 ];
 
@@ -295,14 +273,7 @@ const events: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Wiring</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -344,50 +315,25 @@ const events: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Composable API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Composable API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

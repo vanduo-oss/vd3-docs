@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdChart } from "@vanduo-oss/charts/vue";
+import { VdChart } from "@vanduo-oss/vd3-cbun/charts";
 
 const barData = [
   { month: "Jan", sales: 120 },
@@ -79,24 +78,6 @@ const data = [
            title="Monthly sales" :height="300" />
 </template>`;
 
-const vanillaJs = `import { init } from '@vanduo-oss/charts';
-import '@vanduo-oss/charts/css';
-
-// Declarative: scan the DOM for [data-vd-chart] and render SVG.
-init();`;
-
-const vanillaHtml = `<div
-  data-vd-chart="donut"
-  data-vd-label="channel"
-  data-vd-value="revenue"
-  data-vd-title="Revenue mix"
-  data-vd-height="300">
-[
-  { "channel": "Direct",   "revenue": 4200 },
-  { "channel": "Referral", "revenue": 3100 }
-]
-</div>`;
-
 const chartTypes: [string, string][] = [
   [
     'type="bar"',
@@ -156,16 +137,6 @@ const vue3Api: [string, string][] = [
     ":legend",
     "true or { position } — shown by default for multi-series charts. New in 0.2.0.",
   ],
-];
-
-const vanillaOptions: [string, string][] = [
-  ["target", "Element | selector — required mount element."],
-  ["data", "Array; null x/y/value rows are skipped."],
-  ["x, y", "string | function — cartesian accessors."],
-  ["label, value", "string | function — pie/donut accessors."],
-  ["title, description", "Rendered into SVG accessibility metadata."],
-  ["tooltip", "function | string | false — custom or disabled tooltips."],
-  ["theme", "object — override token-derived colors / text / grid / axis."],
 ];
 </script>
 
@@ -321,15 +292,7 @@ const vanillaOptions: [string, string][] = [
         <DocCodeSnippet :shell="installShell" />
 
         <h4 class="vd-mt-6">Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla>
-            <DocCodeSnippet :js="vanillaJs" :default-open="true" />
-            <DocCodeSnippet :html="vanillaHtml" />
-          </template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">Chart Types</h4>
         <div class="vd-table-responsive">
@@ -351,50 +314,25 @@ const vanillaOptions: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">Options</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Option</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vanillaOptions" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Notes</h4>
         <ul>

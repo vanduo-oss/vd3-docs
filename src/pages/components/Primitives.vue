@@ -1,26 +1,17 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdBox } from "@vanduo-oss/vue";
-import { VdStack } from "@vanduo-oss/vue";
-import { VdInline } from "@vanduo-oss/vue";
-import { VdCenter } from "@vanduo-oss/vue";
-import { VdCover } from "@vanduo-oss/vue";
-import { VdFrame } from "@vanduo-oss/vue";
-import { VdSwitcher } from "@vanduo-oss/vue";
+import { VdBox } from "@vanduo-oss/vd3";
+import { VdStack } from "@vanduo-oss/vd3";
+import { VdInline } from "@vanduo-oss/vd3";
+import { VdCenter } from "@vanduo-oss/vd3";
+import { VdCover } from "@vanduo-oss/vd3";
+import { VdFrame } from "@vanduo-oss/vd3";
+import { VdSwitcher } from "@vanduo-oss/vd3";
 
 // ── Box ──────────────────────────────────────────────────────
-const boxVanilla = `<div class="vd-box" data-pad="fib-13">
-  Padded surface
-</div>`;
 const boxVue = `<VdBox pad="fib-13">Padded surface</VdBox>`;
 
 // ── Stack ────────────────────────────────────────────────────
-const stackVanilla = `<div class="vd-stack" data-gap="fib-8">
-  <div>First</div>
-  <div>Second</div>
-  <div>Third</div>
-</div>`;
 const stackVue = `<VdStack gap="fib-8">
   <div>First</div>
   <div>Second</div>
@@ -28,11 +19,6 @@ const stackVue = `<VdStack gap="fib-8">
 </VdStack>`;
 
 // ── Inline ───────────────────────────────────────────────────
-const inlineVanilla = `<div class="vd-inline" data-gap="fib-5">
-  <span class="vd-chip">Vue</span>
-  <span class="vd-chip">Vanilla</span>
-  <span class="vd-chip">Tokens</span>
-</div>`;
 const inlineVue = `<VdInline gap="fib-5">
   <span class="vd-chip">Vue</span>
   <span class="vd-chip">Vanilla</span>
@@ -40,36 +26,19 @@ const inlineVue = `<VdInline gap="fib-5">
 </VdInline>`;
 
 // ── Center ───────────────────────────────────────────────────
-const centerVanilla = `<div class="vd-center" data-max="fib-377">
-  Readable, centered column.
-</div>`;
 const centerVue = `<VdCenter max="fib-377">Readable, centered column.</VdCenter>`;
 
 // ── Cover ────────────────────────────────────────────────────
-const coverVanilla = `<!-- data-min presets: screen | half | fib-610 | fib-987 -->
-<div class="vd-cover" data-min="half" data-gap="fib-5">
-  <p>Vertically centered content</p>
-</div>`;
 const coverVue = `<VdCover min="half" gap="fib-5">
   <p>Vertically centered content</p>
 </VdCover>`;
 
 // ── Frame ────────────────────────────────────────────────────
-const frameVanilla = `<!-- data-ratio: golden | golden-portrait | square | 16-9 | 4-3 | 3-2 -->
-<div class="vd-frame" data-ratio="16-9">
-  <img src="/images/mountains-and-fog.jpg" alt="" />
-</div>`;
 const frameVue = `<VdFrame ratio="16-9">
   <img src="/images/mountains-and-fog.jpg" alt="" />
 </VdFrame>`;
 
 // ── Switcher ─────────────────────────────────────────────────
-const switcherVanilla = `<!-- Rows above the threshold, stacked below it -->
-<div class="vd-switcher" data-threshold="fib-610" data-gap="fib-5">
-  <div>One</div>
-  <div>Two</div>
-  <div>Three</div>
-</div>`;
 const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
   <div>One</div>
   <div>Two</div>
@@ -110,12 +79,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
             >
               Padded surface
             </VdBox>
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :html="boxVue" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="boxVanilla"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="boxVue" />
           </div>
         </div>
       </div>
@@ -138,12 +102,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
               <div class="primitive-demo-surface">Second</div>
               <div class="primitive-demo-surface">Third</div>
             </VdStack>
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :html="stackVue" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="stackVanilla"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="stackVue" />
           </div>
         </div>
       </div>
@@ -169,12 +128,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
               <span class="vd-chip">Tokens</span>
               <span class="vd-chip">Fibonacci</span>
             </VdInline>
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :html="inlineVue" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="inlineVanilla"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="inlineVue" />
           </div>
         </div>
       </div>
@@ -199,12 +153,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
             >
               A centered column constrained to a readable measure.
             </VdCenter>
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :html="centerVue" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="centerVanilla"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="centerVue" />
           </div>
         </div>
       </div>
@@ -234,12 +183,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
                 Vertically centered content
               </p>
             </VdCover>
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :html="coverVue" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="coverVanilla"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="coverVue" />
           </div>
         </div>
       </div>
@@ -267,12 +211,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
             >
               <img src="/images/mountains-and-fog.jpg" alt="Mountains in fog" />
             </VdFrame>
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :html="frameVue" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="frameVanilla"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="frameVue" />
           </div>
         </div>
       </div>
@@ -302,12 +241,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
               <div class="primitive-demo-surface">Two</div>
               <div class="primitive-demo-surface">Three</div>
             </VdSwitcher>
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :html="switcherVue" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="switcherVanilla"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="switcherVue" />
           </div>
         </div>
       </div>

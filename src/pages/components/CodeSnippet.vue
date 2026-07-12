@@ -5,7 +5,6 @@
 // framework/js/components/code-snippet.js — which powers every "View Code"
 // block across these docs (the DocCodeSnippet component used below).
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
 
 const vue3Usage = `<script setup lang="ts">
 import { VdCodeSnippet } from "@vanduo-oss/vue";
@@ -182,14 +181,7 @@ const jsRows: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <h4>Usage</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="basicHtml" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">
@@ -211,35 +203,25 @@ const jsRows: [string, string][] = [
               </table>
             </div>
 
-            <EngineSwitch>
-              <template #vue3>
-                <h4 class="vd-mt-6">Component API (Vue 3)</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Prop</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in vue3Api" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-              <template #vanilla>
-                <p class="vd-text-muted vd-mt-6">
-                  Vanilla uses the .vd-code-snippet markup with the collapsible
-                  runtime; see the classes above.
-                </p>
-              </template>
-            </EngineSwitch>
+            <h4 class="vd-mt-6">Component API (Vue 3)</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Prop</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in vue3Api" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
             <h4 class="vd-mt-6">Data Attributes</h4>
             <div class="vd-table-responsive">

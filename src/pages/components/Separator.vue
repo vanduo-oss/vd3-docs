@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdSeparator } from "@vanduo-oss/vue";
+import { VdSeparator } from "@vanduo-oss/vd3";
 
 const basicHtml = `<hr class="vd-separator" />`;
 
@@ -39,17 +38,6 @@ import { VdSeparator } from "@vanduo-oss/vue";
   <VdSeparator label="OR" />
   <VdSeparator vertical />
 </template>`;
-
-const vanillaUsage = `<!-- Plain rule -->
-<hr class="vd-separator" />
-
-<!-- Labeled -->
-<div class="vd-separator vd-separator-labeled" role="separator">
-  <span class="vd-separator-label">OR</span>
-</div>
-
-<!-- Vertical (inside a flex row) -->
-<hr class="vd-separator vd-separator-vertical" aria-orientation="vertical" />`;
 
 const vue3Api: [string, string][] = [
   [
@@ -145,14 +133,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :html="vanillaUsage" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -174,35 +155,25 @@ const vue3Api: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript</h4>
-            <p class="vd-text-muted">
-              None — the separator is purely presentational markup.
-            </p>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

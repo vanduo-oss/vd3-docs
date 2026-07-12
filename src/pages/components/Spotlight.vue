@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useSpotlight } from "@vanduo-oss/vue";
+import { useSpotlight } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useSpotlight(root);
@@ -39,16 +38,6 @@ const declarativeHtml = `<button class="vd-btn vd-btn-primary" data-vd-spotlight
 <div id="search">…</div>
 <div id="bell">…</div>
 <div id="me">…</div>`;
-
-const vanillaWiring = `// Auto-wired on init for any [data-vd-spotlight] trigger.
-VanduoSpotlight.init();
-
-// Or start a tour imperatively:
-VanduoSpotlight.start([
-  { target: '#search', title: 'Quick Search', description: 'Find anything.' },
-  { target: '#bell',   title: 'Notifications', description: 'Stay informed.' }
-]);
-VanduoSpotlight.stop();`;
 
 const vue3Wiring = `import { ref } from 'vue';
 import { useSpotlight } from "@vanduo-oss/vue";
@@ -191,12 +180,7 @@ const jsRows: [string, string][] = [
             <h6><i class="ph ph-code"></i> Engine wiring</h6>
           </div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :js="vue3Wiring" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" />
           </div>
         </div>
       </div>

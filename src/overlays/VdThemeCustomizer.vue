@@ -8,7 +8,7 @@ import {
   PRIMARY_COLORS,
   RADIUS_OPTIONS,
   type RadiusOption,
-} from "@vanduo-oss/vue";
+} from "@vanduo-oss/vd3";
 
 const theme = useThemeStore();
 const isOpen = ref(false);

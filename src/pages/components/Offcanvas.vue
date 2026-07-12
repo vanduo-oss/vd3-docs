@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useSidenav } from "@vanduo-oss/vue";
+import { useSidenav } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useSidenav(root);
@@ -13,13 +12,6 @@ import { useSidenav } from "@vanduo-oss/vue";
 
 const root = ref<HTMLElement | null>(null);
 useSidenav(root);   // wires [data-sidenav-toggle] triggers; cleanup on unmount`;
-
-const vanillaWiring = `// Wire every [data-sidenav-toggle] trigger (document, or a root element)
-VanduoSidenav.init();
-
-// control programmatically
-VanduoSidenav.open(offcanvasEl);
-VanduoSidenav.close(offcanvasEl);`;
 
 const vue3Api: [string, string][] = [
   [
@@ -88,12 +80,6 @@ const dataAttrs: [string, string, string][] = [
     'Place on trigger element — value is the selector for the offcanvas (e.g. "#my-panel")',
     "—",
   ],
-];
-
-const jsMethods: [string, string][] = [
-  ["VanduoSidenav.open(el)", "Open the offcanvas panel programmatically"],
-  ["VanduoSidenav.close(el)", "Close the offcanvas panel programmatically"],
-  ["VanduoSidenav.toggle(el)", "Toggle the offcanvas panel open or closed"],
 ];
 
 const events: [string, string, string][] = [
@@ -305,14 +291,7 @@ const events: [string, string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Wiring</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -360,50 +339,25 @@ const events: [string, string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4>Composable API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4>JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4>Composable API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4>Events</h4>
         <div class="vd-table-responsive">

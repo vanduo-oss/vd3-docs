@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdCustomSelect, VdInput } from "@vanduo-oss/vue";
+import { VdCustomSelect, VdInput } from "@vanduo-oss/vd3";
 
 // VdInput component demo state (new ergonomics in @vanduo-oss/vue 0.3.0).
 const fullName = ref("Ada Lovelace");
@@ -29,16 +28,6 @@ const amount = ref(0);
   <VdInput v-model="amount" type="number" label="Amount"
            prefix="$" suffix="USD" />
 </template>`;
-
-const vanillaInputUsage = `<!-- VdInput renders this structure; write it directly in Vanilla -->
-<div class="vd-form-group">
-  <label class="vd-form-label" for="email">Email</label>
-  <div class="vd-input-group">
-    <input id="email" type="email" class="vd-input vd-input-danger"
-           aria-invalid="true" aria-describedby="email-error" />
-  </div>
-  <span id="email-error" class="vd-form-error">Enter a valid email address.</span>
-</div>`;
 
 const vdInputApi: [string, string][] = [
   [
@@ -69,12 +58,6 @@ const options = [{ value: '1', label: 'Option 1' }];
 <template>
   <VdCustomSelect v-model="value" :options="options" />
 </template>`;
-
-const vanillaCustomSelect = `<select class="vd-input vd-custom-select-input" data-custom-select>
-  <option value="1">Option 1</option>
-</select>
-
-<script>VanduoSelect.init();<\/script>`;
 
 const customSelect = ref("");
 const rangeValue = ref(50);
@@ -323,49 +306,27 @@ const classRef: [string, string, string][] = [
             </div>
 
             <h4 class="vd-mt-6">Usage</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :html="vue3InputUsage" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="vanillaInputUsage" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="vue3InputUsage" :default-open="true" />
 
-            <EngineSwitch>
-              <template #vue3>
-                <h4 class="vd-mt-6">Component API</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Prop / event</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in vdInputApi" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-              <template #vanilla>
-                <p class="vd-text-muted vd-mt-4">
-                  In the Vanilla engine, compose the same look with
-                  <code>.vd-form-group</code>, <code>.vd-form-label</code>,
-                  <code>.vd-input-group</code> (+
-                  <code>.vd-input-group-prefix</code> / <code>-suffix</code>),
-                  the <code>.vd-input-danger</code> /
-                  <code>.vd-input-success</code> state classes, and
-                  <code>.vd-form-error</code> / <code>.vd-form-help</code> text.
-                </p>
-              </template>
-            </EngineSwitch>
+            <h4 class="vd-mt-6">Component API</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Prop / event</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in vdInputApi" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -432,14 +393,7 @@ const classRef: [string, string, string][] = [
             <p class="vd-text-sm vd-text-muted vd-mb-2">
               Custom-select wiring (other inputs are pure CSS):
             </p>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :html="vue3CustomSelect"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="vanillaCustomSelect"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="vue3CustomSelect" />
             <DocCodeSnippet :html="inputsHtml" />
           </div>
         </div>

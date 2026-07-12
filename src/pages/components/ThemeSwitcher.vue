@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
 import { useThemeStore } from "@/stores/theme";
-import type { ThemeMode } from "@vanduo-oss/vue";
+import type { ThemeMode } from "@vanduo-oss/vd3";
 
 // The live demos drive the real global theme store, exactly like the docs
 // switcher (which toggles the whole site).
@@ -76,19 +75,6 @@ Object.assign(window.ThemeCustomizer.DEFAULTS, {
 
 // Initialize Vanduo
 Vanduo.init();`;
-
-const programmaticJs = `// Access the component
-const switcher = Vanduo.getComponent('themeSwitcher');
-
-// Get current preference
-const pref = switcher.getPreference();
-// Returns: 'system', 'light', or 'dark'
-
-// Set preference programmatically
-switcher.setPreference('dark');
-
-// Apply without changing preference
-switcher.applyTheme();`;
 
 const programmaticVue3 = `import { useThemeStore } from '@/stores/theme';
 const theme = useThemeStore();
@@ -389,14 +375,7 @@ const cssApi: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Programmatic Control</h6></div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :js="programmaticVue3" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="programmaticJs" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="programmaticVue3" :default-open="true" />
           </div>
         </div>
       </div>

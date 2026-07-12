@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useTimeline } from "@vanduo-oss/vue";
+import { useTimeline } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useTimeline(root);
@@ -122,12 +121,6 @@ const playbackItems: Item[] = [
 // Color classes (vd-timeline-success/-warning/-danger) go on the ITEM; the CSS
 // rule is `.vd-timeline-item.vd-timeline-success .vd-timeline-marker { … }`.
 const colorCls = (m?: string): string => (m ? `vd-timeline-${m}` : "");
-
-const vanillaWiring = `// Auto-wired on init for every .vd-timeline-animated.
-VanduoTimeline.init();
-
-// After replacing a timeline subtree:
-Vanduo.reinit('timeline', root);`;
 
 const vue3Wiring = `import { ref } from 'vue';
 import { useTimeline } from "@vanduo-oss/vue";
@@ -356,12 +349,7 @@ const apiRows: [string, string][] = [
             <h6><i class="ph ph-code"></i> Engine wiring</h6>
           </div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :js="vue3Wiring" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" />
           </div>
         </div>
       </div>

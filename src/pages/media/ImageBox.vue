@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useImageBox } from "@vanduo-oss/vue";
+import { useImageBox } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useImageBox(root);
-
-const vanillaWiring = `// Auto-wired on init for every [data-image-box].
-VanduoImageBox.init();`;
 
 const vue3Wiring = `import { ref } from 'vue';
 import { useImageBox } from "@vanduo-oss/vue";
@@ -123,12 +119,7 @@ const basicHtml = `<!-- The thumbnail <img> is the trigger -->
             <h6><i class="ph ph-code"></i> Engine wiring</h6>
           </div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :js="vue3Wiring" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" />
           </div>
         </div>
       </div>

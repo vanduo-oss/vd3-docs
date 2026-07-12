@@ -1,17 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useRipple } from "@vanduo-oss/vue";
+import { useRipple } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useRipple(root);
-
-const vanillaWiring = `// Wire every .vd-ripple under document (or pass a root element)
-VanduoRipple.init();
-
-// Programmatically destroy (e.g. when tearing down a route)
-VanduoRipple.destroyAll();`;
 
 const vue3Wiring = `import { ref } from 'vue';
 import { useRipple } from "@vanduo-oss/vue";
@@ -109,12 +102,7 @@ const basicHtml = `<!-- Button with ripple -->
             <h6><i class="ph ph-code"></i> Engine wiring</h6>
           </div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :js="vue3Wiring" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" />
           </div>
         </div>
       </div>

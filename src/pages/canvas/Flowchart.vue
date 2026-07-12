@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdFlowchart } from "@vanduo-oss/flowchart/vue";
+import { VdFlowchart } from "@vanduo-oss/vd3-cbun/flowchart";
 
 const seedDoc = {
   version: "1.0.0",
@@ -85,52 +84,6 @@ const doc = {
   <VdFlowchart :data="doc" @change="onChange" />
 </template>`;
 
-const vanillaJs = `import { VdFlowchart, init } from '@vanduo-oss/flowchart';
-import '@vanduo-oss/flowchart/css';
-
-// Programmatic:
-const editor = new VdFlowchart({ element: '#chart', data: doc });
-editor.on('change', (payload) => console.log(payload));
-
-// …or declarative: scan the DOM for [data-vd-flowchart].
-init();`;
-
-const vanillaHtml = `<div data-vd-flowchart>
-{
-  "nodes": [
-    { "id": "a", "type": "rounded-rect", "x": 80, "y": 80, "text": "Step" }
-  ],
-  "edges": []
-}
-</div>`;
-
-const methods: [string, string][] = [
-  [
-    "addNode(node) / updateNode(id, patch) / removeNode(id)",
-    "Add, patch, or delete a node (and its edges).",
-  ],
-  [
-    "addEdge(edge) / removeEdge(id)",
-    "Connect or disconnect ports; route 'curve' | 'straight' | 'orthogonal'.",
-  ],
-  [
-    "zoomIn() / zoomOut() / fitView() / resetView()",
-    "Adjust viewport scale and framing.",
-  ],
-  [
-    "startTextEdit(id) / stopTextEdit({ commit })",
-    "Inline text editor used by double-click editing.",
-  ],
-  [
-    "toJSON() / load(data) / clear()",
-    "Export, import, or reset the full document.",
-  ],
-  [
-    "on(event, cb) / off(event, cb)",
-    "Subscribe to change, select, viewport, connect.",
-  ],
-];
-
 const nodeTypes: [string, string][] = [
   ["rounded-rect", "Primary flow step"],
   ["rect", "Sharp process block"],
@@ -197,60 +150,27 @@ const events: [string, string][] = [
         <DocCodeSnippet :shell="installShell" />
 
         <h4 class="vd-mt-6">Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla>
-            <DocCodeSnippet :js="vanillaJs" :default-open="true" />
-            <DocCodeSnippet :html="vanillaHtml" />
-          </template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop / event</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">Instance Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in methods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / event</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Node Types</h4>
         <div class="vd-table-responsive">

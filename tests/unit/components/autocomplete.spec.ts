@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { defineComponent, ref } from 'vue';
-import { useSuggest } from "@vanduo-oss/vue";
+import { useSuggest } from "@vanduo-oss/vd3";
 
 const Harness = defineComponent({
   setup() {

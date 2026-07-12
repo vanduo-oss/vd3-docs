@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useMorph } from "@vanduo-oss/vue";
-import { useMorphBadges } from "@vanduo-oss/vue";
+import { useMorph } from "@vanduo-oss/vd3";
+import { useMorphBadges } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useMorph(root);
@@ -17,9 +16,6 @@ import { useMorphBadges } from "@vanduo-oss/vue";
 const root = ref<HTMLElement | null>(null);
 useMorph(root);        // auto wave/shine + current⇄next swap
 useMorphBadges(root);  // manual multi-state badge cycling`;
-
-const vanillaWiring = `// The framework auto-initialises morph effects on Vanduo.init()
-VanduoMorph.init();`;
 
 const vue3Api: [string, string][] = [
   [
@@ -112,19 +108,6 @@ const cssVars: [string, string, string][] = [
     "Wave gradient base colour (override per-element)",
   ],
   ["--vd-morph-blur-peak", "11px", "Maximum blur at wave peak"],
-];
-
-const jsApi: [string, string][] = [
-  [
-    "VanduoMorph.init()",
-    "Auto-initialize all .vd-morph / [data-vd-morph] elements",
-  ],
-  [
-    "VanduoMorph.morph(el)",
-    "Trigger morph programmatically (wave from center)",
-  ],
-  ["VanduoMorph.destroy(el)", "Remove listeners from one element"],
-  ["VanduoMorph.destroyAll()", "Tear down all instances"],
 ];
 </script>
 
@@ -317,14 +300,7 @@ const jsApi: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Wiring</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -370,50 +346,25 @@ const jsApi: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4>Composable API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4>JavaScript API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsApi" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4>Composable API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

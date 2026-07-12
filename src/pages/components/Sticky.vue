@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useAffix } from "@vanduo-oss/vue";
+import { useAffix } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useAffix(root);
@@ -16,12 +15,6 @@ useAffix(root);   // wires .vd-affix / [data-vd-affix] inside root; cleanup on u
 
 // react to pin / unpin
 root.value?.addEventListener('affix:stuck', () => { /* … */ });`;
-
-const vanillaWiring = `// Wire every affix element (document, or a root element)
-VanduoAffix.init();
-
-// tear one down
-VanduoAffix.destroy(affixEl);`;
 
 const vue3Api: [string, string][] = [
   [
@@ -72,17 +65,6 @@ const dataAttrs: [string, string][] = [
   [
     "data-vd-affix-offset",
     "Distance in pixels from the top of the nearest scrollable container, or the viewport when no scrollable parent exists. Defaults to 0.",
-  ],
-];
-
-const jsMethods: [string, string][] = [
-  [
-    "VanduoAffix.init()",
-    "Scans the DOM for affix elements, detects their nearest scrollable parent, and sets up IntersectionObserver sentinels.",
-  ],
-  [
-    "VanduoAffix.destroy(el)",
-    "Removes the observer, the .is-stuck class, and the generated sentinel element.",
   ],
 ];
 
@@ -275,14 +257,7 @@ const events: [string, string][] = [
           <div class="vd-card-header"><h6>API Reference</h6></div>
           <div class="vd-card-body">
             <h4>Wiring</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">
@@ -324,50 +299,25 @@ const events: [string, string][] = [
               </table>
             </div>
 
-            <EngineSwitch>
-              <template #vue3>
-                <h4 class="vd-mt-6">Composable API</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Symbol</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in vue3Api" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-              <template #vanilla>
-                <h4 class="vd-mt-6">JavaScript Methods</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Method</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in jsMethods" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-            </EngineSwitch>
+            <h4 class="vd-mt-6">Composable API</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in vue3Api" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
             <h4 class="vd-mt-6">Events</h4>
             <div class="vd-table-responsive">

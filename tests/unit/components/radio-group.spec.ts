@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { VdRadioGroup } from "@vanduo-oss/vue";
+import { VdRadioGroup } from "@vanduo-oss/vd3";
 
 const options = [
   { value: 'a', label: 'A' },

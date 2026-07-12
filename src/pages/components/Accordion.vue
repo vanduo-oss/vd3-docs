@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
 
 const basic = reactive([false, false, false]);
 const flush = reactive([false, true]);
@@ -61,9 +60,6 @@ const vue3Wiring = `<!-- Toggle .is-open from component state -->
   <button class="accordion-header" @click="open[i] = !open[i]">…</button>
   <div class="accordion-body"><div class="accordion-content">…</div></div>
 </div>`;
-
-const vanillaWiring = `// The framework auto-wires .accordion-header clicks (toggling .is-open)
-VanduoCollapsible.init();`;
 
 const apiRows: [string, string][] = [
   [".accordion", "Base container for a group of collapsible items."],
@@ -164,14 +160,7 @@ const apiRows: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <h4>Wiring</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :html="vue3Wiring" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="vanillaWiring" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="vue3Wiring" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">

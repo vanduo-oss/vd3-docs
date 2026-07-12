@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { usePopover } from "@vanduo-oss/vue";
+import { usePopover } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 usePopover(root);
@@ -44,14 +43,6 @@ const bodyOnlyHtml = `<!-- Works on any element, not just buttons -->
       data-vd-bubble-placement="top">
   No Title
 </span>`;
-
-const vanillaWiring = `// Auto-initialised on DOMContentLoaded. To (re)scan a subtree:
-VanduoBubble.init(document);
-
-// Programmatic control
-VanduoBubble.show(trigger);
-VanduoBubble.hide(trigger);
-VanduoBubble.hideAll();`;
 
 const vue3Wiring = `import { ref } from 'vue';
 import { usePopover } from "@vanduo-oss/vue";
@@ -240,12 +231,7 @@ const eventRows: [string, string][] = [
             <h6><i class="ph ph-code"></i> Engine wiring</h6>
           </div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :js="vue3Wiring" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" />
           </div>
         </div>
       </div>

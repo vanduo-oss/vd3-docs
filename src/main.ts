@@ -1,12 +1,12 @@
 import { ViteSSG } from "vite-ssg";
 import { createPinia } from "pinia";
-import { VanduoVue, loadVanduoRuntime } from "@vanduo-oss/vue";
+import { VanduoVue } from "@vanduo-oss/vd3";
 import App from "./App.vue";
 import { buildRoutes } from "./router";
-import "@vanduo-oss/framework/css";
-import "@vanduo-oss/charts/css";
-import "@vanduo-oss/flowchart/css";
-import "@vanduo-oss/music-player/css";
+import "@vanduo-oss/vd3/css";
+import "@vanduo-oss/vd3-cbun/charts/css";
+import "@vanduo-oss/vd3-cbun/flowchart/css";
+import "@vanduo-oss/vd3-cbun/music-player/css";
 import "./styles/docs.css";
 import "./styles/app.css";
 
@@ -29,17 +29,13 @@ export const createApp = ViteSSG(
   async ({ app, initialState }) => {
     app.use(createPinia());
     // The docs site overrides core's generic default dark primary (amber ->
-    // blue); @vanduo-oss/vue ships the generic baseline, so we inject it here.
+    // blue); @vanduo-oss/vd3 ships the generic baseline, so we inject it here.
     // (The per-mode default neutral — stone in light, charcoal in dark — is
     // handled in the theme store, since the engine has no NEUTRAL_DARK default.)
     app.use(VanduoVue, { themeDefaults: { PRIMARY_DARK: "blue" } });
 
-    // The VD2 plugin kicks off the framework's client JS (window.Vanduo*
-    // globals that the composables delegate to); await it before mount so the
-    // globals exist before any page's onMounted runs. No-ops during SSR.
-    if (!import.meta.env.SSR) {
-      await loadVanduoRuntime();
-    }
+    // vd3 is fully standalone: the components/composables are pure Vue with no
+    // window.Vanduo* IIFE runtime to bootstrap, so there is nothing to load here.
 
     // Page <title> is managed per route by @unhead in App.vue (so it stays in
     // sync with the SSG-baked title and the "— Vanduo" suffix).

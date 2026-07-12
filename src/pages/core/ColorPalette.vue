@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { tokens } from "@vanduo-oss/core";
+import vd3Tokens from "@vanduo-oss/vd3/tokens.json";
+
+// The vd3 line ships resolved design tokens as JSON; the flat CSS-variable map
+// lives under `cssVariables` (name -> hex), matching the old `tokens` record.
+const tokens = vd3Tokens.cssVariables as Record<string, string>;
 
 interface Swatch {
   name: string;

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdMenu } from "@vanduo-oss/vue";
+import { VdMenu } from "@vanduo-oss/vd3";
 
 const lastAction = ref("—");
 const lastSort = ref("—");
@@ -70,16 +69,6 @@ const cssClasses: [string, string][] = [
   [".vd-dropdown-divider", "A separator rule between groups of items"],
 ];
 
-const jsMethods: [string, string][] = [
-  [
-    "VanduoDropdown.init()",
-    "Scans for [data-vd-dropdown-toggle] triggers and wires toggle / keyboard / outside-click",
-  ],
-  ["VanduoDropdown.open(el)", "Programmatically opens the given dropdown root"],
-  ["VanduoDropdown.close(el)", "Closes the given dropdown root"],
-  ["VanduoDropdown.destroyAll()", "Tears down all dropdown listeners"],
-];
-
 const vue3Usage = `<script setup lang="ts">
 import { VdMenu } from "@vanduo-oss/vue";
 
@@ -96,17 +85,6 @@ const onSelect = (value: string) => console.log(value);
 <template>
   <VdMenu label="Actions" :items="items" @select="onSelect" />
 </template>`;
-
-const vanillaUsage = `<div class="vd-dropdown">
-  <button type="button" class="vd-btn vd-btn-secondary vd-dropdown-toggle"
-          data-vd-dropdown-toggle aria-haspopup="menu">Actions</button>
-  <div class="vd-dropdown-menu" role="menu">
-    <a class="vd-dropdown-item" role="menuitem" href="#">Edit</a>
-    <a class="vd-dropdown-item" role="menuitem" href="#">Delete</a>
-  </div>
-</div>
-
-<script>VanduoDropdown.init();<\/script>`;
 
 const vue3Api: [string, string][] = [
   [":label", "Text shown on the trigger button."],
@@ -212,14 +190,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :html="vanillaUsage" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -241,50 +212,25 @@ const vue3Api: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop / event</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / event</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

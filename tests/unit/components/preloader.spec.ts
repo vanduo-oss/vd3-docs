@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { VdPreloader } from "@vanduo-oss/vue";
+import { VdPreloader } from "@vanduo-oss/vd3";
 
 describe('VdPreloader', () => {
   it('renders container and spinner', () => {

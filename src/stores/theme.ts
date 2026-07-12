@@ -11,7 +11,7 @@ import {
   type RadiusOption,
   type ThemeMode,
   type ThemePreference,
-} from "@vanduo-oss/vue";
+} from "@vanduo-oss/vd3";
 
 export const useThemeStore = defineStore("theme", () => {
   const prefs = reactive<ThemePreference>(defaultPreference());

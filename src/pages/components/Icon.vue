@@ -5,11 +5,6 @@
 // maintaining a divergent duplicate.
 import Icons from "@/pages/core/Icons.vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-
-const vanillaUsage = `<!-- Use icons -->
-<i class="ph ph-rocket"></i>
-<i class="ph-fill ph-heart" style="font-size: 1.5rem;"></i>`;
 
 const vue3Usage = `<script setup lang="ts">
 import { VdIcon } from "@vanduo-oss/vue";
@@ -36,39 +31,27 @@ const vue3Api: [string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Usage</h6></div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :html="vanillaUsage" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
-            <EngineSwitch>
-              <template #vue3>
-                <h4 class="vd-mt-6">Component API (Vue 3)</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-hover">
-                    <thead>
-                      <tr>
-                        <th>Prop</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in vue3Api" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-              <template #vanilla><span></span></template>
-            </EngineSwitch>
+            <h4 class="vd-mt-6">Component API (Vue 3)</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-hover">
+                <thead>
+                  <tr>
+                    <th>Prop</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in vue3Api" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

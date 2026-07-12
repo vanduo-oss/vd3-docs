@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { mount } from "@vue/test-utils";
-import { VdFlowchart } from "@vanduo-oss/flowchart/vue";
+import { VdFlowchart } from "@vanduo-oss/vd3-cbun/flowchart";
 
 beforeAll(() => {
   // jsdom lacks ResizeObserver, which the editor observes its host with.

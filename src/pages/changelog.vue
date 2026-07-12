@@ -1,73 +1,18 @@
 <script setup lang="ts">
 // The changelog is ~4,000 lines of static, hand-written release notes with no
-// framework JS behaviour. The static body (the Framework / Vanilla history) is
-// imported verbatim and rendered via v-html (its styles already live in
-// src/styles/docs.css). The page header and engine toggle are rendered by Vue
-// (outside the v-html so they aren't wiped). Trusted first-party content →
-// v-html is safe here.
+// framework JS behaviour. The static Vue-history body is imported verbatim and
+// rendered via v-html (its styles already live in src/styles/docs.css). The
+// page header is rendered by Vue (outside the v-html so it isn't wiped).
+// Trusted first-party content → v-html is safe here.
 //
 // The changelog documents PACKAGE releases only (core / framework / vue / the
 // ecosystem packages) — never docs-site changes (see the changelog-content-policy
-// OpenSpec change). Filtering is STRICT and engine-driven: every release block
-// carries a data-engine tag (the v-html body is the `vanilla` framework history;
-// the latest "Cool Breeze I" card is `vanilla vue3` with per-package columns
-// tagged by engine). An entry shows only when its own — or nearest ancestor's —
-// tag includes the active engine; untagged entries are hidden, and any
-// group/column left empty is collapsed so no shell remains.
-import { nextTick, onMounted, ref, watch } from "vue";
-import { storeToRefs } from "pinia";
-import content from "./changelog-content.html?raw";
+// OpenSpec change).
 import vueContent from "./changelog-vue-content.html?raw";
-import { useEngineStore } from "@/stores/engine";
-
-const engineStore = useEngineStore();
-const { engine } = storeToRefs(engineStore);
-
-const rootRef = ref<HTMLElement | null>(null);
-
-const applyEngineFilter = (active: string): void => {
-  const root = rootRef.value;
-  if (!root) return;
-
-  // Reset everything we manage so switching engines is idempotent.
-  root
-    .querySelectorAll<HTMLElement>(
-      "[data-engine], .change-group, .version-body .vd-col-12",
-    )
-    .forEach((el) => {
-      el.hidden = false;
-    });
-
-  // 1. Hide a tagged element whose tag set excludes the active engine. Tags
-  //    inherit down the tree, so a per-package column can override its card.
-  root.querySelectorAll<HTMLElement>("[data-engine]").forEach((el) => {
-    const tags = (el.dataset.engine ?? "").split(/\s+/).filter(Boolean);
-    if (!tags.includes(active)) el.hidden = true;
-  });
-  // 2. Collapse a change-group whose items were all filtered out…
-  root.querySelectorAll<HTMLElement>(".change-group").forEach((group) => {
-    const items = [...group.querySelectorAll<HTMLElement>(".change-item")];
-    if (items.length > 0 && items.every((i) => i.hidden)) group.hidden = true;
-  });
-  // 3. …and a version-body column whose groups all collapsed (only ever sets
-  //    hidden, so a column already hidden by its own engine tag stays hidden).
-  root
-    .querySelectorAll<HTMLElement>(".version-body .vd-col-12")
-    .forEach((col) => {
-      const groups = [...col.querySelectorAll<HTMLElement>(".change-group")];
-      if (groups.length > 0 && groups.every((g) => g.hidden)) col.hidden = true;
-    });
-};
-
-onMounted(async () => {
-  await nextTick();
-  applyEngineFilter(engine.value);
-});
-watch(engine, applyEngineFilter);
 </script>
 
 <template>
-  <section id="changelog" ref="rootRef">
+  <section id="changelog">
     <div class="changelog-header">
       <div class="vd-container-responsive">
         <h2 style="color: var(--vd-color-primary)">
@@ -79,36 +24,8 @@ watch(engine, applyEngineFilter);
           <code>@vanduo-oss/core</code>, <code>framework</code>,
           <code>vue</code>, and the ecosystem (<code>charts</code>,
           <code>hex-grid</code>, <code>music-player</code>,
-          <code>flowchart</code>). The engine toggle filters by engine:
-          <em>Vanilla</em> shows the framework history; <em>Vue 3</em> shows the
-          <code>@vanduo-oss/vue</code> releases. Shared packages appear in both.
+          <code>flowchart</code>).
         </p>
-        <div class="changelog-engine-toggle">
-          <div
-            class="doc-engine-toggle"
-            role="group"
-            aria-label="Documentation engine"
-          >
-            <button
-              type="button"
-              class="doc-engine-option"
-              :class="{ active: engine === 'vue3' }"
-              :aria-pressed="engine === 'vue3'"
-              @click="engineStore.setEngine('vue3')"
-            >
-              <i class="ph ph-atom" aria-hidden="true"></i> Vue 3
-            </button>
-            <button
-              type="button"
-              class="doc-engine-option"
-              :class="{ active: engine === 'vanilla' }"
-              :aria-pressed="engine === 'vanilla'"
-              @click="engineStore.setEngine('vanilla')"
-            >
-              <i class="ph ph-file-html" aria-hidden="true"></i> Vanilla
-            </button>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -434,10 +351,7 @@ watch(engine, applyEngineFilter);
       </div>
     </div>
 
-    <!-- Vue 3 engine history -->
-    <div data-engine="vue3" v-html="vueContent"></div>
-
-    <!-- Framework / Vanilla engine history (every card is a framework release) -->
-    <div data-engine="vanilla" v-html="content"></div>
+    <!-- Package release history -->
+    <div v-html="vueContent"></div>
   </section>
 </template>

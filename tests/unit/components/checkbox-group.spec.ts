@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { VdCheckboxGroup } from "@vanduo-oss/vue";
+import { VdCheckboxGroup } from "@vanduo-oss/vd3";
 
 const options = [
   { value: 'a', label: 'Option A' },

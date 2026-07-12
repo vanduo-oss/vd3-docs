@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdPagination } from "@vanduo-oss/vue";
+import { VdPagination } from "@vanduo-oss/vd3";
 
 // Authored page — there is no original `pagination.html`; demos are built from the
 // real framework component (framework/js/components/pagination.js + CSS).
@@ -83,25 +82,6 @@ const cssClasses: [string, string][] = [
   ],
 ];
 
-const jsMethods: [string, string][] = [
-  [
-    "VanduoPagination.init()",
-    "Scans for all [data-pagination] elements and renders them",
-  ],
-  [
-    "VanduoPagination.goToPage(el, page)",
-    "Activates the given page and fires pagination:change",
-  ],
-  [
-    "VanduoPagination.update(el, options)",
-    "Updates totalPages / currentPage / maxVisible and re-renders",
-  ],
-  [
-    "VanduoPagination.destroy(el)",
-    "Removes listeners from the given pagination element",
-  ],
-];
-
 const events: [string, string][] = [
   [
     "pagination:change",
@@ -109,7 +89,6 @@ const events: [string, string][] = [
   ],
 ];
 
-// Engine-specific usage: the Vue component vs the Vanilla data-attribute markup.
 const vue3Usage = `<script setup lang="ts">
 import { VdPagination } from "@vanduo-oss/vue";
 const page = ref(1);
@@ -118,15 +97,6 @@ const page = ref(1);
 <template>
   <VdPagination v-model="page" :total="20" :max-visible="7" />
 </template>`;
-
-const vanillaUsage = `<!-- The JS expands data-pagination into the list -->
-<ul class="vd-pagination"
-    data-pagination
-    data-total-pages="20"
-    data-current-page="1"
-    data-max-visible="7"></ul>
-
-<script>VanduoPagination.init();<\/script>`;
 
 const vue3Api: [string, string][] = [
   ["v-model (modelValue)", "Two-way bound current page (number)."],
@@ -262,14 +232,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :html="vanillaUsage" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">Data Attributes</h4>
         <div class="vd-table-responsive">
@@ -315,50 +278,25 @@ const vue3Api: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop / event</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / event</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

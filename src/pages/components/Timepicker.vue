@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useTimepicker } from "@vanduo-oss/vue";
+import { useTimepicker } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useTimepicker(root);
@@ -18,12 +17,6 @@ useTimepicker(root);   // wires [data-vd-timepicker] inside root; cleanup on unm
 root.value?.addEventListener('timepicker:select', (e) => {
   console.log(e.detail.time, e.detail.hours, e.detail.minutes);
 });`;
-
-const vanillaWiring = `// Wire every [data-vd-timepicker] input (document, or a root element)
-VanduoTimepicker.init();
-
-// tear one down
-VanduoTimepicker.destroy(inputEl);`;
 
 const vue3Api: [string, string][] = [
   [
@@ -77,17 +70,6 @@ const dataAttrs: [string, string][] = [
   [
     "data-vd-timepicker-step",
     "Minute interval between time slots (default: 30). Common values: 15, 30, 60",
-  ],
-];
-
-const jsMethods: [string, string][] = [
-  [
-    "VanduoTimepicker.init()",
-    "Scans for all [data-vd-timepicker] inputs and attaches time dropdowns",
-  ],
-  [
-    "VanduoTimepicker.destroy(el)",
-    "Removes the time dropdown and event listeners from the given input",
   ],
 ];
 
@@ -224,14 +206,7 @@ const events: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Wiring</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -273,50 +248,25 @@ const events: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Composable API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Composable API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

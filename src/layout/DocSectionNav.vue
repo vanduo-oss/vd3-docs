@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useScrollspy } from "@vanduo-oss/vue";
+import { useScrollspy } from "@vanduo-oss/vd3";
 
 interface Section {
   id: string;

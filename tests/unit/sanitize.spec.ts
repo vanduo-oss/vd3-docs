@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { sanitizeHtml } from "@vanduo-oss/vue";
+import { sanitizeHtml } from "@vanduo-oss/vd3";
 
 describe("sanitizeHtml", () => {
   it("keeps allowed inline tags", () => {

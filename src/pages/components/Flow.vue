@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useFlow } from "@vanduo-oss/vue";
+import { useFlow } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useFlow(root);
 
-// Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
 import { useFlow } from "@vanduo-oss/vue";
 
@@ -18,13 +16,6 @@ useFlow(root);   // wires every .vd-flow inside root; cleanup on unmount
 root.value?.addEventListener('flow:change', (e) => {
   console.log('slide', e.detail.current); // { current, previous, total }
 });`;
-
-const vanillaWiring = `// Wire every .vd-flow carousel (document, or a root element)
-VanduoFlow.init();
-
-// control programmatically
-VanduoFlow.next(flowEl);
-VanduoFlow.goTo(flowEl, 2);`;
 
 const vue3Api: [string, string][] = [
   [
@@ -118,26 +109,6 @@ const dataAttrs: [string, string, string][] = [
     "data-vd-loop",
     'Loops back to the first slide after the last; set to "false" to disable',
     "true",
-  ],
-];
-
-const jsMethods: [string, string][] = [
-  ["VanduoFlow.init()", "Initialize all .vd-flow components on the page"],
-  [
-    "VanduoFlow.next(el)",
-    "Advance the given carousel element to the next slide",
-  ],
-  [
-    "VanduoFlow.prev(el)",
-    "Move the given carousel element to the previous slide",
-  ],
-  [
-    "VanduoFlow.goTo(el, index)",
-    "Jump the given carousel to the slide at index (0-based)",
-  ],
-  [
-    "VanduoFlow.destroy(el)",
-    "Tear down event listeners and timers for the given carousel",
   ],
 ];
 </script>
@@ -452,14 +423,7 @@ const jsMethods: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Wiring</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -507,50 +471,25 @@ const jsMethods: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4>Composable API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4>JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4>Composable API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4>Events</h4>
         <div class="vd-table-responsive">

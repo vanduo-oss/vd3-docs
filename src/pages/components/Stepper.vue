@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useStepper } from "@vanduo-oss/vue";
+import { useStepper } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 const stepper = useStepper(root);
@@ -73,29 +72,6 @@ const cssClasses: [string, string][] = [
   ],
 ];
 
-const jsMethods: [string, string][] = [
-  [
-    "VanduoStepper.init()",
-    "Initializes all stepper instances in the DOM. Call after dynamic content loads.",
-  ],
-  [
-    "VanduoStepper.setStep(el, index)",
-    "Sets the active step to the given zero-based index. Previous steps are marked completed.",
-  ],
-  [
-    "VanduoStepper.next(el)",
-    "Advances to the next step. Marks the current step as completed.",
-  ],
-  [
-    "VanduoStepper.prev(el)",
-    "Returns to the previous step. Reverts the current step to pending.",
-  ],
-  [
-    "VanduoStepper.destroy(el)",
-    "Removes event listeners and internal state for the given stepper element.",
-  ],
-];
-
 const events: [string, string][] = [
   [
     "stepper:change",
@@ -113,13 +89,6 @@ const stepper = useStepper(root);   // wires .vd-stepper inside root; cleanup on
 // drive it imperatively
 stepper.next(stepperEl);
 stepper.setStep(stepperEl, 2);`;
-
-const vanillaWiring = `// Wire every .vd-stepper (document, or a root element)
-VanduoStepper.init();
-
-// drive it imperatively
-VanduoStepper.next(stepperEl);
-VanduoStepper.setStep(stepperEl, 2);`;
 
 const vue3Api: [string, string][] = [
   [
@@ -346,14 +315,7 @@ const vue3Api: [string, string][] = [
           <div class="vd-card-header"><h6>API Reference</h6></div>
           <div class="vd-card-body">
             <h4>Wiring</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">
@@ -375,50 +337,25 @@ const vue3Api: [string, string][] = [
               </table>
             </div>
 
-            <EngineSwitch>
-              <template #vue3>
-                <h4 class="vd-mt-6">Composable API</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Symbol</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in vue3Api" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-              <template #vanilla>
-                <h4 class="vd-mt-6">JavaScript Methods</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Method</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in jsMethods" :key="row[0]">
-                        <td>
-                          <code>{{ row[0] }}</code>
-                        </td>
-                        <td>{{ row[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-            </EngineSwitch>
+            <h4 class="vd-mt-6">Composable API</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in vue3Api" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
             <h4 class="vd-mt-6">Events</h4>
             <div class="vd-table-responsive">

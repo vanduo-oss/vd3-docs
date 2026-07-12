@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
-import { VdHexGrid } from "@vanduo-oss/hex-grid/vue";
+import { VdHexGrid } from "@vanduo-oss/vd3-cbun/hex-grid";
 import HexPage from "@/pages/canvas/Hex.vue";
 
 beforeAll(() => {

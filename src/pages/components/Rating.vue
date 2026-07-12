@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdRating } from "@vanduo-oss/vue";
+import { VdRating } from "@vanduo-oss/vd3";
 
 const basic = ref(0);
 const preset = ref(3);
@@ -59,26 +58,6 @@ const dataAttrs: [string, string][] = [
   ],
 ];
 
-const jsMethods: [string, string][] = [
-  [
-    "VanduoRating.init()",
-    "Scans for all [data-vd-rating] elements and renders star widgets",
-  ],
-  [
-    "VanduoRating.getValue(el)",
-    "Returns the current numeric value for the given rating element",
-  ],
-  [
-    "VanduoRating.setValue(el, value)",
-    "Programmatically sets the rating value and updates the visual state",
-  ],
-  [
-    "VanduoRating.destroy(el)",
-    "Removes the rendered stars and event listeners from the element",
-  ],
-];
-
-// Engine-specific usage: the Vue component vs the Vanilla data-attribute markup.
 const vue3Usage = `<script setup lang="ts">
 import { VdRating } from "@vanduo-oss/vue";
 const value = ref(3);
@@ -87,10 +66,6 @@ const value = ref(3);
 <template>
   <VdRating v-model="value" :max="5" />
 </template>`;
-
-const vanillaUsage = `<div data-vd-rating data-vd-rating-value="3"></div>
-
-<script>VanduoRating.init();<\/script>`;
 
 const vue3Api: [string, string][] = [
   ["v-model (modelValue)", "Two-way bound rating value (number)."],
@@ -183,14 +158,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :html="vanillaUsage" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -232,50 +200,25 @@ const vue3Api: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop / event</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / event</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { VdAvatar } from "@vanduo-oss/vue";
+import { VdAvatar } from "@vanduo-oss/vd3";
 
 describe('VdAvatar', () => {
   it('renders initials when no src provided', () => {

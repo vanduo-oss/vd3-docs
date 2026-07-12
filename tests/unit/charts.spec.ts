@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import { VdChart } from "@vanduo-oss/charts/vue";
+import { VdChart } from "@vanduo-oss/vd3-cbun/charts";
 
 describe("VdChart (@vanduo-oss/charts/vue integration)", () => {
   it("mounts and renders an SVG into a .vd-chart container", async () => {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
-import { useNavbarGlassScroll } from "@vanduo-oss/vue";
+import { useNavbarGlassScroll } from "@vanduo-oss/vd3";
 import VdThemeCustomizer from "@/overlays/VdThemeCustomizer.vue";
 import VdThemeSwitcher from "@/overlays/VdThemeSwitcher.vue";
 

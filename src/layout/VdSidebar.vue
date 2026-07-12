@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { RouterLink, useRoute } from "vue-router";
-import { storeToRefs } from "pinia";
 import { nav, type NavSection } from "@/nav";
-import { useEngineStore } from "@/stores/engine";
 
 const route = useRoute();
-
-const engineStore = useEngineStore();
-const { engine } = storeToRefs(engineStore);
 
 interface Group {
   title: string;
@@ -96,27 +91,6 @@ const tocOpen = ref(false);
         <i class="doc-water-icon ph" :class="next.icon"></i>
         <span class="doc-water-label">{{ next.label }}</span>
       </span>
-    </button>
-  </div>
-
-  <div class="doc-engine-toggle" role="group" aria-label="Documentation engine">
-    <button
-      type="button"
-      class="doc-engine-option"
-      :class="{ active: engine === 'vue3' }"
-      :aria-pressed="engine === 'vue3'"
-      @click="engineStore.setEngine('vue3')"
-    >
-      <i class="ph ph-atom" aria-hidden="true"></i> Vue 3
-    </button>
-    <button
-      type="button"
-      class="doc-engine-option"
-      :class="{ active: engine === 'vanilla' }"
-      :aria-pressed="engine === 'vanilla'"
-      @click="engineStore.setEngine('vanilla')"
-    >
-      <i class="ph ph-file-html" aria-hidden="true"></i> Vanilla
     </button>
   </div>
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useNavbarGlassScroll } from "@vanduo-oss/vue";
-import { useSidenav } from "@vanduo-oss/vue";
-import { useScrollspy } from "@vanduo-oss/vue";
+import { useNavbarGlassScroll } from "@vanduo-oss/vd3";
+import { useSidenav } from "@vanduo-oss/vd3";
+import { useScrollspy } from "@vanduo-oss/vd3";
 
 const navRoot = ref<HTMLElement | null>(null);
 useNavbarGlassScroll(navRoot);

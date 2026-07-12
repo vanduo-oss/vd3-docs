@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdMusicPlayer } from "@vanduo-oss/music-player/vue";
+import { VdMusicPlayer } from "@vanduo-oss/vd3-cbun/music-player";
 
 // Stellardrone — "Invent the Universe" (Creative Commons). Audio files ship with
 // the site's media assets; the player UI renders from these names regardless.
@@ -269,22 +268,6 @@ const tracks = [
     @trackchange="(d) => console.log(d.name)" />
 </template>`;
 
-const vanillaJs = `import VanduoMusicPlayer from '@vanduo-oss/music-player';
-import '@vanduo-oss/music-player/css';
-
-VanduoMusicPlayer.initPlayer(document.getElementById('player'), {
-  tracks,
-  showPlaylist: true,
-  showProgress: true,
-});`;
-
-const vanillaHtml = `<div class="vd-music-player" data-music-player
-  data-music-player-options='{"tracks":[
-    {"name":"Pale Blue Dot","url":"/music/pale-blue-dot.mp3"}
-  ],"showPlaylist":true}'></div>
-
-<script>VanduoMusicPlayer.init();<\/script>`;
-
 const vue3Api: [string, string][] = [
   [":tracks", "Playlist — [{ name, url }]."],
   [":options", "Player options object (see Options below)."],
@@ -401,34 +384,6 @@ const optionsTable: [string, string, string, string][] = [
     "'' (from element id)",
     "Storage key suffix for persistPosition; defaults from the element's id attribute.",
   ],
-];
-
-const programmaticApi: [string, string][] = [
-  ["play(el) / pause(el) / toggle(el)", "Transport controls."],
-  ["next(el) / previous(el)", "Skip tracks (wraps around)."],
-  ["setTrack(el, index)", "Jump to a 0-based track index."],
-  ["setVolume(el, 0.75)", "Clamp volume 0–1; fires volumechange."],
-  [
-    "shuffle(el) / repeat(el) / setRepeat(el, 'one')",
-    "Shuffle toggle; cycle/set repeat mode.",
-  ],
-  [
-    "detach(el, 'bottom-right') / attach(el)",
-    "Float above the page / dock back (requires detachable).",
-  ],
-  [
-    "setPosition(el, 'top-right') / setPosition(el, { x, y })",
-    "Reposition a detached player.",
-  ],
-  [
-    "minimize(el) / expand(el) / toggleMinimize(el)",
-    "Collapse/restore (requires minimizable).",
-  ],
-  [
-    "getState(el)",
-    "Returns { isPlaying, currentIndex, currentTrack, volume, shuffle, repeat, tracks, isDetached, isMinimized }.",
-  ],
-  ["destroy(el) / destroyAll()", "Tear down one or all instances."],
 ];
 
 const cssVars = `:root {
@@ -946,60 +901,27 @@ VanduoMusicPlayer.attach(el);`"
         <DocCodeSnippet :shell="installShell" />
 
         <h4 class="vd-mt-6">Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla>
-            <DocCodeSnippet :js="vanillaJs" :default-open="true" />
-            <DocCodeSnippet :html="vanillaHtml" />
-          </template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop / event</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">Programmatic API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in programmaticApi" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / event</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Options</h4>
         <div class="vd-table-responsive">

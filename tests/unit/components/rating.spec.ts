@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { VdRating } from "@vanduo-oss/vue";
+import { VdRating } from "@vanduo-oss/vd3";
 
 describe('VdRating', () => {
   it('renders 5 stars by default', () => {

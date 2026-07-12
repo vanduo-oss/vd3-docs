@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useSuggest } from "@vanduo-oss/vue";
+import { useSuggest } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useSuggest(root);
@@ -18,12 +17,6 @@ useSuggest(root);   // wires [data-vd-suggest] inside root; cleanup on unmount
 root.value?.addEventListener('suggest:select', (e) => {
   console.log(e.detail.value);
 });`;
-
-const vanillaWiring = `// Wire every [data-vd-suggest] / [data-vd-autocomplete] input
-VanduoSuggest.init();
-
-// tear one down
-VanduoSuggest.destroy(inputEl);`;
 
 const vue3Api: [string, string][] = [
   [
@@ -100,17 +93,6 @@ const dataAttrs: [string, string][] = [
     "Minimum characters before the dropdown appears (default: 1)",
   ],
   ["data-vd-autocomplete", "Alias for data-vd-suggest — works identically"],
-];
-
-const jsMethods: [string, string][] = [
-  [
-    "VanduoSuggest.init()",
-    "Scans the DOM for [data-vd-suggest] and [data-vd-autocomplete] inputs and wires them up",
-  ],
-  [
-    "VanduoSuggest.destroy(el)",
-    "Removes event listeners, dropdown, and wrapper from the given input element",
-  ],
 ];
 
 const events: [string, string][] = [
@@ -237,14 +219,7 @@ const events: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Wiring</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -286,50 +261,25 @@ const events: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Composable API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsMethods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Composable API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

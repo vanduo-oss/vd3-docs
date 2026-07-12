@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useTabs } from "@vanduo-oss/vue";
+import { useTabs } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useTabs(root);
@@ -13,12 +12,6 @@ import { useTabs } from "@vanduo-oss/vue";
 
 const root = ref<HTMLElement | null>(null);
 useTabs(root);   // wires [data-tab-target] inside root; cleanup on unmount`;
-
-const vanillaWiring = `// Wire every [data-tab-target] trigger (document, or a root element)
-VanduoTabs.init();
-
-// switch programmatically (pass a tab id or the trigger element)
-VanduoTabs.show('pane-2');`;
 
 const vue3Api: [string, string][] = [
   [
@@ -502,14 +495,7 @@ const classRows: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <h4>Wiring</h4>
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :js="vue3Wiring" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaWiring" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">
@@ -550,60 +536,25 @@ const classRows: [string, string][] = [
                 </tbody>
               </table>
             </div>
-            <EngineSwitch>
-              <template #vue3>
-                <h4 class="vd-mt-6">Composable API</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Symbol</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="r in vue3Api" :key="r[0]">
-                        <td>
-                          <code>{{ r[0] }}</code>
-                        </td>
-                        <td>{{ r[1] }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-              <template #vanilla>
-                <h4 class="vd-mt-6">JavaScript Methods</h4>
-                <div class="vd-table-responsive">
-                  <table class="vd-table vd-table-striped">
-                    <thead>
-                      <tr>
-                        <th>Method</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><code>VanduoTabs.init()</code></td>
-                        <td>
-                          Wires up all <code>[data-tab-target]</code> triggers
-                          for automatic pane switching.
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><code>VanduoTabs.show(target)</code></td>
-                        <td>
-                          Programmatically switch tabs. <code>target</code> is a
-                          tab id (matched against
-                          <code>[data-tab-target]</code>) or the trigger
-                          element.
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-            </EngineSwitch>
+            <h4 class="vd-mt-6">Composable API</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="r in vue3Api" :key="r[0]">
+                    <td>
+                      <code>{{ r[0] }}</code>
+                    </td>
+                    <td>{{ r[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { mount } from "@vue/test-utils";
-import { VdMusicPlayer } from "@vanduo-oss/music-player/vue";
+import { VdMusicPlayer } from "@vanduo-oss/vd3-cbun/music-player";
 import MusicPlayerPage from "@/pages/media/MusicPlayer.vue";
 
 const DocsLayoutStub = {

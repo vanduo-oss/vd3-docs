@@ -7,7 +7,7 @@ import {
   VdCustomSelect,
   VdSlider,
   type RadiusOption,
-} from "@vanduo-oss/vue";
+} from "@vanduo-oss/vd3";
 import { useCustomizerStore } from "@/stores/customizer";
 import type { GlassMode, KnobId, ShadowLevel } from "@/customizer/types";
 

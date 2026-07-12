@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { VdSwitch } from "@vanduo-oss/vue";
+import { VdSwitch } from "@vanduo-oss/vd3";
 
 const wifi = ref(true);
 const notifications = ref(false);
@@ -62,13 +61,6 @@ const wifi = ref(true);
 <template>
   <VdSwitch v-model="wifi" label="Wi-Fi" />
 </template>`;
-
-const vanillaUsage = `<label class="vd-form-switch">
-  <input type="checkbox" class="vd-form-switch-input" role="switch" checked />
-  <span class="vd-form-switch-label">Wi-Fi</span>
-</label>
-
-<!-- No JavaScript required — the switch is a styled native checkbox. -->`;
 
 const vue3Api: [string, string][] = [
   ["v-model (modelValue)", "Two-way bound on/off state (boolean)."],
@@ -154,14 +146,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :html="vanillaUsage" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">
@@ -183,37 +168,25 @@ const vue3Api: [string, string][] = [
           </table>
         </div>
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop / event</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">JavaScript</h4>
-            <p class="vd-text-muted">
-              None — the switch is a CSS-only styled checkbox. Read its state
-              from the input's <code>checked</code> property and listen for the
-              native <code>change</code> event.
-            </p>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / event</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">

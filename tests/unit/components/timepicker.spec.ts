@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeAll, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { defineComponent, ref } from 'vue';
-import { useTimepicker } from "@vanduo-oss/vue";
+import { useTimepicker } from "@vanduo-oss/vd3";
 
 const makeHarness = (attrs: string) =>
   defineComponent({

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
-import { useToast } from "@vanduo-oss/vue";
+import { useToast } from "@vanduo-oss/vd3";
 
 const toast = useToast();
 
@@ -13,12 +12,6 @@ toast.error('An error occurred!');
 toast.warning('Please review your input.');
 toast.info('Here is some information.');`;
 
-const vanillaTypesJs = `// Global runtime
-VanduoToast.success('Operation completed successfully!');
-VanduoToast.error('An error occurred!');
-VanduoToast.warning('Please review your input.');
-VanduoToast.info('Here is some information.');`;
-
 const optionsJs = `const toast = useToast();
 
 // Toast with title
@@ -29,11 +22,6 @@ toast.show({ message: 'This toast will stay for 10 seconds.', type: 'success', d
 
 // Custom position
 toast.show({ message: 'Bottom left position.', type: 'warning', position: 'bottom-left' });`;
-
-const vanillaOptionsJs = `// Global runtime
-VanduoToast.show({ title: 'With Title', message: 'This toast has a title and message.', type: 'info' });
-VanduoToast.show({ message: 'This toast will stay for 10 seconds.', type: 'success', duration: 10000 });
-VanduoToast.show({ message: 'Bottom left position.', type: 'warning', position: 'bottom-left' });`;
 
 const apiRows: [string, string, string][] = [
   [
@@ -91,12 +79,7 @@ const apiRows: [string, string, string][] = [
             >
               Info Toast
             </button>
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :js="typesJs" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaTypesJs"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="typesJs" />
           </div>
         </div>
       </div>
@@ -141,12 +124,7 @@ const apiRows: [string, string, string][] = [
             >
               Bottom Left
             </button>
-            <EngineSwitch>
-              <template #vue3><DocCodeSnippet :js="optionsJs" /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="vanillaOptionsJs"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="optionsJs" />
           </div>
         </div>
       </div>

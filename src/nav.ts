@@ -1,6 +1,3 @@
-/** Which engine(s) a guide applies to — drives the sidebar hint badge. */
-export type EngineScope = "both" | "vanilla" | "vue";
-
 export interface NavSection {
   id: string;
   title: string;
@@ -8,11 +5,6 @@ export interface NavSection {
   icon?: string;
   keywords: string[];
   file?: string;
-  /**
-   * For guides: which engine(s) the guide is relevant to. Defaults to "both"
-   * when omitted. Set "vanilla" or "vue" for engine-specific guides.
-   */
-  engine?: EngineScope;
 }
 
 export interface NavCategory {

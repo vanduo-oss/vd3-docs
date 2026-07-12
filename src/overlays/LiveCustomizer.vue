@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import { VdOffcanvas, useFocusTrap } from "@vanduo-oss/vue";
+import { VdOffcanvas, useFocusTrap } from "@vanduo-oss/vd3";
 import { useCustomizerStore } from "@/stores/customizer";
-import { useEngineStore } from "@/stores/engine";
 import CustomizerStage from "@/components/customizer/CustomizerStage.vue";
 import CustomizerControls from "@/components/customizer/CustomizerControls.vue";
 import CustomizerCode from "@/components/customizer/CustomizerCode.vue";
 import type { Placement } from "@/customizer/types";
 
 const store = useCustomizerStore();
-const engine = useEngineStore();
 
 const PLACEMENTS: Placement[] = ["left", "right", "top", "bottom"];
 const PLACEMENT_ICON: Record<Placement, string> = {
@@ -71,28 +69,6 @@ onUnmounted(() => {
     @close="store.close"
   >
     <div ref="panelRef" class="lcc-panel">
-      <!-- Engine toggle (drives the shared engine store) -->
-      <div class="lcc-engine" role="group" aria-label="Documentation engine">
-        <button
-          type="button"
-          class="lcc-engine-btn"
-          :class="{ active: engine.engine === 'vue3' }"
-          :aria-pressed="engine.engine === 'vue3'"
-          @click="engine.setEngine('vue3')"
-        >
-          <i class="ph ph-atom" aria-hidden="true"></i> Vue 3
-        </button>
-        <button
-          type="button"
-          class="lcc-engine-btn"
-          :class="{ active: engine.engine === 'vanilla' }"
-          :aria-pressed="engine.engine === 'vanilla'"
-          @click="engine.setEngine('vanilla')"
-        >
-          <i class="ph ph-file-html" aria-hidden="true"></i> Vanilla
-        </button>
-      </div>
-
       <!-- Live preview -->
       <CustomizerStage
         v-if="store.entry"

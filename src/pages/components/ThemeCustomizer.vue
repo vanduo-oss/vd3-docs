@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
 import { useThemeStore } from "@/stores/theme";
-import type { RadiusOption, ThemeMode } from "@vanduo-oss/vue";
+import type { RadiusOption, ThemeMode } from "@vanduo-oss/vd3";
 
 const themeStore = useThemeStore();
 
@@ -68,34 +67,6 @@ const quickStartHtml = `<!-- Trigger button -->
 
 <!-- Include the JS component -->
 <script src="js/components/theme-customizer.js"><\/script>`;
-
-const apiJs = `// Access the component
-const customizer = Vanduo.getComponent('themeCustomizer');
-
-// Open/close programmatically
-customizer.open();
-customizer.close();
-customizer.toggle();
-
-// Get current state
-const state = customizer.getState();
-// Returns: { primary, neutral, radius, font, theme }
-
-// Set values programmatically
-customizer.applyPrimary('violet');
-customizer.applyNeutral('slate');
-customizer.applyRadius('0.375');
-customizer.applyFont('open-sans');
-customizer.applyTheme('dark');
-
-// Or update multiple preferences at once
-customizer.setPreferences({
-  primary: 'violet', neutral: 'slate', radius: '0.375',
-  font: 'open-sans', theme: 'dark'
-});
-
-// Reset to defaults
-customizer.reset();`;
 
 const apiVue3 = `import { useThemeStore } from '@/stores/theme';
 const theme = useThemeStore();
@@ -503,14 +474,7 @@ const chipText = (hex: string): string =>
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>JavaScript API</h6></div>
           <div class="vd-card-body">
-            <EngineSwitch>
-              <template #vue3
-                ><DocCodeSnippet :js="apiVue3" :default-open="true"
-              /></template>
-              <template #vanilla
-                ><DocCodeSnippet :js="apiJs" :default-open="true"
-              /></template>
-            </EngineSwitch>
+            <DocCodeSnippet :js="apiVue3" :default-open="true" />
           </div>
         </div>
       </div>

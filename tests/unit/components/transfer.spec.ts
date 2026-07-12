@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { VdTransfer } from "@vanduo-oss/vue";
+import { VdTransfer } from "@vanduo-oss/vd3";
 
 const items = [
   { id: 'a', label: 'Alpha' },

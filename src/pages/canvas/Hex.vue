@@ -2,10 +2,12 @@
 import { computed, nextTick, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import EngineSwitch from "@/components/EngineSwitch.vue";
 import { useThemeStore } from "@/stores/theme";
-import { VdHexGrid } from "@vanduo-oss/hex-grid/vue";
-import { TerrainType, getAdjacentHexes } from "@vanduo-oss/hex-grid/hex-math";
+import { VdHexGrid } from "@vanduo-oss/vd3-cbun/hex-grid";
+import {
+  TerrainType,
+  getAdjacentHexes,
+} from "@vanduo-oss/vd3-cbun/hex-grid/hex-math";
 
 const DEFAULT_SIZE = 30;
 const DEFAULT_WIDTH = 15;
@@ -470,22 +472,6 @@ const onSelect = (hex) => console.log('Selected', hex.q, hex.r);
   </div>
 </template>`;
 
-const vanillaJs = `import { VdHexGrid } from '@vanduo-oss/hex-grid';
-
-const grid = new VdHexGrid({
-  element: document.getElementById('hex-container'),
-  size: 30,
-  width: 15,
-  height: 10,
-});
-
-grid.on('select', (hex) => console.log(hex.q, hex.r));
-grid.on('zoom', ({ scale }) => console.log('Zoom', scale));
-grid.setHexTerrain(0, 0, 'Grassland');
-grid.generateRandomTerrain();
-grid.setRotation(-Math.PI / 6);
-grid.zoomIn();`;
-
 const mathUsage = `// Pure axial math — no canvas, no DOM, no Vue.
 import { hexDistance, getAdjacentHexes, TerrainType } from '@vanduo-oss/hex-grid/hex-math';
 
@@ -499,45 +485,6 @@ const vue3Api: [string, string][] = [
   ["@select / @zoom / @pan", "Forwarded interaction events."],
   ["@ready", "Emitted once with the underlying VdHexGrid instance."],
   ["getInstance()", "Template ref expose — call imperative API methods."],
-];
-
-const methods: [string, string][] = [
-  [
-    "setSize(size) / setDimensions(w, h) / setRotation(rad)",
-    "Reconfigure the grid; re-renders in place.",
-  ],
-  [
-    "getHex(q, r) / getAllHexes() / hasHex(q, r) / getHexCount()",
-    "Query hexes by axial coordinate.",
-  ],
-  [
-    "setHexTerrain(q, r, type) / getHexTerrain(q, r) / generateRandomTerrain()",
-    "Per-hex terrain (type values like 'Grassland').",
-  ],
-  [
-    "getHexYields / getHexMovementCost / isHexPassable",
-    "Terrain-derived attributes.",
-  ],
-  [
-    "getPath(startQ, startR, endQ, endR)",
-    "BFS path between hexes respecting passability.",
-  ],
-  [
-    "setHexData(q, r, data) / getHexData / clearHexData",
-    "Arbitrary per-hex data.",
-  ],
-  [
-    "hexDistance(q1, r1, q2, r2) / resetView() / fillRandom()",
-    "Distance, reset pan/zoom, demo fill.",
-  ],
-  [
-    "setCustomRender(cb) / clearCustomRender()",
-    "Draw custom overlays per hex.",
-  ],
-  [
-    "zoomIn() / zoomOut() / on(event, cb)",
-    "Zoom controls and event subscription.",
-  ],
 ];
 
 const events: [string, string][] = [
@@ -869,59 +816,27 @@ const events: [string, string][] = [
         <DocCodeSnippet :shell="installShell" />
 
         <h4 class="vd-mt-6">Usage</h4>
-        <EngineSwitch>
-          <template #vue3
-            ><DocCodeSnippet :html="vue3Usage" :default-open="true"
-          /></template>
-          <template #vanilla
-            ><DocCodeSnippet :js="vanillaJs" :default-open="true"
-          /></template>
-        </EngineSwitch>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
-        <EngineSwitch>
-          <template #vue3>
-            <h4 class="vd-mt-6">Component API</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Prop / event</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in vue3Api" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-          <template #vanilla>
-            <h4 class="vd-mt-6">Instance Methods</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in methods" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </template>
-        </EngineSwitch>
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / event</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 class="vd-mt-6">Events</h4>
         <div class="vd-table-responsive">
