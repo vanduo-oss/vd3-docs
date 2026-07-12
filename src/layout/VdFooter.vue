@@ -11,18 +11,18 @@ const quickLinks = [
 const resources = [
   {
     label: "GitHub",
-    href: "https://github.com/vanduo-oss/framework",
+    href: "https://github.com/vanduo-oss/vd3",
     external: true,
   },
   {
     label: "NPM",
-    href: "https://www.npmjs.com/package/@vanduo-oss/framework",
+    href: "https://www.npmjs.com/package/@vanduo-oss/vd3",
     external: true,
   },
   { label: "Kilo OSS", to: "/kilo-oss" },
   {
     label: "License",
-    href: "https://github.com/vanduo-oss/framework/blob/main/LICENSE",
+    href: "https://github.com/vanduo-oss/vd3/blob/main/LICENSE",
     external: true,
   },
 ];
@@ -37,7 +37,7 @@ const resources = [
             <h4 class="vd-footer-brand-title">
               <span class="hero-title-text">
                 <span class="hero-title-brand">vanduo</span>
-                <span class="hero-title-word">framework</span>
+                <span class="hero-title-word">ui</span>
               </span>
             </h4>
             <img
@@ -81,7 +81,7 @@ const resources = [
       </div>
       <div class="vd-footer-bottom">
         <p class="vd-text-center vd-text-muted">
-          2026, Vanduo Framework. MIT License.
+          2026, Vanduo UI. MIT License.
         </p>
       </div>
     </div>

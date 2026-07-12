@@ -8,7 +8,7 @@ useSuggest(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useSuggest } from "@vanduo-oss/vue";
+import { useSuggest } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useSuggest(root);   // wires [data-vd-suggest] inside root; cleanup on unmount
@@ -109,10 +109,10 @@ const events: [string, string][] = [
       <i class="ph ph-magnifying-glass"></i>Autocomplete / Suggest
     </h5>
     <p class="vd-mb-5">
-      The <strong>VanduoSuggest</strong> component adds type-ahead suggestions
+      The <strong>suggest</strong> control adds type-ahead suggestions
       to any text input. Feed it a static JSON array or point it at a remote
-      JSON endpoint — results filter as the user types. Alias:
-      <code>data-vd-autocomplete</code>.
+      JSON endpoint — results filter as the user types, wired with
+      <code>useSuggest</code>. Alias: <code>data-vd-autocomplete</code>.
     </p>
 
     <div class="vd-row">

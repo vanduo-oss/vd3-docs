@@ -46,7 +46,7 @@ const stackHtml = `<!-- Vertical stack with consistent spacing -->
 const heroHtml = `<!-- Hero: glass panel with a heading + CTA -->
 <section class="vd-hero vd-glass">
   <div class="vd-hero-content">
-    <h1>Vanduo Framework</h1>
+    <h1>Vanduo UI</h1>
     <p>Essential just like water is.</p>
     <a href="/docs" class="vd-btn vd-btn-primary vd-btn-lg">Get started</a>
   </div>
@@ -118,7 +118,7 @@ const splitLayoutHtml = `<!-- Two-column split: sidebar + content -->
                 text-align: center;
               "
             >
-              <h1 style="margin-bottom: 0.5rem">Vanduo Framework</h1>
+              <h1 style="margin-bottom: 0.5rem">Vanduo UI</h1>
               <p style="margin-bottom: 1.5rem; color: var(--vd-text-muted)">
                 Essential just like water is.
               </p>

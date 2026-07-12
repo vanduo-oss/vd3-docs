@@ -3,7 +3,7 @@ import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
-import { VdSpinner } from "@vanduo-oss/vue";
+import { VdSpinner } from "@vanduo-oss/vd3";
 <\/script>
 
 <template>

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-// The changelog is ~4,000 lines of static, hand-written release notes with no
-// framework JS behaviour. The static Vue-history body is imported verbatim and
-// rendered via v-html (its styles already live in src/styles/docs.css). The
-// page header is rendered by Vue (outside the v-html so it isn't wiped).
-// Trusted first-party content → v-html is safe here.
+// The changelog documents PACKAGE releases for the vd3 line only —
+// @vanduo-oss/vd3 (the Vue 3 design system + component library) and
+// @vanduo-oss/vd3-cbun (the canvas bundle). It NEVER tracks docs-site changes
+// (see the changelog-content policy).
 //
-// The changelog documents PACKAGE releases only (core / framework / vue / the
-// ecosystem packages) — never docs-site changes (see the changelog-content-policy
-// OpenSpec change).
+// The two current pre-release cards are rendered by Vue (so their RouterLinks
+// work); the earlier scaffold history is imported verbatim and rendered via
+// v-html (its styles live in src/styles/docs.css). Trusted first-party content
+// → v-html is safe here.
 import vueContent from "./changelog-vue-content.html?raw";
 </script>
 
@@ -20,85 +20,32 @@ import vueContent from "./changelog-vue-content.html?raw";
           Changelog
         </h2>
         <p class="vd-text-lg vd-text-muted">
-          Release notes for the <strong>Vanduo packages</strong> —
-          <code>@vanduo-oss/core</code>, <code>framework</code>,
-          <code>vue</code>, and the ecosystem (<code>charts</code>,
-          <code>hex-grid</code>, <code>music-player</code>,
-          <code>flowchart</code>).
+          Release notes for the <strong>vd3 line packages</strong> —
+          <code>@vanduo-oss/vd3</code> (the Vue 3 design system and component
+          library) and <code>@vanduo-oss/vd3-cbun</code> (the canvas bundle:
+          charts, flowchart, hex-grid, music-player). Packages only — never
+          docs-site content.
         </p>
       </div>
     </div>
 
-    <!-- Framework 1.7.1 — patch after Cool Breeze I (both engines; vue ships framework CSS) -->
-    <div style="padding: 3rem 0 0" data-engine="vanilla vue3">
+    <!-- @vanduo-oss/vd3 0.1.0 — the standalone Vue 3 design system -->
+    <div style="padding: 3rem 0 0">
       <div class="vd-container-responsive" style="max-width: 1200px">
-        <article class="version-card" data-engine="vanilla vue3">
-          <header class="version-header">
+        <article class="version-card">
+          <header class="version-header version-initial">
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.7.1</span
+              >v0.1.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>July 5, 2026
+              <i class="ph ph-calendar mr-1"></i>July 2026
             </span>
             <span class="vd-badge vd-badge-info" style="font-size: 0.75rem"
-              >Latest</span
+              >Pre-release</span
             >
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <div class="vd-col-12">
-                <h4>
-                  <i
-                    class="ph ph-cube mr-2"
-                    style="color: var(--vd-color-primary)"
-                  ></i
-                  >@vanduo-oss/framework
-                </h4>
-                <div class="change-group">
-                  <h5>Fixed</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-warning-circle"
-                        style="color: var(--vd-color-error)"
-                      ></i>
-                      <div>
-                        <strong>Button danger alias</strong>
-                        <p>
-                          <code>.vd-btn-danger</code>,
-                          <code>.vd-btn-outline-danger</code>, and
-                          <code>.vd-btn-ghost-danger</code> now share the same
-                          rules as the existing <code>-error</code> variants,
-                          matching badges, alerts, and chips after the unified
-                          status vocabulary migration.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
-
-    <!-- @vanduo-oss/vue 0.3.1 — CSS rebundle (Vue 3 engine) -->
-    <div style="padding: 3rem 0 0" data-engine="vue3">
-      <div class="vd-container-responsive" style="max-width: 1200px">
-        <article class="version-card" data-engine="vue3">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v0.3.1</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>July 5, 2026
-            </span>
-            <span class="vd-badge vd-badge-info" style="font-size: 0.75rem"
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
           </header>
@@ -110,235 +57,198 @@ import vueContent from "./changelog-vue-content.html?raw";
                     class="ph ph-atom mr-2"
                     style="color: var(--vd-color-primary)"
                   ></i
-                  >@vanduo-oss/vue
+                  >@vanduo-oss/vd3
                 </h4>
-                <div class="change-group">
-                  <h5>Fixed</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-warning-circle"
-                        style="color: var(--vd-color-error)"
-                      ></i>
-                      <div>
-                        <strong>Bundled CSS refresh</strong>
-                        <p>
-                          Rebundled <code>@vanduo-oss/vue/css</code> from
-                          <code>@vanduo-oss/framework@1.7.1</code> so
-                          <code>VdButton</code> <code>danger</code>, outline,
-                          and ghost variants pick up the missing danger-button
-                          alias styles.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  The standalone Vue 3 line — one package ships DTCG design
+                  tokens, the full CSS tree, and typed <code>Vd*</code>
+                  components and composables. Sole peer dependency:
+                  <code>vue &gt;= 3.3</code>.
+                </p>
 
-    <!-- Cool Breeze I — coordinated package release (Vanilla + Vue 3) -->
-    <div style="padding: 3rem 0 0" data-engine="vanilla vue3">
-      <div class="vd-container-responsive" style="max-width: 1200px">
-        <article class="version-card" data-engine="vanilla vue3">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >Cool Breeze I</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>June 29, 2026
-            </span>
-            <span class="vd-badge vd-badge-info" style="font-size: 0.75rem"
-              >framework 1.7.0 · vue 0.3.0 · charts 0.2.0</span
-            >
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <!-- @vanduo-oss/framework (Vanilla engine) -->
-              <div class="vd-col-12 vd-col-lg-4" data-engine="vanilla">
-                <h4>
-                  <i
-                    class="ph ph-cube mr-2"
-                    style="color: var(--vd-color-primary)"
-                  ></i
-                  >@vanduo-oss/framework <code>1.7.0</code>
-                </h4>
                 <div class="change-group">
                   <h5>New</h5>
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph ph-rows"
-                        style="color: var(--vd-color-info)"
+                        class="ph ph-file-css"
+                        style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
-                        <strong>Separator &amp; Slider styles</strong>
+                        <strong>Standalone tokens &amp; CSS</strong>
                         <p>
-                          <RouterLink to="/components/separator"
-                            ><code>.vd-separator</code></RouterLink
+                          A zero-dependency generator emits
+                          <code>@vanduo-oss/vd3/tokens.json</code> and the typed
+                          token-data module; the authored CSS tree bundles into
+                          <code>@vanduo-oss/vd3/css</code> (full) and
+                          <RouterLink to="/guides/css-variables"
+                            ><code>@vanduo-oss/vd3/css/core</code></RouterLink
                           >
-                          (with <code>-vertical</code> / <code>-labeled</code>)
-                          and a styled range
-                          <RouterLink to="/components/slider"
-                            ><code>.vd-slider</code></RouterLink
-                          >.
+                          (tokens-only, no icons), with fonts and Phosphor icons
+                          shipped in-package.
                         </p>
                       </div>
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph ph-swatches"
+                        class="ph ph-stack"
                         style="color: var(--vd-color-info)"
                       ></i>
                       <div>
-                        <strong>Unified status-palette aliases</strong>
+                        <strong>Complete component surface</strong>
                         <p>
-                          Additive <code>.vd-*-danger</code> /
-                          <code>-secondary</code> aliases plus
-                          <code>.vd-form-label</code>, backing the shared
-                          <code
-                            >primary/secondary/success/warning/danger/info</code
-                          >
-                          vocabulary. Fully additive — vanilla markup is
-                          unchanged.
+                          The full typed <code>Vd*</code> component set —
+                          including the seven layout primitives — plus the
+                          interactive composables, carried over 1:1 as pure Vue.
                         </p>
                       </div>
                     </li>
-                  </ul>
-                </div>
-              </div>
-              <!-- @vanduo-oss/vue (Vue 3 engine) -->
-              <div class="vd-col-12 vd-col-lg-4" data-engine="vue3">
-                <h4>
-                  <i
-                    class="ph ph-atom mr-2"
-                    style="color: var(--vd-color-primary)"
-                  ></i
-                  >@vanduo-oss/vue <code>0.3.0</code>
-                </h4>
-                <div class="change-group">
-                  <h5>New</h5>
-                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-plus-circle"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Seven new components</strong>
+                        <p>
+                          <RouterLink to="/components/breadcrumb"
+                            ><code>VdBreadcrumb</code></RouterLink
+                          >,
+                          <RouterLink to="/components/footer"
+                            ><code>VdFooter</code></RouterLink
+                          >,
+                          <RouterLink to="/components/fab"
+                            ><code>VdFab</code></RouterLink
+                          >
+                          (speed-dial),
+                          <RouterLink to="/components/navbar"
+                            ><code>VdNavbar</code></RouterLink
+                          >
+                          (burger + overlay + body-lock + glass-on-scroll),
+                          <RouterLink to="/components/theme-switcher"
+                            ><code>VdThemeSwitcher</code></RouterLink
+                          >,
+                          <RouterLink to="/components/theme-customizer"
+                            ><code>VdThemeCustomizer</code></RouterLink
+                          >
+                          (<code>show-palette</code> prop,
+                          <code>vd:open-customizer</code> window event), and
+                          <code>VdDocSearch</code> (combobox / listbox).
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-function"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>New composables</strong>
+                        <p>
+                          <code>useThemePreference</code> (the module-scope
+                          theme singleton behind both theme controls),
+                          <code>useDocSearch</code>,
+                          <RouterLink to="/guides/lazy-loading"
+                            ><code>useLazyLoad</code></RouterLink
+                          >
+                          (IntersectionObserver reveal +
+                          <code>loadSection</code>),
+                          <RouterLink to="/core/grid-system"
+                            ><code>useGrid</code></RouterLink
+                          >
+                          + <code>setGridSystem</code> (per-container standard /
+                          fibonacci mode), and <code>useClickOutside</code>.
+                        </p>
+                      </div>
+                    </li>
                     <li class="change-item">
                       <i
                         class="ph ph-toggle-right"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
-                        <strong>Switch, Slider, Separator &amp; Menu</strong>
+                        <strong
+                          >VdMenu &amp; pure-Vue interactive composables</strong
+                        >
                         <p>
-                          Four new components —
-                          <RouterLink to="/components/switch"
-                            ><code>VdSwitch</code></RouterLink
-                          >,
-                          <RouterLink to="/components/slider"
-                            ><code>VdSlider</code></RouterLink
-                          >,
-                          <RouterLink to="/components/separator"
-                            ><code>VdSeparator</code></RouterLink
-                          >, and
                           <RouterLink to="/components/menu"
                             ><code>VdMenu</code></RouterLink
+                          >
+                          ships, and the twelve interactive composables
+                          (<code>useRipple</code>, <code>useSearch</code>,
+                          <code>useExpandingCards</code>,
+                          <code>useValidate</code>, <code>useTimeline</code>,
+                          <code>usePopover</code>, <code>useFlow</code>,
+                          <code>useTabs</code>, <code>useSpotlight</code>,
+                          <code>useDropdown</code>, <code>useImageBox</code>,
+                          <code>useDraggable</code>) are pure-Vue rewrites that
+                          additively return an optional controller with a
+                          <code>refresh()</code> idiom.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="change-group">
+                  <h5>Changed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-tree-view"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>VdTree cascade default</strong>
+                        <p>
+                          <RouterLink to="/components/tree"
+                            ><code>VdTree</code></RouterLink
+                          >'s <code>cascade</code> prop now genuinely defaults
+                          to <code>true</code> via <code>withDefaults</code>:
+                          mounting <code>VdTree</code> without it cascades a
+                          parent check to its descendants. Pass
+                          <code>:cascade="false"</code> to opt out.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="change-group">
+                  <h5>Migration notes</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-plug"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Standalone by design</strong>
+                        <p>
+                          vd3 is pure Vue: there is no separate client-side
+                          runtime to bootstrap and no global window objects —
+                          theming and interactivity live entirely in typed
+                          composables and the <code>VanduoVue</code> plugin. See
+                          the
+                          <RouterLink to="/guides/migration"
+                            >migration guide</RouterLink
                           >.
                         </p>
                       </div>
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph ph-text-aa"
-                        style="color: var(--vd-color-info)"
-                      ></i>
-                      <div>
-                        <strong>Form-control ergonomics</strong>
-                        <p>
-                          <RouterLink to="/components/forms"
-                            ><code>VdInput</code></RouterLink
-                          >
-                          gains <code>label</code> / <code>hint</code> /
-                          <code>error</code> / <code>prefix</code> /
-                          <code>suffix</code> and a number model;
-                          <code>VdSelect</code> / <code>VdRadioGroup</code> are
-                          generic over their value; new
-                          <RouterLink to="/guides/css-variables"
-                            ><code>useThemeBridge</code></RouterLink
-                          >
-                          composable.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="change-group">
-                  <h5>Changed</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-arrows-merge"
+                        class="ph ph-database"
                         style="color: var(--vd-color-warning)"
                       ></i>
                       <div>
-                        <strong>Unified variant vocabulary (breaking)</strong>
+                        <strong>Pinia-free toast</strong>
                         <p>
-                          <code>VdButton</code> / <code>VdAlert</code> /
-                          <code>VdBadge</code> / <code>VdChip</code> share
-                          <code
-                            >primary/secondary/success/warning/danger/info</code
-                          >
-                          (<code>error</code> → <code>danger</code>); the Node
-                          engine floor is relaxed to current LTS.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <!-- @vanduo-oss/charts (both engines) -->
-              <div class="vd-col-12 vd-col-lg-4">
-                <h4>
-                  <i
-                    class="ph ph-chart-line mr-2"
-                    style="color: var(--vd-color-primary)"
-                  ></i
-                  ><RouterLink to="/canvas/charts"
-                    >@vanduo-oss/charts</RouterLink
-                  >
-                  <code>0.2.0</code>
-                </h4>
-                <div class="change-group">
-                  <h5>New</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-tag"
-                        style="color: var(--vd-color-success)"
-                      ></i>
-                      <div>
-                        <strong>Data labels &amp; annotations</strong>
-                        <p>
-                          <code>dataLabels</code> on every mark and
-                          <code>annotations</code> reference lines.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-chart-scatter"
-                        style="color: var(--vd-color-info)"
-                      ></i>
-                      <div>
-                        <strong
-                          >Types, multi-series &amp; per-point colour</strong
-                        >
-                        <p>
-                          A typed main entry (<code>.d.ts</code>),
-                          <code>series[]</code>, a per-datum
-                          <code>color</code> accessor, axis <code>yMin</code> /
-                          <code>yMax</code>, and a typed tooltip context.
+                          <code>useToast</code> is a module-scope singleton with
+                          the same documented API (<code>useToastStore</code>,
+                          <code>useToast</code>, <code>show()</code>, typed
+                          helpers, reactive <code>queue</code>), and
+                          <code>pinia</code> is no longer a peer dependency.
                         </p>
                       </div>
                     </li>
@@ -351,7 +261,141 @@ import vueContent from "./changelog-vue-content.html?raw";
       </div>
     </div>
 
-    <!-- Package release history -->
+    <!-- @vanduo-oss/vd3-cbun 0.2.0 — the canvas components bundle -->
+    <div style="padding: 3rem 0 0">
+      <div class="vd-container-responsive" style="max-width: 1200px">
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v0.2.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>July 2026
+            </span>
+            <span class="vd-badge vd-badge-info" style="font-size: 0.75rem"
+              >Pre-release</span
+            >
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <h4>
+                  <i
+                    class="ph ph-package mr-2"
+                    style="color: var(--vd-color-primary)"
+                  ></i
+                  >@vanduo-oss/vd3-cbun
+                </h4>
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  The canvas components bundle for the vd3 line — charts,
+                  flowchart, hex-grid, and music-player consolidated into one
+                  package with tree-shakeable subpath exports. Sole runtime
+                  peer:
+                  <code>vue &gt;= 3.3</code>.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-chart-line"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Charts</strong>
+                        <p>
+                          <RouterLink to="/canvas/charts">Charts</RouterLink> on
+                          <code>@vanduo-oss/vd3-cbun/charts</code> (+
+                          <code>/charts/css</code>). Component
+                          <code>1.0.0</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-flow-arrow"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Flowchart</strong>
+                        <p>
+                          <RouterLink to="/canvas/flowchart"
+                            >Flowchart</RouterLink
+                          >
+                          on <code>@vanduo-oss/vd3-cbun/flowchart</code> (+
+                          <code>/flowchart/css</code>), exposing
+                          <code>VdFlowchartCore</code> alongside the component.
+                          Component <code>1.2.0</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-hexagon"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Hex grid</strong>
+                        <p>
+                          <RouterLink to="/canvas/hex">Hex grid</RouterLink> on
+                          <code>@vanduo-oss/vd3-cbun/hex-grid</code> with the
+                          <code>/hex-grid/hex-math</code> helpers —
+                          canvas-rendered, reading <code>--vd-*</code> tokens
+                          (no CSS). Component <code>1.0.0</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-music-notes"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Music player</strong>
+                        <p>
+                          <RouterLink to="/media/music-player"
+                            >Music player</RouterLink
+                          >
+                          on <code>@vanduo-oss/vd3-cbun/music-player</code> (+
+                          <code>/music-player/css</code>). Component
+                          <code>1.0.0</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-shield-check"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Subpath isolation &amp; tests</strong>
+                        <p>
+                          Each subpath re-exports both the Vue component and its
+                          framework-agnostic core; a build-time guard bundles
+                          every entry separately with <code>vue</code> external
+                          and fails if inputs cross a component boundary.
+                          Versions surface via <code>VD3_CBUN_VERSIONS</code>,
+                          with 261 tests across 15 vitest files plus a
+                          Playwright real-canvas smoke.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Earlier vd3-line history -->
     <div v-html="vueContent"></div>
   </section>
 </template>

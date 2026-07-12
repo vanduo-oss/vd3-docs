@@ -81,7 +81,7 @@ const events: [string, string][] = [
 
 // Engine-specific wiring (the markup and classes are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useStepper } from "@vanduo-oss/vue";
+import { useStepper } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 const stepper = useStepper(root);   // wires .vd-stepper inside root; cleanup on unmount

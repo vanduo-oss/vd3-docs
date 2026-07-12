@@ -6,11 +6,11 @@ import { useGlass } from "@vanduo-oss/vd3";
 const root = ref<HTMLElement | null>(null);
 useGlass(root);
 
-// Engine-specific wiring (the markup, classes and data-* are identical; the
-// scroll-activation observer logic runs automatically in both engines).
+// Wiring for the glass effect (the markup, classes and data-* stay declarative;
+// the scroll-activation observer is driven by the composables below).
 const vue3Wiring = `import { ref } from 'vue';
-import { useGlass } from "@vanduo-oss/vue";
-import { useNavbarGlassScroll } from "@vanduo-oss/vue";
+import { useGlass } from "@vanduo-oss/vd3";
+import { useNavbarGlassScroll } from "@vanduo-oss/vd3";
 
 // Generic scroll-activated glass (data-glass-scroll)
 const root = ref<HTMLElement | null>(null);

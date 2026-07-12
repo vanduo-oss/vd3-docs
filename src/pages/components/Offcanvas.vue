@@ -8,7 +8,7 @@ useSidenav(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useSidenav } from "@vanduo-oss/vue";
+import { useSidenav } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useSidenav(root);   // wires [data-sidenav-toggle] triggers; cleanup on unmount`;
@@ -101,7 +101,7 @@ const events: [string, string, string][] = [
     <h5 class="demo-title"><i class="ph ph-arrows-out"></i>Offcanvas</h5>
     <p class="vd-mb-8">
       Extend the Sidenav into a full offcanvas panel that slides in from any
-      edge. Uses the existing <code>VanduoSidenav</code> API with positional
+      edge. Uses the existing <code>useSidenav</code> API with positional
       modifiers.
     </p>
 

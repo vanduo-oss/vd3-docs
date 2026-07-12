@@ -28,16 +28,16 @@ const transferHtml = `<div data-vd-transfer='[
   { "id": "python",     "label": "Python" }
 ]'></div>`;
 
-const transferJs = `const el = document.querySelector('[data-vd-transfer]');
+const transferJs = `import { ref } from 'vue';
 
-// Get selected item IDs
-const selected = VanduoTransfer.getSelected(el);
+const transferRef = ref();
+
+// Read the current Target-panel ids via the exposed method:
+const selected = transferRef.value?.getSelected();
 console.log(selected); // ["javascript", "python"]
 
-// Listen for changes
-el.addEventListener('transfer:change', (e) => {
-  console.log('Selected:', e.detail.selected);
-});`;
+// VdTransfer also dispatches a native transfer:change event
+// ({ selected, available }) on its root — listen via a template ref.`;
 
 const cssClasses: [string, string][] = [
   [
@@ -66,7 +66,7 @@ const events: [string, string][] = [
 
 // Vue 3 usage (the Vanilla data-attribute form is shown via transferHtml/transferJs).
 const vue3Usage = `<script setup lang="ts">
-import { VdTransfer } from "@vanduo-oss/vue";
+import { VdTransfer } from "@vanduo-oss/vd3";
 const items = [
   { id: 'html', label: 'HTML' },
   { id: 'css',  label: 'CSS' },
@@ -96,7 +96,7 @@ const vue3Api: [string, string][] = [
       <i class="ph ph-arrows-left-right"></i>Transfer / Dual List
     </h5>
     <p class="vd-mb-5">
-      The <strong>VanduoTransfer</strong> component renders a dual-panel picker
+      The <strong>VdTransfer</strong> component renders a dual-panel picker
       — users move items from a "Source" list to a "Target" list using arrow
       buttons. Search filtering is built into both panels automatically, and
       selected items are accessible programmatically at any time.

@@ -8,7 +8,7 @@ useAffix(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useAffix } from "@vanduo-oss/vue";
+import { useAffix } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useAffix(root);   // wires .vd-affix / [data-vd-affix] inside root; cleanup on unmount
@@ -60,7 +60,7 @@ const cssClasses: [string, string][] = [
 const dataAttrs: [string, string][] = [
   [
     "data-vd-affix",
-    "Enables the affix behavior on the element. Detected by VanduoAffix.init().",
+    "Enables the affix behavior on the element. Detected by useAffix(root).",
   ],
   [
     "data-vd-affix-offset",
@@ -123,7 +123,7 @@ const events: [string, string][] = [
               <div style="padding: 1.25rem">
                 <p class="vd-text-sm vd-text-muted">
                   Place content before the affix element so it can scroll
-                  naturally into position, then let <code>VanduoAffix</code>
+                  naturally into position, then let <code>useAffix</code>
                   pin it within the nearest scrollable parent.
                 </p>
                 <p class="vd-text-sm vd-text-muted vd-mt-3">

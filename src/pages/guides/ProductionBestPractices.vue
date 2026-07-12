@@ -15,12 +15,12 @@ const practices: [string, string][] = [
     "Each route ships static HTML for fast first paint + SEO, then hydrates.",
   ],
   [
-    "Pin framework/core versions",
-    "Lock @vanduo-oss/* versions so visual output is reproducible.",
+    "Pin Vanduo package versions",
+    "Lock @vanduo-oss/vd3 & @vanduo-oss/vd3-cbun so visual output is reproducible.",
   ],
   [
     "Ship only used CSS",
-    "Import @vanduo-oss/framework/css once; avoid duplicating core CSS in vd2.",
+    "Import @vanduo-oss/vd3/css once; avoid duplicating base CSS in your app.",
   ],
   [
     "Code-split heavy routes",

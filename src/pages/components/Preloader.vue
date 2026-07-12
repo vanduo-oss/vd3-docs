@@ -3,7 +3,7 @@ import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
-import { VdPreloader } from "@vanduo-oss/vue";
+import { VdPreloader } from "@vanduo-oss/vd3";
 <\/script>
 
 <template>
@@ -195,11 +195,10 @@ const vue3Api: [string, string][] = [
               </table>
             </div>
             <p class="vd-text-sm vd-text-muted vd-mt-3 vd-mb-0">
-              <strong>This documentation site</strong> builds similar
-              placeholders in <code>docs/js/app.js</code> (section fetch, scroll
-              loader, page transitions), intentionally separate from the
-              reusable <code>VanduoLazyLoad</code> helper in
-              <code>docs/js/components/lazy-load.js</code>.
+              For scroll- or fetch-triggered placeholders in your own app, reach
+              for the <code>useLazyLoad</code> composable — see the
+              <RouterLink to="/guides/lazy-loading">Lazy Loading</RouterLink>
+              guide.
             </p>
           </div>
         </div>
@@ -254,11 +253,11 @@ const vue3Api: [string, string][] = [
             </td>
           </tr>
           <tr>
-            <td><code>VanduoPreloader</code> DOM helpers</td>
+            <td><code>VdPreloader</code> component</td>
             <td>
-              <code>framework/js/components/preloader.js</code> — initializes
-              modern <code>.vd-progress-bar[data-progress]</code> and legacy
-              <code>.progress-bar[data-progress]</code> for compatibility.
+              Drives modern <code>.vd-progress-bar[data-progress]</code> and
+              legacy <code>.progress-bar[data-progress]</code> for
+              compatibility.
             </td>
           </tr>
         </tbody>

@@ -1,16 +1,63 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onUnmounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
+import { VdSwitch, setGridSystem, useGrid } from "@vanduo-oss/vd3";
 
-// Grid-mode toggle. The original docs ship a `data-grid-toggle` button + a
-// `data-layout-mode` target, but nothing in the framework CSS/JS reacts to it
-// (a no-op). We wire it and add scoped CSS so it actually applies the
-// documented Fibonacci proportions.
-const mode = ref<"standard" | "fibonacci">("standard");
-const toggleMode = (): void => {
-  mode.value = mode.value === "standard" ? "fibonacci" : "standard";
+// Container-scoped grid switcher. `useGrid(containerRef)` flips the
+// `.vd-grid-standard` / `.vd-grid-fibonacci` class on this one element, keeps
+// `data-layout-mode` + the region `aria-label` in sync, and dispatches a
+// `grid:modechange` event. The real vd3 grid CSS then lays out each child
+// `.vd-row` with Fibonacci proportions — no page-local reimplementation needed.
+const gridDemo = ref<HTMLElement | null>(null);
+const { mode, toggle } = useGrid(gridDemo);
+
+// Document-level default. `setGridSystem("fibonacci")` stamps
+// `data-grid="fibonacci"` on <html>, restyling every `.vd-row` on the page
+// (except rows inside an explicit `.vd-grid-standard` container). It is NOT
+// persisted, so we reset it on unmount and never leak it to other routes.
+const docFibonacci = ref(false);
+const setDocGrid = (on: boolean): void => {
+  docFibonacci.value = on;
+  setGridSystem(on ? "fibonacci" : "standard");
 };
+onUnmounted(() => setGridSystem("standard"));
+
+const useGridSnippet = `<script setup lang="ts">
+import { ref } from "vue";
+import { useGrid } from "@vanduo-oss/vd3";
+
+const container = ref<HTMLElement | null>(null);
+const { mode, toggle, setMode } = useGrid(container);
+<\/script>
+
+<template>
+  <button :aria-pressed="mode === 'fibonacci'" @click="toggle">
+    {{ mode }} grid
+  </button>
+
+  <!-- Rows lay out by column count: 2 → 1:1.618, 3 → 2:3:5, 4 → 1:2:3:5 -->
+  <div ref="container">
+    <div class="vd-row">
+      <div class="vd-col-4">1</div>
+      <div class="vd-col-4">2</div>
+      <div class="vd-col-4">3</div>
+    </div>
+  </div>
+</template>`;
+
+const setGridSnippet = `import { onUnmounted } from "vue";
+import { setGridSystem } from "@vanduo-oss/vd3";
+
+// Bootstrap the whole app in Fibonacci mode — stamps data-grid="fibonacci"
+// on <html>. Every .vd-row reflows unless it sits inside .vd-grid-standard.
+setGridSystem("fibonacci");
+
+// Back to the 12-column default (removes the attribute).
+setGridSystem("standard");
+
+// Not persisted — reset it if the choice is only page-scoped.
+onUnmounted(() => setGridSystem("standard"));`;
 
 const breakpointHtml = `<!-- Responsive Grid with 6 Breakpoints -->
 <div class="vd-row">
@@ -480,35 +527,52 @@ const containers = [
       </div>
     </div>
 
-    <!-- Grid Mode Toggle -->
+    <!-- Live Grid Toggle (useGrid) -->
     <div class="vd-row">
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card vd-mb-8">
-          <div class="vd-card-header"><h6>Grid Mode Toggle</h6></div>
+          <div class="vd-card-header"><h6>Live Grid Toggle (useGrid)</h6></div>
           <div class="vd-card-body">
             <p class="vd-mb-5 vd-text-sm vd-text-muted">
-              Toggle between standard 12-column flexbox and Fibonacci CSS Grid
-              proportions. Uses <code>data-layout-mode</code> attribute with a
-              <code>data-grid-toggle</code> button. The Fibonacci mode
-              auto-detects column count and applies golden ratio (2 cols), 2:3:5
-              (3 cols), or 1:2:3:5 (4 cols) proportions.
+              <code>useGrid(containerRef)</code> manages one element: it flips
+              the <code>.vd-grid-standard</code> /
+              <code>.vd-grid-fibonacci</code> class, keeps
+              <code>data-layout-mode</code> plus the region
+              <code>aria-label</code> in sync, and dispatches a
+              <code>grid:modechange</code> event. The real vd3 grid CSS then
+              lays out each child <code>.vd-row</code> by its column count —
+              golden ratio (2&nbsp;cols), 2:3:5 (3&nbsp;cols), or 1:2:3:5
+              (4&nbsp;cols).
             </p>
 
-            <button
-              class="vd-btn vd-btn-primary vd-mb-5"
-              data-grid-toggle="#grid-toggle-demo"
-              @click="toggleMode"
-            >
-              Toggle Fibonacci / Standard
-            </button>
-
             <div
-              id="grid-toggle-demo"
-              class="grid-toggle-demo"
-              :data-layout-mode="mode"
+              class="vd-d-flex vd-gap-4 vd-mb-5"
+              style="align-items: center; flex-wrap: wrap"
             >
+              <button
+                class="vd-btn vd-btn-primary"
+                :aria-pressed="mode === 'fibonacci'"
+                @click="toggle"
+              >
+                <i class="ph ph-spiral"></i> Toggle Fibonacci / Standard
+              </button>
+              <span class="vd-text-sm">
+                Current mode:
+                <span
+                  class="vd-badge"
+                  :class="
+                    mode === 'fibonacci'
+                      ? 'vd-badge-primary'
+                      : 'vd-badge-secondary'
+                  "
+                  >{{ mode }}</span
+                >
+              </span>
+            </div>
+
+            <div ref="gridDemo" class="grid-toggle-demo">
               <p class="vd-mb-3 vd-text-sm"><strong>3-column row:</strong></p>
-              <div class="vd-row vd-mb-5 gt-row-3">
+              <div class="vd-row vd-mb-5">
                 <div class="vd-col-4">
                   <div
                     class="vd-bg-info vd-text-white vd-p-5 vd-rounded-md vd-text-center"
@@ -533,9 +597,9 @@ const containers = [
               </div>
 
               <p class="vd-mb-3 vd-text-sm">
-                <strong>2-column row (becomes golden ratio):</strong>
+                <strong>2-column row → golden ratio (1 : 1.618):</strong>
               </p>
-              <div class="vd-row vd-mb-5 gt-row-2">
+              <div class="vd-row vd-mb-5">
                 <div class="vd-col-6">
                   <div
                     class="vd-bg-warning vd-p-5 vd-rounded-md vd-text-center"
@@ -553,9 +617,9 @@ const containers = [
               </div>
 
               <p class="vd-mb-3 vd-text-sm">
-                <strong>4-column row (becomes 1:2:3:5):</strong>
+                <strong>4-column row → 1 : 2 : 3 : 5:</strong>
               </p>
-              <div class="vd-row gt-row-4">
+              <div class="vd-row">
                 <div class="vd-col-3">
                   <div
                     class="vd-bg-error vd-text-white vd-p-5 vd-rounded-md vd-text-center"
@@ -586,6 +650,42 @@ const containers = [
                 </div>
               </div>
             </div>
+
+            <DocCodeSnippet class="vd-mt-5" :html="useGridSnippet" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document-Level Default (setGridSystem) -->
+    <div class="vd-row">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card vd-mb-8">
+          <div class="vd-card-header">
+            <h6>Document-Level Default (setGridSystem)</h6>
+          </div>
+          <div class="vd-card-body">
+            <div class="vd-alert vd-alert-warning vd-mb-5" role="alert">
+              <i class="ph ph-warning"></i>
+              Heads up — this stamps <code>data-grid="fibonacci"</code> on
+              <code>&lt;html&gt;</code> and reflows <strong>every</strong>
+              <code>.vd-row</code> on this page (including the docs sidebar
+              layout) into Fibonacci proportions. It resets automatically when
+              you navigate away.
+            </div>
+            <p class="vd-mb-5 vd-text-sm vd-text-muted">
+              Call <code>setGridSystem</code> once at app bootstrap to make
+              Fibonacci the default everywhere, mirroring how the theme layer
+              stamps <code>data-theme</code>. Wrap any subtree that must stay
+              12-column in a <code>.vd-grid-standard</code> container — the
+              closest explicit container wins.
+            </p>
+            <VdSwitch
+              :model-value="docFibonacci"
+              label="Apply Fibonacci to the whole document"
+              @update:model-value="setDocGrid"
+            />
+            <DocCodeSnippet class="vd-mt-5" :js="setGridSnippet" />
           </div>
         </div>
       </div>
@@ -644,54 +744,3 @@ const containers = [
     </div>
   </section>
 </template>
-
-<style scoped>
-/*
- * Fibonacci grid-mode override. The original `data-grid-toggle` was a no-op
- * (no backing CSS); here it applies the documented proportions per row.
- */
-.grid-toggle-demo[data-layout-mode="fibonacci"] .vd-row > [class*="vd-col-"] {
-  transition:
-    flex-basis 0.3s ease,
-    max-width 0.3s ease;
-}
-/* 3-column → 2 : 3 : 5 (total 10) */
-.grid-toggle-demo[data-layout-mode="fibonacci"] .gt-row-3 > :nth-child(1) {
-  flex: 0 0 20%;
-  max-width: 20%;
-}
-.grid-toggle-demo[data-layout-mode="fibonacci"] .gt-row-3 > :nth-child(2) {
-  flex: 0 0 30%;
-  max-width: 30%;
-}
-.grid-toggle-demo[data-layout-mode="fibonacci"] .gt-row-3 > :nth-child(3) {
-  flex: 0 0 50%;
-  max-width: 50%;
-}
-/* 2-column → golden 38.2 : 61.8 */
-.grid-toggle-demo[data-layout-mode="fibonacci"] .gt-row-2 > :nth-child(1) {
-  flex: 0 0 38.2%;
-  max-width: 38.2%;
-}
-.grid-toggle-demo[data-layout-mode="fibonacci"] .gt-row-2 > :nth-child(2) {
-  flex: 0 0 61.8%;
-  max-width: 61.8%;
-}
-/* 4-column → 1 : 2 : 3 : 5 (total 11) */
-.grid-toggle-demo[data-layout-mode="fibonacci"] .gt-row-4 > :nth-child(1) {
-  flex: 0 0 9.0909%;
-  max-width: 9.0909%;
-}
-.grid-toggle-demo[data-layout-mode="fibonacci"] .gt-row-4 > :nth-child(2) {
-  flex: 0 0 18.1818%;
-  max-width: 18.1818%;
-}
-.grid-toggle-demo[data-layout-mode="fibonacci"] .gt-row-4 > :nth-child(3) {
-  flex: 0 0 27.2727%;
-  max-width: 27.2727%;
-}
-.grid-toggle-demo[data-layout-mode="fibonacci"] .gt-row-4 > :nth-child(4) {
-  flex: 0 0 45.4545%;
-  max-width: 45.4545%;
-}
-</style>

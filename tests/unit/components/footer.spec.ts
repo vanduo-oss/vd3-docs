@@ -18,12 +18,12 @@ describe('VdFooter', () => {
   it('renders the brand wordmark', () => {
     const wrapper = mountFooter();
     expect(wrapper.text()).toContain('vanduo');
-    expect(wrapper.text()).toContain('framework');
+    expect(wrapper.text()).toContain('ui');
   });
 
   it('renders the copyright line', () => {
     const wrapper = mountFooter();
-    expect(wrapper.text()).toMatch(/Vanduo Framework\. MIT License\./);
+    expect(wrapper.text()).toMatch(/Vanduo UI\. MIT License\./);
   });
 
   it('renders quick links and resource columns', () => {

@@ -47,7 +47,7 @@ const darkCss = `/* Dark mode just remaps the same token names */
 
 // useThemeBridge — sync an app-owned light/dark toggle onto Vanduo (vue 0.3.0).
 const bridgeJs = `import { computed } from 'vue';
-import { useThemeBridge } from '@vanduo-oss/vue';
+import { useThemeBridge } from '@vanduo-oss/vd3';
 import { useColorMode } from '@nuxtjs/color-mode'; // any owner of light/dark
 
 // Vanduo keys dark mode off [data-theme] on <html>. When another system owns
@@ -80,8 +80,8 @@ const tiers: [string, string][] = [
     <p class="vd-mb-6">
       Every colour, space, radius, and font in Vanduo is a CSS custom property
       (<code>--vd-*</code>). Override them in your own stylesheet and the whole
-      system updates — no recompile, no JavaScript. This token layer is shared
-      by both engines and is owned by <code>@vanduo-oss/core</code>.
+      system updates — no recompile, no JavaScript. This token layer ships with
+      <code>@vanduo-oss/vd3</code>.
     </p>
 
     <div class="vd-row vd-mb-6">
@@ -152,8 +152,8 @@ const tiers: [string, string][] = [
       <div class="vd-card-body">
         <DocCodeSnippet :css="darkCss" :default-open="true" />
         <p class="vd-text-sm vd-text-muted vd-mt-3">
-          In vd2 you rarely write this by hand — the
-          <a href="/guides/theme-customizer">theme store</a> flips
+          You rarely write this by hand — the
+          <a href="/guides/theme-customizer">theme customizer</a> flips
           <code>data-theme</code> for you.
         </p>
       </div>
@@ -171,7 +171,7 @@ const tiers: [string, string][] = [
           Already have a light/dark toggle (e.g.
           <code>@nuxtjs/color-mode</code>, a Pinia store, or your own ref)? The
           <code>useThemeBridge</code> composable from
-          <code>@vanduo-oss/vue</code> keeps Vanduo in sync with it instead of
+          <code>@vanduo-oss/vd3</code> keeps Vanduo in sync with it instead of
           adding a second source of truth.
         </p>
         <DocCodeSnippet :js="bridgeJs" :default-open="true" />

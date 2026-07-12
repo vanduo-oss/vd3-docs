@@ -21,7 +21,7 @@ const donutData = [
   { channel: "Email", revenue: 1800 },
 ];
 
-// New in @vanduo-oss/charts 0.2.0 — multi-series, data labels, annotations.
+// New in @vanduo-oss/vd3-cbun 0.2.0 — multi-series, data labels, annotations.
 const seriesData = [
   { month: "Jan", product: 120, service: 80 },
   { month: "Feb", product: 180, service: 110 },
@@ -62,10 +62,10 @@ const featuresUsage = `<!-- Multiple series (grouped bars) -->
 <VdChart type="line" :data="data" x="week" y="mrr" :y-min="0" :y-max="300"
          :annotations="[{ y: 200, label: 'Target', color: '#e5484d' }]" />`;
 
-const installShell = `pnpm add @vanduo-oss/charts`;
+const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
 
 const vue3Usage = `<script setup lang="ts">
-import { VdChart } from '@vanduo-oss/charts/vue';
+import { VdChart } from '@vanduo-oss/vd3-cbun/charts';
 
 const data = [
   { month: 'Jan', sales: 120 },
@@ -147,7 +147,7 @@ const vue3Api: [string, string][] = [
       <strong>Vanduo Charts</strong> is a standalone SVG-first package for
       common dashboard charts, installed separately from the framework. It
       renders accessible SVG, reads Vanduo theme tokens, and ships an optional
-      Vue 3 binding (<code>@vanduo-oss/charts/vue</code>) used here.
+      Vue 3 binding (<code>@vanduo-oss/vd3-cbun/charts</code>) used here.
     </p>
 
     <div class="vd-row vd-mb-6">
@@ -341,9 +341,9 @@ const vue3Api: [string, string][] = [
             title/description metadata when provided.
           </li>
           <li>
-            The vanilla bundle exposes <code>window.VanduoCharts</code> and
-            registers with <code>Vanduo.init(root)</code> when the framework is
-            present.
+            Charts are Vue 3 components — import <code>VdChart</code> from
+            <code>@vanduo-oss/vd3-cbun/charts</code> and render it directly.
+            There is no global object or init step.
           </li>
           <li>
             Charts read Vanduo theme tokens, so they follow the active theme

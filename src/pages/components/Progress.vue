@@ -2,7 +2,7 @@
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
-import { VdProgress } from "@vanduo-oss/vue";
+import { VdProgress } from "@vanduo-oss/vd3";
 <\/script>
 
 <template>

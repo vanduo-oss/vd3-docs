@@ -7,13 +7,13 @@ const root = ref<HTMLElement | null>(null);
 useDropdown(root);
 
 const vue3Wiring = `import { ref } from 'vue';
-import { useDropdown } from "@vanduo-oss/vue";
+import { useDropdown } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
-useDropdown(root);   // wires every .vd-dropdown inside root; cleanup on unmount
+const dropdown = useDropdown(root);   // wires every .vd-dropdown inside root; cleanup on unmount
 
-// Programmatic control (delegates to the framework global)
-window.VanduoDropdown.open(root.value?.querySelector('#my-dropdown'));`;
+// Programmatic control via the returned controller
+dropdown.open('#my-dropdown');   // pass a selector (resolved inside root) or the element`;
 
 const apiRows: [string, string][] = [
   [".vd-dropdown", "Root container. Holds toggle + menu."],

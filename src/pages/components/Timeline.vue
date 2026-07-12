@@ -123,7 +123,7 @@ const playbackItems: Item[] = [
 const colorCls = (m?: string): string => (m ? `vd-timeline-${m}` : "");
 
 const vue3Wiring = `import { ref } from 'vue';
-import { useTimeline } from "@vanduo-oss/vue";
+import { useTimeline } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useTimeline(root);   // wires every .vd-timeline-animated inside root`;

@@ -1,145 +1,119 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useThemeStore } from "@/stores/theme";
+import { VdThemeSwitcher, useThemePreference } from "@vanduo-oss/vd3";
 import type { ThemeMode } from "@vanduo-oss/vd3";
 
-// The live demos drive the real global theme store, exactly like the docs
-// switcher (which toggles the whole site).
-const themeStore = useThemeStore();
-const cycle: ThemeMode[] = ["system", "light", "dark"];
-const icons: Record<string, string> = {
-  system: "ph-desktop",
-  light: "ph-sun",
-  dark: "ph-moon",
-};
-const current = computed(() => themeStore.theme);
-const currentIcon = computed(() => icons[current.value] ?? "ph-desktop");
-
-const menuOpen = ref(false);
-const pick = (value: ThemeMode): void => {
-  themeStore.setTheme(value);
-  menuOpen.value = false;
-};
-const cycleTheme = (): void => {
-  const i = cycle.indexOf(current.value as ThemeMode);
-  pick(cycle[(i + 1) % cycle.length] ?? "system");
-  menuOpen.value = false;
+// The live demos render the real VdThemeSwitcher, which drives the shared
+// useThemePreference() singleton — so picking a mode here re-themes the whole
+// page (and persists to localStorage), exactly like the navbar switcher.
+const theme = useThemePreference();
+const current = computed<ThemeMode>(() => theme.state.theme);
+const lastChange = ref<ThemeMode | null>(null);
+const onChange = (mode: ThemeMode): void => {
+  lastChange.value = mode;
 };
 
-const menuCodeHtml = `<!-- Icon menu (recommended for navbar) -->
-<div class="vd-theme-switcher vd-theme-switcher-menu-end" data-theme-ui="menu">
-  <button type="button" class="vd-theme-switcher-toggle"
-          aria-label="Theme: System" data-tooltip="Theme: System">
-    <i class="ph ph-desktop" data-theme-icon aria-hidden="true"></i>
-  </button>
-  <div class="vd-theme-switcher-menu" role="menu">
-    <button type="button" role="menuitemradio" data-theme-value="system"
-            data-tooltip="Use system preference" aria-checked="true">
-      <i class="ph ph-desktop" aria-hidden="true"></i>
-    </button>
-    <!-- ... light, dark -->
-  </div>
-</div>`;
+const usageVue = `<script setup lang="ts">
+import { VdThemeSwitcher } from "@vanduo-oss/vd3";
 
-const cycleCodeHtml = `<!-- Simple icon button -->
-<button class="vd-btn vd-btn-icon"
-        data-toggle="theme"
-        aria-label="Toggle theme">
-  <i class="ph ph-moon"></i>
-</button>
+const onChange = (mode: "system" | "light" | "dark") => {
+  console.log("theme changed:", mode);
+};
+<\/script>
 
-<!-- Button with label -->
-<button class="vd-btn vd-btn-secondary"
-        data-toggle="theme">
-  Theme: <span class="theme-current-label">System</span>
-</button>
+<template>
+  <!-- Icon menu (default) — recommended for navbars -->
+  <VdThemeSwitcher align="end" @change="onChange" />
+<\/template>`;
 
-<!-- Include the JS component -->
-<script src="js/components/theme-switcher.js"><\/script>`;
+const cycleVue = `<!-- Single button that cycles System -> Light -> Dark -->
+<VdThemeSwitcher :menu="false" />`;
 
-const selectCodeHtml = `<!-- Select dropdown -->
-<select class="vd-input" data-toggle="theme">
-  <option value="system">System</option>
-  <option value="light">Light</option>
-  <option value="dark">Dark</option>
-</select>`;
+const defaultsVue = `import { VanduoVue, setThemeDefaults } from "@vanduo-oss/vd3";
 
-const perThemeJs = `// Override defaults before init
-Object.assign(window.ThemeCustomizer.DEFAULTS, {
-  // Primary color in light mode
-  PRIMARY_LIGHT: 'black',
-  // Primary color in dark mode
-  PRIMARY_DARK: 'blue'
+// Option A — pass themeDefaults to the plugin once, at bootstrap:
+app.use(VanduoVue, {
+  themeDefaults: {
+    PRIMARY_LIGHT: "black",
+    PRIMARY_DARK: "blue",
+  },
 });
 
-// Initialize Vanduo
-Vanduo.init();`;
+// Option B — call the helper directly, before the theme first reads defaults:
+setThemeDefaults({ PRIMARY_DARK: "violet" });`;
 
-const programmaticVue3 = `import { useThemeStore } from '@/stores/theme';
-const theme = useThemeStore();
+const propsRows: [string, string, string][] = [
+  [
+    "menu",
+    "boolean",
+    "Icon-menu variant, recommended for navbars (default true). When false, a single cycling button is rendered.",
+  ],
+  [
+    "align",
+    '"start" | "end"',
+    'Menu alignment (default "start"). "end" aligns the dropdown to the toggle\'s trailing edge (adds .vd-theme-switcher-menu-end).',
+  ],
+];
 
-// Current preference: 'system' | 'light' | 'dark'
-theme.theme;
-
-// Set preference programmatically (persists + applies to <html>)
-theme.setTheme('dark');
-
-// Hydrate from storage + apply (call once in App.vue onMounted)
-theme.init();`;
-
-const compareRows: [string, boolean | string, boolean | string][] = [
-  ["Light/Dark/System mode", true, true],
-  ["Per-theme primary colors", "(follows system)", true],
-  ["Color palette selection", false, "(18 colors)"],
-  ["Neutral scale", false, "(5 options)"],
-  ["Border radius", false, true],
-  ["Font family", false, true],
-  ["File size", "~3KB", "~15KB"],
-  ["Use case", "Simple toggle", "Full customization"],
+const eventsRows: [string, string, string][] = [
+  [
+    "change",
+    'mode: "system" | "light" | "dark"',
+    "Emitted whenever the user selects (menu) or cycles to (button) a mode.",
+  ],
 ];
 
 const cssApi: [string, string, string][] = [
+  [".vd-theme-switcher", "Root wrapper for the icon-menu variant.", "Class"],
   [
     'data-theme-ui="menu"',
-    "On .vd-theme-switcher — enables icon menu variant (recommended for navbar).",
+    'Marks the menu variant; also .vd-theme-switcher-menu-end when align="end".',
     "Attribute",
   ],
   [
     ".vd-theme-switcher-toggle",
-    "Menu toggle button; icon synced via [data-theme-icon].",
+    "The toggle button (and the standalone cycle button when menu=false).",
+    "Class",
+  ],
+  [
+    ".vd-theme-switcher-menu",
+    'The role="menu" popup holding the three mode options.',
+    "Class",
+  ],
+  [
+    ".vd-theme-switcher-option",
+    'A single role="menuitemradio" option; .is-active marks the current mode.',
     "Class",
   ],
   [
     "[data-theme-value]",
-    "Menu option value: system, light, or dark.",
+    "Set on each option to its mode value: system, light, or dark.",
     "Attribute",
   ],
   [
-    "data-tooltip",
-    "Optional tooltips on toggle and menu options (requires Tooltips component).",
-    "Attribute",
-  ],
-  [
-    'data-toggle="theme"',
-    "Required attribute on button or select element to bind theme switching behavior.",
+    "[data-theme-icon]",
+    "Marks the toggle's Phosphor icon element that reflects the current mode.",
     "Attribute",
   ],
   [
     'data-theme="light|dark"',
-    "Applied to <html> element. Controls CSS variable overrides for dark/light mode. In system preference, this is set to the resolved light/dark value.",
+    "Applied to <html> by the theme layer. Drives the CSS variable overrides; removed for system preference.",
     "State Attribute",
   ],
-  [
-    ".theme-current-label",
-    "Class for span inside button to auto-update with current theme label (System, Light, Dark).",
-    "Utility Class",
-  ],
-  [
-    "data-theme-initialized",
-    "Added to elements after ThemeSwitcher binds events. Used for testing and debugging.",
-    "State Attribute",
-  ],
+];
+
+const compareRows: [string, boolean | string, boolean | string][] = [
+  ["Light / Dark / System mode", true, true],
+  ["Per-theme primary defaults", "(follows scheme)", true],
+  ["Palette selection (Open Color / Fibonacci)", false, "(via show-palette)"],
+  ["Primary color selection", false, "(18 colors)"],
+  ["Neutral scale", false, "(6 options)"],
+  ["Border radius", false, "(5 presets)"],
+  ["Font family", false, "(5 options)"],
+  ["Footprint", "Toggle only", "Full panel"],
+  ["Use case", "Quick toggle", "Full customization"],
 ];
 </script>
 
@@ -147,10 +121,14 @@ const cssApi: [string, string, string][] = [
   <section id="theme-switcher">
     <h5 class="demo-title"><i class="ph ph-moon"></i>Theme Switcher</h5>
     <p class="vd-mb-8">
-      The Theme Switcher is a lightweight component for toggling between light,
-      dark, and system color modes. Unlike the full Theme Customizer, it focuses
-      solely on the color mode toggle without additional customization options.
-      Perfect for when you need a simple dark mode button.
+      <strong>VdThemeSwitcher</strong> is a lightweight control for toggling
+      between light, dark, and system color modes. It drives the shared
+      <code>useThemePreference()</code> singleton, so it stays in sync with
+      <RouterLink to="/components/theme-customizer"
+        >VdThemeCustomizer</RouterLink
+      >
+      and persists to <code>localStorage</code>. Render it as an icon menu
+      (default) or a single cycling button.
     </p>
 
     <!-- Live Demo -->
@@ -160,80 +138,31 @@ const cssApi: [string, string, string][] = [
       </div>
       <div class="vd-card-body">
         <p class="vd-mb-5">
-          Try both variants — icon menu for navbars, cycle button for one-click
-          toggling:
+          These are real <code>&lt;VdThemeSwitcher&gt;</code> instances —
+          picking a mode re-themes this whole page:
         </p>
-        <div id="theme-switcher-demo" class="vd-row vd-mb-5">
-          <div class="vd-col-12 vd-col-md-6">
-            <p class="vd-text-sm vd-font-semibold vd-text-center vd-mb-3">
-              Icon Menu
+        <div class="vd-row vd-mb-5">
+          <div class="vd-col-12 vd-col-md-4 vd-text-center">
+            <p class="vd-text-sm vd-font-semibold vd-mb-3">
+              Icon Menu (default)
             </p>
-            <div class="theme-switcher-demo-strip">
-              <div class="theme-switcher-demo-slot">
-                <div
-                  class="vd-theme-switcher vd-theme-switcher-menu-end"
-                  :class="{ 'is-open': menuOpen }"
-                  data-theme-ui="menu"
-                >
-                  <button
-                    type="button"
-                    class="vd-theme-switcher-toggle"
-                    :aria-label="`Theme: ${current}`"
-                    @click="menuOpen = !menuOpen"
-                  >
-                    <i
-                      class="ph"
-                      :class="currentIcon"
-                      data-theme-icon
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <div
-                    class="vd-theme-switcher-menu"
-                    role="menu"
-                    :aria-hidden="!menuOpen"
-                  >
-                    <button
-                      v-for="opt in cycle"
-                      :key="opt"
-                      type="button"
-                      role="menuitemradio"
-                      :data-theme-value="opt"
-                      :aria-checked="current === opt"
-                      @click="pick(opt)"
-                    >
-                      <i class="ph" :class="icons[opt]" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <VdThemeSwitcher @change="onChange" />
           </div>
-          <div class="vd-col-12 vd-col-md-6">
-            <p class="vd-text-sm vd-font-semibold vd-text-center vd-mb-3">
-              Cycle Button
-            </p>
-            <div class="theme-switcher-demo-strip">
-              <div class="theme-switcher-demo-slot">
-                <button
-                  type="button"
-                  class="vd-theme-switcher-toggle"
-                  :aria-label="`Theme: ${current}`"
-                  @click="cycleTheme"
-                >
-                  <i
-                    class="ph"
-                    :class="currentIcon"
-                    data-theme-icon
-                    aria-hidden="true"
-                  ></i>
-                </button>
-              </div>
-            </div>
+          <div class="vd-col-12 vd-col-md-4 vd-text-center">
+            <p class="vd-text-sm vd-font-semibold vd-mb-3">Menu, align="end"</p>
+            <VdThemeSwitcher align="end" @change="onChange" />
+          </div>
+          <div class="vd-col-12 vd-col-md-4 vd-text-center">
+            <p class="vd-text-sm vd-font-semibold vd-mb-3">Cycle Button</p>
+            <VdThemeSwitcher :menu="false" @change="onChange" />
           </div>
         </div>
         <p class="vd-text-sm vd-text-muted vd-text-center">
           Current theme: <span class="vd-font-semibold">{{ current }}</span>
+          <template v-if="lastChange">
+            &nbsp;·&nbsp; last <code>@change</code>:
+            <span class="vd-font-semibold">{{ lastChange }}</span>
+          </template>
         </p>
       </div>
     </div>
@@ -241,28 +170,27 @@ const cssApi: [string, string, string][] = [
     <div class="vd-alert vd-alert-info vd-mb-8">
       <i class="ph ph-info"></i>
       <div>
-        <strong>Coordination with ThemeCustomizer:</strong> When both components
-        are present, they automatically stay in sync. Changing the theme via
-        ThemeSwitcher will also swap the primary color if you're using the
-        default per-theme colors (PRIMARY_LIGHT / PRIMARY_DARK).
+        <strong>Coordination with VdThemeCustomizer:</strong> both components
+        read and write the same <code>useThemePreference()</code> singleton, so
+        a mode change in either is immediately visible in the other. If the
+        primary color is still the auto default, switching modes re-derives it
+        for the new scheme (see <code>setThemeDefaults</code> below).
       </div>
     </div>
 
-    <!-- Variant code cards -->
+    <!-- Variant cards -->
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Icon Menu (Recommended)</h6></div>
           <div class="vd-card-body">
             <p>
-              Use the menu variant for navbars — toggle opens an icon-only
-              picker without changing theme until the user chooses:
+              The default variant. The toggle opens an icon-only picker; the
+              theme only changes once the user chooses an option — ideal for a
+              navbar. Use <code>align="end"</code> to hang the menu off the
+              toggle's trailing edge:
             </p>
-            <DocCodeSnippet :html="menuCodeHtml" />
-            <p class="vd-mt-5">
-              <strong>Try it:</strong> Use the theme switcher in the navbar or
-              the live demo above.
-            </p>
+            <DocCodeSnippet :html="usageVue" :default-open="true" />
           </div>
         </div>
       </div>
@@ -271,35 +199,26 @@ const cssApi: [string, string, string][] = [
           <div class="vd-card-header"><h6>Cycle Button</h6></div>
           <div class="vd-card-body">
             <p>
-              Add <code>data-toggle="theme"</code> to cycle System → Light →
-              Dark on each click:
+              Pass <code>:menu="false"</code> for a single button that cycles
+              System → Light → Dark on each click — best for minimal apps where
+              a one-click toggle beats a menu:
             </p>
-            <DocCodeSnippet :html="cycleCodeHtml" />
-            <p class="vd-mt-5">
-              <strong>Note:</strong> Cycle buttons change theme immediately on
-              each click — best for minimal one-click apps, not navbars where
-              accidental flashes matter.
+            <DocCodeSnippet :html="cycleVue" />
+            <p class="vd-mt-5 vd-text-sm vd-text-muted">
+              The cycle button changes the theme immediately on each click, so
+              it can flash between modes — prefer the menu in navbars.
             </p>
-          </div>
-        </div>
-      </div>
-      <div class="vd-col-12 vd-col-md-6">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Select Dropdown</h6></div>
-          <div class="vd-card-body">
-            <p>Use a select element for explicit theme selection:</p>
-            <DocCodeSnippet :html="selectCodeHtml" />
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Comparison + per-theme -->
+    <!-- Comparison + per-theme defaults -->
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header">
-            <h6>ThemeSwitcher vs ThemeCustomizer</h6>
+            <h6>VdThemeSwitcher vs VdThemeCustomizer</h6>
           </div>
           <div class="vd-card-body">
             <div class="vd-table-responsive">
@@ -307,8 +226,8 @@ const cssApi: [string, string, string][] = [
                 <thead>
                   <tr>
                     <th>Feature</th>
-                    <th>ThemeSwitcher</th>
-                    <th>ThemeCustomizer</th>
+                    <th>Switcher</th>
+                    <th>Customizer</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -321,10 +240,7 @@ const cssApi: [string, string, string][] = [
                       <template v-else-if="row[1] === false"
                         ><i class="ph ph-x vd-text-muted"></i
                       ></template>
-                      <template v-else
-                        ><i class="ph ph-x vd-text-muted"></i>
-                        {{ row[1] }}</template
-                      >
+                      <template v-else>{{ row[1] }}</template>
                     </td>
                     <td>
                       <template v-if="row[2] === true"
@@ -351,85 +267,132 @@ const cssApi: [string, string, string][] = [
       </div>
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Per-Theme Primary Colors</h6></div>
+          <div class="vd-card-header"><h6>Per-Theme Primary Defaults</h6></div>
           <div class="vd-card-body">
             <p>
-              When using ThemeCustomizer with ThemeSwitcher, you can define
-              different primary colors for light and dark modes:
+              The theme layer derives a default primary per scheme (<code
+                >PRIMARY_LIGHT</code
+              >
+              / <code>PRIMARY_DARK</code>). Override them at bootstrap so
+              switching modes swaps the accent automatically:
             </p>
-            <DocCodeSnippet :js="perThemeJs" />
+            <DocCodeSnippet :js="defaultsVue" />
             <p class="vd-mt-5 vd-text-sm vd-text-muted">
-              When the user switches themes, the primary color automatically
-              changes if they're using the default. If they've manually selected
-              a color, it stays unchanged.
+              While the primary is still one of these defaults, switching modes
+              re-derives it. Once a user picks a specific color in the
+              customizer, it sticks across mode changes.
             </p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- JS API -->
-    <h4 id="api" class="docs-heading">JavaScript API</h4>
-    <div class="vd-row">
-      <div class="vd-col-12 vd-col-md-6">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Programmatic Control</h6></div>
-          <div class="vd-card-body">
-            <DocCodeSnippet :js="programmaticVue3" :default-open="true" />
-          </div>
-        </div>
+    <!-- API Reference -->
+    <div class="vd-card vd-card-glow demo-card">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-list-dashes mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i
+          >API Reference
+        </h6>
       </div>
-      <div class="vd-col-12 vd-col-md-6">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>localStorage Key</h6></div>
-          <div class="vd-card-body">
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Key</th>
-                    <th>Default</th>
-                    <th>Values</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>vanduo-theme-preference</code></td>
-                    <td><code>system</code></td>
-                    <td>system, light, dark</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <p class="vd-mt-5 vd-text-sm vd-text-muted">
-              The preference is automatically saved and restored on page load.
-            </p>
-          </div>
+      <div class="vd-card-body">
+        <h4>Props</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th style="width: 20%">Prop</th>
+                <th style="width: 28%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in propsRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>
+                  <code>{{ row[1] }}</code>
+                </td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-    </div>
 
-    <!-- CSS API -->
-    <h4 class="docs-heading">CSS API</h4>
-    <div class="vd-table-responsive" style="margin-bottom: 3rem">
-      <table class="vd-table vd-table-hover">
-        <thead>
-          <tr>
-            <th style="width: 25%">Attribute</th>
-            <th style="width: 55%">Description</th>
-            <th style="width: 20%">Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in cssApi" :key="row[0]">
-            <td>
-              <code>{{ row[0] }}</code>
-            </td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-          </tr>
-        </tbody>
-      </table>
+        <h4 class="vd-mt-6">Events</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th style="width: 20%">Event</th>
+                <th style="width: 28%">Payload</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in eventsRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>
+                  <code>{{ row[1] }}</code>
+                </td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="vd-mt-6">CSS API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 28%">Class / Attribute</th>
+                <th style="width: 52%">Description</th>
+                <th style="width: 20%">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in cssApi" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="vd-mt-6">localStorage Key</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Default</th>
+                <th>Values</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>vanduo-theme-preference</code></td>
+                <td><code>system</code></td>
+                <td>system, light, dark</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="vd-mt-4 vd-text-sm vd-text-muted">
+          The preference is persisted by the theme singleton and restored on the
+          next load.
+        </p>
+      </div>
     </div>
 
     <!-- Best practices -->
@@ -439,14 +402,13 @@ const cssApi: [string, string, string][] = [
         <div class="vd-card demo-card">
           <div class="vd-card-body">
             <h4>
-              <i class="ph ph-check-circle vd-text-success"></i> Use
-              ThemeSwitcher when...
+              <i class="ph ph-check-circle vd-text-success"></i> Use the
+              Switcher when…
             </h4>
             <ul class="vd-mt-4">
-              <li>You only need light/dark toggle</li>
-              <li>File size is critical</li>
-              <li>Quick integration needed</li>
+              <li>You only need a light/dark/system toggle</li>
               <li>Navbar space is limited</li>
+              <li>Quick integration matters most</li>
             </ul>
           </div>
         </div>
@@ -455,14 +417,13 @@ const cssApi: [string, string, string][] = [
         <div class="vd-card demo-card">
           <div class="vd-card-body">
             <h4>
-              <i class="ph ph-check-circle vd-text-success"></i> Use
-              ThemeCustomizer when...
+              <i class="ph ph-check-circle vd-text-success"></i> Use the
+              Customizer when…
             </h4>
             <ul class="vd-mt-4">
-              <li>Users need color customization</li>
-              <li>You want per-theme primary colors</li>
-              <li>Font/radius customization needed</li>
-              <li>Building a theme-aware app</li>
+              <li>Users need color / neutral choices</li>
+              <li>Radius and font customization matter</li>
+              <li>You're building a theme-aware app</li>
             </ul>
           </div>
         </div>
@@ -471,14 +432,12 @@ const cssApi: [string, string, string][] = [
         <div class="vd-card demo-card">
           <div class="vd-card-body">
             <h4>
-              <i class="ph ph-check-circle vd-text-success"></i> Use Both
-              when...
+              <i class="ph ph-check-circle vd-text-success"></i> Use both when…
             </h4>
             <ul class="vd-mt-4">
-              <li>Quick toggle in navbar</li>
-              <li>Full panel in settings</li>
-              <li>Auto-coordination provided</li>
-              <li>Best of both worlds</li>
+              <li>Quick toggle lives in the navbar</li>
+              <li>Full panel lives in settings</li>
+              <li>They coordinate through one singleton</li>
             </ul>
           </div>
         </div>

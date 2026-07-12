@@ -7,7 +7,7 @@ const root = ref<HTMLElement | null>(null);
 useSearch(root);
 
 const vue3Wiring = `import { ref, onMounted } from 'vue';
-import { useSearch } from "@vanduo-oss/vue";
+import { useSearch } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useSearch(root);
@@ -15,18 +15,16 @@ useSearch(root);
 // Sources are registered app-wide (see src/stores/search.ts). The composable
 // just touches the global so it warms up alongside an overlay component.`;
 
+// `const registry = useSearch()` returns the process-wide registry below.
 const apiRows: [string, string][] = [
   [
-    "VanduoSearch.register(source)",
+    "registry.register(source)",
     "Add a source. Throws on duplicate name, missing name, or missing fetch.",
   ],
+  ["registry.unregister(name)", "Remove a source by name. Returns boolean."],
+  ["registry.list()", "Returns a frozen array of registered sources."],
   [
-    "VanduoSearch.unregister(name)",
-    "Remove a source by name. Returns boolean.",
-  ],
-  ["VanduoSearch.list()", "Returns a frozen array of registered sources."],
-  [
-    "VanduoSearch.query(text, options?)",
+    "registry.query(text, options?)",
     "Runs every source in parallel and resolves to { text, sources[] }.",
   ],
 ];
@@ -47,8 +45,12 @@ interface Result {
   icon?: string;
 }`;
 
-const registerHtml = `// One-time registration (e.g. in main.ts)
-VanduoSearch.register({
+const registerHtml = `// One-time registration (e.g. in a Pinia store or app setup)
+import { useSearch } from "@vanduo-oss/vd3";
+
+const registry = useSearch();  // the process-wide search registry
+
+registry.register({
   name: 'sections',
   label: 'Documentation Sections',
   icon: 'ph-book-open',
@@ -62,7 +64,7 @@ VanduoSearch.register({
   }
 });
 
-VanduoSearch.register({
+registry.register({
   name: 'guides',
   label: 'Guides',
   fetch: async (query) => { /* … */ }
@@ -74,8 +76,8 @@ VanduoSearch.register({
     <h5 class="demo-title"><i class="ph ph-magnifying-glass"></i>Search</h5>
     <p class="vd-mb-8">
       The framework ships a small registry for plugging named data sources into
-      a search overlay. The framework does NOT ship a UI — overlays like vd2's
-      <code>GlobalSearchModal</code> consume the registry. Sources can be local
+      a search overlay. The package does NOT ship a UI — overlays (e.g. a
+      global search modal) consume the registry. Sources can be local
       arrays, fetched JSON, or any async provider.
     </p>
 
@@ -163,7 +165,7 @@ VanduoSearch.register({
               <li>
                 Use <kbd>↑</kbd>/<kbd>↓</kbd> for navigation,
                 <kbd>Enter</kbd> for selection, <kbd>Esc</kbd> to close —
-                consistent with the vd2 overlay pattern.
+                consistent with a typical command-palette pattern.
               </li>
               <li>
                 Abort in-flight queries on input change so stale results don't

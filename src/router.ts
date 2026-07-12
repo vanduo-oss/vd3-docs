@@ -62,6 +62,7 @@ import TimelinePage from "@/pages/components/Timeline.vue";
 import DraggablePage from "@/pages/interactive/Draggable.vue";
 import ImageBoxPage from "@/pages/media/ImageBox.vue";
 import PopoverPage from "@/pages/components/Popover.vue";
+import DocSearchPage from "@/pages/components/DocSearch.vue";
 import SearchPage from "@/pages/interactive/Search.vue";
 import TemplatePage from "@/pages/components/Template.vue";
 import NavigationPage from "@/pages/components/Navigation.vue";
@@ -72,9 +73,7 @@ import ThemeCustomizerPage from "@/pages/components/ThemeCustomizer.vue";
 import GettingStartedPage from "@/pages/guides/GettingStarted.vue";
 import FirstLayoutPage from "@/pages/guides/FirstLayout.vue";
 import FrameworkIntegrationPage from "@/pages/guides/FrameworkIntegration.vue";
-import EsmVsIifePage from "@/pages/guides/EsmVsIife.vue";
 import RuntimeArchitecturePage from "@/pages/guides/RuntimeArchitecture.vue";
-import LifecycleManagerPage from "@/pages/guides/LifecycleManager.vue";
 import LazyLoadingPage from "@/pages/guides/LazyLoading.vue";
 import CssVariablesPage from "@/pages/guides/CssVariables.vue";
 import ThemeCustomizerGuidePage from "@/pages/guides/ThemeCustomizerGuide.vue";
@@ -152,6 +151,7 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   draggable: DraggablePage,
   "image-box": ImageBoxPage,
   popover: PopoverPage,
+  "doc-search": DocSearchPage,
   search: SearchPage,
   template: TemplatePage,
   navigation: NavigationPage,
@@ -170,9 +170,7 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   "getting-started": GettingStartedPage,
   "first-layout": FirstLayoutPage,
   "framework-integration": FrameworkIntegrationPage,
-  "esm-vs-iife": EsmVsIifePage,
   "runtime-architecture": RuntimeArchitecturePage,
-  "lifecycle-manager": LifecycleManagerPage,
   "lazy-loading": LazyLoadingPage,
   "css-variables": CssVariablesPage,
   "theme-customizer-guide": ThemeCustomizerGuidePage,

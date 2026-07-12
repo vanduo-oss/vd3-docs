@@ -3,14 +3,14 @@ import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdCustomSelect, VdInput } from "@vanduo-oss/vd3";
 
-// VdInput component demo state (new ergonomics in @vanduo-oss/vue 0.3.0).
+// VdInput component demo state (new ergonomics in @vanduo-oss/vd3 0.3.0).
 const fullName = ref("Ada Lovelace");
 const emailField = ref("ada@");
 const amount = ref<string | number>(42);
 const handle = ref("");
 
 const vue3InputUsage = `<script setup lang="ts">
-import { VdInput } from "@vanduo-oss/vue";
+import { VdInput } from "@vanduo-oss/vd3";
 const email = ref("");
 const amount = ref(0);
 <\/script>
@@ -50,7 +50,7 @@ const vdInputApi: [string, string][] = [
 // The custom-select is the one input with engine-specific wiring (plain inputs
 // are pure CSS and identical across engines).
 const vue3CustomSelect = `<script setup lang="ts">
-import { VdCustomSelect } from "@vanduo-oss/vue";
+import { VdCustomSelect } from "@vanduo-oss/vd3";
 const value = ref('');
 const options = [{ value: '1', label: 'Option 1' }];
 <\/script>
@@ -244,7 +244,7 @@ const classRef: [string, string, string][] = [
       </div>
     </div>
 
-    <!-- VdInput component (new ergonomics in @vanduo-oss/vue 0.3.0) -->
+    <!-- VdInput component (new ergonomics in @vanduo-oss/vd3 0.3.0) -->
     <div class="vd-row">
       <div class="vd-col-12">
         <div id="demo-form-vd-input" class="vd-card vd-card-glow demo-card">

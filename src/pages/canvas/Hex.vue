@@ -441,12 +441,12 @@ watch(pathMode, (on) => {
   }
 });
 
-const installShell = `pnpm add @vanduo-oss/hex-grid`;
+const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
 
 const vue3Usage = `<script setup lang="ts">
 import { ref } from 'vue';
-import { VdHexGrid } from '@vanduo-oss/hex-grid/vue';
-import { TerrainType } from '@vanduo-oss/hex-grid/hex-math';
+import { VdHexGrid } from '@vanduo-oss/vd3-cbun/hex-grid';
+import { TerrainType } from '@vanduo-oss/vd3-cbun/hex-grid/hex-math';
 
 const size = ref(30);
 const width = ref(15);
@@ -473,7 +473,7 @@ const onSelect = (hex) => console.log('Selected', hex.q, hex.r);
 </template>`;
 
 const mathUsage = `// Pure axial math — no canvas, no DOM, no Vue.
-import { hexDistance, getAdjacentHexes, TerrainType } from '@vanduo-oss/hex-grid/hex-math';
+import { hexDistance, getAdjacentHexes, TerrainType } from '@vanduo-oss/vd3-cbun/hex-grid/hex-math';
 
 hexDistance(0, 0, 2, -1); // → 2
 getAdjacentHexes(0, 0);   // → 6 neighbors`;
@@ -501,8 +501,9 @@ const events: [string, string][] = [
       <strong>Vanduo Hex Grid</strong> is a standalone, canvas-rendered axial
       hex grid, installed separately from the framework. Pan, zoom, select
       hexes, and attach terrain or custom data. It reads Vanduo theme tokens,
-      ships a pure <code>@vanduo-oss/hex-grid/hex-math</code> subexport, and an
-      optional Vue 3 binding (<code>@vanduo-oss/hex-grid/vue</code>) used here.
+      ships a pure <code>@vanduo-oss/vd3-cbun/hex-grid/hex-math</code>
+      subexport, and an optional Vue 3 binding
+      (<code>@vanduo-oss/vd3-cbun/hex-grid</code>) used here.
     </p>
 
     <div class="vd-row vd-mb-6">

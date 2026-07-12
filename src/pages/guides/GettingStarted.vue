@@ -36,19 +36,19 @@ const nextLinks = [
 // ── Vue 3 path ──────────────────────────────────────────────
 const scaffoldShell = `pnpm create vite my-app --template vue-ts
 cd my-app
-pnpm add @vanduo-oss/vue`;
+pnpm add @vanduo-oss/vd3`;
 
-const mainJs = `// main.ts — register VD2 and its styles
+const mainJs = `// main.ts — register Vanduo and its styles
 import { createApp } from 'vue';
-import { VanduoVue } from '@vanduo-oss/vue';
-import '@vanduo-oss/vue/css';
+import { VanduoVue } from '@vanduo-oss/vd3';
+import '@vanduo-oss/vd3/css';
 import App from './App.vue';
 
 createApp(App).use(VanduoVue).mount('#app');`;
 
-const pageHtml = `<!-- App.vue — import VD2 components and compose -->
+const pageHtml = `<!-- App.vue — import Vanduo components and compose -->
 <script setup lang="ts">
-import { VdCard, VdButton } from '@vanduo-oss/vue';
+import { VdCard, VdButton } from '@vanduo-oss/vd3';
 <\/script>
 
 <template>
@@ -67,10 +67,9 @@ import { VdCard, VdButton } from '@vanduo-oss/vue';
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      Get a Vanduo-styled page running in a few minutes. The same design system
-      ships two ways — pick yours with the engine toggle in the sidebar:
-      <strong>Vue 3</strong> (Vite + components) or <strong>Vanilla</strong>
-      (drop-in CSS/JS, no build step).
+      Get a Vanduo-styled page running in a few minutes with
+      <strong>Vue 3</strong> — a Vite project plus first-class, tree-shakeable
+      components.
     </p>
 
     <div class="vd-row vd-mb-6">
@@ -93,7 +92,7 @@ import { VdCard, VdButton } from '@vanduo-oss/vue';
         <div class="vd-card demo-card">
           <div class="vd-card-header">
             <h6>
-              <i class="ph ph-number-circle-two"></i> Register VD2 &amp; its
+              <i class="ph ph-number-circle-two"></i> Register Vanduo &amp; its
               styles
             </h6>
           </div>
@@ -119,7 +118,7 @@ import { VdCard, VdButton } from '@vanduo-oss/vue';
           <div class="vd-card-body">
             <p>
               Import <code>Vd*</code> components from
-              <code>@vanduo-oss/vue</code> — typed, tree-shakeable, ready to
+              <code>@vanduo-oss/vd3</code> — typed, tree-shakeable, ready to
               use:
             </p>
             <DocCodeSnippet :html="pageHtml" :default-open="true" />

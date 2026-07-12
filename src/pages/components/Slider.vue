@@ -49,7 +49,7 @@ const cssClasses: [string, string][] = [
 ];
 
 const vue3Usage = `<script setup lang="ts">
-import { VdSlider } from "@vanduo-oss/vue";
+import { VdSlider } from "@vanduo-oss/vd3";
 const volume = ref(60);
 <\/script>
 
@@ -75,8 +75,8 @@ const vue3Api: [string, string][] = [
     <p class="vd-mb-5">
       <strong>VdSlider</strong> styles a native
       <code>&lt;input type="range"&gt;</code> with a themed track, fill and
-      thumb. It's CSS-only in the Vanilla engine and binds with
-      <code>v-model</code> (numbers) in Vue&nbsp;3 — with optional label and
+      thumb. It renders from pure CSS and binds with
+      <code>v-model</code> (numbers) — with optional label and
       live value read-out.
     </p>
 

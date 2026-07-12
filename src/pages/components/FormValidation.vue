@@ -7,7 +7,7 @@ const root = ref<HTMLElement | null>(null);
 useValidate(root);
 
 const vue3Wiring = `import { ref } from 'vue';
-import { useValidate } from "@vanduo-oss/vue";
+import { useValidate } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useValidate(root);   // wires [data-vd-validate] forms inside root; cleanup on unmount`;
@@ -69,7 +69,13 @@ const modesHtml = `<!-- Form-level mode: blur -->
 
 </form>`;
 
-const customRuleJs = `VanduoValidate.addRule(
+const customRuleJs = `import { ref } from 'vue';
+import { useValidate } from "@vanduo-oss/vd3";
+
+const root = ref<HTMLElement | null>(null);
+const { addRule } = useValidate(root);
+
+addRule(
   'noSpaces',
   (value) => !/\\s/.test(value),
   'Value must not contain spaces'
@@ -129,7 +135,7 @@ const noop = (e: Event): void => e.preventDefault();
       <i class="ph ph-shield-check"></i>Form Validation
     </h5>
     <p class="vd-mb-5">
-      The <strong>VanduoValidate</strong> component provides declarative,
+      The <strong>useValidate</strong> composable provides declarative,
       attribute-driven form validation. Chain rules with pipe syntax
       (<code>required|email|min:3</code>), choose when validation triggers, and
       customise every error message — all without writing JavaScript.

@@ -27,7 +27,7 @@ const sortItems = [
 ];
 
 const vue3Wiring = `import { ref } from 'vue';
-import { useDraggable } from "@vanduo-oss/vue";
+import { useDraggable } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useDraggable(root);   // wires .vd-draggable / containers / drop-zones inside root`;

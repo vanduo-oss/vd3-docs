@@ -54,7 +54,7 @@ const cssClasses: [string, string][] = [
 ];
 
 const vue3Usage = `<script setup lang="ts">
-import { VdSwitch } from "@vanduo-oss/vue";
+import { VdSwitch } from "@vanduo-oss/vd3";
 const wifi = ref(true);
 <\/script>
 
@@ -80,9 +80,9 @@ const vue3Api: [string, string][] = [
     <h5 class="demo-title"><i class="ph ph-toggle-right"></i>Switch</h5>
     <p class="vd-mb-5">
       <strong>VdSwitch</strong> is an accessible on/off toggle built on a native
-      checkbox with <code>role="switch"</code>. It needs no JavaScript in the
-      Vanilla engine — just the <code>.vd-form-switch</code> markup — and binds
-      with <code>v-model</code> in Vue&nbsp;3.
+      checkbox with <code>role="switch"</code>. It needs no JavaScript — just
+      the <code>.vd-form-switch</code> markup — and binds
+      with <code>v-model</code>.
     </p>
 
     <div class="vd-row">

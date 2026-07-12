@@ -7,7 +7,7 @@
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
-import { VdCodeSnippet } from "@vanduo-oss/vue";
+import { VdCodeSnippet } from "@vanduo-oss/vd3";
 const code = "const x = 1;";
 <\/script>
 
@@ -38,11 +38,11 @@ const demoCss = `.my-element {
   border-radius: var(--vd-radius-fib-5);
 }`;
 
-const demoJs = `VanduoCodeSnippet.init();
+const demoJs = `import { VdCodeSnippet } from "@vanduo-oss/vd3";
 
-document.addEventListener('codesnippet:toggle', (e) => {
-  console.log('expanded:', e.detail.expanded);
-});`;
+const code = "const x = 1;";
+// Render a highlighted, copyable block — no init call needed:
+// <VdCodeSnippet :code="code" language="javascript" />`;
 
 const classRows: [string, string][] = [
   [
@@ -99,12 +99,12 @@ const attrRows: [string, string][] = [
 
 const jsRows: [string, string][] = [
   [
-    "VanduoCodeSnippet.init(root)",
-    "Scans root for .vd-code-snippet blocks and wires toggle, tabs, and copy.",
+    "<VdCodeSnippet>",
+    "Self-contained Vue 3 component — highlights and (optionally) copies code. No init call or global runtime is required.",
   ],
   [
-    "codesnippet:toggle",
-    "Event fired on the snippet when expanded/collapsed. detail.expanded is a boolean.",
+    ".vd-code-snippet markup",
+    "The collapsible “View Code” block is plain markup plus your own toggle logic (this site's DocCodeSnippet wraps it in Vue); vd3 ships no auto-init for it.",
   ],
 ];
 </script>
@@ -243,12 +243,12 @@ const jsRows: [string, string][] = [
               </table>
             </div>
 
-            <h4 class="vd-mt-6">JavaScript &amp; Events</h4>
+            <h4 class="vd-mt-6">Runtime notes</h4>
             <div class="vd-table-responsive">
               <table class="vd-table vd-table-striped">
                 <thead>
                   <tr>
-                    <th>Method / Event</th>
+                    <th>Surface</th>
                     <th>Description</th>
                   </tr>
                 </thead>

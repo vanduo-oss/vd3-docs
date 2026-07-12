@@ -80,7 +80,7 @@ const colorCards: ColorCard[] = [
 ];
 
 const vue3Wiring = `import { ref } from 'vue';
-import { useExpandingCards } from "@vanduo-oss/vue";
+import { useExpandingCards } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useExpandingCards(root);   // wires every [data-vd-expanding-cards] inside root`;

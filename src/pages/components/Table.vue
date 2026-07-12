@@ -2,7 +2,7 @@
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
-import { VdTable } from "@vanduo-oss/vue";
+import { VdTable } from "@vanduo-oss/vd3";
 const columns = [
   { key: "name", label: "Name" },
   { key: "status", label: "Status", variant: "success" },

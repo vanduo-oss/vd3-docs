@@ -7,7 +7,7 @@ const root = ref<HTMLElement | null>(null);
 useRipple(root);
 
 const vue3Wiring = `import { ref } from 'vue';
-import { useRipple } from "@vanduo-oss/vue";
+import { useRipple } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useRipple(root);   // wires every .vd-ripple inside root; cleanup on unmount`;

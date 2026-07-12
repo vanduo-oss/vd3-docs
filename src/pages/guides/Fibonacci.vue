@@ -125,7 +125,7 @@ const relatedComponents = [
       (1, 2, 3, 5, 8, 13, 21…) instead of a linear 4/8px grid. Because each step
       is the sum of the two before it, sizes relate to one another the way they
       do in nature — rhythm that feels balanced without manual tuning. It's a
-      design philosophy, so it is identical across both engines.
+      design philosophy baked into the tokens themselves, not any one component.
     </p>
 
     <!-- What is the sequence -->

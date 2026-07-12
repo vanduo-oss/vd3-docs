@@ -28,7 +28,7 @@
             <div class="vd-card-body">
               <h3><i class="ph ph-seal-check"></i> Sponsorship</h3>
               <p>
-                Vanduo Framework was selected for the
+                Vanduo UI was selected for the
                 <strong>Kilo Open Source Sponsorship Program</strong> at the
                 <strong>Seed tier</strong>.
               </p>

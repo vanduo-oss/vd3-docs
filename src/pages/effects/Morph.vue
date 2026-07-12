@@ -10,8 +10,8 @@ useMorphBadges(root);
 
 // Engine-specific wiring (the markup and classes are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useMorph } from "@vanduo-oss/vue";
-import { useMorphBadges } from "@vanduo-oss/vue";
+import { useMorph } from "@vanduo-oss/vd3";
+import { useMorphBadges } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useMorph(root);        // auto wave/shine + current⇄next swap

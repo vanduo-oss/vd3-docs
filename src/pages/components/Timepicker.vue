@@ -8,7 +8,7 @@ useTimepicker(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useTimepicker } from "@vanduo-oss/vue";
+import { useTimepicker } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useTimepicker(root);   // wires [data-vd-timepicker] inside root; cleanup on unmount
@@ -85,9 +85,10 @@ const events: [string, string][] = [
   <section id="timepicker" ref="root">
     <h5 class="demo-title"><i class="ph ph-clock"></i>Timepicker</h5>
     <p class="vd-mb-5">
-      The <strong>VanduoTimepicker</strong> component adds a scrollable
+      The <strong>timepicker</strong> adds a scrollable
       time-selection dropdown to any text input. Choose between 12-hour and
-      24-hour formats, and configure the minute step interval.
+      24-hour formats, and configure the minute step interval. Wired with
+      <code>useTimepicker</code>.
     </p>
 
     <div class="vd-row" style="margin-bottom: var(--vd-grid-gutter)">

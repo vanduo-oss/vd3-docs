@@ -1,101 +1,70 @@
-<div style="padding: 3rem 0;">
-    <div class="vd-container-responsive" style="max-width: 1200px;">
-
-        <!-- ═══════════════════════════════════════════════ -->
-        <!-- @vanduo-oss/vue 0.2.0                           -->
-        <!-- ═══════════════════════════════════════════════ -->
-        <article class="version-card">
-            <header class="version-header">
-                <span class="vd-badge vd-badge-primary" style="font-size: 1rem; padding: 0.5rem 1rem;">v0.2.0</span>
-                <span style="color: var(--vd-text-secondary); font-size: 0.95rem;">
-                    <i class="ph ph-calendar mr-1"></i>June 2026
-                </span>
-            </header>
-            <div class="version-body">
-                <div class="vd-row">
-                    <div class="vd-col-12">
-                        <h4><i class="ph ph-atom mr-2" style="color: var(--vd-color-primary);"></i>@vanduo-oss/vue</h4>
-                        <div class="change-group">
-                            <h5>Changed</h5>
-                            <ul class="change-list">
-                                <li class="change-item">
-                                    <i class="ph ph-palette" style="color: var(--vd-color-primary);"></i>
-                                    <div>
-                                        <strong>Decoupled theme defaults from the docs site</strong>
-                                        <p>The package now ships the generic Vanduo baseline from <code>@vanduo-oss/core</code> instead of baking in the vd2 site override (<code>PRIMARY_DARK: "blue"</code>). Apps supply their own overrides via <code>setThemeDefaults()</code>, or <code>app.use(VanduoVue, { themeDefaults })</code>.</p>
-                                    </div>
-                                </li>
-                                <li class="change-item">
-                                    <i class="ph ph-plus-circle" style="color: var(--vd-color-info);"></i>
-                                    <div>
-                                        <strong>Theme defaults API</strong>
-                                        <p>Added <code>setThemeDefaults(overrides)</code>, <code>getThemeDefaults()</code>, and the <code>ThemeDefaults</code> type. <code>VanduoVue</code> accepts a <code>themeDefaults</code> option.</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="change-group">
-                            <h5>Breaking</h5>
-                            <ul class="change-list">
-                                <li class="change-item">
-                                    <i class="ph ph-warning" style="color: var(--vd-color-warning);"></i>
-                                    <div>
-                                        <strong>Baked-in dark primary removed</strong>
-                                        <p>Consumers that relied on the default <code>PRIMARY_DARK: "blue"</code> must pass <code>{ themeDefaults: { PRIMARY_DARK: "blue" } }</code> to restore it. The internal <code>DEFAULTS</code> export was removed — use <code>getThemeDefaults()</code>.</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+<div style="padding: 3rem 0">
+  <div class="vd-container-responsive" style="max-width: 1200px">
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- @vanduo-oss/vd3-cbun 0.1.0 (scaffold)           -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <article class="version-card">
+      <header class="version-header version-initial">
+        <span
+          class="vd-badge vd-badge-success"
+          style="font-size: 1rem; padding: 0.5rem 1rem"
+          >v0.1.0</span
+        >
+        <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+          <i class="ph ph-calendar mr-1"></i>June 2026
+        </span>
+        <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+          >Initial scaffold</span
+        >
+      </header>
+      <div class="version-body">
+        <div class="vd-row">
+          <div class="vd-col-12">
+            <h4>
+              <i
+                class="ph ph-package mr-2"
+                style="color: var(--vd-color-primary)"
+              ></i
+              >@vanduo-oss/vd3-cbun
+            </h4>
+            <div class="change-group">
+              <h5>New</h5>
+              <ul class="change-list">
+                <li class="change-item">
+                  <i class="ph ph-cube" style="color: var(--vd-color-info)"></i>
+                  <div>
+                    <strong>Bundle scaffold</strong>
+                    <p>
+                      Package metadata with the full subpath-exports contract
+                      (<code>/charts</code>, <code>/flowchart</code>,
+                      <code>/hex-grid</code>, <code>/music-player</code>), a
+                      hardened pnpm install policy, and the Phase-0 esbuild
+                      harness.
+                    </p>
+                  </div>
+                </li>
+                <li class="change-item">
+                  <i
+                    class="ph ph-list-numbers"
+                    style="color: var(--vd-color-primary)"
+                  ></i>
+                  <div>
+                    <strong>Per-component version manifest</strong>
+                    <p>
+                      <code>component-versions.json</code> pins charts
+                      <code>1.0.0</code>, flowchart <code>1.2.0</code>, hex-grid
+                      <code>1.0.0</code>, and music-player <code>1.0.0</code>,
+                      asserted against the exported
+                      <code>VD3_CBUN_VERSIONS</code> map by a
+                      version-consistency test.
+                    </p>
+                  </div>
+                </li>
+              </ul>
             </div>
-        </article>
-
-        <!-- ═══════════════════════════════════════════════ -->
-        <!-- @vanduo-oss/vue 0.1.0                           -->
-        <!-- ═══════════════════════════════════════════════ -->
-        <article class="version-card">
-            <header class="version-header version-initial">
-                <span class="vd-badge vd-badge-success" style="font-size: 1rem; padding: 0.5rem 1rem;">v0.1.0</span>
-                <span style="color: var(--vd-text-secondary); font-size: 0.95rem;">
-                    <i class="ph ph-calendar mr-1"></i>June 2026
-                </span>
-                <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem;">Initial Release</span>
-            </header>
-            <div class="version-body">
-                <div class="vd-row">
-                    <div class="vd-col-12">
-                        <h4><i class="ph ph-atom mr-2" style="color: var(--vd-color-primary);"></i>@vanduo-oss/vue</h4>
-                        <div class="change-group">
-                            <h5>New</h5>
-                            <ul class="change-list">
-                                <li class="change-item">
-                                    <i class="ph ph-star" style="color: var(--vd-color-warning);"></i>
-                                    <div>
-                                        <strong>Initial Vue 3 component library</strong>
-                                        <p>41 <code>Vd*</code> components (including 7 layout primitives) and 30 composables, extracted from the docs app and published as <code>@vanduo-oss/vue</code>.</p>
-                                    </div>
-                                </li>
-                                <li class="change-item">
-                                    <i class="ph ph-plug" style="color: var(--vd-color-info);"></i>
-                                    <div>
-                                        <strong>VanduoVue plugin</strong>
-                                        <p><code>app.use(VanduoVue)</code> plus <code>loadVanduoRuntime()</code> to bootstrap the framework's client-side JS engine alongside Vue.</p>
-                                    </div>
-                                </li>
-                                <li class="change-item">
-                                    <i class="ph ph-file-css" style="color: var(--vd-color-primary);"></i>
-                                    <div>
-                                        <strong>CSS entry point</strong>
-                                        <p><code>@vanduo-oss/vue/css</code> forwards the Vanduo stylesheet for drop-in styling.</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-    </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
 </div>

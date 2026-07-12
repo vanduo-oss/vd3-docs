@@ -6,7 +6,7 @@ import LaunchCustomizerButton from "@/components/LaunchCustomizerButton.vue";
 const morphFlipped = ref(false);
 
 const vue3Usage = `<script setup lang="ts">
-import { VdCard } from "@vanduo-oss/vue";
+import { VdCard } from "@vanduo-oss/vd3";
 <\/script>
 
 <template>

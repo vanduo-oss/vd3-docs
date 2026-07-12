@@ -7,7 +7,7 @@ const root = ref<HTMLElement | null>(null);
 useFlow(root);
 
 const vue3Wiring = `import { ref } from 'vue';
-import { useFlow } from "@vanduo-oss/vue";
+import { useFlow } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useFlow(root);   // wires every .vd-flow inside root; cleanup on unmount

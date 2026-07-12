@@ -69,10 +69,10 @@ const seedDoc = {
   ],
 };
 
-const installShell = `pnpm add @vanduo-oss/flowchart`;
+const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
 
 const vue3Usage = `<script setup lang="ts">
-import { VdFlowchart } from '@vanduo-oss/flowchart/vue';
+import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';
 
 const doc = {
   nodes: [{ id: 'a', type: 'rounded-rect', x: 80, y: 80, text: 'Step' }],
@@ -123,7 +123,7 @@ const events: [string, string][] = [
       <strong>Vanduo Flowchart</strong> is a standalone SVG flowchart editor,
       installed separately from the framework. Drag from the palette, connect
       ports, edit text inline, and export/import JSON. It ships an optional Vue
-      3 binding (<code>@vanduo-oss/flowchart/vue</code>) used here.
+      3 binding (<code>@vanduo-oss/vd3-cbun/flowchart</code>) used here.
     </p>
 
     <div class="vd-card demo-card vd-mb-6">

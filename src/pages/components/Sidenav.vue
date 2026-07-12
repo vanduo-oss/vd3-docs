@@ -8,7 +8,7 @@ useSidenav(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useSidenav } from "@vanduo-oss/vue";
+import { useSidenav } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useSidenav(root);   // wires [data-sidenav-toggle] triggers; cleanup on unmount`;

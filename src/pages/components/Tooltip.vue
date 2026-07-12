@@ -8,7 +8,7 @@ useTooltips(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useTooltips } from "@vanduo-oss/vue";
+import { useTooltips } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useTooltips(root);   // wires [data-tooltip] inside root; cleanup on unmount`;
@@ -130,7 +130,7 @@ const classRows: [string, string][] = [
 const dataAttrs: [string, string][] = [
   [
     'data-tooltip="text"',
-    "Plain text content for the tooltip. Auto-initialized by Vanduo.init().",
+    "Plain text content for the tooltip. Wired by useTooltips(root).",
   ],
   [
     'data-tooltip-html="HTML"',

@@ -11,7 +11,7 @@
           <i class="ph ph-compass"></i> About
         </h2>
         <p class="vd-text-lg vd-text-muted">
-          Mission, vision, and constraints that shape Vanduo Framework
+          Mission, vision, and constraints that shape Vanduo UI
         </p>
       </div>
     </div>
@@ -75,38 +75,24 @@
 
           <hr class="founders-divider" />
 
-          <h3>Two natures, one water</h3>
+          <h3>The shape it takes</h3>
           <p>
-            And because Vanduo is a design language rather than a runtime, it is
-            not bound to any single way of reaching the screen. Water is still,
-            and water flows. The same substance, two ways of being — a calm lake
-            and a running river are both, unmistakably, water. Vanduo is built
-            the same way: one design language, served by two engines.
+            And because Vanduo is a design language rather than a runtime, the
+            design does not depend on any one way of reaching the screen. The
+            <strong>vd3</strong> line pours that design language into
+            <strong>Vue&nbsp;3</strong> — components, composables, reactivity,
+            and server-side rendering. When your project already lives in a
+            reactive world, Vanduo flows right into it; the very page you're
+            reading is rendered this way.
           </p>
           <p>
-            Its <strong>still</strong> nature is <strong>Vanilla</strong> —
-            zero-build, zero-dependency, pure HTML, CSS, and a sprinkle of
-            JavaScript. Drop in a stylesheet and you're productive in under a
-            minute: no <code>node_modules</code>, no bundler, nothing standing
-            between your words and the screen — a design system that would make
-            any SPA jealous, and asks for nothing in return. This is where
-            Vanduo began, and it will always be its heart.
-          </p>
-          <p>
-            Its <strong>flowing</strong> nature is <strong>Vue&nbsp;3</strong> —
-            composables, reactivity, server-side rendering. When your project
-            already lives in a reactive world, Vanduo flows right into it; the
-            very page you're reading is rendered this way. Same look, same feel,
-            same tokens — only the wiring beneath ever changes.
-          </p>
-          <p>
-            A single source of truth feeds them both, so the design comes out
-            identical either way. Reach for whichever engine fits the work in
-            front of you — flip the
-            <strong>Vanilla&nbsp;⇄&nbsp;Vue&nbsp;3</strong> toggle anywhere in
-            these docs and watch one component answer in two tongues: not a
-            compatibility layer bolted on after the fact, but two faces of one
-            design. That, too, is the shape of the water.
+            A single source of truth feeds it all — the tokens in
+            <code>@vanduo-oss/vd3</code> — so proportion, rhythm, and colour
+            come out identical wherever the design appears. You compose with
+            <code>&lt;Vd*&gt;</code> components and <code>useX</code>
+            composables; the golden-ratio grammar beneath them never changes.
+            Same look, same feel, same tokens — only your app's wiring ever
+            lives on top. That, too, is the shape of the water.
           </p>
 
           <hr class="founders-divider" />

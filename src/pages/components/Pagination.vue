@@ -36,15 +36,18 @@ const ellipsisHtml = `<!-- Large sets collapse to first/last + a window around t
     data-current-page="10"
     data-max-visible="7"></ul>`;
 
-const jsHtml = `const el = document.querySelector('[data-pagination]');
+const jsHtml = `import { ref } from 'vue';
 
-// Jump programmatically
-VanduoPagination.goToPage(el, 4);
+const page = ref(1);
 
-// React to page changes
-el.addEventListener('pagination:change', (e) => {
-  console.log('Now on page', e.detail.page, 'of', e.detail.totalPages);
-});`;
+// Jump programmatically — set the v-model ref, no global API needed
+page.value = 4;
+
+// React to page changes with @update:modelValue on the component,
+// e.g. <VdPagination v-model="page" @update:modelValue="onPage" />
+function onPage(p) {
+  console.log('Now on page', p);
+}`;
 
 const props: [string, string, string][] = [
   [
@@ -90,7 +93,7 @@ const events: [string, string][] = [
 ];
 
 const vue3Usage = `<script setup lang="ts">
-import { VdPagination } from "@vanduo-oss/vue";
+import { VdPagination } from "@vanduo-oss/vd3";
 const page = ref(1);
 <\/script>
 
@@ -120,7 +123,7 @@ const vue3Api: [string, string][] = [
     </h5>
     <p class="vd-mb-5">
       Page-by-page navigation for lists, tables, and search results. The
-      <strong>VanduoPagination</strong> component renders a numbered control
+      <strong>VdPagination</strong> component renders a numbered control
       from a few data attributes, automatically collapsing long ranges with
       ellipses and emitting a <code>pagination:change</code> event as the user
       navigates.

@@ -30,7 +30,7 @@ const cssClasses: [string, string][] = [
 ];
 
 const vue3Usage = `<script setup lang="ts">
-import { VdSeparator } from "@vanduo-oss/vue";
+import { VdSeparator } from "@vanduo-oss/vd3";
 <\/script>
 
 <template>
@@ -57,8 +57,8 @@ const vue3Api: [string, string][] = [
     <p class="vd-mb-5">
       <strong>VdSeparator</strong> is a semantic divider with
       <code>role="separator"</code>. Use it to break up stacked content, label a
-      transition (e.g. "OR"), or split inline actions vertically. CSS-only in
-      the Vanilla engine.
+      transition (e.g. "OR"), or split inline actions vertically. Pure CSS — no
+      JavaScript.
     </p>
 
     <div class="vd-row">

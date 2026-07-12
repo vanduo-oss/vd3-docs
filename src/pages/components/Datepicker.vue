@@ -9,7 +9,7 @@ useDatepicker(root);
 const vue3Wiring = `// Vue 3 — the useDatepicker composable wires every
 // [data-vd-datepicker] input inside the root ref.
 import { ref } from 'vue';
-import { useDatepicker } from "@vanduo-oss/vue";
+import { useDatepicker } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useDatepicker(root);   // cleanup is automatic on unmount
@@ -122,9 +122,10 @@ const events: [string, string][] = [
   <section id="datepicker" ref="root">
     <h5 class="demo-title"><i class="ph ph-calendar-dots"></i>Datepicker</h5>
     <p class="vd-mb-5">
-      The <strong>VanduoDatepicker</strong> component attaches a calendar popup
+      The <strong>datepicker</strong> attaches a calendar popup
       to any text input. Supports custom date formats, min/max date constraints,
-      and month/year navigation — all driven by data attributes.
+      and month/year navigation — all driven by data attributes and wired with
+      <code>useDatepicker</code>.
     </p>
 
     <div class="vd-row">

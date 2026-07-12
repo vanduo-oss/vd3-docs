@@ -59,7 +59,7 @@ const dataAttrs: [string, string][] = [
 ];
 
 const vue3Usage = `<script setup lang="ts">
-import { VdRating } from "@vanduo-oss/vue";
+import { VdRating } from "@vanduo-oss/vd3";
 const value = ref(3);
 <\/script>
 
@@ -83,7 +83,7 @@ const vue3Api: [string, string][] = [
   <section id="rating">
     <h5 class="demo-title"><i class="ph ph-star"></i>Rating</h5>
     <p class="vd-mb-5">
-      The <strong>VanduoRating</strong> component renders an interactive
+      The <strong>VdRating</strong> component renders an interactive
       star-rating widget. Configure the maximum number of stars, pre-set a
       value, make it read-only, or pick a size variant — all via data
       attributes.

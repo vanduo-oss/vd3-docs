@@ -12,61 +12,61 @@ interface Feature {
 
 const features: Feature[] = [
   {
-    icon: "ph-intersect",
-    title: "Two Engines, One System",
-    body: "Ship the same design system two ways — a zero-build Vanilla engine you drop in over a CDN, or first-class Vue 3 components and composables. Identical tokens, identical look. Choose an engine per project, or run both side by side.",
+    icon: "ph-package",
+    title: "One Complete System",
+    body: "vd3 is a standalone Vue 3 design system — typed components, a composable for every interaction, and design tokens, all shipped in a single package. No extra runtime, no configuration ceremony.",
     guide: { to: "/guides/vanduo-ecosystem", label: "The Vanduo Ecosystem" },
   },
   {
     icon: "ph-atom",
-    title: "Vue 3, First-Class",
-    body: "Typed <script setup> components, a composable for every interaction, Pinia-friendly stores, and static rendering via vite-ssg. It's tree-shakeable ESM, so you pull in only the pieces you actually use.",
+    title: "Built for Vue 3",
+    body: "Typed <script setup> components, a composable for every interaction, Pinia-free reactive stores, and static rendering via vite-ssg. It's tree-shakeable ESM, so you pull in only the pieces you actually use.",
     guide: {
       to: "/guides/runtime-architecture",
-      label: "Runtime Architecture",
+      label: "vd3 Architecture",
     },
   },
   {
-    icon: "ph-leaf",
-    title: "Zero-Build Vanilla",
-    body: "No toolchain? No problem. The Vanilla engine is pure HTML, CSS, and JavaScript — drop in a CDN link and you're productive in a minute. The styling even holds up with JavaScript disabled.",
-    guide: { to: "/guides/esm-vs-iife", label: "ESM vs IIFE vs Vue" },
+    icon: "ph-squares-four",
+    title: "The vd3-cbun Bundle",
+    body: "Need more than the core kit? @vanduo-oss/vd3-cbun adds production-ready charts, an interactive flowchart canvas, hex grids, and a full music player — each a typed Vue 3 component that inherits the same tokens.",
+    guide: { to: "/guides/vanduo-ecosystem", label: "The Vanduo Ecosystem" },
   },
   {
     icon: "ph-database",
     title: "One Source of Truth",
-    body: "Design tokens live in @vanduo-oss/core as DTCG JSON and feed both engines. Change a token once and the Vanilla CSS and the Vue components re-skin in lockstep — never drifting out of sync.",
+    body: "Design tokens ship with @vanduo-oss/vd3 as DTCG JSON and compile to the CSS variables every component reads. Change a token once and the whole system re-skins in lockstep — never drifting out of sync.",
     guide: { to: "/guides/css-variables", label: "CSS Variables & Theming" },
   },
   {
     icon: "ph-spiral",
     title: "Fibonacci & Golden Ratio",
-    body: "Spacing, type scale, shadows, and grid layouts are derived from the Fibonacci sequence and the Golden Ratio. Both engines inherit the same proportions, so layouts feel balanced without manual tweaking.",
+    body: "Spacing, type scale, shadows, and grid layouts are derived from the Fibonacci sequence and the Golden Ratio, so layouts feel balanced without manual tweaking.",
     guide: { to: "/guides/fibonacci", label: "The Fibonacci Scale" },
   },
   {
     icon: "ph-wheelchair",
     title: "Accessible by Default",
-    body: "ARIA roles, visible focus rings, semantic markup, keyboard-first interactions, and prefers-reduced-motion support ship in both engines. Accessibility is on from the start — never a bolt-on.",
+    body: "ARIA roles, visible focus rings, semantic markup, keyboard-first interactions, and prefers-reduced-motion support ship with every component. Accessibility is on from the start — never a bolt-on.",
     guide: { to: "/guides/accessibility", label: "Accessibility Essentials" },
   },
   {
     icon: "ph-moon-stars",
     title: "Dark Mode & Live Theming",
-    body: "Light, dark, and system-synced themes driven by CSS variables, with a drop-in switcher and a live customizer. Theme once at the token layer and every component re-skins instantly — in either engine.",
+    body: "Light, dark, and system-synced themes driven by CSS variables, with a drop-in switcher and a live customizer. Theme once at the token layer and every component re-skins instantly.",
     guide: { to: "/guides/theme-customizer", label: "Theme Customizer" },
   },
   {
     icon: "ph-shield-check",
     title: "Conflict-Free",
-    body: "Every class is namespaced with vd- and the Vue components scope cleanly, so Vanduo coexists with Bootstrap, Tailwind, or legacy styles without cascade surprises — whichever engine you reach for.",
+    body: "Every class is namespaced with vd- and the components scope cleanly, so vd3 coexists with Bootstrap, Tailwind, or legacy styles without cascade surprises.",
     guide: { to: "/guides/migration", label: "Migration Guide" },
   },
   {
-    icon: "ph-toggle-left",
-    title: "Dual-Engine Docs",
-    body: "These docs flip between Vanilla and Vue 3 with a single toggle — every demo, API table, and snippet in both flavours. Typed, copy-paste-ready, and written to read like the platform itself.",
-    guide: { to: "/guides/vanduo-ecosystem", label: "The Vanduo Ecosystem" },
+    icon: "ph-code",
+    title: "Docs Built for Copy-Paste",
+    body: "Every component and composable comes with a live demo, a typed API table, and copy-paste-ready snippets — written to read like the platform itself, so you can lift examples straight into your app.",
+    guide: { to: "/guides/getting-started", label: "Getting Started" },
   },
 ];
 
@@ -156,7 +156,7 @@ const swatches = [
             </span>
             <span class="hero-title-text">
               <span class="hero-title-brand">vanduo</span>
-              <span class="hero-title-word">framework</span>
+              <span class="hero-title-word">ui</span>
             </span>
           </h2>
           <div class="vd-mt-6 hero-cta-buttons">
@@ -170,7 +170,7 @@ const swatches = [
               <i class="ph ph-cube" aria-hidden="true"></i> Browse Components
             </RouterLink>
             <a
-              href="https://github.com/vanduo-oss/vue"
+              href="https://github.com/vanduo-oss/vd3"
               class="vd-btn vd-btn-outline"
               target="_blank"
               rel="noopener"
@@ -192,8 +192,9 @@ const swatches = [
           Features
         </h3>
         <p class="vd-text-center vd-text-muted vd-mb-8">
-          One design system, two engines — drop-in Vanilla or first-class Vue 3.
-          Tap a card to dig in.
+          A standalone Vue 3 design system — components, composables, and tokens
+          in one package, with the vd3-cbun bundle for charts, flowcharts, and
+          more. Tap a card to dig in.
         </p>
         <div class="vd-row philosophy-cards" style="align-items: stretch">
           <div
@@ -344,7 +345,7 @@ const swatches = [
                   ><strong>Open Color</strong></a
                 >
                 by Heeyeun Jeong (MIT), shipped through
-                <code>@vanduo-oss/core</code>. The optional golden-angle
+                <code>@vanduo-oss/vd3</code>. The optional golden-angle
                 Fibonacci palette is one toggle away.
                 <RouterLink to="/core/color-palette"
                   >See the full palette in the documentation &rarr;</RouterLink

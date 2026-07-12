@@ -86,17 +86,14 @@ const variantDemos: VariantDemo[] = [
     key: "minimal",
     title: "Minimal Player",
     blurb: "Default config — play/pause, prev/next, volume, track name.",
-    code: `VanduoMusicPlayer.initPlayer(el, { tracks });`,
+    code: `<VdMusicPlayer :tracks="tracks" />`,
   },
   {
     key: "progress",
     title: "With Progress Bar",
     blurb: "Enable showProgress for a seek bar + elapsed/duration times.",
     options: { showProgress: true },
-    code: `VanduoMusicPlayer.initPlayer(el, {
-  tracks,
-  showProgress: true,
-});`,
+    code: `<VdMusicPlayer :tracks="tracks" :options="{ showProgress: true }" />`,
   },
   {
     key: "playlist",
@@ -104,18 +101,17 @@ const variantDemos: VariantDemo[] = [
     blurb:
       "Enable showPlaylist and showProgress for a fuller player. Shuffle and repeat are always on the control bar.",
     options: { showPlaylist: true, showProgress: true },
-    code: `VanduoMusicPlayer.initPlayer(el, {
-  tracks,
-  showPlaylist: true,
-  showProgress: true,
-});`,
+    code: `<VdMusicPlayer
+  :tracks="tracks"
+  :options="{ showPlaylist: true, showProgress: true }"
+/>`,
   },
   {
     key: "compact",
     title: "Compact",
     blurb: "Minimal floating bar, no track name shown.",
     cls: "vd-music-player-compact",
-    code: `<div class="vd-music-player vd-music-player-compact"></div>`,
+    code: `<VdMusicPlayer :tracks="tracks" class="vd-music-player-compact" />`,
   },
   {
     key: "sm",
@@ -123,7 +119,7 @@ const variantDemos: VariantDemo[] = [
     blurb:
       "Standard layout with track name — use vd-music-player-sm or omit size classes.",
     cls: "vd-music-player-sm",
-    code: `<div class="vd-music-player vd-music-player-sm"></div>`,
+    code: `<VdMusicPlayer :tracks="tracks" class="vd-music-player-sm" />`,
   },
   {
     key: "lg",
@@ -131,7 +127,7 @@ const variantDemos: VariantDemo[] = [
     blurb:
       "Roomier padding and controls — vd-music-player-lg for featured placement.",
     cls: "vd-music-player-lg",
-    code: `<div class="vd-music-player vd-music-player-lg"></div>`,
+    code: `<VdMusicPlayer :tracks="tracks" class="vd-music-player-lg" />`,
   },
   {
     key: "inline",
@@ -144,13 +140,11 @@ const variantDemos: VariantDemo[] = [
       shuffle: false,
       repeat: "off",
     },
-    code: `VanduoMusicPlayer.initPlayer(el, {
-  tracks,
-  showProgress: true,
-  showPlaylist: true,
-  shuffle: false,
-  repeat: 'off',
-});`,
+    code: `<VdMusicPlayer
+  :tracks="tracks"
+  :options="{ showProgress: true, showPlaylist: true, shuffle: false, repeat: 'off' }"
+  class="vd-music-player-inline"
+/>`,
   },
 ];
 
@@ -251,10 +245,10 @@ onBeforeUnmount(() => {
   }
 });
 
-const installShell = `pnpm add @vanduo-oss/music-player`;
+const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
 
 const vue3Usage = `<script setup lang="ts">
-import { VdMusicPlayer } from '@vanduo-oss/music-player/vue';
+import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';
 
 const tracks = [
   { name: 'Pale Blue Dot', url: '/music/pale-blue-dot.mp3' },
@@ -417,25 +411,67 @@ el.addEventListener('musicplayer:attach', () => console.log('Player was docked')
 el.addEventListener('musicplayer:minimize', () => console.log('Minimized'));
 el.addEventListener('musicplayer:expand', () => console.log('Expanded'));`;
 
-const programmaticSnippet = `const el = document.getElementById('my-player');
+const programmaticSnippet = `<script setup lang="ts">
+import { ref } from 'vue';
+import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';
 
-VanduoMusicPlayer.play(el);
-VanduoMusicPlayer.pause(el);
-VanduoMusicPlayer.next(el);
-VanduoMusicPlayer.previous(el);
-VanduoMusicPlayer.setTrack(el, 0);
-VanduoMusicPlayer.setVolume(el, 0.75);
-VanduoMusicPlayer.shuffle(el);
-VanduoMusicPlayer.repeat(el);
-VanduoMusicPlayer.setRepeat(el, 'one');
-VanduoMusicPlayer.detach(el, 'bottom-right');
-VanduoMusicPlayer.attach(el);
-VanduoMusicPlayer.minimize(el);
-VanduoMusicPlayer.expand(el);
+const playerRef = ref();
 
-const state = VanduoMusicPlayer.getState(el);
-VanduoMusicPlayer.destroy(el);
-VanduoMusicPlayer.destroyAll();`;
+// The component exposes { player, container() } — drive it imperatively:
+function control() {
+  const api = playerRef.value?.player;
+  const el = playerRef.value?.container();
+  if (!api || !el) return;
+
+  api.play(el);
+  api.pause(el);
+  api.next(el);
+  api.previous(el);
+  api.setTrack(el, 0);
+  api.setVolume(el, 0.75);
+  api.shuffle(el);
+  api.repeat(el);
+  api.setRepeat(el, 'one');
+  api.detach(el, 'bottom-right');
+  api.attach(el);
+  api.minimize(el);
+  api.expand(el);
+
+  const state = api.getState(el);
+}
+<\/script>
+
+<template>
+  <VdMusicPlayer ref="playerRef" :tracks="tracks" />
+</template>`;
+
+const glassSnippet = `<VdMusicPlayer
+  :tracks="tracks"
+  :options="{ showProgress: true, glass: true }"
+/>`;
+
+const dragSnippet = `<script setup lang="ts">
+import { ref } from 'vue';
+import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';
+
+const playerRef = ref();
+
+function detachAndMinimize() {
+  const api = playerRef.value?.player;
+  const el = playerRef.value?.container();
+  if (!api || !el) return;
+  api.detach(el, 'bottom-right');
+  api.minimize(el);
+}
+<\/script>
+
+<template>
+  <VdMusicPlayer
+    ref="playerRef"
+    :tracks="tracks"
+    :options="{ showProgress: true, showPlaylist: true, detachable: true, draggable: true, minimizable: true }"
+  />
+</template>`;
 </script>
 
 <template>
@@ -452,7 +488,7 @@ VanduoMusicPlayer.destroyAll();`;
       Install the player separately from the core framework. All live demos
       below use a bundled sample playlist from <em>Invent the Universe</em>,
       with <em>Pale Blue Dot</em> as the default first track. Ships an optional
-      Vue 3 binding (<code>@vanduo-oss/music-player/vue</code>) used here.
+      Vue 3 binding (<code>@vanduo-oss/vd3-cbun/music-player</code>) used here.
     </p>
 
     <!-- Minimal + progress -->
@@ -473,7 +509,7 @@ VanduoMusicPlayer.destroyAll();`;
               :options="d.options ?? {}"
               :class="d.cls"
             />
-            <DocCodeSnippet class="vd-mt-4" :js="d.code" />
+            <DocCodeSnippet class="vd-mt-4" :html="d.code" />
           </div>
         </div>
       </div>
@@ -494,7 +530,7 @@ VanduoMusicPlayer.destroyAll();`;
               :tracks="tracks"
               :options="{ showPlaylist: true, showProgress: true }"
             />
-            <DocCodeSnippet class="vd-mt-4" :js="variantDemos[2].code" />
+            <DocCodeSnippet class="vd-mt-4" :html="variantDemos[2].code" />
           </div>
         </div>
       </div>
@@ -541,7 +577,7 @@ VanduoMusicPlayer.destroyAll();`;
               }"
               class="vd-music-player-inline"
             />
-            <DocCodeSnippet class="vd-mt-4" :js="variantDemos[6].code" />
+            <DocCodeSnippet class="vd-mt-4" :html="variantDemos[6].code" />
           </div>
         </div>
       </div>
@@ -597,10 +633,7 @@ VanduoMusicPlayer.destroyAll();`;
                 :options="{ showProgress: true, glass: true }"
               />
             </div>
-            <DocCodeSnippet
-              class="vd-mt-4"
-              :js="`VanduoMusicPlayer.initPlayer(el, { tracks, showProgress: true, glass: true });`"
-            />
+            <DocCodeSnippet class="vd-mt-4" :html="glassSnippet" />
           </div>
         </div>
       </div>
@@ -709,13 +742,7 @@ VanduoMusicPlayer.destroyAll();`;
                 <i class="ph ph-arrows-in"></i> Attach back
               </button>
             </div>
-            <DocCodeSnippet
-              class="vd-mt-4"
-              :js="`VanduoMusicPlayer.initPlayer(el, { tracks, showProgress: true, showPlaylist: true, detachable: true, draggable: true, minimizable: true });
-VanduoMusicPlayer.detach(el, 'bottom-right');
-VanduoMusicPlayer.minimize(el);
-VanduoMusicPlayer.attach(el);`"
-            />
+            <DocCodeSnippet class="vd-mt-4" :html="dragSnippet" />
           </div>
         </div>
       </div>
@@ -804,7 +831,7 @@ VanduoMusicPlayer.attach(el);`"
                 Vol 75%
               </button>
             </div>
-            <DocCodeSnippet class="vd-mt-4" :js="programmaticSnippet" />
+            <DocCodeSnippet class="vd-mt-4" :html="programmaticSnippet" />
           </div>
         </div>
       </div>

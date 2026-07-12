@@ -45,7 +45,7 @@ const bodyOnlyHtml = `<!-- Works on any element, not just buttons -->
 </span>`;
 
 const vue3Wiring = `import { ref } from 'vue';
-import { usePopover } from "@vanduo-oss/vue";
+import { usePopover } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 usePopover(root);   // wires every [data-vd-bubble] inside root; cleanup on unmount`;
@@ -73,11 +73,20 @@ const attrRows: [string, string][] = [
 ];
 
 const jsRows: [string, string][] = [
-  ["VanduoBubble.init(root?)", "Wire every [data-vd-bubble] within root."],
-  ["VanduoBubble.show(trigger)", "Open the popover for a trigger element."],
-  ["VanduoBubble.hide(trigger)", "Close the popover for a trigger element."],
-  ["VanduoBubble.hideAll()", "Close every open popover."],
-  ["VanduoBubble.destroy(trigger)", "Remove listeners + generated panel."],
+  [
+    "usePopover(root)",
+    "Wire every [data-vd-bubble] / popover trigger inside root; returns a controller. Call once in setup().",
+  ],
+  [
+    "controller.show(trigger)",
+    "Open the bubble/panel for a wired trigger element.",
+  ],
+  [
+    "controller.hide(trigger)",
+    "Close the bubble/panel for a wired trigger element.",
+  ],
+  ["controller.hideAll()", "Close every bubble and panel wired by this instance."],
+  ["controller.refresh()", "Re-scan the root and wire triggers added since mount."],
 ];
 
 const eventRows: [string, string][] = [

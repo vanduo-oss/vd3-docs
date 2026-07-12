@@ -32,7 +32,7 @@ const cards: DocsCard[] = [
     cardClass: "docs-card-components",
     icon: "ph-cube",
     title: "Components",
-    desc: "Explore the building blocks of Vanduo Framework.",
+    desc: "Explore the building blocks of Vanduo UI.",
     highlights: [
       { icon: "ph-check-circle", text: "Live demos with copy-paste snippets" },
       {

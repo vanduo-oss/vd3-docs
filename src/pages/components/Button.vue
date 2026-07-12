@@ -3,7 +3,7 @@ import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import LaunchCustomizerButton from "@/components/LaunchCustomizerButton.vue";
 
 const vue3Usage = `<script setup lang="ts">
-import { VdButton } from "@vanduo-oss/vue";
+import { VdButton } from "@vanduo-oss/vd3";
 const saving = ref(false);
 <\/script>
 

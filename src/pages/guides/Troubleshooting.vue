@@ -2,8 +2,8 @@
 const issues: [string, string, string][] = [
   [
     "Components look unstyled",
-    "The framework CSS isn't loaded.",
-    "Add import '@vanduo-oss/framework/css'; once in your entry file.",
+    "The Vanduo CSS isn't loaded.",
+    "Add import '@vanduo-oss/vd3/css'; once in your entry file.",
   ],
   [
     "A widget renders but does nothing",
@@ -17,13 +17,13 @@ const issues: [string, string, string][] = [
   ],
   [
     "Bare import won't resolve in the browser",
-    "@vanduo-oss/* needs a bundler.",
-    "Use Vite/Rollup, or switch to the IIFE/CDN build for static pages.",
+    "@vanduo-oss/vd3 ships ESM only and needs a bundler.",
+    "Build with Vite/Rollup (or any ESM bundler); there is no IIFE/CDN bundle.",
   ],
   [
     "Theme doesn't persist on reload",
-    "The theme store wasn't initialised.",
-    "Call theme.init() once in App.vue onMounted.",
+    "The Vanduo plugin isn't installed, or storage is blocked.",
+    "Install VanduoVue via app.use(); useThemePreference() re-hydrates from storage on the client — there is no init() to call.",
   ],
   [
     "Popup appears in the wrong place",
@@ -45,7 +45,7 @@ const issues: [string, string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      The most common issues when building with vd2, and the one-line fix for
+      The most common issues when building with vd3, and the one-line fix for
       each. Most trace back to one of three things: the CSS isn't imported, a
       composable isn't wired, or DOM is being touched during server rendering.
     </p>
@@ -77,9 +77,8 @@ const issues: [string, string, string][] = [
         </div>
         <p class="vd-text-sm vd-text-muted vd-mt-3">
           Still stuck? The
-          <a href="/guides/runtime-architecture">Runtime architecture</a> and
-          <a href="/guides/lifecycle-manager">Lifecycle</a>
-          guides explain the wiring model in depth.
+          <a href="/guides/runtime-architecture">vd3 Architecture</a>
+          guide explains the wiring model in depth.
         </p>
       </div>
     </div>

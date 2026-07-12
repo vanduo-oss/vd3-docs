@@ -8,7 +8,7 @@ useParallax(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useParallax } from "@vanduo-oss/vue";
+import { useParallax } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useParallax(root);   // rAF scroll handler + reduced-motion guard; cleanup on unmount`;
@@ -135,8 +135,8 @@ const apiRows: [string, string, string][] = [
           <div class="vd-card-header"><h6>Markup</h6></div>
           <div class="vd-card-body">
             <p>
-              Wrap layers in a <code>.vd-parallax</code> container. Movement
-              initializes automatically on <code>Vanduo.init()</code>.
+              Wrap layers in a <code>.vd-parallax</code> container. Movement is
+              wired by <code>useParallax(root)</code> (see Wiring below).
             </p>
             <DocCodeSnippet :html="markupHtml" />
           </div>

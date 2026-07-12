@@ -4,217 +4,119 @@ import GuideLinkCards from "@/components/GuideLinkCards.vue";
 
 const nextLinks = [
   {
+    to: "/guides/getting-started",
+    icon: "ph-rocket-launch",
+    title: "Getting started",
+    desc: "Scaffold a Vue app and add vd3 in a few minutes.",
+    badge: "Guide",
+  },
+  {
+    to: "/guides/framework-integration",
+    icon: "ph-download",
+    title: "Installation & integration",
+    desc: "Install the packages and wire the VanduoVue plugin.",
+    badge: "Guide",
+  },
+  {
+    to: "/guides/migration",
+    icon: "ph-arrows-down-up",
+    title: "Migrating from v2",
+    desc: "Move a vanduo v2 app across to the vd3 line.",
+    badge: "Guide",
+  },
+  {
     to: "/guides/runtime-architecture",
-    icon: "ph-cpu",
-    title: "Runtime architecture",
-    desc: "How vd2 replaces Vanduo.init with Vue composables.",
+    icon: "ph-stack",
+    title: "vd3 architecture",
+    desc: "Tokens → generated CSS → components & composables.",
     badge: "Guide",
-  },
-  {
-    to: "/guides/esm-vs-iife",
-    icon: "ph-package",
-    title: "ESM vs IIFE",
-    desc: "The Vanilla engine's two builds vs vd2's ESM-only Vue.",
-    badge: "Guide",
-  },
-  {
-    to: "/guides/css-variables",
-    icon: "ph-sliders",
-    title: "CSS variables & theming",
-    desc: "The token layer both engines share.",
-    badge: "Guide",
-  },
-  {
-    to: "/core/color-palette",
-    icon: "ph-palette",
-    title: "Color palette",
-    desc: "The core tokens that feed every engine.",
-    badge: "Core",
   },
 ];
 
-// Two interchangeable engines + the shared token core.
-const core: [string, string, string][] = [
+// The three repositories that make up the vd3 line.
+const repos: [string, string, string][] = [
   [
-    "@vanduo-oss/core",
-    "Design-token source of truth",
-    "Framework-agnostic DTCG tokens compiled to CSS variables, typed TS, and JSON. No runtime — both engines consume it, so the palette, spacing, radii, and fonts never drift.",
+    "vd3",
+    "@vanduo-oss/vd3",
+    "The design system and Vue 3 component library. Ships its own DTCG design tokens, the full CSS tree (@vanduo-oss/vd3/css), and typed Vd* components + composables. Standalone — its sole peer dependency is vue >=3.3.",
   ],
   [
-    "@vanduo-oss/framework",
-    "Vanilla (zero-build) engine",
-    "Pure HTML/CSS/JS you drop in over a CDN or a bundler. Owns the component CSS and an imperative runtime driven by data-* attributes.",
+    "vd3-cbun",
+    "@vanduo-oss/vd3-cbun",
+    "The canvas bundle: charts, flowchart, hex-grid, and music-player, each on its own subpath. Install it only when a page needs a canvas widget; it shares the same tokens and theme as vd3.",
   ],
   [
-    "@vanduo-oss/vue",
-    "Vue 3 engine",
-    "First-class typed Vd* components and composables (the engine these docs are built on). Tree-shakeable ESM, SSR/SSG-ready; consumes core tokens + framework CSS.",
-  ],
-];
-
-// Standalone, framework-agnostic add-on packages — install only what you need.
-const addons: [string, string, string][] = [
-  [
-    "@vanduo-oss/charts",
-    "SVG charts",
-    "Data-in, SVG-out bar / line / area / scatter / donut charts. Token-themed and SSR-safe, with an optional typed ./vue subpath.",
-  ],
-  [
-    "@vanduo-oss/hex-grid",
-    "Canvas hex grids",
-    "VdHexGrid — interactive canvas hex grids with terrain, pathfinding, and theme-aware rendering.",
-  ],
-  [
-    "@vanduo-oss/music-player",
-    "HTML5 audio player",
-    "A drop-in audio player (playlist, shuffle, repeat) styled with the Vanduo design language.",
-  ],
-  [
-    "@vanduo-oss/flowchart",
-    "SVG flowchart editor",
-    "A standalone SVG flowchart / diagram editor for documentation and tools.",
+    "vd3-docs",
+    "— (not published to npm)",
+    "This documentation site. It dogfoods both packages — every live demo on these pages renders the real shipped component.",
   ],
 ];
 
-const vanillaShell = `# Vanilla engine — drop-in CSS + JS (or a CDN <link> / <script>)
-pnpm add @vanduo-oss/core @vanduo-oss/framework`;
+const installVd3 = `# The design system + components (tokens & CSS included)
+pnpm add @vanduo-oss/vd3`;
 
-const vueShell = `# Vue 3 engine — pulls core + framework as dependencies
-pnpm add @vanduo-oss/vue`;
+const installCbun = `# Optional — the canvas widgets (charts / flowchart / hex-grid / music-player)
+pnpm add @vanduo-oss/vd3-cbun`;
 
-const addonsShell = `# Optional standalone packages — work with either engine
-pnpm add @vanduo-oss/charts
-pnpm add @vanduo-oss/hex-grid
-pnpm add @vanduo-oss/music-player
-pnpm add @vanduo-oss/flowchart`;
+const usageJs = `// Components, composables, tokens and CSS all come from one package:
+import { VdButton } from '@vanduo-oss/vd3';
+import '@vanduo-oss/vd3/css';
+
+// Canvas widgets come from the bundle's per-widget subpaths:
+import { VdChart } from '@vanduo-oss/vd3-cbun/charts';
+import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';`;
 </script>
 
 <template>
   <section id="vanduo-ecosystem">
     <h5 class="demo-title">
-      <i class="ph ph-planet"></i>The Vanduo Ecosystem
+      <i class="ph ph-planet"></i>The vd3 Line
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      Vanduo is a <strong>dual-engine</strong> design system — one look and one
-      Fibonacci-based design language, served either by a zero-build Vanilla
-      engine or by first-class Vue 3, both fed from a single token core. Around
-      that core sits a small family of <strong>standalone packages</strong> you
-      install only when you need them. Everything ships under the
-      <code>@vanduo-oss</code> scope.
+      <strong>vd3</strong> is the Vue-3-only line of Vanduo, shipped as a small,
+      standalone set of packages under the <code>@vanduo-oss</code> scope. There
+      is no separate token / CSS / JS split to wire together — one component
+      library, plus one optional canvas bundle, documented by this site.
     </p>
 
-    <!-- Core trio -->
+    <!-- The three repos -->
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
-            <h6><i class="ph ph-stack"></i> The core trio</h6>
+            <h6><i class="ph ph-git-branch"></i> Three repositories</h6>
           </div>
           <div class="vd-card-body">
             <div class="vd-table-responsive">
               <table class="vd-table vd-table-striped">
                 <thead>
                   <tr>
+                    <th>Repo</th>
                     <th>Package</th>
-                    <th>Role</th>
-                    <th>What it owns</th>
+                    <th>What it is</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="row in core" :key="row[0]">
+                  <tr v-for="row in repos" :key="row[0]">
                     <td>
                       <code>{{ row[0] }}</code>
                     </td>
-                    <td>{{ row[1] }}</td>
+                    <td>
+                      <code>{{ row[1] }}</code>
+                    </td>
                     <td>{{ row[2] }}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <p class="vd-text-sm vd-text-muted vd-mt-3">
-              <code>core</code> feeds tokens to both engines, so the palette,
-              spacing scale, radii, and fonts never drift between them.
+              Design tokens generate the CSS, the CSS is themed by the same
+              tokens, and the <code>Vd*</code> components and composables render
+              against both — all inside <code>@vanduo-oss/vd3</code>.
+              <code>@vanduo-oss/vd3-cbun</code> sits alongside it for the
+              heavier canvas widgets.
             </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Standalone packages -->
-    <div class="vd-row vd-mb-6">
-      <div class="vd-col-12">
-        <div class="vd-card demo-card">
-          <div class="vd-card-header">
-            <h6><i class="ph ph-puzzle-piece"></i> Standalone packages</h6>
-          </div>
-          <div class="vd-card-body">
-            <p class="vd-mb-4">
-              Self-contained, framework-agnostic add-ons. They follow the same
-              tokens and theme, and work whether you ship the Vanilla or the Vue
-              engine.
-            </p>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Package</th>
-                    <th>What it is</th>
-                    <th>Summary</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in addons" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- When to use which engine -->
-    <div class="vd-row vd-mb-6">
-      <div class="vd-col-12 vd-col-md-6">
-        <div class="vd-card demo-card">
-          <div class="vd-card-header">
-            <h6>
-              <i class="ph ph-feather"></i> When to use the Vanilla engine
-            </h6>
-          </div>
-          <div class="vd-card-body">
-            <ul>
-              <li>Static HTML pages with <strong>no build step</strong></li>
-              <li>Dropping styles into an existing server-rendered app</li>
-              <li>CDN / single-file prototypes and embeds</li>
-              <li>
-                Teams that want components driven entirely by
-                <code>data-*</code> attributes
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="vd-col-12 vd-col-md-6">
-        <div class="vd-card demo-card">
-          <div class="vd-card-header">
-            <h6><i class="ph ph-atom"></i> When to use the Vue 3 engine</h6>
-          </div>
-          <div class="vd-card-body">
-            <ul>
-              <li>Vue 3 single-page or SSR / SSG applications</li>
-              <li>
-                You want reactive state, typed props, and component composition
-              </li>
-              <li>Tree-shaking and route-level code splitting via Vite</li>
-              <li>Theming through a Pinia store instead of global JS calls</li>
-            </ul>
           </div>
         </div>
       </div>
@@ -228,17 +130,45 @@ pnpm add @vanduo-oss/flowchart`;
             <h6><i class="ph ph-package"></i> Install</h6>
           </div>
           <div class="vd-card-body">
-            <p class="vd-mb-3">Pick an engine:</p>
-            <DocCodeSnippet :shell="vanillaShell" :default-open="true" />
+            <p class="vd-mb-3">
+              Start with the design system; add the canvas bundle only if you
+              need it:
+            </p>
+            <DocCodeSnippet :shell="installVd3" :default-open="true" />
             <DocCodeSnippet
               class="vd-mt-3"
-              :shell="vueShell"
+              :shell="installCbun"
               :default-open="true"
             />
-            <p class="vd-mt-5 vd-mb-3">Then add any standalone packages:</p>
-            <DocCodeSnippet :shell="addonsShell" :default-open="true" />
+            <p class="vd-mt-5 vd-mb-3">Then import from the two packages:</p>
+            <DocCodeSnippet :js="usageJs" :default-open="true" />
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Maintenance note -->
+    <div class="vd-card demo-card ecosystem-legacy vd-mb-6">
+      <div class="vd-card-header">
+        <h6>
+          <i class="ph ph-archive"></i> The earlier line is in maintenance
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <p>
+          vd3 supersedes <strong>vanduo v2</strong> — the earlier vanilla
+          (zero-build) line of <code>core</code> + <code>framework</code> +
+          <code>vue</code> packages, together with the four standalone add-ons
+          (<code>charts</code>, <code>flowchart</code>, <code>hex-grid</code>,
+          <code>music-player</code>) and the v2 documentation site.
+        </p>
+        <p class="vd-mb-0">
+          That line is now in <strong>maintenance mode</strong>: it still works
+          and receives critical fixes, but new components, composables, and
+          design work land on vd3. New projects should start here; existing v2
+          apps can move across with the
+          <a href="/guides/migration">Migration guide</a>.
+        </p>
       </div>
     </div>
 
@@ -249,3 +179,9 @@ pnpm add @vanduo-oss/flowchart`;
     />
   </section>
 </template>
+
+<style scoped>
+.ecosystem-legacy {
+  border-color: rgba(var(--vd-color-info-rgb), 0.4);
+}
+</style>

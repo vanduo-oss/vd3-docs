@@ -2,7 +2,7 @@
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
-import { VdAvatar } from "@vanduo-oss/vue";
+import { VdAvatar } from "@vanduo-oss/vd3";
 <\/script>
 
 <template>

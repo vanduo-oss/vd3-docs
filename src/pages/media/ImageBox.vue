@@ -7,7 +7,7 @@ const root = ref<HTMLElement | null>(null);
 useImageBox(root);
 
 const vue3Wiring = `import { ref } from 'vue';
-import { useImageBox } from "@vanduo-oss/vue";
+import { useImageBox } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useImageBox(root);   // wires every [data-image-box] inside root`;

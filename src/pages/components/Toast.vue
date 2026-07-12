@@ -4,7 +4,7 @@ import { useToast } from "@vanduo-oss/vd3";
 
 const toast = useToast();
 
-const typesJs = `import { useToast } from "@vanduo-oss/vue";
+const typesJs = `import { useToast } from "@vanduo-oss/vd3";
 const toast = useToast();
 
 toast.success('Operation completed successfully!');

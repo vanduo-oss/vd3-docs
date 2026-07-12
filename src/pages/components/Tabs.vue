@@ -8,7 +8,7 @@ useTabs(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useTabs } from "@vanduo-oss/vue";
+import { useTabs } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useTabs(root);   // wires [data-tab-target] inside root; cleanup on unmount`;

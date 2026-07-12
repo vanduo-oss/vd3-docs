@@ -154,16 +154,16 @@ const checkboxHtml = `<div
   data-vd-tree-cascade>
 </div>`;
 
-const checkboxJs = `const tree = document.querySelector('[data-vd-tree-checkbox]');
+const checkboxJs = `import { ref } from 'vue';
 
-// Get all checked node IDs
-const checked = VanduoTree.getChecked(tree);
+const treeRef = ref();
+
+// Get all checked node IDs via the exposed method
+const checked = treeRef.value?.getChecked();
 console.log(checked); // ["users-read", "users-create"]
 
-// Listen for check changes
-tree.addEventListener('tree:check', (e) => {
-  console.log('Checked nodes:', e.detail.checked);
-});`;
+// VdTree also dispatches a native tree:check event
+// ({ checked, node }) on its root — listen via a template ref.`;
 
 const openHtml = `<div data-vd-tree='[
   {
@@ -256,7 +256,7 @@ const events: [string, string][] = [
 
 // Engine-specific usage: the Vue component vs the Vanilla data-attribute markup.
 const vue3Usage = `<script setup lang="ts">
-import { VdTree } from "@vanduo-oss/vue";
+import { VdTree } from "@vanduo-oss/vd3";
 const nodes = [
   { id: 'src', label: 'src', icon: 'ph ph-folder', children: [
     { id: 'btn', label: 'Button.vue', icon: 'ph ph-file-vue' },
@@ -292,7 +292,7 @@ const vue3Api: [string, string][] = [
   <section id="tree-view">
     <h5 class="demo-title"><i class="ph ph-tree-structure"></i>Tree View</h5>
     <p class="vd-mb-5">
-      The <strong>VanduoTree</strong> component renders hierarchical data as an
+      The <strong>VdTree</strong> component renders hierarchical data as an
       expandable/collapsible tree. Supports checkbox selection with parent-child
       cascade, connection lines, and initial open state — all configured via a
       single JSON data attribute.

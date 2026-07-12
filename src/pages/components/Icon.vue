@@ -7,7 +7,7 @@ import Icons from "@/pages/core/Icons.vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
-import { VdIcon } from "@vanduo-oss/vue";
+import { VdIcon } from "@vanduo-oss/vd3";
 <\/script>
 
 <template>

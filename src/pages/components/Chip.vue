@@ -8,7 +8,7 @@ const remove = (id: string): void => {
 };
 
 const vue3Usage = `<script setup lang="ts">
-import { VdChip } from "@vanduo-oss/vue";
+import { VdChip } from "@vanduo-oss/vd3";
 <\/script>
 
 <template>

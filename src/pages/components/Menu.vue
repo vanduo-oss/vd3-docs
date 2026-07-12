@@ -38,7 +38,7 @@ const basicHtml = `<div class="vd-dropdown">
   </div>
 </div>
 
-<script>VanduoDropdown.init();<\/script>`;
+<!-- Wire hand-written dropdown markup with useDropdown(root), or just render <VdMenu> (below). -->`;
 
 const endHtml = `<div class="vd-dropdown">
   <button type="button" class="vd-btn vd-btn-secondary vd-dropdown-toggle"
@@ -54,7 +54,7 @@ const cssClasses: [string, string][] = [
   [".vd-dropdown", "Positioning wrapper around the trigger and the menu"],
   [
     ".vd-dropdown-toggle",
-    "The trigger button. `data-vd-dropdown-toggle` wires the Vanilla runtime",
+    "The trigger button. `data-vd-dropdown-toggle` wires the dropdown runtime",
   ],
   [
     ".vd-dropdown-menu",
@@ -70,7 +70,7 @@ const cssClasses: [string, string][] = [
 ];
 
 const vue3Usage = `<script setup lang="ts">
-import { VdMenu } from "@vanduo-oss/vue";
+import { VdMenu } from "@vanduo-oss/vd3";
 
 const items = [
   { label: "Edit", value: "edit" },
@@ -110,9 +110,9 @@ const vue3Api: [string, string][] = [
       <strong>VdMenu</strong> is a declarative dropdown menu: pass a
       <code>label</code> and an <code>items</code> array and it renders an
       accessible <code>role="menu"</code> popup, reusing the framework's
-      dropdown runtime for toggle, keyboard and outside-click behaviour. In the
-      Vanilla engine, write the dropdown markup and call
-      <code>VanduoDropdown.init()</code>.
+      dropdown runtime for toggle, keyboard and outside-click behaviour. To wire
+      hand-written dropdown markup instead, call
+      <code>useDropdown(root)</code>.
     </p>
 
     <div class="vd-row">

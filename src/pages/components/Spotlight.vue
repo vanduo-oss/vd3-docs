@@ -40,7 +40,7 @@ const declarativeHtml = `<button class="vd-btn vd-btn-primary" data-vd-spotlight
 <div id="me">…</div>`;
 
 const vue3Wiring = `import { ref } from 'vue';
-import { useSpotlight } from "@vanduo-oss/vue";
+import { useSpotlight } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useSpotlight(root);   // wires every [data-vd-spotlight] inside root`;
@@ -75,14 +75,14 @@ const attrRows: [string, string][] = [
 
 const jsRows: [string, string][] = [
   [
-    "VanduoSpotlight.init(root?)",
-    "Wire every [data-vd-spotlight] trigger within root.",
+    "useSpotlight(root)",
+    "Wire every [data-vd-spotlight] trigger within root; returns a controller. Call once in setup().",
   ],
   [
-    "VanduoSpotlight.start(steps, opts?)",
+    "controller.start(steps, opts?)",
     "Start a tour from an array of step objects.",
   ],
-  ["VanduoSpotlight.stop()", "End the active tour and remove the overlay."],
+  ["controller.stop()", "End the active tour and remove the overlay."],
 ];
 </script>
 

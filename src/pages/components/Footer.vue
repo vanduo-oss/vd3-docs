@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
+import { VdFooter } from "@vanduo-oss/vd3";
 
 const sections = [
   { title: "Product", links: ["Features", "Pricing", "Docs"] },
@@ -7,16 +8,41 @@ const sections = [
   { title: "Legal", links: ["Privacy", "Terms"] },
 ];
 
-const coreHtml = `<!-- Basic 3-column footer -->
+const coreHtml = `<!-- Rendered output of &lt;VdFooter :columns="3"&gt; -->
 <footer class="vd-footer vd-footer-3col">
-  <div class="vd-footer-section">
-    <h4 class="vd-footer-heading">Product</h4>
-    <ul class="vd-footer-list">
-      <li class="vd-footer-list-item"><a class="vd-footer-link" href="#">Docs</a></li>
-      <li class="vd-footer-list-item"><a class="vd-footer-link" href="#">Components</a></li>
-    </ul>
+  <div class="vd-footer-container">
+    <div class="vd-footer-section">
+      <h4 class="vd-footer-heading">Product</h4>
+      <ul class="vd-footer-list">
+        <li class="vd-footer-list-item"><a class="vd-footer-link" href="#">Docs</a></li>
+        <li class="vd-footer-list-item"><a class="vd-footer-link" href="#">Components</a></li>
+      </ul>
+    </div>
+    <div class="vd-footer-copyright">© 2026 Vanduo</div>
   </div>
 </footer>`;
+
+const vue3Usage = `<script setup lang="ts">
+import { VdFooter } from "@vanduo-oss/vd3";
+<\/script>
+
+<template>
+  <VdFooter :columns="3">
+    <div class="vd-footer-section">
+      <h4 class="vd-footer-heading">Product</h4>
+      <ul class="vd-footer-list">
+        <li class="vd-footer-list-item">
+          <a class="vd-footer-link" href="/docs">Docs</a>
+        </li>
+        <li class="vd-footer-list-item">
+          <a class="vd-footer-link" href="/components">Components</a>
+        </li>
+      </ul>
+    </div>
+
+    <template #copyright>© 2026 Vanduo</template>
+  </VdFooter>
+</template>`;
 
 const variants: [string, string][] = [
   [
@@ -40,8 +66,30 @@ const cssVars: [string, string][] = [
   ["--vd-footer-section-spacing", "2.125rem (34px)"],
 ];
 
+const vue3Api: [string, string][] = [
+  [
+    ":columns",
+    "2 | 3 | 4 — responsive grid columns. Omit for a single flowing block.",
+  ],
+  [":dark", "Dark visual style (`.vd-footer-dark`)."],
+  [":size", "'sm' | 'lg' — compact or spacious padding."],
+  [
+    "default slot",
+    "Footer content — `.vd-footer-section` columns, brand, and social rows.",
+  ],
+  [
+    "copyright slot",
+    "Bottom legal row, rendered inside `.vd-footer-copyright`.",
+  ],
+];
+
 const apiRows: [string, string, string][] = [
   [".vd-footer", "Base container for the page footer element.", "Component"],
+  [
+    ".vd-footer-container",
+    "Inner max-width wrapper the component renders around the slotted content.",
+    "Layout",
+  ],
   [
     ".vd-footer-section",
     "A column or grouping area within the footer grid.",
@@ -99,8 +147,10 @@ const apiRows: [string, string, string][] = [
   <section id="footer">
     <h5 class="demo-title"><i class="ph ph-layout"></i>Footer</h5>
     <p class="vd-mb-8">
-      Compose branded multi-column footers with list links, social icons, and
-      dark/size variants.
+      <strong>VdFooter</strong> composes branded multi-column footers. Pass
+      <code>columns</code>, <code>dark</code>, and <code>size</code>; drop your
+      link sections into the default slot and legal text into the
+      <code>copyright</code> slot.
     </p>
 
     <!-- Rendered Demo -->
@@ -117,10 +167,7 @@ const apiRows: [string, string, string][] = [
                 overflow: hidden;
               "
             >
-              <footer
-                class="vd-footer vd-footer-3col"
-                style="position: relative"
-              >
+              <VdFooter :columns="3">
                 <div
                   v-for="s in sections"
                   :key="s.title"
@@ -133,13 +180,69 @@ const apiRows: [string, string, string][] = [
                       :key="link"
                       class="vd-footer-list-item"
                     >
-                      <a class="vd-footer-link" href="#" @click.prevent>{{
+                      <a class="vd-footer-link" href="#footer" @click.prevent>{{
                         link
                       }}</a>
                     </li>
                   </ul>
                 </div>
-              </footer>
+                <template #copyright>
+                  © 2026 Vanduo — built with vd3.
+                </template>
+              </VdFooter>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dark Variant Demo -->
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header"><h6>Dark Variant</h6></div>
+          <div class="vd-card-body">
+            <div
+              class="demo-footer-container"
+              style="
+                border: 1px solid var(--vd-border-color);
+                border-radius: var(--vd-radius-fib-5);
+                overflow: hidden;
+              "
+            >
+              <VdFooter dark :columns="2">
+                <div class="vd-footer-section">
+                  <h4 class="vd-footer-heading">Resources</h4>
+                  <ul class="vd-footer-list">
+                    <li class="vd-footer-list-item">
+                      <a class="vd-footer-link" href="#footer" @click.prevent
+                        >Guides</a
+                      >
+                    </li>
+                    <li class="vd-footer-list-item">
+                      <a class="vd-footer-link" href="#footer" @click.prevent
+                        >Changelog</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="vd-footer-section">
+                  <h4 class="vd-footer-heading">Community</h4>
+                  <ul class="vd-footer-list">
+                    <li class="vd-footer-list-item">
+                      <a class="vd-footer-link" href="#footer" @click.prevent
+                        >GitHub</a
+                      >
+                    </li>
+                    <li class="vd-footer-list-item">
+                      <a class="vd-footer-link" href="#footer" @click.prevent
+                        >Discussions</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <template #copyright> © 2026 Vanduo. MIT licensed. </template>
+              </VdFooter>
             </div>
           </div>
         </div>
@@ -214,26 +317,63 @@ const apiRows: [string, string, string][] = [
       </div>
     </div>
 
-    <h4 id="api" class="docs-heading">API Reference</h4>
-    <div class="vd-table-responsive" style="margin-bottom: 3rem">
-      <table class="vd-table vd-table-hover">
-        <thead>
-          <tr>
-            <th style="width: 25%">Class Name</th>
-            <th style="width: 55%">Description</th>
-            <th style="width: 20%">Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in apiRows" :key="row[0]">
-            <td>
-              <code>{{ row[0] }}</code>
-            </td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- API Reference -->
+    <div id="api" class="vd-card vd-card-glow demo-card">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-list-dashes mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i
+          >API Reference
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <h4>Usage</h4>
+        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+
+        <h4 class="vd-mt-6">Component API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / slot</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="vd-mt-6">CSS Classes</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 25%">Class Name</th>
+                <th style="width: 55%">Description</th>
+                <th style="width: 20%">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in apiRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
 </template>

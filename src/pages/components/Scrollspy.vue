@@ -8,7 +8,7 @@ useWaypoint(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useWaypoint } from "@vanduo-oss/vue";
+import { useWaypoint } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useWaypoint(root);   // wires [data-vd-waypoint-nav] inside root; cleanup on unmount
@@ -195,10 +195,10 @@ const events: [string, string, string][] = [
                 <div id="wp-section-api" class="waypoint-demo-section">
                   <h4>API</h4>
                   <p>
-                    Call <code>VanduoWaypoint.refresh(nav)</code> after dynamic
-                    content changes. Destroy with
-                    <code>VanduoWaypoint.destroy(nav)</code> to clean up
-                    observers.
+                    Call <code>useWaypoint(root)</code> once in setup — it wires
+                    every <code>[data-vd-waypoint-nav]</code> inside the root and
+                    tears down its observers automatically on unmount; there are
+                    no manual refresh/destroy calls.
                   </p>
                 </div>
               </div>

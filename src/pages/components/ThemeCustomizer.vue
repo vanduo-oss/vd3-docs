@@ -1,191 +1,146 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useThemeStore } from "@/stores/theme";
-import type { RadiusOption, ThemeMode } from "@vanduo-oss/vd3";
+import {
+  VdThemeCustomizer,
+  PRIMARY_COLORS,
+  NEUTRAL_COLORS,
+} from "@vanduo-oss/vd3";
 
-const themeStore = useThemeStore();
+// Live demo drives the real VdThemeCustomizer. It renders its own paint-roller
+// trigger + a teleported panel, and every control writes through the shared
+// useThemePreference() singleton — so changes apply to <html> immediately and
+// stay in sync with VdThemeSwitcher.
+const customizerRef = ref<InstanceType<typeof VdThemeCustomizer> | null>(null);
+const showPalette = ref(true);
 
-const openCustomizer = (): void => {
-  if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("vd:open-customizer"));
-  }
+const openPanel = (): void => customizerRef.value?.open();
+const togglePanel = (): void => customizerRef.value?.toggle();
+
+// The color chips below are sourced from the real exported token data, so they
+// can never drift from what the customizer actually offers.
+const primaryColors = PRIMARY_COLORS;
+const neutralColors = NEUTRAL_COLORS;
+
+const chipText = (hex: string): string => {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return lum > 0.6 ? "#212529" : "white";
 };
 
-const modes: { value: ThemeMode; icon: string; label: string }[] = [
-  { value: "system", icon: "ph-desktop", label: "System" },
-  { value: "light", icon: "ph-sun", label: "Light" },
-  { value: "dark", icon: "ph-moon", label: "Dark" },
+const usageVue = `<script setup lang="ts">
+import { VdThemeCustomizer } from "@vanduo-oss/vd3";
+<\/script>
+
+<template>
+  <!-- Renders its own trigger button + teleported panel -->
+  <VdThemeCustomizer :show-palette="true" />
+<\/template>`;
+
+const controlVue = `import { ref } from "vue";
+import { VdThemeCustomizer } from "@vanduo-oss/vd3";
+
+const customizer = ref<InstanceType<typeof VdThemeCustomizer>>();
+
+// Drive a specific instance via its exposed methods:
+customizer.value?.open();
+customizer.value?.close();
+customizer.value?.toggle();
+
+// …or open any mounted instance from anywhere via the window event
+// (e.g. a navbar button):
+window.dispatchEvent(new CustomEvent("vd:open-customizer"));`;
+
+const singletonVue = `import { useThemePreference } from "@vanduo-oss/vd3";
+const theme = useThemePreference();
+
+// Reactive current state (six fields):
+theme.state.palette; theme.state.primary; theme.state.neutral;
+theme.state.radius;  theme.state.font;    theme.state.theme;
+
+// Setters — each persists to localStorage + applies to <html>:
+theme.setPalette("fibonacci");
+theme.setPrimary("violet");
+theme.setNeutral("slate");
+theme.setRadius("0.375");
+theme.setFont("open-sans");
+theme.setTheme("dark");
+
+// Reset every field to the defaults:
+theme.reset();`;
+
+const propsRows: [string, string, string][] = [
+  [
+    "showPalette",
+    "boolean",
+    "Render the palette-selection section (Open Color / Fibonacci). Default true.",
+  ],
 ];
 
-const primaryColors: { key: string; hex: string; label: string }[] = [
-  { key: "black", hex: "#212529", label: "Black" },
-  { key: "red", hex: "#fa5252", label: "Red" },
-  { key: "orange", hex: "#fd7e14", label: "Orange" },
-  { key: "amber", hex: "#fab005", label: "Amber" },
-  { key: "yellow", hex: "#fcc419", label: "Yellow" },
-  { key: "lime", hex: "#a9e34b", label: "Lime" },
-  { key: "green", hex: "#40c057", label: "Green" },
-  { key: "emerald", hex: "#10b981", label: "Emerald" },
-  { key: "teal", hex: "#20c997", label: "Teal" },
-  { key: "cyan", hex: "#22b8cf", label: "Cyan" },
-  { key: "sky", hex: "#0ea5e9", label: "Sky" },
-  { key: "blue", hex: "#228be6", label: "Blue" },
-  { key: "indigo", hex: "#4c6ef5", label: "Indigo" },
-  { key: "violet", hex: "#7950f2", label: "Violet" },
-  { key: "purple", hex: "#9333ea", label: "Purple" },
-  { key: "fuchsia", hex: "#e64980", label: "Fuchsia" },
-  { key: "pink", hex: "#f06595", label: "Pink" },
-  { key: "rose", hex: "#f43f5e", label: "Rose" },
+const exposedRows: [string, string][] = [
+  ["open()", "Open the customizer panel."],
+  ["close()", "Close the customizer panel."],
+  ["toggle()", "Toggle the customizer panel."],
 ];
 
-const neutrals: { key: string; hex: string; label: string }[] = [
-  { key: "charcoal", hex: "#0d1117", label: "Charcoal" },
-  { key: "gray", hex: "#868e96", label: "Gray" },
-  { key: "slate", hex: "#64748b", label: "Slate" },
-  { key: "zinc", hex: "#71717a", label: "Zinc" },
-  { key: "neutral", hex: "#737373", label: "Neutral" },
-  { key: "stone", hex: "#78716c", label: "Stone" },
-];
-
-const radii: RadiusOption[] = ["0", "0.125", "0.25", "0.375", "0.5"];
-
-const fonts = [
-  { value: "jetbrains-mono", label: "JetBrains Mono" },
-  { value: "system", label: "System Default" },
-  { value: "ubuntu", label: "Ubuntu" },
-  { value: "lato", label: "Lato" },
-  { value: "open-sans", label: "Open Sans" },
-];
-
-const quickStartHtml = `<!-- Trigger button -->
-<button class="vd-theme-customizer-trigger"
-        data-theme-customizer-trigger
-        aria-label="Open theme customizer">
-  <i class="ph ph-paint-roller"></i>
-</button>
-
-<!-- Include the JS component -->
-<script src="js/components/theme-customizer.js"><\/script>`;
-
-const apiVue3 = `import { useThemeStore } from '@/stores/theme';
-const theme = useThemeStore();
-
-// Reactive current state
-theme.theme; theme.primary; theme.neutral; theme.radius; theme.font;
-
-// Set values (each persists to localStorage + applies to <html>)
-theme.setPrimary('violet');
-theme.setNeutral('slate');
-theme.setRadius('0.375');
-theme.setFont('open-sans');
-theme.setTheme('dark');
-
-// Reset to defaults
-theme.reset();
-
-// Open the navbar customizer panel
-window.dispatchEvent(new CustomEvent('vd:open-customizer'));`;
-
-const coordinationHtml = `<!-- Navbar: Quick toggle via ThemeSwitcher -->
-<button class="vd-btn vd-btn-icon" data-toggle="theme">
-  <i class="ph ph-moon"></i>
-</button>
-
-<!-- Settings: Full panel via ThemeCustomizer -->
-<button class="vd-theme-customizer-trigger" data-theme-customizer-trigger>
-  <i class="ph ph-paint-roller"></i>
-</button>
-
-<!-- Both components coordinate automatically -->`;
-
-const cssCustomCss = `/* Panel dimensions */
-:root {
-  --vd-customizer-width: 320px;
-  --vd-customizer-padding: 1rem;
-}
-
-/* Panel surface */
-:root {
-  --vd-customizer-bg: var(--vd-bg-primary);
-  --vd-customizer-border: var(--vd-border-color);
-  --vd-customizer-shadow: var(--vd-shadow-lg);
-}
-
-/* Color swatches */
-:root {
-  --vd-customizer-swatch-size: 28px;
-}`;
-
-const eventsJs = `// Panel opened
-document.addEventListener('theme:panel-open', () => {
-  console.log('Customizer opened');
-});
-
-// Panel closed
-document.addEventListener('theme:panel-close', () => {
-  console.log('Customizer closed');
-});
-
-// Any setting changed
-document.addEventListener('theme:change', (e) => {
-  console.log('Changed:', e.detail);
-  // { type: 'primary-change', value: 'violet', state: { ... } }
-});
-
-// Settings reset
-document.addEventListener('theme:reset', () => {
-  console.log('Settings reset to defaults');
-});`;
-
-const storageRows: [string, string, string][] = [
-  ["vanduo-primary-color", "cyan", "Primary brand color"],
-  ["vanduo-neutral-color", "charcoal", "Neutral/gray scale"],
-  ["vanduo-radius", "0.5", "Border radius scale"],
-  ["vanduo-font-preference", "ubuntu", "Font family"],
-  ["vanduo-theme-preference", "system", "Color mode"],
-];
-
-const apiRows: [string, string, string][] = [
+const cssApi: [string, string, string][] = [
+  [
+    ".vd-theme-customizer",
+    "Root wrapper; gains .is-open while the panel is open.",
+    "Class",
+  ],
   [
     ".vd-theme-customizer-trigger",
-    "Optional base styling component for the trigger button.",
-    "Component",
+    "The built-in paint-roller trigger button (also carries data-theme-customizer-trigger).",
+    "Class",
   ],
   [
-    "data-theme-customizer-trigger",
-    "Attribute required on the trigger button to bind the click event that opens the panel.",
-    "Attribute",
+    ".vd-theme-customizer-overlay",
+    "Teleported backdrop; .is-active while open.",
+    "Class",
   ],
   [
-    "data-primary",
-    "Applied to <html>. Remaps --vd-primary-* CSS variables to the selected color.",
+    ".vd-theme-customizer-panel",
+    'Teleported panel <aside role="dialog">; .is-open while open.',
+    "Class",
+  ],
+  [
+    "data-primary / data-neutral",
+    "Applied to <html>. Remap the --vd-primary-* / --vd-gray-* CSS variables.",
     "State Attribute",
   ],
   [
-    "data-neutral",
-    "Applied to <html>. Remaps --vd-gray-* CSS variables to the selected neutral scale.",
+    "data-radius / data-font",
+    "Applied to <html>. Set --vd-radius-scale and the font stack (data-font removed for system).",
     "State Attribute",
   ],
   [
-    "data-radius",
-    "Applied to <html>. Sets --vd-radius-scale for component border-radius.",
-    "State Attribute",
-  ],
-  [
-    "data-font",
-    "Applied to <html>. Sets --vd-font-family-base to the selected font stack.",
-    "State Attribute",
-  ],
-  [
-    "data-theme",
-    "Applied to <html>. Forces light or dark mode. Removed when using system preference.",
+    "data-palette",
+    "Applied to <html>. Selects the Open Color or Fibonacci palette.",
     "State Attribute",
   ],
 ];
 
-const chipText = (hex: string): string =>
-  ["#fab005", "#fcc419", "#a9e34b"].includes(hex) ? "#212529" : "white";
+const storageRows: [string, string, string][] = [
+  ["vanduo-palette", "open-color", "Active palette (Open Color / Fibonacci)"],
+  [
+    "vanduo-primary-color",
+    "black / amber",
+    "Primary brand color (auto default per scheme)",
+  ],
+  ["vanduo-neutral-color", "charcoal", "Neutral / gray scale"],
+  ["vanduo-radius", "0.5", "Border radius scale"],
+  ["vanduo-font-preference", "ubuntu", "Font family"],
+  [
+    "vanduo-theme-preference",
+    "system",
+    "Color mode (shared with VdThemeSwitcher)",
+  ],
+];
 </script>
 
 <template>
@@ -194,211 +149,122 @@ const chipText = (hex: string): string =>
       <i class="ph ph-paint-roller"></i>Theme Customizer
     </h5>
     <p class="vd-mb-8">
-      The Theme Customizer is a powerful component that allows users to
-      personalize the framework's appearance in real-time. It provides controls
-      for primary color, neutral color, border radius, font family, and color
-      mode (light/dark/system), all on top of the default
-      <strong>Open Color</strong> palette. For color-mode-only needs, see the
+      <strong>VdThemeCustomizer</strong> lets users personalize the theme in
+      real time — palette, primary color, neutral scale, border radius, and font
+      family — all on top of the default <strong>Open Color</strong> palette.
+      Every control writes through the shared
+      <code>useThemePreference()</code> singleton, so it stays in sync with the
       <RouterLink to="/components/theme-switcher">Theme Switcher</RouterLink>
-      or the
+      and persists to <code>localStorage</code>. Color mode itself lives in the
+      switcher; see the
       <RouterLink to="/guides/theme-customizer"
         >Theme Customizer walkthrough</RouterLink
-      >.
+      >
+      for the full story.
     </p>
 
-    <!-- Live Demo: inline customizer -->
-    <div
-      class="vd-card vd-card-glow demo-card vd-mb-8 theme-customizer-demo-card"
-    >
+    <!-- Live Demo: real component -->
+    <div class="vd-card vd-card-glow demo-card vd-mb-8">
       <div class="vd-card-header">
         <h6><i class="ph ph-play-circle"></i>Live Demo</h6>
       </div>
       <div class="vd-card-body">
         <p class="vd-mb-5">
-          Try all the theme options below. Changes apply immediately:
+          This is a real <code>&lt;VdThemeCustomizer&gt;</code>. It renders its
+          own paint-roller trigger (click it) and teleports the panel under it —
+          every change applies to this page immediately:
         </p>
-        <div class="vd-mb-5 theme-customizer-demo-trigger-row">
-          <span class="vd-text-sm vd-text-muted"
-            >Open the same dropdown panel used in the navbar.</span
-          >
+        <div class="vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center">
+          <VdThemeCustomizer ref="customizerRef" :show-palette="showPalette" />
           <button
             type="button"
-            class="vd-theme-customizer-trigger"
-            aria-label="Open theme customizer"
-            @click="openCustomizer"
+            class="vd-btn vd-btn-sm vd-btn-primary"
+            @click="openPanel"
           >
-            <i class="ph ph-paint-roller"></i>
+            open()
           </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-sm vd-btn-secondary"
+            @click="togglePanel"
+          >
+            toggle()
+          </button>
+          <label class="vd-form-switch" style="margin-left: auto">
+            <input
+              v-model="showPalette"
+              type="checkbox"
+              class="vd-form-switch-input"
+              role="switch"
+            />
+            <span class="vd-form-switch-label"
+              >show-palette: {{ showPalette }}</span
+            >
+          </label>
         </div>
-
-        <div class="theme-customizer-inline">
-          <!-- Color Mode -->
-          <div class="customizer-section vd-mb-5">
-            <label
-              class="customizer-label vd-d-block vd-mb-3 vd-text-sm vd-font-semibold"
-              >Color Mode</label
-            >
-            <div class="vd-d-flex vd-gap-2">
-              <button
-                v-for="m in modes"
-                :key="m.value"
-                class="vd-btn vd-btn-sm vd-btn-secondary theme-mode-btn"
-                :class="{ active: themeStore.theme === m.value }"
-                @click="themeStore.setTheme(m.value)"
-              >
-                <i class="ph" :class="m.icon"></i> {{ m.label }}
-              </button>
-            </div>
-          </div>
-
-          <!-- Primary Color -->
-          <div class="customizer-section vd-mb-5">
-            <label
-              class="customizer-label vd-d-block vd-mb-3 vd-text-sm vd-font-semibold"
-              >Primary Color</label
-            >
-            <div class="vd-d-flex vd-flex-wrap vd-gap-2">
-              <button
-                v-for="c in primaryColors"
-                :key="c.key"
-                class="color-swatch"
-                :class="{ active: themeStore.primary === c.key }"
-                :style="`background: ${c.hex};`"
-                :title="c.label"
-                @click="themeStore.setPrimary(c.key)"
-              ></button>
-            </div>
-          </div>
-
-          <!-- Neutral Color -->
-          <div class="customizer-section vd-mb-5">
-            <label
-              class="customizer-label vd-d-block vd-mb-3 vd-text-sm vd-font-semibold"
-              >Neutral Color</label
-            >
-            <div class="vd-d-flex vd-gap-2">
-              <button
-                v-for="n in neutrals"
-                :key="n.key"
-                class="vd-btn vd-btn-sm vd-btn-secondary neutral-btn"
-                :class="{ active: themeStore.neutral === n.key }"
-                @click="themeStore.setNeutral(n.key)"
-              >
-                {{ n.label }}
-              </button>
-            </div>
-          </div>
-
-          <!-- Border Radius -->
-          <div class="customizer-section vd-mb-5">
-            <label
-              class="customizer-label vd-d-block vd-mb-3 vd-text-sm vd-font-semibold"
-              >Border Radius</label
-            >
-            <div class="vd-d-flex vd-gap-2 vd-align-items-center">
-              <button
-                v-for="r in radii"
-                :key="r"
-                class="vd-btn vd-btn-sm vd-btn-secondary radius-btn"
-                :class="{ active: themeStore.radius === r }"
-                @click="themeStore.setRadius(r)"
-              >
-                {{ r }}
-              </button>
-            </div>
-          </div>
-
-          <!-- Font Family -->
-          <div class="customizer-section">
-            <label
-              class="customizer-label vd-d-block vd-mb-3 vd-text-sm vd-font-semibold"
-              >Font Family</label
-            >
-            <select
-              class="vd-input vd-input-sm font-select"
-              style="max-width: 250px"
-              :value="themeStore.font"
-              @change="
-                themeStore.setFont(($event.target as HTMLSelectElement).value)
-              "
-            >
-              <option v-for="f in fonts" :key="f.value" :value="f.value">
-                {{ f.label }}
-              </option>
-            </select>
-          </div>
-
-          <div class="theme-customizer-inline-footer vd-mt-5">
-            <button
-              type="button"
-              class="vd-btn vd-btn-sm vd-btn-secondary customizer-reset"
-              @click="themeStore.reset()"
-            >
-              Reset to Defaults
-            </button>
-          </div>
-        </div>
+        <p class="vd-text-sm vd-text-muted vd-mt-4">
+          The buttons dogfood the exposed <code>open()</code> /
+          <code>toggle()</code> methods; the switch flips the
+          <code>show-palette</code> prop (watch the Palette section appear /
+          disappear inside the panel).
+        </p>
       </div>
     </div>
 
-    <!-- Quick Start + Features -->
+    <!-- Usage + Features -->
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Quick Start</h6></div>
+          <div class="vd-card-header"><h6>Usage</h6></div>
           <div class="vd-card-body">
             <p>
-              Add a trigger button anywhere in your page to open the customizer
-              panel:
+              Drop the component anywhere — it brings its own trigger and panel:
             </p>
-            <DocCodeSnippet :html="quickStartHtml" />
-            <p class="vd-mt-5">
-              <strong>Try it:</strong> Click the
-              <i class="ph ph-paint-roller"></i> icon in the navbar to open the
-              Theme Customizer.
+            <DocCodeSnippet :html="usageVue" :default-open="true" />
+            <p class="vd-mt-5 vd-text-sm vd-text-muted">
+              Mount it once (typically in your navbar). Any other button can
+              open it by dispatching the <code>vd:open-customizer</code> window
+              event.
             </p>
           </div>
         </div>
       </div>
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Features</h6></div>
+          <div class="vd-card-header"><h6>Panel Sections</h6></div>
           <div class="vd-card-body">
             <ul>
               <li>
                 <strong>Palette:</strong> Open Color (default) or Fibonacci
-                (golden-angle, optional)
+                (golden-angle) — shown when <code>show-palette</code> is true
+              </li>
+              <li><strong>Primary Color:</strong> 18 color options</li>
+              <li>
+                <strong>Neutral Color:</strong> 6 scales (Charcoal, Slate, Gray,
+                Zinc, Neutral, Stone)
               </li>
               <li>
-                <strong>Primary Color:</strong> 18 color options re-toned on the
-                active palette
+                <strong>Border Radius:</strong> 5 presets (0, 0.125, 0.25,
+                0.375, 0.5)
               </li>
               <li>
-                <strong>Neutral Color:</strong> 6 gray scale variants (Charcoal,
-                Gray, Slate, Zinc, Neutral, Stone)
+                <strong>Font Family:</strong> 5 options (JetBrains Mono, System
+                Default, Ubuntu, Lato, Open Sans)
               </li>
-              <li>
-                <strong>Border Radius:</strong> 5 presets (0, 0.125rem, 0.25rem,
-                0.375rem, 0.5rem)
-              </li>
-              <li>
-                <strong>Font Family:</strong> 5 curated options (JetBrains Mono,
-                System, Ubuntu, Lato, Open Sans)
-              </li>
-              <li>
-                <strong>Color Mode:</strong> System (default), Dark, or Light
-              </li>
+              <li><strong>Reset:</strong> restore every field to defaults</li>
             </ul>
-            <p class="vd-mt-5 vd-text-sm vd-text-muted">
-              All preferences are persisted to <code>localStorage</code> and
-              restored on page load.
+            <p class="vd-mt-4 vd-text-sm vd-text-muted">
+              Color mode (light / dark / system) is owned by
+              <RouterLink to="/components/theme-switcher"
+                >VdThemeSwitcher</RouterLink
+              >; both share the same singleton.
             </p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Available colors -->
+    <!-- Available colors (from real token data) -->
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
@@ -409,8 +275,8 @@ const chipText = (hex: string): string =>
                 v-for="c in primaryColors"
                 :key="c.key"
                 class="vd-chip"
-                :style="`background: ${c.hex}; color: ${chipText(c.hex)};`"
-                >{{ c.label }}</span
+                :style="`background: ${c.color}; color: ${chipText(c.color)};`"
+                >{{ c.name }}</span
               >
             </div>
           </div>
@@ -422,12 +288,12 @@ const chipText = (hex: string): string =>
           <div class="vd-card-body">
             <div class="vd-d-flex vd-flex-wrap vd-gap-3 vd-mb-5">
               <span
-                v-for="n in neutrals"
-                :key="n.key"
+                v-for="c in neutralColors"
+                :key="c.key"
                 class="vd-chip"
-                :style="`background: ${n.hex}; color: white;`"
-                >{{ n.label
-                }}{{ n.key === "charcoal" ? " (default)" : "" }}</span
+                :style="`background: ${c.color}; color: ${chipText(c.color)};`"
+                >{{ c.name
+                }}{{ c.key === "charcoal" ? " (default)" : "" }}</span
               >
             </div>
             <p class="vd-text-sm vd-text-muted">
@@ -439,115 +305,179 @@ const chipText = (hex: string): string =>
       </div>
     </div>
 
-    <!-- localStorage + JS API -->
+    <!-- Programmatic control + singleton -->
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>localStorage Keys</h6></div>
+          <div class="vd-card-header"><h6>Programmatic Control</h6></div>
           <div class="vd-card-body">
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Key</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in storageRows" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>
-                      <code>{{ row[1] }}</code>
-                    </td>
-                    <td>{{ row[2] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <p>Open/close a specific instance, or any mounted one:</p>
+            <DocCodeSnippet :js="controlVue" />
           </div>
         </div>
       </div>
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>JavaScript API</h6></div>
+          <div class="vd-card-header"><h6>Theme Singleton API</h6></div>
           <div class="vd-card-body">
-            <DocCodeSnippet :js="apiVue3" :default-open="true" />
+            <p>
+              The customizer is a thin UI over <code>useThemePreference()</code>
+              — you can read or drive the same state directly:
+            </p>
+            <DocCodeSnippet :js="singletonVue" />
           </div>
         </div>
       </div>
     </div>
 
     <!-- API Reference -->
-    <h4 id="api" class="docs-heading">API Reference</h4>
-    <div class="vd-table-responsive" style="margin-bottom: 3rem">
-      <table class="vd-table vd-table-hover">
-        <thead>
-          <tr>
-            <th style="width: 25%">Class Name / Attribute</th>
-            <th style="width: 55%">Description</th>
-            <th style="width: 20%">Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in apiRows" :key="row[0]">
-            <td>
-              <code>{{ row[0] }}</code>
-            </td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="vd-card vd-card-glow demo-card">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-list-dashes mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i
+          >API Reference
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <h4>Props</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th style="width: 22%">Prop</th>
+                <th style="width: 20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in propsRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>
+                  <code>{{ row[1] }}</code>
+                </td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="vd-mt-6">Exposed (template ref)</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th style="width: 22%">Member</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in exposedRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="vd-mt-6">Window Event</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th style="width: 30%">Event</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>vd:open-customizer</code></td>
+                <td>
+                  A mounted VdThemeCustomizer opens its panel when this
+                  <code>window</code> event is dispatched — wire it to a navbar
+                  trigger.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="vd-mt-6">CSS API</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 30%">Class / Attribute</th>
+                <th style="width: 50%">Description</th>
+                <th style="width: 20%">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in cssApi" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="vd-mt-6">localStorage Keys</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in storageRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>
+                  <code>{{ row[1] }}</code>
+                </td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- Coordination -->
-    <h4 class="docs-heading">Coordination with ThemeSwitcher</h4>
+    <h4 class="docs-heading">Coordination with VdThemeSwitcher</h4>
     <div class="vd-row vd-mb-8">
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Auto-Coordination</h6></div>
           <div class="vd-card-body">
             <p>
-              When both ThemeCustomizer and ThemeSwitcher are present on the
-              same page, they automatically stay in sync:
+              Both components read and write the same
+              <code>useThemePreference()</code> singleton, so they never clobber
+              each other:
             </p>
             <ul class="vd-mt-4">
               <li>
-                Changing theme via <strong>ThemeSwitcher</strong> button
-                triggers primary color swap if using defaults
+                Picking a color/neutral/radius/font in the
+                <strong>customizer</strong> leaves the switcher's mode untouched
               </li>
               <li>
-                Changing theme via <strong>ThemeCustomizer</strong> panel
-                updates ThemeSwitcher state
+                Switching mode in the <strong>switcher</strong> re-derives the
+                auto-default primary but never overwrites a color you chose
               </li>
-              <li>Preferences are shared via <code>localStorage</code></li>
+              <li>Every field is shared via <code>localStorage</code></li>
             </ul>
-            <DocCodeSnippet class="vd-mt-5" :html="coordinationHtml" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CSS customization + Events -->
-    <div class="vd-row">
-      <div class="vd-col-12 vd-col-md-6">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>CSS Customization</h6></div>
-          <div class="vd-card-body">
-            <p>Override the customizer panel styles:</p>
-            <DocCodeSnippet :css="cssCustomCss" />
-          </div>
-        </div>
-      </div>
-      <div class="vd-col-12 vd-col-md-6">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Events</h6></div>
-          <div class="vd-card-body">
-            <p>Listen for customizer events:</p>
-            <DocCodeSnippet :js="eventsJs" />
           </div>
         </div>
       </div>

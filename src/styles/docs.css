@@ -3164,19 +3164,6 @@ a:hover .vd-card-interactive.vd-card-glow {
   color: var(--vd-color-white);
 }
 
-/* ── Docs engine toggle (Vanilla ⇄ Vue 3) ────────────── */
-[data-theme="light"] #docs-view .doc-engine-toggle {
-  background: var(--vd-stone-0);
-  border-color: var(--vd-stone-3);
-}
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) #docs-view .doc-engine-toggle {
-    background: var(--vd-stone-0);
-    border-color: var(--vd-stone-3);
-  }
-}
-
 [data-theme="light"] #docs-view .vd-code-snippet {
   --vd-code-bg: var(--vd-stone-0);
   --vd-code-header-bg: var(--vd-stone-2);
@@ -3194,10 +3181,6 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 /* Dark mode: outline-only surfaces (charcoal bg flush with the page, visible borders) */
-[data-theme="dark"] #docs-view .doc-engine-toggle {
-  background: var(--vd-charcoal-9);
-}
-
 [data-theme="dark"] #docs-view .demo-card {
   --vd-card-bg: var(--vd-charcoal-9);
   --vd-card-bg-filled: var(--vd-charcoal-9);
@@ -3212,10 +3195,6 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) #docs-view .doc-engine-toggle {
-    background: var(--vd-charcoal-9);
-  }
-
   :root:not([data-theme]) #docs-view .demo-card {
     --vd-card-bg: var(--vd-charcoal-9);
     --vd-card-bg-filled: var(--vd-charcoal-9);
@@ -3228,70 +3207,6 @@ a:hover .vd-card-interactive.vd-card-glow {
     --vd-code-header-bg: var(--vd-charcoal-9);
     --vd-code-tab-hover-bg: var(--vd-charcoal-9);
   }
-}
-
-.doc-engine-toggle {
-  display: flex;
-  gap: 0.25rem;
-  padding: 0.25rem;
-  margin-bottom: 0.5rem;
-  border: 1px solid var(--vd-border-color);
-  border-radius: var(--vd-btn-border-radius);
-  background: var(--vd-bg-secondary);
-}
-
-.doc-engine-option {
-  flex: 1 1 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.5rem;
-  border: none;
-  border-radius: calc(var(--vd-btn-border-radius) - 2px);
-  background: transparent;
-  color: var(--vd-text-secondary);
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
-}
-
-.doc-engine-option:hover {
-  color: var(--vd-color-primary);
-}
-
-.doc-engine-option.active {
-  background: var(--vd-color-primary);
-  color: var(--vd-color-white, #fff);
-}
-
-.doc-engine-option:focus-visible {
-  outline: 2px solid
-    color-mix(in srgb, var(--vd-color-primary) 45%, transparent);
-  outline-offset: 2px;
-}
-
-/* Changelog: a single timeline filtered STRICTLY by the selected engine in JS
-   (changelog.vue). An entry shows only when its own (or nearest ancestor's)
-   data-engine tag includes the active engine; untagged entries are hidden, and
-   groups/columns left empty are collapsed. This guarantees the JS-set [hidden]
-   wins over any component display rule. */
-#changelog [hidden] {
-  display: none !important;
-}
-
-.changelog-engine-toggle {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.25rem;
-}
-
-.changelog-engine-toggle .doc-engine-toggle {
-  width: 16rem;
-  margin-bottom: 0;
 }
 
 /* ── Syntax highlighting (highlight.js tokens, themed via Vanduo tokens) ──

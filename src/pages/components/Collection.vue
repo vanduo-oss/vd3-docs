@@ -2,7 +2,7 @@
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
-import { VdCollection } from "@vanduo-oss/vue";
+import { VdCollection } from "@vanduo-oss/vd3";
 const items = [
   { id: 1, title: "Ada Lovelace", subtitle: "Engineer", avatar: "/ada.jpg" },
   { id: 2, title: "Alan Turing", subtitle: "Mathematician" },
