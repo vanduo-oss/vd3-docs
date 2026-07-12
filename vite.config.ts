@@ -29,6 +29,22 @@ export default defineConfig({
     // edits to the sibling builds are always reflected in dev and SSG.
     exclude: ["@vanduo-oss/vd3", "@vanduo-oss/vd3-cbun"],
   },
+  server: {
+    fs: {
+      // @vanduo-oss/vd3 + vd3-cbun are consumed via pnpm `link:` to sibling
+      // working trees OUTSIDE this project root, and their bundled CSS references
+      // fonts/icons with relative url()s that resolve into ../vd3/dist and
+      // ../vd3-cbun/dist. The dev server's default fs.allow only covers the
+      // project root, so those @fs requests 403 without these entries. Harmless
+      // once the deps flip to published versions (assets then live in
+      // node_modules under the project root) — the entries just no-op.
+      allow: [
+        fileURLToPath(new URL(".", import.meta.url)),
+        fileURLToPath(new URL("../vd3", import.meta.url)),
+        fileURLToPath(new URL("../vd3-cbun", import.meta.url)),
+      ],
+    },
+  },
   ssr: {
     // SSG must transform the linked packages' .vue components (not require them
     // as CJS) during prerender.
