@@ -44,16 +44,3 @@ deploys disabled, no CNAME.
   the site (`docs-clone-and-strip`), and that deploys are disabled with
   no CNAME until launch
 
-### Requirement: no premature package or site code
-At the end of this change the repository SHALL NOT contain a
-`package.json`, lockfile, `.npmrc`, `pnpm-workspace.yaml`, `src/`
-directory, build config, or CI/deploy workflow — the vd2 clone brings its
-own adapted manifests and code in `docs-clone-and-strip`.
-
-#### Scenario: repo root holds hygiene files only
-- **GIVEN** the repo immediately after this change is applied
-- **WHEN** the repo root is listed (excluding `.git/`, `openspec/`, and
-  `.claude/`)
-- **THEN** exactly `.gitignore`, `LICENSE`, and `README.md` are present
-  and no `package.json`, `src/`, or workflow files exist
-
