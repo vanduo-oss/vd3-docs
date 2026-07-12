@@ -31,7 +31,8 @@
     "test:watch": "vitest",
     "test:size": "node tests/scripts/size.mjs",
     "test:e2e": "playwright test --project='Chromium Desktop'",
-    "test:e2e:full": "playwright test"
+    "test:e2e:full": "playwright test",
+    "test:a11y": "playwright test a11y-smoke --project='Chromium Desktop'"
   },
   "dependencies": {
     "@unhead/vue": "2.1.15",
@@ -43,8 +44,10 @@
     "vue-router": "^5.1.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
     "@eslint/js": "10.0.1",
     "@playwright/test": "^1.61.1",
+    "axe-core": "4.12.1",
     "@types/node": "^26.1.0",
     "@typescript-eslint/parser": "8.62.0",
     "@vitejs/plugin-vue": "^6.0.7",

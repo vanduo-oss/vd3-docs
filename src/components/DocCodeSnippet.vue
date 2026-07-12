@@ -81,6 +81,12 @@ const copy = async (): Promise<void> => {
       :data-visible="expanded ? 'true' : 'false'"
     >
       <div class="vd-code-snippet-header">
+        <!--
+          `role="tab"` + `aria-selected` on each button makes this a valid
+          tablist. Previously the `role="tablist"` wrapped plain <button>s with
+          no `role="tab"` children, so axe flagged `aria-required-children`
+          (critical) on every page that renders a snippet.
+        -->
         <div class="vd-code-snippet-tabs" role="tablist">
           <button
             v-for="l in langs"
@@ -88,6 +94,9 @@ const copy = async (): Promise<void> => {
             class="vd-code-snippet-tab"
             :class="{ 'is-active': active === l.key }"
             :data-lang="l.key"
+            type="button"
+            role="tab"
+            :aria-selected="active === l.key"
             @click="active = l.key"
           >
             {{ l.label }}

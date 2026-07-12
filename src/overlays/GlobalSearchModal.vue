@@ -121,15 +121,19 @@ onUnmounted(() => {
         <kbd class="global-search-kbd" @click="search.close()">esc</kbd>
       </div>
 
-      <div
-        class="global-search-results"
-        role="listbox"
-        aria-label="Search results"
-      >
+      <!--
+        Scroll container only — NOT a listbox. A `role="listbox"` here was
+        always present and empty (the modal is mounted on every route), so axe
+        flagged `aria-required-children` (a listbox must contain options) on
+        every page. The real listbox is the inner <ul>, which only renders when
+        there are result options.
+      -->
+      <div class="global-search-results">
         <ul
           v-if="search.ordered.length > 0"
           class="global-search-results-list"
           role="listbox"
+          aria-label="Search results"
         >
           <template v-for="group in search.groups" :key="group.categoryPath">
             <li class="global-search-category-label">
