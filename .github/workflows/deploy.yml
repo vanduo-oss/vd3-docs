@@ -36,7 +36,11 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+      # Project-page deploy lives under https://vanduo-oss.github.io/vd3-docs/,
+      # so build with that base (assets + router resolve under /vd3-docs/).
       - run: pnpm run build
+        env:
+          VITE_BASE: /vd3-docs/
       - name: Disable Jekyll processing
         run: touch dist/.nojekyll
 
