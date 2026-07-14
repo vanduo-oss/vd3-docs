@@ -188,16 +188,25 @@ body {
 
 .hero-title-word {
   color: #475569;
-  margin-top: 0.2em;
-  margin-left: 0;
 }
 
 .hero-title-text {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.3em;
   justify-content: center;
   min-width: 0;
+}
+
+.hero-subtitle {
+  font-family: Michroma, sans-serif;
+  font-size: 1.25rem;
+  color: var(--vd-color-muted, #475569);
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  margin-top: 1rem;
+  margin-bottom: 0;
 }
 
 .hero-title-logo-wrap {
@@ -241,12 +250,19 @@ body {
   transform: translateY(-0.04em);
 }
 
+.vd-footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
 .vd-footer-brand-logo {
   width: 2.5rem;
   height: 2.5rem;
-  margin-top: 0.75rem;
   display: block;
+  flex-shrink: 0;
   object-fit: contain;
+  transform: translateY(-0.04em);
 }
 
 .vd-footer-brand-title {
@@ -259,7 +275,7 @@ body {
 }
 
 .vd-footer-brand-title .hero-title-text {
-  align-items: flex-start;
+  align-items: baseline;
 }
 
 .vd-lt-flag-link {
@@ -1246,10 +1262,6 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--vd-spacing-8);
-  }
-
-  .vd-footer-brand-logo {
-    margin-top: 0;
   }
 
   .vd-footer h4 {

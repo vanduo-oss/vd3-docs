@@ -145,20 +145,23 @@ const swatches = [
           >
             <span class="hero-title-logo-wrap">
               <img
-                src="/images/vanduo-h2o-logo-animated.svg"
+                src="/images/vd3-logo.svg"
                 class="hero-title-logo"
                 alt=""
                 aria-hidden="true"
-                width="200"
-                height="200"
+                width="659"
+                height="594"
                 decoding="async"
               />
             </span>
             <span class="hero-title-text">
-              <span class="hero-title-brand">vanduo</span>
-              <span class="hero-title-word">ui</span>
+              <span class="hero-title-brand">vd3</span>
+              <span class="hero-title-word">UI</span>
             </span>
           </h2>
+          <p class="hero-subtitle vd-text-muted">
+            Vue 3 Design System &amp; Components
+          </p>
           <div class="vd-mt-6 hero-cta-buttons">
             <RouterLink
               to="/guides/getting-started"

@@ -34,21 +34,23 @@ const resources = [
       <div class="vd-row">
         <div class="vd-col-12 vd-col-md-4">
           <div class="vd-footer-section">
-            <h4 class="vd-footer-brand-title">
-              <span class="hero-title-text">
-                <span class="hero-title-brand">vanduo</span>
-                <span class="hero-title-word">ui</span>
-              </span>
-            </h4>
-            <img
-              src="/images/vanduo-h2o-logo-static.svg"
-              class="vd-footer-brand-logo"
-              alt=""
-              aria-hidden="true"
-              width="200"
-              height="200"
-              decoding="async"
-            />
+            <div class="vd-footer-brand">
+              <img
+                src="/images/vd3-logo.svg"
+                class="vd-footer-brand-logo"
+                alt=""
+                aria-hidden="true"
+                width="659"
+                height="594"
+                decoding="async"
+              />
+              <h4 class="vd-footer-brand-title">
+                <span class="hero-title-text">
+                  <span class="hero-title-brand">vd3</span>
+                  <span class="hero-title-word">ui</span>
+                </span>
+              </h4>
+            </div>
           </div>
         </div>
         <div class="vd-col-12 vd-col-md-4">

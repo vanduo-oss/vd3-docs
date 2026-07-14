@@ -36,15 +36,15 @@ const closeMenu = (): void => {
         <div class="vd-navbar-brand-wrap">
           <RouterLink to="/" class="vd-navbar-brand-link" @click="closeMenu">
             <img
-              src="/images/vanduo-h2o-logo-static.svg"
+              src="/images/vd3-logo.svg"
               class="vd-navbar-brand-logo"
               alt=""
               aria-hidden="true"
-              width="200"
-              height="200"
+              width="659"
+              height="594"
               decoding="async"
             />
-            <span>Vanduo</span>
+            <span>vd3</span>
           </RouterLink>
         </div>
       </div>
