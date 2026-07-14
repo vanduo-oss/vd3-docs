@@ -196,9 +196,9 @@ const events: [string, string, string][] = [
                   <h4>API</h4>
                   <p>
                     Call <code>useWaypoint(root)</code> once in setup — it wires
-                    every <code>[data-vd-waypoint-nav]</code> inside the root and
-                    tears down its observers automatically on unmount; there are
-                    no manual refresh/destroy calls.
+                    every <code>[data-vd-waypoint-nav]</code> inside the root
+                    and tears down its observers automatically on unmount; there
+                    are no manual refresh/destroy calls.
                   </p>
                 </div>
               </div>

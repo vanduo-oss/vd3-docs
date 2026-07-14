@@ -85,8 +85,14 @@ const jsRows: [string, string][] = [
     "controller.hide(trigger)",
     "Close the bubble/panel for a wired trigger element.",
   ],
-  ["controller.hideAll()", "Close every bubble and panel wired by this instance."],
-  ["controller.refresh()", "Re-scan the root and wire triggers added since mount."],
+  [
+    "controller.hideAll()",
+    "Close every bubble and panel wired by this instance.",
+  ],
+  [
+    "controller.refresh()",
+    "Re-scan the root and wire triggers added since mount.",
+  ],
 ];
 
 const eventRows: [string, string][] = [

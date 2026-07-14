@@ -111,8 +111,7 @@ const vue3Api: [string, string][] = [
       <code>label</code> and an <code>items</code> array and it renders an
       accessible <code>role="menu"</code> popup, reusing the framework's
       dropdown runtime for toggle, keyboard and outside-click behaviour. To wire
-      hand-written dropdown markup instead, call
-      <code>useDropdown(root)</code>.
+      hand-written dropdown markup instead, call <code>useDropdown(root)</code>.
     </p>
 
     <div class="vd-row">

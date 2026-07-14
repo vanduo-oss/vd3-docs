@@ -122,9 +122,9 @@ const events: [string, string][] = [
   <section id="datepicker" ref="root">
     <h5 class="demo-title"><i class="ph ph-calendar-dots"></i>Datepicker</h5>
     <p class="vd-mb-5">
-      The <strong>datepicker</strong> attaches a calendar popup
-      to any text input. Supports custom date formats, min/max date constraints,
-      and month/year navigation — all driven by data attributes and wired with
+      The <strong>datepicker</strong> attaches a calendar popup to any text
+      input. Supports custom date formats, min/max date constraints, and
+      month/year navigation — all driven by data attributes and wired with
       <code>useDatepicker</code>.
     </p>
 

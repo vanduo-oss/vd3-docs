@@ -76,9 +76,9 @@ registry.register({
     <h5 class="demo-title"><i class="ph ph-magnifying-glass"></i>Search</h5>
     <p class="vd-mb-8">
       The framework ships a small registry for plugging named data sources into
-      a search overlay. The package does NOT ship a UI — overlays (e.g. a
-      global search modal) consume the registry. Sources can be local
-      arrays, fetched JSON, or any async provider.
+      a search overlay. The package does NOT ship a UI — overlays (e.g. a global
+      search modal) consume the registry. Sources can be local arrays, fetched
+      JSON, or any async provider.
     </p>
 
     <div class="vd-row vd-mb-6" ref="root">

@@ -109,9 +109,9 @@ const events: [string, string][] = [
       <i class="ph ph-magnifying-glass"></i>Autocomplete / Suggest
     </h5>
     <p class="vd-mb-5">
-      The <strong>suggest</strong> control adds type-ahead suggestions
-      to any text input. Feed it a static JSON array or point it at a remote
-      JSON endpoint — results filter as the user types, wired with
+      The <strong>suggest</strong> control adds type-ahead suggestions to any
+      text input. Feed it a static JSON array or point it at a remote JSON
+      endpoint — results filter as the user types, wired with
       <code>useSuggest</code>. Alias: <code>data-vd-autocomplete</code>.
     </p>
 

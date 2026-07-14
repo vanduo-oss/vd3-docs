@@ -76,8 +76,8 @@ const vue3Api: [string, string][] = [
       <strong>VdSlider</strong> styles a native
       <code>&lt;input type="range"&gt;</code> with a themed track, fill and
       thumb. It renders from pure CSS and binds with
-      <code>v-model</code> (numbers) — with optional label and
-      live value read-out.
+      <code>v-model</code> (numbers) — with optional label and live value
+      read-out.
     </p>
 
     <div class="vd-row">
