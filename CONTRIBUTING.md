@@ -1,12 +1,13 @@
 # Contributing
 
-Thanks for your interest in `vd2`.
+Thanks for your interest in `vd3-docs`.
 
 ## Current Status
 
-`vd2` is the public documentation site at [vanduo.dev](https://vanduo.dev)
-(`v0.3.0`, `private: true`). Work happens directly on `main`; CI and GitHub
-Pages deploy run on every push to `main`.
+`vd3-docs` is the documentation and demo site for the **vd3 line** of Vanduo UI
+(`v1.0.1`, `private: true`). It dogfoods the published `@vanduo-oss/vd3` and
+`@vanduo-oss/vd3-cbun` packages. Work happens directly on `main`; CI and the
+GitHub Pages deploy run on every push to `main`.
 
 ## Development Setup
 
@@ -23,12 +24,13 @@ Pages deploy run on every push to `main`.
 ```sh
 corepack enable
 pnpm install
-pnpm run build           # Verifies the static build works
-pnpm test                # Vitest unit suite (105 specs)
-pnpm run test:e2e        # Playwright Chromium Desktop smoke (77 specs)
+pnpm run build           # Verifies the static build works (92 routes)
+pnpm test                # Vitest unit/wrapper suite (143 specs)
+pnpm run test:e2e        # Playwright visual-parity, Chromium Desktop (85 specs)
+pnpm run test:a11y       # axe accessibility smoke (10 routes)
 ```
 
-### Useful Release Checks
+### Useful Checks
 
 ```sh
 pnpm run lint
@@ -37,23 +39,21 @@ pnpm run format:check
 pnpm run typecheck
 pnpm test
 pnpm run build
-pnpm run test:size       # Reports gzipped dist/assets/app-* sizes
-pnpm pack --dry-run      # Verifies the package tarball contents
+pnpm run test:size       # Reports gzipped dist/assets/app-* sizes vs budget
 ```
 
 ### Security Rules
 
-The `.npmrc` mirrors the framework repo's hardened install policy.
-Honor it:
+The `.npmrc` mirrors the vd3 line's hardened install policy. Honor it:
 
 1. **Always use `pnpm`** — never `npm install` or `yarn`.
 2. **Pin exact versions** — `save-exact=true` is enforced by `.npmrc`.
-3. **Never run `--ignore-scripts` globally** — use `pnpm.allowedBuilds`
-   in `package.json` instead.
+3. **Keep `ignore-scripts=true`** — allow-list build scripts via
+   `onlyBuiltDependencies` in `pnpm-workspace.yaml`, not a global override.
 4. **Review `pnpm audit` output** before merging changes that touch
    dependencies.
 5. **Adding new dependencies requires a justification** in the OpenSpec
-   proposal's `### Out of Scope` or change rationale.
+   proposal's change rationale.
 
 ## OpenSpec Change Folders
 
@@ -63,23 +63,21 @@ Every meaningful change ships as an OpenSpec folder under
 - `proposal.md` — the _why_ and the _what_.
 - `design.md` — design notes and trade-offs (optional).
 - `tasks.md` — a numbered checklist of work.
-- `specs/<change-name>/spec.md` — normative acceptance criteria.
+- `specs/<capability>/spec.md` — normative acceptance criteria (delta format).
 
-Branch name convention: `<topic-kebab-case>` for the OpenSpec change folder.
-Match the folder name when naming commits or PRs for traceability.
+Validate with `openspec validate <change> --strict`, implement the tasks, then
+`openspec archive <change>` to promote the spec deltas and move the change under
+`openspec/changes/archive/`.
 
-Examples already in the tree:
+Archived changes in the tree:
 
-- `app-shell/`, `core-components/`, `docs-routing-and-content/`
-  (foundation changes shipped in `0.1.0`).
-- `vd-layout-navigation/`, `vd-data-display/`, `vd-feedback/`,
-  `vd-interactive-forms/`, `vd-core-foundation/`, `vd-effects/`,
-  `vd-theme-customizer/`, `vd-guides/` (capability-transfer changes
-  shipped in `0.2.0`).
-- `promote-layout-to-framework/` (next plan, not yet implemented).
-
-Historical change folders (e.g. `release-0.2-pre-release-polish/`) remain
-for reference; the current workflow is main-only.
+- `init-docs-scaffold` — repo scaffold and tooling.
+- `docs-clone-and-strip` — cloned the prior docs site and stripped it to a
+  Vue3-only surface for the vd3 line.
+- `docs-content` — Vue3-only content that dogfoods the real `@vanduo-oss/vd3` /
+  `@vanduo-oss/vd3-cbun` components.
+- `docs-hardening` — visual-parity baselines, axe a11y smoke, and the size
+  budget.
 
 ## Branch and Push Policy
 
@@ -95,17 +93,17 @@ for reference; the current workflow is main-only.
 
 ## Updating Visual Baselines
 
-The Playwright visual-parity suite at
-`tests/e2e/visual-parity.spec.ts` uses checked-in baselines under
-`tests/e2e/visual-parity.spec.ts-snapshots/`. To refresh them after an
-intentional visual change:
+The Playwright visual-parity suite at `tests/e2e/visual-parity.spec.ts` uses
+checked-in baselines under `tests/e2e/visual-parity.spec.ts-snapshots/`. To
+refresh them after an intentional visual change:
 
 ```sh
-pnpm exec playwright test --update-snapshots
+pnpm exec playwright test visual-parity --project='Chromium Desktop' --update-snapshots
 ```
 
 Inspect the diff carefully before committing — visual changes can hide
-regressions.
+regressions. (Note: the suite allows `maxDiffPixelRatio: 0.03`, so sub-threshold
+changes may not force a baseline rewrite.)
 
 ## Coding Standards
 
@@ -114,35 +112,23 @@ regressions.
 - **Stylelint** for `src/**/*.css`. `pnpm run stylelint` must pass.
 - **Prettier** formatting. `pnpm run format:check` must pass; run
   `pnpm run format` to fix locally.
-- **No JS coupling** to `@vanduo-oss/framework` runtime — vd2 consumes
-  only the CSS bundle (`@vanduo-oss/framework/css`) and class names.
-- **Component naming** — all Vd\* components are PascalCase SFCs under
-  `src/components/`. Filenames are kebab-case.
+- **Dogfood the published packages** — render the real `Vd*` components,
+  composables, and theme layer from `@vanduo-oss/vd3` (and the component bundle
+  from `@vanduo-oss/vd3-cbun`) rather than reimplementing them. The site
+  registers the `VanduoVue` plugin and imports `@vanduo-oss/vd3/css`.
+- **Component naming** — doc-site SFCs are PascalCase files under `src/`
+  (`layout/`, `overlays/`, `pages/`, …); the `Vd*` component names come from the
+  upstream packages.
 
-## Release Process (Future)
+## Release Process
 
-`vd2` is currently `private: true` and not published as an npm package.
-When the maintainer is ready to publish:
-
-1. Remove `"private": true` from `package.json`.
-2. Update `engines.node` if the consumer target changes.
-3. Verify `pnpm pack --dry-run` lists the expected files
-   (`dist/`, `CHANGELOG.md`, `CONTRIBUTING.md`, `LICENSE`, `README.md`,
-   `package.json`).
-4. Tag the release commit (`vX.Y.Z`) on `main`.
-5. Run `pnpm publish --dry-run` first; review the registry payload.
-6. Coordinate the publish with any sibling framework/docs releases.
-
-Until then, treat `main` as the source of truth and the OpenSpec change
-folder as the spec record.
+`vd3-docs` is `private: true` and is **not** published as an npm package — it
+deploys as a static site to GitHub Pages. There is no `npm publish` step. Treat
+`main` as the source of truth and the OpenSpec change folder as the spec record.
 
 ## Communication
 
 Internal coordination happens in OpenSpec change folders and in
-`openspec/specs/`. For questions about the framework itself, see the
-upstream [`@vanduo-oss/framework`](https://github.com/vanduo-oss/framework)
-repo.
-
----
-
-Thanks for your patience while the architecture and roadmap settle.
+`openspec/specs/`. For the packages this site consumes, see
+[`@vanduo-oss/vd3`](https://github.com/vanduo-oss/vd3) and
+[`@vanduo-oss/vd3-cbun`](https://github.com/vanduo-oss/vd3-cbun).
