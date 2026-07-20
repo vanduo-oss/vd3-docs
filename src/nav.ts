@@ -55,7 +55,7 @@ export const nav: NavTree = {
       title: "About",
       route: "/about",
       icon: "info",
-      keywords: ["about", "vanduo", "mission"],
+      keywords: ["about", "vanduo", "vd3", "overview"],
     },
     {
       id: "changelog",
