@@ -6,6 +6,11 @@ import { useImageBox } from "@vanduo-oss/vd3";
 const root = ref<HTMLElement | null>(null);
 useImageBox(root);
 
+// `data-image-box-full-src` is read verbatim by the runtime lightbox, so Vite
+// cannot rebase it the way it does `<img src>`. Prefix the deploy base (`/`
+// locally, `/vd3-docs/` on GitHub Pages) so click-to-zoom loads the full image.
+const base = import.meta.env.BASE_URL;
+
 const vue3Wiring = `import { ref } from 'vue';
 import { useImageBox } from "@vanduo-oss/vd3";
 
@@ -61,7 +66,7 @@ const basicHtml = `<!-- The thumbnail <img> is the trigger -->
                 alt="Hot air balloons over Vilnius at sunset"
                 class="vd-image-box-trigger vd-rounded-md vd-shadow"
                 data-image-box
-                data-image-box-full-src="/images/vilnius-balloons.jpg"
+                :data-image-box-full-src="`${base}images/vilnius-balloons.jpg`"
                 data-image-box-caption="Hot Air Balloons at Sunset — Vilnius"
                 style="width: 220px; height: 150px; object-fit: cover"
                 tabindex="0"
@@ -73,7 +78,7 @@ const basicHtml = `<!-- The thumbnail <img> is the trigger -->
                 alt="French Bulldog portrait"
                 class="vd-image-box-trigger vd-rounded-md vd-shadow"
                 data-image-box
-                data-image-box-full-src="/images/french-bulldog.jpg"
+                :data-image-box-full-src="`${base}images/french-bulldog.jpg`"
                 data-image-box-caption="French Bulldog — Pet Photography"
                 style="width: 150px; height: 150px; object-fit: cover"
                 tabindex="0"
@@ -85,7 +90,7 @@ const basicHtml = `<!-- The thumbnail <img> is the trigger -->
                 alt="Mountains shrouded in fog"
                 class="vd-image-box-trigger vd-rounded-md vd-shadow"
                 data-image-box
-                data-image-box-full-src="/images/mountains-and-fog.jpg"
+                :data-image-box-full-src="`${base}images/mountains-and-fog.jpg`"
                 data-image-box-caption="Mountains and Fog — Landscape Photography"
                 style="width: 220px; height: 150px; object-fit: cover"
                 tabindex="0"
@@ -97,7 +102,7 @@ const basicHtml = `<!-- The thumbnail <img> is the trigger -->
                 alt="Portrait-orientation photo"
                 class="vd-image-box-trigger vd-rounded-md vd-shadow"
                 data-image-box
-                data-image-box-full-src="/images/portrait-orientation_small.JPG"
+                :data-image-box-full-src="`${base}images/portrait-orientation_small.JPG`"
                 data-image-box-caption="Portrait Orientation — Mobile Photo"
                 style="width: 120px; height: 150px; object-fit: cover"
                 tabindex="0"

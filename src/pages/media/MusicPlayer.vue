@@ -49,26 +49,31 @@ type ComponentExpose = {
   container: () => HTMLElement | null;
 };
 
+// Public assets are served from the deploy base (`/` in dev/preview/tests,
+// `/vd3-docs/` on GitHub Pages). Vite does not rebase root-absolute paths in
+// JS data, so prefix `import.meta.env.BASE_URL` (always trailing-slashed).
+const base = import.meta.env.BASE_URL;
+
 const tracks: Track[] = [
   {
     name: "Pale Blue Dot",
-    url: "/music/Stellardrone/Invent the Universe/06 - Pale Blue Dot.mp3",
+    url: `${base}music/Stellardrone/Invent the Universe/06 - Pale Blue Dot.mp3`,
   },
   {
     name: "Maia Nebula",
-    url: "/music/Stellardrone/Invent the Universe/03 - Maia Nebula.mp3",
+    url: `${base}music/Stellardrone/Invent the Universe/03 - Maia Nebula.mp3`,
   },
   {
     name: "Approaching the Heliopause",
-    url: "/music/Stellardrone/Invent the Universe/04 - Approaching the Heliopause.mp3",
+    url: `${base}music/Stellardrone/Invent the Universe/04 - Approaching the Heliopause.mp3`,
   },
   {
     name: "An Ocean of Galaxies",
-    url: "/music/Stellardrone/Invent the Universe/07 - An Ocean of Galaxies.mp3",
+    url: `${base}music/Stellardrone/Invent the Universe/07 - An Ocean of Galaxies.mp3`,
   },
   {
     name: "Infinite Void",
-    url: "/music/Stellardrone/Invent the Universe/08 - Infinite Void.mp3",
+    url: `${base}music/Stellardrone/Invent the Universe/08 - Infinite Void.mp3`,
   },
 ];
 

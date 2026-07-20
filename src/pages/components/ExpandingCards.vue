@@ -18,33 +18,38 @@ interface ColorCard extends Card {
   color: string;
 }
 
+// Public assets resolve against the deploy base (`/` locally, `/vd3-docs/` on
+// GitHub Pages). Vite does not rebase root-absolute paths in JS data, so prefix
+// `import.meta.env.BASE_URL` (always trailing-slashed).
+const base = import.meta.env.BASE_URL;
+
 const photoCards: PhotoCard[] = [
   {
-    img: "/images/expanding/0.jpg",
+    img: `${base}images/expanding/0.jpg`,
     icon: "waves",
     title: "Quiet cove",
     subtitle: "Dock and lily pads",
   },
   {
-    img: "/images/expanding/1.jpg",
+    img: `${base}images/expanding/1.jpg`,
     icon: "sun-horizon",
     title: "Lakeside glow",
     subtitle: "Sun through the trees",
   },
   {
-    img: "/images/expanding/2.jpg",
+    img: `${base}images/expanding/2.jpg`,
     icon: "tree-evergreen",
     title: "Sunlit forest",
     subtitle: "Rays through the canopy",
   },
   {
-    img: "/images/expanding/3.jpg",
+    img: `${base}images/expanding/3.jpg`,
     icon: "leaf",
     title: "Forest floor",
     subtitle: "Moss and wild strawberry",
   },
   {
-    img: "/images/expanding/4.jpg",
+    img: `${base}images/expanding/4.jpg`,
     icon: "plant",
     title: "Reindeer lichen",
     subtitle: "Pale coral on pine needles",
