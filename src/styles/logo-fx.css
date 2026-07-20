@@ -3,9 +3,10 @@
 :root {
   --vd3-mark-cx: 361px;
   --vd3-mark-cy: 361px;
+
   /* Stage box multiplier — sqrt(2) fits upright; ~1.85 leaves pulse/glow/shadow bleed */
   --vd3-mark-stage-scale: 1.85;
-  --vd3-mark-view-size-ratio: 1.193058568;
+  --vd3-mark-view-size-ratio: 1.1931;
   --vd3-mark-spin-duration: 12s;
   --vd3-mark-outer-fill: #3d7a4a;
   --vd3-mark-inner-light: #2f9e44;
@@ -310,7 +311,8 @@
 }
 
 .logo-fx-tile[data-fx="breathe-spin"] .vd3-mark-spin {
-  animation: vd3-mark-spin var(--vd3-mark-spin-duration) linear infinite,
+  animation:
+    vd3-mark-spin var(--vd3-mark-spin-duration) linear infinite,
     vd3-mark-breathe 3.2s ease-in-out infinite;
 }
 
@@ -347,8 +349,8 @@
 }
 
 .logo-fx-tile[data-fx="gear-counter"] .vd3-mark-inner {
-  animation: vd3-mark-spin-reverse calc(var(--vd3-mark-spin-duration) * 1.5) linear
-    infinite;
+  animation: vd3-mark-spin-reverse calc(var(--vd3-mark-spin-duration) * 1.5)
+    linear infinite;
   transform-origin: var(--vd3-mark-cx) var(--vd3-mark-cy);
   transform-box: view-box;
 }
@@ -405,7 +407,9 @@
 }
 
 .logo-fx-tile[data-fx="liquid-displace"] .vd3-mark-spin {
-  animation: vd3-mark-wobble 4s ease-in-out infinite, vd3-mark-pulse 3s ease-in-out infinite;
+  animation:
+    vd3-mark-wobble 4s ease-in-out infinite,
+    vd3-mark-pulse 3s ease-in-out infinite;
 }
 
 .logo-fx-tile[data-fx="specular-sweep"] .vd3-mark-inner {
@@ -474,7 +478,8 @@
 
 .logo-fx-tile[data-fx="explode-settle"] .vd3-mark-outer,
 .logo-fx-tile[data-fx="explode-settle"] .vd3-mark-inner {
-  animation: vd3-mark-explode-settle 1.1s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+  animation: vd3-mark-explode-settle 1.1s cubic-bezier(0.34, 1.4, 0.64, 1)
+    forwards;
 }
 
 .logo-fx-tile[data-fx="explode-settle"] .vd3-mark-outer[data-i="1"] {

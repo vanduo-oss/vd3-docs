@@ -219,7 +219,10 @@ const swatches = [
 
     <div class="vd-container-responsive">
       <!-- Features -->
-      <div id="home-features" style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)">
+      <div
+        id="home-features"
+        style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)"
+      >
         <h3
           class="vd-text-center vd-mb-2"
           style="color: var(--vd-color-primary)"
@@ -287,7 +290,10 @@ const swatches = [
       </div>
 
       <!-- Icons Overview -->
-      <div id="home-icons" style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)">
+      <div
+        id="home-icons"
+        style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)"
+      >
         <h3
           class="icons-section-title vd-mb-3"
           style="color: var(--vd-color-primary)"
@@ -343,7 +349,10 @@ const swatches = [
       </div>
 
       <!-- Open Color Overview -->
-      <div id="open-color" style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)">
+      <div
+        id="open-color"
+        style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)"
+      >
         <h3
           class="open-color-title vd-mb-3"
           style="color: var(--vd-color-primary)"

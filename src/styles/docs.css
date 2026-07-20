@@ -214,6 +214,7 @@ html[data-theme="dark"][data-primary="green"] {
 .hero-title-brand {
   font-weight: 400;
   line-height: 1;
+
   /* Match vd3-logo.svg center stop (--vd-green-8) */
   color: var(--vd-green-8);
 }
@@ -244,6 +245,7 @@ html[data-theme="dark"][data-primary="green"] {
 .hero-title-logo-wrap {
   display: inline-flex;
   flex-shrink: 0;
+
   /* Optical gap: stage scale (1.85) + padded viewBox (-100 -100 922 1100)
    * leave empty space past the ink; pull "vd3" toward the spheres. */
   margin-right: 0;
@@ -258,6 +260,7 @@ html[data-theme="dark"][data-primary="green"] {
   justify-content: center;
   flex-shrink: 0;
   overflow: visible;
+
   /* Square stage — room for pulse/scale/glow/shadow bleed beyond diagonal fit */
   width: calc(
     2.5em * var(--vd3-mark-view-size-ratio, 1.193) *
@@ -302,6 +305,7 @@ html[data-theme="dark"][data-primary="green"] {
 .vd-footer-brand {
   display: inline-flex;
   align-items: center;
+
   /* Optical gap: SVG viewBox padding eats most of this; keep CSS gap small */
   gap: 0.1rem;
 }
@@ -316,6 +320,7 @@ html[data-theme="dark"][data-primary="green"] {
   flex-shrink: 0;
   object-fit: contain;
   transform: translateY(-0.04em);
+
   /* Pull text toward ink — asset viewBox (-100 -100 922 1100) pads the mark */
   margin-inline-end: -0.55rem;
 }
