@@ -60,10 +60,7 @@ onMounted(() => {
 
   <VdNavbar />
 
-  <main
-    id="main-content"
-    style="padding-top: 80px; min-height: calc(100vh - 200px)"
-  >
+  <main id="main-content">
     <DocsLayout v-if="route.meta.layout === 'docs'">
       <RouterView />
     </DocsLayout>

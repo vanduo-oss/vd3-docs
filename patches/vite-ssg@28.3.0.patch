@@ -1,0 +1,22 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 6fec988ac4ea9d84011934f4ac235485a5732353..4cf13dc07074a7a8916ea6ece0c78b304437bacd 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -51,13 +51,15 @@ function ViteSSG(App, routerOptions, fn, options) {
+     app.use(router);
+     let entryRoutePath;
+     let isFirstRoute = true;
+-    router.beforeEach((to, from, next) => {
++    // Return-based guard: vue-router v5 deprecates the next() callback
++    // (VUE_ROUTER_R0025). Dropping next() is a no-op here — both branches
++    // always continued. Upstream: antfu-collective/vite-ssg#467.
++    router.beforeEach((to) => {
+       if (isFirstRoute || entryRoutePath && entryRoutePath === to.path) {
+         isFirstRoute = false;
+         entryRoutePath = to.path;
+         to.meta.state = context.initialState;
+       }
+-      next();
+     });
+     if (import.meta.env.SSR) {
+       const route = context.routePath ?? "/";

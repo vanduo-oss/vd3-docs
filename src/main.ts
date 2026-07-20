@@ -36,11 +36,12 @@ export const createApp = ViteSSG(
   },
   async ({ app, initialState }) => {
     app.use(createPinia());
-    // The docs site overrides core's generic default dark primary (amber ->
-    // blue); @vanduo-oss/vd3 ships the generic baseline, so we inject it here.
+    // The docs site overrides the package dark primary with logo green
+    // (#2f9e44 / --vd-green-8); @vanduo-oss/vd3 ships the generic baseline,
+    // so we inject it here. docs.css pins the exact accent when dark + green.
     // (The per-mode default neutral — stone in light, charcoal in dark — is
     // handled in the theme store, since the engine has no NEUTRAL_DARK default.)
-    app.use(VanduoVue, { themeDefaults: { PRIMARY_DARK: "blue" } });
+    app.use(VanduoVue, { themeDefaults: { PRIMARY_DARK: "green" } });
 
     // vd3 is fully standalone: the components/composables are pure Vue with no
     // window.Vanduo* IIFE runtime to bootstrap, so there is nothing to load here.

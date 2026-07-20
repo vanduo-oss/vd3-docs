@@ -8,6 +8,8 @@ import VdThemeSwitcher from "@/overlays/VdThemeSwitcher.vue";
 const navRef = ref<HTMLElement | null>(null);
 const isScrolled = useNavbarGlassScroll(navRef);
 const menuOpen = ref(false);
+// Bound string (not static src) so Vite won't rewrite public/ SVG into a stale ?import data-URI.
+const logoSrc = `${import.meta.env.BASE_URL}images/vd3-logo.svg`;
 
 const links = [
   { label: "Home", to: "/" },
@@ -36,12 +38,12 @@ const closeMenu = (): void => {
         <div class="vd-navbar-brand-wrap">
           <RouterLink to="/" class="vd-navbar-brand-link" @click="closeMenu">
             <img
-              src="/images/vd3-logo.svg"
+              :src="logoSrc"
               class="vd-navbar-brand-logo"
               alt=""
               aria-hidden="true"
-              width="659"
-              height="594"
+              width="722"
+              height="722"
               decoding="async"
             />
             <span>vd3</span>

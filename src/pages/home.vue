@@ -1,6 +1,36 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { RouterLink } from "vue-router";
+import Vd3Mark from "@/components/Vd3Mark.vue";
+import {
+  isBloomSpinFx,
+  pickRandomLogoFx,
+  vd3MarkSize,
+  type ApprovedLogoFx,
+} from "@/utils/logoFx";
+import "@/styles/logo-fx.css";
+
+const heroFx = ref<ApprovedLogoFx>("spin");
+const heroBloomActive = ref(false);
+const heroSpinning = ref(false);
+
+function startHeroBloom(): void {
+  heroBloomActive.value = false;
+  heroSpinning.value = false;
+  requestAnimationFrame(() => {
+    heroBloomActive.value = true;
+    window.setTimeout(() => {
+      heroSpinning.value = true;
+    }, 1800);
+  });
+}
+
+onMounted(() => {
+  heroFx.value = pickRandomLogoFx();
+  if (isBloomSpinFx(heroFx.value)) {
+    startHeroBloom();
+  }
+});
 
 interface Feature {
   icon: string;
@@ -144,15 +174,17 @@ const swatches = [
             style="display: flex; align-items: center; justify-content: center"
           >
             <span class="hero-title-logo-wrap">
-              <img
-                src="/images/vd3-logo.svg"
-                class="hero-title-logo"
-                alt=""
-                aria-hidden="true"
-                width="659"
-                height="594"
-                decoding="async"
-              />
+              <span
+                class="hero-title-logo-stage logo-fx-tile"
+                :data-fx="heroFx"
+              >
+                <Vd3Mark
+                  :size="vd3MarkSize(2.5)"
+                  :blooming="isBloomSpinFx(heroFx)"
+                  :bloom-active="heroBloomActive"
+                  :spinning="heroSpinning"
+                />
+              </span>
             </span>
             <span class="hero-title-text">
               <span class="hero-title-brand">vd3</span>
@@ -187,7 +219,7 @@ const swatches = [
 
     <div class="vd-container-responsive">
       <!-- Features -->
-      <div id="home-features" style="padding: 4rem 0; scroll-margin-top: 80px">
+      <div id="home-features" style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)">
         <h3
           class="vd-text-center vd-mb-2"
           style="color: var(--vd-color-primary)"
@@ -255,7 +287,7 @@ const swatches = [
       </div>
 
       <!-- Icons Overview -->
-      <div id="home-icons" style="padding: 4rem 0; scroll-margin-top: 80px">
+      <div id="home-icons" style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)">
         <h3
           class="icons-section-title vd-mb-3"
           style="color: var(--vd-color-primary)"
@@ -311,7 +343,7 @@ const swatches = [
       </div>
 
       <!-- Open Color Overview -->
-      <div id="open-color" style="padding: 4rem 0; scroll-margin-top: 80px">
+      <div id="open-color" style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)">
         <h3
           class="open-color-title vd-mb-3"
           style="color: var(--vd-color-primary)"

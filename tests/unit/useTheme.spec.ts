@@ -4,6 +4,7 @@ import {
   applyPreference,
   defaultPreference,
   loadPreference,
+  setThemeDefaults,
 } from "@vanduo-oss/vd3";
 import { useThemeStore } from '@/stores/theme';
 
@@ -105,5 +106,15 @@ describe('useThemeStore', () => {
     expect(theme.theme).toBe('system');
     expect(theme.radius).toBe('0.5');
     expect(theme.palette).toBe('open-color');
+  });
+
+  it('migrates legacy blue primary to green in dark mode', () => {
+    setThemeDefaults({ PRIMARY_DARK: "green" });
+    window.localStorage.setItem('vanduo-theme-preference', 'dark');
+    window.localStorage.setItem('vanduo-primary-color', 'blue');
+    const theme = useThemeStore();
+    theme.init();
+    expect(theme.primary).toBe('green');
+    expect(document.documentElement.getAttribute('data-primary')).toBe('green');
   });
 });

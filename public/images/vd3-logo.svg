@@ -1,56 +1,17 @@
-<svg width="659" height="594" viewBox="0 0 659 594" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_103_13)">
-<path d="M445 474C445 418.772 489.772 374 545 374C600.228 374 645 418.772 645 474C645 529.228 600.228 574 545 574C489.772 574 445 529.228 445 474Z" fill="#010702"/>
-</g>
-<g filter="url(#filter1_d_103_13)">
-<circle cx="330" cy="108" r="100" transform="rotate(180 330 108)" fill="#010702"/>
-</g>
-<g filter="url(#filter2_d_103_13)">
-<circle cx="114" cy="474" r="100" transform="rotate(180 114 474)" fill="#010702"/>
-</g>
-<g filter="url(#filter3_d_103_13)">
-<path d="M114 351.5C114 232.483 210.483 136 329.5 136C448.517 136 545 232.483 545 351.5C545 470.517 448.517 567 329.5 567C210.483 567 114 470.517 114 351.5Z" fill="url(#paint0_radial_103_13)"/>
+<svg width="722" height="722" viewBox="-100 -100 922 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#vd3-logo-shadow)">
+<circle cx="145.5" cy="236.581" r="100" fill="#3d7a4a"/>
+<circle cx="576.5" cy="236.581" r="100" fill="#3d7a4a"/>
+<circle cx="361" cy="609.838" r="100" fill="#3d7a4a"/>
+<path d="M145.5 361C145.5 241.983 241.983 145.5 361 145.5C480.017 145.5 576.5 241.983 576.5 361C576.5 480.017 480.017 576.5 361 576.5C241.983 576.5 145.5 480.017 145.5 361Z" fill="url(#vd3-logo-inner)"/>
 </g>
 <defs>
-<filter id="filter0_d_103_13" x="431" y="366" width="228" height="228" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="6"/>
-<feGaussianBlur stdDeviation="7"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_103_13"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_103_13" result="shape"/>
+<filter id="vd3-logo-shadow" filterUnits="userSpaceOnUse" x="-100" y="-100" width="922" height="1100" color-interpolation-filters="sRGB">
+<feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#000000" flood-opacity="0.22"/>
 </filter>
-<filter id="filter1_d_103_13" x="216" y="0" width="228" height="228" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="6"/>
-<feGaussianBlur stdDeviation="7"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_103_13"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_103_13" result="shape"/>
-</filter>
-<filter id="filter2_d_103_13" x="0" y="366" width="228" height="228" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="6"/>
-<feGaussianBlur stdDeviation="7"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_103_13"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_103_13" result="shape"/>
-</filter>
-<filter id="filter3_d_103_13" x="100" y="128" width="459" height="459" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="6"/>
-<feGaussianBlur stdDeviation="7"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_103_13"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_103_13" result="shape"/>
-</filter>
-<radialGradient id="paint0_radial_103_13" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(372 352) rotate(-116.795) scale(248.439)">
-<stop stop-color="#044804"/>
-<stop offset="0.841428" stop-color="#010C01"/>
+<radialGradient id="vd3-logo-inner" cx="361" cy="361" r="215.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2f9e44"/>
+<stop offset="0.841428" stop-color="#163d1c"/>
 </radialGradient>
 </defs>
 </svg>

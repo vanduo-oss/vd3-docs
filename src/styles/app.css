@@ -22,6 +22,11 @@ body {
   min-height: 100vh;
 }
 
+#main-content {
+  padding-top: var(--docs-main-offset);
+  min-height: calc(100vh - var(--docs-main-min-height-offset));
+}
+
 .vd-app {
   min-height: 100vh;
   display: flex;

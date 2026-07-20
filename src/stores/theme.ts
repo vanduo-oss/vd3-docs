@@ -23,6 +23,8 @@ export const useThemeStore = defineStore("theme", () => {
   // the neutral is still one of those two defaults — an explicit pick
   // (slate / gray / zinc / neutral) sticks across mode changes.
   const DOCS_NEUTRAL = { light: "stone", dark: "charcoal" } as const;
+  // Legacy docs dark default before logo-green; still treated as auto-primary.
+  const LEGACY_DOCS_PRIMARY_DARK = "blue";
   const resolveScheme = (theme: ThemeMode): "light" | "dark" =>
     theme === "system"
       ? typeof window !== "undefined" &&
@@ -34,6 +36,8 @@ export const useThemeStore = defineStore("theme", () => {
     DOCS_NEUTRAL[resolveScheme(theme)];
   const isDocsDefaultNeutral = (neutral: string): boolean =>
     neutral === DOCS_NEUTRAL.light || neutral === DOCS_NEUTRAL.dark;
+  const isDocsDefaultPrimary = (primary: string): boolean =>
+    isDefaultPrimary(primary) || primary === LEGACY_DOCS_PRIMARY_DARK;
 
   const commit = (): void => {
     applyPreference(prefs);
@@ -47,6 +51,9 @@ export const useThemeStore = defineStore("theme", () => {
     if (isDocsDefaultNeutral(prefs.neutral)) {
       prefs.neutral = docsDefaultNeutral(prefs.theme);
     }
+    if (isDocsDefaultPrimary(prefs.primary)) {
+      prefs.primary = defaultPrimary(prefs.theme);
+    }
     applyPreference(prefs);
     ready.value = true;
 
@@ -59,7 +66,7 @@ export const useThemeStore = defineStore("theme", () => {
       mq.addEventListener("change", () => {
         // Re-evaluate the auto-default primary/neutral when the OS scheme flips.
         let dirty = false;
-        if (prefs.theme === "system" && isDefaultPrimary(prefs.primary)) {
+        if (prefs.theme === "system" && isDocsDefaultPrimary(prefs.primary)) {
           prefs.primary = defaultPrimary("system");
           dirty = true;
         }
@@ -78,7 +85,7 @@ export const useThemeStore = defineStore("theme", () => {
   };
   const setTheme = (theme: ThemeMode): void => {
     // Keep the auto-default primary/neutral in step with the chosen scheme.
-    if (isDefaultPrimary(prefs.primary)) {
+    if (isDocsDefaultPrimary(prefs.primary)) {
       prefs.primary = defaultPrimary(theme);
     }
     if (isDocsDefaultNeutral(prefs.neutral)) {

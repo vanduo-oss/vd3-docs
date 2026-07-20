@@ -19,7 +19,7 @@ createApp(App).use(VanduoVue).mount('#app');`;
 const optionsJs = `// The plugin takes an optional themeDefaults override, shallow-merged
 // over the generated baseline and applied synchronously on install.
 app.use(VanduoVue, {
-  themeDefaults: { PRIMARY_DARK: 'blue' },
+  themeDefaults: { PRIMARY_DARK: 'green' },
 });`;
 
 const usageHtml = `<!-- App.vue — import typed Vd* components and compose -->
@@ -49,14 +49,14 @@ import { routes } from './routes';
 
 export const createApp = ViteSSG(App, { routes }, ({ app }) => {
   // Set your theme default here so the first prerendered paint matches.
-  app.use(VanduoVue, { themeDefaults: { PRIMARY_DARK: 'blue' } });
+  app.use(VanduoVue, { themeDefaults: { PRIMARY_DARK: 'green' } });
 });`;
 
 const pluginOptions: [string, string, string][] = [
   [
     "themeDefaults",
     "Partial<ThemeDefaults>",
-    "Site-specific overrides shallow-merged over the generated theme baseline (e.g. { PRIMARY_DARK: 'blue' }). Applied synchronously on install, before the theme model first reads its defaults. Optional.",
+    "Site-specific overrides shallow-merged over the generated theme baseline (e.g. { PRIMARY_DARK: 'green' }). Applied synchronously on install, before the theme model first reads its defaults. Optional.",
   ],
 ];
 </script>

@@ -1,0 +1,545 @@
+/* vd3 mark effect variants — used by home hero (Vd3Mark) */
+
+:root {
+  --vd3-mark-cx: 361px;
+  --vd3-mark-cy: 361px;
+  /* Stage box multiplier — sqrt(2) fits upright; ~1.85 leaves pulse/glow/shadow bleed */
+  --vd3-mark-stage-scale: 1.85;
+  --vd3-mark-view-size-ratio: 1.193058568;
+  --vd3-mark-spin-duration: 12s;
+  --vd3-mark-outer-fill: #3d7a4a;
+  --vd3-mark-inner-light: #2f9e44;
+  --vd3-mark-inner-dark: #163d1c;
+}
+
+.vd3-mark {
+  overflow: visible;
+}
+
+/* Bloom offsets: translate each outer center to centroid (361, 361) — upright pose */
+.vd3-mark-outer[data-i="0"] {
+  --bloom-tx: 0px;
+  --bloom-ty: -248.838px;
+}
+
+.vd3-mark-outer[data-i="1"] {
+  --bloom-tx: 215.5px;
+  --bloom-ty: 124.419px;
+}
+
+.vd3-mark-outer[data-i="2"] {
+  --bloom-tx: -215.5px;
+  --bloom-ty: 124.419px;
+}
+
+@keyframes vd3-mark-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vd3-mark-spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes vd3-mark-bloom-pop {
+  from {
+    opacity: 0;
+    transform: translate(var(--bloom-tx), var(--bloom-ty)) scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes vd3-mark-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes vd3-mark-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes vd3-mark-wobble {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+
+  50% {
+    transform: rotate(6deg);
+  }
+}
+
+@keyframes vd3-mark-heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  14% {
+    transform: scale(1.12);
+  }
+
+  28% {
+    transform: scale(1);
+  }
+
+  42% {
+    transform: scale(1.08);
+  }
+
+  70% {
+    transform: scale(1);
+  }
+}
+
+@keyframes vd3-mark-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vd3-mark-outer-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes vd3-mark-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  41% {
+    opacity: 0.92;
+  }
+
+  43% {
+    opacity: 0.55;
+  }
+
+  45% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 0.88;
+  }
+}
+
+@keyframes vd3-mark-glow-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px rgb(47 158 68 / 40%));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 18px rgb(47 158 68 / 70%));
+  }
+}
+
+@keyframes vd3-mark-gradient-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vd3-mark-stroke-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes vd3-mark-fill-reveal {
+  from {
+    clip-path: circle(0% at 50% 50%);
+  }
+
+  to {
+    clip-path: circle(75% at 50% 50%);
+  }
+}
+
+@keyframes vd3-mark-cascade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes vd3-mark-explode-settle {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  55% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes vd3-mark-ring-loader {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes vd3-mark-ripple {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.85);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes vd3-mark-morph-swap {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.88) rotate(180deg);
+  }
+}
+
+@keyframes vd3-mark-chromatic {
+  0%,
+  100% {
+    filter: drop-shadow(-1px 0 0 rgb(47 158 68 / 45%))
+      drop-shadow(1px 0 0 rgb(22 61 28 / 40%));
+  }
+
+  50% {
+    filter: drop-shadow(-2px 0 0 rgb(47 158 68 / 60%))
+      drop-shadow(2px 0 0 rgb(22 61 28 / 50%));
+  }
+}
+
+.vd3-mark-spin {
+  transform-origin: var(--vd3-mark-cx) var(--vd3-mark-cy);
+  transform-box: view-box;
+}
+
+/* ── Featured: bloom then spin ─────────────────────────────── */
+
+.logo-fx-tile[data-fx="bloom-spin"] .vd3-mark-spin.is-blooming .vd3-mark-outer {
+  opacity: 0;
+  transform: translate(var(--bloom-tx), var(--bloom-ty)) scale(0);
+  transform-origin: var(--vd3-mark-cx) var(--vd3-mark-cy);
+  transform-box: view-box;
+}
+
+.logo-fx-tile[data-fx="bloom-spin"]
+  .vd3-mark-spin.is-blooming.is-bloom-active
+  .vd3-mark-outer[data-i="1"] {
+  animation: vd3-mark-bloom-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.15s;
+}
+
+.logo-fx-tile[data-fx="bloom-spin"]
+  .vd3-mark-spin.is-blooming.is-bloom-active
+  .vd3-mark-outer[data-i="2"] {
+  animation: vd3-mark-bloom-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.43s;
+}
+
+.logo-fx-tile[data-fx="bloom-spin"]
+  .vd3-mark-spin.is-blooming.is-bloom-active
+  .vd3-mark-outer[data-i="0"] {
+  animation: vd3-mark-bloom-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.71s;
+}
+
+.logo-fx-tile[data-fx="bloom-spin"] .vd3-mark-spin.is-spinning {
+  animation: vd3-mark-spin var(--vd3-mark-spin-duration) linear infinite;
+}
+
+/* ── Motion variants ───────────────────────────────────────── */
+
+.logo-fx-tile[data-fx="spin"] .vd3-mark-spin {
+  animation: vd3-mark-spin var(--vd3-mark-spin-duration) linear infinite;
+}
+
+.logo-fx-tile[data-fx="counter-spin"] .vd3-mark-spin {
+  animation: vd3-mark-spin-reverse var(--vd3-mark-spin-duration) linear infinite;
+}
+
+.logo-fx-tile[data-fx="pulse"] .vd3-mark-spin {
+  animation: vd3-mark-pulse 2.4s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="breathe-spin"] .vd3-mark-spin {
+  animation: vd3-mark-spin var(--vd3-mark-spin-duration) linear infinite,
+    vd3-mark-breathe 3.2s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="wobble"] .vd3-mark-spin {
+  animation: vd3-mark-wobble 2.8s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="heartbeat"] .vd3-mark-spin {
+  animation: vd3-mark-heartbeat 2.2s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="flicker"] .vd3-mark {
+  animation: vd3-mark-flicker 3s steps(1, end) infinite;
+}
+
+.logo-fx-tile[data-fx="hover-speed"] .vd3-mark-spin {
+  animation: vd3-mark-spin 18s linear infinite;
+}
+
+.logo-fx-tile[data-fx="hover-speed"]:hover .vd3-mark-spin {
+  animation-duration: 6s;
+}
+
+.logo-fx-tile[data-fx="magnetic-nudge"] .vd3-mark-spin {
+  transition: transform 0.35s ease;
+}
+
+.logo-fx-tile[data-fx="magnetic-nudge"]:hover .vd3-mark-spin {
+  transform: rotate(8deg) scale(1.04);
+}
+
+.logo-fx-tile[data-fx="gear-counter"] .vd3-mark-spin {
+  animation: vd3-mark-spin var(--vd3-mark-spin-duration) linear infinite;
+}
+
+.logo-fx-tile[data-fx="gear-counter"] .vd3-mark-inner {
+  animation: vd3-mark-spin-reverse calc(var(--vd3-mark-spin-duration) * 1.5) linear
+    infinite;
+  transform-origin: var(--vd3-mark-cx) var(--vd3-mark-cy);
+  transform-box: view-box;
+}
+
+.logo-fx-tile[data-fx="orbit-outers"] .vd3-mark-outer {
+  transform-origin: var(--vd3-mark-cx) var(--vd3-mark-cy);
+  transform-box: view-box;
+  animation: vd3-mark-orbit 14s linear infinite;
+}
+
+.logo-fx-tile[data-fx="orbit-outers"] .vd3-mark-outer[data-i="1"] {
+  animation-delay: -4.66s;
+}
+
+.logo-fx-tile[data-fx="orbit-outers"] .vd3-mark-outer[data-i="2"] {
+  animation-delay: -9.33s;
+}
+
+.logo-fx-tile[data-fx="stagger-pulse"] .vd3-mark-outer[data-i="0"] {
+  animation: vd3-mark-outer-pulse 2.4s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="stagger-pulse"] .vd3-mark-outer[data-i="1"] {
+  animation: vd3-mark-outer-pulse 2.4s ease-in-out infinite;
+  animation-delay: 0.4s;
+}
+
+.logo-fx-tile[data-fx="stagger-pulse"] .vd3-mark-outer[data-i="2"] {
+  animation: vd3-mark-outer-pulse 2.4s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
+.logo-fx-tile[data-fx="morph-scale-swap"] .vd3-mark-spin {
+  animation: vd3-mark-morph-swap 4.5s ease-in-out infinite;
+}
+
+/* ── Filter / paint variants ───────────────────────────────── */
+
+.logo-fx-tile[data-fx="soft-glow"] .vd3-mark {
+  filter: drop-shadow(0 0 10px rgb(47 158 68 / 50%));
+}
+
+.logo-fx-tile[data-fx="bloom-pulse"] .vd3-mark {
+  animation: vd3-mark-glow-pulse 2.8s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="chromatic-soft"] .vd3-mark {
+  animation: vd3-mark-chromatic 3.6s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="grain"] .vd3-mark {
+  filter: contrast(1.08) brightness(0.98);
+  opacity: 0.96;
+}
+
+.logo-fx-tile[data-fx="liquid-displace"] .vd3-mark-spin {
+  animation: vd3-mark-wobble 4s ease-in-out infinite, vd3-mark-pulse 3s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="specular-sweep"] .vd3-mark-inner {
+  filter: drop-shadow(-12px -8px 0 rgb(47 158 68 / 35%));
+  animation: vd3-mark-pulse 2.6s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="gradient-spin"] .vd3-mark-inner {
+  animation: vd3-mark-gradient-spin 8s linear infinite;
+  transform-origin: var(--vd3-mark-cx) var(--vd3-mark-cy);
+  transform-box: view-box;
+}
+
+.logo-fx-tile[data-fx="dual-tone"] {
+  --vd3-mark-outer-fill: #228be6;
+  --vd3-mark-inner-start: #044804;
+}
+
+.logo-fx-tile[data-fx="dual-tone"] .vd3-mark-outer {
+  fill: var(--vd3-mark-outer-fill);
+}
+
+.logo-fx-tile[data-fx="outline-only"] .vd3-mark-outer,
+.logo-fx-tile[data-fx="outline-only"] .vd3-mark-inner {
+  fill: none;
+  stroke: var(--vd3-mark-outer-fill, #3d7a4a);
+  stroke-width: 10;
+}
+
+.logo-fx-tile[data-fx="glass-tint"] .vd3-mark {
+  opacity: 0.88;
+  filter: blur(0.3px) drop-shadow(0 8px 16px rgb(0 0 0 / 18%));
+}
+
+.logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-inner {
+  fill: none;
+  stroke: var(--vd3-mark-inner-light, #2f9e44);
+  stroke-width: 12;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: vd3-mark-stroke-draw 3s ease forwards infinite;
+}
+
+.logo-fx-tile[data-fx="fill-reveal"] .vd3-mark-spin {
+  animation: vd3-mark-fill-reveal 2.4s ease-out infinite alternate;
+}
+
+.logo-fx-tile[data-fx="cascade-in"] .vd3-mark-inner {
+  animation: vd3-mark-cascade-in 0.7s ease-out forwards;
+}
+
+.logo-fx-tile[data-fx="cascade-in"] .vd3-mark-outer[data-i="0"] {
+  animation: vd3-mark-cascade-in 0.55s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.logo-fx-tile[data-fx="cascade-in"] .vd3-mark-outer[data-i="1"] {
+  animation: vd3-mark-cascade-in 0.55s ease-out 0.45s forwards;
+  opacity: 0;
+}
+
+.logo-fx-tile[data-fx="cascade-in"] .vd3-mark-outer[data-i="2"] {
+  animation: vd3-mark-cascade-in 0.55s ease-out 0.7s forwards;
+  opacity: 0;
+}
+
+.logo-fx-tile[data-fx="explode-settle"] .vd3-mark-outer,
+.logo-fx-tile[data-fx="explode-settle"] .vd3-mark-inner {
+  animation: vd3-mark-explode-settle 1.1s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+.logo-fx-tile[data-fx="explode-settle"] .vd3-mark-outer[data-i="1"] {
+  animation-delay: 0.12s;
+}
+
+.logo-fx-tile[data-fx="explode-settle"] .vd3-mark-outer[data-i="2"] {
+  animation-delay: 0.24s;
+}
+
+.logo-fx-tile[data-fx="ring-loader"] .logo-fx-ring {
+  fill: none;
+  stroke: #044804;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 120 680;
+  stroke-dashoffset: 120;
+  animation: vd3-mark-ring-loader 2.4s ease-in-out infinite;
+  transform-origin: 361px 361px;
+}
+
+.logo-fx-tile[data-fx="ripple-rings"] .logo-fx-ripple {
+  fill: none;
+  stroke: #044804;
+  stroke-width: 4;
+  opacity: 0;
+  animation: vd3-mark-ripple 2.8s ease-out infinite;
+}
+
+.logo-fx-tile[data-fx="ripple-rings"] .logo-fx-ripple[data-ring="2"] {
+  animation-delay: 0.9s;
+}
+
+.logo-fx-tile[data-fx="ripple-rings"] .logo-fx-ripple[data-ring="3"] {
+  animation-delay: 1.8s;
+}
+
+/* ── Reduced motion ────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-fx-tile .vd3-mark-spin,
+  .logo-fx-tile .vd3-mark,
+  .logo-fx-tile .vd3-mark-outer,
+  .logo-fx-tile .vd3-mark-inner,
+  .logo-fx-tile .vd3-mark-outer-wrap,
+  .logo-fx-tile .logo-fx-ring,
+  .logo-fx-tile .logo-fx-ripple {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
+    clip-path: none !important;
+  }
+
+  .logo-fx-tile[data-fx="bloom-spin"] .vd3-mark-outer,
+  .logo-fx-tile[data-fx="cascade-in"] .vd3-mark-outer,
+  .logo-fx-tile[data-fx="outline-only"] .vd3-mark-inner {
+    opacity: 1;
+    transform: none;
+  }
+
+  .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-inner {
+    fill: var(--vd3-mark-inner-light, #2f9e44);
+    stroke: var(--vd3-mark-inner-light, #2f9e44);
+  }
+}
