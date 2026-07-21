@@ -18,5 +18,6 @@ declare module "*.vue" {
 // so only the style entry points need an ambient declaration.
 declare module "@vanduo-oss/vd3/css";
 declare module "@vanduo-oss/vd3-cbun/charts/css";
+declare module "@vanduo-oss/vd3-cbun/code-editor/css";
 declare module "@vanduo-oss/vd3-cbun/flowchart/css";
 declare module "@vanduo-oss/vd3-cbun/music-player/css";

@@ -537,6 +537,31 @@ export const nav: NavTree = {
           ],
         },
         {
+          id: "editors",
+          title: "Editors",
+          icon: "code",
+          sections: [
+            {
+              id: "code-editor",
+              title: "Code Editor",
+              route: "/editors/code-editor",
+              icon: "code",
+              keywords: [
+                "code",
+                "editor",
+                "syntax",
+                "highlight",
+                "textarea",
+                "javascript",
+                "typescript",
+                "json",
+                "python",
+                "markdown",
+              ],
+            },
+          ],
+        },
+        {
           id: "guides",
           title: "Guides",
           icon: "book",
