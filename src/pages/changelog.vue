@@ -1,13 +1,13 @@
 <script setup lang="ts">
 // The changelog documents PACKAGE releases for the vd3 line only —
 // @vanduo-oss/vd3 (the Vue 3 design system + component library) and
-// @vanduo-oss/vd3-cbun (the canvas bundle). It NEVER tracks docs-site changes
-// (see the changelog-content policy).
+// @vanduo-oss/vd3-cbun (the components bundle). It NEVER tracks docs-site
+// changes (see the changelog-content policy).
 //
-// The two current pre-release cards are rendered by Vue (so their RouterLinks
-// work); the earlier scaffold history is imported verbatim and rendered via
-// v-html (its styles live in src/styles/docs.css). Trusted first-party content
-// → v-html is safe here.
+// The package-release cards are rendered by Vue (so their RouterLinks work);
+// the earlier scaffold history is imported verbatim and rendered via v-html
+// (its styles live in src/styles/docs.css). Trusted first-party content →
+// v-html is safe here.
 import vueContent from "./changelog-vue-content.html?raw";
 </script>
 
@@ -29,7 +29,7 @@ import vueContent from "./changelog-vue-content.html?raw";
       </div>
     </div>
 
-    <!-- @vanduo-oss/vd3 0.1.0 — the standalone Vue 3 design system -->
+    <!-- @vanduo-oss/vd3 1.0.0 — the standalone Vue 3 design system -->
     <div style="padding: 3rem 0 0">
       <div class="vd-container-responsive" style="max-width: 1200px">
         <article class="version-card">
@@ -37,14 +37,11 @@ import vueContent from "./changelog-vue-content.html?raw";
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v0.1.0</span
+              >v1.0.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
             </span>
-            <span class="vd-badge vd-badge-info" style="font-size: 0.75rem"
-              >Pre-release</span
-            >
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
