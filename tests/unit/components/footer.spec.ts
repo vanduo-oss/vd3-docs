@@ -1,47 +1,47 @@
-import { describe, expect, it } from 'vitest';
-import { mount } from '@vue/test-utils';
-import VdFooter from '@/layout/VdFooter.vue';
+import { describe, expect, it } from "vitest";
+import { mount } from "@vue/test-utils";
+import VdFooter from "@/layout/VdFooter.vue";
 
 const mountFooter = () =>
   mount(VdFooter, {
     global: {
       stubs: {
         RouterLink: {
-          props: ['to'],
+          props: ["to"],
           template: '<a :href="to"><slot /></a>',
         },
       },
     },
   });
 
-describe('VdFooter', () => {
-  it('renders the brand wordmark', () => {
+describe("VdFooter", () => {
+  it("renders the brand wordmark", () => {
     const wrapper = mountFooter();
-    expect(wrapper.text()).toContain('vanduo');
-    expect(wrapper.text()).toContain('ui');
+    expect(wrapper.text()).toContain("vd3");
+    expect(wrapper.text()).toContain("ui");
   });
 
-  it('renders the copyright line', () => {
+  it("renders the copyright line", () => {
     const wrapper = mountFooter();
     expect(wrapper.text()).toMatch(/Vanduo UI\. MIT License\./);
   });
 
-  it('renders quick links and resource columns', () => {
+  it("renders quick links and resource columns", () => {
     const wrapper = mountFooter();
-    expect(wrapper.text()).toContain('Quick Links');
-    expect(wrapper.text()).toContain('Resources');
-    expect(wrapper.text()).toContain('GitHub');
-    expect(wrapper.text()).toContain('Changelog');
+    expect(wrapper.text()).toContain("Quick Links");
+    expect(wrapper.text()).toContain("Resources");
+    expect(wrapper.text()).toContain("GitHub");
+    expect(wrapper.text()).toContain("Changelog");
   });
 
-  it('marks external resource links with rel=noopener', () => {
+  it("marks external resource links with rel=noopener", () => {
     const wrapper = mountFooter();
     const external = wrapper
-      .findAll('a')
-      .filter((a) => a.attributes('target') === '_blank');
+      .findAll("a")
+      .filter((a) => a.attributes("target") === "_blank");
     expect(external.length).toBeGreaterThan(0);
     for (const link of external) {
-      expect(link.attributes('rel')).toBe('noopener');
+      expect(link.attributes("rel")).toBe("noopener");
     }
   });
 });

@@ -22,9 +22,9 @@ import vueContent from "./changelog-vue-content.html?raw";
         <p class="vd-text-lg vd-text-muted">
           Release notes for the <strong>vd3 line packages</strong> —
           <code>@vanduo-oss/vd3</code> (the Vue 3 design system and component
-          library) and <code>@vanduo-oss/vd3-cbun</code> (the canvas bundle:
-          charts, flowchart, hex-grid, music-player). Packages only — never
-          docs-site content.
+          library) and <code>@vanduo-oss/vd3-cbun</code> (the components bundle:
+          charts, code-editor, flowchart, hex-grid, music-player). Packages only
+          — never docs-site content.
         </p>
       </div>
     </div>
@@ -261,7 +261,7 @@ import vueContent from "./changelog-vue-content.html?raw";
       </div>
     </div>
 
-    <!-- @vanduo-oss/vd3-cbun 0.2.0 — the canvas components bundle -->
+    <!-- @vanduo-oss/vd3-cbun 1.1.0 — adds the code-editor component -->
     <div style="padding: 3rem 0 0">
       <div class="vd-container-responsive" style="max-width: 1200px">
         <article class="version-card">
@@ -269,17 +269,81 @@ import vueContent from "./changelog-vue-content.html?raw";
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v0.2.0</span
+              >v1.1.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
             </span>
-            <span class="vd-badge vd-badge-info" style="font-size: 0.75rem"
-              >Pre-release</span
-            >
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <h4>
+                  <i
+                    class="ph ph-package mr-2"
+                    style="color: var(--vd-color-primary)"
+                  ></i
+                  >@vanduo-oss/vd3-cbun
+                </h4>
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  Adds a fifth component — <strong>Code editor</strong> — to the
+                  bundle. Additive minor release; the four existing components
+                  are unchanged. Sole runtime peer: <code>vue &gt;= 3.3</code>.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-code"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Code editor</strong>
+                        <p>
+                          <RouterLink to="/editors/code-editor"
+                            >Code editor</RouterLink
+                          >
+                          on <code>@vanduo-oss/vd3-cbun/code-editor</code> (+
+                          <code>/code-editor/css</code>) — a lightweight, secure
+                          <em>textarea-overlay</em> editor: a native
+                          <code>&lt;textarea&gt;</code> over a syntax-highlight
+                          layer painted by first-party, ReDoS-safe tokenizers
+                          for JavaScript/TypeScript, HTML, CSS, JSON, Markdown,
+                          Shell, and Python. Line-number gutter, auto-indent,
+                          bracket/quote auto-close, read-only mode, copy button,
+                          placeholder, and a large-input guard. Escaping-safe
+                          (no <code>innerHTML</code>), SSR-safe, and no new
+                          runtime dependency. Component <code>1.0.0</code>.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- @vanduo-oss/vd3-cbun 1.0.0 — the initial components bundle -->
+    <div style="padding: 3rem 0 0">
+      <div class="vd-container-responsive" style="max-width: 1200px">
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.0.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>July 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">
