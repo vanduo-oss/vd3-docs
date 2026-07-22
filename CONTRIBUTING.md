@@ -6,8 +6,9 @@ Thanks for your interest in `vd3-docs`.
 
 `vd3-docs` is the documentation and demo site for the **vd3 line** of Vanduo UI
 (`v1.0.1`, `private: true`). It dogfoods the published `@vanduo-oss/vd3` and
-`@vanduo-oss/vd3-cbun` packages. Work happens directly on `main`; CI and the
-GitHub Pages deploy run on every push to `main`.
+`@vanduo-oss/vd3-cbun` packages. Work happens on `dev-vXXX` branches with a pull
+request to `main` (aligned with the published vd3-line repos); CI runs on the PR
+and the GitHub Pages deploy runs when it merges to `main`.
 
 ## Development Setup
 
@@ -81,12 +82,15 @@ Archived changes in the tree:
 
 ## Branch and Push Policy
 
-- All work happens on **`main`**. This is a docs site — no release-prep or
-  long-lived feature branches.
-- Push to `origin/main` when changes are ready; CI runs on push and pull
-  requests, and GitHub Pages deploys automatically on `main`.
-- For larger changes, still add an OpenSpec folder under `openspec/changes/`
-  to record the spec, but keep the git workflow on `main`.
+- Work happens on a **`dev-vXXX`** branch (minor-bump the site version for a
+  batch of work), matching the published vd3-line repos — not directly on `main`.
+  Before branching, `git fetch` and fast-forward `main` to `origin/main`.
+- Open a **pull request `dev-vXXX → main`** when the change is ready; CI runs on
+  the PR, and GitHub Pages deploys automatically once it merges to `main`.
+- Only `main` and the latest `dev-vXXX` should exist (local and remote); sweep
+  stale branches after a merge.
+- For larger changes, add an OpenSpec folder under `openspec/changes/` to record
+  the spec.
 
 > **CI note:** the workflow pins Node 24 to match `engines.node` in
 > `package.json`.
