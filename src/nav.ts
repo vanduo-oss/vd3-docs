@@ -503,6 +503,23 @@ export const nav: NavTree = {
               ],
               file: "canvas/vd-hex.html",
             },
+            {
+              id: "draw",
+              title: "Draw",
+              route: "/canvas/draw",
+              icon: "pencil-simple",
+              keywords: [
+                "draw",
+                "whiteboard",
+                "canvas",
+                "sketch",
+                "shapes",
+                "freehand",
+                "sticky",
+                "annotate",
+                "svg",
+              ],
+            },
           ],
         },
         {
