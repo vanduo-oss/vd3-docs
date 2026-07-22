@@ -3,39 +3,54 @@ import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdDraw } from "@vanduo-oss/vd3-cbun/draw";
 
 const seedDoc = {
-  version: "1.0.0",
+  version: "1.1.0",
   viewport: { x: 0, y: 0, scale: 1 },
   shapes: [
-    { id: "r1", type: "rectangle", x: 80, y: 90, w: 180, h: 110 },
-    { id: "e1", type: "ellipse", x: 320, y: 100, w: 130, h: 130 },
     {
-      id: "a1",
-      type: "line",
+      id: "m1",
+      type: "freehand",
+      brush: "marker",
+      color: "#1971c2",
+      size: 14,
       points: [
-        [262, 145],
-        [318, 160],
+        [70, 120],
+        [130, 90],
+        [190, 130],
+        [250, 95],
       ],
-      arrowEnd: true,
+    },
+    {
+      id: "h1",
+      type: "freehand",
+      brush: "highlighter",
+      color: "#f2c200",
+      size: 24,
+      points: [
+        [70, 170],
+        [260, 170],
+      ],
+    },
+    {
+      id: "p1",
+      type: "freehand",
+      brush: "pencil",
+      color: "#e03131",
+      size: 5,
+      points: [
+        [320, 90],
+        [340, 140],
+        [370, 100],
+        [400, 150],
+      ],
     },
     {
       id: "n1",
       type: "sticky",
-      x: 520,
-      y: 100,
-      w: 170,
-      h: 120,
-      text: "Sticky note",
-    },
-    {
-      id: "ink1",
-      type: "freehand",
-      points: [
-        [110, 260],
-        [150, 240],
-        [190, 270],
-        [230, 244],
-        [270, 268],
-      ],
+      x: 470,
+      y: 90,
+      w: 160,
+      h: 110,
+      text: "Sketch it out",
     },
   ],
 };
@@ -45,81 +60,90 @@ const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
 const vue3Usage = `<script setup lang="ts">
 import { VdDraw } from '@vanduo-oss/vd3-cbun/draw';
 import '@vanduo-oss/vd3-cbun/draw/css';
-
-const doc = {
-  shapes: [{ id: 'r1', type: 'rectangle', x: 80, y: 80, w: 160, h: 100 }],
-};
 <\/script>
 
 <template>
-  <VdDraw :data="doc" tool="select" @change="onChange" />
+  <!-- The toolbar (brushes, colors, size, eraser) is built in. -->
+  <VdDraw tool="draw" @change="onChange" />
 </template>`;
 
 const tools: [string, string][] = [
-  ["select", "Click / marquee select, then move, resize, or delete."],
-  ["hand", "Pan the infinite canvas (wheel to zoom to the cursor)."],
-  ["rectangle / ellipse", "Drag to draw a box shape."],
-  ["line", "Drag to draw an arrow."],
-  ["draw", "Freehand pen stroke."],
-  ["text / sticky", "Click to place editable text or a sticky note."],
+  ["brush", "Paint variable-width strokes with the active brush + color."],
+  ["eraser", "Drag to erase whole strokes / shapes you cross."],
+  ["select / hand", "Select, move, resize (select); pan the canvas (hand)."],
+  [
+    "rectangle / ellipse / arrow",
+    "Secondary vector shapes in the current color.",
+  ],
+  ["text / sticky", "Editable text and sticky notes."],
+];
+
+const brushes: [string, string][] = [
+  ["pen", "Crisp, pressure-tapered ink."],
+  ["pencil", "Thin, slightly textured, softer opacity."],
+  ["marker", "Thick, flat, semi-opaque."],
+  ["highlighter", "Wide, translucent, multiply blend (overlaps darken)."],
+  ["calligraphy", "Fixed-angle nib — width follows stroke direction."],
 ];
 
 const vue3Api: [string, string][] = [
   [
     ":data",
-    "Drawing document ({ shapes, viewport }); updates flow through the editor's load().",
+    "Drawing document ({ shapes, viewport }); updates flow through load().",
   ],
   [
     "tool",
-    "Active tool — updated live (select, hand, rectangle, ellipse, line, draw, text, sticky).",
+    "Active tool — 'draw', 'eraser', 'select', 'hand', shapes… (default 'draw').",
   ],
   [":readonly", "Render as a non-editable viewer (no toolbar)."],
-  [":gridSize", "Background grid size in px."],
-  [
-    ":snap",
-    "Snap to nearby edges / centres while moving or resizing (default true).",
-  ],
+  [":gridSize / :snap", "Background grid size; snap-to-edges (default on)."],
   [
     ":history / :historyLimit",
-    "Toggle undo history and cap the retained snapshot count.",
+    "Toggle undo history and cap the snapshot count.",
   ],
   [
     "@change / @select / @viewport",
-    "Forwarded editor events (viewport pan/zoom is not undoable).",
+    "Forwarded editor events (pan/zoom is not undoable).",
   ],
   ["@ready", "Emitted once with the underlying VdDraw instance."],
 ];
 
 const methods: [string, string][] = [
-  ["undo() / redo()", "Step through the whole-document history."],
-  ["canUndo() / canRedo()", "History availability."],
-  ["toSVG()", "A standalone, self-contained SVG string of the document."],
   [
-    "toPNG()",
-    "A promise resolving to a PNG data URL (rasterized via an offscreen canvas).",
+    "setColor / setBrush",
+    "Set the current color / brush preset for the next mark.",
   ],
-  ["getInstance()", "The underlying VdDrawCore for imperative use."],
+  ["setBrushSize / setOpacity", "Set the current brush size / opacity."],
+  ["undo / redo", "Step through the whole-document history."],
+  [
+    "toSVG / toPNG",
+    "Export the drawing (self-contained SVG string / PNG data URL).",
+  ],
+  ["getInstance", "The underlying VdDrawCore for imperative use."],
 ];
 </script>
 
 <template>
   <section id="vd-draw">
-    <h5 class="demo-title"><i class="ph ph-pencil-simple"></i>Draw</h5>
+    <h5 class="demo-title"><i class="ph ph-paint-brush"></i>Draw</h5>
     <p class="vd-mb-8">
-      <strong>Vanduo Draw</strong> is a standalone SVG infinite-canvas
-      whiteboard from <code>@vanduo-oss/vd3-cbun/draw</code>. Pick a tool from
-      the built-in toolbar to draw shapes and freehand ink, add text and sticky
-      notes, then select, move, resize, group, and reorder — with snapping
-      guides, undo / redo, and PNG / SVG export. It themes automatically from
-      the active <code>--vd-*</code> palette and light / dark mode.
+      <strong>Vanduo Draw</strong> is a standalone SVG
+      <strong>drawing tool</strong> from <code>@vanduo-oss/vd3-cbun/draw</code>.
+      Its dependency-free brush engine turns freehand strokes into smooth,
+      variable-width marks (pressure- and velocity-aware). Pick a
+      <strong>brush</strong> (pen, pencil, marker, highlighter, calligraphy) and
+      a <strong>color</strong> from the built-in palette, set size and opacity,
+      and paint — or switch to the eraser, shapes, or sticky notes. The chrome
+      themes with the active <code>--vd-*</code>
+      palette and light / dark mode; your marks keep the color you pick.
     </p>
 
     <div class="vd-card demo-card vd-mb-6">
       <div class="vd-card-header">
-        <h6><i class="ph ph-pencil-simple"></i> Whiteboard</h6>
+        <h6><i class="ph ph-paint-brush"></i> Sketchpad</h6>
       </div>
       <div class="vd-card-body">
-        <VdDraw :data="seedDoc" style="min-height: 460px" />
+        <VdDraw :data="seedDoc" tool="draw" style="min-height: 520px" />
       </div>
     </div>
 
@@ -171,6 +195,26 @@ const methods: [string, string][] = [
             </thead>
             <tbody>
               <tr v-for="row in tools" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="vd-mt-6">Brushes</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Preset</th>
+                <th>Feel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in brushes" :key="row[0]">
                 <td>
                   <code>{{ row[0] }}</code>
                 </td>
