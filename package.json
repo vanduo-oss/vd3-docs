@@ -1,6 +1,6 @@
 {
   "name": "@vanduo-oss/vd3-docs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Vue 3 + vite-ssg documentation site for the vd3 line (@vanduo-oss/vd3 + @vanduo-oss/vd3-cbun)",
   "private": true,
   "type": "module",

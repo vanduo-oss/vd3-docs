@@ -23,8 +23,8 @@ import vueContent from "./changelog-vue-content.html?raw";
           Release notes for the <strong>vd3 line packages</strong> —
           <code>@vanduo-oss/vd3</code> (the Vue 3 design system and component
           library) and <code>@vanduo-oss/vd3-cbun</code> (the components bundle:
-          charts, code-editor, flowchart, hex-grid, music-player). Packages only
-          — never docs-site content.
+          charts, code-editor, draw, flowchart, hex-grid, music-player).
+          Packages only — never docs-site content.
         </p>
       </div>
     </div>
@@ -258,6 +258,92 @@ import vueContent from "./changelog-vue-content.html?raw";
       </div>
     </div>
 
+    <!-- @vanduo-oss/vd3-cbun 1.2.0 — adds the VdDraw drawing tool -->
+    <div style="padding: 3rem 0 0">
+      <div class="vd-container-responsive" style="max-width: 1200px">
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.2.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>July 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <h4>
+                  <i
+                    class="ph ph-package mr-2"
+                    style="color: var(--vd-color-primary)"
+                  ></i
+                  >@vanduo-oss/vd3-cbun
+                </h4>
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  Adds a sixth component — <strong>Drawing tool</strong> — to
+                  the bundle. Additive minor release; the five existing
+                  components are unchanged. Sole runtime peer:
+                  <code>vue &gt;= 3.3</code>.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-pencil-simple"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Drawing tool</strong>
+                        <p>
+                          <RouterLink to="/canvas/draw"
+                            >Drawing tool</RouterLink
+                          >
+                          on <code>@vanduo-oss/vd3-cbun/draw</code> (+
+                          <code>/draw/css</code>), exposing
+                          <code>VdDrawCore</code> alongside the component — a
+                          vector drawing / painting surface with a
+                          variable-width <em>brush engine</em> (pen, pencil,
+                          marker, highlighter), a color palette with recents, an
+                          eraser, selection / move / resize, a toggleable
+                          background grid with adjustable cell size, undo / redo
+                          history, self-contained SVG &amp; PNG export, and a
+                          Phosphor-icon toolbar. Pure-Vue and SSR-safe with no
+                          new runtime dependency. Component <code>1.1.0</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-clock-counter-clockwise"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Forward-compatible documents</strong>
+                        <p>
+                          Saved documents carry <code>VD_DRAW_VERSION</code>;
+                          older constant-width freehand strokes migrate to the
+                          brush model on load, so earlier drawings keep
+                          rendering unchanged.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
     <!-- @vanduo-oss/vd3-cbun 1.1.0 — adds the code-editor component -->
     <div style="padding: 3rem 0 0">
       <div class="vd-container-responsive" style="max-width: 1200px">
@@ -271,9 +357,6 @@ import vueContent from "./changelog-vue-content.html?raw";
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
