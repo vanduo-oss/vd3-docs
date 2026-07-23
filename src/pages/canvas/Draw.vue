@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onBeforeUnmount, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdDraw } from "@vanduo-oss/vd3-cbun/draw";
 
@@ -54,6 +55,38 @@ const seedDoc = {
     },
   ],
 };
+
+/* Full-screen sketch mode — the canvas fills the viewport beneath the fixed
+   navbar (which deliberately stays visible); everything else is covered.
+   All DOM access happens in handlers/lifecycle, so SSG prerender stays safe. */
+const fullscreen = ref(false);
+const navOffset = ref(64);
+
+function onKeydown(event: KeyboardEvent) {
+  if (event.key === "Escape") exitFullscreen();
+}
+
+function enterFullscreen() {
+  const nav = document.querySelector(".vd-navbar");
+  navOffset.value = nav ? Math.round(nav.getBoundingClientRect().height) : 64;
+  fullscreen.value = true;
+  document.body.style.overflow = "hidden";
+  window.addEventListener("keydown", onKeydown);
+}
+
+function exitFullscreen() {
+  if (!fullscreen.value) return;
+  fullscreen.value = false;
+  document.body.style.overflow = "";
+  window.removeEventListener("keydown", onKeydown);
+}
+
+function toggleFullscreen() {
+  if (fullscreen.value) exitFullscreen();
+  else enterFullscreen();
+}
+
+onBeforeUnmount(exitFullscreen);
 
 const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
 
@@ -114,6 +147,7 @@ const methods: [string, string][] = [
     "Set the current color / brush preset for the next mark.",
   ],
   ["setBrushSize / setOpacity", "Set the current brush size / opacity."],
+  ["setGridSize / toggleGrid", "Resize the grid cells / show + hide the grid."],
   ["undo / redo", "Step through the whole-document history."],
   [
     "toSVG / toPNG",
@@ -133,17 +167,36 @@ const methods: [string, string][] = [
       variable-width marks (pressure- and velocity-aware). Pick a
       <strong>brush</strong> (pen, pencil, marker, highlighter, calligraphy) and
       a <strong>color</strong> from the built-in palette, set size and opacity,
-      and paint — or switch to the eraser, shapes, or sticky notes. The chrome
-      themes with the active <code>--vd-*</code>
-      palette and light / dark mode; your marks keep the color you pick.
+      and paint — or switch to the eraser, shapes, or sticky notes. Want room to
+      think? Hit <strong>Full screen</strong> to sketch across the whole
+      viewport (<kbd>Esc</kbd> to come back). The chrome themes with the active
+      <code>--vd-*</code> palette and light / dark mode; your marks keep the
+      color you pick.
     </p>
 
-    <div class="vd-card demo-card vd-mb-6">
-      <div class="vd-card-header">
+    <div
+      class="vd-card demo-card vd-mb-6 draw-stage"
+      :class="{ 'is-fullscreen': fullscreen }"
+      :style="fullscreen ? { top: `${navOffset}px` } : undefined"
+    >
+      <div class="vd-card-header draw-stage-header">
         <h6><i class="ph ph-paint-brush"></i> Sketchpad</h6>
+        <button
+          type="button"
+          class="vd-btn vd-btn-outline vd-btn-sm"
+          :aria-pressed="fullscreen"
+          @click="toggleFullscreen"
+        >
+          <i :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"></i>
+          {{ fullscreen ? "Exit full screen" : "Full screen" }}
+        </button>
       </div>
-      <div class="vd-card-body">
-        <VdDraw :data="seedDoc" tool="draw" style="min-height: 520px" />
+      <div class="vd-card-body draw-stage-body">
+        <VdDraw
+          :data="seedDoc"
+          tool="draw"
+          :style="fullscreen ? { height: '100%' } : undefined"
+        />
       </div>
     </div>
 
@@ -247,3 +300,34 @@ const methods: [string, string][] = [
     </div>
   </section>
 </template>
+
+<style scoped>
+.draw-stage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Full-screen sketch mode: fills the viewport under the fixed navbar, which
+   stays visible on purpose (z-index sits below the navbar's). */
+.draw-stage.is-fullscreen {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  border-radius: 0;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  background: var(--vd-bg-primary);
+}
+
+.draw-stage.is-fullscreen .draw-stage-body {
+  flex: 1;
+  min-height: 0;
+  padding: 0.5rem;
+}
+</style>
