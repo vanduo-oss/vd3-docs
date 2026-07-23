@@ -19,5 +19,6 @@ declare module "*.vue" {
 declare module "@vanduo-oss/vd3/css";
 declare module "@vanduo-oss/vd3-cbun/charts/css";
 declare module "@vanduo-oss/vd3-cbun/code-editor/css";
+declare module "@vanduo-oss/vd3-cbun/draw/css";
 declare module "@vanduo-oss/vd3-cbun/flowchart/css";
 declare module "@vanduo-oss/vd3-cbun/music-player/css";

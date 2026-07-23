@@ -25,8 +25,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0(vue@3.5.40(typescript@6.0.3))
       '@vanduo-oss/vd3-cbun':
-        specifier: ^1.1.0
-        version: 1.1.0(vue@3.5.40(typescript@6.0.3))
+        specifier: ^1.2.0
+        version: 1.2.0(vue@3.5.40(typescript@6.0.3))
       highlight.js:
         specifier: 11.11.1
         version: 11.11.1
@@ -720,8 +720,8 @@ packages:
     peerDependencies:
       vue: '>=3.5.18'
 
-  '@vanduo-oss/vd3-cbun@1.1.0':
-    resolution: {integrity: sha512-J/H8P3JZU2MdlzQGSIUWAXPw2tiJYlZhmlM7A/+jaxm8Z5GPbHk/BnIXLzevbsxhUvIPJybp7xmIIMvDoLbTzg==}
+  '@vanduo-oss/vd3-cbun@1.2.0':
+    resolution: {integrity: sha512-mUqPJQZPWFjOd8RMmXzpdo1zmMV4PEqO+LkRwwPvM+foU95RjrXbjkadbJ74Co7zXSykogO0J1k91X7PQi9u3Q==}
     engines: {node: '>=20.19.0', pnpm: '>=10'}
     peerDependencies:
       vue: '>=3.3.0'
@@ -2788,7 +2788,7 @@ snapshots:
       unhead: 2.1.15
       vue: 3.5.40(typescript@6.0.3)
 
-  '@vanduo-oss/vd3-cbun@1.1.0(vue@3.5.40(typescript@6.0.3))':
+  '@vanduo-oss/vd3-cbun@1.2.0(vue@3.5.40(typescript@6.0.3))':
     dependencies:
       vue: 3.5.40(typescript@6.0.3)
 
