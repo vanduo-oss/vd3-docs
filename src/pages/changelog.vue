@@ -29,6 +29,111 @@ import vueContent from "./changelog-vue-content.html?raw";
       </div>
     </div>
 
+    <!-- @vanduo-oss/vd3 1.0.1 — accessibility & sanitizer hardening -->
+    <div style="padding: 3rem 0 0">
+      <div class="vd-container-responsive" style="max-width: 1200px">
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.0.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>July 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <h4>
+                  <i
+                    class="ph ph-atom mr-2"
+                    style="color: var(--vd-color-primary)"
+                  ></i
+                  >@vanduo-oss/vd3
+                </h4>
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  A patch release focused on
+                  <strong>accessibility &amp; lifecycle hardening</strong> and a
+                  security-hardened HTML sanitizer. No breaking changes.
+                </p>
+
+                <div class="change-group">
+                  <h5>Accessibility</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-keyboard"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Dialogs, tabs, selects &amp; ratings</strong>
+                        <p>
+                          <RouterLink to="/components/modal"
+                            ><code>VdModal</code></RouterLink
+                          >
+                          and
+                          <RouterLink to="/components/offcanvas"
+                            ><code>VdOffcanvas</code></RouterLink
+                          >
+                          now trap focus, restore it to the opener on close, and
+                          release the body scroll lock on unmount;
+                          <RouterLink to="/components/tabs"
+                            ><code>VdTabs</code></RouterLink
+                          >
+                          implements the full WAI-ARIA tabs pattern (arrow-key
+                          navigation + roving tabindex);
+                          <code>VdCustomSelect</code> exposes
+                          <code>aria-activedescendant</code>;
+                          <RouterLink to="/components/rating"
+                            ><code>VdRating</code></RouterLink
+                          >
+                          is a valid single-checked radiogroup; and
+                          <RouterLink to="/components/timepicker"
+                            ><code>useTimepicker</code></RouterLink
+                          >
+                          is now keyboard-operable.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="change-group">
+                  <h5>Security &amp; fixes</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-shield-check"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>HTML sanitizer hardening</strong>
+                        <p>
+                          <code>sanitizeHtml</code> now correctly keeps
+                          allow-listed inline SVG (a case-mismatched allowlist
+                          had silently stripped all SVG) and scrubs dangerous
+                          inline <code>style</code> values under
+                          <code>allowStyle</code>. <code>useClickOutside</code>
+                          now attaches when created already-enabled, and
+                          <code>useStepper</code> no longer emits a spurious
+                          change on mount.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
     <!-- @vanduo-oss/vd3 1.0.0 — the standalone Vue 3 design system -->
     <div style="padding: 3rem 0 0">
       <div class="vd-container-responsive" style="max-width: 1200px">
@@ -42,9 +147,6 @@ import vueContent from "./changelog-vue-content.html?raw";
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -258,6 +360,132 @@ import vueContent from "./changelog-vue-content.html?raw";
       </div>
     </div>
 
+    <!-- @vanduo-oss/vd3-cbun 1.3.0 — chart clicks, bounded loading, core fixes -->
+    <div style="padding: 3rem 0 0">
+      <div class="vd-container-responsive" style="max-width: 1200px">
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.3.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>July 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <h4>
+                  <i
+                    class="ph ph-package mr-2"
+                    style="color: var(--vd-color-primary)"
+                  ></i
+                  >@vanduo-oss/vd3-cbun
+                </h4>
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  A minor release: chart mark-click events, hardened document
+                  loading, and core bug fixes. Additive and backward-compatible;
+                  the saved-document format is unchanged.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-cursor-click"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Chart mark clicks</strong>
+                        <p>
+                          <RouterLink to="/canvas/charts"
+                            ><code>VdChart</code></RouterLink
+                          >
+                          now forwards mark clicks as Vue events —
+                          <code>@bar-click</code>, <code>@point-click</code>,
+                          and <code>@slice-click</code>, each carrying the typed
+                          <code>ClickEvent</code>. Charts component
+                          <code>1.1.0</code>.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="change-group">
+                  <h5>Hardened</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-shield-check"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Bounded document loading</strong>
+                        <p>
+                          <RouterLink to="/canvas/draw"
+                            ><code>VdDraw</code></RouterLink
+                          >
+                          and
+                          <RouterLink to="/canvas/flowchart"
+                            ><code>VdFlowchart</code></RouterLink
+                          >
+                          now cap an untrusted or corrupt document on load
+                          (truncating, never throwing), so a hostile document
+                          cannot freeze the tab. The saved-document format is
+                          unchanged.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-bug-beetle"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Core bug fixes</strong>
+                        <p>
+                          <RouterLink to="/canvas/draw">Draw</RouterLink> undo
+                          no longer corrupts history after an undo;
+                          <RouterLink to="/canvas/charts"
+                            >bar charts</RouterLink
+                          >
+                          anchor correctly when <code>yMin &gt; 0</code>; the
+                          <RouterLink to="/media/music-player"
+                            >music player</RouterLink
+                          >
+                          stops at the end of a playlist instead of looping
+                          forever;
+                          <RouterLink to="/canvas/hex">hex grid</RouterLink>
+                          removes its canvas listeners on destroy; and the
+                          <RouterLink to="/editors/code-editor"
+                            >code editor</RouterLink
+                          >
+                          highlights an unterminated block comment correctly.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
     <!-- @vanduo-oss/vd3-cbun 1.2.0 — adds the VdDraw drawing tool -->
     <div style="padding: 3rem 0 0">
       <div class="vd-container-responsive" style="max-width: 1200px">
@@ -271,9 +499,6 @@ import vueContent from "./changelog-vue-content.html?raw";
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
