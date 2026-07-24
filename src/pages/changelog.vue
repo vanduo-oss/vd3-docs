@@ -56,7 +56,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.0.1</span
+              >v1.1.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
@@ -69,10 +69,41 @@ useAffix(root);
             <div class="vd-row">
               <div class="vd-col-12">
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  A patch release focused on
-                  <strong>accessibility &amp; lifecycle hardening</strong> and a
-                  security-hardened HTML sanitizer. No breaking changes.
+                  A minor release: a new extra-large
+                  <RouterLink to="/components/modal"
+                    ><code>VdModal</code></RouterLink
+                  >
+                  size, broad
+                  <strong>accessibility &amp; lifecycle hardening</strong>, and
+                  a security-hardened HTML sanitizer. No breaking changes.
                 </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-frame-corners"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          ><code>VdModal</code> <code>xl</code> size</strong
+                        >
+                        <p>
+                          <RouterLink to="/components/modal"
+                            ><code>VdModal</code></RouterLink
+                          >
+                          gains a fourth size tier —
+                          <code>size="xl"</code> (987px, via the
+                          <code>--vd-modal-width-xl</code> token and
+                          <code>.vd-modal-panel-xl</code> class) — for release
+                          notes, side-by-side content, and wider forms.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
 
                 <div class="change-group">
                   <h5>Accessibility</h5>
@@ -134,6 +165,26 @@ useAffix(root);
                           now attaches when created already-enabled, and
                           <code>useStepper</code> no longer emits a spurious
                           change on mount.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="change-group">
+                  <h5>Internal</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-git-diff"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Token-parity gate</strong>
+                        <p>
+                          A test-only guard asserts the generated token data
+                          stays in sync with the authored token source, catching
+                          drift in CI.
                         </p>
                       </div>
                     </li>
