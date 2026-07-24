@@ -2330,6 +2330,53 @@ a:hover .vd-card-interactive.vd-card-glow {
   );
 }
 
+/* ── Changelog: two columns (vd3 | cbun) ─────────── */
+.changelog-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.changelog-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  min-width: 0;
+}
+
+.changelog-col .version-card {
+  margin-bottom: 0;
+}
+
+.changelog-col-head {
+  margin-bottom: 0.25rem;
+}
+
+.changelog-col-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+  font-size: 1.2rem;
+}
+
+.changelog-col-sub {
+  margin: 0;
+  color: var(--vd-text-secondary);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .changelog-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+}
+
 /* ── View visibility ────────────────────────────── */
 #docs-view {
   display: none;

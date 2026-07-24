@@ -29,9 +29,17 @@ import vueContent from "./changelog-vue-content.html?raw";
       </div>
     </div>
 
-    <!-- @vanduo-oss/vd3 1.0.1 — accessibility & sanitizer hardening -->
-    <div style="padding: 3rem 0 0">
-      <div class="vd-container-responsive" style="max-width: 1200px">
+    <div class="vd-container-responsive changelog-grid">
+      <div class="changelog-col">
+        <div class="changelog-col-head">
+          <h3 class="changelog-col-title">
+            <i class="ph ph-atom" style="color: var(--vd-color-primary)"></i
+            ><code>@vanduo-oss/vd3</code>
+          </h3>
+          <p class="changelog-col-sub">
+            The standalone Vue 3 design system &amp; component library.
+          </p>
+        </div>
         <article class="version-card">
           <header class="version-header">
             <span
@@ -49,13 +57,6 @@ import vueContent from "./changelog-vue-content.html?raw";
           <div class="version-body">
             <div class="vd-row">
               <div class="vd-col-12">
-                <h4>
-                  <i
-                    class="ph ph-atom mr-2"
-                    style="color: var(--vd-color-primary)"
-                  ></i
-                  >@vanduo-oss/vd3
-                </h4>
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
                   A patch release focused on
                   <strong>accessibility &amp; lifecycle hardening</strong> and a
@@ -131,12 +132,6 @@ import vueContent from "./changelog-vue-content.html?raw";
             </div>
           </div>
         </article>
-      </div>
-    </div>
-
-    <!-- @vanduo-oss/vd3 1.0.0 — the standalone Vue 3 design system -->
-    <div style="padding: 3rem 0 0">
-      <div class="vd-container-responsive" style="max-width: 1200px">
         <article class="version-card">
           <header class="version-header version-initial">
             <span
@@ -151,13 +146,6 @@ import vueContent from "./changelog-vue-content.html?raw";
           <div class="version-body">
             <div class="vd-row">
               <div class="vd-col-12">
-                <h4>
-                  <i
-                    class="ph ph-atom mr-2"
-                    style="color: var(--vd-color-primary)"
-                  ></i
-                  >@vanduo-oss/vd3
-                </h4>
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
                   The standalone Vue 3 line — one package ships DTCG design
                   tokens, the full CSS tree, and typed <code>Vd*</code>
@@ -358,11 +346,17 @@ import vueContent from "./changelog-vue-content.html?raw";
           </div>
         </article>
       </div>
-    </div>
-
-    <!-- @vanduo-oss/vd3-cbun 1.3.0 — chart clicks, bounded loading, core fixes -->
-    <div style="padding: 3rem 0 0">
-      <div class="vd-container-responsive" style="max-width: 1200px">
+      <div class="changelog-col">
+        <div class="changelog-col-head">
+          <h3 class="changelog-col-title">
+            <i class="ph ph-package" style="color: var(--vd-color-primary)"></i
+            ><code>@vanduo-oss/vd3-cbun</code>
+          </h3>
+          <p class="changelog-col-sub">
+            The components bundle — charts, code-editor, draw, flowchart,
+            hex-grid, music-player.
+          </p>
+        </div>
         <article class="version-card">
           <header class="version-header">
             <span
@@ -380,13 +374,6 @@ import vueContent from "./changelog-vue-content.html?raw";
           <div class="version-body">
             <div class="vd-row">
               <div class="vd-col-12">
-                <h4>
-                  <i
-                    class="ph ph-package mr-2"
-                    style="color: var(--vd-color-primary)"
-                  ></i
-                  >@vanduo-oss/vd3-cbun
-                </h4>
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
                   A minor release: chart mark-click events, hardened document
                   loading, and core bug fixes. Additive and backward-compatible;
@@ -483,12 +470,6 @@ import vueContent from "./changelog-vue-content.html?raw";
             </div>
           </div>
         </article>
-      </div>
-    </div>
-
-    <!-- @vanduo-oss/vd3-cbun 1.2.0 — adds the VdDraw drawing tool -->
-    <div style="padding: 3rem 0 0">
-      <div class="vd-container-responsive" style="max-width: 1200px">
         <article class="version-card">
           <header class="version-header">
             <span
@@ -503,13 +484,6 @@ import vueContent from "./changelog-vue-content.html?raw";
           <div class="version-body">
             <div class="vd-row">
               <div class="vd-col-12">
-                <h4>
-                  <i
-                    class="ph ph-package mr-2"
-                    style="color: var(--vd-color-primary)"
-                  ></i
-                  >@vanduo-oss/vd3-cbun
-                </h4>
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
                   Adds a sixth component — <strong>Drawing tool</strong> — to
                   the bundle. Additive minor release; the five existing
@@ -566,12 +540,6 @@ import vueContent from "./changelog-vue-content.html?raw";
             </div>
           </div>
         </article>
-      </div>
-    </div>
-
-    <!-- @vanduo-oss/vd3-cbun 1.1.0 — adds the code-editor component -->
-    <div style="padding: 3rem 0 0">
-      <div class="vd-container-responsive" style="max-width: 1200px">
         <article class="version-card">
           <header class="version-header">
             <span
@@ -586,13 +554,6 @@ import vueContent from "./changelog-vue-content.html?raw";
           <div class="version-body">
             <div class="vd-row">
               <div class="vd-col-12">
-                <h4>
-                  <i
-                    class="ph ph-package mr-2"
-                    style="color: var(--vd-color-primary)"
-                  ></i
-                  >@vanduo-oss/vd3-cbun
-                </h4>
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
                   Adds a fifth component — <strong>Code editor</strong> — to the
                   bundle. Additive minor release; the four existing components
@@ -633,12 +594,6 @@ import vueContent from "./changelog-vue-content.html?raw";
             </div>
           </div>
         </article>
-      </div>
-    </div>
-
-    <!-- @vanduo-oss/vd3-cbun 1.0.0 — the initial components bundle -->
-    <div style="padding: 3rem 0 0">
-      <div class="vd-container-responsive" style="max-width: 1200px">
         <article class="version-card">
           <header class="version-header">
             <span
@@ -653,13 +608,6 @@ import vueContent from "./changelog-vue-content.html?raw";
           <div class="version-body">
             <div class="vd-row">
               <div class="vd-col-12">
-                <h4>
-                  <i
-                    class="ph ph-package mr-2"
-                    style="color: var(--vd-color-primary)"
-                  ></i
-                  >@vanduo-oss/vd3-cbun
-                </h4>
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
                   The canvas components bundle for the vd3 line — charts,
                   flowchart, hex-grid, and music-player consolidated into one
@@ -761,10 +709,8 @@ import vueContent from "./changelog-vue-content.html?raw";
             </div>
           </div>
         </article>
+        <div v-html="vueContent"></div>
       </div>
     </div>
-
-    <!-- Earlier vd3-line history -->
-    <div v-html="vueContent"></div>
   </section>
 </template>
