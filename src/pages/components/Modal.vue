@@ -116,7 +116,7 @@ const classRows: [string, string][] = [
     <p class="vd-mb-8">
       <strong>VdModal</strong> renders an overlay dialog for confirmations,
       forms, and focused tasks. Drive it from a boolean with
-      <code>v-model:open</code>, choose one of three size tiers, and fill the
+      <code>v-model:open</code>, choose one of four size tiers, and fill the
       body / <code>#footer</code> slots — the header title and close button are
       rendered for you. It teleports to <code>&lt;body&gt;</code>, traps Escape,
       and closes on a backdrop click unless you opt out.
