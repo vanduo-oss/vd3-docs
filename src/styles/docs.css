@@ -2352,14 +2352,13 @@ a:hover .vd-card-interactive.vd-card-glow {
   margin-bottom: 0;
 }
 
+/* Sticky behaviour (position/top/z-index/stuck-border) comes from vd3's
+   .vd-affix + .vd-affix-bordered, wired by useAffix(root). We only add the
+   opaque page background so cards scroll cleanly behind the pinned header. */
 .changelog-col-head {
-  position: sticky;
-  top: calc(var(--vd-navbar-height, 3.4375rem) + 0.75rem);
-  z-index: 2;
   margin-bottom: 0.25rem;
   padding: 0.6rem 0 0.55rem;
   background: var(--vd-bg-primary);
-  border-bottom: 1px solid var(--vd-border-color);
 }
 
 .changelog-col-title {

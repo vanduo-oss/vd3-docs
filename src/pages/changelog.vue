@@ -8,11 +8,19 @@
 // the earlier scaffold history is imported verbatim and rendered via v-html
 // (its styles live in src/styles/docs.css). Trusted first-party content →
 // v-html is safe here.
+import { ref } from "vue";
+import { useAffix } from "@vanduo-oss/vd3";
 import vueContent from "./changelog-vue-content.html?raw";
+
+// Sticky column headers via vd3's own affix composable (dogfooding): useAffix
+// wires every `.vd-affix` inside `root` — position: sticky + an `.is-stuck`
+// border toggled by a sentinel + IntersectionObserver. SSR-safe (onMounted).
+const root = ref<HTMLElement | null>(null);
+useAffix(root);
 </script>
 
 <template>
-  <section id="changelog">
+  <section id="changelog" ref="root">
     <div class="changelog-header">
       <div class="vd-container-responsive">
         <h2 style="color: var(--vd-color-primary)">
@@ -31,7 +39,10 @@ import vueContent from "./changelog-vue-content.html?raw";
 
     <div class="vd-container-responsive changelog-grid">
       <div class="changelog-col">
-        <div class="changelog-col-head">
+        <div
+          class="changelog-col-head vd-affix vd-affix-bordered"
+          data-vd-affix-offset="64"
+        >
           <h3 class="changelog-col-title">
             <i class="ph ph-atom" style="color: var(--vd-color-primary)"></i
             ><code>@vanduo-oss/vd3</code>
@@ -347,7 +358,10 @@ import vueContent from "./changelog-vue-content.html?raw";
         </article>
       </div>
       <div class="changelog-col">
-        <div class="changelog-col-head">
+        <div
+          class="changelog-col-head vd-affix vd-affix-bordered"
+          data-vd-affix-offset="64"
+        >
           <h3 class="changelog-col-title">
             <i class="ph ph-package" style="color: var(--vd-color-primary)"></i
             ><code>@vanduo-oss/vd3-cbun</code>
