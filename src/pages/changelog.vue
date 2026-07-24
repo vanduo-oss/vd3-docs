@@ -40,7 +40,7 @@ useAffix(root);
     <div class="vd-container-responsive changelog-grid">
       <div class="changelog-col">
         <div
-          class="changelog-col-head vd-affix vd-affix-bordered"
+          class="changelog-col-head vd-affix vd-affix-no-shadow"
           data-vd-affix-offset="64"
         >
           <h3 class="changelog-col-title">
@@ -359,7 +359,7 @@ useAffix(root);
       </div>
       <div class="changelog-col">
         <div
-          class="changelog-col-head vd-affix vd-affix-bordered"
+          class="changelog-col-head vd-affix vd-affix-no-shadow"
           data-vd-affix-offset="64"
         >
           <h3 class="changelog-col-title">
