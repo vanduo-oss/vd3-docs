@@ -38,7 +38,7 @@ protocol (`link:../vd3`, `link:../vd3-cbun`).
 styles from `@vanduo-oss/vd3-cbun/{charts,flowchart,music-player}/css`. It SHALL
 install the `VanduoVue` plugin (imported from `@vanduo-oss/vd3`, the same
 identifier the old `@vanduo-oss/vue` exported) with
-`themeDefaults: { PRIMARY_DARK: "blue" }`. It MUST NOT import or call
+`themeDefaults: { PRIMARY_DARK: "green" }`. It MUST NOT import or call
 `loadVanduoRuntime` (which `@vanduo-oss/vd3` does not export) and MUST NOT load
 any framework IIFE or otherwise bootstrap a `window.Vanduo*` global runtime.
 
@@ -47,7 +47,7 @@ any framework IIFE or otherwise bootstrap a `window.Vanduo*` global runtime.
 - **GIVEN** `main.ts` after this change
 - **WHEN** its imports and `createApp` setup are read
 - **THEN** stylesheet imports come from `@vanduo-oss/vd3/css` and
-  `@vanduo-oss/vd3-cbun/*/css`, `app.use(VanduoVue, { themeDefaults: { PRIMARY_DARK: "blue" } })`
+  `@vanduo-oss/vd3-cbun/*/css`, `app.use(VanduoVue, { themeDefaults: { PRIMARY_DARK: "green" } })`
   is present, and there is no `loadVanduoRuntime` import and no awaited
   client-only runtime-bootstrap block
 
@@ -131,6 +131,9 @@ since the clone) SHALL be present, and the two dropped guides
 MAY remain a curated representative subset rather than every route. All committed
 snapshots SHALL be freshly captured from the built vd3 site: the stale `vd2-*`
 PNGs SHALL be deleted and replaced with `vd3-*` PNGs, one per enumerated route.
+The committed snapshot PNGs SHALL additionally reflect the docs site's rem-root
+scale (`html { font-size: 90% }`) so CI compares against the production density,
+not the pre-scale 16px-default appearance.
 
 #### Scenario: the spec carries no vd2 branding
 
@@ -154,6 +157,13 @@ PNGs SHALL be deleted and replaced with `vd3-*` PNGs, one per enumerated route.
   `--update-snapshots` against the built vd3 site
 - **THEN** every file is named `vd3-*-Chromium-Desktop-darwin.png`, there is one
   per enumerated route, no `vd2-*` file remains, and the run passes
+
+#### Scenario: baselines match the scaled docs site
+
+- **GIVEN** the docs site built with `html { font-size: 90% }`
+- **WHEN** visual-parity snapshots are captured with `--update-snapshots`
+- **THEN** every committed `vd3-*.png` baseline reflects the denser rem-root
+  appearance at 100% browser zoom
 
 ### Requirement: an accessibility smoke suite gates representative routes
 

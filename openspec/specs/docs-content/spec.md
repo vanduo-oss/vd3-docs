@@ -278,3 +278,135 @@ features, and MUST document the component's props, events, and exposed methods.
   Editors category, the section appears in the sidebar, and its `keywords` feed
   the search index
 
+### Requirement: Draw component page
+
+The docs site SHALL provide a live Draw page at `/canvas/draw`, under the existing **Canvas** category in the Components tab, rendering the real `VdDraw` from `@vanduo-oss/vd3-cbun/draw` (importing `@vanduo-oss/vd3-cbun/draw/css`) with no invented API. The page MUST demonstrate the interactive editor (drawing shapes, freehand, selection / move, and pan / zoom) and MUST document the component's props, events, and exposed methods. The page MUST be registered in BOTH `src/nav.ts` (a Canvas-category `NavSection` with a unique `id`, `route`, and search `keywords`) and `src/router.ts` (`componentPages`), and MUST NOT introduce any vanilla-engine reference or component-specific rule in `app.css`.
+
+#### Scenario: page renders the live editor
+
+- **GIVEN** the docs site after this change
+- **WHEN** a user navigates to `/canvas/draw`
+- **THEN** the page renders a live `VdDraw` editor under the Canvas nav category, themed by the active `--vd-*` palette, without console errors
+
+#### Scenario: page is registered, routed, and searchable
+
+- **GIVEN** the built route table and the search index
+- **WHEN** `buildRoutes()` runs and a user searches the page's keywords
+- **THEN** `/canvas/draw` resolves to the `Draw.vue` component (its `nav.ts` `id` matches its `router.ts` `componentPages` key), the route count stays consistent (`nav.pages` + sections + 2), and the page surfaces in search results
+
+#### Scenario: page documents the real published API
+
+- **GIVEN** the Draw page's API-reference card
+- **WHEN** its props / events / methods tables are read
+- **THEN** every entry corresponds to an actual member of the published `@vanduo-oss/vd3-cbun/draw` surface (`VdDraw` props/emits and exposed `undo`/`redo`/`toSVG`/`toPNG`/`getInstance`), with no invented API
+
+#### Scenario: non-deterministic canvas page is excluded from visual baselines
+
+- **GIVEN** the Playwright visual-parity suite
+- **WHEN** its curated `ROUTES` list is enumerated
+- **THEN** `/canvas/draw` is absent (following the charts / flowchart / hex precedent for non-deterministic canvas pages), so no pixel baseline is committed for it
+
+### Requirement: the About page is a vd3 overview, not vd2 founder copy
+
+The `/about` page ([src/pages/about.vue](../../../src/pages/about.vue)) SHALL present a
+plain-language overview of the standalone vd3 line and MUST NOT carry the pre-strip
+vd2 clone's founder's-message content (e.g. "The Shape of the Water") or any
+dual-engine / vanilla-engine framing. Its prose SHALL describe only real facts about
+`@vanduo-oss/vd3` and `@vanduo-oss/vd3-cbun` and MUST NOT invent component or
+composable APIs. All page styling SHALL remain scoped to `about.vue`; the change MUST
+NOT modify `app.css` or other shell/layout stylesheets.
+
+#### Scenario: the page describes the vd3 package, not a founder's message
+- **WHEN** a reader opens `/about`
+- **THEN** the page presents the vd3 overview sections (what it is, how it's built, what you get, open source)
+- **AND** it contains no "Shape of the Water" founder's-message block and no vanilla-engine or dual-line references
+
+#### Scenario: About is discoverable by vd3/overview keywords
+- **WHEN** the site search index is built from `src/nav.ts`
+- **THEN** the `/about` entry's keywords include `vd3` and `overview`
+
+#### Scenario: the About visual baseline reflects the rewritten page
+- **WHEN** the Playwright visual-parity suite runs the `/about` route
+- **THEN** it matches a committed `vd3-about-*` baseline captured from the rewritten page (within tolerance)
+
+### Requirement: home hero random approved logo effect
+
+On each full page load of `/`, the home hero mark SHALL display one effect chosen
+uniformly at random from the approved set: `bloom-spin`, `spin`, `counter-spin`,
+`pulse`, `breathe-spin`, `wobble`, `heartbeat`, `stagger-pulse`, `morph-scale-swap`,
+`soft-glow`, `chromatic-soft`, `liquid-displace`, `stroke-draw`, `outline-only`,
+`specular-sweep`, `cascade-in`.
+
+#### Scenario: reload may change effect
+
+- **GIVEN** the home page with motion allowed
+- **WHEN** the user performs multiple hard reloads
+- **THEN** the hero mark may show different effects from the approved set only
+
+### Requirement: upright mark on hero and chrome
+
+The vd3 mark on home (static frames), navbar, footer, and favicon SHALL show two
+small circles above and one small circle below (upright pose). Group rotations
+SHALL use the inner (big) circle center as the axis.
+
+#### Scenario: navbar shows upright static mark
+
+- **GIVEN** any page after this change
+- **WHEN** the navbar brand logo is viewed
+- **THEN** it shows the upright two-up / one-down pose with no animation
+
+### Requirement: lighter mark fills for dark UI
+
+Outer and inner fills SHALL be lightened versus the prior near-black palette so
+the mark remains visible on dark theme backgrounds.
+
+#### Scenario: mark visible on dark theme
+
+- **GIVEN** dark theme active
+- **WHEN** the user views the navbar or home hero mark
+- **THEN** the green fills are clearly visible (not near-black)
+
+### Requirement: dark-mode default primary matches logo green
+
+The docs site SHALL default dark-mode primary to the green hue
+(`data-primary="green"`) via `themeDefaults.PRIMARY_DARK` at bootstrap. When dark
+mode is active and primary is green, the docs shell CSS SHALL pin semantic primary
+tokens to the logo stop (`--vd-green-8` = `#2f9e44`) and its ramp companions.
+Light-mode primary SHALL remain package `PRIMARY_LIGHT` (`black`). The theme store
+SHALL treat legacy stored `"blue"` as a docs auto-primary and migrate it to the
+current default primary on init, theme change, and OS scheme flip (same pattern as
+docs neutral auto-defaults).
+
+#### Scenario: dark default primary is green with logo accent
+
+- **GIVEN** a fresh visit with dark theme (explicit or system dark)
+- **WHEN** the user views primary buttons, links, or nav accents
+- **THEN** `data-primary` is `green` and `--vd-color-primary` resolves to the
+  logo green stop (`--vd-green-8`)
+
+#### Scenario: legacy blue primary migrates to green in dark
+
+- **GIVEN** `localStorage` holds `vanduo-primary-color` = `blue` from a prior visit
+- **WHEN** the theme store initializes in dark mode
+- **THEN** primary becomes `green` and `data-primary` is `green`
+
+#### Scenario: explicit non-default primary is preserved
+
+- **GIVEN** the user picks violet (or any non-auto primary) in the customizer
+- **WHEN** they switch between light and dark
+- **THEN** the chosen primary hue persists
+
+### Requirement: integration snippets show docs bootstrap primary
+
+Pages that document site bootstrap with `themeDefaults` SHALL show the docs site's
+real dark primary override as `PRIMARY_DARK: "green"` in
+`guides/FrameworkIntegration.vue` and `components/ThemeSwitcher.vue`. Generic
+teaching samples that demonstrate other hues (e.g. violet via `setThemeDefaults`)
+SHALL remain unchanged.
+
+#### Scenario: FrameworkIntegration mirrors site bootstrap
+
+- **GIVEN** `guides/FrameworkIntegration.vue` after this change
+- **WHEN** its bootstrap code snippets are read
+- **THEN** `PRIMARY_DARK` is `"green"`, not `"blue"`
+
