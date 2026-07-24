@@ -49,7 +49,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
 <template>
   <section id="primitives">
     <h5 class="demo-title"><i class="ph ph-shapes"></i>Primitives</h5>
-    <p class="vd-mb-6">
+    <p class="vd-mb-8">
       Primitives are unstyled, single-responsibility
       <strong>layout</strong> containers. They express an <em>intent</em> —
       vertical rhythm, a wrapping row, a centered column — instead of one CSS

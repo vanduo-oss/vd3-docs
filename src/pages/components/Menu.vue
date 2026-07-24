@@ -106,7 +106,7 @@ const vue3Api: [string, string][] = [
 <template>
   <section id="menu">
     <h5 class="demo-title"><i class="ph ph-list-dashes"></i>Menu</h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       <strong>VdMenu</strong> is a declarative dropdown menu: pass a
       <code>label</code> and an <code>items</code> array and it renders an
       accessible <code>role="menu"</code> popup, reusing the framework's

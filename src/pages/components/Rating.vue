@@ -69,7 +69,7 @@ const vue3Api: [string, string][] = [
 <template>
   <section id="rating">
     <h5 class="demo-title"><i class="ph ph-star"></i>Rating</h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       The <strong>VdRating</strong> component renders an interactive star-rating
       widget. Configure the maximum number of stars, pre-set a value, make it
       read-only, or pick a size variant — all through component props.

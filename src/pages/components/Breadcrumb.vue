@@ -97,7 +97,7 @@ const vue3Api: [string, string][] = [
 <template>
   <section id="breadcrumbs">
     <h5 class="demo-title"><i class="ph ph-caret-right"></i>Breadcrumbs</h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       <strong>VdBreadcrumb</strong> renders an accessible breadcrumb trail from
       an <code>items</code> array (or a custom default slot). It is markup-only
       — built on <code>breadcrumbs.css</code> — with the current page marked by

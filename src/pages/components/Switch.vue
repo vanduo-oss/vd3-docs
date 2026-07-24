@@ -78,7 +78,7 @@ const vue3Api: [string, string][] = [
 <template>
   <section id="switch">
     <h5 class="demo-title"><i class="ph ph-toggle-right"></i>Switch</h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       <strong>VdSwitch</strong> is an accessible on/off toggle built on a native
       checkbox with <code>role="switch"</code>. It needs no JavaScript — just
       the <code>.vd-form-switch</code> markup — and binds with

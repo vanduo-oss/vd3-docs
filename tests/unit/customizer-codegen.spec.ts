@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { CUSTOMIZER_REGISTRY, renderDemo } from "@/customizer/registry";
 import { toVueSfc } from "@/customizer/codegen";
+import { stageStyle, styleToCss } from "@/customizer/overrides";
 import type { CustomizerState } from "@/customizer/types";
 
 /**
@@ -171,6 +172,142 @@ describe("customizer codegen — valid props + preview-matching classes", () => 
         expect(renderDemo(entry, tinted)).toContain(cls);
         expect(sfc).toContain(cls);
       }
+    });
+  });
+});
+
+/**
+ * Covers the override engine (`stageStyle` / `styleToCss` in overrides.ts) and
+ * the SFC assembly (`toVueSfc` in codegen.ts) that the earlier suite only
+ * touched indirectly: the emitted `import … from "@vanduo-oss/vd3"` line, the
+ * scoped `<style>` block, and a coherent single-file-component shape.
+ */
+describe("customizer overrides + SFC assembly", () => {
+  describe("stageStyle", () => {
+    it("derives every leaf color token from the primary/secondary hexes", () => {
+      const map = stageStyle(base);
+      expect(map["--vd-color-primary"]).toBe("#228be6");
+      expect(map["--vd-color-primary-hover"]).toBe(
+        "color-mix(in srgb, #228be6, black 8%)",
+      );
+      expect(map["--vd-color-primary-alpha-20"]).toBe(
+        "color-mix(in srgb, #228be6 20%, transparent)",
+      );
+      expect(map["--vd-color-secondary"]).toBe("#12b886");
+      // Only the primary accent seeds the card-glow leaves.
+      expect(map["--vd-card-glow-color"]).toBe(
+        "color-mix(in srgb, #228be6, white 55%)",
+      );
+      expect(map).not.toHaveProperty("--vd-card-glow-color-secondary");
+    });
+
+    it("maps radius / shadow / font knobs to concrete leaf values", () => {
+      const map = stageStyle(base); // radius "0.5", shadow "none", font "system"
+      expect(map["--vd-btn-border-radius"]).toBe("0.625rem");
+      expect(map["--vd-badge-border-radius"]).toBe("0.375rem");
+      expect(map["--vd-card-border-radius"]).toBe("1rem");
+      expect(map["--vd-card-shadow"]).toBe("none");
+      expect(map["--vd-font-family-sans"]).toContain("system-ui");
+      expect(map["font-family"]).toBe("var(--vd-font-family-sans)");
+    });
+
+    it("emits shadow / glass / outline / font-scale overrides only when engaged", () => {
+      const off = stageStyle(base);
+      expect(off).not.toHaveProperty("--vd-glass-tint");
+      expect(off).not.toHaveProperty("--vd-card-border-width");
+      expect(off).not.toHaveProperty("font-size");
+
+      const on = stageStyle(
+        state({
+          shadow: "md",
+          glass: "tinted",
+          outline: 2,
+          radius: "0.25",
+          font: "ubuntu",
+          fontScale: 1.25,
+        }),
+      );
+      expect(on["--vd-card-shadow"]).toBe("var(--vd-shadow-md)");
+      expect(on["--vd-glass-tint"]).toBe("var(--vd-color-primary-alpha-20)");
+      expect(on["--vd-card-border-width"]).toBe("2px");
+      expect(on["--vd-card-border-color"]).toBe("var(--vd-color-primary)");
+      expect(on["--vd-card-border-radius"]).toBe("0.5rem");
+      expect(on["--vd-font-family-sans"]).toContain("Ubuntu");
+      expect(on["font-size"]).toBe("calc(1rem * 1.25)");
+      expect(on["--vd-btn-font-size"]).toBe(
+        "calc(var(--vd-font-size-base) * 1.25)",
+      );
+    });
+  });
+
+  describe("styleToCss", () => {
+    it("serializes a style map to 2-space-indented declarations", () => {
+      expect(
+        styleToCss({ "--vd-color-primary": "#228be6", "font-family": "serif" }),
+      ).toBe("  --vd-color-primary: #228be6;\n  font-family: serif;");
+    });
+
+    it("round-trips a stageStyle map into valid declaration lines", () => {
+      const css = styleToCss(stageStyle(base));
+      expect(css).toContain("  --vd-color-primary: #228be6;");
+      expect(css.split("\n").every((l) => l.trim().endsWith(";"))).toBe(true);
+    });
+  });
+
+  describe("toVueSfc assembly", () => {
+    it("emits the import line, scoped style block, and a coherent SFC", () => {
+      const sfc = toVueSfc(
+        CUSTOMIZER_REGISTRY.button,
+        state({ variant: "vd-btn-primary" }),
+        scope,
+      );
+
+      // Imports name only the real Vd* components for the entry.
+      expect(sfc).toContain('import { VdButton } from "@vanduo-oss/vd3";');
+
+      // A single scoped style block carries the concrete override values.
+      expect(sfc).toContain(`${scope} {`);
+      expect(sfc).toContain("  --vd-color-primary: #228be6;");
+      expect(sfc).toContain("  --vd-btn-border-radius: 0.625rem;");
+
+      // The three blocks appear in order and the template mirrors the preview.
+      const scriptIdx = sfc.indexOf('<script setup lang="ts">');
+      const templateIdx = sfc.indexOf("<template>");
+      const styleIdx = sfc.indexOf("<style>");
+      expect(scriptIdx).toBeGreaterThanOrEqual(0);
+      expect(templateIdx).toBeGreaterThan(scriptIdx);
+      expect(styleIdx).toBeGreaterThan(templateIdx);
+      expect(sfc).toContain(
+        '<VdButton variant="primary" class="my-demo">Button</VdButton>',
+      );
+    });
+
+    it("multi-import cards fold per-entry extraCss into the scoped block", () => {
+      const sfc = toVueSfc(
+        CUSTOMIZER_REGISTRY.card,
+        state({ variant: "vd-card-outlined", shadow: "md", outline: 3 }),
+        scope,
+      );
+      expect(sfc).toContain(
+        'import { VdCard, VdButton } from "@vanduo-oss/vd3";',
+      );
+      // Card outline/shadow are pure leaf-token overrides (no extra CSS rules).
+      expect(sfc).toContain("  --vd-card-border-width: 3px;");
+      expect(sfc).toContain("  --vd-card-shadow: var(--vd-shadow-md);");
+    });
+
+    it("Button outline/shadow become real extra CSS rules under the scope", () => {
+      const sfc = toVueSfc(
+        CUSTOMIZER_REGISTRY.button,
+        state({ variant: "vd-btn-primary", shadow: "lg", outline: 2 }),
+        scope,
+      );
+      expect(sfc).toContain(
+        `${scope} .vd-btn { border-width: 2px; border-color: var(--vd-color-primary); }`,
+      );
+      expect(sfc).toContain(
+        `${scope} .vd-btn { box-shadow: var(--vd-shadow-lg); }`,
+      );
     });
   });
 });

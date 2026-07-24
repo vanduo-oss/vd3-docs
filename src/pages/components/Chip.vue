@@ -68,6 +68,10 @@ const apiRows: [string, string, string][] = [
 <template>
   <section id="chips">
     <h5 class="demo-title"><i class="ph ph-tag"></i>Chips &amp; Tags</h5>
+    <p class="vd-mb-8">
+      Compact tokens for tags, filters, and selections, with contextual colors,
+      optional icons, and a removable (dismissible) variant.
+    </p>
 
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">

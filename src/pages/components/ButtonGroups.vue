@@ -107,6 +107,10 @@ const apiRows: [string, string, string][] = [
 <template>
   <section id="button-groups">
     <h5 class="demo-title"><i class="ph ph-squares-four"></i>Button Groups</h5>
+    <p class="vd-mb-8">
+      Cluster related buttons so they share edges and read as a single control —
+      horizontal or vertical, in three sizes, and optionally full-width.
+    </p>
 
     <!-- VdButtonGroup component (Vue 3) -->
     <div class="vd-row">

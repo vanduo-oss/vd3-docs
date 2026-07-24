@@ -237,7 +237,7 @@ const cssVars = `:root {
 <template>
   <section id="code-editor">
     <h5 class="demo-title"><i class="ph ph-code"></i>Code Editor</h5>
-    <p class="vd-mb-4">
+    <p class="vd-mb-8">
       A lightweight, secure code editor built on the
       <strong>textarea-overlay</strong> model: a native
       <code>&lt;textarea&gt;</code> handles all editing (caret, selection, IME,

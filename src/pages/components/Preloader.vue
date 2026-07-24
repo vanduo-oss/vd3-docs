@@ -27,7 +27,7 @@ const vue3Api: [string, string][] = [
     <h5 class="demo-title">
       <i class="ph ph-circle-notch"></i>Preloader &amp; loading patterns
     </h5>
-    <p class="vd-mb-8 vd-text-muted">
+    <p class="vd-mb-8">
       Patterns for showing progress during navigation, lazy-loaded sections, and
       async work. Spinner markup, modifiers, quad loader
       (<code>.vd-dynamic-loader*</code>), accessibility notes, and the full CSS

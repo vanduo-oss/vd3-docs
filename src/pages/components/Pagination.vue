@@ -121,7 +121,7 @@ const vue3Api: [string, string][] = [
     <h5 class="demo-title">
       <i class="ph ph-dots-three-outline"></i>Pagination
     </h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       Page-by-page navigation for lists, tables, and search results. The
       <strong>VdPagination</strong> component renders a numbered control from a
       few data attributes, automatically collapsing long ranges with ellipses

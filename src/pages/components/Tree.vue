@@ -253,7 +253,7 @@ const vue3Api: [string, string][] = [
 <template>
   <section id="tree-view">
     <h5 class="demo-title"><i class="ph ph-tree-structure"></i>Tree View</h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       The <strong>VdTree</strong> component renders hierarchical data as an
       expandable/collapsible tree. Supports checkbox selection with parent-child
       cascade and initial open state — all driven by the

@@ -183,6 +183,10 @@ const classRef: ClassRef[] = [
       <h5 class="demo-title"><i class="ph ph-cursor-click"></i>Buttons</h5>
       <LaunchCustomizerButton component="button" />
     </div>
+    <p class="vd-mb-8">
+      Clickable actions in contextual color variants, three sizes, and outline,
+      ghost, and icon looks, with built-in loading and disabled states.
+    </p>
 
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">

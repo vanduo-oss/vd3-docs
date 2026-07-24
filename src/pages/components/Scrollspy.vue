@@ -146,6 +146,10 @@ const events: [string, string, string][] = [
     <h5 class="demo-title">
       <i class="ph ph-map-trifold"></i>Waypoint / Scrollspy
     </h5>
+    <p class="vd-mb-8">
+      Highlights the navigation entry for the section currently in view as the
+      user scrolls, driven by the <code>useWaypoint</code> composable.
+    </p>
 
     <div class="vd-row">
       <div class="vd-col-12">

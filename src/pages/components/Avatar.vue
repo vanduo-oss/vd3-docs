@@ -50,6 +50,10 @@ const apiRows: [string, string, string][] = [
 <template>
   <section id="avatars">
     <h5 class="demo-title"><i class="ph ph-user-circle"></i>Avatars</h5>
+    <p class="vd-mb-8">
+      Represent a user or entity with an image, initials, or icon across a range
+      of sizes and shapes, and combine several into a stacked group.
+    </p>
 
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">

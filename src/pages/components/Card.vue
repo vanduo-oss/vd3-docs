@@ -166,7 +166,7 @@ const classRef: [string, string, string][] = [
       <h5 class="demo-title"><i class="ph ph-rectangle"></i>Cards</h5>
       <LaunchCustomizerButton component="card" />
     </div>
-    <p class="vd-text-muted vd-mb-6">
+    <p class="vd-mb-8">
       Cards group content with consistent padding, borders, and elevation.
       Combine variants with <code>.vd-card-glow</code>,
       <code>.vd-card-glass</code>, or the Water Morph effect for richer demos.

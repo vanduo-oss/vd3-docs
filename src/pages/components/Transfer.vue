@@ -102,7 +102,7 @@ const vue3Api: [string, string][] = [
     <h5 class="demo-title">
       <i class="ph ph-arrows-left-right"></i>Transfer / Dual List
     </h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       The <strong>VdTransfer</strong> component renders a dual-panel picker —
       users move items from a "Source" list to a "Target" list using arrow
       buttons. Search filtering is built into both panels automatically, and

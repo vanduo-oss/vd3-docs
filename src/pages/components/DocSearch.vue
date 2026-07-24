@@ -355,7 +355,7 @@ const resultFields: [string, string][] = [
 <template>
   <section id="doc-search">
     <h5 class="demo-title"><i class="ph ph-magnifying-glass"></i>Doc Search</h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       <strong>VdDocSearch</strong> is a combobox/listbox search over a
       collection of documents you supply. Feed it a
       <code>DocSearchDoc[]</code> and the <code>useDocSearch</code> composable
