@@ -1,6 +1,7 @@
 name: Deploy to GitHub Pages
 
-# Builds the vite-ssg site and publishes dist/ to GitHub Pages (https://vanduo.dev).
+# Builds the vite-ssg site and publishes dist/ to the GitHub Pages project page
+# (https://vanduo-oss.github.io/vd3-docs/, base /vd3-docs/).
 # All @vanduo-oss/* dependencies now install from npm (the .npmrc excludes the
 # @vanduo-oss/* scope from the minimum-release-age delay), so this is a plain
 # single-repo build — no sibling checkouts.
