@@ -482,7 +482,7 @@ function detachAndMinimize() {
 <template>
   <section id="music-player">
     <h5 class="demo-title"><i class="ph ph-music-note"></i>Music Player</h5>
-    <p class="vd-mb-4">
+    <p class="vd-mb-8">
       A fully accessible HTML5 audio player component with transport controls,
       volume, optional shuffle and repeat modes, seek bar, playlist, glass
       surface, and a detachable floating mode (corner placement, pointer-drag

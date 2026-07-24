@@ -49,6 +49,11 @@ const apiRows: [string, string, string][] = [
     <h5 class="demo-title">
       <i class="ph ph-bell-ringing"></i>Toast Notifications
     </h5>
+    <p class="vd-mb-8">
+      Brief, non-blocking notifications triggered imperatively with the
+      <code>useToast</code> composable, in contextual success, error, warning,
+      and info styles.
+    </p>
 
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">

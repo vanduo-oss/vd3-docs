@@ -21,7 +21,7 @@ const stackVue = `<VdStack gap="fib-8">
 // ── Inline ───────────────────────────────────────────────────
 const inlineVue = `<VdInline gap="fib-5">
   <span class="vd-chip">Vue</span>
-  <span class="vd-chip">Vanilla</span>
+  <span class="vd-chip">CSS</span>
   <span class="vd-chip">Tokens</span>
 </VdInline>`;
 
@@ -49,15 +49,16 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
 <template>
   <section id="primitives">
     <h5 class="demo-title"><i class="ph ph-shapes"></i>Primitives</h5>
-    <p class="vd-mb-6">
+    <p class="vd-mb-8">
       Primitives are unstyled, single-responsibility
       <strong>layout</strong> containers. They express an <em>intent</em> —
       vertical rhythm, a wrapping row, a centered column — instead of one CSS
       property, and sit between utilities and components:
       <code>tokens → (utilities | primitives) → components</code>. Every
       primitive consumes the same Fibonacci spacing tokens, so layouts stay in
-      proportion. Configure them with <code>data-*</code> attributes in Vanilla,
-      or the matching props on the Vue components.
+      proportion. Configure each through its Vue props — <code>pad</code>,
+      <code>gap</code>, <code>max</code>, <code>min</code>, <code>ratio</code>,
+      <code>threshold</code>.
     </p>
 
     <!-- Box -->
@@ -69,8 +70,8 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
           </div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-4">
-              A blank surface with Fibonacci padding via
-              <code>data-pad</code>.
+              A blank surface with Fibonacci padding via the
+              <code>pad</code> prop.
             </p>
             <VdBox
               pad="fib-13"
@@ -95,7 +96,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-4">
               Stacks children vertically with a consistent
-              <code>data-gap</code> between them.
+              <code>gap</code> prop between them.
             </p>
             <VdStack gap="fib-8" style="margin-bottom: 1rem">
               <div class="primitive-demo-surface">First</div>
@@ -120,11 +121,11 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-4">
               Lays items in a row that wraps, with an even
-              <code>data-gap</code> in both directions.
+              <code>gap</code> prop in both directions.
             </p>
             <VdInline gap="fib-5" style="margin-bottom: 1rem">
               <span class="vd-chip">Vue</span>
-              <span class="vd-chip">Vanilla</span>
+              <span class="vd-chip">CSS</span>
               <span class="vd-chip">Tokens</span>
               <span class="vd-chip">Fibonacci</span>
             </VdInline>
@@ -143,7 +144,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
           </div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-4">
-              Caps content width with <code>data-max</code> and centers it
+              Caps content width with the <code>max</code> prop and centers it
               horizontally — keeping line lengths readable.
             </p>
             <VdCenter
@@ -170,7 +171,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
           </div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-4">
-              Fills a minimum height (<code>data-min</code>) and centers its
+              Fills a minimum height (the <code>min</code> prop) and centers its
               content vertically — ideal for heroes. Shown shorter here for
               space.
             </p>
@@ -198,8 +199,8 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
           </div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-4">
-              Locks media to an aspect ratio with <code>data-ratio</code> and
-              crops to fit — no layout shift.
+              Locks media to an aspect ratio with the <code>ratio</code> prop
+              and crops to fit — no layout shift.
             </p>
             <VdFrame
               ratio="16-9"
@@ -229,7 +230,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-4">
               Lays children in a row, then flips them to a stack once the
-              container drops below <code>data-threshold</code> — responsive
+              container drops below the <code>threshold</code> prop — responsive
               with no media query. Resize the window to see it switch.
             </p>
             <VdSwitcher

@@ -94,6 +94,10 @@ const apiRows: [string, string, string][] = [
 <template>
   <section id="tables">
     <h5 class="demo-title"><i class="ph ph-table"></i>Tables</h5>
+    <p class="vd-mb-8">
+      Structured tabular data with bordered, striped, hoverable, and compact
+      styles, plus responsive horizontal scrolling for wide datasets.
+    </p>
 
     <div class="vd-row">
       <div class="vd-col-12">

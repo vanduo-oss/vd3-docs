@@ -90,6 +90,10 @@ const people = [
 <template>
   <section id="collections">
     <h5 class="demo-title"><i class="ph ph-list"></i>Collections</h5>
+    <p class="vd-mb-8">
+      Vertical lists for grouped content such as menus, settings, and feeds,
+      with optional icons, supporting text, and hoverable or linked items.
+    </p>
 
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">

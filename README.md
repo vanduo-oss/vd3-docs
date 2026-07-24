@@ -4,15 +4,15 @@
 **vd3 line** of Vanduo UI. It **dogfoods the published packages** — every page is
 a live demo built from the real, typed `Vd*` components and composables of
 [`@vanduo-oss/vd3`](https://www.npmjs.com/package/@vanduo-oss/vd3) (the standalone
-Vue 3 design system) and the charts / flowchart / hex-grid / music-player
-components of
+Vue 3 design system) and the charts, code-editor, draw, flowchart, hex-grid, and
+music-player components of
 [`@vanduo-oss/vd3-cbun`](https://www.npmjs.com/package/@vanduo-oss/vd3-cbun) (the
-components bundle), consumed as published npm dependencies (`^1.0.0`), not vendored
-source. Unlike the previous docs site (which consumed `@vanduo-oss/framework` CSS
+components bundle), consumed as published npm dependencies (`@vanduo-oss/vd3`
+`^1.0.0`, `@vanduo-oss/vd3-cbun` `^1.2.0`), not vendored source. Unlike the previous docs site (which consumed `@vanduo-oss/framework` CSS
 classes only), vd3-docs renders the actual Vue 3 components a consumer installs.
 
-The site is pre-rendered to static HTML with `vite-ssg` (92 routes) and is
-`private` — it is **not** published to npm.
+The site is pre-rendered to static HTML with `vite-ssg` (one page per `nav.ts`
+route) and is `private` — it is **not** published to npm.
 
 ## Stack
 

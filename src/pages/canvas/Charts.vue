@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdChart } from "@vanduo-oss/vd3-cbun/charts";
+import { VdChart, type ClickEvent } from "@vanduo-oss/vd3-cbun/charts";
 
 const barData = [
   { month: "Jan", sales: 120 },
@@ -8,6 +9,11 @@ const barData = [
   { month: "Mar", sales: 150 },
   { month: "Apr", sales: 220 },
 ];
+// New in @vanduo-oss/vd3-cbun 1.3.0 — VdChart forwards mark clicks as Vue events.
+const lastBarClick = ref<string | null>(null);
+const onBarClick = (e: ClickEvent<(typeof barData)[number]>): void => {
+  lastBarClick.value = `${e.datum.month}: ${e.datum.sales} sales (bar #${e.index})`;
+};
 const lineData = [
   { month: "Jan", visits: 3200 },
   { month: "Feb", visits: 4100 },
@@ -137,6 +143,10 @@ const vue3Api: [string, string][] = [
     ":legend",
     "true or { position } — shown by default for multi-series charts. New in 0.2.0.",
   ],
+  [
+    "@bar-click / @point-click / @slice-click",
+    "Mark-click events — each carries a ClickEvent { event, datum, index }. New in 1.3.0.",
+  ],
 ];
 </script>
 
@@ -149,6 +159,46 @@ const vue3Api: [string, string][] = [
       renders accessible SVG, reads Vanduo theme tokens, and ships an optional
       Vue 3 binding (<code>@vanduo-oss/vd3-cbun/charts</code>) used here.
     </p>
+
+    <!-- Mark clicks — new in @vanduo-oss/vd3-cbun 1.3.0 -->
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>
+              <i class="ph ph-cursor-click"></i> Mark clicks (new in 1.3.0)
+            </h6>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-text-sm vd-text-muted vd-mb-4">
+              <code>VdChart</code> forwards clicks on marks as Vue events —
+              <code>@bar-click</code>, <code>@point-click</code>, and
+              <code>@slice-click</code> — each carrying a
+              <code>ClickEvent { event, datum, index }</code>. Click a bar:
+            </p>
+            <VdChart
+              type="bar"
+              :data="barData"
+              x="month"
+              y="sales"
+              title="Monthly sales — click a bar"
+              :height="260"
+              @bar-click="onBarClick"
+            />
+            <p style="margin: 0.75rem 0 0" aria-live="polite">
+              <template v-if="lastBarClick">
+                <i
+                  class="ph ph-hand-pointing"
+                  style="color: var(--vd-color-primary)"
+                ></i>
+                Last click: <strong>{{ lastBarClick }}</strong>
+              </template>
+              <span v-else class="vd-text-muted">No bar clicked yet.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12 vd-col-lg-4 vd-mb-4">

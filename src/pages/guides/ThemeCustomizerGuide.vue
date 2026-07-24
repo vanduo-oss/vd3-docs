@@ -45,8 +45,9 @@ const attrsHtml = `<!-- The framework CSS reads these attributes on <html> -->
   data-radius="0.5"
   data-font="lato">`;
 
-const persistJs = `// Preferences persist in localStorage and re-hydrate automatically
-// keys: vanduo-theme, vanduo-primary, vanduo-neutral, vanduo-radius, vanduo-font
+const persistJs = `// Preferences persist in localStorage and re-hydrate automatically. Keys:
+//   vanduo-palette, vanduo-primary-color, vanduo-neutral-color,
+//   vanduo-radius, vanduo-font-preference, vanduo-theme-preference
 // useThemePreference() reads them on first client access — there is no init().`;
 
 const attrs: [string, string, string][] = [

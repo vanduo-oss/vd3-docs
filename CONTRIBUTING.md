@@ -5,10 +5,10 @@ Thanks for your interest in `vd3-docs`.
 ## Current Status
 
 `vd3-docs` is the documentation and demo site for the **vd3 line** of Vanduo UI
-(`v1.0.1`, `private: true`). It dogfoods the published `@vanduo-oss/vd3` and
-`@vanduo-oss/vd3-cbun` packages. Work happens on `dev-vXXX` branches with a pull
-request to `main` (aligned with the published vd3-line repos); CI runs on the PR
-and the GitHub Pages deploy runs when it merges to `main`.
+(`private: true`). It dogfoods the published `@vanduo-oss/vd3` and
+`@vanduo-oss/vd3-cbun` packages. Work happens **directly on `main`** — push when
+ready; CI runs on the push and the GitHub Pages deploy publishes from `main`.
+There is no `dev-vXXX` branch and no `dev→main` PR here.
 
 ## Development Setup
 
@@ -25,10 +25,10 @@ and the GitHub Pages deploy runs when it merges to `main`.
 ```sh
 corepack enable
 pnpm install
-pnpm run build           # Verifies the static build works (92 routes)
-pnpm test                # Vitest unit/wrapper suite (143 specs)
-pnpm run test:e2e        # Playwright visual-parity, Chromium Desktop (85 specs)
-pnpm run test:a11y       # axe accessibility smoke (10 routes)
+pnpm run build           # Verifies the static build works (all nav.ts routes)
+pnpm test                # Vitest unit/wrapper suite
+pnpm run test:e2e        # Playwright visual-parity, Chromium Desktop
+pnpm run test:a11y       # axe accessibility smoke
 ```
 
 ### Useful Checks
@@ -82,13 +82,11 @@ Archived changes in the tree:
 
 ## Branch and Push Policy
 
-- Work happens on a **`dev-vXXX`** branch (minor-bump the site version for a
-  batch of work), matching the published vd3-line repos — not directly on `main`.
-  Before branching, `git fetch` and fast-forward `main` to `origin/main`.
-- Open a **pull request `dev-vXXX → main`** when the change is ready; CI runs on
-  the PR, and GitHub Pages deploys automatically once it merges to `main`.
-- Only `main` and the latest `dev-vXXX` should exist (local and remote); sweep
-  stale branches after a merge.
+- Work happens **directly on `main`** — this private docs repo has no `dev-vXXX`
+  branch and no `dev→main` PR (unlike the published vd3-line repos). Before
+  starting, `git fetch` and fast-forward `main` to `origin/main`.
+- Push to `origin/main` when ready; CI runs on the push and GitHub Pages deploys
+  from `main` automatically.
 - For larger changes, add an OpenSpec folder under `openspec/changes/` to record
   the spec.
 

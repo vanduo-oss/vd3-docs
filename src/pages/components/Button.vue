@@ -25,7 +25,7 @@ const vue3Api: [string, string][] = [
   ["@click", "Emitted on click (suppressed while disabled or loading)."],
   [
     "(outline / ghost-colour / icon)",
-    "Vanilla-only classes (.vd-btn-outline, .vd-btn-ghost-primary…, .vd-btn-icon) — not VdButton props.",
+    "CSS-only classes (.vd-btn-outline, .vd-btn-ghost-primary…, .vd-btn-icon) that ship in vd3's CSS — not wrapped as VdButton props.",
   ],
 ];
 
@@ -183,6 +183,10 @@ const classRef: ClassRef[] = [
       <h5 class="demo-title"><i class="ph ph-cursor-click"></i>Buttons</h5>
       <LaunchCustomizerButton component="button" />
     </div>
+    <p class="vd-mb-8">
+      Clickable actions in contextual color variants, three sizes, and outline,
+      ghost, and icon looks, with built-in loading and disabled states.
+    </p>
 
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">

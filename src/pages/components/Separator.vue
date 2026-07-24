@@ -54,7 +54,7 @@ const vue3Api: [string, string][] = [
 <template>
   <section id="separator">
     <h5 class="demo-title"><i class="ph ph-minus"></i>Separator</h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       <strong>VdSeparator</strong> is a semantic divider with
       <code>role="separator"</code>. Use it to break up stacked content, label a
       transition (e.g. "OR"), or split inline actions vertically. Pure CSS — no

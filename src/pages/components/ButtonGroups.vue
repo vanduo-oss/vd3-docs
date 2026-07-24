@@ -1,5 +1,37 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
+import { VdButtonGroup, VdButton } from "@vanduo-oss/vd3";
+
+const vdBtnGroupUsage = `<script setup lang="ts">
+import { VdButtonGroup, VdButton } from "@vanduo-oss/vd3";
+<\/script>
+
+<template>
+  <VdButtonGroup size="md">
+    <VdButton variant="primary">Left</VdButton>
+    <VdButton variant="primary">Middle</VdButton>
+    <VdButton variant="primary">Right</VdButton>
+  </VdButtonGroup>
+
+  <!-- vertical stack, full-width, large -->
+  <VdButtonGroup vertical full-width size="lg">
+    <VdButton variant="secondary">A</VdButton>
+    <VdButton variant="secondary">B</VdButton>
+  </VdButtonGroup>
+</template>`;
+
+const vdBtnGroupApi: [string, string][] = [
+  [
+    ":size",
+    "'sm' | 'md' | 'lg' — sizes every button in the group (default 'md').",
+  ],
+  [":vertical", "Stacks the buttons vertically (adds .vd-btn-group-vertical)."],
+  [
+    ":full-width",
+    "Stretches the group to 100% width (adds .vd-btn-group-full).",
+  ],
+  ["default slot", "The VdButton (or .vd-btn) children to group."],
+];
 
 const horizontalHtml = `<!-- Horizontal Button Group -->
 <div class="vd-btn-group">
@@ -75,6 +107,83 @@ const apiRows: [string, string, string][] = [
 <template>
   <section id="button-groups">
     <h5 class="demo-title"><i class="ph ph-squares-four"></i>Button Groups</h5>
+    <p class="vd-mb-8">
+      Cluster related buttons so they share edges and read as a single control —
+      horizontal or vertical, in three sizes, and optionally full-width.
+    </p>
+
+    <!-- VdButtonGroup component (Vue 3) -->
+    <div class="vd-row">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>
+              <i
+                class="ph ph-cursor-click mr-2"
+                style="color: var(--vd-color-primary)"
+              ></i
+              >VdButtonGroup component (Vue 3)
+            </h6>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-text-muted vd-mb-5">
+              <code>&lt;VdButtonGroup&gt;</code> wraps
+              <code>&lt;VdButton&gt;</code> children and applies the group
+              layout through the <code>size</code>, <code>vertical</code>, and
+              <code>full-width</code> props.
+            </p>
+
+            <p class="vd-text-sm vd-text-muted vd-mb-2">Horizontal (default)</p>
+            <VdButtonGroup class="vd-mb-4">
+              <VdButton variant="primary">Left</VdButton>
+              <VdButton variant="primary">Middle</VdButton>
+              <VdButton variant="primary">Right</VdButton>
+            </VdButtonGroup>
+
+            <p class="vd-text-sm vd-text-muted vd-mb-2">Vertical</p>
+            <VdButtonGroup vertical class="vd-mb-4">
+              <VdButton variant="secondary">Top</VdButton>
+              <VdButton variant="secondary">Middle</VdButton>
+              <VdButton variant="secondary">Bottom</VdButton>
+            </VdButtonGroup>
+
+            <p class="vd-text-sm vd-text-muted vd-mb-2">Full width · large</p>
+            <VdButtonGroup full-width size="lg" class="vd-mb-5">
+              <VdButton variant="primary">A</VdButton>
+              <VdButton variant="primary">B</VdButton>
+              <VdButton variant="primary">C</VdButton>
+            </VdButtonGroup>
+
+            <h4 class="vd-mt-4">Usage</h4>
+            <DocCodeSnippet :html="vdBtnGroupUsage" :default-open="true" />
+
+            <h4 class="vd-mt-6">Component API (Vue 3)</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Prop / slot</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in vdBtnGroupApi" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="vd-text-sm vd-text-muted vd-mt-4 vd-mb-0">
+              The raw <code>.vd-btn-group</code> classes below ship in vd3's CSS
+              and back the same layout for non-Vue markup.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">

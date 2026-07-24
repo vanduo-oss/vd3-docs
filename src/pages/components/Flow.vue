@@ -116,6 +116,10 @@ const dataAttrs: [string, string, string][] = [
 <template>
   <section id="carousel" ref="root">
     <h5 class="demo-title"><i class="ph ph-slideshow"></i>Flow / Carousel</h5>
+    <p class="vd-mb-8">
+      A carousel for stepping through a sequence of slides, with previous and
+      next controls and optional looping.
+    </p>
 
     <!-- Basic -->
     <div class="vd-row">

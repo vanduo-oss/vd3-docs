@@ -2,9 +2,10 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 // Accessibility smoke gate. Runs axe-core (WCAG 2.0/2.1 A + AA) over a curated
-// set of ~10 routes, one per page archetype (home, a plain component page, a
+// set of routes, one per page archetype (home, a plain component page, a
 // form-heavy page, a guide, a canvas/ecosystem page, a media page, the
-// changelog, the two theme pages, and a foundations page). Each route must
+// changelog, the two theme pages, a foundations page, and a rich-ARIA composite
+// widget page — the VdTree role=tree hierarchy). Each route must
 // have ZERO `serious`/`critical` axe violations EXCEPT the rules in
 // `ALLOWLISTED_RULES` below. `minor`/`moderate` findings are logged but never
 // fail the gate.
@@ -53,6 +54,10 @@ const ROUTES: readonly Route[] = [
   { path: '/components/theme-customizer', label: 'components-theme-customizer' },
   { path: '/components/theme-switcher', label: 'components-theme-switcher' },
   { path: '/core/color-palette', label: 'core-color-palette' },
+  // Rich-ARIA widget archetype: VdTree renders a role=tree / role=treeitem
+  // hierarchy with aria-expanded / aria-selected, exercising the composite-
+  // widget rules (aria-required-children, roles, focus) the flat pages don't.
+  { path: '/components/tree', label: 'components-tree' },
 ];
 
 const BLOCKING_IMPACTS = new Set(['serious', 'critical']);

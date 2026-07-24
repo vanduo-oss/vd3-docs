@@ -72,7 +72,7 @@ const vue3Api: [string, string][] = [
 <template>
   <section id="slider">
     <h5 class="demo-title"><i class="ph ph-sliders-horizontal"></i>Slider</h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       <strong>VdSlider</strong> styles a native
       <code>&lt;input type="range"&gt;</code> with a themed track, fill and
       thumb. It renders from pure CSS and binds with

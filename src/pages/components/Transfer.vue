@@ -20,13 +20,21 @@ const items = [
   { id: "scala", label: "Scala" },
 ];
 
-const transferHtml = `<div data-vd-transfer='[
-  { "id": "html",       "label": "HTML" },
-  { "id": "css",        "label": "CSS" },
-  { "id": "javascript", "label": "JavaScript" },
-  { "id": "typescript", "label": "TypeScript" },
-  { "id": "python",     "label": "Python" }
-]'></div>`;
+const transferHtml = `<script setup lang="ts">
+import { VdTransfer } from "@vanduo-oss/vd3";
+
+const items = [
+  { id: "html",       label: "HTML" },
+  { id: "css",        label: "CSS" },
+  { id: "javascript", label: "JavaScript" },
+  { id: "typescript", label: "TypeScript" },
+  { id: "python",     label: "Python" },
+];
+<\/script>
+
+<template>
+  <VdTransfer :items="items" />
+</template>`;
 
 const transferJs = `import { ref } from 'vue';
 
@@ -64,7 +72,6 @@ const events: [string, string][] = [
   ],
 ];
 
-// Vue 3 usage (the Vanilla data-attribute form is shown via transferHtml/transferJs).
 const vue3Usage = `<script setup lang="ts">
 import { VdTransfer } from "@vanduo-oss/vd3";
 const items = [
@@ -95,7 +102,7 @@ const vue3Api: [string, string][] = [
     <h5 class="demo-title">
       <i class="ph ph-arrows-left-right"></i>Transfer / Dual List
     </h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       The <strong>VdTransfer</strong> component renders a dual-panel picker —
       users move items from a "Source" list to a "Target" list using arrow
       buttons. Search filtering is built into both panels automatically, and
@@ -144,27 +151,6 @@ const vue3Api: [string, string][] = [
                   <code>{{ row[0] }}</code>
                 </td>
                 <td>{{ row[1] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h4 class="vd-mt-6">Data Attributes</h4>
-        <div class="vd-table-responsive">
-          <table class="vd-table vd-table-striped">
-            <thead>
-              <tr>
-                <th>Attribute</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>data-vd-transfer</code></td>
-                <td>
-                  JSON array of <code>{id, label}</code> objects. All items
-                  start in the "Available" panel
-                </td>
               </tr>
             </tbody>
           </table>

@@ -1,6 +1,7 @@
 name: Deploy to GitHub Pages
 
-# Builds the vite-ssg site and publishes dist/ to GitHub Pages (https://vanduo.dev).
+# Builds the vite-ssg site and publishes dist/ to the GitHub Pages project page
+# (https://vanduo-oss.github.io/vd3-docs/, base /vd3-docs/).
 # All @vanduo-oss/* dependencies now install from npm (the .npmrc excludes the
 # @vanduo-oss/* scope from the minimum-release-age delay), so this is a plain
 # single-repo build — no sibling checkouts.
@@ -36,9 +37,28 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+
+      # ── Quality gates ──────────────────────────────────────────────────────
+      # deploy.yml runs on push to main INDEPENDENTLY of ci.yml, so a type /
+      # a11y / bundle-size regression could otherwise auto-publish before ci.yml
+      # (which does not run these suites) ever fails. Gate them here so a broken
+      # build cannot reach Pages. The a11y + size suites read the built dist and
+      # assume base '/', so they run against a base-'/' build; the Pages artifact
+      # is rebuilt with the /vd3-docs/ base afterwards.
+      - run: pnpm run typecheck
+
+      - name: Install Chromium for the a11y smoke
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build (base '/') for the a11y + size gates
+        run: pnpm run build
+      - run: pnpm run test:a11y
+      - run: pnpm run test:size
+
       # Project-page deploy lives under https://vanduo-oss.github.io/vd3-docs/,
-      # so build with that base (assets + router resolve under /vd3-docs/).
-      - run: pnpm run build
+      # so rebuild with that base (assets + router resolve under /vd3-docs/).
+      - name: Build for GitHub Pages (base /vd3-docs/)
+        run: pnpm run build
         env:
           VITE_BASE: /vd3-docs/
       - name: Disable Jekyll processing

@@ -5,31 +5,72 @@
  */
 import type { CustomizerEntry, CustomizerState } from "./types";
 
-/** Map a variant/size class suffix to the equivalent VdButton props. */
-function vdBtnProps(s: CustomizerState): string {
-  const variant = s.variant.replace("vd-btn-", "").replace("-primary", "");
-  let props = "";
-  if (s.variant.includes("outline")) props += ` variant="outline-primary"`;
-  else if (s.variant.includes("ghost")) props += ` variant="ghost-primary"`;
-  else if (variant && variant !== "primary") props += ` variant="${variant}"`;
-  else props += ` variant="primary"`;
-  if (s.size === "vd-btn-sm") props += ` size="sm"`;
-  else if (s.size === "vd-btn-lg") props += ` size="lg"`;
-  return props;
+/**
+ * Real component props + CSS-only look classes for one demo state. The Vd*
+ * components only accept a subset of the customizer's looks as props; the rest
+ * (button `outline-*` / `ghost-*`, badge `outlined`, card `outlined` / `filled`
+ * / `glow`, and the glass modifiers) are CSS classes that ship in vd3's CSS. We
+ * emit those on the element's `class` attribute — mirroring the live preview's
+ * `rootClass` — so the generated SFC both typechecks and matches the preview.
+ */
+interface VdAttrs {
+  /** Leading-space-prefixed prop string, e.g. ` variant="primary" size="sm"`. */
+  props: string;
+  /** Space-joined CSS-only classes appended after the scope class. */
+  classes: string;
 }
 
-function vdBadgeProps(s: CustomizerState): string {
-  let props = "";
-  if (s.variant.includes("secondary")) props += ` variant="secondary"`;
-  else props += ` variant="primary"`;
-  if (s.variant.includes("pill")) props += ` pill`;
-  return props;
+/** VdButton `Variant` is `StatusVariant | "ghost"` — `outline-*` / `ghost-*`
+ *  are not props, so they go on `class`. */
+function vdBtnAttrs(s: CustomizerState): VdAttrs {
+  const props: string[] = [];
+  const classes: string[] = [];
+  if (s.variant === "vd-btn-primary") props.push(`variant="primary"`);
+  else if (s.variant === "vd-btn-secondary") props.push(`variant="secondary"`);
+  else if (s.variant) classes.push(s.variant); // vd-btn-outline-primary / -ghost-primary
+  if (s.size === "vd-btn-sm") props.push(`size="sm"`);
+  else if (s.size === "vd-btn-lg") props.push(`size="lg"`);
+  return {
+    props: props.length ? ` ${props.join(" ")}` : "",
+    classes: classes.join(" "),
+  };
 }
 
-function vdCardProps(s: CustomizerState): string {
-  let props = "";
-  if (s.variant === "vd-card-elevated") props += ` elevated`;
-  return props;
+/** VdBadge accepts `variant` + `pill`; `outlined` and the size classes are
+ *  CSS-only. */
+function vdBadgeAttrs(s: CustomizerState): VdAttrs {
+  const props: string[] = [];
+  const classes: string[] = [];
+  props.push(
+    s.variant.includes("secondary")
+      ? `variant="secondary"`
+      : `variant="primary"`,
+  );
+  if (s.variant.includes("pill")) props.push("pill");
+  if (s.variant.includes("outlined")) classes.push("vd-badge-outlined");
+  if (s.size === "vd-badge-sm") classes.push("vd-badge-sm");
+  else if (s.size === "vd-badge-lg") classes.push("vd-badge-lg");
+  return { props: ` ${props.join(" ")}`, classes: classes.join(" ") };
+}
+
+/** VdCard only exposes `elevated`; outlined/filled/glow and the glass modifiers
+ *  are CSS-only. */
+function vdCardAttrs(s: CustomizerState): VdAttrs {
+  const props: string[] = [];
+  const classes: string[] = [];
+  if (s.variant === "vd-card-elevated") props.push("elevated");
+  else if (s.variant) classes.push(s.variant); // vd-card-outlined / -filled / -glow
+  if (s.glass === "tinted") classes.push("vd-card-glass", "vd-glass-tinted");
+  else if (s.glass !== "off") classes.push("vd-card-glass");
+  return {
+    props: props.length ? ` ${props.join(" ")}` : "",
+    classes: classes.join(" "),
+  };
+}
+
+/** Compose the demo root `class`: the scope class plus any CSS-only looks. */
+function vueClass(scope: string, classes: string): string {
+  return [scope, classes].filter(Boolean).join(" ");
 }
 
 export const CUSTOMIZER_REGISTRY: Record<string, CustomizerEntry> = {
@@ -72,8 +113,10 @@ export const CUSTOMIZER_REGISTRY: Record<string, CustomizerEntry> = {
       return css;
     },
     vueImports: ["VdButton"],
-    vueTemplate: (s, scope) =>
-      `  <VdButton${vdBtnProps(s)} class="${scope}">Button</VdButton>`,
+    vueTemplate: (s, scope) => {
+      const { props, classes } = vdBtnAttrs(s);
+      return `  <VdButton${props} class="${vueClass(scope, classes)}">Button</VdButton>`;
+    },
   },
 
   badge: {
@@ -110,8 +153,10 @@ export const CUSTOMIZER_REGISTRY: Record<string, CustomizerEntry> = {
         ? `${scope} .vd-badge { border: ${s.outline}px solid var(--vd-color-primary); }\n`
         : "",
     vueImports: ["VdBadge"],
-    vueTemplate: (s, scope) =>
-      `  <VdBadge${vdBadgeProps(s)} class="${scope}">Badge</VdBadge>`,
+    vueTemplate: (s, scope) => {
+      const { props, classes } = vdBadgeAttrs(s);
+      return `  <VdBadge${props} class="${vueClass(scope, classes)}">Badge</VdBadge>`;
+    },
   },
 
   card: {
@@ -157,13 +202,16 @@ export const CUSTOMIZER_REGISTRY: Record<string, CustomizerEntry> = {
     // Card border/shadow are all leaf-token driven, so no extra CSS needed.
     extraCss: () => "",
     vueImports: ["VdCard", "VdButton"],
-    vueTemplate: (s, scope) => `  <VdCard${vdCardProps(s)} class="${scope}">
+    vueTemplate: (s, scope) => {
+      const { props, classes } = vdCardAttrs(s);
+      return `  <VdCard${props} class="${vueClass(scope, classes)}">
     <template #header><h6>Card title</h6></template>
     Body content lives in the card body — customize its look and copy the code.
     <template #footer>
       <VdButton variant="primary" size="sm">Action</VdButton>
     </template>
-  </VdCard>`,
+  </VdCard>`;
+    },
   },
 };
 

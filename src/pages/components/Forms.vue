@@ -1,7 +1,87 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdCustomSelect, VdInput } from "@vanduo-oss/vd3";
+import {
+  VdCheckboxGroup,
+  VdCustomSelect,
+  VdInput,
+  VdRadioGroup,
+  VdSelect,
+} from "@vanduo-oss/vd3";
+
+// Grouped-input components (VdCheckboxGroup / VdRadioGroup / VdSelect) demo state.
+const checks = ref<string[]>(["a11y"]);
+const checkOptions = [
+  { value: "a11y", label: "Accessibility" },
+  { value: "ssr", label: "SSR-safe" },
+  { value: "tree", label: "Tree-shakeable" },
+];
+const plan = ref("pro");
+const planOptions = [
+  { value: "free", label: "Free" },
+  { value: "pro", label: "Pro" },
+  { value: "team", label: "Team" },
+];
+const framework = ref("");
+const frameworkOptions = [
+  { value: "vue", label: "Vue 3" },
+  { value: "nuxt", label: "Nuxt" },
+  { value: "astro", label: "Astro" },
+];
+
+const vue3Groups = `<script setup lang="ts">
+import { ref } from "vue";
+import { VdCheckboxGroup, VdRadioGroup, VdSelect } from "@vanduo-oss/vd3";
+
+const checks = ref<string[]>(["a11y"]);
+const plan = ref("pro");
+const framework = ref("");
+<\/script>
+
+<template>
+  <VdCheckboxGroup
+    v-model="checks"
+    name="features"
+    :options="[
+      { value: 'a11y', label: 'Accessibility' },
+      { value: 'ssr',  label: 'SSR-safe' },
+    ]"
+  />
+
+  <VdRadioGroup
+    v-model="plan"
+    name="plan"
+    :options="[
+      { value: 'free', label: 'Free' },
+      { value: 'pro',  label: 'Pro' },
+    ]"
+  />
+
+  <VdSelect
+    v-model="framework"
+    name="framework"
+    placeholder="Choose a framework"
+    :options="[
+      { value: 'vue',  label: 'Vue 3' },
+      { value: 'nuxt', label: 'Nuxt' },
+    ]"
+  />
+</template>`;
+
+const groupsApi: [string, string][] = [
+  [
+    "VdCheckboxGroup",
+    "v-model (string[]) · :options ({ value, label, disabled? }) · :name · :inline · :size · :disabled",
+  ],
+  [
+    "VdRadioGroup",
+    "v-model (string) · :options ({ value, label, disabled?, icon? }) · :name · :inline · :size · :disabled",
+  ],
+  [
+    "VdSelect",
+    "v-model (string) · :options ({ value, label, disabled? }) · :name · :id · :placeholder · :disabled · :required",
+  ],
+];
 
 // VdInput component demo state (new ergonomics in @vanduo-oss/vd3 0.3.0).
 const fullName = ref("Ada Lovelace");
@@ -47,8 +127,8 @@ const vdInputApi: [string, string][] = [
   ["@blur / @focus", "Forwarded focus events."],
 ];
 
-// The custom-select is the one input with engine-specific wiring (plain inputs
-// are pure CSS and identical across engines).
+// The custom-select needs component wiring; the plain inputs above are styled
+// entirely by vd3's CSS classes.
 const vue3CustomSelect = `<script setup lang="ts">
 import { VdCustomSelect } from "@vanduo-oss/vd3";
 const value = ref('');
@@ -319,6 +399,91 @@ const classRef: [string, string, string][] = [
                 </thead>
                 <tbody>
                   <tr v-for="row in vdInputApi" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grouped inputs: VdCheckboxGroup / VdRadioGroup / VdSelect -->
+    <div class="vd-row">
+      <div class="vd-col-12">
+        <div id="demo-form-groups" class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>
+              <i
+                class="ph ph-list-checks mr-2"
+                style="color: var(--vd-color-primary)"
+              ></i
+              >Grouped inputs — VdCheckboxGroup / VdRadioGroup / VdSelect
+            </h6>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-text-muted vd-mb-5">
+              Three Vue&nbsp;3 wrappers build a full option group from a
+              <code>:options</code> array and a <code>v-model</code> — a
+              multi-select checkbox set, a single-choice radio set, and a themed
+              native <code>&lt;select&gt;</code>.
+            </p>
+            <div class="vd-row">
+              <div class="vd-col-12 vd-col-md-4">
+                <label class="vd-label vd-mb-2">Checkbox group</label>
+                <VdCheckboxGroup
+                  v-model="checks"
+                  :options="checkOptions"
+                  name="features"
+                />
+                <p class="vd-text-sm vd-text-muted vd-mt-2">
+                  Selected: {{ checks.join(", ") || "none" }}
+                </p>
+              </div>
+              <div class="vd-col-12 vd-col-md-4">
+                <label class="vd-label vd-mb-2">Radio group</label>
+                <VdRadioGroup
+                  v-model="plan"
+                  :options="planOptions"
+                  name="plan"
+                />
+                <p class="vd-text-sm vd-text-muted vd-mt-2">Plan: {{ plan }}</p>
+              </div>
+              <div class="vd-col-12 vd-col-md-4">
+                <label class="vd-label vd-mb-2" for="framework-select"
+                  >Native select</label
+                >
+                <VdSelect
+                  v-model="framework"
+                  :options="frameworkOptions"
+                  id="framework-select"
+                  name="framework"
+                  placeholder="Choose a framework"
+                />
+                <p class="vd-text-sm vd-text-muted vd-mt-2">
+                  Framework: {{ framework || "—" }}
+                </p>
+              </div>
+            </div>
+
+            <h4 class="vd-mt-6">Usage</h4>
+            <DocCodeSnippet :html="vue3Groups" :default-open="true" />
+
+            <h4 class="vd-mt-6">Component API (Vue 3)</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th>Props (v-model + options)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in groupsApi" :key="row[0]">
                     <td>
                       <code>{{ row[0] }}</code>
                     </td>

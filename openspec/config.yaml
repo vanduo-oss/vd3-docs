@@ -7,15 +7,16 @@ context: |
   stores only) + @unhead/vue + highlight.js. nav.ts is the single source of truth for
   routes (buildRoutes + pageComponents maps). Single engine: NO EngineSwitch/EngineBadge/
   useEngineStore — pages document Vue3 usage only.
-  Dogfoods the real packages: "@vanduo-oss/vd3": "link:../vd3" and
-  "@vanduo-oss/vd3-cbun": "link:../vd3-cbun" while unpublished (vite resolve.dedupe
-  ['vue','pinia'] + optimizeDeps.exclude for both); flips to published ^1.0.0 at launch.
+  Dogfoods the PUBLISHED packages: "@vanduo-oss/vd3": "^1.0.0" and
+  "@vanduo-oss/vd3-cbun": "^1.2.0" (post-launch; the pre-launch link:../ flip is done —
+  vite still resolve.dedupe ['vue','pinia'] + optimizeDeps.exclude for both).
   main.ts imports @vanduo-oss/vd3/css + per-component cbun css; NO framework IIFE, no
   loadVanduoRuntime, zero window.Vanduo* references in the built bundle (grep gate).
   Tests: vitest units, Playwright visual parity (all routes, committed baselines),
   layout-navigation interactions, gzip size budget, @axe-core/playwright a11y smoke.
   Changelog policy: documents PACKAGE releases only (@vanduo-oss/vd3, @vanduo-oss/vd3-cbun),
-  never docs-site content. Deploy workflow exists but stays disabled until launch; no CNAME.
+  never docs-site content. Deploy workflow is live on push to main (GitHub Pages project
+  page, base /vd3-docs/); apex vanduo.dev belongs to the home/ repo, so no CNAME here.
   Old-line repos (vd2 especially) are READ-ONLY reference material — never edit.
 
 rules:

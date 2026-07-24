@@ -84,7 +84,7 @@ const events: [string, string][] = [
 <template>
   <section id="timepicker" ref="root">
     <h5 class="demo-title"><i class="ph ph-clock"></i>Timepicker</h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       The <strong>timepicker</strong> adds a scrollable time-selection dropdown
       to any text input. Choose between 12-hour and 24-hour formats, and
       configure the minute step interval. Wired with <code>useTimepicker</code>.

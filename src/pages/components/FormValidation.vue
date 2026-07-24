@@ -134,7 +134,7 @@ const noop = (e: Event): void => e.preventDefault();
     <h5 class="demo-title">
       <i class="ph ph-shield-check"></i>Form Validation
     </h5>
-    <p class="vd-mb-5">
+    <p class="vd-mb-8">
       The <strong>useValidate</strong> composable provides declarative,
       attribute-driven form validation. Chain rules with pipe syntax
       (<code>required|email|min:3</code>), choose when validation triggers, and
