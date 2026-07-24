@@ -25,7 +25,7 @@ const vue3Api: [string, string][] = [
   ["@click", "Emitted on click (suppressed while disabled or loading)."],
   [
     "(outline / ghost-colour / icon)",
-    "Vanilla-only classes (.vd-btn-outline, .vd-btn-ghost-primary…, .vd-btn-icon) — not VdButton props.",
+    "CSS-only classes (.vd-btn-outline, .vd-btn-ghost-primary…, .vd-btn-icon) that ship in vd3's CSS — not wrapped as VdButton props.",
   ],
 ];
 

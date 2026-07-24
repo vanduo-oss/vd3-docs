@@ -10,61 +10,48 @@ const sizeSm = ref(4);
 const sizeMd = ref(4);
 const sizeLg = ref(4);
 
-const basicHtml = `<div data-vd-rating></div>`;
-const presetHtml = `<div data-vd-rating data-vd-rating-value="3"></div>`;
-const readonlyHtml = `<div data-vd-rating
-  data-vd-rating-value="4"
-  data-vd-rating-readonly></div>`;
-const maxHtml = `<div data-vd-rating
-  data-vd-rating-max="10"
-  data-vd-rating-value="7"></div>`;
+const basicHtml = `<VdRating v-model="rating" />`;
+const presetHtml = `<!-- rating = ref(3) → three stars filled on load -->
+<VdRating v-model="rating" />`;
+const readonlyHtml = `<!-- Display-only: not focusable, no hover/click -->
+<VdRating :model-value="4" readonly />`;
+const maxHtml = `<!-- Ten stars instead of the default five -->
+<VdRating v-model="rating" :max="10" />`;
 const sizesHtml = `<!-- Small -->
-<div class="vd-rating-sm" data-vd-rating data-vd-rating-value="4"></div>
+<VdRating v-model="a" size="sm" />
 
 <!-- Default -->
-<div data-vd-rating data-vd-rating-value="4"></div>
+<VdRating v-model="b" />
 
 <!-- Large -->
-<div class="vd-rating-lg" data-vd-rating data-vd-rating-value="4"></div>`;
+<VdRating v-model="c" size="lg" />`;
 
 const cssClasses: [string, string][] = [
-  [".vd-rating", "Auto-generated container wrapping the star elements"],
+  [".vd-rating", "Container wrapping the star elements"],
   [
     ".vd-rating-star",
     "Individual star element (filled or empty depending on value)",
   ],
   [
     ".vd-rating-readonly",
-    "Added to the container when read-only; disables hover/click interactions",
+    "Added to the container when readonly; disables hover/click interactions",
   ],
-  [
-    ".vd-rating-sm",
-    "Small size variant — place on the trigger element alongside data-vd-rating",
-  ],
-  [".vd-rating-lg", "Large size variant"],
+  [".vd-rating-sm", 'Small size variant — rendered when the size prop is "sm"'],
+  [".vd-rating-lg", 'Large size variant — rendered when the size prop is "lg"'],
   [
     ".vd-rating-value",
     'Optional text element displaying the numeric value (e.g. "4 / 5")',
   ],
 ];
 
-const dataAttrs: [string, string][] = [
-  ["data-vd-rating", "Activates the rating component on the element"],
-  ["data-vd-rating-max", "Maximum number of stars (default: 5)"],
-  ["data-vd-rating-value", "Initial selected value (default: 0)"],
-  [
-    "data-vd-rating-readonly",
-    "Makes the rating non-interactive (display only)",
-  ],
-];
-
 const vue3Usage = `<script setup lang="ts">
+import { ref } from "vue";
 import { VdRating } from "@vanduo-oss/vd3";
 const value = ref(3);
 <\/script>
 
 <template>
-  <VdRating v-model="value" :max="5" />
+  <VdRating v-model="value" :max="5" @change="onChange" />
 </template>`;
 
 const vue3Api: [string, string][] = [
@@ -85,7 +72,7 @@ const vue3Api: [string, string][] = [
     <p class="vd-mb-5">
       The <strong>VdRating</strong> component renders an interactive star-rating
       widget. Configure the maximum number of stars, pre-set a value, make it
-      read-only, or pick a size variant — all via data attributes.
+      read-only, or pick a size variant — all through component props.
     </p>
 
     <div class="vd-row">
@@ -179,26 +166,6 @@ const vue3Api: [string, string][] = [
           </table>
         </div>
 
-        <h4 class="vd-mt-6">Data Attributes</h4>
-        <div class="vd-table-responsive">
-          <table class="vd-table vd-table-striped">
-            <thead>
-              <tr>
-                <th>Attribute</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in dataAttrs" :key="row[0]">
-                <td>
-                  <code>{{ row[0] }}</code>
-                </td>
-                <td>{{ row[1] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
         <h4 class="vd-mt-6">Component API</h4>
         <div class="vd-table-responsive">
           <table class="vd-table vd-table-striped">
@@ -214,28 +181,6 @@ const vue3Api: [string, string][] = [
                   <code>{{ row[0] }}</code>
                 </td>
                 <td>{{ row[1] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h4 class="vd-mt-6">Events</h4>
-        <div class="vd-table-responsive">
-          <table class="vd-table vd-table-striped">
-            <thead>
-              <tr>
-                <th>Event</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>rating:change</code></td>
-                <td>
-                  Fired on the element when the user selects a new value.
-                  <code>event.detail</code> contains
-                  <code>{ value: number, max: number }</code>
-                </td>
               </tr>
             </tbody>
           </table>

@@ -15,13 +15,13 @@ import { VdBadge } from "@vanduo-oss/vd3";
 const vue3Api: [string, string][] = [
   [
     ":variant",
-    'primary | secondary | success | warning | danger | info (default "primary"). The bare Vanilla .vd-badge is neutral/secondary, but the Vue component defaults to primary.',
+    'primary | secondary | success | warning | danger | info (default "primary"). The bare .vd-badge class is neutral/secondary, but the VdBadge component defaults to primary.',
   ],
   [":pill", "Fully-rounded pill shape."],
   ["default slot", "Badge content."],
   [
     "(size / outline)",
-    "Vanilla-only via .vd-badge-sm / -lg / -outlined — not exposed as VdBadge props.",
+    "CSS-only classes (.vd-badge-sm / -lg / -outlined) that ship in vd3's CSS — not wrapped as VdBadge props.",
   ],
 ];
 

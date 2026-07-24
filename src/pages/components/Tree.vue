@@ -120,39 +120,25 @@ const openTree: TreeNode[] = [
   },
 ];
 
-const basicHtml = `<div data-vd-tree='[
-  {
-    "id": "src",
-    "label": "src",
-    "icon": "ph ph-folder",
-    "children": [
-      { "id": "btn",  "label": "Button.vue", "icon": "ph ph-file-vue" },
-      { "id": "card", "label": "Card.vue",   "icon": "ph ph-file-vue" }
-    ]
-  },
-  { "id": "pkg", "label": "package.json", "icon": "ph ph-file" }
-]'></div>`;
+const basicHtml = `<script setup lang="ts">
+import { VdTree } from "@vanduo-oss/vd3";
+import type { TreeNode } from "@vanduo-oss/vd3";
 
-const checkboxHtml = `<div
-  data-vd-tree='[
-    {
-      "id": "permissions",
-      "label": "Permissions",
-      "children": [
-        {
-          "id": "users",
-          "label": "User Management",
-          "children": [
-            { "id": "users-read",   "label": "View Users" },
-            { "id": "users-create", "label": "Create Users" }
-          ]
-        }
-      ]
-    }
-  ]'
-  data-vd-tree-checkbox
-  data-vd-tree-cascade>
-</div>`;
+const nodes: TreeNode[] = [
+  { id: "src", label: "src", icon: "ph ph-folder", children: [
+    { id: "btn",  label: "Button.vue", icon: "ph ph-file-vue" },
+    { id: "card", label: "Card.vue",   icon: "ph ph-file-vue" },
+  ]},
+  { id: "pkg", label: "package.json", icon: "ph ph-file" },
+];
+<\/script>
+
+<template>
+  <VdTree :nodes="nodes" />
+</template>`;
+
+const checkboxHtml = `<!-- checkbox + cascade: checking a parent checks all descendants -->
+<VdTree :nodes="permissions" checkbox cascade />`;
 
 const checkboxJs = `import { ref } from 'vue';
 
@@ -165,34 +151,24 @@ console.log(checked); // ["users-read", "users-create"]
 // VdTree also dispatches a native tree:check event
 // ({ checked, node }) on its root — listen via a template ref.`;
 
-const openHtml = `<div data-vd-tree='[
-  {
-    "id": "docs",
-    "label": "Documentation",
-    "open": true,
-    "children": [
-      {
-        "id": "getting-started",
-        "label": "Getting Started",
-        "open": true,
-        "children": [
-          { "id": "install", "label": "Installation" },
-          { "id": "getting-started-guide", "label": "Getting Started" }
-        ]
-      }
-    ]
-  }
-]'></div>`;
+const openHtml = `<!-- set "open": true on any node to expand it on render -->
+<VdTree :nodes="docs" />`;
 
-const structureHtml = `<!-- Auto-generated structure -->
-<div class="vd-tree vd-tree-lines" role="tree">
+const structureHtml = `<!-- Rendered structure -->
+<div class="vd-tree" role="tree">
   <div class="vd-tree-node" role="treeitem" aria-expanded="true">
-    <span class="vd-tree-toggle">▶</span>
-    <input type="checkbox" class="vd-tree-checkbox">
-    <span class="vd-tree-label">Parent Node</span>
+    <div class="vd-tree-node-content">
+      <span class="vd-tree-toggle">▶</span>
+      <input type="checkbox" class="vd-tree-checkbox" />
+      <span class="vd-tree-icon"></span>
+      <span class="vd-tree-label">Parent Node</span>
+    </div>
     <div class="vd-tree-children" role="group">
       <div class="vd-tree-node" role="treeitem">
-        <span class="vd-tree-label">Leaf Node</span>
+        <div class="vd-tree-node-content">
+          <span class="vd-tree-toggle-placeholder"></span>
+          <span class="vd-tree-label">Leaf Node</span>
+        </div>
       </div>
     </div>
   </div>
@@ -214,24 +190,11 @@ const cssClasses: [string, string][] = [
   [".vd-tree-label", "Text label of the node"],
   [
     ".vd-tree-checkbox",
-    "Checkbox input rendered when data-vd-tree-checkbox is set",
+    "Checkbox input rendered next to each node when the checkbox prop is set",
   ],
   [
     ".vd-tree-children",
     "Wrapper around child nodes (collapsed/expanded via CSS)",
-  ],
-  [".vd-tree-lines", "Adds vertical/horizontal connection lines between nodes"],
-];
-
-const dataAttrs: [string, string][] = [
-  [
-    "data-vd-tree",
-    "JSON array of tree nodes. Each node: { id, label, icon?, open?, children? }",
-  ],
-  ["data-vd-tree-checkbox", "Renders checkboxes next to each node label"],
-  [
-    "data-vd-tree-cascade",
-    "When combined with data-vd-tree-checkbox, checking a parent auto-checks all descendants, and vice-versa",
   ],
 ];
 
@@ -254,7 +217,6 @@ const events: [string, string][] = [
   ],
 ];
 
-// Engine-specific usage: the Vue component vs the Vanilla data-attribute markup.
 const vue3Usage = `<script setup lang="ts">
 import { VdTree } from "@vanduo-oss/vd3";
 const nodes = [
@@ -294,8 +256,9 @@ const vue3Api: [string, string][] = [
     <p class="vd-mb-5">
       The <strong>VdTree</strong> component renders hierarchical data as an
       expandable/collapsible tree. Supports checkbox selection with parent-child
-      cascade, connection lines, and initial open state — all configured via a
-      single JSON data attribute.
+      cascade and initial open state — all driven by the
+      <code>:nodes</code> prop plus the boolean <code>checkbox</code> /
+      <code>cascade</code> props.
     </p>
 
     <div class="vd-row">
@@ -378,26 +341,6 @@ const vue3Api: [string, string][] = [
             </thead>
             <tbody>
               <tr v-for="row in cssClasses" :key="row[0]">
-                <td>
-                  <code>{{ row[0] }}</code>
-                </td>
-                <td>{{ row[1] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h4 class="vd-mt-6">Data Attributes</h4>
-        <div class="vd-table-responsive">
-          <table class="vd-table vd-table-striped">
-            <thead>
-              <tr>
-                <th>Attribute</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in dataAttrs" :key="row[0]">
                 <td>
                   <code>{{ row[0] }}</code>
                 </td>
