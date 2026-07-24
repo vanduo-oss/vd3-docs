@@ -3,7 +3,7 @@ import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdModal } from "@vanduo-oss/vd3";
 
-type ModalId = "sm" | "md" | "lg" | "static" | null;
+type ModalId = "sm" | "md" | "lg" | "xl" | "static" | null;
 
 const active = ref<ModalId>(null);
 const lgTab = ref<"general" | "design" | "notify">("general");
@@ -45,7 +45,7 @@ const propRows: [string, string][] = [
     "title",
     'string — header title; also used as the dialog aria-label (falls back to "Dialog").',
   ],
-  ["size", '"sm" | "md" | "lg" — panel width (default "md").'],
+  ["size", '"sm" | "md" | "lg" | "xl" — panel width (default "md").'],
   [
     "closeOnBackdrop",
     "boolean — whether a backdrop click closes the modal (default true).",
@@ -77,6 +77,7 @@ const cssVars: [string, string, string][] = [
   ["--vd-modal-width-sm", "233px", "Small width (fib 13)"],
   ["--vd-modal-width", "377px", "Default width (fib 14)"],
   ["--vd-modal-width-lg", "610px", "Large width (fib 15)"],
+  ["--vd-modal-width-xl", "987px", "Extra-large width (fib 16)"],
   ["--vd-modal-z-index", "1050", "Modal stacking"],
   ["--vd-modal-backdrop-z-index", "1040", "Backdrop stacking"],
 ];
@@ -95,7 +96,10 @@ const classRows: [string, string][] = [
     ".vd-modal-panel",
     "The centered dialog panel holding the header, body, and footer.",
   ],
-  [".vd-modal-panel-sm / -md / -lg", "Panel width matching the size prop."],
+  [
+    ".vd-modal-panel-sm / -md / -lg / -xl",
+    "Panel width matching the size prop.",
+  ],
   [
     ".vd-modal-header",
     "Header bar with the title and the auto-rendered close button.",
@@ -140,6 +144,9 @@ const classRows: [string, string][] = [
             </button>
             <button class="vd-btn vd-btn-primary" @click="openModal('lg')">
               Large (610px)
+            </button>
+            <button class="vd-btn vd-btn-primary" @click="openModal('xl')">
+              Extra Large (987px)
             </button>
           </div>
         </div>
@@ -511,6 +518,41 @@ A Fibonacci-scaled component library for modern web apps.</textarea>
       </button>
       <button class="vd-btn vd-btn-primary" @click="closeModal">
         <i class="ph ph-floppy-disk mr-1"></i>Save Changes
+      </button>
+    </template>
+  </VdModal>
+
+  <!-- Extra Large (xl): wide content -->
+  <VdModal
+    :open="active === 'xl'"
+    title="Release Overview"
+    size="xl"
+    @update:open="closeModal"
+    @close="closeModal"
+  >
+    <p class="vd-mb-4">
+      The extra-large modal (987px, Fibonacci 16) suits wide, multi-column
+      content — dashboards, comparison tables, and detailed previews.
+    </p>
+    <div class="vd-row">
+      <div class="vd-col-12 vd-col-md-6 vd-mb-3">
+        <div class="vd-alert vd-alert-primary vd-mb-0">
+          <i class="ph ph-rocket-launch"></i>
+          <div>Roomier than <code>lg</code> for side-by-side layouts.</div>
+        </div>
+      </div>
+      <div class="vd-col-12 vd-col-md-6 vd-mb-3">
+        <div class="vd-alert vd-alert-info vd-mb-0">
+          <i class="ph ph-arrows-out"></i>
+          <div>
+            Maps to <code>size="xl"</code> → <code>.vd-modal-panel-xl</code>.
+          </div>
+        </div>
+      </div>
+    </div>
+    <template #footer>
+      <button class="vd-btn vd-btn-primary" @click="closeModal">
+        <i class="ph ph-check mr-1"></i>Got it
       </button>
     </template>
   </VdModal>
