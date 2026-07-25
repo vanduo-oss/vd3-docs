@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VdAlert } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import GuideLinkCards from "@/components/GuideLinkCards.vue";
 
@@ -110,6 +111,26 @@ useTabs(root);     // several now also return an optional controller (a superset
       names, and the composable call signatures all carry over. What changes is
       <em>where you import from</em>.
     </p>
+
+    <VdAlert
+      variant="info"
+      title="vanduo v2 was retired on 2026-07-25"
+      class="vd-mb-6"
+    >
+      The v2 line receives no further releases — vd3 is the only line that is
+      maintained and updated. The v2 packages stay published on npm and keep
+      working, so nothing breaks if you have not migrated yet, but they are
+      frozen at their final versions (<code>@vanduo-oss/vue&nbsp;0.3.1</code>,
+      <code>@vanduo-oss/framework&nbsp;1.7.1</code>,
+      <code>@vanduo-oss/core&nbsp;1.0.1</code>,
+      <code>@vanduo-oss/charts&nbsp;0.2.0</code>,
+      <code>@vanduo-oss/flowchart&nbsp;1.1.0</code>,
+      <code>@vanduo-oss/hex-grid&nbsp;1.1.0</code>,
+      <code>@vanduo-oss/music-player&nbsp;1.1.0</code>) and installing one now
+      prints a deprecation notice. The v2 documentation stays online as a frozen
+      reference at
+      <a href="https://vanduo-oss.github.io/vd2/" rel="noopener">vd2</a>.
+    </VdAlert>
 
     <!-- Package map -->
     <div class="vd-row vd-mb-6">
