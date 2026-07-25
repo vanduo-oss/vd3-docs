@@ -127,9 +127,12 @@ useTabs(root);     // several now also return an optional controller (a superset
       <code>@vanduo-oss/flowchart&nbsp;1.1.0</code>,
       <code>@vanduo-oss/hex-grid&nbsp;1.1.0</code>,
       <code>@vanduo-oss/music-player&nbsp;1.1.0</code>) and installing one now
-      prints a deprecation notice. The v2 documentation stays online as a frozen
-      reference at
-      <a href="https://vanduo-oss.github.io/vd2/" rel="noopener">vd2</a>.
+      prints a deprecation notice. The v2 documentation site has been taken
+      offline; this page is the maintained record of how the old API maps onto
+      vd3, and the docs themselves remain readable as source in the archived
+      <a href="https://github.com/vanduo-oss/vd2" rel="noopener"
+        >vd2 repository</a
+      >.
     </VdAlert>
 
     <!-- Package map -->
