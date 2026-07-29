@@ -58,7 +58,7 @@ const sections: [string, [string, string][]][] = [
     </h5>
     <p class="vd-mb-6">
       A quick reference to Vanduo's utility classes. These are pure CSS and work
-      the same in static HTML and vd2 templates. Spacing, gaps, and radii all
+      the same in static HTML and Vue templates. Spacing, gaps, and radii all
       follow the <a href="/guides/fibonacci">Fibonacci scale</a>.
     </p>
 

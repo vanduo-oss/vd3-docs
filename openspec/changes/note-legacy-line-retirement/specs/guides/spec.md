@@ -28,7 +28,8 @@ before any migration mechanics.
 
 #### Scenario: A reader needs the old documentation
 - **WHEN** the notice is read
-- **THEN** it SHALL link the frozen legacy documentation site at `https://vanduo-oss.github.io/vd2/`
+- **THEN** it SHALL state that the v2 documentation site is offline
+- **AND** it SHALL link the archived source at `https://github.com/vanduo-oss/vd2`
 
 ### Requirement: The notice SHALL be rendered by a real vd3 component
 
@@ -45,6 +46,25 @@ markup, and the component SHALL be imported explicitly.
 - **WHEN** the alert renders
 - **THEN** all of its styling SHALL come from the vd3 package
 - **AND** `app.css` SHALL NOT gain any rule for it
+
+### Requirement: The ecosystem guide SHALL state that the legacy line is retired
+
+`/guides/vanduo-ecosystem` SHALL carry a short note that the old vanduo v2 line was
+retired on 2026-07-25 and vd3 is the only maintained line. The note SHALL NOT use
+"maintenance mode" or "critical fixes" wording.
+
+#### Scenario: A reader opens the ecosystem guide
+- **GIVEN** a reader on `/guides/vanduo-ecosystem`
+- **WHEN** the retirement card is read
+- **THEN** it SHALL state that vanduo v2 was retired on 2026-07-25
+- **AND** it SHALL state that npm packages stay published at their final versions
+- **AND** it SHALL link to `/guides/migration` for the package map
+
+#### Scenario: The ecosystem guide confines package detail to migration
+- **WHEN** the retirement card is authored
+- **THEN** it SHALL NOT name individual retired package slugs (`core`, `framework`, `vue`,
+  etc.)
+- **AND** it SHALL point readers to `/guides/migration` for package-level detail
 
 ### Requirement: The legacy reference SHALL stay confined and retrospective
 

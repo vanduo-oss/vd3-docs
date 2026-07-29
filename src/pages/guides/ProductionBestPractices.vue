@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
-const buildShell = `# vd2 is built with vite-ssg: pre-rendered HTML per route + hydration
+const buildShell = `# vd3-docs is built with vite-ssg: pre-rendered HTML per route + hydration
 pnpm build        # runs vite-ssg build → static dist/
 pnpm preview      # serve the built output locally before deploying`;
 
@@ -41,8 +41,9 @@ const practices: [string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      vd2 ships as a statically pre-rendered site. A small, repeatable build and
-      verification gate keeps deploys fast, accessible, and reproducible.
+      vd3-docs ships as a statically pre-rendered site. A small, repeatable
+      build and verification gate keeps deploys fast, accessible, and
+      reproducible.
     </p>
 
     <div class="vd-row vd-mb-6">

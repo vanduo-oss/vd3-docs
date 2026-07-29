@@ -68,8 +68,8 @@ const containers: [string, string][] = [
     </h5>
     <p class="vd-mb-6">
       Vanduo's layout system is plain CSS — a 12-column responsive grid inside a
-      container, with mobile-first breakpoints. It works identically in static
-      HTML and in vd2 templates, so everything here is engine-agnostic.
+      container, with mobile-first breakpoints. It works the same in static HTML
+      and Vue SFC templates.
     </p>
 
     <div class="vd-row vd-mb-6">

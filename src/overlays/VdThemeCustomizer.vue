@@ -148,7 +148,7 @@ defineExpose({ open, close, toggle });
             <!--
               Palette switch (Open Color / Fibonacci) intentionally hidden on
               the docs site for now — Open Color is the default everywhere.
-              The framework customizer still ships the toggle; this is a vd2
+              The framework customizer still ships the toggle; this is a vd3-docs
               site-only override. Restore the `tc-section` with PALETTE_OPTIONS
               to bring it back.
             -->

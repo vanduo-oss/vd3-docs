@@ -147,26 +147,22 @@ import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';`;
       </div>
     </div>
 
-    <!-- Maintenance note -->
+    <!-- Retirement note -->
     <div class="vd-card demo-card ecosystem-legacy vd-mb-6">
       <div class="vd-card-header">
-        <h6>
-          <i class="ph ph-archive"></i> The earlier line is in maintenance
-        </h6>
+        <h6><i class="ph ph-archive"></i> The earlier line was retired</h6>
       </div>
       <div class="vd-card-body">
         <p>
-          vd3 supersedes <strong>vanduo v2</strong> — the earlier vanilla
-          (zero-build) line of <code>core</code> + <code>framework</code> +
-          <code>vue</code> packages, together with the four standalone add-ons
-          (<code>charts</code>, <code>flowchart</code>, <code>hex-grid</code>,
-          <code>music-player</code>) and the v2 documentation site.
+          <strong>vd3</strong> is the only line under active development.
+          <strong>vanduo v2</strong> — the earlier dual-engine system, its four
+          canvas add-ons, and the v2 documentation site — was retired on
+          2026-07-25.
         </p>
         <p class="vd-mb-0">
-          That line is now in <strong>maintenance mode</strong>: it still works
-          and receives critical fixes, but new components, composables, and
-          design work land on vd3. New projects should start here; existing v2
-          apps can move across with the
+          Its npm packages stay published at their final versions and keep
+          working, so nothing built on them breaks. New projects should start
+          here; existing v2 apps can move across with the
           <a href="/guides/migration">Migration guide</a>.
         </p>
       </div>

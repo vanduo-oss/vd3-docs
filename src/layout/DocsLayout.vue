@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import VdSidebar from "./VdSidebar.vue";
 
 const route = useRoute();
-// The original SPA toggles this view via JS; in vd2 routing controls it, so the
+// The original SPA toggles this view via JS; in vd3-docs routing controls it, so the
 // docs view is always active when rendered. data-doc-tab drives card styling.
 const docTab = computed(() =>
   route.path.startsWith("/guides/") ? "guides" : "components",

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
-const cspHtml = `<!-- A strict CSP works with vd2 — no inline scripts are required -->
+const cspHtml = `<!-- A strict CSP works with vd3 — no inline scripts are required -->
 <meta http-equiv="Content-Security-Policy"
   content="default-src 'self'; img-src 'self' data:; style-src 'self'">`;
 
@@ -11,13 +11,13 @@ const suggestJs = `// The Suggest/Autocomplete remote source only fetches same-o
        data-vd-suggest-allowlist="https://api.example.com">`;
 
 const vhtmlJs = `// v-html renders raw HTML — only ever pass trusted, first-party content.
-// In vd2 it is used exactly once (the static changelog body). For anything
+// In vd3-docs it is used exactly once (the static changelog body). For anything
 // user-supplied, render text with {{ }} or sanitise first.`;
 
 const practices: [string, string][] = [
   [
     "Content Security Policy",
-    "vd2 ships no inline scripts, so a strict CSP just works.",
+    "vd3 ships no inline scripts, so a strict CSP just works.",
   ],
   [
     "Trusted v-html only",
@@ -45,7 +45,7 @@ const practices: [string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      Vanduo is presentation-layer code, but a few habits keep a vd2 app safe.
+      Vanduo is presentation-layer code, but a few habits keep a vd3 app safe.
       The engine is designed to be CSP-friendly and conservative about where it
       will fetch or render external content.
     </p>

@@ -1,4 +1,4 @@
-Bundled demo audio used by the vd2 Music Player examples.
+Bundled demo audio used by the vd3-cbun Music Player examples.
 
 Included files:
 - `Stellardrone/Invent the Universe/06 - Pale Blue Dot.mp3` (default first track in demos)
@@ -15,4 +15,4 @@ Attribution:
 
 Notes:
 - Bundled files are included unchanged from `docs/music/`.
-- This folder tracks a small curated multi-track sample set for the vd2 player demos.
+- This folder tracks a small curated multi-track sample set for the vd3 player demos.
