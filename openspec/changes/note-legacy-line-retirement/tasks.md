@@ -29,4 +29,4 @@
 - [x] 14. Refresh visual baselines for `/guides/vanduo-ecosystem`, `/guides/production`,
   `/guides/security`, `/guides/first-layout`, `/guides/utilities-cheat-sheet`; confirm clean
   re-run.
-- [ ] 15. Commit and push to `main`; the Pages deploy workflow publishes the changes.
+- [x] 15. Commit and push to `main`; the Pages deploy workflow publishes the changes.
