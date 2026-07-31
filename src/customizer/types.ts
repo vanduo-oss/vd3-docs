@@ -14,6 +14,7 @@ export type GlassMode = "off" | "frosted" | "tinted";
 export type KnobId =
   | "variant"
   | "size"
+  | "ring"
   | "primary"
   | "secondary"
   | "radius"
@@ -38,8 +39,11 @@ export interface CustomizerState {
   /** Font-size multiplier applied to the preview (1 = framework default). */
   fontScale: number;
   glass: GlassMode;
-  /** Outline (border) weight in px. 0 = no added outline. */
+  /** Outline (border) weight in px. 0 = no added outline. On buttons with ring on, drives
+   *  `--vd-btn-ring-width` instead of border-width. */
   outline: number;
+  /** Opt-in detached outer ring (button entry only). Layers on the selected variant. */
+  ring: boolean;
   /** Component-specific variant class string (`"vd-btn-primary"`, may be ""). */
   variant: string;
   /** Component-specific size class string (`"vd-btn-sm"`, "" = medium). */

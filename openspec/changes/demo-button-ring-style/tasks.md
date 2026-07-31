@@ -22,5 +22,11 @@
   (`pnpm exec playwright test visual-parity --project='Chromium Desktop' --update-snapshots`),
   then confirm a clean re-run.
 - [x] 13. `pnpm run test:a11y` and `pnpm run test:size`.
-- [ ] 14. Restore `node_modules/@vanduo-oss/vd3` to the registry package.
-- [ ] 15. Open the PR `dev-v1.1.3 → main`; merge only once `@vanduo-oss/vd3@1.2.0` is published.
+- [x] 14. Live customizer: add `ring` to `CustomizerState` / `KnobId` / store defaults; wire
+  the button registry (`knobs`, `rootClass`, `vdBtnAttrs`, `extraCss` for
+  `--vd-btn-ring-width` vs `border-width`); add Ring Off/On control and relabel the outline
+  slider to Ring weight when ring is on.
+- [x] 15. Extend `tests/unit/customizer-codegen.spec.ts` for ring prop/class and outline CSS
+  branching; run format/lint/typecheck/test.
+- [ ] 16. Restore `node_modules/@vanduo-oss/vd3` to the registry package.
+- [ ] 17. Open the PR `dev-v1.1.3 → main`; merge only once `@vanduo-oss/vd3@1.2.0` is published.

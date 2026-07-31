@@ -49,6 +49,15 @@ const outlineLabel = computed(() =>
   store.state.outline ? `${store.state.outline}px` : "off",
 );
 
+const outlineWeightLabel = computed(() =>
+  has("ring") && store.state.ring ? "Ring weight" : "Outline weight",
+);
+
+const setRing = (on: boolean): void => {
+  store.setKnob("ring", on);
+  if (on && store.state.outline === 0) store.setKnob("outline", 2);
+};
+
 const onColor = (role: "primary" | "secondary", e: Event): void => {
   store.setKnob(role, (e.target as HTMLInputElement).value);
 };
@@ -91,6 +100,31 @@ const onColor = (role: "primary" | "secondary", e: Event): void => {
           @click="store.setKnob('size', s.value)"
         >
           {{ s.label }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Ring (button modifier) -->
+    <div v-if="has('ring')" class="lcc-section">
+      <label class="lcc-label">Ring</label>
+      <div class="lcc-seg" role="group" aria-label="Ring">
+        <button
+          type="button"
+          class="lcc-seg-btn"
+          :class="{ active: !store.state.ring }"
+          :aria-pressed="!store.state.ring"
+          @click="setRing(false)"
+        >
+          Off
+        </button>
+        <button
+          type="button"
+          class="lcc-seg-btn"
+          :class="{ active: store.state.ring }"
+          :aria-pressed="store.state.ring"
+          @click="setRing(true)"
+        >
+          On
         </button>
       </div>
     </div>
@@ -214,17 +248,18 @@ const onColor = (role: "primary" | "secondary", e: Event): void => {
       />
     </div>
 
-    <!-- Outline weight -->
+    <!-- Outline / ring weight -->
     <div v-if="has('outline')" class="lcc-section">
       <label class="lcc-label"
-        >Outline weight <span class="lcc-value">{{ outlineLabel }}</span></label
+        >{{ outlineWeightLabel }}
+        <span class="lcc-value">{{ outlineLabel }}</span></label
       >
       <VdSlider
         :model-value="store.state.outline"
         :min="0"
         :max="OUTLINE_MAX"
         :step="1"
-        label="Outline weight"
+        :label="outlineWeightLabel"
         @update:model-value="store.setKnob('outline', $event)"
       />
     </div>

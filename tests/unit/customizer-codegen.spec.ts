@@ -20,6 +20,7 @@ const base: CustomizerState = {
   fontScale: 1,
   glass: "off",
   outline: 0,
+  ring: false,
   variant: "",
   size: "",
 };
@@ -104,6 +105,26 @@ describe("customizer codegen — valid props + preview-matching classes", () => 
           scope,
         ),
       ).toContain('<VdButton variant="primary" size="lg" class="my-demo">');
+    });
+
+    it("ring is off by default and emits the real ring prop when on", () => {
+      expect(
+        toVueSfc(entry, state({ variant: "vd-btn-primary" }), scope),
+      ).not.toContain(" ring");
+
+      const ringOn = toVueSfc(
+        entry,
+        state({ variant: "vd-btn-primary", ring: true }),
+        scope,
+      );
+      expect(ringOn).toContain('<VdButton variant="primary" ring class="my-demo">');
+      expect(ringOn).not.toContain('variant="ring"');
+    });
+
+    it("preview rootClass carries vd-btn-ring when ring is on", () => {
+      const s = state({ variant: "vd-btn-outline-primary", ring: true });
+      expect(entry.rootClass(s)).toContain("vd-btn-ring");
+      expect(renderDemo(entry, s)).toContain("vd-btn-ring");
     });
   });
 
@@ -307,6 +328,20 @@ describe("customizer overrides + SFC assembly", () => {
       );
       expect(sfc).toContain(
         `${scope} .vd-btn { box-shadow: var(--vd-shadow-lg); }`,
+      );
+    });
+
+    it("Button ring outline drives --vd-btn-ring-width, not border-width", () => {
+      const sfc = toVueSfc(
+        CUSTOMIZER_REGISTRY.button,
+        state({ variant: "vd-btn-primary", ring: true, outline: 3 }),
+        scope,
+      );
+      expect(sfc).toContain(
+        `${scope} .vd-btn { --vd-btn-ring-width: 3px; }`,
+      );
+      expect(sfc).not.toContain(
+        `${scope} .vd-btn { border-width: 3px; border-color: var(--vd-color-primary); }`,
       );
     });
   });

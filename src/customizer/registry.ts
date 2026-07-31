@@ -30,6 +30,7 @@ function vdBtnAttrs(s: CustomizerState): VdAttrs {
   else if (s.variant) classes.push(s.variant); // vd-btn-outline-primary / -ghost-primary
   if (s.size === "vd-btn-sm") props.push(`size="sm"`);
   else if (s.size === "vd-btn-lg") props.push(`size="lg"`);
+  if (s.ring) props.push("ring");
   return {
     props: props.length ? ` ${props.join(" ")}` : "",
     classes: classes.join(" "),
@@ -81,6 +82,7 @@ export const CUSTOMIZER_REGISTRY: Record<string, CustomizerEntry> = {
     knobs: [
       "variant",
       "size",
+      "ring",
       "primary",
       "secondary",
       "radius",
@@ -102,11 +104,16 @@ export const CUSTOMIZER_REGISTRY: Record<string, CustomizerEntry> = {
     ],
     defaults: { variant: "vd-btn-primary", size: "", shadow: "none" },
     tag: "button",
-    rootClass: (s) => ["vd-btn", s.variant, s.size].filter(Boolean).join(" "),
+    rootClass: (s) =>
+      ["vd-btn", s.variant, s.size, s.ring ? "vd-btn-ring" : ""]
+        .filter(Boolean)
+        .join(" "),
     inner: () => "Button",
     extraCss: (s, scope) => {
       let css = "";
-      if (s.outline > 0)
+      if (s.ring && s.outline > 0)
+        css += `${scope} .vd-btn { --vd-btn-ring-width: ${s.outline}px; }\n`;
+      else if (!s.ring && s.outline > 0)
         css += `${scope} .vd-btn { border-width: ${s.outline}px; border-color: var(--vd-color-primary); }\n`;
       if (s.shadow !== "none")
         css += `${scope} .vd-btn { box-shadow: var(--vd-shadow-${s.shadow}); }\n`;

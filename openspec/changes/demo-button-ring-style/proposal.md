@@ -39,6 +39,19 @@ with a `RouterLink` to `/components/button`. Package release only, per changelog
 The button entry's `keywords` gain `ring` and `outline` so the modifier is reachable from
 docs search.
 
+### Live Component Customizer (`src/customizer/` + `src/components/customizer/`)
+
+The drawer launched from `/components/button` via `LaunchCustomizerButton` currently knows
+Primary / Secondary / Outline / Ghost only, and its Outline weight slider fakes a thicker
+`border-width`. It must gain the real ring modifier:
+
+- A **Ring** on/off toggle (modifier, not a fifth variant segment).
+- When ring is on, the preview root carries `.vd-btn-ring`, the generated SFC emits the real
+  `ring` prop on `VdButton`, and the existing Outline weight slider drives
+  `--vd-btn-ring-width` (labelled **Ring weight**). Flipping ring on seeds the slider to `2px`
+  when it was `0`.
+- When ring is off, Outline weight keeps today's `border-width` behaviour via `extraCss`.
+
 ### Routes
 
 - Added: none.

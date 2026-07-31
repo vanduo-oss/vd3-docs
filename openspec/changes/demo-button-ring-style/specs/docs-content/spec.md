@@ -40,3 +40,32 @@ composed with the treatments it is meant to layer onto, and copy working markup.
 - **THEN** a `v1.2.0` card SHALL describe the ring modifier and carry the "Latest" marker
 - **AND** the previous `v1.1.0` card SHALL no longer carry it
 - **AND** no card SHALL describe docs-site content, per the changelog policy
+
+### Requirement: the live customizer exposes the ring modifier
+
+The Live Component Customizer for the button entry SHALL expose `.vd-btn-ring` as an opt-in
+modifier and SHALL reproduce it in the generated Vue SFC, so a reader can tune the ring live
+and copy working code.
+
+#### Scenario: the customizer toggles the ring on the preview
+
+- **GIVEN** the Live Component Customizer opened for the button entry
+- **WHEN** the Ring control is set to On
+- **THEN** the preview root SHALL carry `.vd-btn-ring` alongside the selected variant and size
+- **AND** the ring SHALL layer on any variant (Primary, Secondary, Outline, Ghost), not replace
+  the variant
+
+#### Scenario: the generated SFC emits the real ring prop
+
+- **GIVEN** the customizer with Ring set to On
+- **WHEN** the Vue tab is generated
+- **THEN** the template SHALL emit the real `ring` prop on `VdButton`
+- **AND** the template SHALL NOT invent a `variant="ring"` value
+
+#### Scenario: outline weight drives ring stroke when ring is on
+
+- **GIVEN** the customizer with Ring set to On and the outline slider at a non-zero value
+- **WHEN** the generated CSS is inspected
+- **THEN** it SHALL set `--vd-btn-ring-width` on the scoped demo root
+- **AND GIVEN** Ring is Off and the outline slider is non-zero
+- **THEN** the generated CSS SHALL keep the existing `border-width` override instead
