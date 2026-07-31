@@ -15,6 +15,7 @@ export type KnobId =
   | "variant"
   | "size"
   | "ring"
+  | "width"
   | "primary"
   | "secondary"
   | "radius"
@@ -44,6 +45,8 @@ export interface CustomizerState {
   outline: number;
   /** Opt-in detached outer ring (button entry only). Layers on the selected variant. */
   ring: boolean;
+  /** Horizontal padding multiplier for buttons (1 = framework default). Narrower < 1, wider > 1. */
+  widthScale: number;
   /** Component-specific variant class string (`"vd-btn-primary"`, may be ""). */
   variant: string;
   /** Component-specific size class string (`"vd-btn-sm"`, "" = medium). */

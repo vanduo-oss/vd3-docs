@@ -43,6 +43,11 @@ const FONT_MIN = 0.8;
 const FONT_MAX = 1.4;
 const fontPct = computed(() => `${Math.round(store.state.fontScale * 100)}%`);
 
+// Button width is a horizontal-padding multiplier (0.5×–2×).
+const WIDTH_MIN = 0.5;
+const WIDTH_MAX = 2;
+const widthPct = computed(() => `${Math.round(store.state.widthScale * 100)}%`);
+
 // Outline weight in px (0 = none).
 const OUTLINE_MAX = 6;
 const outlineLabel = computed(() =>
@@ -127,6 +132,21 @@ const onColor = (role: "primary" | "secondary", e: Event): void => {
           On
         </button>
       </div>
+    </div>
+
+    <!-- Width (horizontal padding) -->
+    <div v-if="has('width')" class="lcc-section">
+      <label class="lcc-label"
+        >Width <span class="lcc-value">{{ widthPct }}</span></label
+      >
+      <VdSlider
+        :model-value="store.state.widthScale"
+        :min="WIDTH_MIN"
+        :max="WIDTH_MAX"
+        :step="0.1"
+        label="Width"
+        @update:model-value="store.setKnob('widthScale', $event)"
+      />
     </div>
 
     <!-- Primary color -->

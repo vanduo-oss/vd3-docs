@@ -35,6 +35,7 @@ function baseDefaults(): CustomizerState {
     glass: "off",
     outline: 0,
     ring: false,
+    widthScale: 1,
     variant: "",
     size: "",
   };

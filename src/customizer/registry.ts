@@ -83,6 +83,7 @@ export const CUSTOMIZER_REGISTRY: Record<string, CustomizerEntry> = {
       "variant",
       "size",
       "ring",
+      "width",
       "primary",
       "secondary",
       "radius",
@@ -117,6 +118,15 @@ export const CUSTOMIZER_REGISTRY: Record<string, CustomizerEntry> = {
         css += `${scope} .vd-btn { border-width: ${s.outline}px; border-color: var(--vd-color-primary); }\n`;
       if (s.shadow !== "none")
         css += `${scope} .vd-btn { box-shadow: var(--vd-shadow-${s.shadow}); }\n`;
+      // Scale horizontal padding at every size tier (fib rem bases from buttons.css).
+      if (s.widthScale !== 1) {
+        const w = s.widthScale;
+        css += `${scope} .vd-btn {\n`;
+        css += `  --vd-btn-padding-x: calc(1.3125rem * ${w});\n`;
+        css += `  --vd-btn-padding-x-sm: calc(0.8125rem * ${w});\n`;
+        css += `  --vd-btn-padding-x-lg: calc(2.125rem * ${w});\n`;
+        css += `}\n`;
+      }
       return css;
     },
     vueImports: ["VdButton"],

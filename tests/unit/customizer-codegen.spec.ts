@@ -21,6 +21,7 @@ const base: CustomizerState = {
   glass: "off",
   outline: 0,
   ring: false,
+  widthScale: 1,
   variant: "",
   size: "",
 };
@@ -343,6 +344,24 @@ describe("customizer overrides + SFC assembly", () => {
       expect(sfc).not.toContain(
         `${scope} .vd-btn { border-width: 3px; border-color: var(--vd-color-primary); }`,
       );
+    });
+
+    it("Button widthScale scales horizontal padding tokens when not 1", () => {
+      const off = toVueSfc(
+        CUSTOMIZER_REGISTRY.button,
+        state({ variant: "vd-btn-primary" }),
+        scope,
+      );
+      expect(off).not.toContain("--vd-btn-padding-x:");
+
+      const sfc = toVueSfc(
+        CUSTOMIZER_REGISTRY.button,
+        state({ variant: "vd-btn-primary", widthScale: 1.5 }),
+        scope,
+      );
+      expect(sfc).toContain("--vd-btn-padding-x: calc(1.3125rem * 1.5);");
+      expect(sfc).toContain("--vd-btn-padding-x-sm: calc(0.8125rem * 1.5);");
+      expect(sfc).toContain("--vd-btn-padding-x-lg: calc(2.125rem * 1.5);");
     });
   });
 });

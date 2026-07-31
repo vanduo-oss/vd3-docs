@@ -51,6 +51,9 @@ Primary / Secondary / Outline / Ghost only, and its Outline weight slider fakes 
   `--vd-btn-ring-width` (labelled **Ring weight**). Flipping ring on seeds the slider to `2px`
   when it was `0`.
 - When ring is off, Outline weight keeps today's `border-width` behaviour via `extraCss`.
+- A **Width** slider (0.5×–2× horizontal padding) so the preview can be made narrower or
+  wider without changing the size tier; scales `--vd-btn-padding-x` / `-sm` / `-lg` and lands
+  in the generated CSS only when not at the default `1`.
 
 ### Routes
 

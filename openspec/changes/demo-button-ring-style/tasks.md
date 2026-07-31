@@ -28,5 +28,7 @@
   slider to Ring weight when ring is on.
 - [x] 15. Extend `tests/unit/customizer-codegen.spec.ts` for ring prop/class and outline CSS
   branching; run format/lint/typecheck/test.
-- [ ] 16. Restore `node_modules/@vanduo-oss/vd3` to the registry package.
-- [ ] 17. Open the PR `dev-v1.1.3 → main`; merge only once `@vanduo-oss/vd3@1.2.0` is published.
+- [x] 16. Live customizer: add a Width slider (`widthScale` 0.5–2) that scales
+  `--vd-btn-padding-x` / `-sm` / `-lg` for the button entry; cover in codegen tests.
+- [ ] 17. Restore `node_modules/@vanduo-oss/vd3` to the registry package.
+- [ ] 18. Open the PR `dev-v1.1.3 → main`; merge only once `@vanduo-oss/vd3@1.2.0` is published.

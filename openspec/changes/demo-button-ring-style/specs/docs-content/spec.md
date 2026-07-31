@@ -69,3 +69,12 @@ and copy working code.
 - **THEN** it SHALL set `--vd-btn-ring-width` on the scoped demo root
 - **AND GIVEN** Ring is Off and the outline slider is non-zero
 - **THEN** the generated CSS SHALL keep the existing `border-width` override instead
+
+#### Scenario: the customizer scales button width via horizontal padding
+
+- **GIVEN** the Live Component Customizer opened for the button entry
+- **WHEN** the Width slider is moved away from 100%
+- **THEN** the preview SHALL look narrower or wider by scaling `--vd-btn-padding-x` (and the
+  sm / lg padding-x tokens) without changing the size tier
+- **AND** the generated CSS SHALL include those scaled padding tokens
+- **AND** at the default 100% width, those padding overrides SHALL be omitted
