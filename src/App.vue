@@ -23,7 +23,8 @@ const DEFAULT_DESCRIPTION =
 
 const pageTitle = computed(() => {
   const t = route.meta?.title as string | undefined;
-  if (!t || route.path === "/" || t === "Vanduo Docs") return BRAND_TITLE;
+  if (route.path === "/") return "vd3 UI";
+  if (!t || t === "Vanduo Docs") return BRAND_TITLE;
   return `${t} — Vanduo`;
 });
 const pageDescription = computed(() => {

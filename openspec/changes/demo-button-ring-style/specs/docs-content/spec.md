@@ -78,3 +78,32 @@ and copy working code.
   sm / lg padding-x tokens) without changing the size tier
 - **AND** the generated CSS SHALL include those scaled padding tokens
 - **AND** at the default 100% width, those padding overrides SHALL be omitted
+
+### Requirement: site branding tracks the active primary color
+
+The docs shell brand mark (navbar, footer, hero, about) and the "vd3" wordmark SHALL follow
+the user's selected primary via shared CSS tokens, not fixed logo-green hex values. Static brand
+surfaces SHALL use inline `Vd3Mark`, not `<img>` of `vd3-logo.svg`.
+
+#### Scenario: brand tokens derive from data-primary
+
+- **GIVEN** the docs site with any `data-primary` value on `html`
+- **WHEN** brand CSS is applied
+- **THEN** `--vd-brand-accent` SHALL resolve from the active primary ramp (`--vd-primary-8`)
+- **AND** `--vd3-mark-inner-light`, `--vd3-mark-inner-dark`, and `--vd3-mark-outer-fill` SHALL
+  derive from that ramp
+- **AND** `.hero-title-brand` SHALL use `--vd-brand-accent`
+
+#### Scenario: static logos are inline marks
+
+- **GIVEN** the navbar, footer, and about intro
+- **WHEN** they are rendered
+- **THEN** each SHALL show an inline `Vd3Mark` (via `Vd3BrandMark`), not an `<img>` logo
+- **AND** the mark colors SHALL update when the theme primary changes
+
+#### Scenario: primary transitions respect reduced motion
+
+- **GIVEN** a user with `prefers-reduced-motion: reduce`
+- **WHEN** brand styling is applied
+- **THEN** color/filter transitions and footer/about static-mark glow SHALL be suppressed
+- **AND** the navbar mark SHALL NOT carry a primary drop-shadow glow (avoids a box outline at compact size)

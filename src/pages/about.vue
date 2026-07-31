@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // Static content page — a plain-language overview of the vd3 line of Vanduo UI.
+import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
 </script>
 
 <template>
@@ -19,7 +20,17 @@
     <!-- Overview -->
     <div class="about-intro">
       <div class="about-intro-inner">
-        <h3 class="about-intro-title">vd3 UI</h3>
+        <div class="about-intro-brand-wrap">
+          <div class="vd-footer-brand">
+            <Vd3BrandMark size="3.25rem" class="vd-brand-mark-lg" />
+            <h3 class="vd-footer-brand-title">
+              <span class="hero-title-text">
+                <span class="hero-title-brand">vd3</span>
+                <span class="hero-title-word">ui</span>
+              </span>
+            </h3>
+          </div>
+        </div>
         <p class="about-intro-subtitle">
           A Vue 3 design system and component library
         </p>
@@ -121,13 +132,10 @@
   padding: 0 1.5rem;
 }
 
-.about-intro-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--vd-color-primary);
-  text-align: center;
+.about-intro-brand-wrap {
+  display: flex;
+  justify-content: center;
   margin-bottom: 0.5rem;
-  letter-spacing: -0.02em;
 }
 
 .about-intro-subtitle {
@@ -211,10 +219,6 @@
 }
 
 @media (max-width: 767.98px) {
-  .about-intro-title {
-    font-size: 1.75rem;
-  }
-
   .about-intro-subtitle {
     font-size: 0.95rem;
   }

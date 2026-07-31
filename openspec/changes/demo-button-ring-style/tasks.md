@@ -32,3 +32,7 @@
   `--vd-btn-padding-x` / `-sm` / `-lg` for the button entry; cover in codegen tests.
 - [ ] 17. Restore `node_modules/@vanduo-oss/vd3` to the registry package.
 - [ ] 18. Open the PR `dev-v1.1.3 → main`; merge only once `@vanduo-oss/vd3@1.2.0` is published.
+- [x] 19. Primary-aware branding: shared `--vd-brand-accent` / `--vd3-mark-*` tokens in
+  `docs.css`; `.hero-title-brand` tracks active primary; static logos use `Vd3BrandMark`
+  (inline `Vd3Mark`) in navbar, footer, and about; hero fx glows use primary alpha tokens.
+- [x] 20. Unit test for `Vd3BrandMark`; `pnpm test` + `pnpm build` clean.

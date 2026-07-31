@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
-
-// Bound string (not static src) so Vite won't rewrite public/ SVG into a stale ?import data-URI.
-const logoSrc = `${import.meta.env.BASE_URL}images/vd3-logo.svg`;
+import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
 
 const quickLinks = [
   { label: "Home", to: "/" },
@@ -38,15 +36,7 @@ const resources = [
         <div class="vd-col-12 vd-col-md-4">
           <div class="vd-footer-section">
             <div class="vd-footer-brand">
-              <img
-                :src="logoSrc"
-                class="vd-footer-brand-logo"
-                alt=""
-                aria-hidden="true"
-                width="722"
-                height="722"
-                decoding="async"
-              />
+              <Vd3BrandMark size="3.25rem" class="vd-brand-mark-lg" />
               <h4 class="vd-footer-brand-title">
                 <span class="hero-title-text">
                   <span class="hero-title-brand">vd3</span>
