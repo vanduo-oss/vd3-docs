@@ -180,7 +180,7 @@ export const nav: NavTree = {
               title: "Button",
               route: "/components/button",
               icon: "cursor-click",
-              keywords: ["button", "click", "cta"],
+              keywords: ["button", "click", "cta", "ring", "outline"],
               file: "components/button.html",
             },
             {
@@ -697,7 +697,7 @@ export const nav: NavTree = {
             },
             {
               id: "vanduo-ecosystem",
-              title: "Vanduo ecosystem",
+              title: "vd3 ecosystem",
               route: "/guides/vanduo-ecosystem",
               icon: "globe",
               keywords: ["ecosystem", "tools", "projects"],
