@@ -43,11 +43,25 @@ const FONT_MIN = 0.8;
 const FONT_MAX = 1.4;
 const fontPct = computed(() => `${Math.round(store.state.fontScale * 100)}%`);
 
+// Button width is a horizontal-padding multiplier (0.5×–2×).
+const WIDTH_MIN = 0.5;
+const WIDTH_MAX = 2;
+const widthPct = computed(() => `${Math.round(store.state.widthScale * 100)}%`);
+
 // Outline weight in px (0 = none).
 const OUTLINE_MAX = 6;
 const outlineLabel = computed(() =>
   store.state.outline ? `${store.state.outline}px` : "off",
 );
+
+const outlineWeightLabel = computed(() =>
+  has("ring") && store.state.ring ? "Ring weight" : "Outline weight",
+);
+
+const setRing = (on: boolean): void => {
+  store.setKnob("ring", on);
+  if (on && store.state.outline === 0) store.setKnob("outline", 2);
+};
 
 const onColor = (role: "primary" | "secondary", e: Event): void => {
   store.setKnob(role, (e.target as HTMLInputElement).value);
@@ -93,6 +107,46 @@ const onColor = (role: "primary" | "secondary", e: Event): void => {
           {{ s.label }}
         </button>
       </div>
+    </div>
+
+    <!-- Ring (button modifier) -->
+    <div v-if="has('ring')" class="lcc-section">
+      <label class="lcc-label">Ring</label>
+      <div class="lcc-seg" role="group" aria-label="Ring">
+        <button
+          type="button"
+          class="lcc-seg-btn"
+          :class="{ active: !store.state.ring }"
+          :aria-pressed="!store.state.ring"
+          @click="setRing(false)"
+        >
+          Off
+        </button>
+        <button
+          type="button"
+          class="lcc-seg-btn"
+          :class="{ active: store.state.ring }"
+          :aria-pressed="store.state.ring"
+          @click="setRing(true)"
+        >
+          On
+        </button>
+      </div>
+    </div>
+
+    <!-- Width (horizontal padding) -->
+    <div v-if="has('width')" class="lcc-section">
+      <label class="lcc-label"
+        >Width <span class="lcc-value">{{ widthPct }}</span></label
+      >
+      <VdSlider
+        :model-value="store.state.widthScale"
+        :min="WIDTH_MIN"
+        :max="WIDTH_MAX"
+        :step="0.1"
+        label="Width"
+        @update:model-value="store.setKnob('widthScale', $event)"
+      />
     </div>
 
     <!-- Primary color -->
@@ -214,17 +268,18 @@ const onColor = (role: "primary" | "secondary", e: Event): void => {
       />
     </div>
 
-    <!-- Outline weight -->
+    <!-- Outline / ring weight -->
     <div v-if="has('outline')" class="lcc-section">
       <label class="lcc-label"
-        >Outline weight <span class="lcc-value">{{ outlineLabel }}</span></label
+        >{{ outlineWeightLabel }}
+        <span class="lcc-value">{{ outlineLabel }}</span></label
       >
       <VdSlider
         :model-value="store.state.outline"
         :min="0"
         :max="OUTLINE_MAX"
         :step="1"
-        label="Outline weight"
+        :label="outlineWeightLabel"
         @update:model-value="store.setKnob('outline', $event)"
       />
     </div>

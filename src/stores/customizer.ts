@@ -34,6 +34,8 @@ function baseDefaults(): CustomizerState {
     fontScale: 1,
     glass: "off",
     outline: 0,
+    ring: false,
+    widthScale: 1,
     variant: "",
     size: "",
   };

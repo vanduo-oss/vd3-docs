@@ -188,6 +188,43 @@ html[data-theme="dark"][data-primary="green"] {
   }
 }
 
+/* ── Brand mark tokens (track active data-primary) ── */
+:root {
+  --vd-brand-accent: var(--vd-primary-8);
+  --vd3-mark-inner-light: var(--vd-brand-accent);
+  --vd3-mark-inner-dark: var(--vd-primary-9);
+  --vd3-mark-outer-fill: color-mix(
+    in srgb,
+    var(--vd-primary-7) 85%,
+    var(--vd-primary-9)
+  );
+}
+
+.vd3-mark {
+  transition: filter 0.35s ease;
+}
+
+.vd-brand-mark {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Glow on larger static marks only — at navbar size it reads as a hard box edge */
+.vd-brand-mark-lg .vd3-mark {
+  filter: drop-shadow(0 0 0.35rem var(--vd-color-primary-alpha-30));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-brand,
+  .vd3-mark {
+    transition: none;
+  }
+
+  .vd-brand-mark-lg .vd3-mark {
+    filter: none;
+  }
+}
+
 .vd-navbar-brand-wrap {
   display: inline-flex;
   align-items: center;
@@ -214,13 +251,13 @@ html[data-theme="dark"][data-primary="green"] {
 .hero-title-brand {
   font-weight: 400;
   line-height: 1;
-
-  /* Match vd3-logo.svg center stop (--vd-green-8) */
-  color: var(--vd-green-8);
+  color: var(--vd-brand-accent);
+  transition: color 0.35s ease;
 }
 
 .hero-title-word {
   color: #475569;
+  text-transform: uppercase;
 }
 
 .hero-title-text {
@@ -280,25 +317,23 @@ html[data-theme="dark"][data-primary="green"] {
   line-height: 1;
 }
 
-.vd-navbar-brand-wrap > a.vd-navbar-brand-link span {
-  display: inline-block;
+.vd-navbar-brand-wrap > a.vd-navbar-brand-link .hero-title-text {
+  display: inline-flex;
   line-height: 1;
   transform: translateY(-0.08em);
-  color: var(--vd-green-8);
 }
 
 /*
  * Nav mark: padded hero viewBox (-100 -100 922 1100) leaves the ink ~666/1100
  * of the box. 2.25rem restores ~1.38rem perceived mark next to "vd3" text.
  */
-.vd-navbar-brand-wrap a.vd-navbar-brand-link .vd-navbar-brand-logo {
+.vd-navbar-brand-wrap a.vd-navbar-brand-link .vd-brand-mark-nav .vd3-mark {
+  width: 2.25rem;
   height: 2.25rem;
-  width: auto;
   margin-right: 0;
   margin-inline-end: -0.35rem;
   display: block;
   flex-shrink: 0;
-  object-fit: contain;
   transform: translateY(-0.04em);
 }
 
@@ -310,15 +345,12 @@ html[data-theme="dark"][data-primary="green"] {
   gap: 0.1rem;
 }
 
-/* Same padded-asset compensation as navbar (prior 2rem max-height × 1100/666).
- * Override vd3 `.vd-footer-brand img { max-height: 2rem }` (higher specificity). */
-.vd-footer-brand img.vd-footer-brand-logo {
+/* Same padded-asset compensation as navbar (prior 2rem max-height × 1100/666). */
+.vd-footer-brand .vd-brand-mark-lg .vd3-mark {
   width: 3.25rem;
   height: 3.25rem;
-  max-height: none;
   display: block;
   flex-shrink: 0;
-  object-fit: contain;
   transform: translateY(-0.04em);
 
   /* Pull text toward ink — asset viewBox (-100 -100 922 1100) pads the mark */

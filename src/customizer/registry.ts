@@ -30,6 +30,7 @@ function vdBtnAttrs(s: CustomizerState): VdAttrs {
   else if (s.variant) classes.push(s.variant); // vd-btn-outline-primary / -ghost-primary
   if (s.size === "vd-btn-sm") props.push(`size="sm"`);
   else if (s.size === "vd-btn-lg") props.push(`size="lg"`);
+  if (s.ring) props.push("ring");
   return {
     props: props.length ? ` ${props.join(" ")}` : "",
     classes: classes.join(" "),
@@ -81,6 +82,8 @@ export const CUSTOMIZER_REGISTRY: Record<string, CustomizerEntry> = {
     knobs: [
       "variant",
       "size",
+      "ring",
+      "width",
       "primary",
       "secondary",
       "radius",
@@ -102,14 +105,28 @@ export const CUSTOMIZER_REGISTRY: Record<string, CustomizerEntry> = {
     ],
     defaults: { variant: "vd-btn-primary", size: "", shadow: "none" },
     tag: "button",
-    rootClass: (s) => ["vd-btn", s.variant, s.size].filter(Boolean).join(" "),
+    rootClass: (s) =>
+      ["vd-btn", s.variant, s.size, s.ring ? "vd-btn-ring" : ""]
+        .filter(Boolean)
+        .join(" "),
     inner: () => "Button",
     extraCss: (s, scope) => {
       let css = "";
-      if (s.outline > 0)
+      if (s.ring && s.outline > 0)
+        css += `${scope} .vd-btn { --vd-btn-ring-width: ${s.outline}px; }\n`;
+      else if (!s.ring && s.outline > 0)
         css += `${scope} .vd-btn { border-width: ${s.outline}px; border-color: var(--vd-color-primary); }\n`;
       if (s.shadow !== "none")
         css += `${scope} .vd-btn { box-shadow: var(--vd-shadow-${s.shadow}); }\n`;
+      // Scale horizontal padding at every size tier (fib rem bases from buttons.css).
+      if (s.widthScale !== 1) {
+        const w = s.widthScale;
+        css += `${scope} .vd-btn {\n`;
+        css += `  --vd-btn-padding-x: calc(1.3125rem * ${w});\n`;
+        css += `  --vd-btn-padding-x-sm: calc(0.8125rem * ${w});\n`;
+        css += `  --vd-btn-padding-x-lg: calc(2.125rem * ${w});\n`;
+        css += `}\n`;
+      }
       return css;
     },
     vueImports: ["VdButton"],

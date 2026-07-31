@@ -56,7 +56,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.1.0</span
+              >v1.2.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
@@ -64,6 +64,59 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  A minor release adding an opt-in
+                  <strong>button ring modifier</strong>. Additive only — no
+                  button without it renders differently.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-circles-three"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Button ring (<code>.vd-btn-ring</code>)</strong>
+                        <p>
+                          <RouterLink to="/components/button"
+                            >Buttons</RouterLink
+                          >
+                          gain a detached outer ring with a transparent gap, for
+                          marking one action as the primary one on a screen that
+                          already uses solid buttons throughout. It is a
+                          modifier rather than a variant, so it layers onto any
+                          existing variant, size and state — via the class or
+                          <code>:ring</code> on <code>VdButton</code> — and
+                          because the gap is real transparency it reads
+                          correctly on cards, glass and imagery. Tunable through
+                          the <code>--vd-btn-ring-*</code> custom properties.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.1.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>July 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">

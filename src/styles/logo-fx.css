@@ -8,9 +8,6 @@
   --vd3-mark-stage-scale: 1.85;
   --vd3-mark-view-size-ratio: 1.1931;
   --vd3-mark-spin-duration: 12s;
-  --vd3-mark-outer-fill: #3d7a4a;
-  --vd3-mark-inner-light: #2f9e44;
-  --vd3-mark-inner-dark: #163d1c;
 }
 
 .vd3-mark {
@@ -156,11 +153,11 @@
 @keyframes vd3-mark-glow-pulse {
   0%,
   100% {
-    filter: drop-shadow(0 0 6px rgb(47 158 68 / 40%));
+    filter: drop-shadow(0 0 6px var(--vd-color-primary-alpha-30));
   }
 
   50% {
-    filter: drop-shadow(0 0 18px rgb(47 158 68 / 70%));
+    filter: drop-shadow(0 0 18px var(--vd-color-primary-alpha-50));
   }
 }
 
@@ -247,13 +244,13 @@
 @keyframes vd3-mark-chromatic {
   0%,
   100% {
-    filter: drop-shadow(-1px 0 0 rgb(47 158 68 / 45%))
-      drop-shadow(1px 0 0 rgb(22 61 28 / 40%));
+    filter: drop-shadow(-1px 0 0 var(--vd-color-primary-alpha-40))
+      drop-shadow(1px 0 0 var(--vd-color-primary-alpha-30));
   }
 
   50% {
-    filter: drop-shadow(-2px 0 0 rgb(47 158 68 / 60%))
-      drop-shadow(2px 0 0 rgb(22 61 28 / 50%));
+    filter: drop-shadow(-2px 0 0 var(--vd-color-primary-alpha-50))
+      drop-shadow(2px 0 0 var(--vd-color-primary-alpha-40));
   }
 }
 
@@ -390,7 +387,7 @@
 /* ── Filter / paint variants ───────────────────────────────── */
 
 .logo-fx-tile[data-fx="soft-glow"] .vd3-mark {
-  filter: drop-shadow(0 0 10px rgb(47 158 68 / 50%));
+  filter: drop-shadow(0 0 10px var(--vd-color-primary-alpha-50));
 }
 
 .logo-fx-tile[data-fx="bloom-pulse"] .vd3-mark {
@@ -413,7 +410,7 @@
 }
 
 .logo-fx-tile[data-fx="specular-sweep"] .vd3-mark-inner {
-  filter: drop-shadow(-12px -8px 0 rgb(47 158 68 / 35%));
+  filter: drop-shadow(-12px -8px 0 var(--vd-color-primary-alpha-30));
   animation: vd3-mark-pulse 2.6s ease-in-out infinite;
 }
 
@@ -424,8 +421,8 @@
 }
 
 .logo-fx-tile[data-fx="dual-tone"] {
-  --vd3-mark-outer-fill: #228be6;
-  --vd3-mark-inner-start: #044804;
+  --vd3-mark-outer-fill: var(--vd-color-primary);
+  --vd3-mark-inner-start: var(--vd-brand-accent);
 }
 
 .logo-fx-tile[data-fx="dual-tone"] .vd3-mark-outer {
@@ -435,7 +432,7 @@
 .logo-fx-tile[data-fx="outline-only"] .vd3-mark-outer,
 .logo-fx-tile[data-fx="outline-only"] .vd3-mark-inner {
   fill: none;
-  stroke: var(--vd3-mark-outer-fill, #3d7a4a);
+  stroke: var(--vd3-mark-outer-fill);
   stroke-width: 10;
 }
 
@@ -446,7 +443,7 @@
 
 .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-inner {
   fill: none;
-  stroke: var(--vd3-mark-inner-light, #2f9e44);
+  stroke: var(--vd3-mark-inner-light);
   stroke-width: 12;
   stroke-dasharray: 1400;
   stroke-dashoffset: 1400;
@@ -492,7 +489,7 @@
 
 .logo-fx-tile[data-fx="ring-loader"] .logo-fx-ring {
   fill: none;
-  stroke: #044804;
+  stroke: var(--vd-brand-accent);
   stroke-width: 8;
   stroke-linecap: round;
   stroke-dasharray: 120 680;
@@ -503,7 +500,7 @@
 
 .logo-fx-tile[data-fx="ripple-rings"] .logo-fx-ripple {
   fill: none;
-  stroke: #044804;
+  stroke: var(--vd-brand-accent);
   stroke-width: 4;
   opacity: 0;
   animation: vd3-mark-ripple 2.8s ease-out infinite;
@@ -544,7 +541,7 @@
   }
 
   .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-inner {
-    fill: var(--vd3-mark-inner-light, #2f9e44);
-    stroke: var(--vd3-mark-inner-light, #2f9e44);
+    fill: var(--vd3-mark-inner-light);
+    stroke: var(--vd3-mark-inner-light);
   }
 }

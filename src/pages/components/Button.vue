@@ -11,6 +11,7 @@ const saving = ref(false);
   <VdButton variant="primary" @click="save">Primary</VdButton>
   <VdButton variant="danger" size="sm">Delete</VdButton>
   <VdButton variant="ghost" :loading="saving">Save</VdButton>
+  <VdButton variant="primary" ring>Checkout</VdButton>
 </template>`;
 
 const vue3Api: [string, string][] = [
@@ -21,6 +22,10 @@ const vue3Api: [string, string][] = [
   [":size", 'sm | md | lg (default "md").'],
   [":loading", "Shows a spinner and blocks clicks (adds .is-loading)."],
   [":disabled", "Disables the button."],
+  [
+    ":ring",
+    "Draws a detached outer ring around the button (adds .vd-btn-ring). Layers on any variant and size; default false.",
+  ],
   [":type", 'button | submit | reset (default "button").'],
   ["@click", "Emitted on click (suppressed while disabled or loading)."],
   [
@@ -81,6 +86,27 @@ const ghostHtml = `<button class="vd-btn vd-btn-ghost">Ghost</button>
 <button class="vd-btn vd-btn-ghost-success">Ghost Success</button>
 <button class="vd-btn vd-btn-ghost-error">Ghost Error</button>
 <button class="vd-btn vd-btn-ghost-subtle">Ghost Subtle</button>`;
+
+const ringHtml = `<button class="vd-btn vd-btn-primary vd-btn-ring">Primary</button>
+<button class="vd-btn vd-btn-success vd-btn-ring">Success</button>
+<button class="vd-btn vd-btn-danger vd-btn-ring">Danger</button>
+<button class="vd-btn vd-btn-outline vd-btn-ring">Outline</button>
+<button class="vd-btn vd-btn-ghost-primary vd-btn-ring">Ghost</button>
+
+<button class="vd-btn vd-btn-primary vd-btn-ring vd-btn-sm">Small</button>
+<button class="vd-btn vd-btn-primary vd-btn-ring">Default</button>
+<button class="vd-btn vd-btn-primary vd-btn-ring vd-btn-lg">Large</button>`;
+
+const ringCss = `/* The ring is drawn on ::before, outside the border box, so the
+ * gap is real transparency — it works on cards, glass and imagery.
+ * Retune it with the custom properties rather than overriding rules.
+ * The stroke is px (a hairline is physical, not typographic); the
+ * gap is rem, so it scales with your type scale. */
+.vd-btn-ring {
+  --vd-btn-ring-width: 2px;
+  --vd-btn-ring-gap: 0.25rem;     /* 4px - fib */
+  --vd-btn-ring-color: currentcolor;
+}`;
 
 const iconHtml = `<button class="vd-btn vd-btn-icon vd-btn-primary" aria-label="Add item"><i class="ph ph-plus"></i></button>
 <button class="vd-btn vd-btn-icon vd-btn-secondary" aria-label="Edit"><i class="ph ph-pencil-simple"></i></button>
@@ -160,6 +186,11 @@ const classRef: ClassRef[] = [
   },
   { cls: ".vd-btn-icon", desc: "Circular icon-only button", type: "Modifier" },
   {
+    cls: ".vd-btn-ring",
+    desc: "Detached outer ring with a transparent gap — layers on any variant and size. Suppressed inside .vd-btn-group. Tune with --vd-btn-ring-width / -gap / -color",
+    type: "Modifier",
+  },
+  {
     cls: ".is-loading",
     desc: "Shows a spinner and disables clicks",
     type: "State (class)",
@@ -185,7 +216,7 @@ const classRef: ClassRef[] = [
     </div>
     <p class="vd-mb-8">
       Clickable actions in contextual color variants, three sizes, and outline,
-      ghost, and icon looks, with built-in loading and disabled states.
+      ghost, ring, and icon looks, with built-in loading and disabled states.
     </p>
 
     <div class="vd-row">
@@ -258,6 +289,41 @@ const classRef: ClassRef[] = [
           </div>
         </div>
         <DocCodeSnippet :html="ghostHtml" />
+      </div>
+    </div>
+
+    <div class="vd-row">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header"><h6>Ring Buttons</h6></div>
+          <div class="vd-card-body">
+            <p class="vd-mb-6">
+              A detached outer ring for the one action you want read first on a
+              screen that already uses solid buttons everywhere. It is a
+              modifier, not a variant — add <code>.vd-btn-ring</code> to
+              whatever button you already have. The gap is transparent, so it
+              keeps working on cards, glass and imagery.
+            </p>
+            <button class="vd-btn vd-btn-primary vd-btn-ring">Primary</button>
+            <button class="vd-btn vd-btn-success vd-btn-ring">Success</button>
+            <button class="vd-btn vd-btn-danger vd-btn-ring">Danger</button>
+            <button class="vd-btn vd-btn-outline vd-btn-ring">Outline</button>
+            <button class="vd-btn vd-btn-ghost-primary vd-btn-ring">
+              Ghost
+            </button>
+
+            <div class="vd-mt-6">
+              <button class="vd-btn vd-btn-primary vd-btn-ring vd-btn-sm">
+                Small
+              </button>
+              <button class="vd-btn vd-btn-primary vd-btn-ring">Default</button>
+              <button class="vd-btn vd-btn-primary vd-btn-ring vd-btn-lg">
+                Large
+              </button>
+            </div>
+          </div>
+        </div>
+        <DocCodeSnippet :html="ringHtml" :css="ringCss" />
       </div>
     </div>
 
