@@ -16,6 +16,7 @@ const customizerRef = ref<InstanceType<typeof VdThemeCustomizer> | null>(null);
 const showPalette = ref(true);
 
 const openPanel = (): void => customizerRef.value?.open();
+const closePanel = (): void => customizerRef.value?.close();
 const togglePanel = (): void => customizerRef.value?.toggle();
 
 // The color chips below are sourced from the real exported token data, so they
@@ -174,22 +175,35 @@ const storageRows: [string, string, string][] = [
           own paint-roller trigger (click it) and teleports the panel under it —
           every change applies to this page immediately:
         </p>
-        <div class="vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center">
+        <div
+          class="vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center theme-customizer-demo-row"
+        >
           <VdThemeCustomizer ref="customizerRef" :show-palette="showPalette" />
-          <button
-            type="button"
-            class="vd-btn vd-btn-sm vd-btn-primary"
-            @click="openPanel"
+          <div
+            class="theme-customizer-demo-actions vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center"
           >
-            open()
-          </button>
-          <button
-            type="button"
-            class="vd-btn vd-btn-sm vd-btn-secondary"
-            @click="togglePanel"
-          >
-            toggle()
-          </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-sm vd-btn-primary"
+              @click="openPanel"
+            >
+              open()
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-sm vd-btn-outline-secondary"
+              @click="closePanel"
+            >
+              close()
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-sm vd-btn-secondary"
+              @click="togglePanel"
+            >
+              toggle()
+            </button>
+          </div>
           <label class="vd-form-switch" style="margin-left: auto">
             <input
               v-model="showPalette"
@@ -204,8 +218,8 @@ const storageRows: [string, string, string][] = [
         </div>
         <p class="vd-text-sm vd-text-muted vd-mt-4">
           The buttons dogfood the exposed <code>open()</code> /
-          <code>toggle()</code> methods; the switch flips the
-          <code>show-palette</code> prop (watch the Palette section appear /
+          <code>close()</code> / <code>toggle()</code> methods; the switch flips
+          the <code>show-palette</code> prop (watch the Palette section appear /
           disappear inside the panel).
         </p>
       </div>
@@ -484,3 +498,11 @@ const storageRows: [string, string, string][] = [
     </div>
   </section>
 </template>
+
+<style scoped>
+.theme-customizer-demo-actions {
+  margin-left: 0.25rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--vd-border-color);
+}
+</style>
