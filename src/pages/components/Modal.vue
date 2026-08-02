@@ -153,11 +153,7 @@ const cssVars: [string, string, string][] = [
   ["--vd-modal-width-xl", "987px", "Extra-large width (fib 16)"],
   ["--vd-modal-z-index", "1050", "Modal stacking"],
   ["--vd-modal-backdrop-z-index", "1040", "Backdrop stacking"],
-  [
-    "--vd-glass-blur",
-    "12px",
-    "Glass panel blur (backdrop uses half)",
-  ],
+  ["--vd-glass-blur", "12px", "Glass panel blur (backdrop uses half)"],
   ["--vd-glass-saturate", "1.8", "Glass backdrop-filter saturation"],
   [
     "--vd-glass-bg-opacity",
@@ -262,8 +258,8 @@ const classRows: [string, string][] = [
             <p class="vd-text-sm vd-text-muted vd-mb-4">
               Pass <code>:glass="true"</code> for a frosted panel and blurred
               backdrop (<code>.vd-modal-glass</code>). Set tokens here, then
-              open — the same controls are inside the dialog for live
-              tweaking over page content.
+              open — the same controls are inside the dialog for live tweaking
+              over page content.
             </p>
 
             <div class="glass-demo-controls vd-mb-4">
@@ -328,9 +324,7 @@ const classRows: [string, string][] = [
                 </div>
               </div>
 
-              <div
-                class="vd-d-flex vd-flex-wrap vd-gap-4 items-center vd-mt-4"
-              >
+              <div class="vd-d-flex vd-flex-wrap vd-gap-4 items-center vd-mt-4">
                 <VdSwitch
                   v-model="glassHighContrast"
                   id="glass-high-contrast-page"
@@ -343,9 +337,7 @@ const classRows: [string, string][] = [
                 />
               </div>
 
-              <div
-                class="vd-d-flex vd-flex-wrap vd-gap-2 items-center vd-mt-3"
-              >
+              <div class="vd-d-flex vd-flex-wrap vd-gap-2 items-center vd-mt-3">
                 <button
                   type="button"
                   class="vd-btn vd-btn-sm vd-btn-outline-secondary"
@@ -758,7 +750,9 @@ A Fibonacci-scaled component library for modern web apps.</textarea>
     <div class="vd-d-flex vd-flex-wrap items-center vd-gap-2 vd-mb-4">
       <span class="vd-badge vd-badge-success">Stable</span>
       <span class="vd-badge vd-badge-primary">v1.2.1</span>
-      <span class="vd-badge vd-badge-outlined vd-badge-secondary">14 commits</span>
+      <span class="vd-badge vd-badge-outlined vd-badge-secondary"
+        >14 commits</span
+      >
       <span class="vd-badge vd-badge-info">3 contributors</span>
     </div>
 
@@ -835,16 +829,13 @@ A Fibonacci-scaled component library for modern web apps.</textarea>
               <div class="vd-form-group vd-mb-0">
                 <label class="vd-label" for="xl-summary">Summary</label>
                 <textarea id="xl-summary" class="vd-input" rows="3">
-Extra-large modal width, glass variant for frosted dialogs, and denser docs demos.</textarea
-                >
+Extra-large modal width, glass variant for frosted dialogs, and denser docs demos.</textarea>
               </div>
             </div>
             <div class="vd-col-12 vd-col-md-6 vd-mb-4">
               <h6 class="vd-mb-3">Highlights</h6>
               <ul style="list-style: none; padding: 0; margin: 0">
-                <li
-                  class="vd-d-flex items-start vd-gap-2 vd-mb-3"
-                >
+                <li class="vd-d-flex items-start vd-gap-2 vd-mb-3">
                   <i
                     class="ph ph-check-circle"
                     style="color: var(--vd-color-success); margin-top: 0.125rem"
@@ -856,9 +847,7 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
                     </p>
                   </div>
                 </li>
-                <li
-                  class="vd-d-flex items-start vd-gap-2 vd-mb-3"
-                >
+                <li class="vd-d-flex items-start vd-gap-2 vd-mb-3">
                   <i
                     class="ph ph-check-circle"
                     style="color: var(--vd-color-success); margin-top: 0.125rem"
@@ -950,7 +939,9 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
           <div class="vd-row">
             <div class="vd-col-12 vd-col-md-4 vd-mb-3">
               <div class="vd-form-group vd-mb-0">
-                <label class="vd-label" for="xl-reviewer">Primary reviewer</label>
+                <label class="vd-label" for="xl-reviewer"
+                  >Primary reviewer</label
+                >
                 <input
                   id="xl-reviewer"
                   type="text"
@@ -982,32 +973,20 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
             </div>
           </div>
           <ul style="list-style: none; padding: 0; margin: 0">
-            <li
-              class="vd-d-flex items-center justify-between vd-mb-3"
-            >
-              <span
-                class="vd-d-flex items-center vd-gap-2"
-              >
+            <li class="vd-d-flex items-center justify-between vd-mb-3">
+              <span class="vd-d-flex items-center vd-gap-2">
                 <i class="ph ph-user-circle"></i>Alex Rivera
               </span>
               <span class="vd-badge vd-badge-primary">Owner</span>
             </li>
-            <li
-              class="vd-d-flex items-center justify-between vd-mb-3"
-            >
-              <span
-                class="vd-d-flex items-center vd-gap-2"
-              >
+            <li class="vd-d-flex items-center justify-between vd-mb-3">
+              <span class="vd-d-flex items-center vd-gap-2">
                 <i class="ph ph-user-circle"></i>Sam Chen
               </span>
               <span class="vd-badge vd-badge-outlined">Reviewer</span>
             </li>
-            <li
-              class="vd-d-flex items-center justify-between vd-mb-0"
-            >
-              <span
-                class="vd-d-flex items-center vd-gap-2"
-              >
+            <li class="vd-d-flex items-center justify-between vd-mb-0">
+              <span class="vd-d-flex items-center vd-gap-2">
                 <i class="ph ph-user-circle"></i>Jordan Lee
               </span>
               <span class="vd-badge vd-badge-outlined">QA</span>
@@ -1109,9 +1088,7 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
         </div>
       </div>
 
-      <div
-        class="vd-d-flex vd-flex-wrap vd-gap-4 items-center vd-mt-4 vd-mb-3"
-      >
+      <div class="vd-d-flex vd-flex-wrap vd-gap-4 items-center vd-mt-4 vd-mb-3">
         <VdSwitch
           v-model="glassHighContrast"
           id="glass-high-contrast"
@@ -1152,8 +1129,7 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
     <div class="vd-alert vd-alert-info vd-mb-0">
       <i class="ph ph-drop"></i>
       <div>
-        Live:
-        blur {{ glassBlur }}px · saturate {{ glassSaturate }} · opacity
+        Live: blur {{ glassBlur }}px · saturate {{ glassSaturate }} · opacity
         {{ glassHighContrast ? 0.82 : glassBgOpacity }} · border
         {{ glassHighContrast ? 0.26 : glassBorderAlpha
         }}<template v-if="glassDeepShadow"> · deep shadow</template>

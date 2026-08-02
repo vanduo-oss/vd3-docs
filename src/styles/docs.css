@@ -1528,14 +1528,16 @@ footer.vd-glass::before {
    make neighboring rings collide. */
 .hero-cta-buttons .vd-btn-outline.vd-btn-ring {
   border-width: 2px;
+
   --vd-btn-ring-width: 2px;
   --vd-btn-ring-gap: 6px;
   --vd-btn-ring-color: var(--vd-color-primary);
 }
 
 .hero-cta-buttons
-  .vd-btn-outline.vd-btn-ring:hover:not(:disabled):not(.disabled):not(.is-disabled) {
+  .vd-btn-outline.vd-btn-ring:hover:not(:disabled, .disabled, .is-disabled) {
   --vd-btn-ring-color: var(--vd-color-primary);
+
   border-color: var(--vd-color-primary);
 }
 
@@ -1548,9 +1550,9 @@ footer.vd-glass::before {
 .hero-cta-buttons .vd-btn-ring,
 .hero-cta-buttons .vd-btn + .vd-btn-ring {
   --vd-btn-ring-offset: calc(var(--vd-btn-ring-gap) + var(--vd-btn-ring-width));
+
   width: calc(100% - 2 * var(--vd-btn-ring-offset));
   margin: var(--vd-btn-ring-offset);
-  margin-bottom: var(--vd-btn-ring-offset);
   justify-self: center;
 }
 
@@ -3221,10 +3223,12 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   .hero-cta-buttons .vd-btn-ring,
   .hero-cta-buttons .vd-btn + .vd-btn-ring {
-    --vd-btn-ring-offset: calc(var(--vd-btn-ring-gap) + var(--vd-btn-ring-width));
+    --vd-btn-ring-offset: calc(
+      var(--vd-btn-ring-gap) + var(--vd-btn-ring-width)
+    );
+
     width: calc(100% - 2 * var(--vd-btn-ring-offset));
     margin: var(--vd-btn-ring-offset);
-    margin-bottom: var(--vd-btn-ring-offset);
     justify-self: center;
   }
 
@@ -3304,10 +3308,12 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   .hero-cta-buttons .vd-btn-ring,
   .hero-cta-buttons .vd-btn + .vd-btn-ring {
-    --vd-btn-ring-offset: calc(var(--vd-btn-ring-gap) + var(--vd-btn-ring-width));
+    --vd-btn-ring-offset: calc(
+      var(--vd-btn-ring-gap) + var(--vd-btn-ring-width)
+    );
+
     width: calc(100% - 2 * var(--vd-btn-ring-offset));
     margin: var(--vd-btn-ring-offset);
-    margin-bottom: var(--vd-btn-ring-offset);
     justify-self: center;
   }
 

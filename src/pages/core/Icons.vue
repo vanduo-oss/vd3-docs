@@ -337,8 +337,8 @@ const vue3Api: [string, string][] = [
           <div class="vd-card-header"><h6>VdIcon (Vue 3)</h6></div>
           <div class="vd-card-body">
             <p class="vd-mb-5">
-              Prefer the <code>VdIcon</code> component when you want typed
-              props instead of raw Phosphor classes:
+              Prefer the <code>VdIcon</code> component when you want typed props
+              instead of raw Phosphor classes:
             </p>
             <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 

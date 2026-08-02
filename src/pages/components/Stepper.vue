@@ -217,7 +217,9 @@ const vue3Api: [string, string][] = [
       <div class="vd-col-12 vd-col-md-6">
         <div id="demo-stepper-vertical" class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header">
-            <h6><i class="ph ph-arrow-down"></i> Vertical Stepper (Clickable)</h6>
+            <h6>
+              <i class="ph ph-arrow-down"></i> Vertical Stepper (Clickable)
+            </h6>
           </div>
           <div class="vd-card-body">
             <div
