@@ -161,6 +161,115 @@
   }
 }
 
+/* soft-glow: breathing halo + tiny scale */
+@keyframes vd3-mark-soft-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px var(--vd-color-primary-alpha-25))
+      drop-shadow(0 0 14px var(--vd-color-primary-alpha-20));
+    transform: scale(1);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 12px var(--vd-color-primary-alpha-45))
+      drop-shadow(0 0 28px var(--vd-color-primary-alpha-35));
+    transform: scale(1.035);
+  }
+}
+
+/* specular-sweep: highlight orbits the mark like a moving light */
+@keyframes vd3-mark-specular-orbit {
+  0% {
+    filter: drop-shadow(16px -4px 0 var(--vd-color-primary-alpha-35))
+      drop-shadow(0 0 8px var(--vd-color-primary-alpha-20));
+  }
+
+  25% {
+    filter: drop-shadow(4px 16px 0 var(--vd-color-primary-alpha-35))
+      drop-shadow(0 0 10px var(--vd-color-primary-alpha-25));
+  }
+
+  50% {
+    filter: drop-shadow(-16px 4px 0 var(--vd-color-primary-alpha-35))
+      drop-shadow(0 0 8px var(--vd-color-primary-alpha-20));
+  }
+
+  75% {
+    filter: drop-shadow(-4px -16px 0 var(--vd-color-primary-alpha-35))
+      drop-shadow(0 0 10px var(--vd-color-primary-alpha-25));
+  }
+
+  100% {
+    filter: drop-shadow(16px -4px 0 var(--vd-color-primary-alpha-35))
+      drop-shadow(0 0 8px var(--vd-color-primary-alpha-20));
+  }
+}
+
+/* stroke-draw: draw → fill → dissolve back (loop) */
+@keyframes vd3-mark-stroke-draw-inner {
+  0% {
+    stroke-dashoffset: 1354;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  38% {
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  52% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  }
+
+  78% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 1354;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+}
+
+@keyframes vd3-mark-stroke-draw-outer {
+  0% {
+    stroke-dashoffset: 629;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  38% {
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  52% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  }
+
+  78% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 629;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+}
+
 @keyframes vd3-mark-gradient-spin {
   to {
     transform: rotate(360deg);
@@ -170,6 +279,81 @@
 @keyframes vd3-mark-stroke-draw {
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+/* outline-only: blank → stroke big ring → stroke three satellites → fill */
+@keyframes vd3-mark-outline-reveal-inner {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 1354;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  6% {
+    opacity: 1;
+    stroke-dashoffset: 1354;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  38% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  68% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  }
+}
+
+@keyframes vd3-mark-outline-reveal-outer {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 629;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  8% {
+    opacity: 1;
+    stroke-dashoffset: 629;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  52% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  72% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    stroke-opacity: 0;
   }
 }
 
@@ -244,13 +428,27 @@
 @keyframes vd3-mark-chromatic {
   0%,
   100% {
-    filter: drop-shadow(-1px 0 0 var(--vd-color-primary-alpha-40))
-      drop-shadow(1px 0 0 var(--vd-color-primary-alpha-30));
+    filter: drop-shadow(-2px 0 0 var(--vd-color-primary-alpha-40))
+      drop-shadow(2px 0 0 var(--vd-color-primary-alpha-30));
+    transform: scale(1);
+  }
+
+  25% {
+    filter: drop-shadow(0 -2.5px 0 var(--vd-color-primary-alpha-45))
+      drop-shadow(0 2.5px 0 var(--vd-color-primary-alpha-30));
+    transform: scale(1.02);
   }
 
   50% {
-    filter: drop-shadow(-2px 0 0 var(--vd-color-primary-alpha-50))
-      drop-shadow(2px 0 0 var(--vd-color-primary-alpha-40));
+    filter: drop-shadow(2.5px 0 0 var(--vd-color-primary-alpha-40))
+      drop-shadow(-2.5px 0 0 var(--vd-color-primary-alpha-30));
+    transform: scale(1);
+  }
+
+  75% {
+    filter: drop-shadow(0 2.5px 0 var(--vd-color-primary-alpha-45))
+      drop-shadow(0 -2.5px 0 var(--vd-color-primary-alpha-30));
+    transform: scale(1.02);
   }
 }
 
@@ -387,7 +585,8 @@
 /* ── Filter / paint variants ───────────────────────────────── */
 
 .logo-fx-tile[data-fx="soft-glow"] .vd3-mark {
-  filter: drop-shadow(0 0 10px var(--vd-color-primary-alpha-50));
+  transform-origin: center;
+  animation: vd3-mark-soft-glow 3.2s ease-in-out infinite;
 }
 
 .logo-fx-tile[data-fx="bloom-pulse"] .vd3-mark {
@@ -395,7 +594,13 @@
 }
 
 .logo-fx-tile[data-fx="chromatic-soft"] .vd3-mark {
-  animation: vd3-mark-chromatic 3.6s ease-in-out infinite;
+  transform-origin: center;
+  animation: vd3-mark-chromatic 4s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="chromatic-soft"] .vd3-mark-spin {
+  animation: vd3-mark-spin calc(var(--vd3-mark-spin-duration) * 1.35) linear
+    infinite;
 }
 
 .logo-fx-tile[data-fx="grain"] .vd3-mark {
@@ -409,9 +614,12 @@
     vd3-mark-pulse 3s ease-in-out infinite;
 }
 
-.logo-fx-tile[data-fx="specular-sweep"] .vd3-mark-inner {
-  filter: drop-shadow(-12px -8px 0 var(--vd-color-primary-alpha-30));
-  animation: vd3-mark-pulse 2.6s ease-in-out infinite;
+.logo-fx-tile[data-fx="specular-sweep"] .vd3-mark {
+  animation: vd3-mark-specular-orbit 3.8s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="specular-sweep"] .vd3-mark-spin {
+  animation: vd3-mark-breathe 3.2s ease-in-out infinite;
 }
 
 .logo-fx-tile[data-fx="gradient-spin"] .vd3-mark-inner {
@@ -431,9 +639,38 @@
 
 .logo-fx-tile[data-fx="outline-only"] .vd3-mark-outer,
 .logo-fx-tile[data-fx="outline-only"] .vd3-mark-inner {
-  fill: none;
-  stroke: var(--vd3-mark-outer-fill);
-  stroke-width: 10;
+  fill-opacity: 0;
+  stroke: var(--vd3-mark-outer-fill, #3d7a4a);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+}
+
+.logo-fx-tile[data-fx="outline-only"] .vd3-mark-inner {
+  /* Circumference of r≈215.5 centre ring */
+  stroke-dasharray: 1354;
+  stroke-dashoffset: 1354;
+  animation: vd3-mark-outline-reveal-inner 2.6s ease-out forwards;
+}
+
+.logo-fx-tile[data-fx="outline-only"] .vd3-mark-outer {
+  /* Circumference of r=100 satellites */
+  stroke-dasharray: 629;
+  stroke-dashoffset: 629;
+  animation: vd3-mark-outline-reveal-outer 1.7s ease-out forwards;
+}
+
+.logo-fx-tile[data-fx="outline-only"] .vd3-mark-outer[data-i="1"] {
+  animation-delay: 0.85s;
+}
+
+.logo-fx-tile[data-fx="outline-only"] .vd3-mark-outer[data-i="2"] {
+  animation-delay: 1s;
+}
+
+.logo-fx-tile[data-fx="outline-only"] .vd3-mark-outer[data-i="0"] {
+  animation-delay: 1.15s;
 }
 
 .logo-fx-tile[data-fx="glass-tint"] .vd3-mark {
@@ -441,13 +678,39 @@
   filter: blur(0.3px) drop-shadow(0 8px 16px rgb(0 0 0 / 18%));
 }
 
+.logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-inner,
+.logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-outer {
+  fill-opacity: 0;
+  stroke: var(--vd3-mark-outer-fill, #3d7a4a);
+  stroke-width: 11;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 1;
+}
+
 .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-inner {
-  fill: none;
-  stroke: var(--vd3-mark-inner-light);
-  stroke-width: 12;
-  stroke-dasharray: 1400;
-  stroke-dashoffset: 1400;
-  animation: vd3-mark-stroke-draw 3s ease forwards infinite;
+  stroke: var(--vd3-mark-inner-light, #2f9e44);
+  stroke-dasharray: 1354;
+  stroke-dashoffset: 1354;
+  animation: vd3-mark-stroke-draw-inner 4.2s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-outer {
+  stroke-dasharray: 629;
+  stroke-dashoffset: 629;
+  animation: vd3-mark-stroke-draw-outer 4.2s ease-in-out infinite;
+}
+
+.logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-outer[data-i="1"] {
+  animation-delay: 0.35s;
+}
+
+.logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-outer[data-i="2"] {
+  animation-delay: 0.55s;
+}
+
+.logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-outer[data-i="0"] {
+  animation-delay: 0.75s;
 }
 
 .logo-fx-tile[data-fx="fill-reveal"] .vd3-mark-spin {
@@ -535,13 +798,19 @@
 
   .logo-fx-tile[data-fx="bloom-spin"] .vd3-mark-outer,
   .logo-fx-tile[data-fx="cascade-in"] .vd3-mark-outer,
+  .logo-fx-tile[data-fx="outline-only"] .vd3-mark-outer,
   .logo-fx-tile[data-fx="outline-only"] .vd3-mark-inner {
     opacity: 1;
     transform: none;
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-dashoffset: 0;
   }
 
-  .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-inner {
-    fill: var(--vd3-mark-inner-light);
-    stroke: var(--vd3-mark-inner-light);
+  .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-inner,
+  .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-outer {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-dashoffset: 0;
   }
 }

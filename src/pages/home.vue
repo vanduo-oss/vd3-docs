@@ -197,16 +197,19 @@ const swatches = [
           <div class="vd-mt-6 hero-cta-buttons">
             <RouterLink
               to="/guides/getting-started"
-              class="vd-btn vd-btn-outline"
+              class="vd-btn vd-btn-outline vd-btn-ring"
             >
               <i class="ph ph-rocket" aria-hidden="true"></i> Getting Started
             </RouterLink>
-            <RouterLink to="/components/button" class="vd-btn vd-btn-outline">
+            <RouterLink
+              to="/components/button"
+              class="vd-btn vd-btn-outline vd-btn-ring"
+            >
               <i class="ph ph-cube" aria-hidden="true"></i> Browse Components
             </RouterLink>
             <a
               href="https://github.com/vanduo-oss/vd3"
-              class="vd-btn vd-btn-outline"
+              class="vd-btn vd-btn-outline vd-btn-ring"
               target="_blank"
               rel="noopener"
             >

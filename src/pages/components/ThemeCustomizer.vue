@@ -133,7 +133,7 @@ const storageRows: [string, string, string][] = [
     "black / amber",
     "Primary brand color (auto default per scheme)",
   ],
-  ["vanduo-neutral-color", "charcoal", "Neutral / gray scale"],
+  ["vanduo-neutral-color", "stone / charcoal", "Neutral / gray scale (docs: stone light, charcoal dark)"],
   ["vanduo-radius", "0.5", "Border radius scale"],
   ["vanduo-font-preference", "ubuntu", "Font family"],
   [
@@ -307,7 +307,13 @@ const storageRows: [string, string, string][] = [
                 class="vd-chip"
                 :style="`background: ${c.color}; color: ${chipText(c.color)};`"
                 >{{ c.name
-                }}{{ c.key === "charcoal" ? " (default)" : "" }}</span
+                }}{{
+                  c.key === "stone"
+                    ? " (light default)"
+                    : c.key === "charcoal"
+                      ? " (dark default)"
+                      : ""
+                }}</span
               >
             </div>
             <p class="vd-text-sm vd-text-muted">
