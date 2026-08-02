@@ -385,13 +385,19 @@ const vue3Api: [string, string][] = [
     ":data",
     "Flowchart document ({ nodes, edges, viewport? }); updates flow through the editor's load().",
   ],
-  [":readonly", "Render as a non-editable viewer (hides palette and inspector)."],
+  [
+    ":readonly",
+    "Render as a non-editable viewer (hides palette and inspector).",
+  ],
   [":gridSize", "Background grid size in px."],
   [
     ":preserveSelection",
     "Keep the current selection across data-driven reloads when possible.",
   ],
-  [":autoFit", "Fit the view to content once the editor reports a measurable size."],
+  [
+    ":autoFit",
+    "Fit the view to content once the editor reports a measurable size.",
+  ],
   [
     ":history / :historyLimit",
     "Toggle undo history and cap the snapshot count.",
@@ -430,12 +436,14 @@ const methods: [string, string][] = [
   <section id="vd-flowchart">
     <h5 class="demo-title"><i class="ph ph-flow-arrow"></i>Flowchart</h5>
     <p class="vd-mb-8">
-      <strong>Vanduo Flowchart</strong> is a standalone SVG flowchart editor from
-      <code>@vanduo-oss/vd3-cbun/flowchart</code>. Drag from the palette,
+      <strong>Vanduo Flowchart</strong> is a standalone SVG flowchart editor
+      from <code>@vanduo-oss/vd3-cbun/flowchart</code>. Drag from the palette,
       connect ports, edit text inline, auto-arrange layouts, and export/import
       JSON. The demo below loads a radial mind map with branches and sub-topics.
-      Hit <strong>Full screen</strong> to work across the whole viewport
-      (<kbd>Esc</kbd> to come back). The chrome themes with the active
+      Hit <strong>Full screen</strong> to work across the whole viewport (<kbd
+        >Esc</kbd
+      >
+      to come back). The chrome themes with the active
       <code>--vd-flowchart-*</code> tokens and the site light / dark mode.
     </p>
 

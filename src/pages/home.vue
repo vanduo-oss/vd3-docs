@@ -135,10 +135,13 @@ function onFeatureMorph(index: number, event: MouseEvent): void {
     return;
   }
   morphBusy[index] = true;
-  window.setTimeout(() => {
-    flipped[index] = !flipped[index];
-    morphBusy[index] = false;
-  }, morphDurationMs(el) + 80);
+  window.setTimeout(
+    () => {
+      flipped[index] = !flipped[index];
+      morphBusy[index] = false;
+    },
+    morphDurationMs(el) + 80,
+  );
 }
 
 function onFeatureKeydown(index: number, event: KeyboardEvent): void {

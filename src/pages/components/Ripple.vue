@@ -84,9 +84,10 @@ const basicHtml = `<!-- Button with ripple -->
                 show-value
               />
               <p class="vd-text-sm vd-text-muted vd-mt-2" style="margin: 0">
-                Sets <code>--vd-ripple-duration</code> on this demo
-                ({{ (durationMs / 1000).toFixed(1) }}s). Default here is
-                1500&nbsp;ms — about 2.5× the framework’s 600&nbsp;ms.
+                Sets <code>--vd-ripple-duration</code> on this demo ({{
+                  (durationMs / 1000).toFixed(1)
+                }}s). Default here is 1500&nbsp;ms — about 2.5× the framework’s
+                600&nbsp;ms.
               </p>
             </div>
             <div

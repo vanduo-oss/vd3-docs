@@ -133,7 +133,11 @@ const storageRows: [string, string, string][] = [
     "black / amber",
     "Primary brand color (auto default per scheme)",
   ],
-  ["vanduo-neutral-color", "stone / charcoal", "Neutral / gray scale (docs: stone light, charcoal dark)"],
+  [
+    "vanduo-neutral-color",
+    "stone / charcoal",
+    "Neutral / gray scale (docs: stone light, charcoal dark)",
+  ],
   ["vanduo-radius", "0.5", "Border radius scale"],
   ["vanduo-font-preference", "ubuntu", "Font family"],
   [
