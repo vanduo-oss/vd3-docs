@@ -13,7 +13,7 @@ import {
 // useThemePreference() singleton — so changes apply to <html> immediately and
 // stay in sync with VdThemeSwitcher.
 const customizerRef = ref<InstanceType<typeof VdThemeCustomizer> | null>(null);
-const showPalette = ref(true);
+const showPalette = ref(false);
 
 const openPanel = (): void => customizerRef.value?.open();
 const closePanel = (): void => customizerRef.value?.close();
@@ -218,9 +218,12 @@ const storageRows: [string, string, string][] = [
         </div>
         <p class="vd-text-sm vd-text-muted vd-mt-4">
           The buttons dogfood the exposed <code>open()</code> /
-          <code>close()</code> / <code>toggle()</code> methods; the switch flips
-          the <code>show-palette</code> prop (watch the Palette section appear /
-          disappear inside the panel).
+          <code>close()</code> / <code>toggle()</code> methods.
+        </p>
+        <p class="vd-text-sm vd-text-muted vd-mt-2" style="margin: 0">
+          <strong>show-palette</strong> — When enabled, the panel adds a Palette
+          section so users can switch between Open Color and Fibonacci. Off by
+          default in this demo (open the panel and flip the switch to see it).
         </p>
       </div>
     </div>

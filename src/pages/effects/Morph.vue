@@ -74,8 +74,8 @@ const captionHtml = `<!-- .vd-morph-lg slows the wave for dramatic reveals -->
 
 const cssClasses: [string, string, string][] = [
   [".vd-morph", "Enable water morph on an element", "Base"],
-  [".vd-morph-sm", "Shorter, snappier morph (0.5s)", "Modifier"],
-  [".vd-morph-lg", "Slower, more dramatic morph (1s)", "Modifier"],
+  [".vd-morph-sm", "Shorter, snappier morph (0.4s)", "Modifier"],
+  [".vd-morph-lg", "Slower, more dramatic morph (0.75s)", "Modifier"],
   [
     ".vd-morph-wave",
     "Radial wave layer (auto-created by JS if absent)",
@@ -96,10 +96,10 @@ const cssClasses: [string, string, string][] = [
 ];
 
 const cssVars: [string, string, string][] = [
-  ["--vd-morph-duration", "0.75s", "Total animation duration"],
+  ["--vd-morph-duration", "0.6s", "Total animation duration"],
   [
     "--vd-morph-easing",
-    "cubic-bezier(0.2, 0.8, 0.35, 1)",
+    "cubic-bezier(0.33, 0, 0.2, 1)",
     "Wave expansion timing",
   ],
   [
