@@ -17,10 +17,10 @@ const GLASS_DEFAULTS = {
   borderAlpha: 0.18,
 } as const;
 
-const glassBlur = ref(GLASS_DEFAULTS.blur);
-const glassSaturate = ref(GLASS_DEFAULTS.saturate);
-const glassBgOpacity = ref(GLASS_DEFAULTS.bgOpacity);
-const glassBorderAlpha = ref(GLASS_DEFAULTS.borderAlpha);
+const glassBlur = ref<number>(GLASS_DEFAULTS.blur);
+const glassSaturate = ref<number>(GLASS_DEFAULTS.saturate);
+const glassBgOpacity = ref<number>(GLASS_DEFAULTS.bgOpacity);
+const glassBorderAlpha = ref<number>(GLASS_DEFAULTS.borderAlpha);
 const glassHighContrast = ref(false);
 const glassDeepShadow = ref(false);
 
