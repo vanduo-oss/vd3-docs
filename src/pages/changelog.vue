@@ -93,8 +93,7 @@ useAffix(root);
                             ><code>VdModal</code></RouterLink
                           >
                           gains an opt-in <code>glass</code> prop that applies
-                          the existing
-                          <code>.vd-modal-glass</code> /
+                          the existing <code>.vd-modal-glass</code> /
                           <code>.vd-modal-glass-backdrop</code> classes (same
                           idea as <code>VdFab</code>’s <code>glass</code>). CSS
                           was already shipped; the prop wires it for Vue
@@ -136,7 +135,9 @@ useAffix(root);
                         style="color: var(--vd-color-warning)"
                       ></i>
                       <div>
-                        <strong>Loading spinner on outline / ghost / plain</strong>
+                        <strong
+                          >Loading spinner on outline / ghost / plain</strong
+                        >
                         <p>
                           Outline, ghost, and plain buttons with
                           <code>.is-loading</code> now keep a visible spinner —
@@ -157,10 +158,10 @@ useAffix(root);
                         <strong>Spotlight cutout</strong>
                         <p>
                           Spotlight uses a body-level
-                          <code>.vd-spotlight-highlight</code> instead of a
-                          huge box-shadow on the target, so transformed
-                          ancestors no longer trap the dimming layer; geometry
-                          animates between steps.
+                          <code>.vd-spotlight-highlight</code> instead of a huge
+                          box-shadow on the target, so transformed ancestors no
+                          longer trap the dimming layer; geometry animates
+                          between steps.
                         </p>
                       </div>
                     </li>
@@ -207,7 +208,9 @@ useAffix(root);
                         style="color: var(--vd-color-warning)"
                       ></i>
                       <div>
-                        <strong>Collections clip &amp; stepper connectors</strong>
+                        <strong
+                          >Collections clip &amp; stepper connectors</strong
+                        >
                         <p>
                           Collections flush inside a card body clip to the
                           card’s inner radius so hover backgrounds do not square
