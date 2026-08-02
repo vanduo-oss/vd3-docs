@@ -13,10 +13,18 @@ import { VdButtonGroup, VdButton } from "@vanduo-oss/vd3";
     <VdButton variant="primary">Right</VdButton>
   </VdButtonGroup>
 
-  <!-- vertical stack, full-width, large -->
-  <VdButtonGroup vertical full-width size="lg">
-    <VdButton variant="secondary">A</VdButton>
-    <VdButton variant="secondary">B</VdButton>
+  <!-- vertical stack — equal widths, shared edges -->
+  <VdButtonGroup vertical>
+    <VdButton variant="secondary">Top</VdButton>
+    <VdButton variant="secondary">Middle</VdButton>
+    <VdButton variant="secondary">Bottom</VdButton>
+  </VdButtonGroup>
+
+  <!-- full-width, large -->
+  <VdButtonGroup full-width size="lg">
+    <VdButton variant="primary">Left</VdButton>
+    <VdButton variant="primary">Middle</VdButton>
+    <VdButton variant="primary">Right</VdButton>
   </VdButtonGroup>
 </template>`;
 
@@ -49,9 +57,9 @@ const horizontalHtml = `<!-- Horizontal Button Group -->
 
 <!-- Full Width Button Group -->
 <div class="vd-btn-group vd-btn-group-full">
-  <button class="vd-btn vd-btn-secondary">A</button>
-  <button class="vd-btn vd-btn-secondary">B</button>
-  <button class="vd-btn vd-btn-secondary">C</button>
+  <button class="vd-btn vd-btn-secondary">Left</button>
+  <button class="vd-btn vd-btn-secondary">Middle</button>
+  <button class="vd-btn vd-btn-secondary">Right</button>
 </div>`;
 
 const verticalHtml = `<!-- Vertical Button Group -->
@@ -133,25 +141,32 @@ const apiRows: [string, string, string][] = [
               <code>full-width</code> props.
             </p>
 
-            <p class="vd-text-sm vd-text-muted vd-mb-2">Horizontal (default)</p>
-            <VdButtonGroup class="vd-mb-4">
-              <VdButton variant="primary">Left</VdButton>
-              <VdButton variant="primary">Middle</VdButton>
-              <VdButton variant="primary">Right</VdButton>
-            </VdButtonGroup>
-
-            <p class="vd-text-sm vd-text-muted vd-mb-2">Vertical</p>
-            <VdButtonGroup vertical class="vd-mb-4">
-              <VdButton variant="secondary">Top</VdButton>
-              <VdButton variant="secondary">Middle</VdButton>
-              <VdButton variant="secondary">Bottom</VdButton>
-            </VdButtonGroup>
+            <div class="vd-row vd-gap-4 vd-mb-4">
+              <div class="vd-col-12 vd-col-sm-6">
+                <p class="vd-text-sm vd-text-muted vd-mb-2">
+                  Horizontal (default)
+                </p>
+                <VdButtonGroup>
+                  <VdButton variant="primary">Left</VdButton>
+                  <VdButton variant="primary">Middle</VdButton>
+                  <VdButton variant="primary">Right</VdButton>
+                </VdButtonGroup>
+              </div>
+              <div class="vd-col-12 vd-col-sm-6">
+                <p class="vd-text-sm vd-text-muted vd-mb-2">Vertical</p>
+                <VdButtonGroup vertical>
+                  <VdButton variant="secondary">Top</VdButton>
+                  <VdButton variant="secondary">Middle</VdButton>
+                  <VdButton variant="secondary">Bottom</VdButton>
+                </VdButtonGroup>
+              </div>
+            </div>
 
             <p class="vd-text-sm vd-text-muted vd-mb-2">Full width · large</p>
             <VdButtonGroup full-width size="lg" class="vd-mb-5">
-              <VdButton variant="primary">A</VdButton>
-              <VdButton variant="primary">B</VdButton>
-              <VdButton variant="primary">C</VdButton>
+              <VdButton variant="primary">Left</VdButton>
+              <VdButton variant="primary">Middle</VdButton>
+              <VdButton variant="primary">Right</VdButton>
             </VdButtonGroup>
 
             <h4 class="vd-mt-4">Usage</h4>
@@ -204,9 +219,9 @@ const apiRows: [string, string, string][] = [
             <br />
             <p class="vd-mt-3">Full width (<code>.vd-btn-group-full</code>):</p>
             <div class="vd-btn-group vd-btn-group-full">
-              <button class="vd-btn vd-btn-secondary">A</button>
-              <button class="vd-btn vd-btn-secondary">B</button>
-              <button class="vd-btn vd-btn-secondary">C</button>
+              <button class="vd-btn vd-btn-secondary">Left</button>
+              <button class="vd-btn vd-btn-secondary">Middle</button>
+              <button class="vd-btn vd-btn-secondary">Right</button>
             </div>
             <DocCodeSnippet :html="horizontalHtml" />
           </div>

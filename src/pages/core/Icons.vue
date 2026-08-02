@@ -83,6 +83,21 @@ const a11yHtml = `<!-- Decorative: label is visible, hide the icon -->
 <button class="vd-btn" aria-label="Close dialog">
   <i class="ph ph-x" aria-hidden="true"></i>
 </button>`;
+
+const vue3Usage = `<script setup lang="ts">
+import { VdIcon } from "@vanduo-oss/vd3";
+<\/script>
+
+<template>
+  <VdIcon name="rocket" />
+  <VdIcon name="heart" filled size="lg" />
+</template>`;
+
+const vue3Api: [string, string][] = [
+  [":name", 'Phosphor icon name without the ph- prefix (e.g. "rocket").'],
+  [":filled", "Use the filled icon weight."],
+  [":size", "sm | md | lg (default md)."],
+];
 </script>
 
 <template>
@@ -310,6 +325,42 @@ const a11yHtml = `<!-- Decorative: label is visible, hide the icon -->
                 >Accessibility Essentials</RouterLink
               >.
             </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VdIcon (Vue 3) -->
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header"><h6>VdIcon (Vue 3)</h6></div>
+          <div class="vd-card-body">
+            <p class="vd-mb-5">
+              Prefer the <code>VdIcon</code> component when you want typed
+              props instead of raw Phosphor classes:
+            </p>
+            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+
+            <h4 class="vd-mt-6">Component API</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-hover">
+                <thead>
+                  <tr>
+                    <th>Prop</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in vue3Api" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

@@ -112,6 +112,8 @@ export const useThemeStore = defineStore("theme", () => {
   };
   const reset = (): void => {
     Object.assign(prefs, defaultPreference());
+    // Docs override: light → stone, dark → charcoal (framework NEUTRAL is charcoal).
+    prefs.neutral = docsDefaultNeutral(prefs.theme);
     commit();
   };
 

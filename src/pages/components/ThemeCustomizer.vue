@@ -13,9 +13,10 @@ import {
 // useThemePreference() singleton — so changes apply to <html> immediately and
 // stay in sync with VdThemeSwitcher.
 const customizerRef = ref<InstanceType<typeof VdThemeCustomizer> | null>(null);
-const showPalette = ref(true);
+const showPalette = ref(false);
 
 const openPanel = (): void => customizerRef.value?.open();
+const closePanel = (): void => customizerRef.value?.close();
 const togglePanel = (): void => customizerRef.value?.toggle();
 
 // The color chips below are sourced from the real exported token data, so they
@@ -132,7 +133,7 @@ const storageRows: [string, string, string][] = [
     "black / amber",
     "Primary brand color (auto default per scheme)",
   ],
-  ["vanduo-neutral-color", "charcoal", "Neutral / gray scale"],
+  ["vanduo-neutral-color", "stone / charcoal", "Neutral / gray scale (docs: stone light, charcoal dark)"],
   ["vanduo-radius", "0.5", "Border radius scale"],
   ["vanduo-font-preference", "ubuntu", "Font family"],
   [
@@ -174,22 +175,35 @@ const storageRows: [string, string, string][] = [
           own paint-roller trigger (click it) and teleports the panel under it —
           every change applies to this page immediately:
         </p>
-        <div class="vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center">
+        <div
+          class="vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center theme-customizer-demo-row"
+        >
           <VdThemeCustomizer ref="customizerRef" :show-palette="showPalette" />
-          <button
-            type="button"
-            class="vd-btn vd-btn-sm vd-btn-primary"
-            @click="openPanel"
+          <div
+            class="theme-customizer-demo-actions vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center"
           >
-            open()
-          </button>
-          <button
-            type="button"
-            class="vd-btn vd-btn-sm vd-btn-secondary"
-            @click="togglePanel"
-          >
-            toggle()
-          </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-sm vd-btn-primary"
+              @click="openPanel"
+            >
+              open()
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-sm vd-btn-outline-secondary"
+              @click="closePanel"
+            >
+              close()
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-sm vd-btn-secondary"
+              @click="togglePanel"
+            >
+              toggle()
+            </button>
+          </div>
           <label class="vd-form-switch" style="margin-left: auto">
             <input
               v-model="showPalette"
@@ -204,9 +218,12 @@ const storageRows: [string, string, string][] = [
         </div>
         <p class="vd-text-sm vd-text-muted vd-mt-4">
           The buttons dogfood the exposed <code>open()</code> /
-          <code>toggle()</code> methods; the switch flips the
-          <code>show-palette</code> prop (watch the Palette section appear /
-          disappear inside the panel).
+          <code>close()</code> / <code>toggle()</code> methods.
+        </p>
+        <p class="vd-text-sm vd-text-muted vd-mt-2" style="margin: 0">
+          <strong>show-palette</strong> — When enabled, the panel adds a Palette
+          section so users can switch between Open Color and Fibonacci. Off by
+          default in this demo (open the panel and flip the switch to see it).
         </p>
       </div>
     </div>
@@ -293,7 +310,13 @@ const storageRows: [string, string, string][] = [
                 class="vd-chip"
                 :style="`background: ${c.color}; color: ${chipText(c.color)};`"
                 >{{ c.name
-                }}{{ c.key === "charcoal" ? " (default)" : "" }}</span
+                }}{{
+                  c.key === "stone"
+                    ? " (light default)"
+                    : c.key === "charcoal"
+                      ? " (dark default)"
+                      : ""
+                }}</span
               >
             </div>
             <p class="vd-text-sm vd-text-muted">
@@ -484,3 +507,11 @@ const storageRows: [string, string, string][] = [
     </div>
   </section>
 </template>
+
+<style scoped>
+.theme-customizer-demo-actions {
+  margin-left: 0.25rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--vd-border-color);
+}
+</style>

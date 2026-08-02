@@ -8,50 +8,18 @@ const seedDoc = {
   viewport: { x: 0, y: 0, scale: 1 },
   shapes: [
     {
-      id: "m1",
+      id: "sine-green",
       type: "freehand",
-      brush: "marker",
-      color: "#1971c2",
-      size: 14,
-      points: [
-        [70, 120],
-        [130, 90],
-        [190, 130],
-        [250, 95],
-      ],
-    },
-    {
-      id: "h1",
-      type: "freehand",
-      brush: "highlighter",
-      color: "#f2c200",
-      size: 24,
-      points: [
-        [70, 170],
-        [260, 170],
-      ],
-    },
-    {
-      id: "p1",
-      type: "freehand",
-      brush: "pencil",
-      color: "#e03131",
-      size: 5,
-      points: [
-        [320, 90],
-        [340, 140],
-        [370, 100],
-        [400, 150],
-      ],
-    },
-    {
-      id: "n1",
-      type: "sticky",
-      x: 470,
-      y: 90,
-      w: 160,
-      h: 110,
-      text: "Sketch it out",
+      brush: "pen",
+      color: "#2f9e44",
+      size: 8,
+      // Smooth green sine wave — sole demo filler.
+      points: Array.from({ length: 49 }, (_, i) => {
+        const t = i / 48;
+        const x = 60 + t * 520;
+        const y = 160 + Math.sin(t * Math.PI * 2.5) * 48;
+        return [Math.round(x * 10) / 10, Math.round(y * 10) / 10];
+      }),
     },
   ],
 };

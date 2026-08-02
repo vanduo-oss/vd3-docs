@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
 import { RouterLink } from "vue-router";
+import { useMorph } from "@vanduo-oss/vd3";
 import Vd3Mark from "@/components/Vd3Mark.vue";
 import {
   isBloomSpinFx,
@@ -100,10 +101,59 @@ const features: Feature[] = [
   },
 ];
 
+/** Features grid root — useMorph wires wave/shine + current⇄next swap. */
+const featuresRoot = ref<HTMLElement | null>(null);
+useMorph(featuresRoot);
+
+/** A11y face state only; morph face classes are owned by useMorph (DOM). */
 const flipped = reactive<boolean[]>(features.map(() => false));
-const toggle = (index: number): void => {
-  flipped[index] = !flipped[index];
-};
+const morphBusy = reactive<boolean[]>(features.map(() => false));
+
+function morphDurationMs(el: HTMLElement): number {
+  const custom = getComputedStyle(el)
+    .getPropertyValue("--vd-morph-duration")
+    .trim();
+  if (custom) {
+    const parsed = parseFloat(custom);
+    if (!Number.isNaN(parsed)) {
+      return parsed * (custom.includes("ms") ? 1 : 1000);
+    }
+  }
+  return 600;
+}
+
+/** Sync aria/tabindex after useMorph finishes its current⇄next swap. */
+function onFeatureMorph(index: number, event: MouseEvent): void {
+  if (morphBusy[index]) return;
+  const el = event.currentTarget;
+  if (!(el instanceof HTMLElement)) return;
+  // Match useMorph debounce: ignore while the wave/settle classes are active.
+  if (
+    el.classList.contains("is-morphing") ||
+    el.classList.contains("is-morph-settling")
+  ) {
+    return;
+  }
+  morphBusy[index] = true;
+  window.setTimeout(() => {
+    flipped[index] = !flipped[index];
+    morphBusy[index] = false;
+  }, morphDurationMs(el) + 80);
+}
+
+function onFeatureKeydown(index: number, event: KeyboardEvent): void {
+  const el = event.currentTarget;
+  if (!(el instanceof HTMLElement)) return;
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    el.click();
+    return;
+  }
+  if (event.key === "Escape" && flipped[index]) {
+    event.preventDefault();
+    el.click();
+  }
+}
 
 const iconWeights = [
   { cls: "ph", label: "Regular" },
@@ -197,16 +247,19 @@ const swatches = [
           <div class="vd-mt-6 hero-cta-buttons">
             <RouterLink
               to="/guides/getting-started"
-              class="vd-btn vd-btn-outline"
+              class="vd-btn vd-btn-outline vd-btn-ring"
             >
               <i class="ph ph-rocket" aria-hidden="true"></i> Getting Started
             </RouterLink>
-            <RouterLink to="/components/button" class="vd-btn vd-btn-outline">
+            <RouterLink
+              to="/components/button"
+              class="vd-btn vd-btn-outline vd-btn-ring"
+            >
               <i class="ph ph-cube" aria-hidden="true"></i> Browse Components
             </RouterLink>
             <a
               href="https://github.com/vanduo-oss/vd3"
-              class="vd-btn vd-btn-outline"
+              class="vd-btn vd-btn-outline vd-btn-ring"
               target="_blank"
               rel="noopener"
             >
@@ -221,6 +274,7 @@ const swatches = [
       <!-- Features -->
       <div
         id="home-features"
+        ref="featuresRoot"
         style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)"
       >
         <h3
@@ -241,18 +295,22 @@ const swatches = [
             class="vd-col-12 vd-col-md-6 vd-col-lg-4"
           >
             <div
-              class="vd-card vd-card-glow vd-glass vd-glass-floating vd-text-center vd-morph vd-morph-lg feature-morph-card"
+              class="vd-card vd-card-glow vd-glass vd-glass-floating vd-text-center vd-morph feature-morph-card"
               data-vd-morph
               role="button"
               tabindex="0"
-              :aria-label="`${feature.title} — reveal details`"
-              @click="toggle(i)"
-              @keydown.enter.prevent="toggle(i)"
-              @keydown.space.prevent="toggle(i)"
+              :aria-expanded="flipped[i]"
+              :aria-label="
+                flipped[i]
+                  ? `${feature.title} — hide details`
+                  : `${feature.title} — reveal details`
+              "
+              @click="onFeatureMorph(i, $event)"
+              @keydown="onFeatureKeydown(i, $event)"
             >
+              <!-- Face classes stay static; useMorph swaps current⇄next in the DOM. -->
               <span
-                class="vd-morph-content feature-morph-face"
-                :class="flipped[i] ? 'vd-morph-next' : 'vd-morph-current'"
+                class="vd-morph-content feature-morph-face vd-morph-current"
               >
                 <i
                   :class="`ph ${feature.icon} feature-icon`"
@@ -263,10 +321,7 @@ const swatches = [
                   >Tap to learn more</span
                 >
               </span>
-              <span
-                class="vd-morph-content feature-morph-face"
-                :class="flipped[i] ? 'vd-morph-current' : 'vd-morph-next'"
-              >
+              <span class="vd-morph-content feature-morph-face vd-morph-next">
                 <h4 class="feature-morph-title">{{ feature.title }}</h4>
                 <p class="feature-morph-body">{{ feature.body }}</p>
                 <RouterLink

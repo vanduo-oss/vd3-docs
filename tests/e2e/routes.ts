@@ -110,7 +110,6 @@ export const ROUTES: readonly Route[] = [
   { path: '/components/progress', label: 'components-progress' },
   { path: '/components/spinner', label: 'components-spinner' },
   { path: '/components/code-snippet', label: 'components-code-snippet' },
-  { path: '/components/icon', label: 'components-icon' },
   { path: '/components/primitives', label: 'components-primitives' },
   { path: '/components/separator', label: 'components-separator' },
   { path: '/components/sidenav', label: 'components-sidenav' },

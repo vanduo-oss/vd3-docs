@@ -46,6 +46,14 @@ const cssClasses: [string, string][] = [
     "Enables pointer cursor and click-to-navigate behavior on each step.",
   ],
   [
+    ".vd-stepper-animated",
+    "Opt into staggered scroll-reveal (mirrors timeline; auto-wired by useStepper).",
+  ],
+  [
+    ".is-revealed",
+    "Applied to each animated step once it intersects the viewport.",
+  ],
+  [
     ".vd-stepper-item",
     "Individual step wrapper. Holds the circle, label, and description.",
   ],
@@ -84,16 +92,19 @@ const vue3Wiring = `import { ref } from 'vue';
 import { useStepper } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
-const stepper = useStepper(root);   // wires .vd-stepper inside root; cleanup on unmount
+const stepper = useStepper(root);   // wires .vd-stepper (+ clickable / animated) inside root
 
 // drive it imperatively
 stepper.next(stepperEl);
-stepper.setStep(stepperEl, 2);`;
+stepper.setStep(stepperEl, 2);
+
+// Markup: add .vd-stepper-animated for staggered reveal,
+// .vd-stepper-clickable for click/keyboard navigation (any orientation).`;
 
 const vue3Api: [string, string][] = [
   [
-    "useStepper(root)",
-    "Composable — wires every .vd-stepper inside the root ref; returns an imperative API. Call once in setup().",
+    "useStepper(root, options?)",
+    "Composable — wires every .vd-stepper inside the root ref (clickable nav + optional animated reveal); returns an imperative API. Call once in setup().",
   ],
   [
     "stepper.next(el) / prev(el)",
@@ -112,7 +123,8 @@ const vue3Api: [string, string][] = [
     <p class="vd-mb-8">
       Multi-step progress indicators for wizards, checkout flows, and onboarding
       sequences. Supports horizontal, vertical, and clickable variants with
-      built-in state management.
+      built-in state management, plus an optional staggered scroll-reveal
+      (<code>.vd-stepper-animated</code>) that mirrors timeline.
     </p>
 
     <!-- Horizontal Stepper -->
@@ -126,7 +138,11 @@ const vue3Api: [string, string][] = [
             <h6><i class="ph ph-arrow-right"></i> Horizontal Stepper</h6>
           </div>
           <div class="vd-card-body">
-            <div id="stepper-h-demo" class="vd-stepper" role="list">
+            <div
+              id="stepper-h-demo"
+              class="vd-stepper vd-stepper-animated"
+              role="list"
+            >
               <div class="vd-stepper-item is-completed" role="listitem">
                 <div class="vd-stepper-circle">
                   <i class="ph ph-check"></i>
@@ -201,11 +217,19 @@ const vue3Api: [string, string][] = [
       <div class="vd-col-12 vd-col-md-6">
         <div id="demo-stepper-vertical" class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header">
-            <h6><i class="ph ph-arrow-down"></i> Vertical Stepper</h6>
+            <h6><i class="ph ph-arrow-down"></i> Vertical Stepper (Clickable)</h6>
           </div>
           <div class="vd-card-body">
-            <div class="vd-stepper vd-stepper-vertical" role="list">
-              <div class="vd-stepper-item is-completed" role="listitem">
+            <div
+              id="stepper-v-demo"
+              class="vd-stepper vd-stepper-vertical vd-stepper-clickable vd-stepper-animated"
+              role="list"
+            >
+              <div
+                class="vd-stepper-item is-completed"
+                role="listitem"
+                tabindex="0"
+              >
                 <div class="vd-stepper-circle">
                   <i class="ph ph-check"></i>
                 </div>
@@ -216,7 +240,11 @@ const vue3Api: [string, string][] = [
                   >
                 </div>
               </div>
-              <div class="vd-stepper-item is-active" role="listitem">
+              <div
+                class="vd-stepper-item is-active"
+                role="listitem"
+                tabindex="0"
+              >
                 <div class="vd-stepper-circle">2</div>
                 <div class="vd-stepper-label">
                   Processing
@@ -225,7 +253,7 @@ const vue3Api: [string, string][] = [
                   >
                 </div>
               </div>
-              <div class="vd-stepper-item" role="listitem">
+              <div class="vd-stepper-item" role="listitem" tabindex="0">
                 <div class="vd-stepper-circle">3</div>
                 <div class="vd-stepper-label">
                   Shipped
@@ -234,7 +262,7 @@ const vue3Api: [string, string][] = [
                   >
                 </div>
               </div>
-              <div class="vd-stepper-item" role="listitem">
+              <div class="vd-stepper-item" role="listitem" tabindex="0">
                 <div class="vd-stepper-circle">4</div>
                 <div class="vd-stepper-label">
                   Delivered
@@ -242,6 +270,10 @@ const vue3Api: [string, string][] = [
                 </div>
               </div>
             </div>
+            <p class="vd-text-sm vd-text-muted vd-mt-4">
+              <i class="ph ph-info"></i> Click any step to navigate — vertical
+              steppers use the same <code>.vd-stepper-clickable</code> wiring.
+            </p>
           </div>
         </div>
       </div>
@@ -254,7 +286,7 @@ const vue3Api: [string, string][] = [
           <div class="vd-card-body">
             <div
               id="stepper-click-demo"
-              class="vd-stepper vd-stepper-clickable"
+              class="vd-stepper vd-stepper-clickable vd-stepper-animated"
               role="list"
             >
               <div

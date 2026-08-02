@@ -48,7 +48,11 @@ useSpotlight(root);   // wires every [data-vd-spotlight] inside root`;
 const classRows: [string, string][] = [
   [
     ".vd-spotlight-overlay",
-    "Full-screen dimmer with a cut-out around the target.",
+    "Full-screen click catcher; dimming comes from the highlight cutout.",
+  ],
+  [
+    ".vd-spotlight-highlight",
+    "Body-level cutout positioned over the active target (box-shadow dimmer).",
   ],
   [
     ".vd-spotlight-tooltip",

@@ -1523,8 +1523,35 @@ footer.vd-glass::before {
   font-size: var(--vd-font-size-base);
 }
 
+/* 2px inner / 2px outer / 6px gap. Pin ring color so hover fill cannot wash
+   the outer ring out. Shrink width by ring offset so 100% + margin does not
+   make neighboring rings collide. */
+.hero-cta-buttons .vd-btn-outline.vd-btn-ring {
+  border-width: 2px;
+  --vd-btn-ring-width: 2px;
+  --vd-btn-ring-gap: 6px;
+  --vd-btn-ring-color: var(--vd-color-primary);
+}
+
+.hero-cta-buttons
+  .vd-btn-outline.vd-btn-ring:hover:not(:disabled):not(.disabled):not(.is-disabled) {
+  --vd-btn-ring-color: var(--vd-color-primary);
+  border-color: var(--vd-color-primary);
+}
+
+/* Grid already spaces the CTAs — drop the default sibling margin so the
+   3:2:1 columns stay tight, then restore ring clearance on every side. */
 .hero-cta-buttons .vd-btn + .vd-btn {
   margin-left: 0;
+}
+
+.hero-cta-buttons .vd-btn-ring,
+.hero-cta-buttons .vd-btn + .vd-btn-ring {
+  --vd-btn-ring-offset: calc(var(--vd-btn-ring-gap) + var(--vd-btn-ring-width));
+  width: calc(100% - 2 * var(--vd-btn-ring-offset));
+  margin: var(--vd-btn-ring-offset);
+  margin-bottom: var(--vd-btn-ring-offset);
+  justify-self: center;
 }
 
 .hero-cta-buttons .vd-btn i {
@@ -3192,6 +3219,15 @@ a:hover .vd-card-interactive.vd-card-glow {
     margin-left: 0;
   }
 
+  .hero-cta-buttons .vd-btn-ring,
+  .hero-cta-buttons .vd-btn + .vd-btn-ring {
+    --vd-btn-ring-offset: calc(var(--vd-btn-ring-gap) + var(--vd-btn-ring-width));
+    width: calc(100% - 2 * var(--vd-btn-ring-offset));
+    margin: var(--vd-btn-ring-offset);
+    margin-bottom: var(--vd-btn-ring-offset);
+    justify-self: center;
+  }
+
   .vd-navbar-container {
     flex-wrap: nowrap;
     padding-left: 0;
@@ -3264,6 +3300,15 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   .hero-cta-buttons .vd-btn + .vd-btn {
     margin-left: 0;
+  }
+
+  .hero-cta-buttons .vd-btn-ring,
+  .hero-cta-buttons .vd-btn + .vd-btn-ring {
+    --vd-btn-ring-offset: calc(var(--vd-btn-ring-gap) + var(--vd-btn-ring-width));
+    width: calc(100% - 2 * var(--vd-btn-ring-offset));
+    margin: var(--vd-btn-ring-offset);
+    margin-bottom: var(--vd-btn-ring-offset);
+    justify-self: center;
   }
 
   .hero-search-wrapper {

@@ -86,16 +86,16 @@ const basicHtml = `<!-- The thumbnail <img> is the trigger -->
                 aria-label="View French Bulldog full image"
               />
               <img
-                src="/images/mountains-and-fog.jpg"
-                alt="Mountains shrouded in fog"
+                src="/images/wild-blueberries.jpg"
+                alt="Wild blueberries on the forest floor"
                 class="vd-image-box-trigger vd-rounded-md vd-shadow"
                 data-image-box
-                :data-image-box-full-src="`${base}images/mountains-and-fog.jpg`"
-                data-image-box-caption="Mountains and Fog — Landscape Photography"
+                :data-image-box-full-src="`${base}images/wild-blueberries.jpg`"
+                data-image-box-caption="Wild Blueberries — Forest Photography"
                 style="width: 220px; height: 150px; object-fit: cover"
                 tabindex="0"
                 role="button"
-                aria-label="View Mountains and Fog full image"
+                aria-label="View Wild Blueberries full image"
               />
               <img
                 src="/images/portrait-orientation_small.JPG"
