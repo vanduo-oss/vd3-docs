@@ -1523,13 +1523,14 @@ footer.vd-glass::before {
   font-size: var(--vd-font-size-base);
 }
 
-/* 2px inner / 2px outer / 6px gap. Pin ring color so hover fill cannot wash
-   the outer ring out. Shrink width by ring offset so 100% + margin does not
-   make neighboring rings collide. */
+/* 1.5px inner / 1.5px outer / 6px gap — a touch lighter than the prior 2px
+   lock so the double outline reads thinner on the dark hero. Pin ring color
+   so hover fill cannot wash the outer ring out. Shrink width by ring offset
+   so 100% + margin does not make neighboring rings collide. */
 .hero-cta-buttons .vd-btn-outline.vd-btn-ring {
-  border-width: 2px;
+  border-width: 1.5px;
 
-  --vd-btn-ring-width: 2px;
+  --vd-btn-ring-width: 1.5px;
   --vd-btn-ring-gap: 6px;
   --vd-btn-ring-color: var(--vd-color-primary);
 }
