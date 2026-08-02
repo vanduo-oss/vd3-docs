@@ -20,7 +20,6 @@ import ProgressPage from "@/pages/components/Progress.vue";
 import PrimitivesPage from "@/pages/components/Primitives.vue";
 import SpinnerPage from "@/pages/components/Spinner.vue";
 import CodeSnippetPage from "@/pages/components/CodeSnippet.vue";
-import IconPage from "@/pages/components/Icon.vue";
 import SidenavPage from "@/pages/components/Sidenav.vue";
 import StickyPage from "@/pages/components/Sticky.vue";
 import ScrollspyPage from "@/pages/components/Scrollspy.vue";
@@ -111,7 +110,6 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   progress: ProgressPage,
   spinner: SpinnerPage,
   "code-snippet": CodeSnippetPage,
-  icon: IconPage,
   sidenav: SidenavPage,
   sticky: StickyPage,
   scrollspy: ScrollspyPage,
@@ -239,6 +237,13 @@ export const buildRoutes = (): RouteRecordRaw[] => {
     path: "/quick-start",
     redirect: "/guides/getting-started",
     meta: { title: "Quick Start", keywords: [] },
+  });
+
+  // Legacy alias — Icon lived under Primitives but duplicated /core/icons.
+  routes.push({
+    path: "/components/icon",
+    redirect: "/core/icons",
+    meta: { title: "Icon", keywords: [] },
   });
 
   routes.push({

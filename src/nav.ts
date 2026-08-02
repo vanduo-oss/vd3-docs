@@ -111,7 +111,7 @@ export const nav: NavTree = {
               title: "Icons",
               route: "/core/icons",
               icon: "images",
-              keywords: ["icons", "phosphor", "glyph"],
+              keywords: ["icons", "icon", "phosphor", "glyph", "vdicon"],
               file: "core/icons.html",
             },
             {
@@ -880,14 +880,6 @@ export const nav: NavTree = {
               icon: "code",
               keywords: ["code", "snippet", "highlight"],
               file: "components/code-snippet.html",
-            },
-            {
-              id: "icon",
-              title: "Icon",
-              route: "/components/icon",
-              icon: "image",
-              keywords: ["icon", "phosphor", "glyph"],
-              file: "components/icon.html",
             },
           ],
         },

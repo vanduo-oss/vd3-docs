@@ -4,6 +4,7 @@ dist
 *.log
 .vite
 playwright-report
+.playwright-mcp
 test-results
 tsconfig.tsbuildinfo
 
