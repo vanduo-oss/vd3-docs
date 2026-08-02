@@ -358,6 +358,11 @@ function toggleFullscreen() {
 
 onBeforeUnmount(exitFullscreen);
 
+/** Align Arrange with the mind-map seed (Tree/Radial/Grid — three modes). */
+function onFlowchartReady(editor: { layout?: (mode?: string) => unknown }) {
+  editor.layout?.("radial");
+}
+
 const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
 
 const vue3Usage = `<script setup lang="ts">
@@ -423,7 +428,7 @@ const methods: [string, string][] = [
   ["undo / redo", "Step through the whole-document history."],
   [
     "layout(mode?)",
-    "Auto-arrange nodes — 'tree', 'radial', or 'grid' (default 'tree').",
+    "Auto-arrange nodes — exactly three modes: 'tree', 'radial', or 'grid' (default 'tree'). The toolbar select mirrors the active mode.",
   ],
   [
     "getInstance()",
@@ -440,10 +445,12 @@ const methods: [string, string][] = [
       from <code>@vanduo-oss/vd3-cbun/flowchart</code>. Drag from the palette,
       connect ports, edit text inline, auto-arrange layouts, and export/import
       JSON. The demo below loads a radial mind map with branches and sub-topics.
-      Hit <strong>Full screen</strong> to work across the whole viewport (<kbd
-        >Esc</kbd
-      >
-      to come back). The chrome themes with the active
+      The toolbar <strong>Arrange</strong> control is a single
+      <code>&lt;select&gt;</code> with three layout modes —
+      <strong>Tree</strong>, <strong>Radial</strong>, and
+      <strong>Grid</strong> — and always shows the active mode (no placeholder
+      row). Hit <strong>Full screen</strong> to work across the whole viewport
+      (<kbd>Esc</kbd> to come back). The chrome themes with the active
       <code>--vd-flowchart-*</code> tokens and the site light / dark mode.
     </p>
 
@@ -469,6 +476,7 @@ const methods: [string, string][] = [
           :data="seedDoc"
           auto-fit
           :style="fullscreen ? undefined : { minHeight: '420px' }"
+          @ready="onFlowchartReady"
         />
       </div>
     </div>
