@@ -56,14 +56,185 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.2.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>August 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  A patch release: opt-in
+                  <strong>glass modal</strong> and
+                  <strong>animated stepper</strong>, plus polish across loading
+                  buttons, spotlight, morph, button groups, transfer, and
+                  collections.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-drop"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          ><code>VdModal</code> <code>glass</code> prop</strong
+                        >
+                        <p>
+                          <RouterLink to="/components/modal"
+                            ><code>VdModal</code></RouterLink
+                          >
+                          gains an opt-in <code>glass</code> prop that applies
+                          the existing
+                          <code>.vd-modal-glass</code> /
+                          <code>.vd-modal-glass-backdrop</code> classes (same
+                          idea as <code>VdFab</code>’s <code>glass</code>). CSS
+                          was already shipped; the prop wires it for Vue
+                          consumers. Fallthrough attrs bind on the dialog root
+                          so glass token overrides land correctly through
+                          Teleport.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-stairs"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Stepper scroll-reveal</strong>
+                        <p>
+                          Containers with
+                          <code>.vd-stepper-animated</code> get a staggered
+                          IntersectionObserver reveal (mirrors timeline).
+                          <code>useStepper</code> accepts optional
+                          <code>UseStepperOptions</code>
+                          (<code>staggerMs</code>,
+                          <code>maxStaggerIndex</code>); prefers-reduced-motion
+                          and missing <code>IntersectionObserver</code> reveal
+                          immediately.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-spinner"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Loading spinner on outline / ghost / plain</strong>
+                        <p>
+                          Outline, ghost, and plain buttons with
+                          <code>.is-loading</code> now keep a visible spinner —
+                          the legacy <code>currentColor</code> spinner was
+                          invisible once the label used
+                          <code>color: transparent</code>. Solid variants
+                          already pinned their colours; these treatments now pin
+                          their accent colours the same way.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-flashlight"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Spotlight cutout</strong>
+                        <p>
+                          Spotlight uses a body-level
+                          <code>.vd-spotlight-highlight</code> instead of a
+                          huge box-shadow on the target, so transformed
+                          ancestors no longer trap the dimming layer; geometry
+                          animates between steps.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-arrows-merge"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Morph settle</strong>
+                        <p>
+                          Morph no longer reverse-animates at end-of-swap: a
+                          short <code>.is-morph-settling</code> freeze +
+                          cooldown blocks re-entrant clicks; default
+                          duration/easing are snappier. Same settle path for
+                          <code>useMorphBadges</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-rows"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Vertical button groups &amp; transfer</strong>
+                        <p>
+                          <code>.vd-btn-group.vd-btn-group-vertical</code> no
+                          longer inherits horizontal edge-sharing margins/radii;
+                          labels stay <code>nowrap</code> and the stack sizes to
+                          the widest button.
+                          <RouterLink to="/components/transfer"
+                            >Transfer</RouterLink
+                          >
+                          move buttons use Phosphor carets via
+                          <code>VdIcon</code> with clearer hover/focus-visible
+                          styles.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-stack"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Collections clip &amp; stepper connectors</strong>
+                        <p>
+                          Collections flush inside a card body clip to the
+                          card’s inner radius so hover backgrounds do not square
+                          off past rounded corners. Stepper connector
+                          <code>::after</code> is
+                          <code>pointer-events: none</code> so decorative lines
+                          never steal clicks.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
               >v1.2.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -480,14 +651,111 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.3.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>August 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  A flowchart chrome patch: dark-aware panels, icon toolbar,
+                  Arrange select that keeps the active layout, and short-parent
+                  sizing. Styling + chrome UX only —
+                  <code>VD_FLOWCHART_VERSION</code> remains
+                  <code>1.2.0</code> (serialization unchanged).
+                </p>
+
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-moon-stars"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Dark-aware flowchart chrome</strong>
+                        <p>
+                          <RouterLink to="/canvas/flowchart"
+                            >Flowchart</RouterLink
+                          >
+                          CSS token mixes no longer blend toward fixed light
+                          cream/white; panels, nodes, handles, and inspector
+                          chrome follow
+                          <code>--vd-bg-primary</code> /
+                          <code>--vd-bg-secondary</code> so dark mode stays
+                          coherent with the site palette.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-toolbox"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Icon toolbar &amp; shapes rail</strong>
+                        <p>
+                          Toolbar actions use Draw-style Phosphor icons (zoom /
+                          reset / fit / undo / redo / clear) instead of faint
+                          text glyphs; the left shapes rail is a compact icon
+                          panel with stronger stroke contrast and pressed
+                          states.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-tree-structure"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Arrange select (Tree / Radial / Grid)</strong>
+                        <p>
+                          The layout <code>&lt;select&gt;</code> always shows
+                          the active mode instead of resetting to a disabled
+                          “Arrange” placeholder (which looked like a fourth
+                          option that was not a real layout). Single no-repeat
+                          caret.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-arrows-in-simple"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Short-parent shell sizing</strong>
+                        <p>
+                          Shell <code>min-height</code> no longer forces 560px,
+                          so short parents (docs fullscreen) keep the bottom
+                          border visible.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
               >v1.3.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
