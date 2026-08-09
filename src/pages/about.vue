@@ -26,7 +26,6 @@ import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
             <h3 class="vd-footer-brand-title">
               <span class="hero-title-text">
                 <span class="hero-title-brand">vd3</span>
-                <span class="hero-title-word">ui</span>
               </span>
             </h3>
           </div>

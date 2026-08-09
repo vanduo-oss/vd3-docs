@@ -61,7 +61,7 @@ const features: Feature[] = [
     icon: "ph-squares-four",
     title: "The vd3-cbun Bundle",
     body: "Need more than the core kit? @vanduo-oss/vd3-cbun adds production-ready charts, an interactive flowchart canvas, hex grids, and a full music player — each a typed Vue 3 component that inherits the same tokens.",
-    guide: { to: "/guides/vanduo-ecosystem", label: "The Vanduo Ecosystem" },
+    guide: { to: "/cbun", label: "vd3 Components Bundle" },
   },
   {
     icon: "ph-database",

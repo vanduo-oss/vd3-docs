@@ -28,6 +28,8 @@ export const VISUAL_PARITY_EXCLUSIONS: ReadonlySet<string> = new Set<string>();
 export const ROUTES: readonly Route[] = [
   { path: '/', label: 'home' },
   { path: '/docs-landing', label: 'docs-landing' },
+  { path: '/cbun', label: 'cbun' },
+  { path: '/showcase', label: 'showcase' },
   { path: '/about', label: 'about' },
   { path: '/changelog', label: 'changelog' },
   { path: '/kilo-oss', label: 'kilo-oss' },
@@ -94,6 +96,7 @@ export const ROUTES: readonly Route[] = [
   { path: '/effects/glass', label: 'effects-glass' },
   { path: '/effects/morph', label: 'effects-morph' },
   { path: '/effects/parallax', label: 'effects-parallax' },
+  { path: '/effects/liquid-gradient', label: 'effects-liquid-gradient' },
   { path: '/components/forms', label: 'components-forms' },
   { path: '/components/form-validation', label: 'components-form-validation' },
   { path: '/components/datepicker', label: 'components-datepicker' },

@@ -20,7 +20,10 @@ const vue3Api: [string, string][] = [
     'primary | secondary | success | warning | danger | info, or "ghost" (default "primary").',
   ],
   [":size", 'sm | md | lg (default "md").'],
-  [":loading", "Shows a spinner and blocks clicks (adds .is-loading)."],
+  [
+    ":loading",
+    "Shows a spinner and blocks clicks (adds .is-loading and a .vd-btn-spinner child; label is blanked).",
+  ],
   [":disabled", "Disables the button."],
   [
     ":ring",
@@ -114,9 +117,18 @@ const iconHtml = `<button class="vd-btn vd-btn-icon vd-btn-primary" aria-label="
 <button class="vd-btn vd-btn-icon vd-btn-danger" aria-label="Delete"><i class="ph ph-trash"></i></button>
 <button class="vd-btn vd-btn-icon vd-btn-outline" aria-label="More options"><i class="ph ph-dots-three"></i></button>`;
 
-const loadingHtml = `<button class="vd-btn vd-btn-primary is-loading">Loading</button>
-<button class="vd-btn vd-btn-primary vd-btn-sm is-loading">Small</button>
-<button class="vd-btn vd-btn-outline is-loading">Outline</button>`;
+const loadingHtml = `<button class="vd-btn vd-btn-primary is-loading" aria-busy="true">
+  <span class="vd-btn-spinner" aria-hidden="true"></span>
+  Loading
+</button>
+<button class="vd-btn vd-btn-primary vd-btn-sm is-loading" aria-busy="true">
+  <span class="vd-btn-spinner" aria-hidden="true"></span>
+  Small
+</button>
+<button class="vd-btn vd-btn-outline is-loading" aria-busy="true">
+  <span class="vd-btn-spinner" aria-hidden="true"></span>
+  Outline
+</button>`;
 
 interface ClassRef {
   cls: string;
@@ -192,8 +204,13 @@ const classRef: ClassRef[] = [
   },
   {
     cls: ".is-loading",
-    desc: "Shows a spinner and disables clicks",
+    desc: "Loading state — blanks the label and shows a spinner (prefer a .vd-btn-spinner child, matching VdButton; legacy ::after alone is fine for outline/ghost)",
     type: "State (class)",
+  },
+  {
+    cls: ".vd-btn-spinner",
+    desc: "Real spinner element used by VdButton :loading — suppresses the legacy ::after and keeps solid-variant colours correct",
+    type: "State (child)",
   },
   {
     cls: ".vd-btn-full",
@@ -373,11 +390,21 @@ const classRef: ClassRef[] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Loading State</h6></div>
           <div class="vd-card-body">
-            <button class="vd-btn vd-btn-primary is-loading">Loading</button>
-            <button class="vd-btn vd-btn-primary vd-btn-sm is-loading">
+            <button class="vd-btn vd-btn-primary is-loading" aria-busy="true">
+              <span class="vd-btn-spinner" aria-hidden="true"></span>
+              Loading
+            </button>
+            <button
+              class="vd-btn vd-btn-primary vd-btn-sm is-loading"
+              aria-busy="true"
+            >
+              <span class="vd-btn-spinner" aria-hidden="true"></span>
               Small
             </button>
-            <button class="vd-btn vd-btn-outline is-loading">Outline</button>
+            <button class="vd-btn vd-btn-outline is-loading" aria-busy="true">
+              <span class="vd-btn-spinner" aria-hidden="true"></span>
+              Outline
+            </button>
           </div>
         </div>
         <DocCodeSnippet :html="loadingHtml" />
@@ -447,3 +474,19 @@ const classRef: ClassRef[] = [
     </div>
   </section>
 </template>
+
+<style scoped>
+/*
+  vd3 1.2.2 centers .vd-btn-spinner with top/left 50% + negative margin.
+  That sits optically low in these demos (filled + outline). Re-center with the
+  independent `translate` property so the rotate animation keeps working.
+  Temporary docs dogfood override until package CSS is fixed.
+*/
+:deep(.vd-btn.is-loading .vd-btn-spinner),
+:deep(.vd-btn.is-loading::after) {
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  translate: -50% -50%;
+}
+</style>

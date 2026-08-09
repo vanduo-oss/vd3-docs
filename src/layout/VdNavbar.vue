@@ -13,6 +13,8 @@ const menuOpen = ref(false);
 const links = [
   { label: "Home", to: "/" },
   { label: "Docs", to: "/docs-landing" },
+  { label: "CBUN", to: "/cbun" },
+  { label: "Showcase", to: "/showcase" },
 ];
 
 const onSearchClick = (): void => {
@@ -39,7 +41,6 @@ const closeMenu = (): void => {
             <Vd3BrandMark size="2.25rem" class="vd-brand-mark-nav" />
             <span class="hero-title-text">
               <span class="hero-title-brand">vd3</span>
-              <span class="hero-title-word">ui</span>
             </span>
           </RouterLink>
         </div>

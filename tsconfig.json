@@ -16,7 +16,8 @@
     "isolatedModules": true,
     "useDefineForClassFields": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "vue": ["./node_modules/vue"]
     },
     "types": ["vite/client", "node"]
   },
