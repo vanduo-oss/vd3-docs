@@ -459,6 +459,23 @@ section:last-of-type {
   margin-bottom: 2rem;
 }
 
+/*
+ * Button loading spinner centering (vd3 1.2.2 compensate).
+ * Package centers with top/left: 50% + margin: -0.5em, but the spinner inherits
+ * the button line-height and the ring reads low in demos. Re-center with the
+ * independent `translate` property (composes with the rotate animation) and pin
+ * line-height. Slight -1px optical nudge matches label cap-height. Drop when
+ * vd3 ships equivalent rules.
+ */
+.vd-btn.is-loading::after,
+.vd-btn.is-loading .vd-btn-spinner {
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  line-height: 0;
+  translate: -50% calc(-50% - 1px);
+}
+
 .dropdown-demo-card .vd-card-body {
   min-height: 20rem;
   align-items: flex-start !important;
