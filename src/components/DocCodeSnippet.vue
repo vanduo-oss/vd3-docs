@@ -13,8 +13,12 @@ interface Props {
   shell?: string;
   /** Start expanded (mirrors the Vanilla `data-expanded="true"`). */
   defaultOpen?: boolean;
+  /** Collapsed toggle label (default "View Code"). */
+  toggleLabel?: string;
 }
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  toggleLabel: "View Code",
+});
 
 interface Lang {
   key: string;
@@ -74,7 +78,7 @@ const copy = async (): Promise<void> => {
       @click="toggle"
     >
       <span class="vd-code-snippet-toggle-icon"></span>
-      <span>View Code</span>
+      <span>{{ toggleLabel }}</span>
     </button>
     <div
       class="vd-code-snippet-content"

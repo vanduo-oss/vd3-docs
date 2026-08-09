@@ -23,7 +23,7 @@ describe("VdFooter", () => {
 
   it("renders the copyright line", () => {
     const wrapper = mountFooter();
-    expect(wrapper.text()).toMatch(/Vanduo UI\. MIT License\./);
+    expect(wrapper.text()).toMatch(/2026,\s*vanduo-oss\.\s*MIT License\./);
   });
 
   it("renders quick links and resource columns", () => {

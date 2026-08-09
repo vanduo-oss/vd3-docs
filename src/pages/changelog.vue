@@ -56,7 +56,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.2.1</span
+              >v1.2.2</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>August 2026
@@ -64,6 +64,81 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  Adds the theme-aware
+                  <strong>Liquid Gradient</strong> WebGL effect, and fixes
+                  native select chevron tiling when consumers use the
+                  <code>background</code> shorthand.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-wave-sine"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Liquid Gradient effect</strong>
+                        <p>
+                          Interactive vanilla WebGL atmosphere under
+                          <RouterLink to="/effects/liquid-gradient"
+                            ><code>/effects/liquid-gradient</code></RouterLink
+                          >
+                          — <code>.vd-liquid-gradient</code> +
+                          <code>useLiquidGradient</code> /
+                          <code>createLiquidGradient</code>, bound to primary /
+                          neutral / background tokens with
+                          <code>--vd-liquid-*</code> knobs. Inspired by Cameron
+                          Knight’s MIT CodePen (no Three.js).
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-caret-down"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Native select chevron tiling</strong>
+                        <p>
+                          Focus / disabled / dark theme caret rules now
+                          re-declare <code>background-repeat</code>,
+                          <code>background-position</code>, and
+                          <code>background-size</code> so a consumer
+                          <code>background</code> shorthand cannot leave a
+                          tiling SVG caret.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.2.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>August 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">

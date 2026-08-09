@@ -5,6 +5,7 @@ import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
 const quickLinks = [
   { label: "Home", to: "/" },
   { label: "Docs", to: "/docs-landing" },
+  { label: "Showcase", to: "/showcase" },
   { label: "Changelog", to: "/changelog" },
   { label: "About", to: "/about" },
 ];
@@ -40,7 +41,6 @@ const resources = [
               <h4 class="vd-footer-brand-title">
                 <span class="hero-title-text">
                   <span class="hero-title-brand">vd3</span>
-                  <span class="hero-title-word">ui</span>
                 </span>
               </h4>
             </div>
@@ -76,7 +76,10 @@ const resources = [
       </div>
       <div class="vd-footer-bottom">
         <p class="vd-text-center vd-text-muted">
-          2026, Vanduo UI. MIT License.
+          2026,
+          <a href="https://github.com/vanduo-oss" target="_blank" rel="noopener"
+            >vanduo-oss</a
+          >. MIT License.
         </p>
       </div>
     </div>

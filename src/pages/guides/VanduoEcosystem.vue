@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import GuideLinkCards from "@/components/GuideLinkCards.vue";
 
@@ -116,6 +117,7 @@ import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';`;
               against both — all inside <code>@vanduo-oss/vd3</code>.
               <code>@vanduo-oss/vd3-cbun</code> sits alongside it for the
               heavier canvas widgets.
+              <RouterLink to="/cbun">Browse the CBUN showcase</RouterLink>.
             </p>
           </div>
         </div>
