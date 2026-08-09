@@ -282,7 +282,8 @@ bundle-size regression cannot auto-publish. Because `deploy.yml` runs on push to
 `main` independently of `ci.yml` (which does not run those suites), the gates
 SHALL live in the deploy job itself. The a11y and size suites SHALL run against a
 base-`/` build (the test suites assume base `/`); the uploaded artifact SHALL
-still be rebuilt with the `/vd3-docs/` project-page base (`VITE_BASE=/vd3-docs/`).
+be that same base-`/` build (custom domain `vd3.vanduo.dev` is served at the
+site root).
 
 #### Scenario: a failing gate blocks the deploy
 
@@ -290,8 +291,7 @@ still be rebuilt with the `/vd3-docs/` project-page base (`VITE_BASE=/vd3-docs/`
 - **WHEN** the build job runs on a push to `main`
 - **THEN** `pnpm run typecheck`, `pnpm run test:a11y`, and `pnpm run test:size`
   all run before `upload-pages-artifact`, any non-zero exit fails the job so
-  nothing is published, and the uploaded artifact is the `VITE_BASE=/vd3-docs/`
-  build
+  nothing is published, and the uploaded artifact is the base-`/` build
 
 ### Requirement: the docs-app interactive surfaces carry regression tests
 

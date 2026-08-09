@@ -8,7 +8,7 @@ useImageBox(root);
 
 // `data-image-box-full-src` is read verbatim by the runtime lightbox, so Vite
 // cannot rebase it the way it does `<img src>`. Prefix the deploy base (`/`
-// locally, `/vd3-docs/` on GitHub Pages) so click-to-zoom loads the full image.
+// locally and on vd3.vanduo.dev) so click-to-zoom loads the full image.
 const base = import.meta.env.BASE_URL;
 
 const vue3Wiring = `import { ref } from 'vue';

@@ -19,11 +19,10 @@ export const createApp = ViteSSG(
   {
     // vite-ssg feeds this to the vue-router history base
     // (createWebHistory(routerOptions.base)); WITHOUT it the router defaults to
-    // "/" even when the site is built under a sub-path. On the GitHub Pages
-    // project deploy (VITE_BASE=/vd3-docs/) that mismatch made every RouterLink
-    // render unprefixed (/docs-landing instead of /vd3-docs/docs-landing) and
-    // made the root URL hydrate to the NotFound page. import.meta.env.BASE_URL
-    // is "/" locally and "/vd3-docs/" in the Pages build, so both work.
+    // "/" even when the site is built under a sub-path, which breaks RouterLinks
+    // and hydrates the root as NotFound. import.meta.env.BASE_URL is "/" locally
+    // and on the vd3.vanduo.dev Pages deploy (override with VITE_BASE only when
+    // testing a non-root layout).
     base: import.meta.env.BASE_URL,
     routes,
     scrollBehavior(to, _from, savedPosition) {

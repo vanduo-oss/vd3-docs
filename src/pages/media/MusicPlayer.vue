@@ -49,9 +49,9 @@ type ComponentExpose = {
   container: () => HTMLElement | null;
 };
 
-// Public assets are served from the deploy base (`/` in dev/preview/tests,
-// `/vd3-docs/` on GitHub Pages). Vite does not rebase root-absolute paths in
-// JS data, so prefix `import.meta.env.BASE_URL` (always trailing-slashed).
+// Public assets are served from the deploy base (`/` locally and on
+// vd3.vanduo.dev). Vite does not rebase root-absolute paths in JS data, so
+// prefix `import.meta.env.BASE_URL` (always trailing-slashed).
 const base = import.meta.env.BASE_URL;
 
 const tracks: Track[] = [

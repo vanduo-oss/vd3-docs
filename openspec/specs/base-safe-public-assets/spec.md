@@ -11,7 +11,8 @@ attributes — SHALL construct the URL as `` `${import.meta.env.BASE_URL}<path>`
 with `<path>` having **no** leading slash. Such references MUST NOT be authored as
 root-absolute paths (`/music/…`, `/images/…`). This guarantees the asset resolves
 under both the root base (`/`, used by dev, preview, and the test suites) and the
-project-page base (`/vd3-docs/`, used by the GitHub Pages deploy).
+project-page base (`/vd3-docs/`, used when deliberately testing a non-root
+layout via `VITE_BASE=/vd3-docs/`; production deploy uses `/`).
 
 Reference `<img src>` attributes are exempt: the Vue SFC compiler rewrites those
 for `base` automatically, so they MAY remain root-absolute.

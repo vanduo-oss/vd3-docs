@@ -4,6 +4,7 @@ defineProps<{
   icon: string;
   blurb: string;
   imageSrc: string;
+  imageSrcDark: string;
   imageAlt: string;
   demoUrl: string;
   repoUrl: string;
@@ -30,7 +31,17 @@ defineProps<{
         </div>
         <div class="showcase-frame-body">
           <img
+            class="showcase-img showcase-img-light"
             :src="imageSrc"
+            :alt="imageAlt"
+            loading="lazy"
+            decoding="async"
+            width="1280"
+            height="800"
+          />
+          <img
+            class="showcase-img showcase-img-dark"
+            :src="imageSrcDark"
             :alt="imageAlt"
             loading="lazy"
             decoding="async"
@@ -206,12 +217,39 @@ defineProps<{
   background: var(--vd-bg-primary);
 }
 
-.showcase-frame-body img {
-  display: block;
+.showcase-frame-body .showcase-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: top center;
+}
+
+/* Default: light image; dark image hidden */
+.showcase-frame-body .showcase-img-light {
+  display: block;
+}
+
+.showcase-frame-body .showcase-img-dark {
+  display: none;
+}
+
+/* Full selector inside :global() — Vue scoped otherwise drops the descendants. */
+:global([data-theme="dark"] .showcase-frame-body .showcase-img-light) {
+  display: none;
+}
+
+:global([data-theme="dark"] .showcase-frame-body .showcase-img-dark) {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme]) .showcase-frame-body .showcase-img-light) {
+    display: none;
+  }
+
+  :global(:root:not([data-theme]) .showcase-frame-body .showcase-img-dark) {
+    display: block;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

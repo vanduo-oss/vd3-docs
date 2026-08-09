@@ -16,7 +16,7 @@ const theme = useThemeStore();
 const customizer = useCustomizerStore();
 
 // ── Per-route SEO (baked into the SSG HTML via @unhead) ──────────────
-const BASE_URL = "https://vanduo-oss.github.io/vd3-docs";
+const BASE_URL = "https://vd3.vanduo.dev";
 const BRAND_TITLE = "Vanduo — Fibonacci-Tuned Vue 3 Design System";
 const DEFAULT_DESCRIPTION =
   "Vanduo is a Fibonacci-tuned Vue 3 design system: first-class components and composables on a golden-ratio scale with a single, consistent token set.";

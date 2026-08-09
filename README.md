@@ -62,7 +62,8 @@ pnpm run test:a11y    # axe accessibility smoke, Chromium Desktop
 CI (`.github/workflows/ci.yml`) runs typecheck, lint, stylelint, format:check,
 and build on Node 24. The unit/e2e/size suites are run locally (they are omitted
 from CI to conserve Actions minutes). `deploy.yml` builds and publishes `dist/`
-to GitHub Pages.
+to GitHub Pages at [https://vd3.vanduo.dev/](https://vd3.vanduo.dev/)
+(`public/CNAME`, Vite base `/`).
 
 ## Layout
 

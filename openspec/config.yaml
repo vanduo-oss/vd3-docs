@@ -15,8 +15,9 @@ context: |
   Tests: vitest units, Playwright visual parity (all routes, committed baselines),
   layout-navigation interactions, gzip size budget, @axe-core/playwright a11y smoke.
   Changelog policy: documents PACKAGE releases only (@vanduo-oss/vd3, @vanduo-oss/vd3-cbun),
-  never docs-site content. Deploy workflow is live on push to main (GitHub Pages project
-  page, base /vd3-docs/); apex vanduo.dev belongs to the home/ repo, so no CNAME here.
+  never docs-site content. Deploy workflow is live on push to main (GitHub Pages at
+  https://vd3.vanduo.dev/, Vite base `/`, public/CNAME); apex vanduo.dev belongs to
+  the home/ repo.
   Old-line repos (vd2 especially) are READ-ONLY reference material — never edit.
 
 rules:

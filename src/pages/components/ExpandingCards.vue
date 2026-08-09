@@ -18,8 +18,8 @@ interface ColorCard extends Card {
   color: string;
 }
 
-// Public assets resolve against the deploy base (`/` locally, `/vd3-docs/` on
-// GitHub Pages). Vite does not rebase root-absolute paths in JS data, so prefix
+// Public assets resolve against the deploy base (`/` locally and on
+// vd3.vanduo.dev). Vite does not rebase root-absolute paths in JS data, so prefix
 // `import.meta.env.BASE_URL` (always trailing-slashed).
 const base = import.meta.env.BASE_URL;
 
