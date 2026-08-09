@@ -4,7 +4,7 @@ import { readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const BASE_URL = "https://vanduo-oss.github.io/vd3-docs";
+const BASE_URL = "https://vd3.vanduo.dev";
 const distDir = fileURLToPath(new URL("../dist", import.meta.url));
 
 /** Recursively collect every .html file under dist/. */

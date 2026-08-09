@@ -4,7 +4,7 @@
   "description": "Vue 3 + vite-ssg documentation site for the vd3 line (@vanduo-oss/vd3 + @vanduo-oss/vd3-cbun)",
   "private": true,
   "type": "module",
-  "homepage": "https://vanduo-oss.github.io/vd3-docs/",
+  "homepage": "https://vd3.vanduo.dev/",
   "license": "MIT",
   "author": "vanduo-oss",
   "exports": {

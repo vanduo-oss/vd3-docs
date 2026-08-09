@@ -9,6 +9,7 @@ interface ShowcaseProject {
   icon: string;
   blurb: string;
   image: string;
+  imageDark: string;
   imageAlt: string;
   demoUrl: string;
   repoUrl: string;
@@ -25,6 +26,7 @@ const projects: ShowcaseProject[] = [
     blurb:
       "A casual FOSS browser chess app on vd3 — play Aurora Polaris or TomitankChess in a Web Worker, with themes, move history, and engine-match mode. Fully static-hosted; no server required.",
     image: `${base}images/showcase/aurora-polaris-chess.png`,
+    imageDark: `${base}images/showcase/aurora-polaris-chess-dark.png`,
     imageAlt:
       "Aurora Polaris Chess — browser chess board and controls built with vd3",
     demoUrl: "https://nostromo-618.github.io/aurora-polaris-chess/",
@@ -39,6 +41,7 @@ const projects: ShowcaseProject[] = [
     blurb:
       "An interactive Ikigai purpose map using vd3 plus the CBUN flowchart canvas — rearrange tiles, export PNG/SVG/HTML, read the philosophy, and take the Ikigai-9 quiz. Map data stays in this browser only.",
     image: `${base}images/showcase/ikigai.png`,
+    imageDark: `${base}images/showcase/ikigai-dark.png`,
     imageAlt:
       "Ikigai — interactive purpose map powered by vd3 and vd3-cbun flowchart",
     demoUrl: "https://nostromo-618.github.io/ikigai/",
@@ -79,6 +82,7 @@ const projects: ShowcaseProject[] = [
         :icon="project.icon"
         :blurb="project.blurb"
         :image-src="project.image"
+        :image-src-dark="project.imageDark"
         :image-alt="project.imageAlt"
         :demo-url="project.demoUrl"
         :repo-url="project.repoUrl"

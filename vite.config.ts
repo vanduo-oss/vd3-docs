@@ -11,11 +11,11 @@ const APP_VERSION = JSON.parse(
 ).version as string;
 
 export default defineConfig({
-  // Base path. Defaults to "/" so local dev, `pnpm run preview`, and the
-  // Playwright suites all serve from the root (route paths like `/about` work
-  // unchanged). The GitHub Pages deploy builds a project-page site under
-  // `/vd3-docs/`, so `deploy.yml` sets `VITE_BASE=/vd3-docs/`. vite-ssg feeds
-  // this to the router history base via `import.meta.env.BASE_URL`.
+  // Base path. Defaults to "/" so local dev, `pnpm run preview`, Playwright,
+  // and the GitHub Pages deploy at https://vd3.vanduo.dev/ all serve from the
+  // root. Override with `VITE_BASE` only when deliberately testing a non-root
+  // project-page layout. vite-ssg feeds this to the router history base via
+  // `import.meta.env.BASE_URL`.
   base: process.env.VITE_BASE ?? "/",
   plugins: [vue()],
   define: {
