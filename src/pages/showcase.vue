@@ -17,21 +17,21 @@ interface ShowcaseProject {
   tags: string[];
 }
 
-/** Alphabetical order: Aurora Polaris Chess → Ikigai. */
+/** Alphabetical order: Spindrift Chess → Ikigai. */
 const projects: ShowcaseProject[] = [
   {
-    id: "aurora-polaris-chess",
-    title: "Aurora Polaris Chess",
+    id: "spindrift-chess",
+    title: "Spindrift Chess",
     icon: "strategy",
     blurb:
-      "A casual FOSS browser chess app on vd3 — play Aurora Polaris or TomitankChess in a Web Worker, with themes, move history, and engine-match mode. Fully static-hosted; no server required.",
-    image: `${base}images/showcase/aurora-polaris-chess.png`,
-    imageDark: `${base}images/showcase/aurora-polaris-chess-dark.png`,
+      "Browser chess on vd3 — human vs the Spindrift Engine in a Web Worker, with themes, strength levels, and move history. Fully static-hosted; no server required.",
+    image: `${base}images/showcase/spindrift-chess.png`,
+    imageDark: `${base}images/showcase/spindrift-chess-dark.png`,
     imageAlt:
-      "Aurora Polaris Chess — browser chess board and controls built with vd3",
-    demoUrl: "https://nostromo-618.github.io/aurora-polaris-chess/",
-    repoUrl: "https://github.com/Nostromo-618/aurora-polaris-chess",
-    urlChip: "nostromo-618.github.io/aurora-polaris-chess",
+      "Spindrift Chess — browser chess board and controls built with vd3",
+    demoUrl: "https://spindriftchess.online",
+    repoUrl: "https://github.com/Nostromo-618/spindrift-chess",
+    urlChip: "spindriftchess.online",
     tags: ["vd3"],
   },
   {
@@ -60,8 +60,8 @@ const projects: ShowcaseProject[] = [
           <i class="ph ph-images"></i> Showcase
         </h2>
         <p class="vd-text-lg vd-text-muted">
-          Real apps built with <code>@vanduo-oss/vd3</code> — live demos on
-          GitHub Pages, source on GitHub.
+          Real apps built with <code>@vanduo-oss/vd3</code> — live demos, source
+          on GitHub.
         </p>
       </div>
     </div>
