@@ -79,6 +79,8 @@ export const nav: NavTree = {
         "chess",
         "spindrift",
         "ikigai",
+        "scriptman",
+        "fighters",
         "apps",
         "examples",
         "github pages",

@@ -19,7 +19,7 @@ interface ShowcaseProject {
   tags: string[];
 }
 
-/** Alphabetical order: Spindrift Chess → Ikigai. */
+/** Newest at bottom: Spindrift Chess → Ikigai → Scriptman Fighters. */
 const projects: ShowcaseProject[] = [
   {
     id: "spindrift-chess",
@@ -51,6 +51,21 @@ const projects: ShowcaseProject[] = [
     urlChip: "nostromo-618.github.io/ikigai",
     tags: ["vd3", "vd3-cbun/flowchart"],
   },
+  {
+    id: "scriptman-fighters",
+    title: "Scriptman Fighters",
+    icon: "code",
+    blurb:
+      "A fighting game where you write JavaScript to control AI fighters — vd3 UI plus the vd3-cbun code editor for custom scripts. Fully static-hosted.",
+    image: `${base}images/showcase/scriptman-fighters.png`,
+    imageDark: `${base}images/showcase/scriptman-fighters-dark.png`,
+    imageAlt:
+      "Scriptman Fighters — arena and match controls built with vd3",
+    demoUrl: "https://nostromo-618.github.io/scriptman-fighters/",
+    repoUrl: "https://github.com/Nostromo-618/scriptman-fighters",
+    urlChip: "nostromo-618.github.io/scriptman-fighters",
+    tags: ["vd3", "vd3-cbun"],
+  },
 ];
 </script>
 
@@ -71,8 +86,9 @@ const projects: ShowcaseProject[] = [
     <div class="vd-container-responsive showcase-intro">
       <p>
         These projects dogfood the design system in the wild: chess runs on core
-        vd3 alone; Ikigai also pulls in the optional CBUN flowchart. Open a live
-        demo or jump straight to the repo.
+        vd3 alone; Ikigai and Scriptman Fighters also pull in optional CBUN
+        packages (flowchart and code editor). Open a live demo or jump straight
+        to the repo.
       </p>
     </div>
 

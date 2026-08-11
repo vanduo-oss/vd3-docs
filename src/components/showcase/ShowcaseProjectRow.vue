@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed, ref } from "vue";
+import { VdSpinner } from "@vanduo-oss/vd3";
+
 defineProps<{
   title: string;
   /** Phosphor icon name (without `ph-` prefix). Ignored when `iconSrc` is set. */
@@ -19,6 +22,18 @@ defineProps<{
   /** When true: context left, media right. Default: media left, context right. */
   reversed?: boolean;
 }>();
+
+const lightLoaded = ref(false);
+const darkLoaded = ref(false);
+const imagesReady = computed(() => lightLoaded.value && darkLoaded.value);
+
+function onLightReady() {
+  lightLoaded.value = true;
+}
+
+function onDarkReady() {
+  darkLoaded.value = true;
+}
 </script>
 
 <template>
@@ -36,23 +51,39 @@ defineProps<{
           <span class="showcase-frame-url">{{ urlChip }}</span>
         </div>
         <div class="showcase-frame-body">
+          <div
+            v-if="!imagesReady"
+            class="showcase-frame-placeholder"
+            aria-hidden="true"
+          >
+            <div class="vd-skeleton vd-skeleton-rect showcase-frame-skeleton"></div>
+            <div class="showcase-frame-spinner">
+              <VdSpinner size="lg" label="Loading…" />
+            </div>
+          </div>
           <img
             class="showcase-img showcase-img-light"
+            :class="{ 'is-ready': imagesReady }"
             :src="imageSrc"
             :alt="imageAlt"
             loading="lazy"
             decoding="async"
             width="1280"
             height="800"
+            @load="onLightReady"
+            @error="onLightReady"
           />
           <img
             class="showcase-img showcase-img-dark"
+            :class="{ 'is-ready': imagesReady }"
             :src="imageSrcDark"
             :alt="imageAlt"
             loading="lazy"
             decoding="async"
             width="1280"
             height="800"
+            @load="onDarkReady"
+            @error="onDarkReady"
           />
         </div>
       </a>
@@ -247,42 +278,77 @@ defineProps<{
 }
 
 .showcase-frame-body {
+  position: relative;
   aspect-ratio: 16 / 10;
   background: var(--vd-bg-primary);
 }
 
+.showcase-frame-placeholder {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.showcase-frame-skeleton {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+}
+
+.showcase-frame-spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
 .showcase-frame-body .showcase-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: top center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
 }
 
-/* Default: light image; dark image hidden */
-.showcase-frame-body .showcase-img-light {
-  display: block;
+.showcase-frame-body .showcase-img.is-ready.showcase-img-light {
+  opacity: 1;
 }
 
-.showcase-frame-body .showcase-img-dark {
-  display: none;
+.showcase-frame-body .showcase-img.is-ready.showcase-img-dark {
+  opacity: 0;
 }
 
 /* Full selector inside :global() — Vue scoped otherwise drops the descendants. */
-:global([data-theme="dark"] .showcase-frame-body .showcase-img-light) {
-  display: none;
+:global([data-theme="dark"] .showcase-frame-body .showcase-img.is-ready.showcase-img-light) {
+  opacity: 0;
 }
 
-:global([data-theme="dark"] .showcase-frame-body .showcase-img-dark) {
-  display: block;
+:global([data-theme="dark"] .showcase-frame-body .showcase-img.is-ready.showcase-img-dark) {
+  opacity: 1;
 }
 
 @media (prefers-color-scheme: dark) {
-  :global(:root:not([data-theme]) .showcase-frame-body .showcase-img-light) {
-    display: none;
+  :global(
+    :root:not([data-theme])
+      .showcase-frame-body
+      .showcase-img.is-ready.showcase-img-light
+  ) {
+    opacity: 0;
   }
 
-  :global(:root:not([data-theme]) .showcase-frame-body .showcase-img-dark) {
-    display: block;
+  :global(
+    :root:not([data-theme])
+      .showcase-frame-body
+      .showcase-img.is-ready.showcase-img-dark
+  ) {
+    opacity: 1;
   }
 }
 
@@ -291,6 +357,10 @@ defineProps<{
   .showcase-frame:hover {
     transition: none;
     transform: none;
+  }
+
+  .showcase-frame-body .showcase-img {
+    transition: none;
   }
 }
 
