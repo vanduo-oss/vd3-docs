@@ -56,7 +56,9 @@ function onDarkReady() {
             class="showcase-frame-placeholder"
             aria-hidden="true"
           >
-            <div class="vd-skeleton vd-skeleton-rect showcase-frame-skeleton"></div>
+            <div
+              class="vd-skeleton vd-skeleton-rect showcase-frame-skeleton"
+            ></div>
             <div class="showcase-frame-spinner">
               <VdSpinner size="lg" label="Loading…" />
             </div>
@@ -326,11 +328,19 @@ function onDarkReady() {
 }
 
 /* Full selector inside :global() — Vue scoped otherwise drops the descendants. */
-:global([data-theme="dark"] .showcase-frame-body .showcase-img.is-ready.showcase-img-light) {
+:global(
+  [data-theme="dark"]
+    .showcase-frame-body
+    .showcase-img.is-ready.showcase-img-light
+) {
   opacity: 0;
 }
 
-:global([data-theme="dark"] .showcase-frame-body .showcase-img.is-ready.showcase-img-dark) {
+:global(
+  [data-theme="dark"]
+    .showcase-frame-body
+    .showcase-img.is-ready.showcase-img-dark
+) {
   opacity: 1;
 }
 

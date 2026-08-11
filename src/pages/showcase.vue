@@ -59,8 +59,7 @@ const projects: ShowcaseProject[] = [
       "A fighting game where you write JavaScript to control AI fighters — vd3 UI plus the vd3-cbun code editor for custom scripts. Fully static-hosted.",
     image: `${base}images/showcase/scriptman-fighters.png`,
     imageDark: `${base}images/showcase/scriptman-fighters-dark.png`,
-    imageAlt:
-      "Scriptman Fighters — arena and match controls built with vd3",
+    imageAlt: "Scriptman Fighters — arena and match controls built with vd3",
     demoUrl: "https://nostromo-618.github.io/scriptman-fighters/",
     repoUrl: "https://github.com/Nostromo-618/scriptman-fighters",
     urlChip: "nostromo-618.github.io/scriptman-fighters",
