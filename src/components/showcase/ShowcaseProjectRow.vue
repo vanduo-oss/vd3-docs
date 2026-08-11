@@ -1,7 +1,13 @@
 <script setup lang="ts">
 defineProps<{
   title: string;
-  icon: string;
+  /** Phosphor icon name (without `ph-` prefix). Ignored when `iconSrc` is set. */
+  icon?: string;
+  /**
+   * Optional brand SVG URL. Rendered as a CSS mask so color follows theme:
+   * black in light mode, Spindrift amber (`#f59f00`) in dark.
+   */
+  iconSrc?: string;
   blurb: string;
   imageSrc: string;
   imageSrcDark: string;
@@ -54,7 +60,13 @@ defineProps<{
 
     <div class="showcase-row-context">
       <h3 class="showcase-row-title">
-        <i :class="`ph ph-${icon}`"></i>
+        <span
+          v-if="iconSrc"
+          class="showcase-brand-icon"
+          :style="{ '--showcase-brand-icon': `url(${iconSrc})` }"
+          aria-hidden="true"
+        ></span>
+        <i v-else-if="icon" :class="`ph ph-${icon}`"></i>
         {{ title }}
       </h3>
       <p class="showcase-row-blurb vd-text-muted">{{ blurb }}</p>
@@ -115,6 +127,28 @@ defineProps<{
   margin: 0 0 0.75rem;
   color: var(--vd-color-primary);
   font-size: 1.5rem;
+}
+
+/* Brand mark via CSS mask — recolors the opaque SVG silhouette. */
+.showcase-brand-icon {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  flex-shrink: 0;
+  background-color: #000;
+  -webkit-mask: var(--showcase-brand-icon) center / contain no-repeat;
+  mask: var(--showcase-brand-icon) center / contain no-repeat;
+}
+
+/* Spindrift amber from brand SVG fill (#f59f00). */
+:global([data-theme="dark"] .showcase-brand-icon) {
+  background-color: #f59f00;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme]) .showcase-brand-icon) {
+    background-color: #f59f00;
+  }
 }
 
 .showcase-row-blurb {
