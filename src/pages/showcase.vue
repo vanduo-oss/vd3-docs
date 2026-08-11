@@ -63,7 +63,7 @@ const projects: ShowcaseProject[] = [
     demoUrl: "https://nostromo-618.github.io/scriptman-fighters/",
     repoUrl: "https://github.com/Nostromo-618/scriptman-fighters",
     urlChip: "nostromo-618.github.io/scriptman-fighters",
-    tags: ["vd3", "vd3-cbun"],
+    tags: ["vd3", "vd3-cbun/code-editor"],
   },
 ];
 </script>

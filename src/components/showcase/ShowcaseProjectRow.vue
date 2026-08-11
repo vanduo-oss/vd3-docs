@@ -25,7 +25,23 @@ defineProps<{
 
 const lightLoaded = ref(false);
 const darkLoaded = ref(false);
+const lightError = ref(false);
+const darkError = ref(false);
+
+/** Both sides finished (load success or error) — stop the spinner. */
+const imagesSettled = computed(
+  () =>
+    (lightLoaded.value || lightError.value) &&
+    (darkLoaded.value || darkError.value),
+);
+
+/** Both sides loaded successfully — fade in the theme-swapped pair. */
 const imagesReady = computed(() => lightLoaded.value && darkLoaded.value);
+
+/** Settled with at least one failure — keep skeleton / broken placeholder. */
+const imagesFailed = computed(
+  () => imagesSettled.value && (lightError.value || darkError.value),
+);
 
 function onLightReady() {
   lightLoaded.value = true;
@@ -33,6 +49,14 @@ function onLightReady() {
 
 function onDarkReady() {
   darkLoaded.value = true;
+}
+
+function onLightError() {
+  lightError.value = true;
+}
+
+function onDarkError() {
+  darkError.value = true;
 }
 </script>
 
@@ -54,13 +78,17 @@ function onDarkReady() {
           <div
             v-if="!imagesReady"
             class="showcase-frame-placeholder"
+            :class="{ 'is-failed': imagesFailed }"
             aria-hidden="true"
           >
             <div
               class="vd-skeleton vd-skeleton-rect showcase-frame-skeleton"
             ></div>
-            <div class="showcase-frame-spinner">
+            <div v-if="!imagesSettled" class="showcase-frame-spinner">
               <VdSpinner size="lg" label="Loading…" />
+            </div>
+            <div v-else-if="imagesFailed" class="showcase-frame-broken">
+              <i class="ph ph-image-broken" aria-hidden="true"></i>
             </div>
           </div>
           <img
@@ -73,7 +101,7 @@ function onDarkReady() {
             width="1280"
             height="800"
             @load="onLightReady"
-            @error="onLightReady"
+            @error="onLightError"
           />
           <img
             class="showcase-img showcase-img-dark"
@@ -85,7 +113,7 @@ function onDarkReady() {
             width="1280"
             height="800"
             @load="onDarkReady"
-            @error="onDarkReady"
+            @error="onDarkError"
           />
         </div>
       </a>
@@ -305,6 +333,22 @@ function onDarkReady() {
   align-items: center;
   justify-content: center;
   pointer-events: none;
+}
+
+.showcase-frame-broken {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: var(--vd-text-muted, var(--vd-text-secondary));
+  font-size: 2rem;
+  opacity: 0.55;
+}
+
+.showcase-frame-placeholder.is-failed .showcase-frame-skeleton {
+  opacity: 0.65;
 }
 
 .showcase-frame-body .showcase-img {
