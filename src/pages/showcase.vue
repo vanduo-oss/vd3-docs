@@ -6,7 +6,9 @@ const base = import.meta.env.BASE_URL;
 interface ShowcaseProject {
   id: string;
   title: string;
-  icon: string;
+  icon?: string;
+  /** Local brand SVG; theme-recolored via CSS mask in ShowcaseProjectRow. */
+  iconSrc?: string;
   blurb: string;
   image: string;
   imageDark: string;
@@ -22,7 +24,7 @@ const projects: ShowcaseProject[] = [
   {
     id: "spindrift-chess",
     title: "Spindrift Chess",
-    icon: "strategy",
+    iconSrc: `${base}images/showcase/spindrift-rook.svg`,
     blurb:
       "Browser chess on vd3 — human vs the Spindrift Engine in a Web Worker, with themes, strength levels, and move history. Fully static-hosted; no server required.",
     image: `${base}images/showcase/spindrift-chess.png`,
@@ -80,6 +82,7 @@ const projects: ShowcaseProject[] = [
         :key="project.id"
         :title="project.title"
         :icon="project.icon"
+        :icon-src="project.iconSrc"
         :blurb="project.blurb"
         :image-src="project.image"
         :image-src-dark="project.imageDark"
