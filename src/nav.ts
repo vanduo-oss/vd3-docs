@@ -100,13 +100,6 @@ export const nav: NavTree = {
       icon: "clock",
       keywords: ["changelog", "releases", "versions"],
     },
-    {
-      id: "kilo-oss",
-      title: "kilo-oss",
-      route: "/kilo-oss",
-      icon: "star",
-      keywords: ["kilo", "oss", "open source"],
-    },
   ],
   tabs: [
     {
@@ -751,8 +744,33 @@ export const nav: NavTree = {
               title: "Glass",
               route: "/effects/glass",
               icon: "drop",
-              keywords: ["glass", "blur", "frosted"],
+              keywords: [
+                "glass",
+                "blur",
+                "frosted",
+                "seemore",
+                "fibonacci",
+                "backdrop-filter",
+              ],
               file: "effects/glass.html",
+            },
+            {
+              id: "surfaces",
+              title: "Surfaces",
+              route: "/effects/surfaces",
+              icon: "checkerboard",
+              keywords: [
+                "surface",
+                "mesh",
+                "stripe",
+                "noise",
+                "aurora",
+                "dots",
+                "grid",
+                "backdrop",
+                "seemore",
+              ],
+              file: "effects/surfaces.html",
             },
             {
               id: "morph",

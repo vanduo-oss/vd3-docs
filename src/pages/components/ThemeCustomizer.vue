@@ -139,7 +139,7 @@ const storageRows: [string, string, string][] = [
     "Neutral / gray scale (docs: stone light, charcoal dark)",
   ],
   ["vanduo-radius", "0.5", "Border radius scale"],
-  ["vanduo-font-preference", "ubuntu", "Font family"],
+  ["vanduo-font-preference", "nunito", "Font family"],
   [
     "vanduo-theme-preference",
     "system",

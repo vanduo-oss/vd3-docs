@@ -30,7 +30,7 @@ function baseDefaults(): CustomizerState {
     secondary: DEFAULT_SECONDARY,
     radius: "0.5" as RadiusOption,
     shadow: "sm",
-    font: "ubuntu",
+    font: "nunito",
     fontScale: 1,
     glass: "off",
     outline: 0,

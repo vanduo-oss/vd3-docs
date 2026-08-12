@@ -9,12 +9,12 @@ const active = ref<ModalId>(null);
 const lgTab = ref<"general" | "design" | "notify">("general");
 const xlTab = ref<"overview" | "changelog" | "team">("overview");
 
-/** Framework glass token defaults (`tokens.css`). */
+/** Framework glass token defaults (`tokens.css` — Seemore step 5). */
 const GLASS_DEFAULTS = {
-  blur: 12,
-  saturate: 1.8,
-  bgOpacity: 0.65,
-  borderAlpha: 0.18,
+  blur: 8,
+  saturate: 1.7,
+  bgOpacity: 0.2,
+  borderAlpha: 0.24,
 } as const;
 
 const glassBlur = ref<number>(GLASS_DEFAULTS.blur);
