@@ -108,7 +108,7 @@ onUnmounted(() => {
       aria-label="Search entire site"
     >
       <div class="global-search-header">
-        <i class="ph ph-magnifying-glass global-search-icon"></i>
+        <i class="ph-bold ph-magnifying-glass global-search-icon"></i>
         <input
           ref="inputRef"
           v-model="search.query"
@@ -150,7 +150,7 @@ onUnmounted(() => {
               @mousemove="search.activeIndex = indexOf(result)"
             >
               <div class="global-search-result-icon">
-                <i :class="`ph ph-${result.entry.icon}`"></i>
+                <i :class="`ph-bold ph-${result.entry.icon}`"></i>
               </div>
               <div class="global-search-result-content">
                 <div
@@ -166,7 +166,7 @@ onUnmounted(() => {
         </ul>
         <div v-else-if="hasQuery" class="global-search-empty">
           <div class="global-search-empty-icon">
-            <i class="ph ph-magnifying-glass"></i>
+            <i class="ph-bold ph-magnifying-glass"></i>
           </div>
           <div class="global-search-empty-title">No results found</div>
           <div class="global-search-empty-text">
@@ -175,7 +175,7 @@ onUnmounted(() => {
         </div>
         <div v-else class="global-search-hint">
           <div class="global-search-hint-icon">
-            <i class="ph ph-magnifying-glass"></i>
+            <i class="ph-bold ph-magnifying-glass"></i>
           </div>
           <div class="global-search-hint-text">
             Type to search across all documentation, guides, and pages
