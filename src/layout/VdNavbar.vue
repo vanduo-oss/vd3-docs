@@ -54,6 +54,7 @@ const closeMenu = (): void => {
       </div>
 
       <div class="navbar-actions-always">
+        <!-- Search → Theme switcher → Customizer -->
         <button
           class="global-search-trigger"
           aria-label="Open global search"
@@ -61,8 +62,8 @@ const closeMenu = (): void => {
         >
           <i class="ph-bold ph-magnifying-glass"></i>
         </button>
-        <VdThemeCustomizer />
         <VdThemeSwitcher />
+        <VdThemeCustomizer />
       </div>
 
       <button

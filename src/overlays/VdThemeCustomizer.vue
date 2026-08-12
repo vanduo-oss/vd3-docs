@@ -2,13 +2,7 @@
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useThemeStore } from "@/stores/theme";
 import { useClickOutside } from "@/composables/useClickOutside";
-import {
-  FONT_OPTIONS,
-  NEUTRAL_COLORS,
-  PRIMARY_COLORS,
-  RADIUS_OPTIONS,
-  type RadiusOption,
-} from "@vanduo-oss/vd3";
+import { PRIMARY_COLORS } from "@vanduo-oss/vd3";
 
 const theme = useThemeStore();
 const isOpen = ref(false);
@@ -70,10 +64,6 @@ const toggle = (): void => {
 // teleported panel + corner trigger made the backdrop unreliable, so this is
 // the authoritative outside-click close.
 useClickOutside([panelRef, triggerRef], close, isOpen);
-
-const onFont = (event: Event): void => {
-  theme.setFont((event.target as HTMLSelectElement).value);
-};
 
 const onKeydown = (event: KeyboardEvent): void => {
   if (event.key === "Escape" && isOpen.value) close();
@@ -146,11 +136,10 @@ defineExpose({ open, close, toggle });
           </div>
           <div class="tc-body">
             <!--
-              Palette switch (Open Color / Fibonacci) intentionally hidden on
-              the docs site for now — Open Color is the default everywhere.
-              The framework customizer still ships the toggle; this is a vd3-docs
-              site-only override. Restore the `tc-section` with PALETTE_OPTIONS
-              to bring it back.
+              Docs-site lock-in: only Primary Color is user-editable here.
+              Palette / Neutral / Radius / Font stay forced to docs defaults
+              (see theme store applyDocsLockedPrefs). The framework
+              VdThemeCustomizer still ships the full control set for consumers.
             -->
             <div class="tc-section">
               <label class="tc-label">Primary Color</label>
@@ -168,56 +157,6 @@ defineExpose({ open, close, toggle });
                   @click="theme.setPrimary(c.key)"
                 ></button>
               </div>
-            </div>
-
-            <div class="tc-section">
-              <label class="tc-label">Neutral Color</label>
-              <div class="tc-neutral-grid">
-                <button
-                  v-for="c in NEUTRAL_COLORS"
-                  :key="c.key"
-                  type="button"
-                  class="tc-neutral-swatch"
-                  :class="{ 'is-active': theme.neutral === c.key }"
-                  :data-neutral="c.key"
-                  :style="{ '--vd-swatch-color': c.color }"
-                  :title="c.name"
-                  @click="theme.setNeutral(c.key)"
-                >
-                  <span>{{ c.name }}</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="tc-section">
-              <label class="tc-label">Border Radius</label>
-              <div class="tc-radius-group">
-                <button
-                  v-for="r in RADIUS_OPTIONS"
-                  :key="r"
-                  type="button"
-                  class="tc-radius-btn"
-                  :class="{ 'is-active': theme.radius === r }"
-                  :data-radius="r"
-                  @click="theme.setRadius(r as RadiusOption)"
-                >
-                  {{ r }}
-                </button>
-              </div>
-            </div>
-
-            <div class="tc-section">
-              <label class="tc-label">Font Family</label>
-              <select
-                class="tc-font-select"
-                data-customizer-font
-                :value="theme.font"
-                @change="onFont"
-              >
-                <option v-for="f in FONT_OPTIONS" :key="f.key" :value="f.key">
-                  {{ f.name }}
-                </option>
-              </select>
             </div>
           </div>
           <div class="tc-footer">

@@ -96,16 +96,44 @@ describe('useThemeStore', () => {
     expect(document.documentElement.getAttribute('data-palette')).toBe('open-color');
   });
 
-  it('reset returns to defaults', () => {
+  it('reset returns to docs locked defaults', () => {
     const theme = useThemeStore();
     theme.init();
     theme.setPrimary('rose');
+    theme.setFont('lato');
+    theme.setRadius('0.25');
+    theme.setNeutral('slate');
     expect(theme.primary).toBe('rose');
-    theme.setPalette('open-color');
     theme.reset();
     expect(theme.theme).toBe('system');
     expect(theme.radius).toBe('0.5');
     expect(theme.palette).toBe('open-color');
+    expect(theme.font).toBe('nunito');
+    expect(['stone', 'charcoal']).toContain(theme.neutral);
+    expect(theme.primary).not.toBe('rose');
+  });
+
+  it('init overwrites stored non-primary prefs but keeps an explicit primary', () => {
+    setThemeDefaults({ PRIMARY_DARK: 'green', FONT: 'nunito' });
+    window.localStorage.setItem('vanduo-theme-preference', 'dark');
+    window.localStorage.setItem('vanduo-primary-color', 'rose');
+    window.localStorage.setItem('vanduo-neutral-color', 'slate');
+    window.localStorage.setItem('vanduo-radius', '0.25');
+    window.localStorage.setItem('vanduo-font-preference', 'lato');
+    window.localStorage.setItem('vanduo-palette', 'open-color');
+
+    const theme = useThemeStore();
+    theme.init();
+
+    expect(theme.primary).toBe('rose');
+    expect(theme.font).toBe('nunito');
+    expect(theme.radius).toBe('0.5');
+    expect(theme.neutral).toBe('charcoal');
+    expect(theme.palette).toBe('open-color');
+    expect(window.localStorage.getItem('vanduo-font-preference')).toBe('nunito');
+    expect(window.localStorage.getItem('vanduo-radius')).toBe('0.5');
+    expect(window.localStorage.getItem('vanduo-neutral-color')).toBe('charcoal');
+    expect(window.localStorage.getItem('vanduo-primary-color')).toBe('rose');
   });
 
   it('migrates legacy blue primary to green in dark mode', () => {

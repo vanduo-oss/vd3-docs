@@ -13,6 +13,11 @@ import {
   type ThemePreference,
 } from "@vanduo-oss/vd3";
 
+/** Docs chrome locks — only primary (and theme mode via switcher) stay user-editable. */
+const DOCS_LOCKED_PALETTE = "open-color" as const;
+const DOCS_LOCKED_FONT = "nunito";
+const DOCS_LOCKED_RADIUS = "0.5" as RadiusOption;
+
 export const useThemeStore = defineStore("theme", () => {
   const prefs = reactive<ThemePreference>(defaultPreference());
   const ready = ref(false);
@@ -34,10 +39,16 @@ export const useThemeStore = defineStore("theme", () => {
       : (theme as "light" | "dark");
   const docsDefaultNeutral = (theme: ThemeMode): string =>
     DOCS_NEUTRAL[resolveScheme(theme)];
-  const isDocsDefaultNeutral = (neutral: string): boolean =>
-    neutral === DOCS_NEUTRAL.light || neutral === DOCS_NEUTRAL.dark;
   const isDocsDefaultPrimary = (primary: string): boolean =>
     isDefaultPrimary(primary) || primary === LEGACY_DOCS_PRIMARY_DARK;
+
+  /** Force palette / font / radius / neutral to docs defaults (primary untouched). */
+  const applyDocsLockedPrefs = (): void => {
+    prefs.palette = DOCS_LOCKED_PALETTE;
+    prefs.font = DOCS_LOCKED_FONT;
+    prefs.radius = DOCS_LOCKED_RADIUS;
+    prefs.neutral = docsDefaultNeutral(prefs.theme);
+  };
 
   const commit = (): void => {
     applyPreference(prefs);
@@ -48,13 +59,11 @@ export const useThemeStore = defineStore("theme", () => {
   const init = (): void => {
     if (ready.value) return;
     Object.assign(prefs, loadPreference());
-    if (isDocsDefaultNeutral(prefs.neutral)) {
-      prefs.neutral = docsDefaultNeutral(prefs.theme);
-    }
+    applyDocsLockedPrefs();
     if (isDocsDefaultPrimary(prefs.primary)) {
       prefs.primary = defaultPrimary(prefs.theme);
     }
-    applyPreference(prefs);
+    commit();
     ready.value = true;
 
     if (
@@ -70,7 +79,7 @@ export const useThemeStore = defineStore("theme", () => {
           prefs.primary = defaultPrimary("system");
           dirty = true;
         }
-        if (prefs.theme === "system" && isDocsDefaultNeutral(prefs.neutral)) {
+        if (prefs.theme === "system") {
           prefs.neutral = docsDefaultNeutral("system");
           dirty = true;
         }
@@ -88,10 +97,8 @@ export const useThemeStore = defineStore("theme", () => {
     if (isDocsDefaultPrimary(prefs.primary)) {
       prefs.primary = defaultPrimary(theme);
     }
-    if (isDocsDefaultNeutral(prefs.neutral)) {
-      prefs.neutral = docsDefaultNeutral(theme);
-    }
     prefs.theme = theme;
+    prefs.neutral = docsDefaultNeutral(theme);
     commit();
   };
   const setPrimary = (primary: string): void => {
@@ -112,8 +119,7 @@ export const useThemeStore = defineStore("theme", () => {
   };
   const reset = (): void => {
     Object.assign(prefs, defaultPreference());
-    // Docs override: light → stone, dark → charcoal (framework NEUTRAL is charcoal).
-    prefs.neutral = docsDefaultNeutral(prefs.theme);
+    applyDocsLockedPrefs();
     commit();
   };
 
