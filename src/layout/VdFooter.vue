@@ -14,18 +14,14 @@ const resources = [
   {
     label: "GitHub",
     href: "https://github.com/vanduo-oss/vd3",
-    external: true,
   },
   {
     label: "NPM",
     href: "https://www.npmjs.com/package/@vanduo-oss/vd3",
-    external: true,
   },
-  { label: "Kilo OSS", to: "/kilo-oss" },
   {
     label: "License",
     href: "https://github.com/vanduo-oss/vd3/blob/main/LICENSE",
-    external: true,
   },
 ];
 </script>
@@ -61,14 +57,9 @@ const resources = [
             <h4>Resources</h4>
             <ul class="vd-footer-links">
               <li v-for="link in resources" :key="link.label">
-                <a
-                  v-if="link.external"
-                  :href="link.href"
-                  target="_blank"
-                  rel="noopener"
-                  >{{ link.label }}</a
-                >
-                <RouterLink v-else :to="link.to!">{{ link.label }}</RouterLink>
+                <a :href="link.href" target="_blank" rel="noopener">{{
+                  link.label
+                }}</a>
               </li>
             </ul>
           </div>

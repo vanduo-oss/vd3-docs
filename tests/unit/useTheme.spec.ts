@@ -42,7 +42,7 @@ describe('useTheme model', () => {
     expect(document.documentElement.getAttribute('data-theme')).toBeNull();
     expect(document.documentElement.getAttribute('data-neutral')).toBe('charcoal');
     expect(document.documentElement.getAttribute('data-radius')).toBe('0.5');
-    expect(document.documentElement.getAttribute('data-font')).toBe('ubuntu');
+    expect(document.documentElement.getAttribute('data-font')).toBe('nunito');
   });
 
   it('defaults the palette to Open Color', () => {

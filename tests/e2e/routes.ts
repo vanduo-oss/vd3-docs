@@ -19,11 +19,15 @@ export interface Route {
 }
 
 /**
- * Nav content routes intentionally NOT screenshotted, each with a reason. Empty
- * today (ROUTES covers the whole nav); the drift guard reads this so a
- * deliberate future exclusion is explicit rather than a silent gap.
+ * Nav content routes intentionally NOT screenshotted, each with a reason.
+ * The drift guard reads this so a deliberate exclusion is explicit rather
+ * than a silent gap.
  */
-export const VISUAL_PARITY_EXCLUSIONS: ReadonlySet<string> = new Set<string>();
+export const VISUAL_PARITY_EXCLUSIONS: ReadonlySet<string> = new Set<string>([
+  // Continuous WebGL liquid animation cannot produce two consecutive stable
+  // screenshots (Playwright animations:'disabled' only covers CSS).
+  "/effects/liquid-gradient",
+]);
 
 export const ROUTES: readonly Route[] = [
   { path: '/', label: 'home' },
@@ -32,7 +36,6 @@ export const ROUTES: readonly Route[] = [
   { path: '/showcase', label: 'showcase' },
   { path: '/about', label: 'about' },
   { path: '/changelog', label: 'changelog' },
-  { path: '/kilo-oss', label: 'kilo-oss' },
   { path: '/core/color-palette', label: 'core-color-palette' },
   { path: '/core/typography', label: 'core-typography' },
   { path: '/core/icons', label: 'core-icons' },
@@ -94,9 +97,9 @@ export const ROUTES: readonly Route[] = [
   { path: '/guides/utilities-cheat-sheet', label: 'guides-utilities-cheat-sheet' },
   { path: '/guides/vanduo-ecosystem', label: 'guides-vanduo-ecosystem' },
   { path: '/effects/glass', label: 'effects-glass' },
+  { path: '/effects/surfaces', label: 'effects-surfaces' },
   { path: '/effects/morph', label: 'effects-morph' },
   { path: '/effects/parallax', label: 'effects-parallax' },
-  { path: '/effects/liquid-gradient', label: 'effects-liquid-gradient' },
   { path: '/components/forms', label: 'components-forms' },
   { path: '/components/form-validation', label: 'components-form-validation' },
   { path: '/components/datepicker', label: 'components-datepicker' },

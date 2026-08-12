@@ -6,6 +6,13 @@ import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
 import VdThemeCustomizer from "@/overlays/VdThemeCustomizer.vue";
 import VdThemeSwitcher from "@/overlays/VdThemeSwitcher.vue";
 
+/**
+ * Docs shell dogfoods package classes:
+ * `.vd-navbar-fixed` + `.vd-navbar-float` + `.vd-navbar-glass`
+ * (+ scroll via `useNavbarGlassScroll`). Frost / float / centering CSS ships
+ * in `@vanduo-oss/vd3` — docs only adds brand typography + always-visible
+ * search/theme actions (`.navbar-actions-always`).
+ */
 const navRef = ref<HTMLElement | null>(null);
 const isScrolled = useNavbarGlassScroll(navRef);
 const menuOpen = ref(false);
@@ -31,7 +38,7 @@ const closeMenu = (): void => {
 <template>
   <nav
     ref="navRef"
-    class="vd-navbar vd-navbar-fixed vd-navbar-glass vd-glass-contrast"
+    class="vd-navbar vd-navbar-fixed vd-navbar-float vd-navbar-glass"
     :class="{ 'vd-navbar-scrolled': isScrolled }"
   >
     <div class="vd-navbar-container">

@@ -42,7 +42,9 @@ export const createApp = ViteSSG(
     // so we inject it here. docs.css pins the exact accent when dark + green.
     // (The per-mode default neutral — stone in light, charcoal in dark — is
     // handled in the theme store, since the engine has no NEUTRAL_DARK default.)
-    app.use(VanduoVue, { themeDefaults: { PRIMARY_DARK: "green" } });
+    app.use(VanduoVue, {
+      themeDefaults: { PRIMARY_DARK: "green", FONT: "nunito" },
+    });
 
     // vd3 is fully standalone: the components/composables are pure Vue with no
     // window.Vanduo* IIFE runtime to bootstrap, so there is nothing to load here.

@@ -49,17 +49,22 @@ const propsRows: [string, string, string][] = [
   [
     "variant",
     '"solid" | "transparent" | "glass"',
-    'Surface treatment (default "solid"). glass/transparent gain scroll-activated framing (the .vd-navbar-scrolled class engages once you scroll past the threshold).',
+    'Surface treatment (default "solid"). glass/transparent gain scroll-activated framing (the .vd-navbar-scrolled class engages once you scroll past the threshold). variant="glass" ships the perfected liquid frost (light + dark — translucent white wash, never grey fog).',
   ],
   [
     "dark",
     "boolean",
-    "Applies the dark navbar theme (.vd-navbar-dark). Orthogonal to variant. Default false.",
+    'Applies the dark navbar theme (.vd-navbar-dark). Orthogonal to variant. Default false. Prefer page theme + variant="glass" for frosted chrome; dark is for solid inverse bars.',
   ],
   [
     "position",
     '"static" | "fixed" | "fixed-bottom" | "sticky"',
     'Positioning modifier (default "static"). fixed / fixed-bottom / sticky attach the bar to the viewport.',
+  ],
+  [
+    "float",
+    "boolean",
+    'Opt-in floating capsule (.vd-navbar-float): Fibonacci inset from the viewport edges + large radius + optical vertical padding. Pair with variant="glass" and position fixed/sticky. Default false (edge-to-edge — back-compat).',
   ],
   [
     "scrollThreshold",
@@ -128,6 +133,14 @@ const cssClassRows: [string, string][] = [
     "Container for the nested dropdown items (add .is-open is handled for you on mobile).",
   ],
   [".vd-navbar-dropdown-item", "Individual link inside a dropdown menu."],
+  [
+    ".vd-navbar-float",
+    "Inset floating capsule for fixed/sticky top bars (Fibonacci margin + large radius + optical padding). Works with .vd-navbar-glass.",
+  ],
+  [
+    ".vd-navbar-glass",
+    "Seemore frosted chrome: translucent white wash, saturate blur, inset specular rim (CodePen-inspired). Same frost recipe in light and dark — dark stays near-transparent (no grey fog). Scroll-activated with .vd-navbar-scrolled.",
+  ],
 ];
 
 const cssVars: [string, string][] = [
@@ -141,7 +154,47 @@ const cssVars: [string, string][] = [
   ["--vd-navbar-nav-gap", "1.3125rem (21px, fib)"],
   ["--vd-navbar-actions-gap", "2.125rem (34px, fib)"],
   ["--vd-navbar-mobile-menu-width", "233px (fib)"],
+  [
+    "--vd-navbar-float-inset",
+    "Responsive fib inset (8 → 13 → 21px by breakpoint)",
+  ],
+  ["--vd-navbar-float-radius", "2.125rem (34px fib capsule)"],
+  [
+    "--vd-navbar-glass-specular",
+    "0.58 light / 0.38 dark (inset highlight alpha)",
+  ],
+  [
+    "--vd-navbar-glass-elevation",
+    "Soft drop shadow under the frosted capsule (theme-tuned in dark)",
+  ],
 ];
+
+const floatHtml = `<!-- Docs shell pattern — float + glass (package CSS; no site overrides) -->
+<nav class="vd-navbar vd-navbar-fixed vd-navbar-float vd-navbar-glass">
+  <div class="vd-navbar-container">…</div>
+</nav>
+
+<!-- Same via VdNavbar -->
+<VdNavbar variant="glass" position="fixed" float>
+  <template #brand>…</template>
+  <ul class="vd-navbar-nav">…</ul>
+</VdNavbar>`;
+
+const floatVue = `<script setup lang="ts">
+import { VdNavbar } from "@vanduo-oss/vd3";
+<\/script>
+
+<template>
+  <VdNavbar variant="glass" position="fixed" float>
+    <template #brand>
+      <a href="/">vd3</a>
+    </template>
+    <ul class="vd-navbar-nav">
+      <li><a class="vd-nav-link active" href="/">Docs</a></li>
+      <li><a class="vd-nav-link" href="/effects">Effects</a></li>
+    </ul>
+  </VdNavbar>
+</template>`;
 </script>
 
 <template>
@@ -262,6 +315,70 @@ const cssVars: [string, string][] = [
                 </template>
               </VdNavbar>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating glass -->
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>Floating glass capsule</h6>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-text-sm vd-text-muted vd-mb-4">
+              This is the docs shell recipe shipped by the package:
+              <code>variant="glass"</code> + <code>float</code> +
+              <code>position="fixed"</code> (or sticky). Transparent at rest;
+              frosted once scrolled. Toggle the site theme — light and dark use
+              the same translucent white frost (dark stays near-transparent so
+              the capsule never reads as grey fog).
+            </p>
+            <div
+              class="vd-surface vd-surface-mesh vd-surface-5"
+              style="
+                min-height: 11rem;
+                border-radius: var(--vd-radius-fib-8);
+                padding: 0.85rem;
+                position: relative;
+              "
+            >
+              <VdNavbar
+                variant="glass"
+                class="vd-navbar-scrolled"
+                style="position: relative; top: 0; left: 0; right: 0"
+                float
+              >
+                <template #brand>
+                  <a href="#" @click.prevent>vd3</a>
+                </template>
+                <ul class="vd-navbar-nav">
+                  <li>
+                    <a href="#" class="vd-nav-link active" @click.prevent
+                      >Docs</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="vd-nav-link" @click.prevent>Effects</a>
+                  </li>
+                </ul>
+                <template #actions>
+                  <button class="vd-btn vd-btn-primary vd-btn-sm">
+                    Get started
+                  </button>
+                </template>
+              </VdNavbar>
+            </div>
+            <p class="vd-text-sm vd-text-muted vd-mt-3 vd-mb-0">
+              <strong>Light / dark:</strong> scrolled glass always paints
+              <code>rgba(255,255,255,&lt;opacity&gt;)</code> — opacity ~0.42 in
+              light, ~0.08 in dark — plus specular rim. Do not swap in
+              <code>--vd-glass-bg-dark</code> for navbar chrome.
+            </p>
+            <DocCodeSnippet class="vd-mt-4" :html="floatVue" />
+            <DocCodeSnippet class="vd-mt-3" :html="floatHtml" />
           </div>
         </div>
       </div>

@@ -1,919 +1,1028 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useGlass } from "@vanduo-oss/vd3";
+import { useGlass, VdModal } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useGlass(root);
 
-// Wiring for the glass effect (the markup, classes and data-* stay declarative;
-// the scroll-activation observer is driven by the composables below).
-const vue3Wiring = `import { ref } from 'vue';
-import { useGlass } from "@vanduo-oss/vd3";
-import { useNavbarGlassScroll } from "@vanduo-oss/vd3";
-
-// Generic scroll-activated glass (data-glass-scroll)
-const root = ref<HTMLElement | null>(null);
-useGlass(root);   // IntersectionObserver toggles .is-glass-active; cleanup on unmount
-
-// Navbar scroll-activated glass (.vd-navbar-glass)
-const navRef = ref<HTMLElement | null>(null);
-const isScrolled = useNavbarGlassScroll(navRef);
-// <nav ref="navRef" class="vd-navbar vd-navbar-fixed vd-navbar-glass" :class="{ 'vd-navbar-scrolled': isScrolled }">`;
-
 const glassModalOpen = ref(false);
+const surfaceOptions = [
+  { id: "mesh", label: "Mesh" },
+  { id: "stripe", label: "Stripe" },
+  { id: "noise", label: "Noise" },
+  { id: "aurora", label: "Aurora" },
+  { id: "dots", label: "Dots" },
+  { id: "grid", label: "Grid" },
+] as const;
 
-const heroHtml = `<div class="vd-glass vd-glass-lg vd-glass-tinted vd-glass-floating">
-  <h4>GlassSurface</h4>
-  <p>Use <code>.vd-glass</code> for frosted surfaces over rich backgrounds,
-     then add size and behavior modifiers as needed.</p>
-  <button class="vd-btn vd-btn-primary">Primary Action</button>
-  <button class="vd-btn vd-btn-outline">Secondary</button>
+type SurfaceId = (typeof surfaceOptions)[number]["id"];
+
+const surfaceVariant = ref<SurfaceId>("mesh");
+const activeStep = ref(5);
+
+const fibSteps = [
+  {
+    step: 1,
+    blur: "2px",
+    tint: "0.08",
+    border: "0.12",
+    use: "Chips, tags, hover hints",
+  },
+  {
+    step: 2,
+    blur: "3px",
+    tint: "0.12",
+    border: "0.16",
+    use: "Tooltips, small badges",
+  },
+  {
+    step: 3,
+    blur: "5px",
+    tint: "0.16",
+    border: "0.20",
+    use: "Secondary cards, list rows",
+  },
+  {
+    step: 5,
+    blur: "8px",
+    tint: "0.20",
+    border: "0.24",
+    use: "Primary cards, panels (default)",
+  },
+  {
+    step: 8,
+    blur: "13px",
+    tint: "0.28",
+    border: "0.30",
+    use: "Navigation bars, headers",
+  },
+  {
+    step: 13,
+    blur: "16px",
+    tint: "0.32",
+    border: "0.34",
+    use: "Modals, primary CTA surfaces",
+  },
+  {
+    step: 21,
+    blur: "20px",
+    tint: "0.38",
+    border: "0.38",
+    use: "Hero accent — GPU blur soft-cap",
+  },
+  {
+    step: 34,
+    blur: "22px",
+    tint: "0.46",
+    border: "0.44",
+    use: "Marketing bands — tint escalates more than blur",
+  },
+  {
+    step: 55,
+    blur: "24px",
+    tint: "0.55",
+    border: "0.50",
+    use: "Heavy hero frost — prefer sparingly",
+  },
+  {
+    step: 89,
+    blur: "26px",
+    tint: "0.66",
+    border: "0.58",
+    use: "Extreme ceiling (~100); next fib 144 omitted",
+  },
+] as const;
+
+const activeMeta = computed(
+  () => fibSteps.find((s) => s.step === activeStep.value) ?? fibSteps[3],
+);
+
+const stageFading = ref(false);
+const stepFading = ref(false);
+const autoplay = ref(true);
+const prefersReducedMotion = ref(false);
+
+/** Fibonacci-flavored dwell (~3.2s steps, ~2.6s surfaces). */
+const STEP_INTERVAL_MS = 3200;
+const SURFACE_INTERVAL_MS = 2600;
+const MANUAL_PAUSE_MS = 8000;
+
+let stepTimer: ReturnType<typeof setInterval> | null = null;
+let surfaceTimer: ReturnType<typeof setInterval> | null = null;
+let manualResumeTimer: ReturnType<typeof setTimeout> | null = null;
+let fadeClearTimer: ReturnType<typeof setTimeout> | null = null;
+let motionMq: MediaQueryList | null = null;
+let onMotionChange: (() => void) | null = null;
+
+const stageClass = computed(
+  () =>
+    `vd-surface vd-surface-${surfaceVariant.value} vd-surface-5 seemore-stage${
+      stageFading.value ? " is-crossfading" : ""
+    }`,
+);
+
+const pulseFade = (target: "stage" | "step"): void => {
+  if (prefersReducedMotion.value) return;
+  if (target === "stage") stageFading.value = true;
+  else stepFading.value = true;
+  if (fadeClearTimer) clearTimeout(fadeClearTimer);
+  fadeClearTimer = setTimeout(() => {
+    stageFading.value = false;
+    stepFading.value = false;
+  }, 420);
+};
+
+const advanceStep = (): void => {
+  const idx = fibSteps.findIndex((s) => s.step === activeStep.value);
+  const next = fibSteps[(idx + 1) % fibSteps.length];
+  pulseFade("step");
+  activeStep.value = next.step;
+};
+
+const advanceSurface = (): void => {
+  const idx = surfaceOptions.findIndex((s) => s.id === surfaceVariant.value);
+  const next = surfaceOptions[(idx + 1) % surfaceOptions.length];
+  pulseFade("stage");
+  surfaceVariant.value = next.id;
+};
+
+const clearTimers = (): void => {
+  if (stepTimer) clearInterval(stepTimer);
+  if (surfaceTimer) clearInterval(surfaceTimer);
+  stepTimer = null;
+  surfaceTimer = null;
+};
+
+const startAutoplay = (): void => {
+  clearTimers();
+  if (!autoplay.value || prefersReducedMotion.value) return;
+  stepTimer = setInterval(advanceStep, STEP_INTERVAL_MS);
+  surfaceTimer = setInterval(advanceSurface, SURFACE_INTERVAL_MS);
+};
+
+const pauseAutoplayBriefly = (): void => {
+  autoplay.value = false;
+  clearTimers();
+  if (manualResumeTimer) clearTimeout(manualResumeTimer);
+  if (prefersReducedMotion.value) return;
+  manualResumeTimer = setTimeout(() => {
+    autoplay.value = true;
+    startAutoplay();
+  }, MANUAL_PAUSE_MS);
+};
+
+const toggleAutoplay = (): void => {
+  if (manualResumeTimer) clearTimeout(manualResumeTimer);
+  autoplay.value = !autoplay.value;
+  if (autoplay.value) startAutoplay();
+  else clearTimers();
+};
+
+const selectStep = (step: number): void => {
+  pulseFade("step");
+  activeStep.value = step;
+  pauseAutoplayBriefly();
+};
+
+const selectSurface = (id: SurfaceId): void => {
+  pulseFade("stage");
+  surfaceVariant.value = id;
+  pauseAutoplayBriefly();
+};
+
+watch(autoplay, (on) => {
+  if (on) startAutoplay();
+  else clearTimers();
+});
+
+onMounted(() => {
+  motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  onMotionChange = (): void => {
+    prefersReducedMotion.value = motionMq!.matches;
+    if (motionMq!.matches) {
+      autoplay.value = false;
+      clearTimers();
+    } else if (autoplay.value) {
+      startAutoplay();
+    }
+  };
+  onMotionChange();
+  motionMq.addEventListener("change", onMotionChange);
+});
+
+onUnmounted(() => {
+  if (motionMq && onMotionChange) {
+    motionMq.removeEventListener("change", onMotionChange);
+  }
+  clearTimers();
+  if (manualResumeTimer) clearTimeout(manualResumeTimer);
+  if (fadeClearTimer) clearTimeout(fadeClearTimer);
+});
+
+const vue3Wiring = `import { ref } from 'vue';
+import { useGlass, useNavbarGlassScroll } from "@vanduo-oss/vd3";
+
+const root = ref<HTMLElement | null>(null);
+useGlass(root); // toggles .is-glass-active on [data-glass-scroll]
+
+const navRef = ref<HTMLElement | null>(null);
+const isScrolled = useNavbarGlassScroll(navRef);`;
+
+const fibHtml = `<!-- Seemore Glass — Fibonacci strength steps -->
+<div class="vd-glass vd-glass-1">chip</div>
+<div class="vd-glass vd-glass-5">card (default)</div>
+<div class="vd-glass vd-glass-13 vd-glass-adaptive">modal</div>
+<div class="vd-glass vd-glass-21">hero accent (blur soft-cap)</div>
+<div class="vd-glass vd-glass-89">extreme marketing ceiling</div>
+
+<!-- Legacy aliases still work: sm→3, md→5, lg→8, xl→13 -->
+<div class="vd-glass vd-glass-lg">…</div>`;
+
+const surfacePairHtml = `<div class="vd-surface vd-surface-stripe vd-surface-5">
+  <div class="vd-glass vd-glass-8 vd-glass-floating">
+    Frosted panel over a reusable Surface
+  </div>
 </div>`;
 
-const sizesHtml = `<!-- Size variants: sm / md / lg / xl -->
-<div class="vd-glass vd-glass-sm">…</div>
-<div class="vd-glass vd-glass-md">…</div>  <!-- == .vd-glass -->
-<div class="vd-glass vd-glass-lg">…</div>
-<div class="vd-glass vd-glass-xl">…</div>`;
+const modifiersHtml = `<!-- Behavior modifiers -->
+<div class="vd-glass vd-glass-8 vd-glass-tinted">…</div>
+<div class="vd-glass vd-glass-5 vd-glass-floating">…</div>
+<div class="vd-glass vd-glass-5 vd-glass-contrast">…</div>
+<div class="vd-glass vd-glass-8 vd-glass-adaptive">…</div>`;
 
-const modifiersHtml = `<!-- Modifiers -->
-<div class="vd-glass vd-glass-tinted">…</div>     <!-- tint wash -->
-<div class="vd-glass vd-glass-floating">…</div>   <!-- lift on hover -->
-<div class="vd-glass vd-glass-contrast">…</div>   <!-- stronger border -->`;
-
-const componentsHtml = `<nav class="vd-navbar vd-navbar-glass">…</nav>
+const componentsHtml = `<nav class="vd-navbar vd-navbar-glass vd-navbar-float vd-navbar-fixed">…</nav>
 <div class="vd-card vd-card-glass">…</div>
 <div class="vd-toast vd-toast-glass">…</div>
 <button class="vd-fab vd-fab-glass"><i class="ph ph-plus"></i></button>
 <div class="vd-modal vd-modal-glass">…</div>`;
 
-const themingCss = `:root {
-  --vd-glass-blur: 14px;
-  --vd-glass-bg-opacity: 0.7;
-  --vd-glass-shadow: 0 14px 40px rgba(0, 0, 0, 0.2);
-}
-
-.marketing-hero .vd-glass {
-  --vd-glass-tint: rgba(34, 184, 207, 0.18);
-}`;
-
-const navbarGlassHtml = `<nav class="vd-navbar vd-navbar-fixed vd-navbar-glass">
-  ...
-</nav>
-
-<!-- Custom scroll threshold (px) -->
-<nav class="vd-navbar vd-navbar-fixed vd-navbar-glass"
-     data-scroll-threshold="120">
-  ...
-</nav>`;
-
-const scrollHtml = `<!-- Sentinel: the element whose disappearance triggers glass activation -->
-<div id="my-sentinel">...</div>
-
-<!-- Glass element: transparent at rest, frosted once sentinel leaves view -->
-<div class="vd-glass"
-     data-glass-scroll
-     data-glass-sentinel="#my-sentinel">
-  Sticky panel content
-</div>
-
-<!-- Without explicit sentinel: uses the previous sibling automatically -->
-<div id="hero">...</div>
-<div class="vd-glass" data-glass-scroll>
-  Activates when #hero scrolls out of view
-</div>`;
-
 const tokens: [string, string, string][] = [
-  ["--vd-glass-blur", "Backdrop blur amount", "12px"],
-  ["--vd-glass-saturate", "Backdrop saturation boost", "1.8"],
-  ["--vd-glass-bg-opacity", "Glass opacity base", "0.65"],
-  [
-    "--vd-glass-bg-light",
-    "Light translucent surface",
-    "rgba(255,255,255,var(--vd-glass-bg-opacity))",
-  ],
-  [
-    "--vd-glass-bg-dark",
-    "Dark translucent surface",
-    "rgba(30,30,30,var(--vd-glass-bg-opacity))",
-  ],
-  [
-    "--vd-glass-border-light",
-    "Glass edge stroke",
-    "rgba(255,255,255,var(--vd-glass-border-alpha))",
-  ],
-  ["--vd-glass-highlight-alpha", "Specular sheen intensity", "0.25"],
-  [
-    "--vd-glass-shadow",
-    "Depth shadow for floating glass",
-    "0 8px 32px rgba(0,0,0,0.12)",
-  ],
-  ["--vd-glass-noise-opacity", "Noise grain overlay strength", "0.03"],
+  ["--vd-glass-blur", "Backdrop blur (step-driven)", "8px @ step 5"],
+  ["--vd-glass-bg-opacity", "Tint opacity", "0.20 @ step 5"],
+  ["--vd-glass-border-alpha", "Edge opacity", "0.24 @ step 5"],
+  ["--vd-glass-saturate", "Backdrop saturation", "1.7 @ step 5"],
+  ["--vd-glass-highlight-alpha", "Rim sheen", "0.22 @ step 5"],
+  ["--vd-glass-shadow", "Elevation shadow", "step-scaled"],
+  ["--vd-glass-noise-opacity", "Grain overlay", "0.035 @ step 5"],
 ];
 
-const sizeVariants = [
+const primitives = [
   {
-    cls: "vd-glass-sm",
-    spec: "blur 6px, saturate 1.4, opacity 0.55",
-    glassSub: "Lower blur, lighter opacity",
-    note: "Look for sharper background detail and a lighter frosted layer.",
+    title: "Blur",
+    body: "backdrop-filter softens the Surface behind the panel. Soft-cap ~20px for UI; 34/55/89 rise modestly to 26px.",
   },
   {
-    cls: "vd-glass-md",
-    spec: "blur 12px, saturate 1.8, opacity 0.65",
-    glassSub: "Framework default profile",
-    note: "Equivalent to .vd-glass default; use it for explicit readability.",
+    title: "Tint",
+    body: "Semi-transparent fill so blur never ships alone. Opacity rises with the same Fibonacci index.",
   },
   {
-    cls: "vd-glass-lg",
-    spec: "blur 20px, saturate 2.0, opacity 0.72",
-    glassSub: "Softer and richer blend",
-    note: "Background texture softens while color bleed feels denser.",
+    title: "Edge",
+    body: "A light border + single-direction rim highlight separates glass from the backdrop.",
   },
   {
-    cls: "vd-glass-xl",
-    spec: "blur 28px, saturate 2.2, opacity 0.78",
-    glassSub: "Strongest soft-focus panel",
-    note: "Strongest frosted depth; best for hero overlays and modal foregrounds.",
+    title: "Elevation",
+    body: "Soft box-shadow scales with the step so thicker glass also floats a little higher.",
   },
-];
+] as const;
+
+const glassComponents = [
+  {
+    label: "Modal",
+    to: "/components/modal",
+    blurb: "Overlay frost — prefer steps 8–13",
+  },
+  {
+    label: "Card",
+    to: "/components/card",
+    blurb: ".vd-card-glass panels",
+  },
+  {
+    label: "Toast",
+    to: "/components/toast",
+    blurb: ".vd-toast-glass notices",
+  },
+  {
+    label: "FAB",
+    to: "/components/fab",
+    blurb: ".vd-fab-glass actions",
+  },
+  {
+    label: "Navbar",
+    to: "/components/navbar",
+    blurb: "Glass + optional .vd-navbar-float",
+  },
+] as const;
 </script>
 
 <template>
   <section id="glass" ref="root">
     <h5 class="demo-title">
-      <i class="ph ph-drop-half-bottom"></i>Glass Effects
+      <i class="ph ph-drop-half-bottom"></i>Seemore Glass
     </h5>
     <p class="vd-mb-6">
-      Vanduo glass effects provide an opt-in frosted surface system built with
-      <code>backdrop-filter</code>, translucent layers, highlight sheen, and
-      accessibility fallbacks.
+      Seemore Glass is vd3’s frosted material system: every strength step
+      follows the Fibonacci sequence so blur, tint, edge, and elevation move
+      together — the same harmonic language as the rest of the kit. Opt in with
+      <code>.vd-glass</code> and a step class; stage demos on package
+      <RouterLink to="/effects/surfaces"><code>.vd-surface-*</code></RouterLink>
+      backdrops. Steps run through
+      <strong>89</strong> (extreme marketing ceiling); prefer
+      <strong>1–21</strong> for everyday UI.
     </p>
 
-    <!-- Hero Surface -->
-    <div class="vd-row">
+    <!-- Hero -->
+    <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
         <div id="demo-glass-hero" class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Hero Surface</h6></div>
-          <div
-            class="vd-card-body"
-            style="
-              background:
-                radial-gradient(
-                  circle at 25% 18%,
-                  rgba(255, 255, 255, 0.42) 0%,
-                  transparent 30%
-                ),
-                radial-gradient(
-                  circle at 80% 82%,
-                  rgba(0, 0, 0, 0.35) 0%,
-                  transparent 40%
-                ),
-                repeating-linear-gradient(
-                  120deg,
-                  rgba(255, 255, 255, 0.16) 0 18px,
-                  rgba(0, 0, 0, 0.09) 18px 36px
-                ),
-                linear-gradient(
-                  130deg,
-                  #4f46e5 0%,
-                  #8b5cf6 38%,
-                  #ec4899 68%,
-                  #fb923c 100%
-                );
-              border-radius: var(--vd-btn-border-radius-lg);
-              min-height: 300px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              padding: 2rem;
-            "
-          >
-            <div
-              class="vd-glass vd-glass-lg vd-glass-tinted vd-glass-floating"
-              style="
-                max-width: 520px;
-                width: 100%;
-                border-radius: var(--vd-btn-border-radius-lg);
-                padding: 1.5rem;
-              "
-            >
-              <h4 style="margin-top: 0">GlassSurface</h4>
-              <p style="margin-bottom: 1rem">
-                Use <code>.vd-glass</code> for frosted surfaces over rich
-                backgrounds, then add size and behavior modifiers as needed.
-              </p>
-              <div style="display: flex; gap: 0.75rem; flex-wrap: wrap">
-                <button class="vd-btn vd-btn-primary">Primary Action</button>
-                <button class="vd-btn vd-btn-outline">Secondary</button>
+          <div class="vd-card-header">
+            <h6>Hero — live Surface + Glass</h6>
+          </div>
+          <div class="vd-card-body">
+            <div class="seemore-controls vd-mb-4">
+              <span class="vd-text-muted" style="font-size: 0.85rem"
+                >Backdrop</span
+              >
+              <label
+                v-for="opt in surfaceOptions"
+                :key="opt.id"
+                class="seemore-chip"
+              >
+                <input
+                  :checked="surfaceVariant === opt.id"
+                  type="radio"
+                  name="seemore-surface"
+                  :value="opt.id"
+                  @change="selectSurface(opt.id)"
+                />
+                {{ opt.label }}
+              </label>
+              <button
+                type="button"
+                class="seemore-play-btn"
+                :aria-pressed="autoplay"
+                :aria-label="autoplay ? 'Pause autoplay' : 'Play autoplay'"
+                @click="toggleAutoplay"
+              >
+                <i
+                  class="ph"
+                  :class="autoplay ? 'ph-pause' : 'ph-play'"
+                  aria-hidden="true"
+                ></i>
+                {{ autoplay ? "Pause" : "Play" }}
+              </button>
+            </div>
+            <div :class="stageClass">
+              <div
+                class="vd-glass vd-glass-8 vd-glass-tinted seemore-hero-panel"
+                :class="{ 'is-crossfading': stepFading }"
+              >
+                <h4 class="seemore-hero-title">GlassSurface</h4>
+                <p>
+                  Use <code>.vd-glass</code> with a Fibonacci step, then layer
+                  tinted / floating / adaptive modifiers. Surfaces stay reusable
+                  — not one-off demo CSS.
+                </p>
+                <div class="seemore-hero-actions">
+                  <button type="button" class="vd-btn vd-btn-primary">
+                    Primary Action
+                  </button>
+                  <button type="button" class="vd-btn vd-btn-outline">
+                    Secondary
+                  </button>
+                </div>
               </div>
             </div>
+            <p
+              v-if="prefersReducedMotion"
+              class="vd-text-muted vd-mt-3"
+              style="font-size: 0.8rem; margin-bottom: 0"
+            >
+              Autoplay paused — <code>prefers-reduced-motion</code> is on.
+            </p>
           </div>
         </div>
-        <DocCodeSnippet :html="heroHtml" />
       </div>
     </div>
 
-    <!-- Why subtle -->
-    <div class="vd-row">
+    <!-- Four primitives -->
+    <div class="vd-row vd-mb-6">
+      <div
+        v-for="p in primitives"
+        :key="p.title"
+        class="vd-col-12 vd-col-md-6 vd-col-lg-3"
+      >
+        <div class="vd-card vd-card-glow demo-card seemore-primitive-card">
+          <div class="vd-card-body">
+            <h6 style="color: var(--vd-color-primary)">{{ p.title }}</h6>
+            <p class="vd-text-muted" style="margin: 0; font-size: 0.9rem">
+              {{ p.body }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fib explorer -->
+    <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header">
-            <h6>Why Distinctions Can Look Subtle</h6>
+            <h6>Fibonacci strength explorer</h6>
           </div>
           <div class="vd-card-body">
-            <p class="glass-insight vd-mb-2">
-              Blur and opacity are context-dependent. Smooth or homogeneous
-              backgrounds can hide what each class changes.
+            <p class="vd-text-muted vd-mb-4">
+              Steps auto-advance so you can watch thickness change. Click any
+              step to jump (pauses briefly). Default
+              <code>.vd-glass</code> is step <strong>5</strong>. Past 21, blur
+              rises only a little — tint, edge, and elevation do the heavy
+              lifting through <strong>89</strong>.
             </p>
-            <ul class="vd-mb-0">
-              <li>
-                <code>.vd-glass-md</code> matches base <code>.vd-glass</code>,
-                so they are intentionally equivalent.
-              </li>
-              <li>
-                <code>.vd-glass-floating</code> is primarily an interaction
-                state, so static examples can under-sell it.
-              </li>
-              <li>
-                Use textured backdrops and side-by-side comparisons to make
-                blur, tint, and contrast differences obvious.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Diagnostics controls (pure-CSS :has) -->
-    <div class="vd-row">
-      <div class="vd-col-12">
-        <div class="vd-card vd-card-glow demo-card glass-controls-card">
-          <div class="vd-card-header">
-            <h6>Visual Diagnostics Controls</h6>
-          </div>
-          <div class="vd-card-body">
-            <p class="glass-insight">
-              Switch backdrop modes and force floating hover state to inspect
-              class differences under the same conditions.
-            </p>
-            <div
-              class="glass-controls"
-              role="group"
-              aria-label="Glass demo controls"
-            >
-              <label class="glass-control-chip"
-                ><input
-                  type="radio"
-                  id="glass-bg-mesh"
-                  name="glass-backdrop"
-                  checked
-                />Mesh backdrop</label
+            <div class="seemore-step-rail vd-mb-4">
+              <button
+                v-for="s in fibSteps"
+                :key="s.step"
+                type="button"
+                class="seemore-step-btn"
+                :class="{ 'is-active': activeStep === s.step }"
+                @click="selectStep(s.step)"
               >
-              <label class="glass-control-chip"
-                ><input
-                  type="radio"
-                  id="glass-bg-stripes"
-                  name="glass-backdrop"
-                />Striped backdrop</label
+                {{ s.step }}
+              </button>
+              <button
+                type="button"
+                class="seemore-play-btn"
+                :aria-pressed="autoplay"
+                :aria-label="autoplay ? 'Pause autoplay' : 'Play autoplay'"
+                @click="toggleAutoplay"
               >
-              <label class="glass-control-chip"
-                ><input
-                  type="radio"
-                  id="glass-bg-noise"
-                  name="glass-backdrop"
-                />Noise backdrop</label
-              >
-              <label class="glass-control-chip"
-                ><input type="checkbox" id="glass-force-hover" />Force floating
-                hover</label
-              >
+                <i
+                  class="ph"
+                  :class="autoplay ? 'ph-pause' : 'ph-play'"
+                  aria-hidden="true"
+                ></i>
+                {{ autoplay ? "Pause" : "Play" }}
+              </button>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Size + Modifier comparison grids -->
-    <div class="vd-row glass-demo-grid">
-      <div class="vd-col-12 vd-col-md-6">
-        <div id="demo-glass-sizes" class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Size Variants</h6></div>
-          <div class="vd-card-body">
-            <div class="glass-demo-stage">
-              <div
-                v-for="v in sizeVariants"
-                :key="v.cls"
-                class="glass-comparison-row"
-              >
-                <div class="glass-comparison-head">
-                  <strong>.{{ v.cls }}</strong>
-                  <small>{{ v.spec }}</small>
-                </div>
-                <div class="glass-surface-pair">
-                  <div class="glass-surface glass-surface-base">
-                    <strong>Baseline</strong><span>No glass filter</span>
+            <div class="vd-row" style="align-items: stretch">
+              <div class="vd-col-12 vd-col-lg-7">
+                <div
+                  class="vd-surface vd-surface-mesh vd-surface-5 seemore-stage"
+                >
+                  <div
+                    class="vd-glass seemore-hero-panel"
+                    :class="[
+                      `vd-glass-${activeStep}`,
+                      { 'is-crossfading': stepFading },
+                    ]"
+                  >
+                    <h4 class="seemore-hero-title">
+                      .vd-glass-{{ activeStep }}
+                    </h4>
+                    <p>{{ activeMeta.use }}</p>
+                    <ul class="seemore-readout">
+                      <li>
+                        Blur <code>{{ activeMeta.blur }}</code>
+                      </li>
+                      <li>
+                        Tint <code>{{ activeMeta.tint }}</code>
+                      </li>
+                      <li>
+                        Border <code>{{ activeMeta.border }}</code>
+                      </li>
+                    </ul>
                   </div>
-                  <div class="glass-surface vd-glass" :class="v.cls">
-                    <strong>Glass</strong><span>{{ v.glassSub }}</span>
-                  </div>
                 </div>
-                <p class="glass-note">{{ v.note }}</p>
+              </div>
+              <div class="vd-col-12 vd-col-lg-5">
+                <div class="seemore-table-wrap">
+                  <table class="vd-table seemore-table">
+                    <thead>
+                      <tr>
+                        <th>Step</th>
+                        <th>Blur</th>
+                        <th>Tint</th>
+                        <th>Edge</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="s in fibSteps"
+                        :key="s.step"
+                        :class="{ 'is-active-row': activeStep === s.step }"
+                        @click="selectStep(s.step)"
+                      >
+                        <td>
+                          <code>.vd-glass-{{ s.step }}</code>
+                        </td>
+                        <td>{{ s.blur }}</td>
+                        <td>{{ s.tint }}</td>
+                        <td>{{ s.border }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p class="vd-text-muted" style="font-size: 0.8rem">
+                    Aliases: <code>.vd-glass-sm</code>→3,
+                    <code>.vd-glass-md</code>→5, <code>.vd-glass-lg</code>→8,
+                    <code>.vd-glass-xl</code>→13. Ceiling:
+                    <code>.vd-glass-89</code>.
+                  </p>
+                </div>
               </div>
             </div>
+            <DocCodeSnippet class="vd-mt-4" :html="fibHtml" />
           </div>
         </div>
-        <DocCodeSnippet :html="sizesHtml" />
       </div>
+    </div>
 
-      <div class="vd-col-12 vd-col-md-6">
-        <div id="demo-glass-modifiers" class="vd-card vd-card-glow demo-card">
+    <!-- Surfaces pairing -->
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>Surfaces make glass sing</h6>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-text-muted vd-mb-4">
+              Mesh, stripe, noise, aurora, dots, and grid ship as
+              <code>.vd-surface-*</code> — see the
+              <RouterLink to="/effects/surfaces">Surfaces</RouterLink> page for
+              the full assorti.
+            </p>
+            <div class="vd-row">
+              <div
+                v-for="opt in surfaceOptions"
+                :key="`grid-${opt.id}`"
+                class="vd-col-12 vd-col-md-6 vd-col-lg-4 vd-mb-4"
+              >
+                <div
+                  class="vd-surface vd-surface-5 seemore-mini-stage"
+                  :class="`vd-surface-${opt.id}`"
+                >
+                  <div class="vd-glass vd-glass-5 seemore-mini-panel">
+                    <strong>{{ opt.label }}</strong>
+                    <span class="vd-text-muted" style="font-size: 0.75rem"
+                      >.vd-surface-{{ opt.id }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <DocCodeSnippet :html="surfacePairHtml" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modifiers -->
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12 vd-col-lg-6">
+        <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Modifiers</h6></div>
           <div class="vd-card-body">
-            <div class="glass-demo-stage">
-              <div class="glass-comparison-row">
-                <div class="glass-comparison-head">
-                  <strong>.vd-glass-tinted</strong
-                  ><small>Adds tint gradient overlay</small>
+            <div
+              class="vd-surface vd-surface-aurora vd-surface-5 seemore-stage"
+            >
+              <div class="seemore-mod-grid">
+                <div
+                  class="vd-glass vd-glass-5 vd-glass-tinted seemore-mini-panel"
+                >
+                  tinted
                 </div>
-                <div class="glass-surface-pair">
-                  <div class="glass-surface vd-glass">
-                    <strong>Base glass</strong
-                    ><span>Neutral translucent layer</span>
-                  </div>
-                  <div class="glass-surface vd-glass vd-glass-tinted">
-                    <strong>Tinted glass</strong
-                    ><span>Adds primary tone wash</span>
-                  </div>
+                <div
+                  class="vd-glass vd-glass-5 vd-glass-floating seemore-mini-panel"
+                >
+                  floating
                 </div>
-                <p class="glass-note">
-                  Watch for color cast shift while blur and depth remain
-                  similar.
-                </p>
-              </div>
-              <div class="glass-comparison-row">
-                <div class="glass-comparison-head">
-                  <strong>.vd-glass-floating</strong
-                  ><small>Lift + shadow on hover/focus</small>
+                <div
+                  class="vd-glass vd-glass-5 vd-glass-contrast seemore-mini-panel"
+                >
+                  contrast
                 </div>
-                <div class="glass-surface-pair">
-                  <div class="glass-surface vd-glass">
-                    <strong>Base glass</strong><span>Resting state</span>
-                  </div>
-                  <div
-                    class="glass-surface vd-glass vd-glass-floating glass-floating-target"
-                  >
-                    <strong>Floating glass</strong
-                    ><span>Use control to force hover preview</span>
-                  </div>
+                <div
+                  class="vd-glass vd-glass-5 vd-glass-adaptive seemore-mini-panel"
+                >
+                  adaptive
                 </div>
-                <p class="glass-note">
-                  State-driven modifier; turn on
-                  <em>Force floating hover</em> to preview motion cue.
-                </p>
-              </div>
-              <div class="glass-comparison-row">
-                <div class="glass-comparison-head">
-                  <strong>.vd-glass-contrast</strong
-                  ><small>Higher opacity + stronger border</small>
-                </div>
-                <div class="glass-surface-pair">
-                  <div class="glass-surface vd-glass">
-                    <strong>Base glass</strong><span>Default legibility</span>
-                  </div>
-                  <div class="glass-surface vd-glass vd-glass-contrast">
-                    <strong>Contrast glass</strong
-                    ><span>Better text separation</span>
-                  </div>
-                </div>
-                <p class="glass-note">
-                  Use on busy imagery where stronger edge and body contrast
-                  improves readability.
-                </p>
               </div>
             </div>
+            <DocCodeSnippet class="vd-mt-4" :html="modifiersHtml" />
           </div>
         </div>
-        <DocCodeSnippet :html="modifiersHtml" />
       </div>
-    </div>
-
-    <!-- Glass tokens -->
-    <div class="vd-row">
-      <div class="vd-col-12">
+      <div class="vd-col-12 vd-col-lg-6">
         <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header">
-            <h6>
-              <i
-                class="ph ph-sliders mr-2"
-                style="color: var(--vd-color-primary)"
-              ></i
-              >Glass Tokens
-            </h6>
-          </div>
+          <div class="vd-card-header"><h6>Accessibility</h6></div>
           <div class="vd-card-body">
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Token</th>
-                    <th>Purpose</th>
-                    <th>Default</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in tokens" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                    <td>
-                      <code>{{ row[2] }}</code>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <ul class="seemore-a11y-list">
+              <li>
+                <code>prefers-reduced-transparency</code> — near-opaque solid,
+                no blur
+              </li>
+              <li>
+                <code>prefers-contrast: more</code> — thicker border, higher
+                tint
+              </li>
+              <li>
+                <code>prefers-reduced-motion</code> — floating / scroll proxies
+                stop; explorer autoplay pauses
+              </li>
+              <li>
+                <code>@supports not (backdrop-filter)</code> — solid
+                <code>--vd-bg-primary</code> fallback
+              </li>
+              <li>
+                Scroll glass never transitions <code>backdrop-filter</code> —
+                GPU-friendly proxy only
+              </li>
+            </ul>
+            <p class="vd-text-muted" style="font-size: 0.85rem; margin: 0">
+              Tip: never put long-form body copy on raw glass; keep one fib step
+              per surface type; limit overlapping frost layers to two.
+            </p>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Component integration -->
-    <div class="vd-row">
+    <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
-        <div id="demo-glass-components" class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Component Integration</h6></div>
-          <div
-            class="vd-card-body"
-            style="
-              background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-              border-radius: var(--vd-btn-border-radius);
-              padding: 1rem;
-            "
-          >
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header"><h6>Component integration</h6></div>
+          <div class="vd-card-body">
+            <p class="vd-text-muted vd-mb-4">
+              Glass modifiers on kit components — open the modal over a rich
+              Surface so frost reads light, not opaque chrome.
+            </p>
             <div
-              class="vd-navbar vd-navbar-glass"
-              style="
-                border-radius: var(--vd-btn-border-radius);
-                margin-bottom: 1rem;
-              "
+              class="vd-surface vd-surface-aurora vd-surface-5 seemore-integration-stage vd-mb-4"
             >
-              <a class="vd-navbar-brand" href="#" @click.prevent>Vanduo</a>
-              <ul
-                class="vd-navbar-nav"
-                style="position: static; transform: none"
-              >
-                <li>
-                  <a class="vd-nav-link active" href="#" @click.prevent
-                    >Glass</a
+              <div class="seemore-integration-grid">
+                <div class="vd-card vd-card-glass seemore-mini-panel">
+                  <strong
+                    ><RouterLink to="/components/card"
+                      >.vd-card-glass</RouterLink
+                    ></strong
                   >
-                </li>
-                <li>
-                  <a class="vd-nav-link" href="#" @click.prevent>Docs</a>
-                </li>
-              </ul>
-            </div>
-            <div class="vd-row">
-              <div class="vd-col-12 vd-col-md-6">
+                  <p class="vd-text-muted" style="margin: 0.35rem 0 0">
+                    Card surface frost
+                  </p>
+                </div>
                 <div
-                  class="vd-card vd-card-glass"
-                  style="border-radius: var(--vd-btn-border-radius)"
+                  class="vd-toast vd-toast-glass"
+                  style="position: static; width: 100%"
                 >
-                  <div class="vd-card-header">Card Glass</div>
-                  <div class="vd-card-body">
-                    Apply <code>.vd-card-glass</code> for elevated frosted
-                    cards.
+                  <div class="vd-toast-body">
+                    <RouterLink to="/components/toast"
+                      >.vd-toast-glass</RouterLink
+                    >
+                    sample
                   </div>
                 </div>
-              </div>
-              <div class="vd-col-12 vd-col-md-6">
-                <div
-                  class="vd-toast vd-toast-glass is-visible"
-                  style="position: static; transform: none; width: 100%"
-                >
-                  <div class="vd-toast-content">
-                    <div class="vd-toast-title">Toast Glass</div>
-                    <div class="vd-toast-message">
-                      Use <code>.vd-toast-glass</code> for floating
-                      notifications.
-                    </div>
-                  </div>
+                <div class="seemore-fab-row">
+                  <button type="button" class="vd-fab vd-fab-glass">
+                    <i class="ph ph-plus" aria-hidden="true"></i>
+                  </button>
+                  <RouterLink to="/components/fab" class="vd-text-muted"
+                    >.vd-fab-glass</RouterLink
+                  >
                 </div>
               </div>
-            </div>
-            <div
-              style="display: flex; justify-content: flex-end; margin-top: 1rem"
-            >
-              <button class="vd-fab vd-fab-glass" aria-label="Glass action">
-                <i class="ph ph-plus"></i>
+              <div class="seemore-integration-links">
+                <RouterLink
+                  v-for="c in glassComponents"
+                  :key="c.to"
+                  :to="c.to"
+                  class="seemore-comp-link"
+                >
+                  <strong>{{ c.label }}</strong>
+                  <span>{{ c.blurb }}</span>
+                </RouterLink>
+              </div>
+              <button
+                type="button"
+                class="vd-btn vd-btn-primary"
+                @click="glassModalOpen = true"
+              >
+                Open glass modal
               </button>
             </div>
-            <button
-              class="vd-btn vd-btn-primary vd-mt-3"
-              @click="glassModalOpen = true"
-            >
-              Open Glass Modal
-            </button>
-            <div
-              class="vd-modal vd-modal-glass"
-              :class="{ 'is-open': glassModalOpen }"
-              id="glass-modal-demo"
-            >
-              <div
-                class="vd-modal-backdrop vd-modal-glass-backdrop"
-                @click="glassModalOpen = false"
-              ></div>
-              <div class="vd-modal-dialog">
-                <div class="vd-modal-content">
-                  <div class="vd-modal-header">
-                    <h4 class="vd-modal-title">Modal Glass</h4>
-                    <button
-                      class="vd-modal-close"
-                      aria-label="Close"
-                      @click="glassModalOpen = false"
-                    >
-                      &times;
-                    </button>
-                  </div>
-                  <div class="vd-modal-body">
-                    The <code>.vd-modal-glass</code> variant applies frosted
-                    glass styling to modal surfaces.
-                  </div>
-                  <div class="vd-modal-footer">
-                    <button
-                      class="vd-btn vd-btn-secondary"
-                      @click="glassModalOpen = false"
-                    >
-                      Close
-                    </button>
-                    <button class="vd-btn vd-btn-primary">Confirm</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <DocCodeSnippet :html="componentsHtml" />
+            <DocCodeSnippet class="vd-mt-4" :js="vue3Wiring" />
           </div>
         </div>
-        <DocCodeSnippet :html="componentsHtml" />
       </div>
     </div>
 
-    <!-- Accessibility + Theming -->
+    <!-- Tokens -->
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header"><h6>Theming tokens</h6></div>
+          <div class="vd-card-body">
+            <table class="vd-table">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>Role</th>
+                  <th>Default (step 5)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="[name, role, def] in tokens" :key="name">
+                  <td>
+                    <code>{{ name }}</code>
+                  </td>
+                  <td>{{ role }}</td>
+                  <td>
+                    <code>{{ def }}</code>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll demo -->
     <div class="vd-row">
-      <div class="vd-col-12 vd-col-md-6">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header">
-            <h6>
-              <i
-                class="ph ph-wheelchair mr-2"
-                style="color: var(--vd-color-primary)"
-              ></i
-              >Accessibility
-            </h6>
-          </div>
-          <div class="vd-card-body">
-            <ul>
-              <li>
-                Glass classes include
-                <code>prefers-reduced-transparency: reduce</code> fallbacks that
-                disable blur and return to solid surfaces.
-              </li>
-              <li>
-                Floating interactions respect
-                <code>prefers-reduced-motion: reduce</code>.
-              </li>
-              <li>
-                Use <code>.vd-glass-contrast</code> on busy backgrounds to
-                improve text legibility.
-              </li>
-              <li>
-                Keep body text contrast above WCAG AA by testing overlays in
-                both light and dark themes.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="vd-col-12 vd-col-md-6">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header">
-            <h6>
-              <i
-                class="ph ph-paint-brush mr-2"
-                style="color: var(--vd-color-primary)"
-              ></i
-              >Theming
-            </h6>
-          </div>
-          <div class="vd-card-body">
-            <p class="vd-mb-3">
-              Override glass tokens per app, theme, or component scope.
-            </p>
-            <DocCodeSnippet :css="themingCss" default-open />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Scroll-activated glass -->
-    <div class="vd-row vd-mt-8">
       <div class="vd-col-12">
-        <h5 class="vd-mb-2">
-          <i
-            class="ph ph-arrow-up mr-2"
-            style="color: var(--vd-color-primary)"
-          ></i
-          >Scroll-Activated Glass
-        </h5>
-        <p class="vd-mb-4">
-          Two complementary APIs let you activate glass effects on scroll rather
-          than at page-load time. The framework handles all the
-          observer/listener logic — no custom JavaScript required beyond a
-          single wiring call.
-        </p>
-        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
-      </div>
-    </div>
-
-    <div class="vd-row vd-mb-6">
-      <div class="vd-col-12">
-        <div class="vd-card demo-card">
-          <div class="vd-card-header">
-            <h6 class="vd-mb-0">
-              <code>.vd-navbar-glass</code> — Navbar scroll activation
-            </h6>
-          </div>
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header"><h6>Scroll-activated glass</h6></div>
           <div class="vd-card-body">
-            <p class="vd-mb-3">
-              Add <code>.vd-navbar-glass</code> to any
-              <code>.vd-navbar-fixed</code> or <code>.vd-navbar-sticky</code>.
-              The navbar starts fully transparent and gains the frosted glass
-              surface once the user scrolls past its height (or a custom
-              threshold set with <code>data-scroll-threshold</code>). The
-              <code>.vd-navbar-scrolled</code> class is toggled automatically by
-              the framework.
-            </p>
-            <DocCodeSnippet :html="navbarGlassHtml" default-open />
-            <p
-              class="vd-mt-3 vd-mb-0"
-              style="font-size: 0.875rem; color: var(--vd-text-secondary)"
-            >
-              The docs navbar above is a live example — scroll this page to see
-              the effect.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="vd-row vd-mb-6">
-      <div class="vd-col-12 vd-col-md-6">
-        <div class="vd-card demo-card" style="height: 100%">
-          <div class="vd-card-header">
-            <h6 class="vd-mb-0">
-              <code>data-glass-scroll</code> — Generic activation
-            </h6>
-          </div>
-          <div class="vd-card-body">
-            <p class="vd-mb-3">
-              Any element — sidebar, floating panel, sticky header — can adopt
-              scroll-aware glass by pairing <code>.vd-glass</code> with the
-              <code>data-glass-scroll</code> attribute. The framework uses
-              <code>IntersectionObserver</code> to watch a sentinel element
-              (previous sibling by default, or a CSS selector via
-              <code>data-glass-sentinel</code>) and toggles
-              <code>.is-glass-active</code> automatically.
-            </p>
-            <ul class="vd-mb-0" style="font-size: 0.9rem">
-              <li>No JavaScript required in your markup</li>
-              <li>Works on any scrollable container, not just the window</li>
-              <li>
-                CSS handles the inactive→active transition via
-                <code>transition</code>
-              </li>
-              <li>Falls back to always-active when no sentinel is found</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="vd-col-12 vd-col-md-6">
-        <div id="demo-glass-scroll" class="vd-card demo-card">
-          <div class="vd-card-header"><h6 class="vd-mb-0">Live demo</h6></div>
-          <div
-            class="vd-card-body"
-            style="
-              padding: 0;
-              overflow: hidden;
-              border-radius: 0 0 var(--vd-btn-border-radius-lg)
-                var(--vd-btn-border-radius-lg);
-            "
-          >
+            <div id="seemore-scroll-sentinel" class="seemore-sentinel">
+              Sentinel — scroll until this leaves view
+            </div>
             <div
-              style="height: 260px; overflow-y: auto; position: relative"
-              id="glass-scroll-demo-container"
+              class="vd-glass vd-glass-8"
+              data-glass-scroll
+              data-glass-sentinel="#seemore-scroll-sentinel"
+              style="padding: 1.25rem; margin-top: 1rem"
             >
-              <div
-                id="glass-scroll-sentinel"
-                style="
-                  height: 80px;
-                  background: linear-gradient(135deg, #8ec5fc 0%, #e0c3fc 100%);
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                "
-              >
-                <span style="font-size: 0.8rem; opacity: 0.75"
-                  >↑ scroll sentinel</span
-                >
-              </div>
-              <div
-                style="
-                  padding: 1.5rem;
-                  background: linear-gradient(160deg, #d9afd9 0%, #97d9e1 100%);
-                  min-height: 400px;
-                "
-              >
-                <div
-                  class="vd-glass vd-glass-tinted"
-                  data-glass-scroll
-                  data-glass-sentinel="#glass-scroll-sentinel"
-                  style="
-                    position: sticky;
-                    top: 0;
-                    padding: 0.75rem 1rem;
-                    border-radius: var(--vd-btn-border-radius);
-                    z-index: 10;
-                    margin-bottom: 1rem;
-                  "
-                >
-                  <span style="font-size: 0.875rem; font-weight: 500"
-                    >Sticky glass panel — activates on scroll</span
-                  >
-                </div>
-                <p style="font-size: 0.875rem; opacity: 0.8; margin: 0">
-                  Scroll inside this box to see the glass surface activate once
-                  the sentinel element above leaves the viewport.
-                </p>
-                <div style="height: 300px"></div>
-              </div>
+              Transparent at rest; frosts when the sentinel exits (blur enables
+              instantly — no <code>backdrop-filter</code> transition).
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="vd-row">
-      <div class="vd-col-12">
-        <DocCodeSnippet :html="scrollHtml" />
+    <VdModal
+      :open="glassModalOpen"
+      title="Seemore glass modal"
+      glass
+      size="md"
+      @update:open="glassModalOpen = $event"
+      @close="glassModalOpen = false"
+    >
+      <p>
+        Light frosted overlay (step-13 defaults) — glass over whatever Surface
+        or page content sits behind the soft wash backdrop.
+      </p>
+      <div
+        class="vd-card vd-card-glass"
+        style="padding: 0.85rem; margin: 1rem 0"
+      >
+        <strong>Related glass components</strong>
+        <ul style="margin: 0.5rem 0 0; padding-left: 1.1rem">
+          <li>
+            <RouterLink to="/components/modal">Modal</RouterLink> —
+            <code>glass</code> prop
+          </li>
+          <li>
+            <RouterLink to="/components/card">Card</RouterLink> —
+            <code>.vd-card-glass</code>
+          </li>
+          <li>
+            <RouterLink to="/components/toast">Toast</RouterLink> —
+            <code>.vd-toast-glass</code>
+          </li>
+          <li>
+            <RouterLink to="/components/fab">FAB</RouterLink> —
+            <code>.vd-fab-glass</code>
+          </li>
+          <li>
+            <RouterLink to="/components/navbar">Navbar</RouterLink> — glass +
+            <code>.vd-navbar-float</code>
+          </li>
+        </ul>
       </div>
-    </div>
+    </VdModal>
   </section>
 </template>
 
-<style>
-#glass .glass-insight {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--vd-text-secondary);
-}
-#glass .glass-controls-card .vd-card-body {
-  display: grid;
-  gap: 0.75rem;
-}
-#glass .glass-controls {
+<style scoped>
+.seemore-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
+  gap: 0.55rem;
   align-items: center;
 }
-#glass .glass-control-chip {
+.seemore-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.7rem;
-  border-radius: 999px;
-  border: 1px solid var(--vd-border-primary);
+  gap: 0.35rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  border: 1px solid var(--vd-border-color);
   background: var(--vd-bg-secondary);
   font-size: 0.82rem;
   cursor: pointer;
   user-select: none;
 }
-#glass .glass-control-chip input {
+.seemore-chip input {
   accent-color: var(--vd-color-primary);
 }
-#glass .glass-demo-grid .vd-card-body {
-  border-radius: var(--vd-btn-border-radius);
-  display: grid;
-  gap: 0.75rem;
-  padding: 1rem;
+.seemore-play-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  border: 1px solid var(--vd-border-color);
+  background: var(--vd-bg-secondary);
+  color: var(--vd-text-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
 }
-#glass .glass-demo-stage {
-  --glass-stage-bg: linear-gradient(
-    140deg,
-    #5b8cff 0%,
-    #a65eea 38%,
-    #e05f8b 70%,
-    #f7b267 100%
-  );
-  background:
-    radial-gradient(
-      circle at 78% 20%,
-      rgba(255, 255, 255, 0.22),
-      transparent 36%
-    ),
-    radial-gradient(circle at 20% 75%, rgba(10, 26, 76, 0.36), transparent 46%),
-    repeating-linear-gradient(
-      115deg,
-      rgba(255, 255, 255, 0.12) 0 18px,
-      rgba(0, 0, 0, 0.07) 18px 36px
-    ),
-    var(--glass-stage-bg);
-  border-radius: var(--vd-btn-border-radius);
-  padding: 0.8rem;
-  display: grid;
-  gap: 0.75rem;
+.seemore-play-btn[aria-pressed="true"] {
+  border-color: var(--vd-color-primary);
+  color: var(--vd-color-primary);
 }
-#glass .glass-comparison-row {
-  border-radius: calc(var(--vd-btn-border-radius) - 2px);
-  background: rgba(6, 8, 17, 0.24);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.65rem;
-  color: #f4f7ff;
-}
-#glass .glass-comparison-head {
+.seemore-stage {
+  min-height: 16rem;
+  border-radius: var(--vd-radius-fib-8, 0.75rem);
+  padding: 1.5rem;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s ease;
+}
+.seemore-stage.is-crossfading,
+.seemore-hero-panel.is-crossfading {
+  opacity: 0.62;
+}
+.seemore-hero-panel {
+  max-width: 32rem;
+  width: 100%;
+  border-radius: var(--vd-radius-fib-8, 0.75rem);
+  padding: 1.5rem;
+  /* Calm step/surface swaps: opacity + soft chrome only — no transform bounce */
+  transform: none !important;
+  transition:
+    opacity 0.45s ease,
+    box-shadow 0.45s ease,
+    border-color 0.45s ease,
+    background-color 0.45s ease;
+}
+.seemore-hero-panel.vd-glass-floating:hover,
+.seemore-hero-panel.vd-glass-floating:focus-within {
+  box-shadow: inherit;
+}
+.seemore-hero-title {
+  color: var(--vd-color-primary);
+  margin: 0 0 0.5rem;
+}
+.seemore-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+.seemore-primitive-card {
+  height: 100%;
+  margin-bottom: 1rem;
+}
+.seemore-step-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+.seemore-step-btn {
+  min-width: 2.75rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  border: 1px solid var(--vd-border-color);
+  background: var(--vd-bg-secondary);
+  color: var(--vd-text-primary);
+  cursor: pointer;
+  font-weight: 600;
+}
+.seemore-step-btn.is-active {
+  border-color: var(--vd-color-primary);
+  background: color-mix(in srgb, var(--vd-color-primary) 18%, transparent);
+  color: var(--vd-color-primary);
+}
+.seemore-readout {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
-  align-items: baseline;
-  margin-bottom: 0.55rem;
+  font-size: 0.85rem;
 }
-#glass .glass-comparison-head small {
-  font-size: 0.72rem;
-  opacity: 0.9;
+.seemore-table-wrap {
+  padding: 0.25rem 0 0.25rem 0.5rem;
+  max-height: 22rem;
+  overflow: auto;
 }
-#glass .glass-surface-pair {
+.seemore-table tbody tr {
+  cursor: pointer;
+}
+.seemore-table tbody tr.is-active-row {
+  background: color-mix(in srgb, var(--vd-color-primary) 12%, transparent);
+}
+.seemore-mini-stage {
+  min-height: 8.5rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  padding: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.seemore-mini-panel {
+  width: 100%;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  padding: 0.75rem;
+  text-align: center;
+}
+.seemore-mod-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.65rem;
+  gap: 0.75rem;
+  width: 100%;
 }
-#glass .glass-surface {
-  border-radius: var(--vd-btn-border-radius);
-  padding: 0.6rem;
-  min-height: 74px;
+.seemore-a11y-list {
+  margin: 0 0 1rem;
+  padding-left: 1.1rem;
   display: grid;
-  align-content: center;
-  gap: 0.25rem;
-  font-size: 0.78rem;
+  gap: 0.55rem;
+  font-size: 0.9rem;
 }
-#glass .glass-surface-base {
-  background: rgba(14, 20, 38, 0.43);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: rgba(245, 247, 255, 0.92);
+.seemore-sentinel {
+  padding: 1rem;
+  border: 1px dashed var(--vd-border-color);
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  background: var(--vd-bg-secondary);
 }
-#glass .glass-note {
-  margin: 0.55rem 0 0;
+.seemore-integration-stage {
+  border-radius: var(--vd-radius-fib-8, 0.75rem);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.seemore-integration-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.85rem;
+  align-items: center;
+}
+.seemore-fab-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.seemore-integration-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+.seemore-comp-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  background: color-mix(in srgb, var(--vd-bg-primary) 55%, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.82rem;
+  min-width: 7.5rem;
+}
+.seemore-comp-link:hover {
+  border-color: var(--vd-color-primary);
+}
+.seemore-comp-link span {
+  opacity: 0.75;
   font-size: 0.75rem;
-  color: rgba(245, 247, 255, 0.88);
 }
-#glass:has(#glass-bg-stripes:checked) .glass-demo-grid .glass-demo-stage {
-  --glass-stage-bg: linear-gradient(
-    135deg,
-    #2563eb 0%,
-    #9333ea 52%,
-    #f97316 100%
-  );
-  background:
-    repeating-linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.18) 0 16px,
-      rgba(0, 0, 0, 0.11) 16px 32px
-    ),
-    linear-gradient(135deg, #2563eb 0%, #9333ea 52%, #f97316 100%);
-}
-#glass:has(#glass-bg-noise:checked) .glass-demo-grid .glass-demo-stage {
-  --glass-stage-bg: linear-gradient(
-    155deg,
-    #334155 0%,
-    #4338ca 48%,
-    #be185d 100%
-  );
-  background:
-    radial-gradient(
-      circle at 12% 14%,
-      rgba(255, 255, 255, 0.18),
-      transparent 28%
-    ),
-    radial-gradient(circle at 82% 78%, rgba(0, 0, 0, 0.34), transparent 44%),
-    repeating-radial-gradient(
-      circle at 18% 15%,
-      rgba(255, 255, 255, 0.065) 0 2px,
-      rgba(0, 0, 0, 0.055) 2px 5px
-    ),
-    var(--glass-stage-bg);
-}
-#glass:has(#glass-force-hover:checked) .glass-demo-grid .glass-floating-target {
-  transform: translateY(var(--vd-glass-float-translate-y));
-  box-shadow: var(--vd-glass-float-shadow);
+@media (prefers-reduced-motion: reduce) {
+  .seemore-stage,
+  .seemore-hero-panel {
+    transition: none;
+  }
+  .seemore-stage.is-crossfading,
+  .seemore-hero-panel.is-crossfading {
+    opacity: 1;
+  }
 }
 </style>

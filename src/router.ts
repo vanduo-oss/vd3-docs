@@ -2,7 +2,6 @@ import type { RouteRecordRaw } from "vue-router";
 import HomePage from "@/pages/home.vue";
 import AboutPage from "@/pages/about.vue";
 import ChangelogPage from "@/pages/changelog.vue";
-import KiloOssPage from "@/pages/kilo-oss.vue";
 import DocsLandingPage from "@/pages/docs-landing.vue";
 import CbunPage from "@/pages/cbun.vue";
 import ShowcasePage from "@/pages/showcase.vue";
@@ -71,6 +70,7 @@ import TemplatePage from "@/pages/components/Template.vue";
 import NavigationPage from "@/pages/components/Navigation.vue";
 import ColorPalettePage from "@/pages/core/ColorPalette.vue";
 import GlassPage from "@/pages/effects/Glass.vue";
+import SurfacesPage from "@/pages/effects/Surfaces.vue";
 import ThemeSwitcherPage from "@/pages/components/ThemeSwitcher.vue";
 import ThemeCustomizerPage from "@/pages/components/ThemeCustomizer.vue";
 import GettingStartedPage from "@/pages/guides/GettingStarted.vue";
@@ -168,6 +168,7 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   "shadows-glow": ShadowsGlowPage,
   "layout-primitives": PrimitivesPage,
   glass: GlassPage,
+  surfaces: SurfacesPage,
   morph: MorphPage,
   parallax: ParallaxPage,
   "liquid-gradient": LiquidGradientPage,
@@ -198,7 +199,6 @@ const pageComponents: Record<string, ReturnType<typeof definePage>> = {
   home: HomePage,
   about: AboutPage,
   changelog: ChangelogPage,
-  "kilo-oss": KiloOssPage,
   "docs-landing": DocsLandingPage,
   cbun: CbunPage,
   showcase: ShowcasePage,

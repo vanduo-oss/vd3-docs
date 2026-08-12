@@ -56,7 +56,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.2.3</span
+              >v1.3.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>August 2026
@@ -64,6 +64,74 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Seemore Glass</strong> — Fibonacci strength-step
+                  frosted material — plus reusable
+                  <strong>decorative Surfaces</strong> for hero backdrops.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-drop-half-bottom"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Seemore Glass</strong>
+                        <p>
+                          Canonical modifiers
+                          <code>.vd-glass-{1,2,3,5,8,13,21}</code> bundle blur,
+                          tint, border, saturate, grain, and elevation. Base
+                          <code>.vd-glass</code> is step 5; legacy
+                          <code>sm|lg|xl</code> alias to 3/8/13. New
+                          <code>.vd-glass-adaptive</code>, a11y media-query
+                          hardening, and scroll glass that never transitions
+                          <code>backdrop-filter</code>. See
+                          <RouterLink to="/effects/glass"
+                            ><code>/effects/glass</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-checkerboard"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Decorative Surfaces</strong>
+                        <p>
+                          Layer 5 <code>.vd-surface</code> with mesh, stripe,
+                          noise, aurora, dots, and grid — plus intensity
+                          <code>.vd-surface-{3,5,8}</code>. Documented at
+                          <RouterLink to="/effects/surfaces"
+                            ><code>/effects/surfaces</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.2.3</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">

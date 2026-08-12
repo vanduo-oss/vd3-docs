@@ -244,9 +244,6 @@ const swatches = [
               <span class="hero-title-word">UI</span>
             </span>
           </h2>
-          <p class="hero-subtitle vd-text-muted">
-            Vue 3 Design System &amp; Components
-          </p>
           <div class="vd-mt-6 hero-cta-buttons">
             <RouterLink
               to="/guides/getting-started"
@@ -272,6 +269,64 @@ const swatches = [
         </div>
       </div>
     </div>
+
+    <!-- Seemore Glass story -->
+    <section
+      id="home-seemore"
+      class="seemore-home"
+      aria-labelledby="seemore-home-title"
+    >
+      <div class="vd-container-responsive seemore-home-inner">
+        <div class="vd-row" style="align-items: center">
+          <div class="vd-col-12 vd-col-lg-5">
+            <h2 id="seemore-home-title" class="seemore-home-title">
+              See more glass, Seymour!
+            </h2>
+            <p class="seemore-home-lead">
+              Generic glassmorphism picks one blur and hopes for the best.
+              <strong>Seemore Glass</strong> is different: every strength step
+              follows the Fibonacci sequence — the same harmonic spine as vd3’s
+              spacing, radius, and golden-ratio DNA — so blur, tint, edge, and
+              elevation thicken together as one material.
+            </p>
+            <p class="seemore-home-lead vd-text-muted">
+              Pair it with decorative Surfaces (mesh, stripe, noise, aurora,
+              dots, grid) and your frosted UI finally has a stage worthy of the
+              frost.
+            </p>
+            <div class="seemore-home-cta">
+              <RouterLink
+                to="/effects/glass"
+                class="vd-btn vd-btn-outline vd-btn-ring"
+              >
+                Explore Seemore Glass
+              </RouterLink>
+              <RouterLink
+                to="/effects/surfaces"
+                class="vd-btn vd-btn-outline vd-btn-ring"
+              >
+                Browse Surfaces
+              </RouterLink>
+            </div>
+          </div>
+          <div class="vd-col-12 vd-col-lg-7">
+            <div
+              class="vd-surface vd-surface-stripe vd-surface-5 seemore-home-stage"
+            >
+              <div
+                class="vd-glass vd-glass-8 vd-glass-adaptive vd-glass-floating seemore-home-panel"
+              >
+                <span class="seemore-home-kicker">.vd-glass-8</span>
+                <p>
+                  Fibonacci step eight — navigation-grade frost over a live
+                  <code>.vd-surface-stripe</code> backdrop.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <div class="vd-container-responsive">
       <!-- Features -->
@@ -329,7 +384,7 @@ const swatches = [
                 <p class="feature-morph-body">{{ feature.body }}</p>
                 <RouterLink
                   :to="feature.guide.to"
-                  class="vd-btn vd-btn-primary feature-morph-link"
+                  class="vd-btn vd-btn-outline vd-btn-ring feature-morph-link"
                   :tabindex="flipped[i] ? 0 : -1"
                   :aria-hidden="flipped[i] ? undefined : 'true'"
                   :aria-label="`Read the guide: ${feature.guide.label}`"
@@ -482,7 +537,7 @@ const swatches = [
               </p>
               <RouterLink
                 to="/docs-landing"
-                class="vd-btn vd-btn-outline vd-btn-lg"
+                class="vd-btn vd-btn-outline vd-btn-ring"
               >
                 Documentation
               </RouterLink>
@@ -493,3 +548,68 @@ const swatches = [
     </div>
   </section>
 </template>
+
+<style scoped>
+.seemore-home {
+  padding: 4.5rem 0 3.5rem;
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 85% 20%,
+      color-mix(in srgb, var(--vd-color-primary) 14%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--vd-bg-secondary) 55%, transparent),
+      transparent
+    );
+}
+.seemore-home-title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+  line-height: 1.15;
+  color: var(--vd-color-primary);
+}
+.seemore-home-lead {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  max-width: 36rem;
+}
+.seemore-home-cta {
+  display: flex;
+  flex-wrap: wrap;
+  /* Extra room for 2px ring + 6px gap on outline CTAs */
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.seemore-home-stage {
+  min-height: 16rem;
+  border-radius: var(--vd-radius-fib-8, 0.75rem);
+  padding: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+.seemore-home-panel {
+  max-width: 22rem;
+  width: 100%;
+  border-radius: var(--vd-radius-fib-8, 0.75rem);
+  padding: 1.35rem 1.5rem;
+}
+.seemore-home-kicker {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--vd-color-primary);
+}
+@media (min-width: 992px) {
+  .seemore-home-stage {
+    margin-top: 0;
+  }
+}
+</style>
