@@ -118,12 +118,19 @@ const copy = async (): Promise<void> => {
         </button>
       </div>
       <div class="vd-code-snippet-body">
+        <!--
+          `.vd-code-snippet-pane` uses overflow-x: auto (vd3 CSS). When long
+          lines overflow, axe `scrollable-region-focusable` requires keyboard
+          access — tabindex="0" on the active pane lets users scroll without a
+          pointer. Inactive panes stay out of the tab order.
+        -->
         <pre
           v-for="l in highlightedLangs"
           :key="l.key"
           class="vd-code-snippet-pane"
           :class="{ 'is-active': active === l.key }"
           :data-lang="l.key"
+          :tabindex="expanded && active === l.key ? 0 : -1"
         ><code class="hljs" v-html="l.highlighted"></code></pre>
       </div>
     </div>
