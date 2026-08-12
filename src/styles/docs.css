@@ -2683,7 +2683,6 @@ a:hover .vd-card-interactive.vd-card-glow {
   font-size: 1.2rem;
   transition:
     color 0.2s,
-    border-color 0.2s,
     background 0.2s;
 }
 
@@ -2709,7 +2708,6 @@ a:hover .vd-card-interactive.vd-card-glow {
   font-size: 1.2rem;
   transition:
     color 0.2s,
-    border-color 0.2s,
     background 0.2s;
 }
 
@@ -2735,7 +2733,6 @@ a:hover .vd-card-interactive.vd-card-glow {
   font-size: 1.2rem;
   transition:
     color 0.2s,
-    border-color 0.2s,
     background 0.2s;
 }
 
@@ -2767,7 +2764,9 @@ a:hover .vd-card-interactive.vd-card-glow {
   border-color: transparent;
 }
 
-/* Remap vd3 theme-switcher glyphs to Phosphor Bold (chrome weight) */
+/* Remap vd3 theme-switcher glyphs to Phosphor Bold (chrome weight).
+   Codepoints mirror Spindrift Chess and must be re-checked when bumping
+   Phosphor or when VdThemeSwitcher changes its .ph-* class names. */
 .navbar-actions-always .vd-theme-switcher-toggle .ph {
   font-family: Phosphor-Bold, sans-serif !important;
 }
