@@ -498,10 +498,12 @@ html[data-theme="dark"][data-primary="green"] {
   object-fit: contain;
 }
 
+/* Park fully off-canvas — `top: -40px` left a ~1.5px primary stripe in-view
+   because the padded link is taller than the offset. */
 .skip-link {
   position: absolute;
-  top: -40px;
-  left: 0;
+  top: 0;
+  left: -9999px;
   background: var(--vd-color-primary);
   color: var(--vd-color-white);
   padding: 8px;
@@ -510,7 +512,7 @@ html[data-theme="dark"][data-primary="green"] {
 }
 
 .skip-link:focus {
-  top: 0;
+  left: 0;
 }
 
 .vd-tooltip:not(.is-visible) {
