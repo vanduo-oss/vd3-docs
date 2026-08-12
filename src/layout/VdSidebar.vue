@@ -96,7 +96,7 @@ const tocOpen = ref(false);
 
   <div class="doc-sidebar-filter">
     <i
-      class="ph ph-funnel-simple doc-sidebar-filter-icon"
+      class="ph-bold ph-funnel-simple doc-sidebar-filter-icon"
       aria-hidden="true"
     ></i>
     <input
@@ -134,7 +134,7 @@ const tocOpen = ref(false);
             :data-section="section.id"
             @click="tocOpen = false"
           >
-            <i :class="`ph ph-${section.icon ?? 'circle'} mr-2`"></i>
+            <i :class="`ph-bold ph-${section.icon ?? 'circle'} mr-2`"></i>
             <span class="doc-nav-link-text">{{ section.title }}</span>
           </RouterLink>
         </li>

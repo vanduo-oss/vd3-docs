@@ -74,6 +74,55 @@ body {
   background-color: var(--vd-bg-primary);
 }
 
+/* ── Docs shell navbar frost (chess-inspired, slightly more transparent) ──
+   Spindrift Chess uses 0.88 / 40px always-on. Docs targets 0.78 / 32px,
+   intensifying to 40px blur when scrolled. Always frosted (not transparent
+   at rest). */
+.vd-navbar.vd-navbar-glass {
+  --vd-glass-bg-opacity: 0.78;
+  --vd-glass-blur: 32px;
+  --vd-glass-saturate: 2;
+  --vd-glass-border-alpha: 0.22;
+  --vd-glass-shadow: 0 8px 32px rgb(0 0 0 / 10%);
+}
+
+.vd-navbar.vd-navbar-glass:not(.vd-navbar-scrolled),
+.vd-navbar.vd-navbar-glass.vd-navbar-scrolled {
+  background: var(--vd-glass-bg-light);
+  border-bottom-color: var(--vd-glass-border-light);
+  box-shadow: var(--vd-glass-shadow);
+  backdrop-filter: blur(var(--vd-glass-blur)) saturate(var(--vd-glass-saturate));
+  -webkit-backdrop-filter: blur(var(--vd-glass-blur))
+    saturate(var(--vd-glass-saturate));
+}
+
+.vd-navbar.vd-navbar-glass.vd-navbar-scrolled {
+  --vd-glass-blur: 40px;
+  --vd-glass-saturate: 2.2;
+}
+
+[data-theme="dark"] .vd-navbar.vd-navbar-glass {
+  --vd-glass-bg-opacity: 0.78;
+  --vd-glass-bg-dark: rgb(30 30 45 / var(--vd-glass-bg-opacity));
+  --vd-glass-border-light: rgb(255 255 255 / 12%);
+  --vd-glass-shadow: 0 8px 32px rgb(0 0 0 / 30%);
+
+  background: var(--vd-glass-bg-dark);
+  border-bottom-color: var(--vd-glass-border-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .vd-navbar.vd-navbar-glass {
+    --vd-glass-bg-opacity: 0.78;
+    --vd-glass-bg-dark: rgb(30 30 45 / var(--vd-glass-bg-opacity));
+    --vd-glass-border-light: rgb(255 255 255 / 12%);
+    --vd-glass-shadow: 0 8px 32px rgb(0 0 0 / 30%);
+
+    background: var(--vd-glass-bg-dark);
+    border-bottom-color: var(--vd-glass-border-light);
+  }
+}
+
 /* ── Dark mode scrollbars (docs) ─────────────────── */
 [data-theme="dark"] {
   --vd-bg-primary: var(--vd-charcoal-9);
@@ -2619,19 +2668,19 @@ a:hover .vd-card-interactive.vd-card-glow {
   order: 99;
 }
 
-/* Navbar trigger button */
+/* Navbar trigger button — chess-like borderless chrome */
 .global-search-trigger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--vd-border-color);
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid transparent;
   border-radius: var(--vd-card-border-radius);
   background: transparent;
-  color: var(--vd-text-secondary);
+  color: var(--vd-text-primary);
   cursor: pointer;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   transition:
     color 0.2s,
     border-color 0.2s,
@@ -2640,8 +2689,8 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 .global-search-trigger:hover {
   color: var(--vd-color-primary);
-  border-color: var(--vd-color-primary);
-  background: var(--vd-color-primary-alpha-10);
+  border-color: transparent;
+  background: var(--vd-bg-secondary);
 }
 
 /* Dark mode toggle button */
@@ -2650,14 +2699,14 @@ a:hover .vd-card-interactive.vd-card-glow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--vd-border-color);
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid transparent;
   border-radius: var(--vd-card-border-radius);
   background: transparent;
-  color: var(--vd-text-secondary);
+  color: var(--vd-text-primary);
   cursor: pointer;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   transition:
     color 0.2s,
     border-color 0.2s,
@@ -2667,8 +2716,8 @@ a:hover .vd-card-interactive.vd-card-glow {
 .dark-mode-toggle:hover,
 .vd-theme-switcher-toggle.dark-mode-toggle:hover {
   color: var(--vd-color-primary);
-  border-color: var(--vd-color-primary);
-  background: var(--vd-color-primary-alpha-10);
+  border-color: transparent;
+  background: var(--vd-bg-secondary);
 }
 
 /* Theme customizer trigger — match search / theme toggle in navbar */
@@ -2676,14 +2725,14 @@ a:hover .vd-card-interactive.vd-card-glow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--vd-border-color);
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid transparent;
   border-radius: var(--vd-card-border-radius);
   background: transparent;
-  color: var(--vd-text-secondary);
+  color: var(--vd-text-primary);
   cursor: pointer;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   transition:
     color 0.2s,
     border-color 0.2s,
@@ -2693,12 +2742,46 @@ a:hover .vd-card-interactive.vd-card-glow {
 .navbar-actions-always .vd-theme-customizer-trigger:hover,
 .navbar-actions-always .vd-theme-customizer-trigger[aria-expanded="true"] {
   color: var(--vd-color-primary);
-  border-color: var(--vd-color-primary);
-  background: var(--vd-color-primary-alpha-10);
+  border-color: transparent;
+  background: var(--vd-bg-secondary);
 }
 
 .navbar-actions-always .vd-theme-customizer-trigger i {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
+}
+
+/* Match vd3 theme switcher hit target to borderless chrome buttons */
+.navbar-actions-always .vd-theme-switcher-toggle {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--vd-card-border-radius);
+  background: transparent;
+  color: var(--vd-text-primary);
+  font-size: 1.2rem;
+}
+
+.navbar-actions-always .vd-theme-switcher-toggle:hover {
+  background: var(--vd-bg-secondary);
+  color: var(--vd-color-primary);
+  border-color: transparent;
+}
+
+/* Remap vd3 theme-switcher glyphs to Phosphor Bold (chrome weight) */
+.navbar-actions-always .vd-theme-switcher-toggle .ph {
+  font-family: Phosphor-Bold, sans-serif !important;
+}
+
+.navbar-actions-always .vd-theme-switcher-toggle .ph-desktop::before {
+  content: "\e560";
+}
+
+.navbar-actions-always .vd-theme-switcher-toggle .ph-sun::before {
+  content: "\e472";
+}
+
+.navbar-actions-always .vd-theme-switcher-toggle .ph-moon::before {
+  content: "\e330";
 }
 
 /* Overlay */

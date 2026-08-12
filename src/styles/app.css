@@ -127,17 +127,7 @@ body {
   color: var(--vd-navbar-link-hover-color, var(--vd-color-primary));
 }
 
-/* Scroll-activated navbar glass — until vd2 bumps @vanduo-oss/framework past 1.5.1.
-   Matches local framework/css/components/navbar.css (80px blur profile). */
-.vd-navbar-glass.vd-navbar-scrolled {
-  --vd-glass-blur: 80px;
-  --vd-glass-saturate: 2.6;
-}
-
-.vd-navbar-fixed.vd-navbar-glass.vd-navbar-scrolled,
-.vd-navbar-fixed-top.vd-navbar-glass.vd-navbar-scrolled {
-  box-shadow: var(--vd-glass-shadow);
-}
+/* Docs shell frost tokens live in docs.css (always-on 0.78 opacity). */
 
 /* ── Zone 2: transitional overrides (delete when framework PR ships) ──
    These rules cover primitives the framework bundle does not yet expose.

@@ -56,14 +56,67 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.2.3</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  Optional theme preference
+                  <strong>storage prefix</strong> so multi-app same-origin hosts
+                  can isolate <code>localStorage</code> keys without colliding
+                  on the default <code>vanduo-*</code> namespace.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-hard-drives"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Theme <code>storagePrefix</code></strong>
+                        <p>
+                          Pass
+                          <code
+                            >app.use(VanduoVue, { storagePrefix: "app-" })</code
+                          >
+                          or call <code>setStoragePrefix</code> /
+                          <code>getStoragePrefix</code> at bootstrap to remap
+                          the six preference keys. Default remains
+                          <code>vanduo-*</code> (back-compat); no automatic
+                          migration between prefixes. See
+                          <RouterLink to="/guides/css-variables"
+                            ><code>/guides/css-variables</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
               >v1.2.2</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>August 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">

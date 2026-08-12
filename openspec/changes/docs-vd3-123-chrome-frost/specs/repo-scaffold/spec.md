@@ -1,32 +1,4 @@
-# repo-scaffold Specification
-
-## Purpose
-TBD - created by archiving change init-docs-scaffold. Update Purpose after archive.
-## Requirements
-### Requirement: ignore rules for build and OS artifacts
-The repository MUST provide a `.gitignore` covering dependency and build
-output (`node_modules`, `dist`, `.vite`, `tsconfig.tsbuildinfo`), test
-artifacts (`playwright-report`, `test-results`), logs (`*.log`), and OS
-noise (`.DS_Store`).
-
-#### Scenario: build and test artifacts are never tracked
-- **GIVEN** a clone of vd3-docs after the site lands and a full
-  build + test run has produced `node_modules/`, `dist/`, `.vite/`,
-  `playwright-report/`, and `test-results/`
-- **WHEN** a contributor runs `git status`
-- **THEN** none of those directories, no `*.log` file, no
-  `tsconfig.tsbuildinfo`, and no `.DS_Store` appear as untracked changes
-
-### Requirement: MIT license
-The repository MUST contain a `LICENSE` file with the MIT license text
-copied verbatim from `vd2/LICENSE` (copyright "2024-2026 Vanduo
-Framework"), so the vd3 docs line ships under the same terms as the rest
-of the Vanduo ecosystem.
-
-#### Scenario: license matches the vd2 source of truth
-- **GIVEN** the read-only reference file `vd2/LICENSE`
-- **WHEN** `LICENSE` in vd3-docs is compared byte-for-byte against it
-- **THEN** the files are identical
+## MODIFIED Requirements
 
 ### Requirement: README states launched status honestly
 
@@ -35,8 +7,8 @@ documentation site for the vd3 line (`@vanduo-oss/vd3` + `@vanduo-oss/vd3-cbun`)
 names it the Vue3-only successor of the vd2 docs site, and SHALL state the current
 status honestly: the site is launched, dogfoods the published packages, and is
 deployed to GitHub Pages at `https://vd3.vanduo.dev/` (Vite base `/`, via
-`public/CNAME`) after changes merge to `main`. The README MUST NOT describe the repo as
-pre-scaffold, local-only, or deploys-disabled, and MUST NOT claim the
+`public/CNAME`) after changes merge to `main`. The README MUST NOT describe the
+repo as pre-scaffold, local-only, or deploys-disabled, and MUST NOT claim the
 `vanduo.dev` apex CNAME (that apex belongs to the `home/` repo; the docs site
 uses the `vd3.vanduo.dev` subdomain).
 
@@ -64,4 +36,3 @@ continue to deploy from `main` after merge.
 - **THEN** they are instructed to open a feature-branch PR to `main`, not to
   push commits straight to `main`, and they learn Pages still deploys from
   `main` after merge
-

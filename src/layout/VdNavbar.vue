@@ -52,7 +52,7 @@ const closeMenu = (): void => {
           aria-label="Open global search"
           @click="onSearchClick"
         >
-          <i class="ph ph-magnifying-glass"></i>
+          <i class="ph-bold ph-magnifying-glass"></i>
         </button>
         <VdThemeCustomizer />
         <VdThemeSwitcher />

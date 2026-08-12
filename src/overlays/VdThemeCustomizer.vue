@@ -115,7 +115,7 @@ defineExpose({ open, close, toggle });
       :aria-expanded="isOpen"
       @click="toggle"
     >
-      <i class="ph ph-paint-roller" aria-hidden="true"></i>
+      <i class="ph-bold ph-paint-roller" aria-hidden="true"></i>
     </button>
 
     <Teleport to="body">
@@ -141,7 +141,7 @@ defineExpose({ open, close, toggle });
               aria-label="Close"
               @click="close"
             >
-              <i class="ph ph-x"></i>
+              <i class="ph-bold ph-x"></i>
             </button>
           </div>
           <div class="tc-body">

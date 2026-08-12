@@ -11,8 +11,8 @@ line only: it MUST declare `@vanduo-oss/vd3` and `@vanduo-oss/vd3-cbun` and MUST
 NOT declare any of `@vanduo-oss/core`, `@vanduo-oss/framework`, `@vanduo-oss/vue`,
 `@vanduo-oss/charts`, `@vanduo-oss/flowchart`, `@vanduo-oss/hex-grid`, or
 `@vanduo-oss/music-player`. The two vd3 dependencies SHALL be the PUBLISHED
-packages resolved from the npm registry — `@vanduo-oss/vd3` at `^1.0.0` and
-`@vanduo-oss/vd3-cbun` at `^1.2.0` (dogfooding). A contributor MAY temporarily
+packages resolved from the npm registry — `@vanduo-oss/vd3` at `^1.2.3` and
+`@vanduo-oss/vd3-cbun` at `^1.3.1` (dogfooding). A contributor MAY temporarily
 `pnpm link` (or `link:../`) the sibling working trees to render unreleased library
 work locally, but the committed manifest SHALL pin the published `^` ranges.
 
@@ -21,13 +21,13 @@ work locally, but the committed manifest SHALL pin the published `^` ranges.
 - **GIVEN** the site's `package.json` after this change
 - **WHEN** its `name`, `private`, and `dependencies` are inspected
 - **THEN** `name` is `@vanduo-oss/vd3-docs`, `private` is `true`, the only
-  `@vanduo-oss/*` dependencies are `@vanduo-oss/vd3` (`^1.0.0`) and
-  `@vanduo-oss/vd3-cbun` (`^1.2.0`), and none of `core`, `framework`, `vue`,
+  `@vanduo-oss/*` dependencies are `@vanduo-oss/vd3` (`^1.2.3`) and
+  `@vanduo-oss/vd3-cbun` (`^1.3.1`), and none of `core`, `framework`, `vue`,
   `charts`, `flowchart`, `hex-grid`, or `music-player` appear
 
 #### Scenario: published vd3 packages resolve from the registry
 
-- **GIVEN** the committed `package.json` pinning `^1.0.0` / `^1.2.0` vd3 deps
+- **GIVEN** the committed `package.json` pinning `^1.2.3` / `^1.3.1` vd3 deps
 - **WHEN** `pnpm install` runs from the docs repo
 - **THEN** `@vanduo-oss/vd3` and `@vanduo-oss/vd3-cbun` resolve to their published
   registry versions with no `link:` entry for either in the lockfile, and the
@@ -39,8 +39,8 @@ work locally, but the committed manifest SHALL pin the published `^` ranges.
 - **WHEN** they `pnpm link` (or temporarily `link:../`) the sibling `../vd3` /
   `../vd3-cbun` working trees
 - **THEN** those linked builds resolve in place of the published versions for the
-  local session, while the committed manifest still pins the published `^1.0.0` /
-  `^1.2.0` ranges
+  local session, while the committed manifest still pins the published `^1.2.3` /
+  `^1.3.1` ranges
 
 ### Requirement: single stylesheet and plugin entry with no vanilla runtime
 
