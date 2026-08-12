@@ -1,19 +1,27 @@
 ## ADDED Requirements
 
-### Requirement: docs shell navbar always-on frost
+### Requirement: docs shell navbar scroll-activated frost
 
-The docs site shell navbar (`.vd-navbar.vd-navbar-glass`) MUST use always-on
-frost tokens stronger than stock vd3 defaults and slightly more transparent
-than Spindrift Chess (`0.88`): `--vd-glass-bg-opacity` of `0.78`, blur of
-`32px` at rest and `40px` when `.vd-navbar-scrolled`, with backdrop-filter
-active even when not scrolled.
+The docs site shell navbar (`.vd-navbar.vd-navbar-glass`) MUST be transparent
+at rest (no background, border, blur, or shadow when not
+`.vd-navbar-scrolled`). When scrolled it MUST show frost at roughly
+`--vd-glass-bg-opacity: 0.78` and `--vd-glass-blur: 40px`. Light scrolled
+glass MUST be opaque/neutral (no primary tint). Dark scrolled glass MUST
+tint with the docs primary color (green), not a violet-leaning base.
 
-#### Scenario: navbar is frosted before scroll
+#### Scenario: navbar is transparent before scroll
 
 - **GIVEN** the docs shell navbar with `vd-navbar-glass`
 - **WHEN** the page is at scroll top (not scrolled)
-- **THEN** the navbar still shows a frosted background and backdrop blur
-  (not fully transparent)
+- **THEN** the navbar background, border, and backdrop-filter are transparent
+  / none
+
+#### Scenario: dark scrolled tint uses primary
+
+- **GIVEN** dark theme and a scrolled docs shell navbar
+- **WHEN** the frosted background is inspected
+- **THEN** it mixes `--vd-color-primary` into a neutral dark glass base
+  (no `rgb(30 30 45)` violet-ish fill)
 
 ### Requirement: docs chrome uses Phosphor Bold icons
 

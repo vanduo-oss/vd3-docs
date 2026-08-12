@@ -7,7 +7,8 @@
 ## 2. Dependency + chrome
 
 - [x] 2.1 Bump `@vanduo-oss/vd3` to `^1.2.3` + lockfile
-- [x] 2.2 Always-on navbar frost tokens in docs.css; retire stale app.css scroll debt
+- [x] 2.2 Scroll-activated navbar frost in docs.css (transparent at rest;
+      light opaque / dark primary-green tint when scrolled)
 - [x] 2.3 Phosphor Bold chrome icons + theme-switcher remap + icon button sizing
 
 ## 3. Changelog + ship

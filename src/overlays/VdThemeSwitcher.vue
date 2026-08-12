@@ -1,62 +1,40 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed } from "vue";
 import { useThemeStore } from "@/stores/theme";
 import type { ThemeMode } from "@vanduo-oss/vd3";
 
 const theme = useThemeStore();
-const root = ref<HTMLElement | null>(null);
-const isOpen = ref(false);
 
-const options: { value: ThemeMode; icon: string; label: string }[] = [
-  { value: "system", icon: "ph-desktop", label: "System" },
-  { value: "light", icon: "ph-sun", label: "Light" },
-  { value: "dark", icon: "ph-moon", label: "Dark" },
-];
+const MODES: ThemeMode[] = ["system", "light", "dark"];
 
-const current = computed(
-  () => options.find((o) => o.value === theme.theme) ?? options[0],
-);
-
-const toggle = (): void => {
-  isOpen.value = !isOpen.value;
-};
-const choose = (mode: ThemeMode): void => {
-  theme.setTheme(mode);
-  isOpen.value = false;
+const options: Record<ThemeMode, { icon: string; label: string }> = {
+  system: { icon: "ph-desktop", label: "System" },
+  light: { icon: "ph-sun", label: "Light" },
+  dark: { icon: "ph-moon", label: "Dark" },
 };
 
-const onDocClick = (event: MouseEvent): void => {
-  if (root.value && !root.value.contains(event.target as Node)) {
-    isOpen.value = false;
-  }
-};
-const onKeydown = (event: KeyboardEvent): void => {
-  if (event.key === "Escape") isOpen.value = false;
-};
+const current = computed(() => options[theme.theme] ?? options.system);
 
-onMounted(() => {
-  document.addEventListener("click", onDocClick);
-  document.addEventListener("keydown", onKeydown);
+const nextLabel = computed(() => {
+  const i = MODES.indexOf(theme.theme);
+  const next = MODES[(i + 1) % MODES.length] ?? "system";
+  return options[next].label;
 });
-onUnmounted(() => {
-  document.removeEventListener("click", onDocClick);
-  document.removeEventListener("keydown", onKeydown);
-});
+
+const cycle = (): void => {
+  const i = MODES.indexOf(theme.theme);
+  const next = MODES[(i + 1) % MODES.length] ?? "system";
+  theme.setTheme(next);
+};
 </script>
 
 <template>
-  <div
-    ref="root"
-    class="vd-theme-switcher vd-theme-switcher-menu-end"
-    :class="{ 'is-open': isOpen }"
-    data-theme-ui="menu"
-  >
+  <div class="vd-theme-switcher" data-theme-ui="cycle">
     <button
       type="button"
       class="vd-theme-switcher-toggle dark-mode-toggle"
-      :aria-label="`Theme: ${current.label}`"
-      :aria-expanded="isOpen"
-      @click="toggle"
+      :aria-label="`Theme: ${current.label}. Click for ${nextLabel}`"
+      @click="cycle"
     >
       <i
         class="ph"
@@ -65,21 +43,5 @@ onUnmounted(() => {
         aria-hidden="true"
       ></i>
     </button>
-    <div class="vd-theme-switcher-menu" role="menu">
-      <button
-        v-for="opt in options"
-        :key="opt.value"
-        type="button"
-        role="menuitemradio"
-        class="vd-theme-switcher-option"
-        :class="{ 'is-active': theme.theme === opt.value }"
-        :data-theme-value="opt.value"
-        :aria-checked="theme.theme === opt.value"
-        :aria-label="opt.label"
-        @click="choose(opt.value)"
-      >
-        <i class="ph" :class="opt.icon" aria-hidden="true"></i>
-      </button>
-    </div>
   </div>
 </template>

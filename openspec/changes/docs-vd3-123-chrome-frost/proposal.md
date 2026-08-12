@@ -8,7 +8,9 @@ transparent than chess), and permanently switch this repo from direct
 ## What Changes
 
 - Bump `@vanduo-oss/vd3` to `^1.2.3` and refresh the lockfile.
-- Always-on navbar frost at opacity `0.78` / blur `32px` (scrolled `40px`).
+- Scroll-activated navbar frost at opacity `0.78` / blur `40px` when
+  scrolled (transparent at rest); dark scrolled tint uses primary green;
+  light scrolled glass is opaque/neutral (no tint).
 - Site chrome icons use Phosphor Bold; Icons weight demos stay multi-weight.
 - Changelog page: vd3 `v1.2.3` Latest card for `storagePrefix`.
 - CONTRIBUTING + `repo-scaffold`: PR-to-`main` is the publish rule; Pages

@@ -127,7 +127,7 @@ body {
   color: var(--vd-navbar-link-hover-color, var(--vd-color-primary));
 }
 
-/* Docs shell frost tokens live in docs.css (always-on 0.78 opacity). */
+/* Docs shell frost tokens live in docs.css (scroll-activated 0.78 opacity). */
 
 /* ── Zone 2: transitional overrides (delete when framework PR ships) ──
    These rules cover primitives the framework bundle does not yet expose.
