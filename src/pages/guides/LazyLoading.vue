@@ -95,19 +95,22 @@ useLazyLoad(root);
   </div>
 </template>`;
 
-const routeJs = `// Vite splits each route into its own chunk — loaded on demand.
+const routeJs = `// Example: Vite splits each route into its own chunk (this docs site does this).
 const routes = [
   { path: '/components/datepicker',
-    component: () => import('@/pages/components/Datepicker.vue') },
+    component: () => import('./pages/Datepicker.vue') },
   { path: '/changelog',
-    component: () => import('@/pages/changelog.vue') }, // heavy → its own chunk
+    component: () => import('./pages/Changelog.vue') },
 ];`;
 
-const componentJs = `// Defer a heavy widget until it is actually rendered.
+const componentJs = `// Defer a heavy CBUN widget until it is actually rendered.
 import { defineAsyncComponent } from 'vue';
-const VdChart = defineAsyncComponent(
-  () => import('@/components/VdChart.vue'),
-);`;
+
+const VdChart = defineAsyncComponent(() =>
+  import('@vanduo-oss/vd3-cbun/charts').then((m) => m.VdChart),
+);
+// Import the widget CSS once (eager is fine — it is a stylesheet, not JS).
+import '@vanduo-oss/vd3-cbun/charts/css';`;
 
 const imgHtml = `<!-- Native lazy images need no JS at all -->
 <img src="hero.jpg" loading="lazy" decoding="async" alt="…">`;
@@ -129,17 +132,17 @@ const api: [string, string][] = [
 ];
 
 const observeOpts: [string, string][] = [
-  [":threshold", "IntersectionObserver threshold (default 0)."],
-  [":rootMargin", 'IntersectionObserver rootMargin (default "0px").'],
+  ["threshold", "IntersectionObserver threshold (default 0)."],
+  ["rootMargin", 'IntersectionObserver rootMargin (default "0px").'],
 ];
 
 const sectionOpts: [string, string][] = [
   [
-    ":placeholder",
+    "placeholder",
     '"skeleton" (default) or "spinner" render the shipped loader markup; any other string is treated as custom HTML and sanitized before injection.',
   ],
   [
-    ":threshold / :rootMargin",
+    "threshold / rootMargin",
     "IntersectionObserver tuning for the deferred fetch.",
   ],
   [
@@ -191,7 +194,7 @@ const tactics: [string, string][] = [
 <template>
   <section id="lazy-loading">
     <h5 class="demo-title">
-      <i class="ph ph-spinner-gap"></i>Lazy Loading
+      <i class="ph ph-spinner-gap"></i>Lazy loading
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
@@ -262,7 +265,7 @@ const tactics: [string, string][] = [
           </span>
         </div>
 
-        <DocCodeSnippet class="vd-mt-5" :html="observeSnippet" />
+        <DocCodeSnippet class="vd-mt-5" :js="observeSnippet" />
       </div>
     </div>
 
@@ -280,7 +283,7 @@ const tactics: [string, string][] = [
               <code>loadSection</code> shows a skeleton, then fetches and
               injects the (sanitized) HTML the first time the container is seen.
             </p>
-            <DocCodeSnippet :html="loadSectionSnippet" :default-open="true" />
+            <DocCodeSnippet :js="loadSectionSnippet" :default-open="true" />
           </div>
         </div>
       </div>
@@ -294,7 +297,7 @@ const tactics: [string, string][] = [
               Pass a root ref and every <code>[data-vd-lazy]</code> descendant
               is auto-wired on mount.
             </p>
-            <DocCodeSnippet :html="wireSnippet" :default-open="true" />
+            <DocCodeSnippet :js="wireSnippet" :default-open="true" />
           </div>
         </div>
       </div>
@@ -346,7 +349,7 @@ const tactics: [string, string][] = [
       <div class="vd-card-header">
         <h6>
           <i
-            class="ph ph-list-dashes mr-2"
+            class="ph ph-list-dashes"
             style="color: var(--vd-color-primary)"
           ></i
           >useLazyLoad API

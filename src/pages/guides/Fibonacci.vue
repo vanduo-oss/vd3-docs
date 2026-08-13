@@ -3,7 +3,7 @@ import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import GuideLinkCards from "@/components/GuideLinkCards.vue";
 
-// The sequence, each value tinted with a status colour so the pattern reads at a
+// The sequence, each value tinted with a status color so the pattern reads at a
 // glance (ported from the old docs' "what is Fibonacci" panel).
 const sequence: { n: number; tone: string }[] = [
   { n: 1, tone: "muted" },
@@ -26,19 +26,19 @@ const fibBars = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144];
 const layouts: { cls: string; cols: string; ratio: string; use: string }[] = [
   {
     cls: "vd-row-fib-3",
-    cols: "fib-2 + fib-3 + fib-5",
+    cols: "vd-col-fib-2 + vd-col-fib-3 + vd-col-fib-5",
     ratio: "2 : 3 : 5  (20 / 30 / 50%)",
     use: "Sidebar + secondary + main",
   },
   {
     cls: "vd-row-fib-3-alt",
-    cols: "fib-3 + fib-5 + fib-8",
+    cols: "vd-col-fib-3 + vd-col-fib-5 + vd-col-fib-8",
     ratio: "3 : 5 : 8  (~19 / 31 / 50%)",
     use: "More dramatic hierarchy",
   },
   {
     cls: "vd-row-fib-4",
-    cols: "fib-1 + fib-2 + fib-3 + fib-5",
+    cols: "vd-col-fib-1 + vd-col-fib-2 + vd-col-fib-3 + vd-col-fib-5",
     ratio: "1 : 2 : 3 : 5  (~9 / 18 / 27 / 45%)",
     use: "Four columns with strong visual flow",
   },
@@ -51,35 +51,43 @@ const scale: [string, string][] = [
   ["34, 55, 89", "Page rhythm, hero spacing"],
 ];
 
-const spacingHtml = `<!-- Fibonacci spacing utilities (rem-based) -->
-<div class="vd-p-fib-5">  <!-- padding -->
-  <h2 class="vd-mb-fib-3">Title</h2>
-  <p class="vd-mb-fib-2">Body copy with harmonious rhythm.</p>
+const spacingHtml = `<!-- Helper utilities: vd-p-* / vd-mb-* use --vd-spacing-* (Fibonacci px steps). -->
+<div class="vd-p-5">
+  <h2 class="vd-mb-3">Title</h2>
+  <p class="vd-mb-2">Body copy with harmonious rhythm.</p>
+</div>
+
+<!-- Primitives: data-pad / data-gap read --vd-space-fib-* (a separate rem scale). -->
+<div class="vd-box" data-pad="fib-5">
+  <div class="vd-stack" data-gap="fib-3">…</div>
 </div>`;
 
 const varCss = `:root {
-  /* The scale every spacing/size token derives from */
-  --vd-space-fib-1: 0.125rem;
-  --vd-space-fib-2: 0.25rem;
-  --vd-space-fib-3: 0.5rem;
-  --vd-space-fib-5: 1rem;
-  --vd-space-fib-8: 2rem;
-  --vd-space-fib-13: 4rem;
+  /* Primitive / layout tokens (tokens.css) — not the helper vd-p-* scale */
+  --vd-space-fib-1: 0.125rem;   /* 2px */
+  --vd-space-fib-2: 0.25rem;    /* 4px */
+  --vd-space-fib-3: 0.375rem;   /* 6px */
+  --vd-space-fib-5: 0.5rem;     /* 8px */
+  --vd-space-fib-8: 0.75rem;    /* 12px */
+  --vd-space-fib-13: 0.8125rem; /* 13px */
+  --vd-space-fib-21: 1.3125rem; /* 21px */
+  --vd-space-fib-34: 2.125rem;  /* 34px */
+  --vd-space-fib-55: 3.4375rem; /* 55px */
 }`;
 
-const fib4Html = `<!-- 4-column Fibonacci (1:2:3:5) -->
+const fib4Html = `<!-- 4-column Fibonacci (1:2:3:5) — children need vd-col-fib-* -->
 <div class="vd-row-fib-4">
-  <div>Narrow (1)</div>
-  <div>Small (2)</div>
-  <div>Medium (3)</div>
-  <div>Wide (5)</div>
+  <div class="vd-col-fib-1">Narrow (1)</div>
+  <div class="vd-col-fib-2">Small (2)</div>
+  <div class="vd-col-fib-3">Medium (3)</div>
+  <div class="vd-col-fib-5">Wide (5)</div>
 </div>`;
 
-const fib3Html = `<!-- 3-column Fibonacci (3:5:8) -->
+const fib3Html = `<!-- 3-column Fibonacci (3:5:8) — children need vd-col-fib-* -->
 <div class="vd-row-fib-3-alt">
-  <div>Sidebar (3)</div>
-  <div>Secondary (5)</div>
-  <div>Main content (8)</div>
+  <div class="vd-col-fib-3">Sidebar (3)</div>
+  <div class="vd-col-fib-5">Secondary (5)</div>
+  <div class="vd-col-fib-8">Main content (8)</div>
 </div>`;
 
 const relatedComponents = [
@@ -117,7 +125,7 @@ const relatedComponents = [
 <template>
   <section id="fibonacci">
     <h5 class="demo-title">
-      <i class="ph ph-spiral"></i>The Fibonacci Scale
+      <i class="ph ph-spiral"></i>Fibonacci scale
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
@@ -225,6 +233,10 @@ const relatedComponents = [
             <h6><i class="ph ph-ruler"></i> The spacing scale, to scale</h6>
           </div>
           <div class="vd-card-body">
+            <p class="vd-text-sm vd-text-muted vd-mb-3">
+              Bar widths are a conceptual px demo of the sequence, not the rem
+              values of <code>--vd-space-fib-*</code>.
+            </p>
             <div class="fib-bars">
               <div v-for="n in fibBars" :key="n" class="fib-bar-row">
                 <code class="vd-text-sm fib-bar-label">{{ n }}px</code>
@@ -258,21 +270,34 @@ const relatedComponents = [
       </div>
       <div class="vd-card-body">
         <p class="vd-mb-4">
-          Swap a single row class to get golden proportions — no custom CSS:
+          Swap a single row class to get golden proportions — no custom CSS.
+          Width rules only apply to children with <code>vd-col-fib-*</code>:
         </p>
 
         <p class="vd-text-sm vd-text-muted vd-mb-2">4-column (1 : 2 : 3 : 5)</p>
         <div class="vd-row-fib-4 fib-demo-row vd-mb-3">
-          <div class="fib-block" style="background: var(--vd-color-error)">
+          <div
+            class="vd-col-fib-1 fib-block"
+            style="background: var(--vd-color-error)"
+          >
             1
           </div>
-          <div class="fib-block" style="background: var(--vd-color-warning)">
+          <div
+            class="vd-col-fib-2 fib-block"
+            style="background: var(--vd-color-warning)"
+          >
             2
           </div>
-          <div class="fib-block" style="background: var(--vd-color-info)">
+          <div
+            class="vd-col-fib-3 fib-block"
+            style="background: var(--vd-color-info)"
+          >
             3
           </div>
-          <div class="fib-block" style="background: var(--vd-color-primary)">
+          <div
+            class="vd-col-fib-5 fib-block"
+            style="background: var(--vd-color-primary)"
+          >
             5
           </div>
         </div>
@@ -280,13 +305,22 @@ const relatedComponents = [
 
         <p class="vd-text-sm vd-text-muted vd-mb-2">3-column (3 : 5 : 8)</p>
         <div class="vd-row-fib-3-alt fib-demo-row vd-mb-3">
-          <div class="fib-block" style="background: var(--vd-color-success)">
+          <div
+            class="vd-col-fib-3 fib-block"
+            style="background: var(--vd-color-success)"
+          >
             3
           </div>
-          <div class="fib-block" style="background: var(--vd-color-primary)">
+          <div
+            class="vd-col-fib-5 fib-block"
+            style="background: var(--vd-color-primary)"
+          >
             5
           </div>
-          <div class="fib-block" style="background: var(--vd-color-info)">
+          <div
+            class="vd-col-fib-8 fib-block"
+            style="background: var(--vd-color-info)"
+          >
             8
           </div>
         </div>

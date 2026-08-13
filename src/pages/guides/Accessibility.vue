@@ -40,14 +40,14 @@ const relatedComponents = [
   },
 ];
 
-const focusCss = `/* Vanduo ships visible focus rings — never remove them outright */
+const focusCss = `/* vd3 ships visible focus rings — never remove them outright */
 .vd-btn:focus-visible {
   outline: 2px solid var(--vd-color-primary);
   outline-offset: 2px;
 }`;
 
-const ariaHtml = `<!-- Components expose the right roles/labels; keep them when you compose -->
-<button class="vd-btn" aria-label="Close dialog">
+const ariaHtml = `<!-- Icon-only controls need an accessible name; VdButton does not invent one. -->
+<button class="vd-btn vd-btn-icon vd-btn-primary" aria-label="Close dialog">
   <i class="ph ph-x" aria-hidden="true"></i>
 </button>
 
@@ -71,10 +71,13 @@ const checklist: [string, string][] = [
     "Semantic roles",
     "Use real <button>/<a>/<nav>; components set role / aria-* for you.",
   ],
-  ["Labels & names", "Icon-only controls need aria-label; images need alt."],
   [
-    "Colour contrast",
-    "Semantic tokens meet WCAG AA in both light and dark themes.",
+    "Labels & names",
+    "Icon-only VdButton needs aria-label; decorative icons get aria-hidden; images need alt.",
+  ],
+  [
+    "Color contrast",
+    "Default semantic tokens are chosen to support WCAG AA in both themes. Brand overrides of --vd-color-* / --vd-text-* are yours to verify.",
   ],
   ["Reduced motion", "Animated effects honour prefers-reduced-motion."],
   [
@@ -82,16 +85,39 @@ const checklist: [string, string][] = [
     "Toasts and count changes use aria-live to announce updates.",
   ],
 ];
+
+const dontUndo: [string, string][] = [
+  [
+    "Modal",
+    "Do not strip aria-modal or replace the dialog markup. Focus is trapped while open and should return to the trigger on close — keep that tree intact.",
+  ],
+  [
+    "Toast",
+    "Mount VdToastContainer once so announcements go through its aria-live region. Prefer plain-text messages over HTML.",
+  ],
+  [
+    "Tabs",
+    'Keep role="tablist" / aria-selected. Do not restyle a row of divs and drop arrow-key roving.',
+  ],
+  [
+    "Overlays",
+    'Modals, offcanvas, and menus expect a sensible focus order. Do not tabindex="-1" the first interactive control inside.',
+  ],
+  [
+    "Test it",
+    "This docs repo runs an axe smoke suite (pnpm run test:a11y). Run axe (or equivalent) against your app's real routes — the checklist is not a certificate.",
+  ],
+];
 </script>
 
 <template>
   <section id="accessibility">
     <h5 class="demo-title">
-      <i class="ph ph-wheelchair"></i>Accessibility Essentials
+      <i class="ph ph-wheelchair"></i>Accessibility
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      Vanduo's components ship with sensible roles, labels, focus styles, and
+      vd3's components ship with sensible roles, labels, focus styles, and
       motion guards. Accessibility is mostly about <em>not undoing</em> those
       defaults as you compose — and filling the gaps only you can: meaningful
       labels, alt text, and logical structure.
@@ -135,6 +161,32 @@ const checklist: [string, string][] = [
             </p>
             <DocCodeSnippet :css="motionCss" :default-open="true" />
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-card demo-card vd-mb-6">
+      <div class="vd-card-header">
+        <h6><i class="ph ph-prohibit"></i> Don't undo this</h6>
+      </div>
+      <div class="vd-card-body">
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Rule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in dontUndo" :key="row[0]">
+                <td>
+                  <strong>{{ row[0] }}</strong>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

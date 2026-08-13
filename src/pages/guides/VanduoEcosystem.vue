@@ -19,13 +19,6 @@ const nextLinks = [
     badge: "Guide",
   },
   {
-    to: "/guides/migration",
-    icon: "ph-arrows-down-up",
-    title: "Migrating from v2",
-    desc: "Move a vanduo v2 app across to the vd3 line.",
-    badge: "Guide",
-  },
-  {
     to: "/guides/runtime-architecture",
     icon: "ph-stack",
     title: "vd3 architecture",
@@ -44,7 +37,7 @@ const repos: [string, string, string][] = [
   [
     "vd3-cbun",
     "@vanduo-oss/vd3-cbun",
-    "The canvas bundle: charts, flowchart, hex-grid, and music-player, each on its own subpath. Install it only when a page needs a canvas widget; it shares the same tokens and theme as vd3.",
+    "The canvas bundle: charts, code-editor, draw, flowchart, hex-grid, and music-player, each on its own subpath (hex-grid ships no CSS). Install it only when a page needs a canvas widget; it shares the same tokens and theme as vd3.",
   ],
   [
     "vd3-docs",
@@ -56,7 +49,7 @@ const repos: [string, string, string][] = [
 const installVd3 = `# The design system + components (tokens & CSS included)
 pnpm add @vanduo-oss/vd3`;
 
-const installCbun = `# Optional — the canvas widgets (charts / flowchart / hex-grid / music-player)
+const installCbun = `# Optional — canvas widgets (charts / code-editor / draw / flowchart / hex-grid / music-player)
 pnpm add @vanduo-oss/vd3-cbun`;
 
 const usageJs = `// Components, composables, tokens and CSS all come from one package:
@@ -65,13 +58,17 @@ import '@vanduo-oss/vd3/css';
 
 // Canvas widgets come from the bundle's per-widget subpaths:
 import { VdChart } from '@vanduo-oss/vd3-cbun/charts';
-import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';`;
+import { VdCodeEditor } from '@vanduo-oss/vd3-cbun/code-editor';
+import { VdDraw } from '@vanduo-oss/vd3-cbun/draw';
+import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';
+import { VdHexGrid } from '@vanduo-oss/vd3-cbun/hex-grid';
+import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';`;
 </script>
 
 <template>
   <section id="vanduo-ecosystem">
     <h5 class="demo-title">
-      <i class="ph ph-planet"></i>The vd3 Line
+      <i class="ph ph-planet"></i>vd3 ecosystem
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
@@ -149,27 +146,6 @@ import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';`;
       </div>
     </div>
 
-    <!-- Retirement note -->
-    <div class="vd-card demo-card ecosystem-legacy vd-mb-6">
-      <div class="vd-card-header">
-        <h6><i class="ph ph-archive"></i> The earlier line was retired</h6>
-      </div>
-      <div class="vd-card-body">
-        <p>
-          <strong>vd3</strong> is the only line under active development.
-          <strong>vanduo v2</strong> — the earlier dual-engine system, its four
-          canvas add-ons, and the v2 documentation site — was retired on
-          2026-07-25.
-        </p>
-        <p class="vd-mb-0">
-          Its npm packages stay published at their final versions and keep
-          working, so nothing built on them breaks. New projects should start
-          here; existing v2 apps can move across with the
-          <a href="/guides/migration">Migration guide</a>.
-        </p>
-      </div>
-    </div>
-
     <GuideLinkCards
       icon="ph-compass"
       title="Where to go next"
@@ -177,9 +153,3 @@ import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';`;
     />
   </section>
 </template>
-
-<style scoped>
-.ecosystem-legacy {
-  border-color: rgba(var(--vd-color-info-rgb), 0.4);
-}
-</style>

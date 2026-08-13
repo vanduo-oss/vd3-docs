@@ -633,7 +633,7 @@ export const nav: NavTree = {
               title: "Installation & Integration",
               route: "/guides/framework-integration",
               icon: "plug",
-              keywords: ["integration", "vue", "react", "svelte"],
+              keywords: ["integration", "vue", "install", "nuxt", "plugin"],
               file: "guides/framework-integration.html",
             },
             {
@@ -699,14 +699,6 @@ export const nav: NavTree = {
               icon: "rocket",
               keywords: ["production", "build", "bundle"],
               file: "guides/production-best-practices.html",
-            },
-            {
-              id: "migration",
-              title: "Migrating from vanduo v2 to vd3",
-              route: "/guides/migration",
-              icon: "arrow-right",
-              keywords: ["migration", "tailwind", "bootstrap"],
-              file: "guides/migration-comparison.html",
             },
             {
               id: "troubleshooting",

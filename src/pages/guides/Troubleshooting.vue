@@ -1,29 +1,37 @@
 <script setup lang="ts">
+import { RouterLink } from "vue-router";
+import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
+
 const issues: [string, string, string][] = [
   [
     "Components look unstyled",
-    "The Vanduo CSS isn't loaded.",
-    "Add import '@vanduo-oss/vd3/css'; once in your entry file.",
+    "The vd3 stylesheet is not loaded.",
+    "Add import '@vanduo-oss/vd3/css'; once in your entry file (or '@vanduo-oss/vd3/css/core' if you supply your own icon fonts).",
   ],
   [
-    "A widget renders but does nothing",
+    "A Vd* component renders but does nothing",
+    "Unexpected — VdButton, VdModal, VdTabs, and the other Vd* components self-wire on mount.",
+    "You do not call useX(root) for a Vd* component. Check that the component is imported from '@vanduo-oss/vd3' and that VanduoVue is installed if the issue is theme persistence.",
+  ],
+  [
+    "Class-markup (data-vd-*) does nothing",
     "No composable is wired to that subtree.",
-    'Call the matching useX(root) composable and bind ref="root" on the section.',
+    'This is the vanilla-host path. Call the matching useX(root) composable (useSuggest, useLazyLoad, useGlass, …) and bind ref="root" on an ancestor.',
   ],
   [
     "Build fails: 'window is not defined'",
-    "A composable touches the DOM during SSR.",
-    "Guard with if (typeof window === 'undefined') return; inside onMounted.",
+    "Code touches window or document at module scope or in setup().",
+    "Do not put typeof window guards inside onMounted — that hook never runs on the server. Keep window/document off module and setup scope; defer to onMounted.",
   ],
   [
     "Bare import won't resolve in the browser",
-    "@vanduo-oss/vd3 ships ESM only and needs a bundler.",
-    "Build with Vite/Rollup (or any ESM bundler); there is no IIFE/CDN bundle.",
+    "The package needs a bundler (Vite, Rollup, webpack, …).",
+    "It is not ESM-only: dist/index.js (ESM) and dist/index.cjs (CJS) both ship. There is no IIFE/CDN bundle.",
   ],
   [
     "Theme doesn't persist on reload",
-    "The Vanduo plugin isn't installed, or storage is blocked.",
-    "Install VanduoVue via app.use(); useThemePreference() re-hydrates from storage on the client — there is no init() to call.",
+    "The VanduoVue plugin isn't installed, storage is blocked, or another app on this origin collides on keys.",
+    "Install via app.use(VanduoVue). useThemePreference() re-hydrates from storage on the client — there is no init() to call. Pass storagePrefix if two apps share an origin.",
   ],
   [
     "Popup appears in the wrong place",
@@ -36,6 +44,23 @@ const issues: [string, string, string][] = [
     "Keep render output deterministic; defer client-only DOM work to onMounted.",
   ],
 ];
+
+const vdVsComposable = `<script setup lang="ts">
+import { ref } from 'vue';
+import { VdButton, useSuggest } from '@vanduo-oss/vd3';
+
+// Vd* components self-wire — no composable call.
+const root = ref<HTMLElement | null>(null);
+useSuggest(root); // only needed for [data-vd-suggest] markup
+<\/script>
+
+<template>
+  <VdButton variant="primary">Works on its own</VdButton>
+
+  <div ref="root">
+    <input class="vd-input" data-vd-suggest='["Alpha","Beta"]'>
+  </div>
+</template>`;
 </script>
 
 <template>
@@ -46,11 +71,12 @@ const issues: [string, string, string][] = [
     </h5>
     <p class="vd-mb-6">
       The most common issues when building with vd3, and the one-line fix for
-      each. Most trace back to one of three things: the CSS isn't imported, a
-      composable isn't wired, or DOM is being touched during server rendering.
+      each. Most trace back to a missing CSS import, mixing the Vd* component
+      model with class-markup composables, or touching the DOM during server
+      rendering.
     </p>
 
-    <div class="vd-card demo-card">
+    <div class="vd-card demo-card vd-mb-6">
       <div class="vd-card-header">
         <h6><i class="ph ph-first-aid-kit"></i> Symptoms &amp; fixes</h6>
       </div>
@@ -77,9 +103,25 @@ const issues: [string, string, string][] = [
         </div>
         <p class="vd-text-sm vd-text-muted vd-mt-3">
           Still stuck? The
-          <a href="/guides/runtime-architecture">vd3 Architecture</a>
+          <RouterLink to="/guides/runtime-architecture"
+            >vd3 Architecture</RouterLink
+          >
           guide explains the wiring model in depth.
         </p>
+      </div>
+    </div>
+
+    <div class="vd-card demo-card">
+      <div class="vd-card-header">
+        <h6><i class="ph ph-plugs-connected"></i> Vd* vs class-markup</h6>
+      </div>
+      <div class="vd-card-body">
+        <p class="vd-mb-3">
+          If you copied Getting started, you are on the Vd* path. Class names
+          like <code>data-vd-suggest</code> need a composable; a
+          <code>VdButton</code> does not.
+        </p>
+        <DocCodeSnippet :js="vdVsComposable" :default-open="true" />
       </div>
     </div>
   </section>

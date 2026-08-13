@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import GuideLinkCards from "@/components/GuideLinkCards.vue";
+import { RouterLink } from "vue-router";
 
 const relatedComponents = [
   {
@@ -31,33 +32,44 @@ import { useThemePreference } from '@vanduo-oss/vd3';
 
 const theme = useThemePreference();
 theme.setTheme('dark');       // 'system' | 'light' | 'dark'
+theme.setPalette('fibonacci'); // 'open-color' | 'fibonacci'
 theme.setPrimary('violet');   // brand hue
 theme.setNeutral('slate');    // neutral ramp
 theme.setRadius('0.5');       // corner radius scale
 theme.setFont('lato');        // base font family
 theme.reset();                // back to defaults`;
 
-const attrsHtml = `<!-- The framework CSS reads these attributes on <html> -->
+const attrsHtml = `<!-- Explicit dark example. For theme === 'system', data-theme is removed
+     (not set to "system") so prefers-color-scheme can apply. -->
 <html
   data-theme="dark"
+  data-palette="open-color"
   data-primary="violet"
   data-neutral="slate"
   data-radius="0.5"
   data-font="lato">`;
 
-const persistJs = `// Preferences persist in localStorage and re-hydrate automatically. Keys:
-//   vanduo-palette, vanduo-primary-color, vanduo-neutral-color,
-//   vanduo-radius, vanduo-font-preference, vanduo-theme-preference
+const persistJs = `// Preferences persist in localStorage and re-hydrate automatically.
+// Keys follow storagePrefix (default "vanduo-"):
+//   {prefix}palette, {prefix}primary-color, {prefix}neutral-color,
+//   {prefix}radius, {prefix}font-preference, {prefix}theme-preference
+// Example with the default prefix: vanduo-theme-preference
+// Pass storagePrefix to VanduoVue when two apps share an origin.
 // useThemePreference() reads them on first client access — there is no init().`;
 
 const attrs: [string, string, string][] = [
   [
     "data-theme",
     "system · light · dark",
-    "Colour mode (system defers to prefers-color-scheme)",
+    "Color mode. system removes the attribute so prefers-color-scheme applies.",
   ],
-  ["data-primary", "18 hues (e.g. violet, teal)", "Brand colour ramp"],
-  ["data-neutral", "6 ramps (e.g. slate, gray)", "Neutral / surface colours"],
+  [
+    "data-palette",
+    "open-color · fibonacci",
+    "Active color palette (Open Color is the default).",
+  ],
+  ["data-primary", "18 hues (e.g. violet, teal)", "Brand color ramp"],
+  ["data-neutral", "6 ramps (e.g. slate, gray)", "Neutral / surface colors"],
   [
     "data-radius",
     "0 · 0.125 · 0.25 · 0.375 · 0.5",
@@ -70,7 +82,7 @@ const attrs: [string, string, string][] = [
 <template>
   <section id="theme-customizer-guide">
     <h5 class="demo-title">
-      <i class="ph ph-palette"></i>Theme Customizer
+      <i class="ph ph-palette"></i>Theme customizer
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
@@ -139,7 +151,9 @@ const attrs: [string, string, string][] = [
               The option lists (hue names, neutrals, radii, fonts) come from
               <code>@vanduo-oss/vd3</code> so they match its token catalog
               exactly — see
-              <a href="/guides/vanduo-ecosystem">The Vanduo Ecosystem</a>.
+              <RouterLink to="/guides/vanduo-ecosystem"
+                >vd3 ecosystem</RouterLink
+              >.
             </p>
           </div>
         </div>

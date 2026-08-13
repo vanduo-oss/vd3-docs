@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import GuideLinkCards from "@/components/GuideLinkCards.vue";
+import { RouterLink } from "vue-router";
 
 const relatedComponents = [
   {
@@ -39,13 +40,14 @@ const scopedCss = `/* Scope overrides to a subtree — e.g. a "danger zone" pane
   --vd-color-primary: var(--vd-color-danger);
 }`;
 
-const darkCss = `/* Dark mode just remaps the same token names */
+const darkCss = `/* Flipping data-theme (or useThemePreference().setTheme) is enough.
+   The stylesheet already remaps --vd-bg-primary, --vd-text-primary, and
+   related tokens. Hex overrides below are optional brand tweaks. */
 [data-theme="dark"] {
-  --vd-bg-primary: #0f1117;
-  --vd-text-primary: #e6e8ee;
+  --vd-color-primary: #6366f1; /* optional brand override */
 }`;
 
-// useThemeBridge — sync an app-owned light/dark toggle onto Vanduo (vue 0.3.0).
+// useThemeBridge — sync an app-owned light/dark toggle onto Vanduo.
 const bridgeJs = `import { computed } from 'vue';
 import { useThemeBridge } from '@vanduo-oss/vd3';
 import { useColorMode } from '@nuxtjs/color-mode'; // any owner of light/dark
@@ -74,11 +76,11 @@ const tiers: [string, string][] = [
 <template>
   <section id="css-variables">
     <h5 class="demo-title">
-      <i class="ph ph-paint-roller"></i>CSS Variables &amp; Theming
+      <i class="ph ph-paint-roller"></i>CSS variables &amp; theming
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      Every colour, space, radius, and font in Vanduo is a CSS custom property
+      Every color, space, radius, and font in Vanduo is a CSS custom property
       (<code>--vd-*</code>). Override them in your own stylesheet and the whole
       system updates — no recompile, no JavaScript. This token layer ships with
       <code>@vanduo-oss/vd3</code>.
@@ -152,9 +154,12 @@ const tiers: [string, string][] = [
       <div class="vd-card-body">
         <DocCodeSnippet :css="darkCss" :default-open="true" />
         <p class="vd-text-sm vd-text-muted vd-mt-3">
-          You rarely write this by hand — the
-          <a href="/guides/theme-customizer">theme customizer</a> flips
-          <code>data-theme</code> for you.
+          You rarely write this by hand —
+          <code>useThemePreference().setTheme('dark')</code> or the
+          <RouterLink to="/guides/theme-customizer"
+            >theme customizer</RouterLink
+          >
+          flips <code>data-theme</code> and the stylesheet remaps the tokens.
         </p>
       </div>
     </div>
@@ -178,7 +183,7 @@ const tiers: [string, string][] = [
         <p class="vd-text-sm vd-text-muted vd-mt-3">
           Pass a <code>Ref&lt;'light' | 'dark' | 'system'&gt;</code>. The bridge
           re-syncs on mount and whenever the ref changes — useful for SSR / Nuxt
-          apps where the host framework owns colour mode.
+          apps where the host framework owns color mode.
         </p>
       </div>
     </div>

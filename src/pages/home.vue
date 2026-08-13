@@ -91,7 +91,10 @@ const features: Feature[] = [
     icon: "ph-shield-check",
     title: "Conflict-Free",
     body: "Every class is namespaced with vd- and the components scope cleanly, so vd3 coexists with Bootstrap, Tailwind, or legacy styles without cascade surprises.",
-    guide: { to: "/guides/migration", label: "Migration Guide" },
+    guide: {
+      to: "/guides/framework-integration",
+      label: "Installation & Integration",
+    },
   },
   {
     icon: "ph-code",

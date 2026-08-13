@@ -42,16 +42,16 @@ const intensities = [
   { step: 8, label: "Bold" },
 ] as const;
 
+const intensityHtml = `<div class="vd-surface vd-surface-stripe vd-surface-3">…</div>
+<div class="vd-surface vd-surface-stripe vd-surface-5">…</div>
+<div class="vd-surface vd-surface-stripe vd-surface-8">…</div>`;
+
 const baseHtml = `<!-- Decorative Surface + Seemore Glass -->
-<section class="vd-surface vd-surface-mesh vd-surface-5">
-  <div class="vd-glass vd-glass-8 vd-glass-floating">
+<section class="vd-surface vd-surface-aurora vd-surface-5">
+  <div class="vd-glass vd-glass-8 vd-glass-adaptive vd-glass-floating">
     Frosted content
   </div>
 </section>`;
-
-const intensityHtml = `<div class="vd-surface vd-surface-aurora vd-surface-3">…</div>
-<div class="vd-surface vd-surface-aurora vd-surface-5">…</div>
-<div class="vd-surface vd-surface-aurora vd-surface-8">…</div>`;
 
 const tokens: [string, string, string][] = [
   ["--vd-surface-intensity", "Pattern layer strength", "1 (step 5)"],
@@ -125,11 +125,7 @@ const tokens: [string, string, string][] = [
                 </div>
               </div>
             </div>
-            <DocCodeSnippet
-              title="Intensity"
-              language="html"
-              :code="intensityHtml"
-            />
+            <DocCodeSnippet :html="intensityHtml" />
           </div>
         </div>
       </div>
@@ -157,12 +153,7 @@ const tokens: [string, string, string][] = [
                 </RouterLink>
               </div>
             </div>
-            <DocCodeSnippet
-              class="vd-mt-4"
-              title="Markup"
-              language="html"
-              :code="baseHtml"
-            />
+            <DocCodeSnippet class="vd-mt-4" :html="baseHtml" />
           </div>
         </div>
       </div>

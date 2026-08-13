@@ -8,14 +8,32 @@
 // the earlier scaffold history is imported verbatim and rendered via v-html
 // (its styles live in src/styles/docs.css). Trusted first-party content →
 // v-html is safe here.
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useAffix } from "@vanduo-oss/vd3";
 import vueContent from "./changelog-vue-content.html?raw";
 
 // Sticky column headers via vd3's own affix composable (dogfooding): useAffix
 // wires every `.vd-affix` inside `root` — position: sticky + an `.is-stuck`
 // border toggled by a sentinel + IntersectionObserver. SSR-safe (onMounted).
+// Visual `top` is `--docs-affix-offset`; copy its computed px onto the
+// data attribute before useAffix reads it (observer + inline custom prop).
 const root = ref<HTMLElement | null>(null);
+
+onMounted(() => {
+  const host = root.value;
+  if (!host) return;
+  const probe = document.createElement("div");
+  probe.style.cssText =
+    "position:absolute;visibility:hidden;pointer-events:none;top:var(--docs-affix-offset)";
+  document.documentElement.appendChild(probe);
+  const px = Math.round(parseFloat(getComputedStyle(probe).top));
+  probe.remove();
+  if (!Number.isFinite(px) || px < 0) return;
+  host.querySelectorAll<HTMLElement>(".changelog-col-head").forEach((el) => {
+    el.setAttribute("data-vd-affix-offset", String(px));
+  });
+});
+
 useAffix(root);
 </script>
 
@@ -39,10 +57,7 @@ useAffix(root);
 
     <div class="vd-container-responsive changelog-grid">
       <div class="changelog-col">
-        <div
-          class="changelog-col-head vd-affix vd-affix-no-shadow"
-          data-vd-affix-offset="64"
-        >
+        <div class="changelog-col-head vd-affix vd-affix-no-shadow">
           <h3 class="changelog-col-title">
             <i class="ph ph-atom" style="color: var(--vd-color-primary)"></i
             ><code>@vanduo-oss/vd3</code>
@@ -800,11 +815,7 @@ useAffix(root);
                           vd3 is pure Vue: there is no separate client-side
                           runtime to bootstrap and no global window objects —
                           theming and interactivity live entirely in typed
-                          composables and the <code>VanduoVue</code> plugin. See
-                          the
-                          <RouterLink to="/guides/migration"
-                            >migration guide</RouterLink
-                          >.
+                          composables and the <code>VanduoVue</code> plugin.
                         </p>
                       </div>
                     </li>
@@ -832,10 +843,7 @@ useAffix(root);
         </article>
       </div>
       <div class="changelog-col">
-        <div
-          class="changelog-col-head vd-affix vd-affix-no-shadow"
-          data-vd-affix-offset="64"
-        >
+        <div class="changelog-col-head vd-affix vd-affix-no-shadow">
           <h3 class="changelog-col-title">
             <i class="ph ph-package" style="color: var(--vd-color-primary)"></i
             ><code>@vanduo-oss/vd3-cbun</code>

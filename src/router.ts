@@ -84,7 +84,6 @@ import FibonacciPage from "@/pages/guides/Fibonacci.vue";
 import AccessibilityPage from "@/pages/guides/Accessibility.vue";
 import SecurityPage from "@/pages/guides/SecurityPractices.vue";
 import ProductionPage from "@/pages/guides/ProductionBestPractices.vue";
-import MigrationPage from "@/pages/guides/MigrationComparison.vue";
 import TroubleshootingPage from "@/pages/guides/Troubleshooting.vue";
 import UtilitiesCheatSheetPage from "@/pages/guides/UtilitiesCheatSheet.vue";
 import VanduoEcosystemPage from "@/pages/guides/VanduoEcosystem.vue";
@@ -185,7 +184,6 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   accessibility: AccessibilityPage,
   security: SecurityPage,
   production: ProductionPage,
-  migration: MigrationPage,
   troubleshooting: TroubleshootingPage,
   "utilities-cheat-sheet": UtilitiesCheatSheetPage,
   "vanduo-ecosystem": VanduoEcosystemPage,
