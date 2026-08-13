@@ -4105,8 +4105,7 @@ body.lcc-open .vd-offcanvas {
     repeating-radial-gradient(
       circle at 50% 50%,
       rgb(255 255 255 / calc(0.065 * var(--vd-surface-intensity)))
-        var(--seemore-noise-ring)
-        calc(2px + var(--seemore-noise-ring)),
+        var(--seemore-noise-ring) calc(2px + var(--seemore-noise-ring)),
       rgb(0 0 0 / calc(0.055 * var(--vd-surface-contrast)))
         calc(2px + var(--seemore-noise-ring))
         calc(5px + var(--seemore-noise-ring))
@@ -4117,8 +4116,8 @@ body.lcc-open .vd-offcanvas {
 }
 
 .vd-surface-aurora.seemore-surface-motion {
-  animation: seemore-aurora-drift var(--seemore-aurora-motion-duration) ease-in-out
-    infinite alternate;
+  animation: seemore-aurora-drift var(--seemore-aurora-motion-duration)
+    ease-in-out infinite alternate;
 }
 
 .vd-surface-dots.seemore-surface-motion {
