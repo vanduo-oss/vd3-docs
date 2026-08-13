@@ -66,24 +66,20 @@ global `window.Vanduo*` runtime, or frame the system as running "both engines".
 - **THEN** it describes tokens → CSS → components/composables, and contains no
   `Vanduo.init`, `loadVanduoRuntime`, `IIFE`, or "both engines" reference
 
-### Requirement: the migration guide covers vanduo v2 to vd3
+### Requirement: there is no vanduo v2 migration guide
 
-`guides/MigrationComparison.vue` SHALL be rewritten as **"Migrating from vanduo
-v2 to vd3"** and SHALL contain: an old→new **package map**
-(`@vanduo-oss/vue` → `@vanduo-oss/vd3`; `@vanduo-oss/framework/css` →
-`@vanduo-oss/vd3/css`; the four ecosystem packages → `@vanduo-oss/vd3-cbun/*`),
-**composable API diffs**, the **CSS import change**, and a **one-line-per-app**
-note (the plugin import source changes from `@vanduo-oss/vue` to
-`@vanduo-oss/vd3` while the `VanduoVue` identifier and its `themeDefaults` option
-are unchanged). It MUST NOT frame migration as a vanilla-vs-vue engine choice.
+The docs MUST NOT ship a "Migrating from vanduo v2 to vd3" page, sidebar entry,
+or `/guides/migration` route. Search keywords MUST NOT surface a v2 migration
+guide. Cross-links that previously pointed at that page SHALL be retargeted to a
+current guide. Visiting `/guides/migration` SHALL 404 via the existing catch-all.
 
-#### Scenario: the migration guide maps the old line onto vd3
+#### Scenario: the migration page and its inbound links are gone
 
-- **GIVEN** `guides/MigrationComparison.vue` after this change
-- **WHEN** it is read
-- **THEN** it shows the package map to `@vanduo-oss/vd3` + `@vanduo-oss/vd3-cbun`,
-  the `@vanduo-oss/framework/css` → `@vanduo-oss/vd3/css` import change, and the
-  one-line plugin-import-source swap, with no vanilla-engine migration path
+- **GIVEN** the repository after this change
+- **WHEN** `src/pages/guides/` is listed and `src/` is grepped for
+  `/guides/migration` and `MigrationComparison`
+- **THEN** `MigrationComparison.vue` does not exist and there are zero
+  user-facing link matches
 
 ### Requirement: the integration guide covers vd3 installation
 
@@ -104,21 +100,20 @@ tell readers to run `Vanduo.init` after mount or load an IIFE bundle.
 
 ### Requirement: the ecosystem guide describes the three-repo vd3 line
 
-`guides/VanduoEcosystem.vue` SHALL be rewritten to describe the three-repo vd3
+`guides/VanduoEcosystem.vue` SHALL describe the three-repo vd3
 line — `vd3-docs` (the docs site), `vd3` (the Vue 3 component library with tokens
 and CSS), and `vd3-cbun` (the canvas bundle: charts / flowchart / hex-grid /
-music-player) — plus a short note that the old `core` + `framework` + `vue` +
-four-package line is in maintenance and the vd3 line is where new work lands. It
-MUST NOT present "pick an engine (Vanilla or Vue)" framing or the old
-four-separate-add-on-package install grid.
+music-player). It MUST NOT present "pick an engine (Vanilla or Vue)" framing,
+the old four-separate-add-on-package install grid, or vanduo v2 / legacy-line
+migration teaching.
 
 #### Scenario: the ecosystem guide names the three vd3 repos
 
 - **GIVEN** `guides/VanduoEcosystem.vue` after this change
 - **WHEN** it is read
 - **THEN** it names `vd3-docs`, `@vanduo-oss/vd3`, and `@vanduo-oss/vd3-cbun`,
-  carries the old-line maintenance note, and contains no "when to use the Vanilla
-  engine" / "when to use the Vue 3 engine" choice section
+  and contains no "when to use the Vanilla engine" / "when to use the Vue 3
+  engine" choice section and no vanduo v2 migration teaching
 
 ### Requirement: the home page drops dual-engine marketing
 

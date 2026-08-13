@@ -26,7 +26,7 @@ import AxeBuilder from '@axe-core/playwright';
 //     4.5:1 AA text ratio; several also sit on translucent `.vd-glass`/`.vd-card-glow`
 //     surfaces. Fixing means adjusting vd3 tokens / the docs syntax theme.
 //   • link-in-text-block (serious) — inline prose links (e.g. links to
-//     `color-palette`, `migration`, `charts`) are distinguishable from body text
+//     `color-palette`, `charts`) are distinguishable from body text
 //     by colour alone (no underline, <3:1 colour delta). Fixing means a global
 //     docs prose-link style change.
 //   • nested-interactive (serious) — the home page "philosophy" flip-cards are

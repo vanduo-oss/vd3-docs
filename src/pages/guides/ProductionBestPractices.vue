@@ -1,72 +1,86 @@
 <script setup lang="ts">
+import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
-const buildShell = `# vd3-docs is built with vite-ssg: pre-rendered HTML per route + hydration
-pnpm build        # runs vite-ssg build → static dist/
-pnpm preview      # serve the built output locally before deploying`;
+const pinShell = `# Pin exact versions so visual output is reproducible
+pnpm add @vanduo-oss/vd3@1.3.0
+# Optional canvas widgets
+pnpm add @vanduo-oss/vd3-cbun@1.3.1`;
 
-const checksShell = `pnpm vue-tsc --noEmit   # type safety
-pnpm vitest run         # unit tests
-pnpm build              # SSG build also catches unguarded window/document`;
+const entryJs = `// main.ts — CSS once, plugin once, named JS imports elsewhere
+import { createApp } from 'vue';
+import { VanduoVue } from '@vanduo-oss/vd3';
+import '@vanduo-oss/vd3/css';
+import App from './App.vue';
+
+createApp(App)
+  .use(VanduoVue, {
+    storagePrefix: 'my-app-',
+    themeDefaults: { PRIMARY_DARK: 'green' },
+  })
+  .mount('#app');`;
 
 const practices: [string, string][] = [
   [
-    "Pre-render with vite-ssg",
-    "Each route ships static HTML for fast first paint + SEO, then hydrates.",
+    "Pin package versions",
+    "Lock @vanduo-oss/vd3 and @vanduo-oss/vd3-cbun so visual output is reproducible.",
   ],
   [
-    "Pin Vanduo package versions",
-    "Lock @vanduo-oss/vd3 & @vanduo-oss/vd3-cbun so visual output is reproducible.",
+    "Import CSS once",
+    "@vanduo-oss/vd3/css is the full stylesheet. /css/core drops icon fonts only — it is not a tokens-only or per-component slice. Do not duplicate the bundle in your app CSS.",
   ],
   [
-    "Ship only used CSS",
-    "Import @vanduo-oss/vd3/css once; avoid duplicating base CSS in your app.",
+    "Named JS imports",
+    "Import the Vd* components and composables you use. VanduoVue does not register them globally, which is what lets unused JS tree-shake.",
   ],
   [
-    "Code-split heavy routes",
-    "Dynamic import() keeps the initial bundle small (see Lazy loading).",
+    "Prefetch theme defaults",
+    "Pass themeDefaults (and storagePrefix on shared origins) at app.use time so the first paint matches.",
   ],
   [
-    "Guard DOM in composables",
-    "SSR has no window; the build fails loudly if a composable forgets.",
+    "SSR guards at module/setup scope",
+    "Do not read window or document until onMounted. A typeof window check inside onMounted never runs on the server.",
   ],
-  ["Run the full gate in CI", "vue-tsc + vitest + build before every deploy."],
+  [
+    "Code-split heavy widgets",
+    "Dynamic import() for routes and defineAsyncComponent for CBUN widgets. See Lazy loading.",
+  ],
 ];
 </script>
 
 <template>
   <section id="production-best-practices">
     <h5 class="demo-title">
-      <i class="ph ph-rocket"></i>Production Best Practices
+      <i class="ph ph-rocket"></i>Production
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      vd3-docs ships as a statically pre-rendered site. A small, repeatable
-      build and verification gate keeps deploys fast, accessible, and
-      reproducible.
+      How to ship an app that consumes vd3: pin versions, import CSS once, keep
+      JS named so it tree-shakes, and keep DOM work off the server. This is not
+      a runbook for building these docs.
     </p>
 
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
-            <h6><i class="ph ph-hammer"></i> Build &amp; preview</h6>
+            <h6><i class="ph ph-package"></i> Pin versions</h6>
           </div>
           <div class="vd-card-body">
-            <DocCodeSnippet :shell="buildShell" :default-open="true" />
+            <DocCodeSnippet :shell="pinShell" :default-open="true" />
           </div>
         </div>
       </div>
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
-            <h6><i class="ph ph-shield-check"></i> The verification gate</h6>
+            <h6><i class="ph ph-plug"></i> Entry file</h6>
           </div>
           <div class="vd-card-body">
-            <DocCodeSnippet :shell="checksShell" :default-open="true" />
+            <DocCodeSnippet :js="entryJs" :default-open="true" />
             <p class="vd-text-sm vd-text-muted vd-mt-3">
-              The SSG build is also a correctness check — it renders every page
-              on the server and surfaces any unguarded DOM access.
+              Mount <code>VdToastContainer</code> once in
+              <code>App.vue</code> if you call <code>useToast()</code>.
             </p>
           </div>
         </div>
@@ -97,8 +111,10 @@ const practices: [string, string][] = [
           </table>
         </div>
         <p class="vd-text-sm vd-text-muted vd-mt-3">
-          See also <a href="/guides/lazy-loading">Lazy loading</a> and
-          <a href="/guides/troubleshooting">Troubleshooting</a>.
+          See also
+          <RouterLink to="/guides/lazy-loading">Lazy loading</RouterLink>
+          and
+          <RouterLink to="/guides/troubleshooting">Troubleshooting</RouterLink>.
         </p>
       </div>
     </div>

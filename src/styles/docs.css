@@ -103,9 +103,14 @@ html {
 
   /* Docs shell chrome — rem at 16px baseline, scales with font-size above */
 
-  /* Float inset (~fib-8…21) + bar height — keep content clear of capsule */
-  --docs-main-offset: calc(5rem + var(--vd-navbar-float-inset, 0.75rem));
-  --docs-sticky-offset: calc(4.375rem + var(--vd-navbar-float-inset, 0.75rem));
+  /* Float inset (~fib-8…21) + bar height — keep content clear of capsule.
+     4.5rem = ~72px preview bar (was 4rem for the 64px preview). */
+  --docs-main-offset: calc(4.5rem + var(--vd-navbar-float-inset, 0.75rem));
+  --docs-sticky-offset: calc(4.875rem + var(--vd-navbar-float-inset, 0.75rem));
+
+  /* Sticky affix under the floating pill: main-offset clears the capsule,
+     +0.5rem is a small intentional gap (a 64px offset assumed a full-bleed bar). */
+  --docs-affix-offset: calc(var(--docs-main-offset) + 0.5rem);
   --docs-scroll-loader-top: 6rem; /* was 96px */
   --docs-scroll-loader-top-sm: 5.25rem; /* was 84px */
   --docs-hero-mobile-padding-top: 6.5rem; /* was 104px */
@@ -168,6 +173,28 @@ select,
   font-weight: 600;
   font-size: 0.95rem;
   letter-spacing: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Package typography sets `li { margin-bottom: 0.25em }`. That leftover
+   margin inflates the absolutely positioned desktop nav and parks the
+   links above the brand/icon center line. */
+.vd-navbar-nav > li {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .vd-navbar .vd-navbar-nav {
+    top: 50%;
+
+    /* +1px optical: cap-height Latin + Phosphor sit high in their em boxes */
+    transform: translate(-50%, calc(-50% + 1px));
+  }
 }
 
 .vd-text-muted,
@@ -175,9 +202,25 @@ select,
   font-weight: 500;
 }
 
-/* Shell navbar frost / float / brand centering: shipped by @vanduo-oss/vd3
-   (`.vd-navbar-glass` + `.vd-navbar-float`). Docs only keeps chrome specifics
-   below (nav weight, Michroma brand, search/theme actions). */
+/* Shell navbar frost / float: shipped by @vanduo-oss/vd3
+   (`.vd-navbar-glass` + `.vd-navbar-float`). Docs keeps chrome specifics
+   (nav weight, Michroma brand, search/theme actions) plus optical
+   vertical alignment of the shell row. */
+
+/* Docs preview (not a library publish):
+   - radius: page default surface (html data-radius 0.5 → --vd-radius-fib-8)
+     instead of the library capsule
+   - height: ~72px via equal padding + a ~50px content row
+     (overrides library 0.65rem / 0.85rem optical pad + 3.4375rem min-height).
+     Float inset unchanged. */
+.vd-navbar-float {
+  --vd-navbar-float-radius: var(--vd-radius-fib-8);
+  --vd-navbar-height: 3.125rem; /* ~50px content row at 16px; ~53px at docs 17px */
+
+  box-sizing: border-box;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
 
 /* ── Dark mode scrollbars (docs) ─────────────────── */
 [data-theme="dark"] {
@@ -412,14 +455,16 @@ html[data-theme="dark"][data-primary="green"] {
   font-weight: 600;
   line-height: 1;
   padding: 0;
-  transform: none;
+  transform: translateY(1px);
 }
 
 .vd-navbar-brand-wrap > a.vd-navbar-brand-link .hero-title-text {
   display: inline-flex;
   align-items: center;
   line-height: 1;
-  transform: translateY(0.08em);
+
+  /* Michroma sits slightly high in the em box vs icon optical centers */
+  transform: translateY(0.04em);
 }
 
 .vd-navbar-brand-wrap > a.vd-navbar-brand-link .hero-title-brand {
@@ -446,8 +491,9 @@ html[data-theme="dark"][data-primary="green"] {
   display: block;
   flex-shrink: 0;
 
-  /* Drop mark so SVG ink lines up with Michroma “vd3” */
-  transform: translateY(0.2em);
+  /* ViewBox is taller than the spheres; visual mass sits high (two upper
+     lobes vs one lower). 0.1em drops ink onto the chrome center line. */
+  transform: translateY(0.1em);
 }
 
 .vd-footer-brand {
@@ -594,6 +640,66 @@ section:last-of-type {
 .dropdown-demo-card .vd-card-body {
   min-height: 20rem;
   align-items: flex-start !important;
+}
+
+/*
+ * Breadcrumb separators (vd3 1.3.0 compensate).
+ * Package variant classes paint `::before` on the <ol>, which leads the
+ * first item (`/ Home / …`). Between-item `li + li::before` already exists
+ * but always used "/" because the variant never set --vd-breadcrumb-separator.
+ * Kill the list pseudo and set the token so separators sit only between
+ * items. Also collapse stacked nav+ol box spacing and leftover `li` margin
+ * in the Breadcrumb demos. Drop when vd3 ships equivalent rules.
+ */
+.vd-breadcrumb-separator-slash::before,
+.vd-breadcrumb-separator-chevron::before,
+.vd-breadcrumb-separator-arrow::before,
+.vd-breadcrumb-separator-dot::before,
+.vd-breadcrumb-separator-pipe::before {
+  content: none;
+}
+
+.vd-breadcrumb-separator-slash {
+  --vd-breadcrumb-separator: "/";
+}
+
+.vd-breadcrumb-separator-chevron {
+  --vd-breadcrumb-separator: "›";
+}
+
+.vd-breadcrumb-separator-arrow {
+  --vd-breadcrumb-separator: "→";
+}
+
+.vd-breadcrumb-separator-dot {
+  --vd-breadcrumb-separator: "·";
+}
+
+.vd-breadcrumb-separator-pipe {
+  --vd-breadcrumb-separator: "|";
+}
+
+.vd-breadcrumbs:has(> .vd-breadcrumb) {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.vd-breadcrumb-item {
+  margin-bottom: 0;
+}
+
+.vd-breadcrumb-item svg,
+.vd-breadcrumb-item i {
+  margin-right: 0.25rem;
+  vertical-align: middle;
+}
+
+#breadcrumbs .vd-breadcrumb {
+  margin-bottom: 0;
+}
+
+#demo-breadcrumb-separators .vd-card-body > div:last-child {
+  margin-bottom: 0;
 }
 
 .demo-title {
@@ -2572,14 +2678,17 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 /* Sticky behaviour (position/top/z-index) comes from vd3's .vd-affix, wired by
-   useAffix(root). We give the pinned header an opaque page background (so cards
-   scroll cleanly behind it) plus a fat primary outline at the global card
-   radius for visibility while it floats over content. */
-.changelog-col-head {
+   useAffix(root). Opaque page background so cards scroll behind the pin; fat
+   primary outline at the card radius while it floats. `top` clears the floating
+   navbar pill; `--vd-affix-z-index` stays below `.vd-navbar-fixed` (1000). */
+.changelog-col-head.vd-affix {
   padding: 0.7rem 1rem;
   background: var(--vd-bg-primary);
   border: 2px solid var(--vd-color-primary);
   border-radius: var(--vd-card-border-radius);
+  top: var(--docs-affix-offset);
+
+  --vd-affix-z-index: 10;
 }
 
 .changelog-col-title {
@@ -2757,6 +2866,7 @@ a:hover .vd-card-interactive.vd-card-glow {
   gap: 0.4rem;
   margin-left: auto;
   order: 99;
+  transform: translateY(1px);
 }
 
 /* Navbar trigger button — chess-like borderless chrome */
@@ -2772,6 +2882,8 @@ a:hover .vd-card-interactive.vd-card-glow {
   color: var(--vd-text-primary);
   cursor: pointer;
   font-size: 1.2rem;
+  line-height: 0;
+  padding: 0;
   transition:
     color 0.2s,
     background 0.2s;
@@ -2797,6 +2909,8 @@ a:hover .vd-card-interactive.vd-card-glow {
   color: var(--vd-text-primary);
   cursor: pointer;
   font-size: 1.2rem;
+  line-height: 0;
+  padding: 0;
   transition:
     color 0.2s,
     background 0.2s;
@@ -2822,6 +2936,8 @@ a:hover .vd-card-interactive.vd-card-glow {
   color: var(--vd-text-primary);
   cursor: pointer;
   font-size: 1.2rem;
+  line-height: 0;
+  padding: 0;
   transition:
     color 0.2s,
     background 0.2s;
@@ -2834,7 +2950,22 @@ a:hover .vd-card-interactive.vd-card-glow {
   background: var(--vd-bg-secondary);
 }
 
+.navbar-actions-always .vd-theme-switcher,
+.navbar-actions-always .vd-theme-customizer {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.navbar-actions-always .global-search-trigger i,
+.navbar-actions-always .vd-theme-switcher-toggle .ph,
 .navbar-actions-always .vd-theme-customizer-trigger i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
   font-size: 1.2rem;
 }
 
@@ -2847,6 +2978,8 @@ a:hover .vd-card-interactive.vd-card-glow {
   background: transparent;
   color: var(--vd-text-primary);
   font-size: 1.2rem;
+  line-height: 0;
+  padding: 0;
 }
 
 .navbar-actions-always .vd-theme-switcher-toggle:hover {

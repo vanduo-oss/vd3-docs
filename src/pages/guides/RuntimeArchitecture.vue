@@ -48,7 +48,7 @@ const entryPoints: [string, string][] = [
   ],
   [
     "@vanduo-oss/vd3/css/core",
-    "The same stylesheet without the bundled Phosphor icon fonts, for apps that supply their own icons.",
+    "The same stylesheet without the bundled Phosphor icon fonts, for apps that supply their own icons. This is a no-icons variant of the full tree — not a tokens-only sheet.",
   ],
   [
     "@vanduo-oss/vd3/tokens.json",
@@ -73,13 +73,14 @@ import App from './App.vue';
 createApp(App).use(VanduoVue).mount('#app');`;
 
 const behaviourJs = `// Behaviour ships as plain Vue — components own their own lifecycle
-import { VdModal, VdToast } from '@vanduo-oss/vd3';
-import { useToast, useTheme } from '@vanduo-oss/vd3';
+import { VdToastContainer, useToast, useThemePreference } from '@vanduo-oss/vd3';
 
-// A composable wires listeners on mount and tears them down on unmount;
-// there is no global registry and no imperative DOM scan to remember.
+// Mount <VdToastContainer /> once (e.g. in App.vue) so toasts have somewhere to go.
 const toast = useToast();
-toast.success('Saved');`;
+toast.success('Saved');
+
+const theme = useThemePreference();
+theme.setTheme('dark');`;
 </script>
 
 <template>
@@ -160,13 +161,13 @@ toast.success('Saved');`;
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
-            <h6><i class="ph ph-gear"></i> The build chain</h6>
+            <h6><i class="ph ph-gear"></i> How the package is built</h6>
           </div>
           <div class="vd-card-body">
             <p>
-              The layers are produced by a deterministic, top-to-bottom build.
-              You never run it — you install the prebuilt <code>dist/</code> —
-              but it shows how one source of tokens becomes CSS and components:
+              How the package is built — you do not run this. You install the
+              prebuilt <code>dist/</code>. It shows how one source of tokens
+              becomes CSS and components:
             </p>
             <DocCodeSnippet :shell="buildChain" :default-open="true" />
           </div>
@@ -223,7 +224,7 @@ toast.success('Saved');`;
         {
           to: '/guides/vanduo-ecosystem',
           icon: 'ph-stack',
-          title: 'The Vanduo ecosystem',
+          title: 'vd3 ecosystem',
           desc: 'How vd3-docs, vd3, and vd3-cbun fit together.',
           badge: 'Guide',
         },

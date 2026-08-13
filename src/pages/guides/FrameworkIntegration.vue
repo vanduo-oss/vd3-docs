@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import GuideLinkCards from "@/components/GuideLinkCards.vue";
+import { RouterLink } from "vue-router";
 
 const installShell = `# The Vue 3 component library (tokens + CSS + components)
 pnpm add @vanduo-oss/vd3
 
-# Optional — the canvas bundle (charts, flowchart, hex-grid, music-player)
+# Optional — canvas widgets (charts, code-editor, draw, flowchart, hex-grid, music-player)
 pnpm add @vanduo-oss/vd3-cbun`;
 
 const mainJs = `// main.ts — register the plugin and the stylesheet once
@@ -16,29 +17,42 @@ import App from './App.vue';
 
 createApp(App).use(VanduoVue).mount('#app');`;
 
-const optionsJs = `// The plugin takes an optional themeDefaults override, shallow-merged
-// over the generated baseline and applied synchronously on install.
+const optionsJs = `// Plugin options apply synchronously on install, before the first storage read.
 app.use(VanduoVue, {
+  storagePrefix: 'my-app-',           // default 'vanduo-'
   themeDefaults: { PRIMARY_DARK: 'green' },
 });`;
 
-const usageHtml = `<!-- App.vue — import typed Vd* components and compose -->
-<script setup lang="ts">
+const usageJs = `<script setup lang="ts">
 import { VdCard, VdButton } from '@vanduo-oss/vd3';
 <\/script>
 
 <template>
   <VdCard>
-    <h1 class="vd-h1">Build fast with Vanduo</h1>
-    <p class="vd-lead vd-text-muted">First-class Vue 3 components.</p>
+    <h1>Build fast with Vanduo</h1>
+    <p class="vd-text-lg vd-text-muted">First-class Vue 3 components.</p>
     <VdButton variant="primary" size="lg">Get started</VdButton>
   </VdCard>
 </template>`;
 
-const cbunJs = `// Canvas components live under @vanduo-oss/vd3-cbun subpaths,
-// each with its own stylesheet.
+const cbunJs = `// Each widget lives on its own subpath. Most ship a matching /css entry.
 import { VdChart } from '@vanduo-oss/vd3-cbun/charts';
-import '@vanduo-oss/vd3-cbun/charts/css';`;
+import '@vanduo-oss/vd3-cbun/charts/css';
+
+import { VdCodeEditor } from '@vanduo-oss/vd3-cbun/code-editor';
+import '@vanduo-oss/vd3-cbun/code-editor/css';
+
+import { VdDraw } from '@vanduo-oss/vd3-cbun/draw';
+import '@vanduo-oss/vd3-cbun/draw/css';
+
+import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';
+import '@vanduo-oss/vd3-cbun/flowchart/css';
+
+import { VdHexGrid } from '@vanduo-oss/vd3-cbun/hex-grid';
+// hex-grid is canvas-rendered — it ships no stylesheet.
+
+import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';
+import '@vanduo-oss/vd3-cbun/music-player/css';`;
 
 const ssgJs = `// main.ts — SSR / SSG entry with vite-ssg
 import { ViteSSG } from 'vite-ssg';
@@ -48,15 +62,45 @@ import App from './App.vue';
 import { routes } from './routes';
 
 export const createApp = ViteSSG(App, { routes }, ({ app }) => {
-  // Set your theme default here so the first prerendered paint matches.
-  app.use(VanduoVue, { themeDefaults: { PRIMARY_DARK: 'green' } });
+  app.use(VanduoVue, {
+    storagePrefix: 'my-app-',
+    themeDefaults: { PRIMARY_DARK: 'green' },
+  });
 });`;
+
+const nuxtConfigJs = `// nuxt.config.ts
+export default defineNuxtConfig({
+  css: ['@vanduo-oss/vd3/css'],
+});`;
+
+const nuxtPluginJs = `// plugins/vanduo.client.ts
+import { VanduoVue } from '@vanduo-oss/vd3';
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(VanduoVue, {
+    storagePrefix: 'my-app-',
+    themeDefaults: { PRIMARY_DARK: 'green' },
+  });
+});`;
+
+const nuxtBridgeJs = `// Optional: keep vd3 in sync with @nuxtjs/color-mode
+import { computed } from 'vue';
+import { useThemeBridge } from '@vanduo-oss/vd3';
+import { useColorMode } from '#imports';
+
+const colorMode = useColorMode();
+useThemeBridge(computed(() => colorMode.preference as 'light' | 'dark' | 'system'));`;
 
 const pluginOptions: [string, string, string][] = [
   [
     "themeDefaults",
     "Partial<ThemeDefaults>",
     "Site-specific overrides shallow-merged over the generated theme baseline (e.g. { PRIMARY_DARK: 'green' }). Applied synchronously on install, before the theme model first reads its defaults. Optional.",
+  ],
+  [
+    "storagePrefix",
+    "string",
+    'localStorage key prefix for theme preferences (default "vanduo-"). Applied synchronously on install, before the first storage read. Use a unique prefix when two apps share an origin so keys do not collide. Example: "labs-" → labs-theme-preference, labs-palette, …',
   ],
 ];
 </script>
@@ -68,11 +112,23 @@ const pluginOptions: [string, string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      vd3 is a standalone Vue 3 package. Getting a Vanduo-styled app running is
-      three steps: install <code>@vanduo-oss/vd3</code>, import its stylesheet
-      once, and register the <code>VanduoVue</code> plugin. No global runtime,
-      no build-tool plugin, no post-mount initialisation.
+      Reference for installing <code>@vanduo-oss/vd3</code>: plugin options, the
+      optional canvas bundle, vite-ssg, and Nuxt. For a five-minute first page,
+      start at
+      <RouterLink to="/guides/getting-started">Getting started</RouterLink>. vd3
+      is Vue 3 only.
     </p>
+
+    <div class="vd-alert vd-alert-info vd-mb-6">
+      <i class="ph ph-tree"></i>
+      <div>
+        <strong>What tree-shakes.</strong> Named JS imports tree-shake.
+        <code>VanduoVue</code> does not register components globally — import
+        each <code>Vd*</code> you use. <code>@vanduo-oss/vd3/css</code> is the
+        full stylesheet; <code>/css/core</code> is the same tree without bundled
+        icon fonts, not a tokens-only sheet.
+      </div>
+    </div>
 
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
@@ -83,8 +139,9 @@ const pluginOptions: [string, string, string][] = [
           <div class="vd-card-body">
             <p>
               Add the core package. Reach for
-              <code>@vanduo-oss/vd3-cbun</code> only when you need the canvas
-              components (charts, flowchart, hex-grid, music-player).
+              <code>@vanduo-oss/vd3-cbun</code> only when you need a canvas
+              widget (charts, code-editor, draw, flowchart, hex-grid,
+              music-player).
             </p>
             <DocCodeSnippet :shell="installShell" :default-open="true" />
           </div>
@@ -108,8 +165,8 @@ const pluginOptions: [string, string, string][] = [
             </p>
             <DocCodeSnippet :js="mainJs" :default-open="true" />
             <p class="vd-mt-4">
-              <code>VanduoVue</code> only applies theme defaults — pass
-              <code>themeDefaults</code> to override the generated baseline:
+              <code>VanduoVue</code> only applies theme defaults and the storage
+              prefix — it does not register components globally:
             </p>
             <DocCodeSnippet :js="optionsJs" />
             <div class="vd-table-responsive vd-mt-4">
@@ -153,10 +210,11 @@ const pluginOptions: [string, string, string][] = [
               <code>@vanduo-oss/vd3</code> — typed, tree-shakeable, ready to
               compose:
             </p>
-            <DocCodeSnippet :html="usageHtml" :default-open="true" />
+            <DocCodeSnippet :js="usageJs" :default-open="true" />
             <p class="vd-text-sm vd-text-muted vd-mt-3">
-              Canvas components come from the <code>@vanduo-oss/vd3-cbun</code>
-              subpaths and carry their own CSS:
+              Canvas components come from the
+              <code>@vanduo-oss/vd3-cbun</code> subpaths. Five of six ship a
+              matching <code>/css</code> file; hex-grid does not:
             </p>
             <DocCodeSnippet :js="cbunJs" />
           </div>
@@ -164,7 +222,7 @@ const pluginOptions: [string, string, string][] = [
       </div>
     </div>
 
-    <div class="vd-card demo-card">
+    <div class="vd-card demo-card vd-mb-6">
       <div class="vd-card-header">
         <h6><i class="ph ph-cloud-arrow-up"></i> vite-ssg &amp; SSR</h6>
       </div>
@@ -173,9 +231,8 @@ const pluginOptions: [string, string, string][] = [
           Every <code>Vd*</code> component is SSR-safe — no
           <code>window</code> or DOM access at module or setup scope, with
           browser-only work (observers, listeners) deferred to
-          <code>onMounted</code>. So the components prerender and hydrate
-          cleanly under vite-ssg, Nuxt, or your own SSR. Register the plugin
-          inside the <code>vite-ssg</code> setup callback:
+          <code>onMounted</code>. Register the plugin inside the
+          <code>vite-ssg</code> setup callback:
         </p>
         <DocCodeSnippet :js="ssgJs" :default-open="true" />
         <ul class="vd-mt-4">
@@ -185,14 +242,41 @@ const pluginOptions: [string, string, string][] = [
             content).
           </li>
           <li>
-            Set your theme default via <code>themeDefaults</code> in the setup
-            callback so the first server-rendered paint matches the client.
-          </li>
-          <li>
-            This very site is built with <code>vite-ssg</code> and prerenders
-            every route against these components.
+            Set <code>themeDefaults</code> (and <code>storagePrefix</code> if
+            you need it) in the setup callback so the first server-rendered
+            paint matches the client.
           </li>
         </ul>
+      </div>
+    </div>
+
+    <div class="vd-card demo-card">
+      <div class="vd-card-header">
+        <h6><i class="ph ph-app-window"></i> Nuxt</h6>
+      </div>
+      <div class="vd-card-body">
+        <p>
+          Load the stylesheet from <code>nuxt.config</code>, then install
+          <code>VanduoVue</code> in a <strong>client</strong> plugin so
+          localStorage theming stays off the server:
+        </p>
+        <DocCodeSnippet :js="nuxtConfigJs" :default-open="true" />
+        <DocCodeSnippet
+          class="vd-mt-3"
+          :js="nuxtPluginJs"
+          :default-open="true"
+        />
+        <p class="vd-mt-4">
+          If <code>@nuxtjs/color-mode</code> already owns light/dark, bridge it
+          instead of adding a second toggle:
+        </p>
+        <DocCodeSnippet :js="nuxtBridgeJs" />
+        <p class="vd-text-sm vd-text-muted vd-mt-3">
+          More on the bridge:
+          <RouterLink to="/guides/css-variables"
+            >CSS variables &amp; theming</RouterLink
+          >.
+        </p>
       </div>
     </div>
 
@@ -201,17 +285,17 @@ const pluginOptions: [string, string, string][] = [
       title="Next steps"
       :links="[
         {
+          to: '/guides/getting-started',
+          icon: 'ph-rocket-launch',
+          title: 'Getting started',
+          desc: 'Scaffold a Vue app and add vd3 in a few minutes.',
+          badge: 'Guide',
+        },
+        {
           to: '/guides/runtime-architecture',
           icon: 'ph-circuitry',
           title: 'vd3 Architecture',
           desc: 'Tokens to CSS to components — how the package is built.',
-          badge: 'Guide',
-        },
-        {
-          to: '/guides/migration',
-          icon: 'ph-arrows-left-right',
-          title: 'Migrating from vanduo v2 to vd3',
-          desc: 'Package map, import changes, and API diffs.',
           badge: 'Guide',
         },
         {

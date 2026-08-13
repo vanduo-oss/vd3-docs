@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import GuideLinkCards from "@/components/GuideLinkCards.vue";
+import { VdFooter, VdNavbar } from "@vanduo-oss/vd3";
+import { RouterLink } from "vue-router";
 
 const relatedComponents = [
   {
@@ -41,6 +43,32 @@ const gridHtml = `<div class="vd-container-responsive">
   </div>
 </div>`;
 
+const shellJs = `<script setup lang="ts">
+import { VdNavbar, VdFooter } from '@vanduo-oss/vd3';
+<\/script>
+
+<template>
+  <VdNavbar>
+    <template #brand><a href="/">Acme</a></template>
+    <ul class="vd-navbar-nav">
+      <li><a class="vd-nav-link active" href="/">Home</a></li>
+      <li><a class="vd-nav-link" href="/docs">Docs</a></li>
+    </ul>
+  </VdNavbar>
+
+  <div class="vd-container-responsive">
+    <div class="vd-row">
+      <div class="vd-col-12 vd-col-md-6 vd-col-lg-4">Column A</div>
+      <div class="vd-col-12 vd-col-md-6 vd-col-lg-4">Column B</div>
+      <div class="vd-col-12 vd-col-md-12 vd-col-lg-4">Column C</div>
+    </div>
+  </div>
+
+  <VdFooter>
+    <template #copyright>© 2026 Acme</template>
+  </VdFooter>
+</template>`;
+
 const breakpoints: [string, string, string][] = [
   ["(base)", "< 576px", "vd-col-12 — stacks on phones"],
   ["sm", "≥ 576px", "vd-col-sm-*"],
@@ -63,13 +91,14 @@ const containers: [string, string][] = [
 <template>
   <section id="first-layout">
     <h5 class="demo-title">
-      <i class="ph ph-layout"></i>Your First Layout
+      <i class="ph ph-layout"></i>Your first layout
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      Vanduo's layout system is plain CSS — a 12-column responsive grid inside a
-      container, with mobile-first breakpoints. It works the same in static HTML
-      and Vue SFC templates.
+      vd3's layout system is plain CSS — a 12-column responsive grid inside a
+      container, with mobile-first breakpoints. Compose a page with
+      <code>VdNavbar</code>, <code>vd-container-responsive</code>, and
+      <code>VdFooter</code>.
     </p>
 
     <div class="vd-row vd-mb-6">
@@ -83,9 +112,60 @@ const containers: [string, string][] = [
               Columns stack on phones, go two-up on tablets, and three-up on
               desktops:
             </p>
+            <div class="vd-container-responsive first-layout-grid vd-mb-4">
+              <div class="vd-row">
+                <div class="vd-col-12 vd-col-md-6 vd-col-lg-4">
+                  <div class="first-layout-cell">Column A</div>
+                </div>
+                <div class="vd-col-12 vd-col-md-6 vd-col-lg-4">
+                  <div class="first-layout-cell">Column B</div>
+                </div>
+                <div class="vd-col-12 vd-col-md-12 vd-col-lg-4">
+                  <div class="first-layout-cell">Column C</div>
+                </div>
+              </div>
+            </div>
             <DocCodeSnippet :html="gridHtml" :default-open="true" />
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="vd-card demo-card vd-mb-6">
+      <div class="vd-card-header">
+        <h6><i class="ph ph-browser"></i> A minimal page shell</h6>
+      </div>
+      <div class="vd-card-body">
+        <p class="vd-mb-4">
+          Navbar + responsive container + footer — the same components the
+          next-step cards point at:
+        </p>
+        <div class="first-layout-shell vd-mb-4">
+          <VdNavbar>
+            <template #brand><span>Acme</span></template>
+            <ul class="vd-navbar-nav">
+              <li><a class="vd-nav-link active" href="#">Home</a></li>
+              <li><a class="vd-nav-link" href="#">Docs</a></li>
+            </ul>
+          </VdNavbar>
+          <div class="vd-container-responsive vd-p-6">
+            <div class="vd-row">
+              <div class="vd-col-12 vd-col-md-6 vd-col-lg-4">
+                <div class="first-layout-cell">Column A</div>
+              </div>
+              <div class="vd-col-12 vd-col-md-6 vd-col-lg-4">
+                <div class="first-layout-cell">Column B</div>
+              </div>
+              <div class="vd-col-12 vd-col-md-12 vd-col-lg-4">
+                <div class="first-layout-cell">Column C</div>
+              </div>
+            </div>
+          </div>
+          <VdFooter>
+            <template #copyright>© 2026 Acme</template>
+          </VdFooter>
+        </div>
+        <DocCodeSnippet :js="shellJs" />
       </div>
     </div>
 
@@ -159,7 +239,8 @@ const containers: [string, string][] = [
           Start with a base <code>vd-col-12</code> (full width) and add larger
           breakpoints only where the layout should change. The grid gutters and
           column counts follow the same Fibonacci spacing as the rest of the
-          system — see <a href="/guides/fibonacci">The Fibonacci scale</a>.
+          system — see
+          <RouterLink to="/guides/fibonacci">Fibonacci scale</RouterLink>.
         </p>
       </div>
     </div>
@@ -172,3 +253,30 @@ const containers: [string, string][] = [
     />
   </section>
 </template>
+
+<style scoped>
+.first-layout-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
+  color: var(--vd-text-inverse, #fff);
+  font-weight: 600;
+  background: var(--vd-color-primary);
+  border-radius: var(--vd-radius-fib-5, 0.3125rem);
+  opacity: 0.85;
+}
+
+.first-layout-shell {
+  overflow: hidden;
+  border: 1px solid var(--vd-border-color);
+  border-radius: var(--vd-radius-fib-5, 0.3125rem);
+}
+
+.first-layout-grid {
+  padding-left: 0;
+  padding-right: 0;
+}
+</style>

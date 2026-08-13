@@ -137,7 +137,11 @@ const vue3Api: [string, string][] = [
         >
           <div class="vd-card-header"><h6>Separators</h6></div>
           <div class="vd-card-body" @click.prevent>
-            <div v-for="sep in separators" :key="sep" class="vd-mb-3">
+            <div
+              v-for="(sep, i) in separators"
+              :key="sep"
+              :class="{ 'vd-mb-4': i < separators.length - 1 }"
+            >
               <p class="vd-text-sm vd-text-muted vd-mb-1">
                 <code>separator="{{ sep }}"</code>
               </p>

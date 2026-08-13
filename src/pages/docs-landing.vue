@@ -66,7 +66,7 @@ const cards: DocsCard[] = [
       { title: "Integrations", icon: "ph-plugs-connected" },
     ],
     tags: ["Setup", "Theming", "Integrations"],
-    meta: { icon: "ph-book-bookmark", text: "18 guided walkthroughs" },
+    meta: { icon: "ph-book-bookmark", text: "14 guided walkthroughs" },
   },
   {
     to: "/changelog",
@@ -76,8 +76,8 @@ const cards: DocsCard[] = [
     title: "Changelog",
     desc: "See what's new in Vanduo and track each release update.",
     highlights: [
-      { icon: "ph-sparkle", text: "v1.4.4 theme switcher menu UX" },
-      { icon: "ph-git-branch", text: "Migration notes for each major release" },
+      { icon: "ph-sparkle", text: "vd3 1.3.0 — Seemore Glass & Surfaces" },
+      { icon: "ph-git-branch", text: "Release notes for @vanduo-oss/vd3" },
     ],
     miniIcons: [
       { title: "Releases", icon: "ph-tag" },
@@ -85,7 +85,7 @@ const cards: DocsCard[] = [
       { title: "Roadmap", icon: "ph-map-trifold" },
     ],
     tags: ["Releases", "Tokens", "Lifecycle"],
-    meta: { icon: "ph-calendar-blank", text: "Latest: v1.4.4" },
+    meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.3.0" },
   },
 ];
 </script>

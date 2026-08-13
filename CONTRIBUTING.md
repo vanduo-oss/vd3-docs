@@ -125,6 +125,21 @@ changes may not force a baseline rewrite.)
   (`layout/`, `overlays/`, `pages/`, …); the `Vd*` component names come from the
   upstream packages.
 
+## Building the docs site
+
+Commands for this repository (not for apps that consume `@vanduo-oss/vd3`):
+
+```sh
+pnpm build              # vite-ssg → static dist/
+pnpm preview            # serve the built output locally
+pnpm vue-tsc --noEmit   # type safety
+pnpm test               # Vitest
+pnpm run test:a11y      # axe smoke
+```
+
+The SSG build also catches unguarded `window` / `document` access. Consumer
+production guidance lives in the Production guide, not here.
+
 ## Release Process
 
 `vd3-docs` is `private: true` and is **not** published as an npm package — it
