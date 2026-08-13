@@ -168,6 +168,27 @@ select,
   font-weight: 600;
   font-size: 0.95rem;
   letter-spacing: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Package typography sets `li { margin-bottom: 0.25em }`. That leftover
+   margin inflates the absolutely positioned desktop nav and parks the
+   links above the brand/icon center line. */
+.vd-navbar-nav > li {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .vd-navbar .vd-navbar-nav {
+    top: 50%;
+    /* +1px optical: cap-height Latin + Phosphor sit high in their em boxes */
+    transform: translate(-50%, calc(-50% + 1px));
+  }
 }
 
 .vd-text-muted,
@@ -175,9 +196,10 @@ select,
   font-weight: 500;
 }
 
-/* Shell navbar frost / float / brand centering: shipped by @vanduo-oss/vd3
-   (`.vd-navbar-glass` + `.vd-navbar-float`). Docs only keeps chrome specifics
-   below (nav weight, Michroma brand, search/theme actions). */
+/* Shell navbar frost / float: shipped by @vanduo-oss/vd3
+   (`.vd-navbar-glass` + `.vd-navbar-float`). Docs keeps chrome specifics
+   (nav weight, Michroma brand, search/theme actions) plus optical
+   vertical alignment of the shell row. */
 
 /* ── Dark mode scrollbars (docs) ─────────────────── */
 [data-theme="dark"] {
@@ -412,14 +434,15 @@ html[data-theme="dark"][data-primary="green"] {
   font-weight: 600;
   line-height: 1;
   padding: 0;
-  transform: none;
+  transform: translateY(1px);
 }
 
 .vd-navbar-brand-wrap > a.vd-navbar-brand-link .hero-title-text {
   display: inline-flex;
   align-items: center;
   line-height: 1;
-  transform: translateY(0.08em);
+  /* Michroma sits slightly high in the em box vs icon optical centers */
+  transform: translateY(0.04em);
 }
 
 .vd-navbar-brand-wrap > a.vd-navbar-brand-link .hero-title-brand {
@@ -446,8 +469,9 @@ html[data-theme="dark"][data-primary="green"] {
   display: block;
   flex-shrink: 0;
 
-  /* Drop mark so SVG ink lines up with Michroma “vd3” */
-  transform: translateY(0.2em);
+  /* ViewBox is taller than the spheres; visual mass sits high (two upper
+     lobes vs one lower). 0.1em drops ink onto the chrome center line. */
+  transform: translateY(0.1em);
 }
 
 .vd-footer-brand {
@@ -2757,6 +2781,7 @@ a:hover .vd-card-interactive.vd-card-glow {
   gap: 0.4rem;
   margin-left: auto;
   order: 99;
+  transform: translateY(1px);
 }
 
 /* Navbar trigger button — chess-like borderless chrome */
@@ -2772,6 +2797,8 @@ a:hover .vd-card-interactive.vd-card-glow {
   color: var(--vd-text-primary);
   cursor: pointer;
   font-size: 1.2rem;
+  line-height: 0;
+  padding: 0;
   transition:
     color 0.2s,
     background 0.2s;
@@ -2797,6 +2824,8 @@ a:hover .vd-card-interactive.vd-card-glow {
   color: var(--vd-text-primary);
   cursor: pointer;
   font-size: 1.2rem;
+  line-height: 0;
+  padding: 0;
   transition:
     color 0.2s,
     background 0.2s;
@@ -2822,6 +2851,8 @@ a:hover .vd-card-interactive.vd-card-glow {
   color: var(--vd-text-primary);
   cursor: pointer;
   font-size: 1.2rem;
+  line-height: 0;
+  padding: 0;
   transition:
     color 0.2s,
     background 0.2s;
@@ -2834,7 +2865,22 @@ a:hover .vd-card-interactive.vd-card-glow {
   background: var(--vd-bg-secondary);
 }
 
+.navbar-actions-always .vd-theme-switcher,
+.navbar-actions-always .vd-theme-customizer {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.navbar-actions-always .global-search-trigger i,
+.navbar-actions-always .vd-theme-switcher-toggle .ph,
 .navbar-actions-always .vd-theme-customizer-trigger i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
   font-size: 1.2rem;
 }
 
@@ -2847,6 +2893,8 @@ a:hover .vd-card-interactive.vd-card-glow {
   background: transparent;
   color: var(--vd-text-primary);
   font-size: 1.2rem;
+  line-height: 0;
+  padding: 0;
 }
 
 .navbar-actions-always .vd-theme-switcher-toggle:hover {

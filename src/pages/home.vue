@@ -283,11 +283,10 @@ const swatches = [
               See more glass, Seymour!
             </h2>
             <p class="seemore-home-lead">
-              Generic glassmorphism picks one blur and hopes for the best.
-              <strong>Seemore Glass</strong> is different: every strength step
-              follows the Fibonacci sequence — the same harmonic spine as vd3’s
-              spacing, radius, and golden-ratio DNA — so blur, tint, edge, and
-              elevation thicken together as one material.
+              <strong>Seemore Glass</strong>: every strength step follows the
+              Fibonacci sequence — the same harmonic spine as vd3’s spacing,
+              radius, and golden-ratio DNA — so blur, tint, edge, and elevation
+              thicken together as one material.
             </p>
             <p class="seemore-home-lead vd-text-muted">
               Pair it with decorative Surfaces (mesh, stripe, noise, aurora,
