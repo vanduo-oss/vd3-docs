@@ -858,7 +858,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.3.1</span
+              >v1.3.2</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>August 2026
@@ -866,6 +866,75 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  A Draw patch: optional smooth line paths and Vue shape CRUD.
+                  Additive and backward-compatible —
+                  <code>smooth</code> is opt-in, existing documents stay
+                  polylines, and <code>VD_DRAW_VERSION</code> remains
+                  <code>1.1.0</code>.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-wave-sine"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Smooth lines</strong>
+                        <p>
+                          Line shapes accept optional <code>smooth</code>;
+                          <code>pointsToPath(points, { smooth })</code> then
+                          emits Catmull-Rom cubics (tension 1) so dense
+                          polylines read as curves. Two-point lines stay sharp;
+                          omit the flag and paths stay polylines — the second
+                          argument is optional.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-shapes"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Vue shape CRUD</strong>
+                        <p>
+                          <RouterLink to="/canvas/draw"
+                            ><code>VdDraw</code></RouterLink
+                          >
+                          now exposes <code>addShape</code>,
+                          <code>updateShape</code>, <code>removeShape</code>,
+                          <code>getShape</code>, <code>getShapes</code>,
+                          <code>clear</code>, <code>load</code>, and
+                          <code>toJSON</code>. <code>getShapes()</code> returns
+                          deep clones so callers cannot mutate the live
+                          document.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.3.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>August 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">
