@@ -1,5 +1,30 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
+import { VdSwitch } from "@vanduo-oss/vd3";
+
+/** Docs-only surface pattern motion (default on; user can disable). */
+const surfaceMotion = ref(true);
+const prefersReducedMotion = ref(false);
+
+let motionMq: MediaQueryList | null = null;
+let onMotionChange: (() => void) | null = null;
+
+onMounted(() => {
+  motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  onMotionChange = (): void => {
+    prefersReducedMotion.value = motionMq!.matches;
+    if (motionMq!.matches) surfaceMotion.value = false;
+  };
+  onMotionChange();
+  motionMq.addEventListener("change", onMotionChange);
+});
+
+onUnmounted(() => {
+  if (motionMq && onMotionChange) {
+    motionMq.removeEventListener("change", onMotionChange);
+  }
+});
 
 const variants = [
   {
@@ -71,8 +96,19 @@ const tokens: [string, string, string][] = [
       <RouterLink to="/effects/glass">Seemore Glass</RouterLink> demos. Ship
       <code>.vd-surface</code> plus a variant — mesh, stripe, noise, aurora,
       dots, or grid — then tune Fibonacci intensity with
-      <code>.vd-surface-3|5|8</code>.
+      <code>.vd-surface-3|5|8</code>. Docs demos add site-only
+      <code>.seemore-surface-motion</code> (hatch crawl, concentric ripples,
+      aurora drift, diagonal dots/grid) — not part of the kit yet.
     </p>
+    <div class="surface-controls vd-mb-4">
+      <VdSwitch
+        id="surfaces-page-motion"
+        v-model="surfaceMotion"
+        size="sm"
+        label="Motion"
+        :disabled="prefersReducedMotion"
+      />
+    </div>
 
     <div class="vd-row vd-mb-6">
       <div
@@ -83,7 +119,10 @@ const tokens: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card surface-card">
           <div
             class="vd-surface vd-surface-5 surface-preview"
-            :class="`vd-surface-${v.id}`"
+            :class="[
+              `vd-surface-${v.id}`,
+              { 'seemore-surface-motion': surfaceMotion },
+            ]"
           >
             <div class="vd-glass vd-glass-5 surface-glass">
               <strong>{{ v.title }}</strong>
@@ -116,7 +155,10 @@ const tokens: [string, string, string][] = [
               >
                 <div
                   class="vd-surface vd-surface-stripe surface-preview"
-                  :class="`vd-surface-${i.step}`"
+                  :class="[
+                    `vd-surface-${i.step}`,
+                    { 'seemore-surface-motion': surfaceMotion },
+                  ]"
                 >
                   <div class="vd-glass vd-glass-5 surface-glass">
                     <strong>{{ i.label }}</strong>
@@ -136,7 +178,10 @@ const tokens: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Pairing recipe</h6></div>
           <div class="vd-card-body">
-            <div class="vd-surface vd-surface-aurora vd-surface-5 surface-hero">
+            <div
+              class="vd-surface vd-surface-aurora vd-surface-5 surface-hero"
+              :class="{ 'seemore-surface-motion': surfaceMotion }"
+            >
               <div
                 class="vd-glass vd-glass-8 vd-glass-adaptive vd-glass-floating surface-hero-panel"
               >
@@ -192,6 +237,16 @@ const tokens: [string, string, string][] = [
 </template>
 
 <style scoped>
+.surface-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.surface-controls :deep(.vd-form-switch) {
+  margin: 0;
+  font-size: 0.82rem;
+  gap: 0.4rem;
+}
 .surface-card {
   overflow: hidden;
 }

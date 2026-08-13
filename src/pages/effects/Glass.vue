@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useGlass, VdModal } from "@vanduo-oss/vd3";
+import { useGlass, VdModal, VdSwitch } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useGlass(root);
@@ -101,6 +101,8 @@ const activeMeta = computed(
 const stageFading = ref(false);
 const stepFading = ref(false);
 const autoplay = ref(true);
+/** Docs-only surface pattern motion (default on; user can disable). */
+const surfaceMotion = ref(true);
 const prefersReducedMotion = ref(false);
 
 /** Fibonacci-flavored dwell (~3.2s steps, ~2.6s surfaces). */
@@ -118,7 +120,14 @@ let onMotionChange: (() => void) | null = null;
 const stageClass = computed(
   () =>
     `vd-surface vd-surface-${surfaceVariant.value} vd-surface-5 seemore-stage${
-      stageFading.value ? " is-crossfading" : ""
+      surfaceMotion.value ? " seemore-surface-motion" : ""
+    }${stageFading.value ? " is-crossfading" : ""}`,
+);
+
+const explorerStageClass = computed(
+  () =>
+    `vd-surface vd-surface-mesh vd-surface-5 seemore-stage${
+      surfaceMotion.value ? " seemore-surface-motion" : ""
     }`,
 );
 
@@ -202,6 +211,7 @@ onMounted(() => {
     prefersReducedMotion.value = motionMq!.matches;
     if (motionMq!.matches) {
       autoplay.value = false;
+      surfaceMotion.value = false;
       clearTimers();
     } else if (autoplay.value) {
       startAutoplay();
@@ -357,20 +367,29 @@ const glassComponents = [
                 />
                 {{ opt.label }}
               </label>
-              <button
-                type="button"
-                class="seemore-play-btn"
-                :aria-pressed="autoplay"
-                :aria-label="autoplay ? 'Pause autoplay' : 'Play autoplay'"
-                @click="toggleAutoplay"
-              >
-                <i
-                  class="ph"
-                  :class="autoplay ? 'ph-pause' : 'ph-play'"
-                  aria-hidden="true"
-                ></i>
-                {{ autoplay ? "Pause" : "Play" }}
-              </button>
+              <div class="seemore-controls-end">
+                <VdSwitch
+                  id="seemore-hero-motion"
+                  v-model="surfaceMotion"
+                  size="sm"
+                  label="Motion"
+                  :disabled="prefersReducedMotion"
+                />
+                <button
+                  type="button"
+                  class="seemore-play-btn"
+                  :aria-pressed="autoplay"
+                  :aria-label="autoplay ? 'Pause autoplay' : 'Play autoplay'"
+                  @click="toggleAutoplay"
+                >
+                  <i
+                    class="ph"
+                    :class="autoplay ? 'ph-pause' : 'ph-play'"
+                    aria-hidden="true"
+                  ></i>
+                  {{ autoplay ? "Pause" : "Play" }}
+                </button>
+              </div>
             </div>
             <div :class="stageClass">
               <div
@@ -449,26 +468,33 @@ const glassComponents = [
               >
                 {{ s.step }}
               </button>
-              <button
-                type="button"
-                class="seemore-play-btn"
-                :aria-pressed="autoplay"
-                :aria-label="autoplay ? 'Pause autoplay' : 'Play autoplay'"
-                @click="toggleAutoplay"
-              >
-                <i
-                  class="ph"
-                  :class="autoplay ? 'ph-pause' : 'ph-play'"
-                  aria-hidden="true"
-                ></i>
-                {{ autoplay ? "Pause" : "Play" }}
-              </button>
+              <div class="seemore-controls-end">
+                <VdSwitch
+                  id="seemore-explorer-motion"
+                  v-model="surfaceMotion"
+                  size="sm"
+                  label="Motion"
+                  :disabled="prefersReducedMotion"
+                />
+                <button
+                  type="button"
+                  class="seemore-play-btn"
+                  :aria-pressed="autoplay"
+                  :aria-label="autoplay ? 'Pause autoplay' : 'Play autoplay'"
+                  @click="toggleAutoplay"
+                >
+                  <i
+                    class="ph"
+                    :class="autoplay ? 'ph-pause' : 'ph-play'"
+                    aria-hidden="true"
+                  ></i>
+                  {{ autoplay ? "Pause" : "Play" }}
+                </button>
+              </div>
             </div>
             <div class="vd-row" style="align-items: stretch">
               <div class="vd-col-12 vd-col-lg-7">
-                <div
-                  class="vd-surface vd-surface-mesh vd-surface-5 seemore-stage"
-                >
+                <div :class="explorerStageClass">
                   <div
                     class="vd-glass seemore-hero-panel"
                     :class="[
@@ -840,7 +866,6 @@ const glassComponents = [
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  margin-left: auto;
   padding: 0.4rem 0.75rem;
   border-radius: var(--vd-radius-fib-5, 0.5rem);
   border: 1px solid var(--vd-border-color);
@@ -849,6 +874,17 @@ const glassComponents = [
   font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
+}
+.seemore-controls-end {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+.seemore-controls-end :deep(.vd-form-switch) {
+  margin: 0;
+  font-size: 0.82rem;
+  gap: 0.4rem;
 }
 .seemore-play-btn[aria-pressed="true"] {
   border-color: var(--vd-color-primary);

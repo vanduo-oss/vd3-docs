@@ -4056,3 +4056,199 @@ body.lcc-open .vd-offcanvas {
 .lcc-reset {
   align-self: flex-start;
 }
+
+/* ── Docs-only: Seemore surface motion ───────────────────────────
+ * Not part of @vanduo-oss/vd3 — demo polish for Glass / Surfaces / home.
+ * Each variant gets a motion language that fits its pattern:
+ *   mesh / stripe — hatch crawl (right → left)
+ *   noise         — concentric ripple (expanding rings)
+ *   aurora        — soft ribbon drift (northern-lights shimmer)
+ *   dots          — diagonal crawl up-left
+ *   grid          — diagonal crawl down-right (opposite of dots)
+ */
+:root {
+  --seemore-surface-motion-duration: 8s;
+  --seemore-aurora-motion-duration: 14s;
+  --seemore-noise-motion-duration: 2.5s;
+}
+
+.vd-surface-mesh.seemore-surface-motion {
+  animation: seemore-mesh-hatch-drift var(--seemore-surface-motion-duration)
+    linear infinite;
+}
+
+.vd-surface-stripe.seemore-surface-motion {
+  animation: seemore-stripe-hatch-drift var(--seemore-surface-motion-duration)
+    linear infinite;
+}
+
+@property --seemore-noise-ring {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.vd-surface-noise.seemore-surface-motion {
+  /* Center the stipple (kit default sits at 18% 15%) and expand ring
+   * stops only — no background-size / position travel, so no sideways crawl. */
+  --seemore-noise-ring: 0px;
+  background:
+    radial-gradient(
+      circle at 12% 14%,
+      rgba(255, 255, 255, calc(0.18 * var(--vd-surface-intensity))),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 82% 78%,
+      rgba(0, 0, 0, calc(0.34 * var(--vd-surface-contrast))),
+      transparent 44%
+    ),
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, calc(0.065 * var(--vd-surface-intensity)))
+        var(--seemore-noise-ring)
+        calc(2px + var(--seemore-noise-ring)),
+      rgba(0, 0, 0, calc(0.055 * var(--vd-surface-contrast)))
+        calc(2px + var(--seemore-noise-ring))
+        calc(5px + var(--seemore-noise-ring))
+    ),
+    var(--vd-surface-base);
+  animation: seemore-noise-ripple var(--seemore-noise-motion-duration) linear
+    infinite;
+}
+
+.vd-surface-aurora.seemore-surface-motion {
+  animation: seemore-aurora-drift var(--seemore-aurora-motion-duration) ease-in-out
+    infinite alternate;
+}
+
+.vd-surface-dots.seemore-surface-motion {
+  animation: seemore-dots-diag-left var(--seemore-surface-motion-duration)
+    linear infinite;
+}
+
+.vd-surface-grid.seemore-surface-motion {
+  animation: seemore-grid-diag-right var(--seemore-surface-motion-duration)
+    linear infinite;
+}
+
+@keyframes seemore-mesh-hatch-drift {
+  from {
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+  }
+  to {
+    /* Hatch layer only — right → left (3 × 39.72px @ 115°) */
+    background-position:
+      0 0,
+      0 0,
+      -119.16px 0,
+      0 0;
+  }
+}
+
+@keyframes seemore-stripe-hatch-drift {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+  to {
+    /* 3 × 45.25px @ 135° */
+    background-position:
+      -135.75px 0,
+      0 0;
+  }
+}
+
+/* One 5px ring period — seamless concentric pulse from center */
+@keyframes seemore-noise-ripple {
+  from {
+    --seemore-noise-ring: 0px;
+  }
+  to {
+    --seemore-noise-ring: 5px;
+  }
+}
+
+/* Soft aurora: color ribbons drift + breathe like northern lights */
+@keyframes seemore-aurora-drift {
+  from {
+    background-position:
+      0% 0%,
+      0% 0%,
+      0% 0%,
+      0% 0%,
+      0 0;
+    background-size:
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      auto;
+  }
+  to {
+    background-position:
+      12% -8%,
+      -10% 10%,
+      8% 14%,
+      -12% -6%,
+      0 0;
+    background-size:
+      118% 118%,
+      122% 110%,
+      112% 124%,
+      116% 116%,
+      auto;
+  }
+}
+
+/* Dots: diagonal up-left (3 × 14px cell) */
+@keyframes seemore-dots-diag-left {
+  from {
+    background-position:
+      0 0,
+      7px 7px,
+      0 0;
+  }
+  to {
+    background-position:
+      -42px -42px,
+      -35px -35px,
+      0 0;
+  }
+}
+
+/* Grid: opposite diagonal — down-right (3 × 24px fine, 3 × 120px coarse) */
+@keyframes seemore-grid-diag-right {
+  from {
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      72px 72px,
+      72px 72px,
+      360px 360px,
+      360px 360px,
+      0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vd-surface-mesh.seemore-surface-motion,
+  .vd-surface-stripe.seemore-surface-motion,
+  .vd-surface-noise.seemore-surface-motion,
+  .vd-surface-aurora.seemore-surface-motion,
+  .vd-surface-dots.seemore-surface-motion,
+  .vd-surface-grid.seemore-surface-motion {
+    animation: none;
+  }
+}

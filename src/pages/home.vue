@@ -313,7 +313,7 @@ const swatches = [
           </div>
           <div class="vd-col-12 vd-col-lg-7">
             <div
-              class="vd-surface vd-surface-stripe vd-surface-5 seemore-home-stage"
+              class="vd-surface vd-surface-stripe vd-surface-5 seemore-surface-motion seemore-home-stage"
             >
               <div
                 class="vd-glass vd-glass-8 vd-glass-adaptive vd-glass-floating seemore-home-panel"
