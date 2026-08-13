@@ -346,6 +346,9 @@ html[data-theme="dark"][data-primary="green"] {
     var(--vd-primary-7) 85%,
     var(--vd-primary-9)
   );
+  --seemore-surface-motion-duration: 8s;
+  --seemore-aurora-motion-duration: 14s;
+  --seemore-noise-motion-duration: 2.5s;
 }
 
 .vd3-mark {
@@ -4066,12 +4069,6 @@ body.lcc-open .vd-offcanvas {
  *   dots          — diagonal crawl up-left
  *   grid          — diagonal crawl down-right (opposite of dots)
  */
-:root {
-  --seemore-surface-motion-duration: 8s;
-  --seemore-aurora-motion-duration: 14s;
-  --seemore-noise-motion-duration: 2.5s;
-}
-
 .vd-surface-mesh.seemore-surface-motion {
   animation: seemore-mesh-hatch-drift var(--seemore-surface-motion-duration)
     linear infinite;
@@ -4085,6 +4082,7 @@ body.lcc-open .vd-offcanvas {
 @property --seemore-noise-ring {
   syntax: "<length>";
   inherits: false;
+  /* stylelint-disable-next-line length-zero-no-unit -- @property <length> needs a unit */
   initial-value: 0px;
 }
 
@@ -4092,23 +4090,24 @@ body.lcc-open .vd-offcanvas {
   /* Center the stipple (kit default sits at 18% 15%) and expand ring
    * stops only — no background-size / position travel, so no sideways crawl. */
   --seemore-noise-ring: 0px;
+
   background:
     radial-gradient(
       circle at 12% 14%,
-      rgba(255, 255, 255, calc(0.18 * var(--vd-surface-intensity))),
+      rgb(255 255 255 / calc(0.18 * var(--vd-surface-intensity))),
       transparent 28%
     ),
     radial-gradient(
       circle at 82% 78%,
-      rgba(0, 0, 0, calc(0.34 * var(--vd-surface-contrast))),
+      rgb(0 0 0 / calc(0.34 * var(--vd-surface-contrast))),
       transparent 44%
     ),
     repeating-radial-gradient(
       circle at 50% 50%,
-      rgba(255, 255, 255, calc(0.065 * var(--vd-surface-intensity)))
+      rgb(255 255 255 / calc(0.065 * var(--vd-surface-intensity)))
         var(--seemore-noise-ring)
         calc(2px + var(--seemore-noise-ring)),
-      rgba(0, 0, 0, calc(0.055 * var(--vd-surface-contrast)))
+      rgb(0 0 0 / calc(0.055 * var(--vd-surface-contrast)))
         calc(2px + var(--seemore-noise-ring))
         calc(5px + var(--seemore-noise-ring))
     ),
@@ -4140,6 +4139,7 @@ body.lcc-open .vd-offcanvas {
       0 0,
       0 0;
   }
+
   to {
     /* Hatch layer only — right → left (3 × 39.72px @ 115°) */
     background-position:
@@ -4156,6 +4156,7 @@ body.lcc-open .vd-offcanvas {
       0 0,
       0 0;
   }
+
   to {
     /* 3 × 45.25px @ 135° */
     background-position:
@@ -4169,6 +4170,7 @@ body.lcc-open .vd-offcanvas {
   from {
     --seemore-noise-ring: 0px;
   }
+
   to {
     --seemore-noise-ring: 5px;
   }
@@ -4190,6 +4192,7 @@ body.lcc-open .vd-offcanvas {
       100% 100%,
       auto;
   }
+
   to {
     background-position:
       12% -8%,
@@ -4214,6 +4217,7 @@ body.lcc-open .vd-offcanvas {
       7px 7px,
       0 0;
   }
+
   to {
     background-position:
       -42px -42px,
@@ -4232,6 +4236,7 @@ body.lcc-open .vd-offcanvas {
       0 0,
       0 0;
   }
+
   to {
     background-position:
       72px 72px,
