@@ -410,7 +410,15 @@ export const nav: NavTree = {
               title: "Table",
               route: "/components/table",
               icon: "table",
-              keywords: ["table", "grid", "data"],
+              keywords: [
+                "table",
+                "grid",
+                "data",
+                "datatable",
+                "sort",
+                "search",
+                "empty",
+              ],
               file: "data-display/tables.html",
             },
             {
@@ -689,7 +697,7 @@ export const nav: NavTree = {
               title: "Security",
               route: "/guides/security",
               icon: "shield-check",
-              keywords: ["security", "xss", "csp"],
+              keywords: ["security", "xss", "csp", "auth", "login", "csrf"],
               file: "guides/security-practices.html",
             },
             {
@@ -808,6 +816,21 @@ export const nav: NavTree = {
               icon: "list",
               keywords: ["form", "input", "select"],
               file: "components/forms.html",
+            },
+            {
+              id: "login",
+              title: "Login",
+              route: "/components/login",
+              icon: "sign-in",
+              keywords: [
+                "login",
+                "auth",
+                "sign-in",
+                "signup",
+                "otp",
+                "checkbox",
+                "password",
+              ],
             },
             {
               id: "form-validation",

@@ -58,6 +58,10 @@ const practices: [string, string][] = [
     "No secrets in the bundle",
     "Anything imported into the client is public — keep keys server-side.",
   ],
+  [
+    "Auth UI is headless",
+    "VdLogin / VdSignUp / VdForgotPassword emit submit and social; they never fetch. Sessions, CSRF tokens, OAuth SDKs, captchas, and lockout timers stay in the app. Credential fields use WHATWG autocomplete tokens — never autocomplete=off.",
+  ],
 ];
 </script>
 
@@ -111,6 +115,33 @@ const practices: [string, string][] = [
             <DocCodeSnippet class="vd-mt-3" :js="suggestJs" />
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="vd-card demo-card vd-mb-6">
+      <div class="vd-card-header">
+        <h6><i class="ph ph-sign-in"></i> Auth UI vs app responsibility</h6>
+      </div>
+      <div class="vd-card-body">
+        <p class="vd-text-sm vd-text-muted vd-mb-3">
+          The kit paints login screens and sets autocomplete / reveal /
+          <code>aria-invalid</code>. It does not mint JWTs, set cookies,
+          generate CSRF tokens, talk to Google/GitHub SDKs, or enforce lockout.
+          Pass <code>error</code> / <code>message</code> from the parent; hide
+          CSRF in the <code>#extra</code> slot. Live screens live on
+          <RouterLink to="/components/login">Login</RouterLink>.
+        </p>
+        <ul class="vd-text-sm">
+          <li>
+            Kit: visible labels, WHATWG autocomplete tokens, a real
+            <code>type="button"</code> password reveal, <code>VdAlert</code> for
+            parent copy.
+          </li>
+          <li>
+            App: session, CSRF, rate limits, OAuth, captcha vendors, password
+            policy.
+          </li>
+        </ul>
       </div>
     </div>
 

@@ -100,6 +100,7 @@ export const ROUTES: readonly Route[] = [
   { path: '/effects/morph', label: 'effects-morph' },
   { path: '/effects/parallax', label: 'effects-parallax' },
   { path: '/components/forms', label: 'components-forms' },
+  { path: '/components/login', label: 'components-login' },
   { path: '/components/form-validation', label: 'components-form-validation' },
   { path: '/components/datepicker', label: 'components-datepicker' },
   { path: '/components/timepicker', label: 'components-timepicker' },
