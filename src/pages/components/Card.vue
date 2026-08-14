@@ -21,6 +21,7 @@ import { VdCard } from "@vanduo-oss/vd3";
 
 const vue3Api: [string, string][] = [
   [":elevated", "Raised shadow treatment (.vd-card-elevated)."],
+  [":glass", "Frosted glass surface (.vd-card-glass)."],
   [
     ":interactive",
     "Hover lift + cursor pointer + focus ring (.vd-card-interactive).",

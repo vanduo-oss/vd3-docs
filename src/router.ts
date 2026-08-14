@@ -35,6 +35,7 @@ import ChipPage from "@/pages/components/Chip.vue";
 import SkeletonPage from "@/pages/components/Skeleton.vue";
 import PreloaderPage from "@/pages/components/Preloader.vue";
 import FormsPage from "@/pages/components/Forms.vue";
+import LoginPage from "@/pages/components/Login.vue";
 import FormValidationPage from "@/pages/components/FormValidation.vue";
 import DatepickerPage from "@/pages/components/Datepicker.vue";
 import TimepickerPage from "@/pages/components/Timepicker.vue";
@@ -126,6 +127,7 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   skeleton: SkeletonPage,
   preloader: PreloaderPage,
   forms: FormsPage,
+  login: LoginPage,
   "form-validation": FormValidationPage,
   datepicker: DatepickerPage,
   timepicker: TimepickerPage,

@@ -76,7 +76,7 @@ const cards: DocsCard[] = [
     title: "Changelog",
     desc: "See what's new in Vanduo and track each release update.",
     highlights: [
-      { icon: "ph-sparkle", text: "vd3 1.3.0 — Seemore Glass & Surfaces" },
+      { icon: "ph-sparkle", text: "vd3 1.4.0 — Auth screens & data table" },
       { icon: "ph-git-branch", text: "Release notes for @vanduo-oss/vd3" },
     ],
     miniIcons: [
@@ -85,7 +85,7 @@ const cards: DocsCard[] = [
       { title: "Roadmap", icon: "ph-map-trifold" },
     ],
     tags: ["Releases", "Tokens", "Lifecycle"],
-    meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.3.0" },
+    meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.4.0" },
   },
 ];
 </script>

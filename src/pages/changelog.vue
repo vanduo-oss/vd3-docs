@@ -71,7 +71,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.3.0</span
+              >v1.4.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>August 2026
@@ -79,6 +79,80 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  Headless <strong>auth screens</strong> and a client
+                  <strong>data table</strong> — still a UI kit, not an app
+                  framework. No fetch, no dataProvider, no Resource registry.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-sign-in"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Auth screens</strong>
+                        <p>
+                          <code>VdAuthCard</code>, <code>VdLogin</code>,
+                          <code>VdSignUp</code>, and
+                          <code>VdForgotPassword</code> emit
+                          <code>submit</code> / <code>social</code>. Password
+                          fields use WHATWG autocomplete tokens and a real
+                          reveal button. Primitives: <code>VdCheckbox</code>,
+                          <code>VdOtpInput</code>, <code>VdInput</code> slots +
+                          <code>revealPassword</code>, <code>VdCard</code>
+                          <code>glass</code>. See
+                          <RouterLink to="/components/login"
+                            ><code>/components/login</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-table"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Data table</strong>
+                        <p>
+                          <code>useTableState</code> (search → sort → page, or
+                          <code>manual</code> for server-sliced rows) and
+                          <code>VdDataTable</code> (sortable
+                          <code>aria-sort</code> headers, cell slots, selection,
+                          sticky header, skeleton loading,
+                          <code>VdEmptyState</code>, composed
+                          <code>VdPagination</code>). Presentational
+                          <code>VdTable</code> is unchanged. See
+                          <RouterLink to="/components/table"
+                            ><code>/components/table</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.3.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">

@@ -117,12 +117,20 @@ const vdInputApi: [string, string][] = [
   [":label", "Field label rendered above the input."],
   [":hint", "Helper text below the input (hidden when error is set)."],
   [":error", "Error message; its presence also styles the input as danger."],
-  [":prefix / :suffix", "Static text/symbol before / after the input."],
+  [
+    ":prefix / :suffix",
+    "Static text/symbol before / after the input. #prefix / #suffix slots override the text props.",
+  ],
+  [
+    ":revealPassword",
+    "When type is password, render a type=button that toggles password ↔ text (aria-pressed, eye / eye-slash). Never autocomplete=off.",
+  ],
+  [":required", "Marks the visible label with .label-required."],
   [":variant", "'success' | 'danger' validation state (error implies danger)."],
   [":size", "'sm' | 'md' | 'lg' input height (default 'md')."],
   [
     "native attrs",
-    "type, placeholder, disabled, readonly, required, min/max/step, pattern, autocomplete…",
+    "type, placeholder, disabled, readonly, required, min/max/step, pattern, autocomplete, inputmode, enterkeyhint…",
   ],
   ["@blur / @focus", "Forwarded focus events."],
 ];
@@ -141,7 +149,7 @@ const options = [{ value: '1', label: 'Option 1' }];
 
 const customSelect = ref("");
 const rangeValue = ref(50);
-const showPassword = ref(false);
+const passwordDemo = ref("");
 
 const customOptions = [
   { value: "", label: "Choose an option" },
@@ -260,16 +268,13 @@ const inputSizesHtml = `<div class="vd-form-group">
   <input type="text" id="input-lg" class="vd-input vd-input-lg" placeholder="Large input">
 </div>`;
 
-const passwordHtml = `<div class="vd-form-group vd-mb-0">
-  <label for="password-toggle">Password</label>
-  <div class="vd-input-group">
-    <input type="password" id="password-toggle" class="vd-input" placeholder="Enter password">
-    <button type="button" class="vd-btn vd-btn-outline vd-input-group-suffix"
-        data-toggle="password" aria-label="Toggle password visibility">
-      <i class="ph ph-eye"></i>
-    </button>
-  </div>
-</div>`;
+const passwordHtml = `<VdInput
+  v-model="password"
+  type="password"
+  label="Password"
+  reveal-password
+  autocomplete="current-password"
+/>`;
 
 const classRef: [string, string, string][] = [
   [
@@ -294,6 +299,11 @@ const classRef: [string, string, string][] = [
     ".vd-input-group-suffix",
     "Text or icon after the input inside a group",
     "Structure",
+  ],
+  [
+    ".vd-input-reveal",
+    "VdInput password-reveal control (type=button, aria-pressed)",
+    "Modifier",
   ],
   [".textarea", "Base styling for multiline text inputs", "Base"],
   [".checkbox", "Wrapper for custom checkbox controls", "Structure"],
@@ -754,29 +764,14 @@ const classRef: [string, string, string][] = [
         <div id="demo-form-password" class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Password Toggle</h6></div>
           <div class="vd-card-body">
-            <div class="vd-form-group vd-mb-0">
-              <label for="password-toggle">Password</label>
-              <div class="vd-input-group">
-                <input
-                  :type="showPassword ? 'text' : 'password'"
-                  id="password-toggle"
-                  class="vd-input"
-                  placeholder="Enter password"
-                />
-                <button
-                  type="button"
-                  class="vd-btn vd-btn-outline vd-input-group-suffix"
-                  data-toggle="password"
-                  aria-label="Toggle password visibility"
-                  @click="showPassword = !showPassword"
-                >
-                  <i
-                    class="ph"
-                    :class="showPassword ? 'ph-eye-slash' : 'ph-eye'"
-                  ></i>
-                </button>
-              </div>
-            </div>
+            <VdInput
+              v-model="passwordDemo"
+              type="password"
+              label="Password"
+              reveal-password
+              autocomplete="current-password"
+              placeholder="Enter password"
+            />
           </div>
         </div>
         <DocCodeSnippet class="vd-mt-5" :html="passwordHtml" />
