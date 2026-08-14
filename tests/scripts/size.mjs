@@ -2,12 +2,13 @@ import { gzipSync } from "node:zlib";
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve, basename } from "node:path";
 
-// Gzip size budget for the app bundle. Re-baselined 2026-08-13 after the docs
-// polish (navbar float chrome + rewritten guides): app-* ≈ 518 KB gz. The
-// previous 515 KB cap was the 2026-07-12 floor (≈ 446 KB gz) plus ~15%
-// headroom. Today's overrun is intentional content/chrome, not a new dep —
-// bump by a small honest buffer so the gate still trips on a real regression.
-const MAX_GZIP_KB = 530;
+// Gzip size budget for the app bundle. Re-baselined 2026-08-14 after dogfooding
+// published @vanduo-oss/vd3@1.4.0 (auth screens + VdDataTable + new docs
+// pages): app-* ≈ 530.6 KB gz. The previous 530 KB cap was the 2026-08-13
+// polish baseline. Today's overrun is the published kit plus docs, not a
+// surprise dep — bump by a small honest buffer so the gate still trips on a
+// real regression.
+const MAX_GZIP_KB = 545;
 
 const ASSETS = resolve("dist/assets");
 const fmt = (b) => `${(b / 1024).toFixed(1)} KB`;
