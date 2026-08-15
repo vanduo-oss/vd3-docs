@@ -150,18 +150,28 @@ const placement = ref("${placement.value}");
 </template>`;
 });
 
-const fixedSnippet = `<VdDock
-  position="fixed"
-  v-model:orientation="orientation"
-  v-model:placement="placement"
->
-  <template #brand><!-- your mark — morph-origin corner --></template>
-  <VdDockItem icon="house" label="Home" active />
-  <VdDockItem icon="book-open-text" label="Docs" />
-  <template #actions>
-    <VdThemeSwitcher :menu="false" />
-  </template>
-</VdDock>`;
+const fixedSnippet = `<script setup lang="ts">
+import { ref } from "vue";
+import { VdDock, VdDockItem, VdThemeSwitcher } from "@vanduo-oss/vd3";
+
+const orientation = ref("horizontal");
+const placement = ref("bottom");
+<\/script>
+
+<template>
+  <VdDock
+    position="fixed"
+    v-model:orientation="orientation"
+    v-model:placement="placement"
+  >
+    <template #brand><!-- your mark — morph-origin corner --></template>
+    <VdDockItem icon="house" label="Home" active />
+    <VdDockItem icon="book-open-text" label="Docs" />
+    <template #actions>
+      <VdThemeSwitcher :menu="false" />
+    </template>
+  </VdDock>
+</template>`;
 
 const vue3Api: [string, string][] = [
   [
