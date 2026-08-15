@@ -71,7 +71,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.4.0</span
+              >v1.5.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>August 2026
@@ -79,6 +79,56 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Oola Dock</strong> — a morphing glass pill that is not
+                  a navbar. Horizontal ↔ vertical through a square waypoint,
+                  dock-own radius past the theme 0.5rem cap.
+                </p>
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-rows"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>VdDock + VdDockItem</strong>
+                        <p>
+                          Fat Seemore glass chrome with
+                          <code>useDockOrientation</code>,
+                          <code>position</code> fixed or contained, Open Color
+                          <code>tint</code>, Seemore <code>glass</code>, and
+                          <code>itemLayout</code>, and
+                          <code>placement</code> (bottom / top / left / right).
+                          Brand is a slot — demos use ū on the morph-origin
+                          corner. See
+                          <RouterLink to="/components/dock"
+                            ><code>/components/dock</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.4.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">

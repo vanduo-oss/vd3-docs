@@ -26,6 +26,7 @@ import StickyPage from "@/pages/components/Sticky.vue";
 import ScrollspyPage from "@/pages/components/Scrollspy.vue";
 import OffcanvasPage from "@/pages/components/Offcanvas.vue";
 import NavbarPage from "@/pages/components/Navbar.vue";
+import DockPage from "@/pages/components/Dock.vue";
 import FooterPage from "@/pages/components/Footer.vue";
 import AvatarPage from "@/pages/components/Avatar.vue";
 import TablePage from "@/pages/components/Table.vue";
@@ -118,6 +119,7 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   scrollspy: ScrollspyPage,
   offcanvas: OffcanvasPage,
   navbar: NavbarPage,
+  dock: DockPage,
   footer: FooterPage,
   avatar: AvatarPage,
   table: TablePage,

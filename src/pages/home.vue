@@ -2,6 +2,7 @@
 import { onMounted, reactive, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { useMorph } from "@vanduo-oss/vd3";
+import HomeOolaSection from "@/components/HomeOolaSection.vue";
 import Vd3Mark from "@/components/Vd3Mark.vue";
 import {
   isBloomSpinFx,
@@ -272,6 +273,8 @@ const swatches = [
         </div>
       </div>
     </div>
+
+    <HomeOolaSection />
 
     <!-- Seemore Glass story -->
     <section

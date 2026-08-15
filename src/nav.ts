@@ -1037,6 +1037,21 @@ export const nav: NavTree = {
               file: "components/navbar.html",
             },
             {
+              id: "dock",
+              title: "Oola Dock",
+              route: "/components/dock",
+              icon: "rows",
+              keywords: [
+                "dock",
+                "oola",
+                "navbar",
+                "bottom",
+                "morph",
+                "glass",
+                "customizer",
+              ],
+            },
+            {
               id: "footer",
               title: "Footer",
               route: "/components/footer",
