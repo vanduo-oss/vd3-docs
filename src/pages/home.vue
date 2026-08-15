@@ -286,7 +286,7 @@ const swatches = [
         <div class="vd-row" style="align-items: center">
           <div class="vd-col-12 vd-col-lg-5">
             <h2 id="seemore-home-title" class="seemore-home-title">
-              See more glass, Seymour!
+              See more glass.
             </h2>
             <p class="seemore-home-lead">
               <strong>Seemore Glass</strong>: every strength step follows the

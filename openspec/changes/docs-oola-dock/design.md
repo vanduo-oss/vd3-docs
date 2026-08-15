@@ -9,7 +9,8 @@ home story. The package does not ship that mark.
 
 Home `#home-oola` is sticky scrollytelling. Scroll 0 / SSR / Playwright is
 phase 1 (single horizontal dock) so the home baseline stays deterministic.
-Reduced motion and narrow viewports skip the fan.
+Reduced motion skips the fan. Narrow viewports keep a horizontal dock,
+then fan the eight tints on scroll and hold the fan open.
 
 API tables are transcribed from `VdDock.vue` / `VdDockItem.vue`. Invented
 props are forbidden.

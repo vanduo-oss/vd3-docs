@@ -29,7 +29,7 @@ grid, plus intensity modifiers 3/5/8 and pairing recipes with Seemore Glass.
 ### Requirement: homepage-seemore-glass-story
 
 The homepage MUST include a post-hero section whose opening title line is
-“See more glass, Seymour!” describing Seemore Glass as Fibonacci-stepped
+“See more glass.” describing Seemore Glass as Fibonacci-stepped
 material unique to vd3, with a live surface + glass demonstration and a CTA
 to `/effects/glass`.
 
@@ -37,7 +37,7 @@ to `/effects/glass`.
 
 - **GIVEN** the homepage after this change
 - **WHEN** the Seemore section heading is read
-- **THEN** it equals “See more glass, Seymour!”
+- **THEN** it equals “See more glass.”
 
 ### Requirement: changelog documents vd3 1.3.0
 

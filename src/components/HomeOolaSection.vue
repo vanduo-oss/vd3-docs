@@ -30,7 +30,9 @@ import {
  *   0.10–0.28  crossfade ask → meet; one real morph to left at 0.22
  *   0.22–0.42  meet: ū / brand click pair-toggles bottom ↔ left
  *   0.42–1.00  colors last: same ink dock is the fan origin; CTA
- * Reduced: snap ask → meet → colors (no fan). Narrow: stacked dock + copy.
+ * Reduced: snap ask → meet → colors (no fan). Narrow (≤991): stacked
+ * chapters + horizontal dock; scroll fans the eight tints first, then
+ * fades in meet copy and holds both.
  * Meet ū click uses VdDock brand toggle (pair morph). Scroll placement
  * pauses while meetUserOverride is set, then resumes when progress
  * leaves meet.
@@ -39,14 +41,23 @@ type StoryBeat = "ask" | "meet" | "fan";
 
 const ASK_LINE = "is it a navbar or a dock? a floating footer?";
 const MEET_TITLE = "It's oola.";
+const MEET_TITLE_MOBILE = "Meet Oola Dock.";
 const MEET_LEAD =
   "Meet Oola Dock. And if you click it - it becomes horizontal.";
 const MEET_HINT = "click ū to flip";
 const FAN_TITLE = "oola-lah! look at these colors!";
 const FAN_LEAD = "eight tints. same glass. pick a mood.";
 const FAN_EXTRA = "customize everything — place, radius, glass, brand.";
+const FAN_LEAD_MOBILE = "Horizontal or Vertical — let your users choose.";
+const FAN_EXTRA_MOBILE = "Customize everything: place, radius, glass, brand.";
 
 const SILK_DAMP = 0.14;
+
+/** Narrow: fan completes before meet copy fades in. Desktop silk unchanged. */
+const MOBILE_FAN_START = 0.12;
+const MOBILE_FAN_END = 0.42;
+const MOBILE_MEET_START = 0.45;
+const MOBILE_MEET_END = 0.58;
 
 const docks: { tint: DockTint; label: string }[] = DOCK_TINTS.map((tint) => ({
   tint,
@@ -136,11 +147,30 @@ const fanCopyOpacity = computed(() => {
 });
 
 const fanAmount = computed(() => {
-  if (narrow.value || reduced.value) return 0;
+  if (reduced.value) return 0;
+  if (narrow.value) return ramp(p.value, MOBILE_FAN_START, MOBILE_FAN_END);
   return ramp(p.value, 0.48, 0.78);
 });
 
-const showFanStage = computed(() => !narrow.value && !reduced.value);
+const mobileMeetOpacity = computed(() => {
+  if (!narrow.value) return 0;
+  if (reduced.value) return 1;
+  if (fanAmount.value < 0.98) return 0;
+  return ramp(p.value, MOBILE_MEET_START, MOBILE_MEET_END);
+});
+
+const mobileMeetStyle = computed(() => {
+  const o = Math.min(1, Math.max(0, mobileMeetOpacity.value));
+  const lift = reduced.value ? 0 : (1 - o) * 0.4;
+  return {
+    opacity: o.toFixed(3),
+    transform: `translateY(${lift.toFixed(2)}rem)`,
+    pointerEvents: o > 0.5 ? "auto" : "none",
+    visibility: o < 0.02 ? "hidden" : "visible",
+  };
+});
+
+const showFanStage = computed(() => !reduced.value);
 
 const beat = computed<StoryBeat>(() => {
   const value = clampProgress(p.value);
@@ -155,7 +185,11 @@ const beat = computed<StoryBeat>(() => {
   return "fan";
 });
 
-const isFanning = computed(() => showFanStage.value && beat.value === "fan");
+const isFanning = computed(() => {
+  if (!showFanStage.value) return false;
+  if (narrow.value) return fanAmount.value > 0.02;
+  return beat.value === "fan";
+});
 
 const wantVertical = computed(() => {
   if (narrow.value) return false;
@@ -164,7 +198,7 @@ const wantVertical = computed(() => {
 });
 
 const meetClickable = computed(() => {
-  if (narrow.value) return true;
+  if (narrow.value) return false;
   if (beat.value === "meet") return true;
   return meetOpacity.value > 0.5;
 });
@@ -255,7 +289,9 @@ function itemStyle(index: number): Record<string, string> {
   const count = docks.length;
   const mid = (count - 1) / 2;
   const t = fanAmount.value;
-  const angle = (index - mid) * 10 * t;
+  const angle = narrow.value
+    ? (count > 1 ? (index / (count - 1)) * 28 : 0) * t
+    : (index - mid) * 10 * t;
   return {
     opacity: Math.min(1, t * 1.35).toFixed(3),
     transform: `rotate(${angle.toFixed(2)}deg)`,
@@ -607,19 +643,31 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <div class="oola-home-copy-mobile">
-          <p class="oola-home-title">{{ MEET_TITLE }}</p>
-          <p class="oola-home-lead">
-            {{ ASK_LINE }} {{ MEET_LEAD }} {{ FAN_TITLE }} {{ FAN_LEAD }}
-          </p>
-          <p class="oola-home-lead">{{ FAN_EXTRA }}</p>
-          <div class="oola-home-cta">
-            <RouterLink
-              to="/components/dock"
-              class="vd-btn vd-btn-outline vd-btn-ring"
-            >
-              Explore Oola Dock
-            </RouterLink>
+        <!-- Mobile-only chapters (hidden ≥992px). Dock sits between ask + meet. -->
+        <div class="oola-home-mobile oola-home-mobile-ask">
+          <p class="oola-home-title">{{ ASK_LINE }}</p>
+        </div>
+
+        <div
+          class="oola-home-mobile oola-home-mobile-after"
+          :style="mobileMeetStyle"
+          :inert="mobileMeetOpacity < 0.5"
+          :aria-hidden="mobileMeetOpacity < 0.02"
+        >
+          <div class="oola-home-mobile-chapter">
+            <p class="oola-home-title">{{ MEET_TITLE_MOBILE }}</p>
+          </div>
+          <div class="oola-home-mobile-chapter">
+            <p class="oola-home-lead">{{ FAN_LEAD_MOBILE }}</p>
+            <p class="oola-home-lead">{{ FAN_EXTRA_MOBILE }}</p>
+            <div class="oola-home-cta">
+              <RouterLink
+                to="/components/dock"
+                class="vd-btn vd-btn-outline vd-btn-ring"
+              >
+                Explore Oola Dock
+              </RouterLink>
+            </div>
           </div>
         </div>
       </div>
@@ -784,7 +832,7 @@ onUnmounted(() => {
   translate: 0 -50%;
 }
 
-.oola-home-copy-mobile {
+.oola-home-mobile {
   display: none;
 }
 
@@ -821,12 +869,13 @@ onUnmounted(() => {
 @media (max-width: 991px) {
   .oola-home {
     margin-top: clamp(3rem, 8vh, 5rem);
-    min-height: auto;
+    /* Runway so native progress can open the fan, then hold it. */
+    min-height: 180vh;
   }
 
   .oola-home-pin {
-    position: relative;
-    top: 0;
+    position: sticky;
+    top: var(--docs-main-offset, 5.5rem);
     height: auto;
     overflow: visible;
   }
@@ -834,20 +883,27 @@ onUnmounted(() => {
   .oola-home-stage {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.75rem;
     height: auto;
   }
 
-  .oola-home-frame {
+  .oola-home-frame,
+  .oola-home.is-fanning .oola-home-frame {
     position: relative;
     top: auto;
     right: auto;
     bottom: auto;
     left: auto;
     width: 100%;
-    height: 6.5rem;
+    height: 4.5rem;
+    /* Tight to the ask line; reserve room for a ~28° downward fan. */
+    margin: 0.65rem 0 12rem;
     order: 2;
     opacity: 1 !important;
+    overflow: visible;
+    outline: none;
+    box-shadow: none;
+    background: transparent;
     pointer-events: auto;
     transition: none;
   }
@@ -855,12 +911,32 @@ onUnmounted(() => {
   .oola-home-story {
     position: relative;
     inset: auto;
-    height: 6.5rem;
+    height: 4.5rem;
   }
 
-  .oola-home-fan,
+  /*
+   * Ask beat on desktop lifts the dock under the question (9.75rem). On
+   * narrow, data-beat stays "ask" — sit the dock in the frame so fan
+   * clones (same containing block) stay aligned.
+   */
+  .oola-home[data-beat="ask"]
+    .oola-home-story
+    :deep(
+      .vd-dock.vd-dock-contained.vd-dock-edge-bottom:not(.is-square):not(
+          .is-morphing
+        )
+    ) {
+    top: auto;
+    bottom: 0;
+  }
+
+  .oola-home-story :deep(.vd-dock),
+  .oola-home-frame :deep(.vd-dock) {
+    --vd-dock-height: 4.5rem;
+  }
+
   .oola-home-item {
-    display: none;
+    transform-origin: 1.25rem 0;
   }
 
   .oola-home-copy-ask,
@@ -868,11 +944,44 @@ onUnmounted(() => {
     display: none;
   }
 
-  .oola-home-copy-mobile {
+  .oola-home-mobile {
     display: block;
     position: relative;
-    order: 1;
     width: 100%;
+  }
+
+  .oola-home-mobile-ask {
+    order: 1;
+  }
+
+  .oola-home-mobile-after {
+    order: 3;
+    /* In-flow under the 12rem fan gap so the pin does not jump on fade-in. */
+    min-height: 10rem;
+  }
+
+  .oola-home-mobile-chapter + .oola-home-mobile-chapter {
+    margin-top: 1.5rem;
+  }
+
+  .oola-home-mobile .oola-home-title {
+    font-size: clamp(1.25rem, 5.2vw, 1.55rem);
+  }
+}
+
+@media (max-width: 991px) and (prefers-reduced-motion: reduce) {
+  .oola-home {
+    min-height: auto;
+  }
+
+  .oola-home-pin {
+    position: relative;
+    top: 0;
+  }
+
+  .oola-home-frame,
+  .oola-home.is-fanning .oola-home-frame {
+    margin: 0;
   }
 }
 

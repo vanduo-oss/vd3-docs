@@ -12,7 +12,7 @@
 
 - [x] 3.1 Rewrite `src/pages/effects/Glass.vue` (Seemore flagship)
 - [x] 3.2 Add `src/pages/effects/Surfaces.vue` + `nav.ts` + router registration
-- [x] 3.3 Homepage “See more glass, Seymour!” section
+- [x] 3.3 Homepage “See more glass.” section
 
 ## 4. Verify
 

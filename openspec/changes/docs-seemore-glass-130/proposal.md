@@ -2,7 +2,7 @@
 
 `@vanduo-oss/vd3@1.3.0` ships Seemore Glass (Fibonacci strength steps) and
 decorative Surfaces. The docs site needs a flagship Glass page, a Surfaces
-effects page, and a homepage story (“See more glass, Seymour!”) so the
+effects page, and a homepage story (“See more glass.”) so the
 material system is discoverable and dogfooded.
 
 ## What Changes
@@ -12,7 +12,7 @@ material system is discoverable and dogfooded.
 - Rewrite `/effects/glass` as Seemore Glass flagship (fib explorer, primitives,
   package surfaces, a11y, component integration).
 - Add `/effects/surfaces` page + nav entry.
-- Homepage post-hero section titled **See more glass, Seymour!** with live
+- Homepage post-hero section titled **See more glass.** with live
   surface + glass demo and CTAs.
 - Changelog card for vd3 1.3.0; refresh visual-parity baselines locally.
 
