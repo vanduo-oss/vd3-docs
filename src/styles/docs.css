@@ -1747,6 +1747,7 @@ footer.vd-glass::before {
    own 3:2:1 grid / ring-offset width math below; other groups stay auto-width. */
 #home .hero-cta-buttons .vd-btn,
 #home .seemore-home-cta .vd-btn,
+#home .oola-home-cta .vd-btn,
 #home #cta .vd-btn,
 #home-features .feature-morph-link {
   /* Slimmer than default/base — keep width from layout, not height */
@@ -1762,6 +1763,7 @@ footer.vd-glass::before {
    Pin ring color so hover fill cannot wash the outer ring out. */
 #home .hero-cta-buttons .vd-btn-outline.vd-btn-ring,
 #home .seemore-home-cta .vd-btn-outline.vd-btn-ring,
+#home .oola-home-cta .vd-btn-outline.vd-btn-ring,
 #home #cta .vd-btn-outline.vd-btn-ring,
 #home-features .feature-morph-link.vd-btn-outline.vd-btn-ring {
   border-width: 2px;
@@ -1776,6 +1778,9 @@ footer.vd-glass::before {
   .vd-btn-outline.vd-btn-ring:hover:not(:disabled, .disabled, .is-disabled),
 #home
   .seemore-home-cta
+  .vd-btn-outline.vd-btn-ring:hover:not(:disabled, .disabled, .is-disabled),
+#home
+  .oola-home-cta
   .vd-btn-outline.vd-btn-ring:hover:not(:disabled, .disabled, .is-disabled),
 #home
   #cta
@@ -1832,7 +1837,8 @@ footer.vd-glass::before {
 
 /* Seemore / bottom CTA: ring margin handles clearance — don’t stack the
    default .vd-btn+.vd-btn-ring left bump on top of flex gap. */
-#home .seemore-home-cta .vd-btn + .vd-btn-ring {
+#home .seemore-home-cta .vd-btn + .vd-btn-ring,
+#home .oola-home-cta .vd-btn + .vd-btn-ring {
   margin-left: var(--vd-btn-ring-offset, 8px);
 }
 

@@ -123,5 +123,6 @@ export const ROUTES: readonly Route[] = [
   { path: '/components/scrollspy', label: 'components-scrollspy' },
   { path: '/components/offcanvas', label: 'components-offcanvas' },
   { path: '/components/navbar', label: 'components-navbar' },
+  { path: '/components/dock', label: 'components-dock' },
   { path: '/components/footer', label: 'components-footer' },
 ];

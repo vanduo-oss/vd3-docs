@@ -2,6 +2,7 @@
 import { onMounted, reactive, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { useMorph } from "@vanduo-oss/vd3";
+import HomeOolaSection from "@/components/HomeOolaSection.vue";
 import Vd3Mark from "@/components/Vd3Mark.vue";
 import {
   isBloomSpinFx,
@@ -273,6 +274,8 @@ const swatches = [
       </div>
     </div>
 
+    <HomeOolaSection />
+
     <!-- Seemore Glass story -->
     <section
       id="home-seemore"
@@ -283,7 +286,7 @@ const swatches = [
         <div class="vd-row" style="align-items: center">
           <div class="vd-col-12 vd-col-lg-5">
             <h2 id="seemore-home-title" class="seemore-home-title">
-              See more glass, Seymour!
+              See more glass.
             </h2>
             <p class="seemore-home-lead">
               <strong>Seemore Glass</strong>: every strength step follows the
