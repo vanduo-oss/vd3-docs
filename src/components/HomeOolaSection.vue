@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch, type CSSProperties } from "vue";
 import { RouterLink } from "vue-router";
 import {
   createAnimatable,
@@ -159,7 +159,7 @@ const mobileMeetOpacity = computed(() => {
   return ramp(p.value, MOBILE_MEET_START, MOBILE_MEET_END);
 });
 
-const mobileMeetStyle = computed(() => {
+const mobileMeetStyle = computed<CSSProperties>(() => {
   const o = Math.min(1, Math.max(0, mobileMeetOpacity.value));
   const lift = reduced.value ? 0 : (1 - o) * 0.4;
   return {
