@@ -21,6 +21,7 @@ const LANGUAGE: Record<string, string> = {
   js: "typescript", // superset — handles both plain JS and TS snippets
   shell: "bash",
   json: "json",
+  vue: "xml", // SFC markup — same tag/attr coloring as HTML
 };
 
 const escapeHtml = (value: string): string =>

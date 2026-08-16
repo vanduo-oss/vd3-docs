@@ -11,6 +11,8 @@ interface Props {
   js?: string;
   /** Optional shell / command-line snippet shown in a tab. */
   shell?: string;
+  /** Optional Vue SFC shown in a tab (after JavaScript). */
+  vue?: string;
   /** Start expanded (mirrors the Vanilla `data-expanded="true"`). */
   defaultOpen?: boolean;
   /** Collapsed toggle label (default "View Code"). */
@@ -33,6 +35,7 @@ const langs = computed<Lang[]>(() => {
     list.push({ key: "shell", label: "Shell", code: props.shell });
   if (props.css) list.push({ key: "css", label: "CSS", code: props.css });
   if (props.js) list.push({ key: "js", label: "JavaScript", code: props.js });
+  if (props.vue) list.push({ key: "vue", label: "Vue", code: props.vue });
   return list;
 });
 
