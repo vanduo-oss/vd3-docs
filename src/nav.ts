@@ -209,7 +209,7 @@ export const nav: NavTree = {
               title: "Button",
               route: "/components/button",
               icon: "cursor-click",
-              keywords: ["button", "click", "cta", "ring", "outline"],
+              keywords: ["button", "click", "cta", "ring", "outline", "ink"],
               file: "components/button.html",
             },
             {

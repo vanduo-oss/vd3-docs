@@ -1750,6 +1750,10 @@ footer.vd-glass::before {
 #home .oola-home-cta .vd-btn,
 #home #cta .vd-btn,
 #home-features .feature-morph-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   /* Slimmer than default/base — keep width from layout, not height */
   padding-block: 0.5rem;
 
@@ -1835,8 +1839,14 @@ footer.vd-glass::before {
   vertical-align: middle;
 }
 
-/* Seemore / bottom CTA: ring margin handles clearance — don’t stack the
-   default .vd-btn+.vd-btn-ring left bump on top of flex gap. */
+/* Seemore / Oola: flex gap spaces the pair. Ring-then-ink should not
+   inherit the default .vd-btn+.vd-btn left bump; a trailing ring still
+   keeps ring-offset clearance. */
+#home .seemore-home-cta .vd-btn + .vd-btn,
+#home .oola-home-cta .vd-btn + .vd-btn {
+  margin-left: 0;
+}
+
 #home .seemore-home-cta .vd-btn + .vd-btn-ring,
 #home .oola-home-cta .vd-btn + .vd-btn-ring {
   margin-left: var(--vd-btn-ring-offset, 8px);

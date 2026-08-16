@@ -12,12 +12,13 @@ const saving = ref(false);
   <VdButton variant="danger" size="sm">Delete</VdButton>
   <VdButton variant="ghost" :loading="saving">Save</VdButton>
   <VdButton variant="primary" ring>Checkout</VdButton>
+  <VdButton variant="ink">See it live</VdButton>
 </template>`;
 
 const vue3Api: [string, string][] = [
   [
     ":variant",
-    'primary | secondary | success | warning | danger | info, or "ghost" (default "primary").',
+    'primary | secondary | success | warning | danger | info, or "ghost" / "ink" (default "primary").',
   ],
   [":size", 'sm | md | lg (default "md").'],
   [
@@ -81,6 +82,25 @@ const sizesCss = `.vd-btn-sm {
 .vd-btn-block {
   display: flex;
   width: 100%;
+}`;
+
+const inkHtml = `<button class="vd-btn vd-btn-ink">Ink</button>
+<button class="vd-btn vd-btn-ink vd-btn-sm">Small</button>
+<button class="vd-btn vd-btn-ink vd-btn-lg">Large</button>
+<button class="vd-btn vd-btn-ink vd-btn-ring">Ink + ring</button>`;
+
+const inkCss = `/* Fat single stroke on the border box — not .vd-btn-ring.
+ * Hover fills black in light and primary in dark. */
+.vd-btn-ink {
+  background-color: transparent;
+  border: 2px solid var(--vd-color-primary);
+  color: var(--vd-color-primary);
+}
+
+.vd-btn-ink:hover:not(:disabled):not(.disabled):not(.is-disabled) {
+  background-color: var(--vd-color-black);
+  border-color: var(--vd-color-black);
+  color: var(--vd-text-on-primary);
 }`;
 
 const ghostHtml = `<button class="vd-btn vd-btn-ghost">Ghost</button>
@@ -183,6 +203,11 @@ const classRef: ClassRef[] = [
     desc: "Outlined button with secondary color",
     type: "Variant",
   },
+  {
+    cls: ".vd-btn-ink",
+    desc: 'Fat single 2px outline (not the ring). Hover fills black in light and primary in dark. Also VdButton variant="ink".',
+    type: "Variant",
+  },
   { cls: ".vd-btn-sm", desc: "Small button size", type: "Size" },
   { cls: ".vd-btn-lg", desc: "Large button size", type: "Size" },
   { cls: ".vd-btn-block", desc: "Full-width block button", type: "Size" },
@@ -233,7 +258,8 @@ const classRef: ClassRef[] = [
     </div>
     <p class="vd-mb-8">
       Clickable actions in contextual color variants, three sizes, and outline,
-      ghost, ring, and icon looks, with built-in loading and disabled states.
+      ink, ghost, ring, and icon looks, with built-in loading and disabled
+      states.
     </p>
 
     <div class="vd-row">
@@ -306,6 +332,29 @@ const classRef: ClassRef[] = [
           </div>
         </div>
         <DocCodeSnippet :html="ghostHtml" />
+      </div>
+    </div>
+
+    <div class="vd-row">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header"><h6>Ink Buttons</h6></div>
+          <div class="vd-card-body">
+            <p class="vd-mb-6">
+              A fat single outline on the border box — not the detached
+              <code>.vd-btn-ring</code> halo, and not the 1px
+              <code>.vd-btn-outline</code> stroke that fills primary on hover.
+              Rest is transparent; hover fills black in light and primary in
+              dark. Use it as <code>variant="ink"</code> or
+              <code>.vd-btn-ink</code> on a link styled as a button.
+            </p>
+            <button class="vd-btn vd-btn-ink">Ink</button>
+            <button class="vd-btn vd-btn-ink vd-btn-sm">Small</button>
+            <button class="vd-btn vd-btn-ink vd-btn-lg">Large</button>
+            <button class="vd-btn vd-btn-ink vd-btn-ring">Ink + ring</button>
+          </div>
+        </div>
+        <DocCodeSnippet :html="inkHtml" :css="inkCss" />
       </div>
     </div>
 

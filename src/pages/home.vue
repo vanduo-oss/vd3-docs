@@ -306,10 +306,7 @@ const swatches = [
               >
                 Explore Seemore Glass
               </RouterLink>
-              <RouterLink
-                to="/effects/surfaces"
-                class="vd-btn vd-btn-outline vd-btn-ring"
-              >
+              <RouterLink to="/effects/surfaces" class="vd-btn vd-btn-ink">
                 Browse Surfaces
               </RouterLink>
             </div>
@@ -584,9 +581,14 @@ const swatches = [
 .seemore-home-cta {
   display: flex;
   flex-wrap: wrap;
-  /* Extra room for 2px ring + 6px gap on outline CTAs */
+  align-items: center;
+  /* Extra room for 2px ring + 6px gap on the primary CTA */
   gap: 1.25rem;
   margin-top: 1.5rem;
+}
+
+.seemore-home-cta .vd-btn + .vd-btn {
+  margin-left: 0;
 }
 .seemore-home-stage {
   min-height: 16rem;
