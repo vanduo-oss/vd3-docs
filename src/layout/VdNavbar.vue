@@ -68,6 +68,7 @@ const closeMenu = (): void => {
 
       <button
         class="vd-navbar-toggle"
+        :class="{ 'is-active': menuOpen }"
         aria-label="Toggle navigation"
         :aria-expanded="menuOpen"
         @click="toggleMenu"
