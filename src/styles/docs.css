@@ -1581,7 +1581,7 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
 
 @media (max-width: 767.98px) {
   .vd-footer {
-    padding: var(--vd-spacing-10) var(--vd-spacing-10) var(--vd-spacing-8);
+    padding: var(--vd-spacing-8) var(--vd-spacing-8) var(--vd-spacing-6);
   }
 
   .vd-footer-container {
@@ -1590,7 +1590,22 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
   }
 
   .vd-footer .vd-row {
-    row-gap: var(--vd-spacing-12);
+    align-items: flex-start;
+    row-gap: var(--vd-spacing-6);
+  }
+
+  /* Logo full-width; Quick Links | Resources share the next row. */
+  .vd-footer .vd-row > [class*="vd-col"]:first-child {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .vd-footer .vd-row > [class*="vd-col"]:nth-child(2),
+  .vd-footer .vd-row > [class*="vd-col"]:nth-child(3) {
+    flex: 0 0 50%;
+    width: 50%;
+    max-width: 50%;
   }
 
   /* One section per column — framework :last-child clears section margin */
@@ -1602,11 +1617,22 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--vd-spacing-8);
+    gap: 0;
   }
 
-  .vd-footer h4 {
-    margin-bottom: var(--vd-spacing-6);
+  .vd-footer-brand {
+    margin-bottom: 0;
+  }
+
+  .vd-footer .vd-footer-brand-title {
+    font-size: 1.25rem;
+  }
+
+  .vd-footer .vd-footer-section > h4 {
+    margin-bottom: var(--vd-spacing-5);
+    font-size: var(--vd-font-size-sm);
+    font-weight: var(--vd-font-weight-semibold);
+    line-height: 1.3;
   }
 
   .vd-footer .vd-row > [class*="vd-col"]:first-child h4 {
@@ -1614,12 +1640,26 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
   }
 
   .vd-footer-links li {
-    margin-bottom: var(--vd-spacing-6);
+    margin-bottom: 0;
+  }
+
+  .vd-footer-links a {
+    display: flex;
+    align-items: center;
+    min-height: 2.25rem;
+    font-size: 0.75rem;
+    line-height: 1.3;
   }
 
   .vd-footer-bottom {
-    margin-top: var(--vd-spacing-10);
-    padding: var(--vd-spacing-8) 0 var(--vd-spacing-4);
+    margin-top: var(--vd-spacing-6);
+    padding: var(--vd-spacing-5) 0 0;
+  }
+
+  .vd-footer-bottom p {
+    margin-bottom: 0;
+    font-size: 0.75rem;
+    line-height: 1.4;
   }
 }
 
