@@ -590,6 +590,26 @@ const swatches = [
 .seemore-home-cta .vd-btn + .vd-btn {
   margin-left: 0;
 }
+
+@media (max-width: 991px) {
+  .seemore-home-cta {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .seemore-home-cta .vd-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    align-self: stretch;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
 .seemore-home-stage {
   min-height: 16rem;
   border-radius: var(--vd-radius-fib-8, 0.75rem);

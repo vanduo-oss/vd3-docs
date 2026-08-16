@@ -3616,24 +3616,6 @@ a:hover .vd-card-interactive.vd-card-glow {
     justify-self: center;
   }
 
-  #home .oola-home-cta .vd-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-  }
-
-  #home .oola-home-cta .vd-btn-ring {
-    --vd-btn-ring-offset: calc(
-      var(--vd-btn-ring-gap) + var(--vd-btn-ring-width)
-    );
-
-    width: calc(100% - 2 * var(--vd-btn-ring-offset));
-    margin-left: var(--vd-btn-ring-offset);
-    margin-right: var(--vd-btn-ring-offset);
-  }
-
   .vd-navbar-container {
     flex-wrap: nowrap;
     padding-left: 0;
@@ -3763,7 +3745,92 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   #cta .vd-card > .vd-btn {
     width: 100%;
-    max-width: 20rem;
+    max-width: none;
+  }
+}
+
+/* Home marketing CTAs — one stacked column width ≤991.98px.
+   Hero / Oola / Seemore / #cta pills share the page container column
+   so Getting Started, See Oola Dock live, and Documentation match. */
+@media (max-width: 991.98px) {
+  #home {
+    --home-cta-gutter: var(--vd-container-padding, 0.8125rem);
+    /* Matches the 6px / 2px home ring polish above. */
+    --home-cta-ring-inset: calc(6px + 2px);
+  }
+
+  #home .hero-cta-buttons,
+  #home .oola-home-cta,
+  #home .seemore-home-cta {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    box-sizing: border-box;
+    padding-inline: var(--home-cta-ring-inset);
+  }
+
+  /* Break out of .hero-content 2rem pad to the container gutter. */
+  #home .hero-cta-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: calc(100% + 4rem - 2 * var(--home-cta-gutter));
+    margin-inline: calc(var(--home-cta-gutter) - 2rem);
+  }
+
+  /* Break out of .oola-home-stage 1.25rem pad. Fan rules stay untouched. */
+  #home .oola-home-cta {
+    width: calc(100% + 2.5rem - 2 * var(--home-cta-gutter));
+    margin-inline: calc(var(--home-cta-gutter) - 1.25rem);
+  }
+
+  #home .seemore-home-cta {
+    display: flex;
+    width: 100%;
+  }
+
+  #home .hero-cta-buttons .vd-btn,
+  #home .oola-home-cta .vd-btn,
+  #home .seemore-home-cta .vd-btn,
+  #home #cta .vd-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    align-self: stretch;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  #home .hero-cta-buttons .vd-btn-ring,
+  #home .hero-cta-buttons .vd-btn + .vd-btn-ring,
+  #home .oola-home-cta .vd-btn-ring,
+  #home .seemore-home-cta .vd-btn-ring,
+  #home #cta .vd-btn-ring {
+    --vd-btn-ring-offset: var(--home-cta-ring-inset);
+
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    justify-self: stretch;
+  }
+
+  /* Card uses inline padding: 3rem 2rem plus 1px borders. */
+  #home #cta .vd-btn,
+  #home #cta .vd-card > .vd-btn {
+    width: calc(
+      100% + 4rem + 2 * var(--vd-card-border-width, 1px) - 2 *
+        var(--home-cta-ring-inset)
+    );
+    margin-left: calc(
+      -2rem - var(--vd-card-border-width, 1px) + var(--home-cta-ring-inset)
+    );
+    margin-right: calc(
+      -2rem - var(--vd-card-border-width, 1px) + var(--home-cta-ring-inset)
+    );
   }
 }
 
