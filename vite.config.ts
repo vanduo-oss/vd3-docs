@@ -10,6 +10,8 @@ const APP_VERSION = JSON.parse(
   ),
 ).version as string;
 
+const vd3Root = fileURLToPath(new URL("../vd3", import.meta.url));
+
 export default defineConfig({
   // Base path. Defaults to "/" so local dev, `pnpm run preview`, Playwright,
   // and the GitHub Pages deploy at https://vd3.vanduo.dev/ all serve from the
@@ -22,13 +24,36 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(APP_VERSION),
   },
   resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-    },
+    // Pin @vanduo-oss/vd3 to the sibling working tree. pnpm `link:` is not
+    // enough: Vite still resolves a nested @vanduo-oss/vd3@1.5.0 from the
+    // store (via vd3-cbun), which is a simple-only VdCodeSnippet — every
+    // DocCodeSnippet then renders an empty figure with Copy after <pre>.
+    alias: [
+      {
+        find: "@",
+        replacement: fileURLToPath(new URL("./src", import.meta.url)),
+      },
+      {
+        find: "@vanduo-oss/vd3/css/core",
+        replacement: `${vd3Root}/dist/vd3-core.min.css`,
+      },
+      {
+        find: "@vanduo-oss/vd3/css",
+        replacement: `${vd3Root}/dist/vd3.min.css`,
+      },
+      {
+        find: "@vanduo-oss/vd3/tokens.json",
+        replacement: `${vd3Root}/dist/tokens.json`,
+      },
+      {
+        find: "@vanduo-oss/vd3",
+        replacement: `${vd3Root}/src/index.ts`,
+      },
+    ],
     // The vd3 packages are consumed via pnpm `link:` to sibling working trees,
     // each with its own node_modules; dedupe so the app and the linked libs
     // share one Vue/Pinia copy (avoids the "different pinia instance" error).
-    dedupe: ["vue", "pinia"],
+    dedupe: ["vue", "pinia", "@vanduo-oss/vd3"],
   },
   optimizeDeps: {
     // Never pre-bundle the symlinked source packages — serve them as source so
