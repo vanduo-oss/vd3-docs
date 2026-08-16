@@ -58,6 +58,8 @@ const FAN_LEAD = "eight tints. same glass. pick a mood.";
 const FAN_EXTRA = "customize everything — place, radius, glass, brand.";
 const FAN_LEAD_MOBILE = "Horizontal or Vertical — let your users choose.";
 const FAN_EXTRA_MOBILE = "Customize everything: place, radius, glass, brand.";
+const LIVE_DOCK_HREF = "https://oola.vanduo.dev/";
+const LIVE_DOCK_LABEL = "See Oola Dock live";
 
 const SILK_DAMP = 0.14;
 
@@ -72,7 +74,7 @@ const docks: { tint: DockTint; label: string }[] = DOCK_TINTS.map((tint) => ({
   label: tint,
 }));
 
-const { dockTint: inkTint } = useDocsColorScheme();
+const { scheme, dockTint: inkTint } = useDocsColorScheme();
 
 const root = ref<HTMLElement | null>(null);
 const storyEl = ref<HTMLElement | null>(null);
@@ -647,6 +649,16 @@ onUnmounted(() => {
               >
                 Explore Oola Dock
               </RouterLink>
+              <a
+                :href="LIVE_DOCK_HREF"
+                class="vd-btn oola-home-cta-live"
+                :class="{ 'is-dark-scheme': scheme === 'dark' }"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ LIVE_DOCK_LABEL }}
+                <span class="vd-visually-hidden"> (opens in a new tab)</span>
+              </a>
             </div>
           </div>
         </div>
@@ -675,6 +687,16 @@ onUnmounted(() => {
               >
                 Explore Oola Dock
               </RouterLink>
+              <a
+                :href="LIVE_DOCK_HREF"
+                class="vd-btn oola-home-cta-live"
+                :class="{ 'is-dark-scheme': scheme === 'dark' }"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ LIVE_DOCK_LABEL }}
+                <span class="vd-visually-hidden"> (opens in a new tab)</span>
+              </a>
             </div>
           </div>
         </div>
@@ -872,6 +894,40 @@ onUnmounted(() => {
   flex-wrap: wrap;
   gap: 1.25rem;
   margin-top: 1.25rem;
+}
+
+/* Flex gap already spaces the pair — drop vd3's sibling bump. */
+.oola-home-cta .vd-btn + .oola-home-cta-live {
+  margin-left: 0;
+}
+
+/*
+ * Fat single stroke, not .vd-btn-ring. Outline/ghost cannot do black
+ * (light) / primary (dark) hover fill without fighting the variant.
+ */
+.oola-home-cta-live {
+  background-color: transparent;
+  border-color: var(--vd-color-primary);
+  border-style: solid;
+  border-width: 2px;
+  color: var(--vd-color-primary);
+}
+
+.oola-home-cta-live:hover {
+  background-color: var(--vd-color-black);
+  border-color: var(--vd-color-black);
+  color: var(--vd-text-inverse);
+}
+
+.oola-home-cta-live:focus-visible {
+  outline: 2px solid var(--vd-color-primary);
+  outline-offset: 2px;
+}
+
+.oola-home-cta-live.is-dark-scheme:hover {
+  background-color: var(--vd-color-primary);
+  border-color: var(--vd-color-primary);
+  color: var(--vd-text-inverse);
 }
 
 @media (max-width: 991px) {
