@@ -376,16 +376,33 @@ function onStoryFocusOut(event: FocusEvent): void {
   if (inStoryBrand(event.target)) brandFocus.value = false;
 }
 
+function fanTune(): { step: number; scale: number } {
+  const el = root.value;
+  if (!el || typeof getComputedStyle === "undefined") {
+    return { step: 10, scale: 1 };
+  }
+  const cs = getComputedStyle(el);
+  const step = parseFloat(cs.getPropertyValue("--oola-fan-step"));
+  const scale = parseFloat(cs.getPropertyValue("--oola-fan-scale"));
+  return {
+    step: Number.isFinite(step) && step > 0 ? step : 10,
+    scale: Number.isFinite(scale) && scale > 0 ? scale : 1,
+  };
+}
+
 function itemStyle(index: number): Record<string, string> {
   const count = docks.length;
   const mid = (count - 1) / 2;
   const t = fanAmount.value;
-  const angle = narrow.value
-    ? (count > 1 ? (index / (count - 1)) * 28 : 0) * t
-    : (index - mid) * 10 * t;
+  const { step, scale } = fanTune();
+  const angle = (index - mid) * step * t;
+  const s = 1 + (scale - 1) * t;
   return {
     opacity: Math.min(1, t * 1.35).toFixed(3),
-    transform: `rotate(${angle.toFixed(2)}deg)`,
+    transform:
+      Math.abs(s - 1) < 0.01
+        ? `rotate(${angle.toFixed(2)}deg)`
+        : `rotate(${angle.toFixed(2)}deg) scale(${s.toFixed(3)})`,
     zIndex: String(count - index),
   };
 }
@@ -1066,7 +1083,14 @@ onUnmounted(() => {
 
 <style scoped>
 .oola-home {
-  /* Gap after hero CTAs — outside the sticky runway. */
+  /* Gap after hero CTAs — outside the sticky runway.
+   * Fan knobs: itemStyle reads step/scale; origin is CSS-only.
+   * Desktop silk still rotates clones by (i-mid)*10deg in JS. */
+  --oola-fan-step: 10deg;
+  --oola-fan-scale: 1;
+  --oola-fan-origin-x: 1.75rem;
+  --oola-fan-origin-y: 50%;
+
   margin-top: clamp(6rem, 14vh, 10rem);
   min-height: 260vh;
 }
@@ -1217,13 +1241,14 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   z-index: 1;
+  overflow: visible;
   pointer-events: none;
 }
 
 .oola-home-item {
   position: absolute;
   inset: 0;
-  transform-origin: 1.75rem 50%;
+  transform-origin: var(--oola-fan-origin-x) var(--oola-fan-origin-y);
   opacity: 0;
   will-change: transform, opacity;
 }
@@ -1291,6 +1316,13 @@ onUnmounted(() => {
   margin-top: 1.25rem;
 }
 
+.oola-home-cta .vd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 /* Flex gap already spaces the pair — drop vd3's sibling bump. */
 .oola-home-cta .vd-btn + .vd-btn {
   margin-left: 0;
@@ -1298,9 +1330,18 @@ onUnmounted(() => {
 
 @media (max-width: 991px) {
   .oola-home {
+    /* Symmetric ±49° (14deg × 3.5) + scale so OC-8 reads as a fan, not a halo.
+     * Top-center origin: grow left/right/down, not up into the ask line.
+     * Must beat desktop `.is-fanning:not(.is-silk)` 52% card width. */
+    --oola-fan-step: 14deg;
+    --oola-fan-scale: 1.28;
+    --oola-fan-origin-x: 50%;
+    --oola-fan-origin-y: 0%;
+
     margin-top: clamp(3rem, 8vh, 5rem);
     /* Runway so native progress can open the fan, then hold it. */
     min-height: 180vh;
+    overflow-x: clip;
   }
 
   .oola-home-pin {
@@ -1315,19 +1356,21 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 0.75rem;
     height: auto;
+    overflow: visible;
   }
 
   .oola-home-frame,
-  .oola-home.is-fanning .oola-home-frame {
+  .oola-home.is-fanning .oola-home-frame,
+  .oola-home.is-fanning:not(.is-silk) .oola-home-frame {
     position: relative;
     top: auto;
     right: auto;
     bottom: auto;
     left: auto;
-    width: 100%;
+    width: 88%;
     height: 4.5rem;
-    /* Tight to the ask line; reserve room for a ~28° downward fan. */
-    margin: 0.65rem 0 12rem;
+    /* Inset the ink bar so scaled clones can read past it L/R. */
+    margin: 1rem auto 16rem;
     order: 2;
     opacity: 1 !important;
     overflow: visible;
@@ -1365,13 +1408,36 @@ onUnmounted(() => {
     --vd-dock-height: 4.5rem;
   }
 
-  .oola-home-item {
-    transform-origin: 1.25rem 0;
-  }
-
   .oola-home-copy-ask,
   .oola-home-copy-side {
     display: none;
+  }
+
+  .oola-home-cta {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .oola-home-cta .vd-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 0;
+  }
+
+  .oola-home-cta .vd-btn-ring {
+    --vd-btn-ring-offset: calc(
+      var(--vd-btn-ring-gap) + var(--vd-btn-ring-width)
+    );
+
+    width: calc(100% - 2 * var(--vd-btn-ring-offset));
+    margin-left: var(--vd-btn-ring-offset);
+    margin-right: var(--vd-btn-ring-offset);
   }
 
   .oola-home-mobile {
@@ -1386,7 +1452,7 @@ onUnmounted(() => {
 
   .oola-home-mobile-after {
     order: 3;
-    /* In-flow under the 12rem fan gap so the pin does not jump on fade-in. */
+    /* In-flow under the 16rem fan gap so the pin does not jump on fade-in. */
     min-height: 10rem;
   }
 
@@ -1410,7 +1476,8 @@ onUnmounted(() => {
   }
 
   .oola-home-frame,
-  .oola-home.is-fanning .oola-home-frame {
+  .oola-home.is-fanning .oola-home-frame,
+  .oola-home.is-fanning:not(.is-silk) .oola-home-frame {
     margin: 0;
   }
 }

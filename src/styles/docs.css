@@ -1753,6 +1753,7 @@ footer.vd-glass::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 
   /* Slimmer than default/base — keep width from layout, not height */
   padding-block: 0.5rem;
@@ -3573,6 +3574,24 @@ a:hover .vd-card-interactive.vd-card-glow {
     width: calc(100% - 2 * var(--vd-btn-ring-offset));
     margin: var(--vd-btn-ring-offset);
     justify-self: center;
+  }
+
+  #home .oola-home-cta .vd-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  #home .oola-home-cta .vd-btn-ring {
+    --vd-btn-ring-offset: calc(
+      var(--vd-btn-ring-gap) + var(--vd-btn-ring-width)
+    );
+
+    width: calc(100% - 2 * var(--vd-btn-ring-offset));
+    margin-left: var(--vd-btn-ring-offset);
+    margin-right: var(--vd-btn-ring-offset);
   }
 
   .vd-navbar-container {
