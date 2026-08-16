@@ -1383,9 +1383,9 @@ onUnmounted(() => {
     left: auto;
     width: 100%;
     height: 4.5rem;
-    /* Room under the ask line for left caps that rise as the hinge
-     * slides right. 14rem below so the 35° deck is not clipped short. */
-    margin: 1.75rem 0 14rem;
+    /* A little room under the ask line for left caps that rise as the
+     * hinge slides right. 14rem below so the 35° deck is not short. */
+    margin: 1.25rem 0 14rem;
     order: 2;
     opacity: 1 !important;
     overflow: visible;
