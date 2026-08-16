@@ -3761,67 +3761,8 @@ a:hover .vd-card-interactive.vd-card-glow {
   }
 }
 
-/* ── Syntax highlighting (highlight.js tokens, themed via Vanduo tokens) ──
-   Scoped to code snippets; colours follow the active light/dark theme.
-   No background is set on .hljs so the framework's pre styling is preserved. */
-.vd-code-snippet .hljs-comment,
-.vd-code-snippet .hljs-quote {
-  color: var(--vd-text-muted);
-  font-style: italic;
-}
-
-.vd-code-snippet .hljs-keyword,
-.vd-code-snippet .hljs-selector-tag,
-.vd-code-snippet .hljs-name,
-.vd-code-snippet .hljs-literal {
-  color: var(--vd-color-primary);
-}
-
-.vd-code-snippet .hljs-string,
-.vd-code-snippet .hljs-regexp,
-.vd-code-snippet .hljs-meta .hljs-string {
-  color: var(--vd-color-success);
-}
-
-.vd-code-snippet .hljs-number,
-.vd-code-snippet .hljs-symbol,
-.vd-code-snippet .hljs-bullet {
-  color: var(--vd-color-warning);
-}
-
-.vd-code-snippet .hljs-attr,
-.vd-code-snippet .hljs-attribute,
-.vd-code-snippet .hljs-selector-attr,
-.vd-code-snippet .hljs-selector-class,
-.vd-code-snippet .hljs-selector-id,
-.vd-code-snippet .hljs-variable,
-.vd-code-snippet .hljs-template-variable {
-  color: var(--vd-color-info);
-}
-
-.vd-code-snippet .hljs-title,
-.vd-code-snippet .hljs-title.function_,
-.vd-code-snippet .hljs-built_in,
-.vd-code-snippet .hljs-type,
-.vd-code-snippet .hljs-property {
-  color: var(--vd-color-info);
-}
-
-.vd-code-snippet .hljs-tag {
-  color: var(--vd-text-secondary);
-}
-
-.vd-code-snippet .hljs-meta {
-  color: var(--vd-text-muted);
-}
-
-.vd-code-snippet .hljs-emphasis {
-  font-style: italic;
-}
-
-.vd-code-snippet .hljs-strong {
-  font-weight: 600;
-}
+/* Token color for snippets comes from vd3 `.vd-tk-*` → `--vd-code-*`
+   (code-snippet.css). No docs-owned highlight.js theme. */
 
 /* ============================================================
    Live Component Customizer (lcc-*)

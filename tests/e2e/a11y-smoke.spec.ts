@@ -22,7 +22,7 @@ import AxeBuilder from '@axe-core/playwright';
 //
 //   • color-contrast (serious) — vd3 component tokens (`.vd-btn-secondary`,
 //     `.vd-btn-info`, `.vd-badge-info`, `.vd-badge-outline`, `.vd-chip`, …), the
-//     highlight.js syntax theme, and `.color-swatch-name` labels don't meet the
+//     cbun / `.vd-tk-*` syntax theme, and `.color-swatch-name` labels don't meet the
 //     4.5:1 AA text ratio; several also sit on translucent `.vd-glass`/`.vd-card-glow`
 //     surfaces. Fixing means adjusting vd3 tokens / the docs syntax theme.
 //   • link-in-text-block (serious) — inline prose links (e.g. links to

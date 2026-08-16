@@ -4,7 +4,7 @@ context: |
   Package: @vanduo-oss/vd3-docs (private, not published). Documentation site for the vd3
   line — a Vue3-only clone of the vd2 docs site with all vanilla-engine machinery removed.
   Stack: Vue 3 + vite + vite-ssg (prerenders every route) + vue-router + pinia (docs-site
-  stores only) + @unhead/vue + highlight.js. nav.ts is the single source of truth for
+  stores only) + @unhead/vue + cbun highlight. nav.ts is the single source of truth for
   routes (buildRoutes + pageComponents maps). Single engine: NO EngineSwitch/EngineBadge/
   useEngineStore — pages document Vue3 usage only.
   Dogfoods the PUBLISHED packages: "@vanduo-oss/vd3": "^1.0.0" and

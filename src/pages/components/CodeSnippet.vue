@@ -4,21 +4,36 @@
 // real component — framework/css/components/code-snippet.css +
 // framework/js/components/code-snippet.js — which powers every "View Code"
 // block across these docs (the DocCodeSnippet component used below).
+import { VdCodeSnippet } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
+import { highlightCode } from "@/utils/highlight";
+
+const simpleDemo = `const greet = (name: string) => \`hello, \${name}\`;`;
 
 const vue3Usage = `<script setup lang="ts">
 import { VdCodeSnippet } from "@vanduo-oss/vd3";
+import { highlight } from "@vanduo-oss/vd3-cbun/code-editor/highlight";
+
 const code = "const x = 1;";
+const highlightCode = (src: string, language: string) =>
+  highlight(src, language);
 <\/script>
 
 <template>
-  <VdCodeSnippet :code="code" language="javascript" />
+  <VdCodeSnippet :code="code" language="js" :highlight="highlightCode" />
 </template>`;
 
 const vue3Api: [string, string][] = [
   [":code", "The code string to display."],
-  [":language", 'Highlight language (default "html").'],
+  [
+    ":language",
+    'Passed through to `highlight` in simple mode (default "html"). Not a highlighter by itself.',
+  ],
   [":copyable", "Show a copy button (default true)."],
+  [
+    ":highlight",
+    "Optional `(code, language) => escaped HTML`. These docs pass the cbun tokenizer; without it the snippet is plain text.",
+  ],
 ];
 
 const basicHtml = `<div class="vd-code-snippet" data-collapsible>
@@ -41,8 +56,8 @@ const demoCss = `.my-element {
 const demoJs = `import { VdCodeSnippet } from "@vanduo-oss/vd3";
 
 const code = "const x = 1;";
-// Render a highlighted, copyable block — no init call needed:
-// <VdCodeSnippet :code="code" language="javascript" />`;
+// Render a copyable block — pass highlight for color (no init call):
+// <VdCodeSnippet :code="code" language="js" :highlight="highlightCode" />`;
 
 const classRows: [string, string][] = [
   [
@@ -100,7 +115,7 @@ const attrRows: [string, string][] = [
 const jsRows: [string, string][] = [
   [
     "<VdCodeSnippet>",
-    "Self-contained Vue 3 component — highlights and (optionally) copies code. No init call or global runtime is required.",
+    "Self-contained Vue 3 component — renders and (optionally) copies code. Pass `highlight` for syntax color; no bundled highlighter, init call, or global runtime.",
   ],
   [
     ".vd-code-snippet markup",
@@ -115,10 +130,35 @@ const jsRows: [string, string][] = [
     <p class="vd-mb-8">
       The collapsible “View Code” block used throughout these docs. It supports
       a togglable reveal, multiple language tabs, one-click copy, and pulling
-      markup straight from the live demo it documents. Styles ship in
+      markup straight from the live demo it documents. VdCodeSnippet does not
+      color code by itself — coloring on these pages comes from passing a
+      <code>highlight</code> function (the cbun tokenizer, wrapped in
+      <code>DocCodeSnippet</code>). Styles ship in
       <code>framework/css/components/code-snippet.css</code> and behavior in
       <code>framework/js/components/code-snippet.js</code>.
     </p>
+
+    <!-- Live simple mode -->
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>Simple mode (live VdCodeSnippet)</h6>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-mb-3 vd-text-sm vd-text-muted">
+              Figure + copy. Color comes from <code>:highlight</code> (cbun),
+              not from the component.
+            </p>
+            <VdCodeSnippet
+              :code="simpleDemo"
+              language="js"
+              :highlight="highlightCode"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Basic collapsible -->
     <div class="vd-row vd-mb-6">

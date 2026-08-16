@@ -13,10 +13,19 @@ import { VdDock } from "@vanduo-oss/vd3";
 </template>`;
 
 describe("DocCodeSnippet vue tab", () => {
-  it("maps vue to highlight.js xml (not the unknown-key fallback)", () => {
+  it("maps vue to the cbun SFC tokenizer (not the unknown-key fallback)", () => {
     const html = highlightCode('<VdDock tint="green" />', "vue");
-    expect(html).toContain("hljs-tag");
-    expect(html).not.toBe("&lt;VdDock tint=&quot;green&quot; /&gt;");
+    expect(html).toContain("vd-tk-tag");
+    expect(html).not.toBe('&lt;VdDock tint="green" /&gt;');
+  });
+
+  it("falls class through onto the VdCodeSnippet root", () => {
+    const wrapper = mount(DocCodeSnippet, {
+      props: { html: "<p>x</p>" },
+      attrs: { class: "vd-mt-5" },
+    });
+    expect(wrapper.classes()).toContain("vd-code-snippet");
+    expect(wrapper.classes()).toContain("vd-mt-5");
   });
 
   it("renders a non-empty Vue tab from the vue prop", async () => {
