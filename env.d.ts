@@ -14,8 +14,8 @@ declare module "*.vue" {
 }
 
 // Side-effect CSS bundles imported in main.ts. The vd3 line ships real types
-// for its JS/Vue subpaths (resolved from ../vd3 and ../vd3-cbun via `link:`),
-// so only the style entry points need an ambient declaration.
+// for its JS/Vue subpaths (resolved from the published packages in
+// node_modules), so only the style entry points need an ambient declaration.
 declare module "@vanduo-oss/vd3/css";
 declare module "@vanduo-oss/vd3-cbun/charts/css";
 declare module "@vanduo-oss/vd3-cbun/code-editor/css";

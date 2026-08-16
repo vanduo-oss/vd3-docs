@@ -7,9 +7,10 @@ context: |
   stores only) + @unhead/vue + cbun highlight. nav.ts is the single source of truth for
   routes (buildRoutes + pageComponents maps). Single engine: NO EngineSwitch/EngineBadge/
   useEngineStore — pages document Vue3 usage only.
-  Dogfoods the PUBLISHED packages: "@vanduo-oss/vd3": "^1.0.0" and
-  "@vanduo-oss/vd3-cbun": "^1.2.0" (post-launch; the pre-launch link:../ flip is done —
-  vite still resolve.dedupe ['vue','pinia'] + optimizeDeps.exclude for both).
+  Dogfoods the PUBLISHED packages (exact pins; .npmrc save-exact):
+  "@vanduo-oss/vd3": "1.6.0" and "@vanduo-oss/vd3-cbun": "1.4.0". Vite
+  resolve.dedupe ['vue','pinia','@vanduo-oss/vd3'] + optimizeDeps.exclude for
+  both so a nested cbun copy cannot shadow the published kit.
   main.ts imports @vanduo-oss/vd3/css + per-component cbun css; NO framework IIFE, no
   loadVanduoRuntime, zero window.Vanduo* references in the built bundle (grep gate).
   Tests: vitest units, Playwright visual parity (all routes, committed baselines),

@@ -10,8 +10,6 @@ const APP_VERSION = JSON.parse(
   ),
 ).version as string;
 
-const vd3Root = fileURLToPath(new URL("../vd3", import.meta.url));
-
 export default defineConfig({
   // Base path. Defaults to "/" so local dev, `pnpm run preview`, Playwright,
   // and the GitHub Pages deploy at https://vd3.vanduo.dev/ all serve from the
@@ -24,51 +22,27 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(APP_VERSION),
   },
   resolve: {
-    // Pin @vanduo-oss/vd3 to the sibling working tree. pnpm `link:` is not
-    // enough: Vite still resolves a nested @vanduo-oss/vd3@1.5.0 from the
-    // store (via vd3-cbun), which is a simple-only VdCodeSnippet — every
-    // DocCodeSnippet then renders an empty figure with Copy after <pre>.
     alias: [
       {
         find: "@",
         replacement: fileURLToPath(new URL("./src", import.meta.url)),
       },
-      {
-        find: "@vanduo-oss/vd3/css/core",
-        replacement: `${vd3Root}/dist/vd3-core.min.css`,
-      },
-      {
-        find: "@vanduo-oss/vd3/css",
-        replacement: `${vd3Root}/dist/vd3.min.css`,
-      },
-      {
-        find: "@vanduo-oss/vd3/tokens.json",
-        replacement: `${vd3Root}/dist/tokens.json`,
-      },
-      {
-        find: "@vanduo-oss/vd3",
-        replacement: `${vd3Root}/src/index.ts`,
-      },
     ],
-    // The vd3 packages are consumed via pnpm `link:` to sibling working trees,
-    // each with its own node_modules; dedupe so the app and the linked libs
-    // share one Vue/Pinia copy (avoids the "different pinia instance" error).
+    // One Vue/Pinia/@vanduo-oss/vd3 copy so a nested cbun install cannot
+    // shadow the published kit (and so a temporary `pnpm link` still shares
+    // framework singletons).
     dedupe: ["vue", "pinia", "@vanduo-oss/vd3"],
   },
   optimizeDeps: {
-    // Never pre-bundle the symlinked source packages — serve them as source so
-    // edits to the sibling builds are always reflected in dev and SSG.
+    // Keep the published packages out of the pre-bundle so a contributor can
+    // still `pnpm link` sibling trees without a stale dep optimizer cache.
     exclude: ["@vanduo-oss/vd3", "@vanduo-oss/vd3-cbun"],
   },
   server: {
     fs: {
-      // @vanduo-oss/vd3 + vd3-cbun are consumed via pnpm `link:` to sibling
-      // working trees OUTSIDE this project root, and their bundled CSS references
-      // fonts/icons with relative url()s that resolve into ../vd3/dist and
-      // ../vd3-cbun/dist. The dev server's default fs.allow only covers the
-      // project root, so those @fs requests 403 without these entries. Harmless
-      // once the deps flip to published versions (assets then live in
-      // node_modules under the project root) — the entries just no-op.
+      // Default allow is the project root (where published packages live under
+      // node_modules). The sibling entries are no-ops for registry installs
+      // and let a temporary `pnpm link` serve out-of-tree CSS url() assets.
       allow: [
         fileURLToPath(new URL(".", import.meta.url)),
         fileURLToPath(new URL("../vd3", import.meta.url)),
@@ -77,8 +51,8 @@ export default defineConfig({
     },
   },
   ssr: {
-    // SSG must transform the linked packages' .vue components (not require them
-    // as CJS) during prerender.
+    // SSG must transform the packages' .vue components (not require them as
+    // CJS) during prerender.
     noExternal: ["@vanduo-oss/vd3", "@vanduo-oss/vd3-cbun"],
   },
   build: {

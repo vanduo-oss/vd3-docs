@@ -71,7 +71,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.5.0</span
+              >v1.6.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>August 2026
@@ -79,6 +79,103 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Snippet chrome</strong> and an
+                  <strong>ink</strong> button — tabbed View Code, Copy in the
+                  header, and a 2px outline variant. vd3 still does not
+                  tokenize.
+                </p>
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-code"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>VdCodeSnippet chrome mode</strong>
+                        <p>
+                          When any of <code>html</code> / <code>css</code> /
+                          <code>js</code> / <code>shell</code> /
+                          <code>vue</code> / <code>json</code> is set, the
+                          component renders the collapsible tabbed “View Code”
+                          widget (toggle, tablist, panes, raw-source copy).
+                          Simple mode (<code>code</code> /
+                          <code>language</code> / <code>copyable</code>) is
+                          unchanged. Optional
+                          <code>highlight(code, language)</code> injects escaped
+                          HTML; without it, source is text. See
+                          <RouterLink to="/components/code-snippet"
+                            ><code>/components/code-snippet</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-drop"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>VdButton ink</strong>
+                        <p>
+                          <code>.vd-btn-ink</code>: transparent fill, a single
+                          2px outline (not <code>.vd-btn-ring</code>). Hover
+                          fills black in light and primary in dark; the label
+                          uses <code>--vd-text-on-primary</code>. Existing
+                          <code>outline</code> / <code>ghost</code> / ring
+                          treatments are unchanged. See
+                          <RouterLink to="/components/button"
+                            ><code>/components/button</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-copy"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Copy header + tab ARIA</strong>
+                        <p>
+                          Copy stays in
+                          <code>.vd-code-snippet-header</code> (top-right) for
+                          simple and chrome modes. Tabs get
+                          <code>aria-controls</code> / pane
+                          <code>role="tabpanel"</code> and Left / Right / Home /
+                          End navigation, matching <code>VdTabs</code>. A
+                          <code>.vd-visually-hidden</code> child inside
+                          <code>.vd-btn</code> no longer wraps the label.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.5.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -982,7 +1079,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.3.2</span
+              >v1.4.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>August 2026
@@ -990,6 +1087,63 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  A code-editor minor: snippet-safe first-party highlighter and
+                  a tokenizer-only subpath. Takes
+                  <code>VD_CODE_EDITOR_VERSION</code>
+                  <code>1.0.1 → 1.1.0</code>.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-code"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Tokenizer-only highlight</strong>
+                        <p>
+                          <code
+                            >highlight(source, lang, { trailingNewline? })</code
+                          >
+                          defaults <code>trailingNewline</code> to
+                          <code>false</code> (no extra <code>\n</code> inside
+                          <code>&lt;pre&gt;</code>).
+                          <code
+                            >@vanduo-oss/vd3-cbun/code-editor/highlight</code
+                          >
+                          exports <code>highlight</code>, <code>tokenize</code>,
+                          <code>renderTokensToHtml</code>, and
+                          <code>LANGUAGES</code> without the editor core.
+                          <code>vue</code> is a real SFC tokenizer. See
+                          <RouterLink to="/editors/code-editor"
+                            ><code>/editors/code-editor</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.3.2</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>August 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">
