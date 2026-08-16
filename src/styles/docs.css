@@ -1580,9 +1580,13 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
 }
 
 @media (max-width: 767.98px) {
-  /* Tight top pad so the bear sits near the card edge (was spacing-8). */
+  /* Beat `.vd-navbar-fixed.vd-navbar-float ~ *` (navbar-clearance pad) so
+     the footer card does not inherit ~84px of empty space above the logo. */
+  .vd-navbar-fixed.vd-navbar-float ~ .vd-footer,
+  .vd-navbar-fixed-top.vd-navbar-float ~ .vd-footer,
   .vd-footer {
     padding: var(--vd-spacing-5) var(--vd-spacing-8) var(--vd-spacing-6);
+    padding-top: var(--vd-spacing-5);
   }
 
   .vd-footer-container {
@@ -1608,7 +1612,6 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
   .vd-footer .vd-row > [class*="vd-col"]:nth-child(3) {
     flex: 0 0 auto;
     width: auto;
-    min-width: 8.5rem;
     max-width: 46%;
   }
 
@@ -1622,9 +1625,14 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
+  }
 
-    /* Mark viewBox pads the ink; pull the first row toward the card edge. */
-    margin-top: calc(var(--vd-spacing-5) * -1);
+  .vd-footer .vd-row > [class*="vd-col"]:nth-child(2) .vd-footer-section,
+  .vd-footer .vd-row > [class*="vd-col"]:nth-child(3) .vd-footer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .vd-footer-brand {
@@ -1653,6 +1661,7 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
   .vd-footer-links a {
     display: flex;
     align-items: center;
+    justify-content: center;
     min-height: 2.25rem;
     font-size: 0.8125rem;
     line-height: 1.3;
