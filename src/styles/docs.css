@@ -3675,8 +3675,11 @@ a:hover .vd-card-interactive.vd-card-glow {
   .vd-navbar-toggle.is-active span:nth-child(3) {
     transform: translateY(
         calc(
-          -1 * (var(--docs-navbar-toggle-bar-gap) +
-              var(--docs-navbar-toggle-bar-height))
+          -1 *
+            (
+              var(--docs-navbar-toggle-bar-gap) +
+                var(--docs-navbar-toggle-bar-height)
+            )
         )
       )
       rotate(-45deg);
@@ -3755,6 +3758,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 @media (max-width: 991.98px) {
   #home {
     --home-cta-gutter: var(--vd-container-padding, 0.8125rem);
+
     /* Matches the 6px / 2px home ring polish above. */
     --home-cta-ring-inset: calc(6px + 2px);
   }
@@ -3762,8 +3766,7 @@ a:hover .vd-card-interactive.vd-card-glow {
   #home .hero-cta-buttons,
   #home .oola-home-cta,
   #home .seemore-home-cta {
-    flex-direction: column;
-    flex-wrap: nowrap;
+    flex-flow: column nowrap;
     align-items: stretch;
     box-sizing: border-box;
     padding-inline: var(--home-cta-ring-inset);
