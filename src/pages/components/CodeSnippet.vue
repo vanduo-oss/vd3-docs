@@ -1,37 +1,47 @@
 <script setup lang="ts">
-// NOTE: there is no `components/code-snippet.html` in the original docs (nav.ts
-// points the route at a non-existent file). This page is authored from the
-// real component — framework/css/components/code-snippet.css +
-// framework/js/components/code-snippet.js — which powers every "View Code"
-// block across these docs (the DocCodeSnippet component used below).
+import { VdCodeSnippet } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
+import { highlightCode } from "@/utils/highlight";
+
+const simpleDemo = `const greet = (name: string) => \`hello, \${name}\`;`;
 
 const vue3Usage = `<script setup lang="ts">
 import { VdCodeSnippet } from "@vanduo-oss/vd3";
+import { highlight } from "@vanduo-oss/vd3-cbun/code-editor/highlight";
+
 const code = "const x = 1;";
+const highlightCode = (src: string, language: string) =>
+  highlight(src, language);
 <\/script>
 
 <template>
-  <VdCodeSnippet :code="code" language="javascript" />
+  <VdCodeSnippet :code="code" language="js" :highlight="highlightCode" />
 </template>`;
 
 const vue3Api: [string, string][] = [
-  [":code", "The code string to display."],
-  [":language", 'Highlight language (default "html").'],
-  [":copyable", "Show a copy button (default true)."],
+  [":code", "Simple mode: the source string shown in the block."],
+  [
+    ":language",
+    'Simple-mode id passed to `highlight` (default "html"). Not a highlighter by itself.',
+  ],
+  [":copyable", "Show a copy button in the header (default true)."],
+  [
+    ":html / :css / :js / :shell / :vue / :json",
+    "Chrome mode: one tab per non-empty string. Presence of any tab prop selects chrome over simple mode.",
+  ],
+  [":default-open", "Chrome mode: expand the block on load (default false)."],
+  [":toggle-label", 'Chrome mode: collapsed-row label (default "View Code").'],
+  [
+    ":collapsible",
+    "Chrome mode: show the toggle and start from `defaultOpen` (default true).",
+  ],
+  [
+    ":highlight",
+    "Optional `(code, language) => escaped HTML`. These docs pass the cbun tokenizer; without it the snippet is plain text. Copy always uses the raw source.",
+  ],
 ];
 
-const basicHtml = `<div class="vd-code-snippet" data-collapsible>
-  <button class="vd-code-snippet-toggle" aria-expanded="false">
-    <span class="vd-code-snippet-toggle-icon"></span>
-    <span>View Code</span>
-  </button>
-  <div class="vd-code-snippet-content">
-    <div class="vd-code-snippet-body">
-      <pre class="vd-code-snippet-pane is-active" data-lang="html"><code>...</code></pre>
-    </div>
-  </div>
-</div>`;
+const singleHtml = `<button class="vd-btn vd-btn-primary">Save</button>`;
 
 const demoCss = `.my-element {
   color: var(--vd-color-primary);
@@ -41,29 +51,32 @@ const demoCss = `.my-element {
 const demoJs = `import { VdCodeSnippet } from "@vanduo-oss/vd3";
 
 const code = "const x = 1;";
-// Render a highlighted, copyable block — no init call needed:
-// <VdCodeSnippet :code="code" language="javascript" />`;
+// <VdCodeSnippet :code="code" language="js" :highlight="highlightCode" />`;
 
 const classRows: [string, string][] = [
   [
     ".vd-code-snippet",
-    "Root wrapper. Add data-collapsible to make it a togglable View Code block.",
+    "Root. Simple mode is a <figure>; chrome mode is a <div>.",
+  ],
+  [
+    ".vd-code-snippet-simple / .vd-code-snippet-single",
+    "Simple-mode modifiers. The header is copy-only (no tabs).",
   ],
   [
     ".vd-code-snippet-toggle",
-    "The “View Code” button that expands/collapses the content.",
+    "Chrome “View Code” row. Hidden when collapsible is false.",
   ],
   [
     ".vd-code-snippet-toggle-icon",
-    "Chevron indicator inside the toggle, rotated by state.",
+    "Chevron inside the toggle; rotated when expanded.",
   ],
   [
     ".vd-code-snippet-content",
-    "The collapsible region holding the header and body.",
+    "Chrome region for the header and panes. Shown when data-visible is true.",
   ],
   [
     ".vd-code-snippet-header",
-    "Row holding the language tabs and the copy button.",
+    "Top row: language tabs (chrome) and the copy button (both modes).",
   ],
   [
     ".vd-code-snippet-tabs",
@@ -71,41 +84,18 @@ const classRows: [string, string][] = [
   ],
   [
     ".vd-code-snippet-tab",
-    "A language tab. Add is-active to mark the visible pane.",
+    "A language tab. .is-active marks the visible pane.",
   ],
-  [".vd-code-snippet-copy", "Copy-to-clipboard button for the active pane."],
-  [".vd-code-snippet-body", "Container for the code panes."],
+  [
+    ".vd-code-snippet-copy",
+    "Copy-to-clipboard control, always in the header (top-right).",
+  ],
+  [".vd-code-snippet-body", "Chrome container for the code panes."],
   [
     ".vd-code-snippet-pane",
-    "One <pre> per language (data-lang). is-active shows it.",
+    "Chrome <pre> per language (data-lang). .is-active shows it.",
   ],
-  [".vd-code-snippet-single", "Modifier for a snippet with no language tabs."],
-  [".vd-code-snippet-inline", "Inline, non-collapsible code presentation."],
-  [".vd-code-snippet-line-numbers", "Adds a gutter with line numbers."],
-];
-
-const attrRows: [string, string][] = [
-  ["data-collapsible", "Makes the snippet a collapsible View Code block."],
-  ["data-expanded", 'Set to "true" to render the snippet expanded on load.'],
-  [
-    "data-lang",
-    "Language key on each tab and pane (e.g. html, css, javascript).",
-  ],
-  [
-    "data-extract",
-    "Selector on a pane — pulls its HTML from the live demo it documents.",
-  ],
-];
-
-const jsRows: [string, string][] = [
-  [
-    "<VdCodeSnippet>",
-    "Self-contained Vue 3 component — highlights and (optionally) copies code. No init call or global runtime is required.",
-  ],
-  [
-    ".vd-code-snippet markup",
-    "The collapsible “View Code” block is plain markup plus your own toggle logic (this site's DocCodeSnippet wraps it in Vue); vd3 ships no auto-init for it.",
-  ],
+  [".vd-code-snippet-pre", "Simple-mode <pre> wrapping the code."],
 ];
 </script>
 
@@ -113,14 +103,41 @@ const jsRows: [string, string][] = [
   <section id="code-snippet">
     <h5 class="demo-title"><i class="ph ph-code"></i>Code Snippet</h5>
     <p class="vd-mb-8">
-      The collapsible “View Code” block used throughout these docs. It supports
-      a togglable reveal, multiple language tabs, one-click copy, and pulling
-      markup straight from the live demo it documents. Styles ship in
-      <code>framework/css/components/code-snippet.css</code> and behavior in
-      <code>framework/js/components/code-snippet.js</code>.
+      <code>VdCodeSnippet</code> is a copyable source block with two modes. Pass
+      <code>:code</code> and <code>:language</code> for a simple figure. Pass
+      any tab prop (<code>html</code>, <code>css</code>, <code>js</code>,
+      <code>shell</code>, <code>vue</code>, <code>json</code>) for collapsible
+      multi-tab chrome — the same “View Code” control used throughout these docs
+      via <code>DocCodeSnippet</code>. The component does
+      <strong>not</strong> color tokens unless you pass <code>highlight</code>.
+      These pages pass the cbun tokenizer (<code>highlightCode</code>).
     </p>
 
-    <!-- Basic collapsible -->
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>Simple mode (live VdCodeSnippet)</h6>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-mb-3 vd-text-sm vd-text-muted">
+              Figure + header Copy (top-right). Color comes from
+              <code>:highlight</code> (cbun), not from the component.
+            </p>
+            <VdCodeSnippet
+              :code="simpleDemo"
+              language="js"
+              :highlight="highlightCode"
+            />
+            <p class="vd-mt-4 vd-mb-3 vd-text-sm vd-text-muted">
+              Same source without <code>highlight</code> — plain text.
+            </p>
+            <VdCodeSnippet :code="simpleDemo" language="js" />
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
@@ -129,9 +146,10 @@ const jsRows: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <p class="vd-mb-3 vd-text-sm vd-text-muted">
-              Click “View Code” to expand the block.
+              The “View Code” toggle stays visible. Expand to reveal HTML and
+              Copy in the header.
             </p>
-            <DocCodeSnippet :html="basicHtml" />
+            <DocCodeSnippet :html="singleHtml" />
           </div>
         </div>
       </div>
@@ -141,24 +159,22 @@ const jsRows: [string, string][] = [
           <div class="vd-card-header"><h6>Multiple language tabs</h6></div>
           <div class="vd-card-body">
             <p class="vd-mb-3 vd-text-sm vd-text-muted">
-              Provide more than one language to get HTML / CSS / JavaScript
-              tabs.
+              More than one tab prop yields HTML / CSS / JavaScript tabs. Copy
+              sends the active tab’s raw source.
             </p>
-            <DocCodeSnippet :html="basicHtml" :css="demoCss" :js="demoJs" />
+            <DocCodeSnippet :html="singleHtml" :css="demoCss" :js="demoJs" />
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Expanded by default -->
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Expanded by default</h6></div>
           <div class="vd-card-body">
             <p class="vd-mb-3 vd-text-sm vd-text-muted">
-              Add <code>data-expanded="true"</code> to render the snippet open
-              on load.
+              <code>default-open</code> renders the chrome open on load.
             </p>
             <DocCodeSnippet :js="demoJs" default-open />
           </div>
@@ -166,7 +182,6 @@ const jsRows: [string, string][] = [
       </div>
     </div>
 
-    <!-- API Reference -->
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card">
@@ -181,27 +196,7 @@ const jsRows: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <h4>Usage</h4>
-            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
-
-            <h4 class="vd-mt-6">CSS Classes</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Class</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in classRows" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">Component API (Vue 3)</h4>
             <div class="vd-table-responsive">
@@ -223,37 +218,17 @@ const jsRows: [string, string][] = [
               </table>
             </div>
 
-            <h4 class="vd-mt-6">Data Attributes</h4>
+            <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">
               <table class="vd-table vd-table-striped">
                 <thead>
                   <tr>
-                    <th>Attribute</th>
+                    <th>Class</th>
                     <th>Description</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="row in attrRows" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h4 class="vd-mt-6">Runtime notes</h4>
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Surface</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in jsRows" :key="row[0]">
+                  <tr v-for="row in classRows" :key="row[0]">
                     <td>
                       <code>{{ row[0] }}</code>
                     </td>

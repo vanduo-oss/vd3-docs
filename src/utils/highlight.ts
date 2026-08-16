@@ -1,25 +1,13 @@
-import hljs from "highlight.js/lib/core";
-import xml from "highlight.js/lib/languages/xml";
-import css from "highlight.js/lib/languages/css";
-import javascript from "highlight.js/lib/languages/javascript";
-import typescript from "highlight.js/lib/languages/typescript";
-import bash from "highlight.js/lib/languages/bash";
-import json from "highlight.js/lib/languages/json";
+import { highlight } from "@vanduo-oss/vd3-cbun/code-editor/highlight";
 
-// Register only the languages the docs actually use, so the bundle stays lean.
-hljs.registerLanguage("xml", xml);
-hljs.registerLanguage("css", css);
-hljs.registerLanguage("javascript", javascript);
-hljs.registerLanguage("typescript", typescript);
-hljs.registerLanguage("bash", bash);
-hljs.registerLanguage("json", json);
-
-// DocCodeSnippet tab keys → highlight.js language ids.
+// DocCodeSnippet / VdCodeSnippet tab keys → cbun tokenizer ids.
+// `js` uses typescript so today's JS+TS snippets stay a single superset.
 const LANGUAGE: Record<string, string> = {
-  html: "xml",
+  html: "html",
   css: "css",
-  js: "typescript", // superset — handles both plain JS and TS snippets
-  shell: "bash",
+  js: "typescript",
+  shell: "shell",
+  vue: "vue",
   json: "json",
 };
 
@@ -28,15 +16,15 @@ const escapeHtml = (value: string): string =>
 
 /**
  * Syntax-highlight a code string for one of DocCodeSnippet's tabs. Returns
- * HTML-escaped markup with `hljs-*` token spans — safe for `v-html` (highlight.js
- * escapes the source). Runs synchronously, so it works during vite-ssg prerender
- * and matches on client hydration. Unknown languages fall back to escaped text.
+ * HTML-escaped markup with `vd-tk-*` token spans — safe for `v-html` (cbun
+ * escapes the source). Default `trailingNewline` is false (snippet-safe).
+ * Unknown languages fall back to escaped plaintext.
  */
 export const highlightCode = (code: string, key: string): string => {
   const language = LANGUAGE[key];
   if (!language) return escapeHtml(code);
   try {
-    return hljs.highlight(code, { language, ignoreIllegals: true }).value;
+    return highlight(code, language);
   } catch {
     return escapeHtml(code);
   }

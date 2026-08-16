@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { VdCodeSnippet } from "@vanduo-oss/vd3";
 import { highlightCode } from "@/utils/highlight";
 
 interface Props {
@@ -11,6 +11,8 @@ interface Props {
   js?: string;
   /** Optional shell / command-line snippet shown in a tab. */
   shell?: string;
+  /** Optional Vue SFC shown in a tab (after JavaScript). */
+  vue?: string;
   /** Start expanded (mirrors the Vanilla `data-expanded="true"`). */
   defaultOpen?: boolean;
   /** Collapsed toggle label (default "View Code"). */
@@ -19,120 +21,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   toggleLabel: "View Code",
 });
-
-interface Lang {
-  key: string;
-  label: string;
-  code: string;
-}
-
-const langs = computed<Lang[]>(() => {
-  const list: Lang[] = [];
-  if (props.html) list.push({ key: "html", label: "HTML", code: props.html });
-  if (props.shell)
-    list.push({ key: "shell", label: "Shell", code: props.shell });
-  if (props.css) list.push({ key: "css", label: "CSS", code: props.css });
-  if (props.js) list.push({ key: "js", label: "JavaScript", code: props.js });
-  return list;
-});
-
-// Pre-highlight each tab once (syntax tokens themed via Vanduo tokens in CSS).
-const highlightedLangs = computed(() =>
-  langs.value.map((l) => ({ ...l, highlighted: highlightCode(l.code, l.key) })),
-);
-
-// Standalone expand-state — each snippet tracks its own open/closed flag.
-const expanded = ref(props.defaultOpen ?? false);
-const active = ref(langs.value[0]?.key ?? "html");
-const copied = ref(false);
-
-const toggle = (): void => {
-  expanded.value = !expanded.value;
-};
-
-const activeCode = computed(
-  () => langs.value.find((l) => l.key === active.value)?.code ?? "",
-);
-
-const copy = async (): Promise<void> => {
-  if (typeof navigator === "undefined" || !navigator.clipboard) return;
-  try {
-    await navigator.clipboard.writeText(activeCode.value);
-    copied.value = true;
-    setTimeout(() => (copied.value = false), 1500);
-  } catch {
-    /* clipboard may be blocked */
-  }
-};
 </script>
 
 <template>
-  <div
-    class="vd-code-snippet"
-    data-collapsible
-    :data-expanded="expanded ? 'true' : 'false'"
-  >
-    <button
-      class="vd-code-snippet-toggle"
-      :aria-expanded="expanded"
-      @click="toggle"
-    >
-      <span class="vd-code-snippet-toggle-icon"></span>
-      <span>{{ toggleLabel }}</span>
-    </button>
-    <div
-      class="vd-code-snippet-content"
-      :data-visible="expanded ? 'true' : 'false'"
-    >
-      <div class="vd-code-snippet-header">
-        <!--
-          `role="tab"` + `aria-selected` on each button makes this a valid
-          tablist. Previously the `role="tablist"` wrapped plain <button>s with
-          no `role="tab"` children, so axe flagged `aria-required-children`
-          (critical) on every page that renders a snippet.
-        -->
-        <div class="vd-code-snippet-tabs" role="tablist">
-          <button
-            v-for="l in langs"
-            :key="l.key"
-            class="vd-code-snippet-tab"
-            :class="{ 'is-active': active === l.key }"
-            :data-lang="l.key"
-            type="button"
-            role="tab"
-            :aria-selected="active === l.key"
-            @click="active = l.key"
-          >
-            {{ l.label }}
-          </button>
-        </div>
-        <button
-          class="vd-code-snippet-copy"
-          aria-label="Copy code"
-          @click="copy"
-        >
-          <span class="vd-code-snippet-copy-icon"></span>
-          <span class="vd-code-snippet-copy-text">{{
-            copied ? "Copied" : "Copy"
-          }}</span>
-        </button>
-      </div>
-      <div class="vd-code-snippet-body">
-        <!--
-          `.vd-code-snippet-pane` uses overflow-x: auto (vd3 CSS). When long
-          lines overflow, axe `scrollable-region-focusable` requires keyboard
-          access — tabindex="0" on the active pane lets users scroll without a
-          pointer. Inactive panes stay out of the tab order.
-        -->
-        <pre
-          v-for="l in highlightedLangs"
-          :key="l.key"
-          class="vd-code-snippet-pane"
-          :class="{ 'is-active': active === l.key }"
-          :data-lang="l.key"
-          :tabindex="expanded && active === l.key ? 0 : -1"
-        ><code class="hljs" v-html="l.highlighted"></code></pre>
-      </div>
-    </div>
-  </div>
+  <VdCodeSnippet v-bind="props" :highlight="highlightCode" />
 </template>

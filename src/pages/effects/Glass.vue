@@ -267,6 +267,52 @@ const componentsHtml = `<nav class="vd-navbar vd-navbar-glass vd-navbar-float vd
 <button class="vd-fab vd-fab-glass"><i class="ph ph-plus"></i></button>
 <div class="vd-modal vd-modal-glass">…</div>`;
 
+const scrollHtml = `<!-- Sentinel can live anywhere; point at it with data-glass-sentinel -->
+<div id="hero-end">Hero / sentinel</div>
+
+<div
+  class="vd-glass vd-glass-8"
+  data-glass-scroll
+  data-glass-sentinel="#hero-end"
+>
+  Transparent at rest; frosts when the sentinel leaves view
+</div>
+
+<!-- Omit data-glass-sentinel to observe the previous sibling instead -->
+<div class="sentinel">…</div>
+<div class="vd-glass vd-glass-8" data-glass-scroll>…</div>`;
+
+const scrollJs = `import { ref } from 'vue';
+import { useGlass } from "@vanduo-oss/vd3";
+
+const root = ref<HTMLElement | null>(null);
+useGlass(root);
+// Viewport IntersectionObserver: toggles .is-glass-active on each
+// [data-glass-scroll] when its sentinel leaves / re-enters view.`;
+
+const scrollApiRows: [string, string, string][] = [
+  [
+    "useGlass(root)",
+    "composable",
+    "On mount, observes a sentinel for every [data-glass-scroll] under root. Viewport root (no custom overflow root).",
+  ],
+  [
+    "[data-glass-scroll]",
+    "glass element",
+    "Opt-in. Transparent (no blur) until .is-glass-active; blur enables instantly — no backdrop-filter transition.",
+  ],
+  [
+    "data-glass-sentinel",
+    "glass element",
+    "CSS selector for the observed node. Defaults to the previous sibling when omitted or unmatched.",
+  ],
+  [
+    ".is-glass-active",
+    "glass element",
+    "Toggled on when the sentinel is not intersecting the viewport (overflow ancestors clip intersection).",
+  ],
+];
+
 const tokens: [string, string, string][] = [
   ["--vd-glass-blur", "Backdrop blur (step-driven)", "8px @ step 5"],
   ["--vd-glass-bg-opacity", "Tint opacity", "0.20 @ step 5"],
@@ -779,17 +825,63 @@ const glassComponents = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Scroll-activated glass</h6></div>
           <div class="vd-card-body">
-            <div id="seemore-scroll-sentinel" class="seemore-sentinel">
-              Sentinel — scroll until this leaves view
+            <p class="vd-text-muted vd-mb-4">
+              The dashed box is only a <strong>trigger</strong> — it does not
+              dim or restyle. Scroll <strong>inside</strong> the well until that
+              sentinel clips out; the glass panel <em>below</em> the well frosts
+              via <code>useGlass</code> toggling <code>.is-glass-active</code>.
+            </p>
+            <div
+              class="seemore-scroll-well"
+              tabindex="0"
+              role="region"
+              aria-label="Scroll well for the glass sentinel"
+            >
+              <div id="seemore-scroll-sentinel" class="seemore-sentinel">
+                Sentinel — scroll this out of the well
+              </div>
+              <div class="seemore-scroll-spacer">Keep scrolling inside…</div>
+              <div class="seemore-scroll-spacer">
+                …until the sentinel clips out
+              </div>
             </div>
             <div
-              class="vd-glass vd-glass-8"
-              data-glass-scroll
-              data-glass-sentinel="#seemore-scroll-sentinel"
-              style="padding: 1.25rem; margin-top: 1rem"
+              class="vd-surface vd-surface-stripe vd-surface-5 seemore-scroll-stage"
             >
-              Transparent at rest; frosts when the sentinel exits (blur enables
-              instantly — no <code>backdrop-filter</code> transition).
+              <div
+                class="vd-glass vd-glass-8 seemore-scroll-glass"
+                data-glass-scroll
+                data-glass-sentinel="#seemore-scroll-sentinel"
+              >
+                <strong class="seemore-scroll-state">
+                  <span class="seemore-scroll-rest">Transparent</span>
+                  <span class="seemore-scroll-on">Frosted</span>
+                </strong>
+                — blur enables instantly (no
+                <code>backdrop-filter</code> transition).
+              </div>
+            </div>
+            <DocCodeSnippet class="vd-mt-4" :html="scrollHtml" />
+            <DocCodeSnippet class="vd-mt-3" :js="scrollJs" />
+            <div class="vd-table-responsive vd-mt-4">
+              <table class="vd-table">
+                <thead>
+                  <tr>
+                    <th>API</th>
+                    <th>Applies to</th>
+                    <th>Effect</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in scrollApiRows" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -1007,6 +1099,44 @@ const glassComponents = [
   border: 1px dashed var(--vd-border-color);
   border-radius: var(--vd-radius-fib-5, 0.5rem);
   background: var(--vd-bg-secondary);
+}
+.seemore-scroll-well {
+  max-height: 11rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem;
+  border: 1px solid var(--vd-border-color);
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  background: var(--vd-bg-secondary);
+}
+.seemore-scroll-spacer {
+  min-height: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.75rem;
+  border: 1px dashed var(--vd-border-color);
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  color: var(--vd-text-muted);
+  font-size: 0.85rem;
+}
+.seemore-scroll-stage {
+  margin-top: 1rem;
+  border-radius: var(--vd-radius-fib-8, 0.75rem);
+  padding: 1.25rem;
+}
+.seemore-scroll-glass {
+  padding: 1.25rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+}
+.seemore-scroll-on {
+  display: none;
+}
+.seemore-scroll-glass.is-glass-active .seemore-scroll-rest {
+  display: none;
+}
+.seemore-scroll-glass.is-glass-active .seemore-scroll-on {
+  display: inline;
 }
 .seemore-integration-stage {
   border-radius: var(--vd-radius-fib-8, 0.75rem);
