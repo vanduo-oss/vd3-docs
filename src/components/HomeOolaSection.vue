@@ -395,7 +395,9 @@ function itemStyle(index: number): Record<string, string> {
   const mid = (count - 1) / 2;
   const t = fanAmount.value;
   const { step, scale } = fanTune();
-  const angle = (index - mid) * step * t;
+  // Narrow: left-hinge handheld fan — 0°, step, 2step… clockwise so only
+  // the right ends drop. Desktop stays symmetric around mid.
+  const angle = (narrow.value ? index : index - mid) * step * t;
   const s = 1 + (scale - 1) * t;
   return {
     opacity: Math.min(1, t * 1.35).toFixed(3),
@@ -1330,13 +1332,12 @@ onUnmounted(() => {
 
 @media (max-width: 991px) {
   .oola-home {
-    /* Symmetric ±49° (14deg × 3.5) + scale so OC-8 reads as a fan, not a halo.
-     * Top-center origin: grow left/right/down, not up into the ask line.
-     * Must beat desktop `.is-fanning:not(.is-silk)` 52% card width. */
-    --oola-fan-step: 14deg;
-    --oola-fan-scale: 1.28;
-    --oola-fan-origin-x: 50%;
-    --oola-fan-origin-y: 0%;
+    /* Live vd3.vanduo.dev: origin 1.25rem 0, 4deg steps (0–28°).
+     * Same left-hinge clockwise deck; 5deg (0–35°) shows a bit more tint. */
+    --oola-fan-step: 5deg;
+    --oola-fan-scale: 1;
+    --oola-fan-origin-x: 1.25rem;
+    --oola-fan-origin-y: 0;
 
     margin-top: clamp(3rem, 8vh, 5rem);
     /* Runway so native progress can open the fan, then hold it. */
@@ -1367,10 +1368,11 @@ onUnmounted(() => {
     right: auto;
     bottom: auto;
     left: auto;
-    width: 88%;
+    width: 100%;
     height: 4.5rem;
-    /* Inset the ink bar so scaled clones can read past it L/R. */
-    margin: 1rem auto 16rem;
+    /* Tight to the ask line — left-hinge only drops the right ends.
+     * 14rem below so the 35° deck is not clipped short. */
+    margin: 0.65rem 0 14rem;
     order: 2;
     opacity: 1 !important;
     overflow: visible;
@@ -1448,11 +1450,13 @@ onUnmounted(() => {
 
   .oola-home-mobile-ask {
     order: 1;
+    z-index: 6;
   }
 
   .oola-home-mobile-after {
     order: 3;
-    /* In-flow under the 16rem fan gap so the pin does not jump on fade-in. */
+    z-index: 5;
+    /* In-flow under the 14rem fan gap so the pin does not jump on fade-in. */
     min-height: 10rem;
   }
 
