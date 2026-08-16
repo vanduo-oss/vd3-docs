@@ -254,6 +254,14 @@ const mobileMeetStyle = computed<CSSProperties>(() => {
 
 const showFanStage = computed(() => !reduced.value);
 
+/** Narrow: hinge eases right as the deck opens (CSS --oola-fan-progress). */
+const narrowFanStyle = computed<Record<string, string> | undefined>(() => {
+  if (!narrow.value) return undefined;
+  return {
+    "--oola-fan-progress": smootherstep(fanAmount.value).toFixed(4),
+  };
+});
+
 const beat = computed<StoryBeat>(() => {
   const value = clampProgress(p.value);
   if (narrow.value) return "ask";
@@ -913,6 +921,7 @@ onUnmounted(() => {
     class="oola-home"
     :class="{ 'is-fanning': isFanning, 'is-silk': silk }"
     :data-beat="beat"
+    :style="narrowFanStyle"
     aria-labelledby="oola-home-title"
   >
     <div class="oola-home-pin">
@@ -1086,7 +1095,8 @@ onUnmounted(() => {
 <style scoped>
 .oola-home {
   /* Gap after hero CTAs — outside the sticky runway.
-   * Fan knobs: itemStyle reads step/scale; origin is CSS-only.
+   * Fan knobs: itemStyle reads step/scale; origin is CSS-only
+   * (narrow eases --oola-fan-origin-x → --oola-fan-origin-x-open).
    * Desktop silk still rotates clones by (i-mid)*10deg in JS. */
   --oola-fan-step: 10deg;
   --oola-fan-scale: 1;
@@ -1332,12 +1342,15 @@ onUnmounted(() => {
 
 @media (max-width: 991px) {
   .oola-home {
-    /* Live vd3.vanduo.dev: origin 1.25rem 0, 4deg steps (0–28°).
-     * Same left-hinge clockwise deck; 5deg (0–35°) shows a bit more tint. */
+    /* Live: origin 1.25rem 0, 4deg (0–28°). Same left-hinge clockwise
+     * deck at 5deg (0–35°). Hinge starts at 1.25rem and eases to 20%
+     * so rotated left pill caps stay inside overflow-x: clip. */
     --oola-fan-step: 5deg;
     --oola-fan-scale: 1;
     --oola-fan-origin-x: 1.25rem;
+    --oola-fan-origin-x-open: 20%;
     --oola-fan-origin-y: 0;
+    --oola-fan-progress: 0;
 
     margin-top: clamp(3rem, 8vh, 5rem);
     /* Runway so native progress can open the fan, then hold it. */
@@ -1370,9 +1383,9 @@ onUnmounted(() => {
     left: auto;
     width: 100%;
     height: 4.5rem;
-    /* Tight to the ask line — left-hinge only drops the right ends.
-     * 14rem below so the 35° deck is not clipped short. */
-    margin: 0.65rem 0 14rem;
+    /* Room under the ask line for left caps that rise as the hinge
+     * slides right. 14rem below so the 35° deck is not clipped short. */
+    margin: 1.75rem 0 14rem;
     order: 2;
     opacity: 1 !important;
     overflow: visible;
@@ -1381,6 +1394,15 @@ onUnmounted(() => {
     background: transparent;
     pointer-events: auto;
     transition: none;
+  }
+
+  .oola-home-item {
+    transform-origin: calc(
+        var(--oola-fan-origin-x) +
+          (var(--oola-fan-origin-x-open) - var(--oola-fan-origin-x)) *
+          var(--oola-fan-progress)
+      )
+      var(--oola-fan-origin-y);
   }
 
   .oola-home-story {
