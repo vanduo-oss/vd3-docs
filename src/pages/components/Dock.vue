@@ -2,7 +2,6 @@
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 import {
   DOCK_GLASS_STEPS,
-  DOCK_PLACEMENTS,
   DOCK_RADIUS_OPTIONS,
   DOCK_TINTS,
   VdDock,
@@ -24,6 +23,9 @@ import {
   DOCS_DOCK_RADIUS,
   useDocsColorScheme,
 } from "@/composables/useDocsColorScheme";
+import { useUnlockDockNarrowLock } from "@/composables/useUnlockDockNarrowLock";
+
+useUnlockDockNarrowLock();
 
 const { dockTint: themeTint } = useDocsColorScheme();
 const tintFollowsTheme = ref(true);
@@ -39,6 +41,9 @@ const activeItem = ref("home");
 const expanded = ref(false);
 const navOffset = ref(64);
 const navOffsetPx = computed(() => `${navOffset.value}px`);
+
+/** Same walk as VdDock cycle="edges": bottom → left → top → right → bottom. */
+const PLACE_EDGES: DockPlacement[] = ["bottom", "left", "top", "right"];
 
 const brandChoices = [
   { id: "u", label: "ū" },
@@ -184,7 +189,7 @@ const vue3Api: [string, string][] = [
   ],
   [
     ":position",
-    '"fixed" (viewport chrome, default) | "contained" (absolute in a relative parent — use this in docs and cards).',
+    '"fixed" (viewport chrome, default) | "contained" (absolute in a relative parent — use this in docs and cards). Fixed docks force a horizontal edge at ≤520px; this playground lifts that JS lock.',
   ],
   [":dark", "Always-dark near-black frost (default true)."],
   [
@@ -200,10 +205,13 @@ const vue3Api: [string, string][] = [
     ":itemLayout",
     '"stack" icon-above-label (default) | "inline" icon-then-label.',
   ],
-  [":brandToggles", "Brand click toggles the paired edge (default true)."],
+  [
+    ":brandToggles",
+    "Brand click toggles the paired edge (default true). The package disables this at ≤520px on fixed chrome; this playground opts out.",
+  ],
   [
     ":cycle",
-    '"pair" (default) keeps bottom ↔ left / top ↔ right. "edges" walks bottom → left → top → right. This playground uses edges.',
+    '"pair" (default) keeps bottom ↔ left / top ↔ right. "edges" walks bottom → left → top → right → bottom. This playground uses edges.',
   ],
   [
     ":persist",
@@ -237,11 +245,14 @@ const itemApi: [string, string][] = [
         >bottom / theme ink (light black, dark green) / radius 2 / glass 34 / ū
         / stack</strong
       >. Brand click here cycles <code>bottom</code> → <code>left</code> →
-      <code>top</code> → <code>right</code>. The package still morphs the paired
-      edge (<code>bottom</code> ↔ <code>left</code>, <code>top</code> ↔
-      <code>right</code>). The <code>#brand</code> slot sits on the morph-origin
-      corner — these demos use the oola <strong>ū</strong> mark. Replace it with
-      your logo. Radius is dock-own and goes past the theme 0.5rem cap.
+      <code>top</code> → <code>right</code> → <code>bottom</code>. The package
+      still morphs the paired edge (<code>bottom</code> ↔ <code>left</code>,
+      <code>top</code> ↔ <code>right</code>). Fixed docks force a horizontal
+      edge when the viewport is ≤520px; this playground opts out of that JS lock
+      so Place and ū work in a narrow pane, and shows only the brand, centered.
+      The <code>#brand</code> slot sits on the morph-origin corner — these demos
+      use the oola <strong>ū</strong> mark. Replace it with your logo. Radius is
+      dock-own and goes past the theme 0.5rem cap.
     </p>
 
     <div class="vd-row vd-mb-6">
@@ -267,8 +278,9 @@ const itemApi: [string, string][] = [
             <p v-if="!expanded" class="vd-text-sm vd-text-muted vd-mb-4">
               Page-local knobs bound to real <code>VdDock</code> props — they do
               not write the site theme. Click ū (or your chosen brand) to cycle
-              the four edges. Toggle orientation still morphs the pair. Full
-              screen expands this playground only (not the browser).
+              bottom → left → top → right. On a narrow pane the playground shows
+              only the brand, centered. Toggle orientation still morphs the
+              pair. Full screen expands this playground only (not the browser).
             </p>
             <div class="dock-stage" data-dock-playground>
               <VdDock
@@ -304,7 +316,7 @@ const itemApi: [string, string][] = [
                 <span class="dock-play-label">Place</span>
                 <div class="dock-play-chips">
                   <button
-                    v-for="edge in DOCK_PLACEMENTS"
+                    v-for="edge in PLACE_EDGES"
                     :key="edge"
                     type="button"
                     class="dock-chip"
@@ -718,6 +730,24 @@ const itemApi: [string, string][] = [
 
   .dock-customizer.is-expanded .dock-play {
     flex: 1 1 60%;
+  }
+}
+
+@media (max-width: 520px) {
+  [data-dock-playground] :deep(.vd-dock .vd-dock-nav),
+  [data-dock-playground] :deep(.vd-dock .vd-dock-actions) {
+    display: none;
+  }
+
+  [data-dock-playground] :deep(.vd-dock) {
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+
+  [data-dock-playground] :deep(.vd-dock .vd-dock-brand) {
+    margin: 0;
+    max-width: none;
   }
 }
 </style>
