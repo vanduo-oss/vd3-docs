@@ -35,7 +35,7 @@ test.describe("Site Oola dock chrome", () => {
     await expect(docs).toBeVisible();
     await expect(home).toHaveAttribute("data-tooltip", "Home");
     await expect(home).toHaveAttribute("data-tooltip-placement", "top");
-    await expect(home).toHaveAttribute("data-tooltip-variant", "glass");
+    await expect(home).toHaveAttribute("data-tooltip-variant", "dock");
     await expect(
       dock.getByRole("button", { name: "Open global search" }),
     ).toBeVisible();
@@ -44,9 +44,19 @@ test.describe("Site Oola dock chrome", () => {
     ).toBeVisible();
 
     await home.hover();
-    const tooltip = page.locator(".vd-tooltip.vd-tooltip-top").first();
+    const tooltip = page.locator(".vd-tooltip.vd-tooltip-top.vd-tooltip-dock").first();
     await expect(tooltip).toBeVisible();
     await expect(tooltip).toHaveText("Home");
+    // Top placement must sit above the trigger (not grow downward into the dock).
+    const homeBox = await home.boundingBox();
+    const tipBox = await tooltip.boundingBox();
+    expect(homeBox).toBeTruthy();
+    expect(tipBox).toBeTruthy();
+    expect(tipBox!.y + tipBox!.height).toBeLessThanOrEqual(homeBox!.y + 2);
+    // Horizontally centered on the Home item (allow small optical tolerance).
+    const homeCx = homeBox!.x + homeBox!.width / 2;
+    const tipCx = tipBox!.x + tipBox!.width / 2;
+    expect(Math.abs(tipCx - homeCx)).toBeLessThan(6);
   });
 
   test("Docs item navigates to docs landing", async ({ page }) => {
@@ -137,7 +147,7 @@ test.describe("Site Oola dock chrome", () => {
     await cycleDockTo(dock, brand, "left");
     await assertVerticalChrome("left");
 
-    // Short-axis thickness matches docs --vd-dock-height (macOS-style 6.75rem).
+    // Short-axis thickness matches docs --vd-dock-height (macOS-style 5.15rem).
     const thickness = await dock.evaluate((el) => {
       const rem = Number.parseFloat(
         getComputedStyle(document.documentElement).fontSize,
@@ -145,7 +155,7 @@ test.describe("Site Oola dock chrome", () => {
       const box = el.getBoundingClientRect();
       return {
         actual: box.width,
-        expected: 6.75 * rem,
+        expected: 5.15 * rem,
       };
     });
     expect(thickness.actual).toBeGreaterThan(thickness.expected - 4);

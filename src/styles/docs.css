@@ -103,8 +103,8 @@ html {
 
   /* Docs shell chrome — rem at 16px baseline, scales with font-size above.
      Offsets clear the fixed site dock (data-docs-dock) instead of a top navbar.
-     ~6.75rem dock height + inset (~1.3125rem) + small gap. */
-  --docs-dock-clearance: 8.25rem;
+     ~5.15rem dock height + inset (~1.3125rem) + small gap. */
+  --docs-dock-clearance: 6.75rem;
   --docs-dock-edge-pad-bottom: 0;
   --docs-dock-edge-pad-left: 0;
   --docs-dock-edge-pad-right: 0;
@@ -600,8 +600,54 @@ html[data-theme="dark"][data-primary="black"] {
   left: 0;
 }
 
+/* Keep tooltips measurable while hidden — `display:none` zeros getBoundingClientRect
+   and makes useTooltips place top/left tips as if they had no size (they then grow
+   the wrong direction and look off-center). Package already uses opacity until .is-visible. */
 .vd-tooltip:not(.is-visible) {
-  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Site-dock tips: denser glass than package --vd-glass-bg-opacity (.2).
+   Variant is data-tooltip-variant="dock" → .vd-tooltip-dock. */
+.vd-tooltip.vd-tooltip-dock {
+  --vd-glass-bg-opacity: 0.82;
+  --vd-glass-border-alpha: 0.28;
+  background: color-mix(in srgb, var(--vd-bg-elevated, #12141a) 78%, transparent);
+  color: var(--vd-text-primary, #f4f4f5);
+  border: 1px solid color-mix(in srgb, #fff 22%, transparent);
+  box-shadow:
+    0 8px 28px color-mix(in srgb, #000 45%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 12%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  backdrop-filter: blur(14px) saturate(1.5);
+  /* Arrow margins shift fixed top/left; cancel so JS centering stays true. */
+  margin: 0 !important;
+}
+
+.vd-tooltip.vd-tooltip-dock.vd-tooltip-top:before,
+.vd-tooltip.vd-tooltip-dock[data-placement="top"]:before {
+  border-color: color-mix(in srgb, var(--vd-bg-elevated, #12141a) 78%, transparent)
+    transparent transparent;
+}
+
+.vd-tooltip.vd-tooltip-dock.vd-tooltip-bottom:before,
+.vd-tooltip.vd-tooltip-dock[data-placement="bottom"]:before {
+  border-color: transparent transparent
+    color-mix(in srgb, var(--vd-bg-elevated, #12141a) 78%, transparent);
+}
+
+.vd-tooltip.vd-tooltip-dock.vd-tooltip-left:before,
+.vd-tooltip.vd-tooltip-dock[data-placement="left"]:before {
+  border-color: transparent transparent transparent
+    color-mix(in srgb, var(--vd-bg-elevated, #12141a) 78%, transparent);
+}
+
+.vd-tooltip.vd-tooltip-dock.vd-tooltip-right:before,
+.vd-tooltip.vd-tooltip-dock[data-placement="right"]:before {
+  border-color: transparent
+    color-mix(in srgb, var(--vd-bg-elevated, #12141a) 78%, transparent) transparent
+    transparent;
 }
 
 /* ── Hero title mobile alignment ───────────────────── */
@@ -3029,22 +3075,22 @@ a:hover .vd-card-interactive.vd-card-glow {
   flex-direction: column-reverse;
 }
 
-/* MacOS-style site dock: thick pill + large icon-only nav (labels via tooltip). */
+/* MacOS-style site dock: icon-only nav (labels via tooltip), not oversized. */
 .vd-site-dock {
-  --vd-dock-height: 6.75rem;
-  --vd-dock-brand-size: 2.75rem;
+  --vd-dock-height: 5.15rem;
+  --vd-dock-brand-size: 2.25rem;
 }
 
-/* Central nav: ~48px phosphor glyphs, no visible labels. */
+/* Central nav: ~34px glyphs (~28% under prior 3rem), no visible labels. */
 .vd-site-dock .vd-dock-links .vd-dock-item {
   gap: 0;
-  padding: 0.35rem 0.55rem;
-  min-width: 3.5rem;
-  min-height: 3.5rem;
+  padding: 0.3rem 0.45rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-item .ph {
-  font-size: 3rem;
+  font-size: 2.15rem;
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-label {

@@ -131,7 +131,7 @@ onUnmounted(() => {
     label="Site"
   >
     <template #brand>
-      <Vd3BrandMark size="2.75rem" class="vd-site-dock-brand-mark" />
+      <Vd3BrandMark size="2.25rem" class="vd-site-dock-brand-mark" />
     </template>
 
     <VdDockItem
@@ -142,7 +142,7 @@ onUnmounted(() => {
       :active="activeId === link.id"
       :data-tooltip="link.label"
       :data-tooltip-placement="tooltipPlacement"
-      data-tooltip-variant="glass"
+      data-tooltip-variant="dock"
     />
 
     <template #actions>

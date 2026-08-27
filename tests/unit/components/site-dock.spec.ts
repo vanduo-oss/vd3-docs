@@ -52,7 +52,7 @@ describe("VdSiteDock", () => {
       const item = wrapper.get(`button.vd-dock-item[aria-label="${label}"]`);
       expect(item.attributes("data-tooltip")).toBe(label);
       expect(item.attributes("data-tooltip-placement")).toBe("top");
-      expect(item.attributes("data-tooltip-variant")).toBe("glass");
+      expect(item.attributes("data-tooltip-variant")).toBe("dock");
     }
 
     expect(wrapper.find(".vd-dock-links .vd-dock-label").exists()).toBe(true);
