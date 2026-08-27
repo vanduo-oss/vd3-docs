@@ -164,6 +164,15 @@ onUnmounted(() => {
             </li>
           </template>
         </ul>
+        <div
+          v-else-if="hasQuery && search.searching"
+          class="global-search-hint"
+        >
+          <div class="global-search-hint-icon">
+            <i class="ph-bold ph-magnifying-glass"></i>
+          </div>
+          <div class="global-search-hint-text">Searching…</div>
+        </div>
         <div v-else-if="hasQuery" class="global-search-empty">
           <div class="global-search-empty-icon">
             <i class="ph-bold ph-magnifying-glass"></i>
@@ -187,6 +196,13 @@ onUnmounted(() => {
         <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
         <span><kbd>↵</kbd> select</span>
         <span><kbd>esc</kbd> close</span>
+        <span
+          v-if="search.modelLoading"
+          class="global-search-footer-status"
+          aria-live="polite"
+        >
+          {{ search.modelProgressMessage || "Loading semantic…" }}
+        </span>
       </div>
     </div>
   </Teleport>

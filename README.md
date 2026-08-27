@@ -48,6 +48,8 @@ pnpm install
 pnpm run dev          # Vite dev server at http://localhost:5173
 pnpm run build        # vite-ssg -> dist/ + sitemap.xml
 pnpm run preview      # static preview at http://localhost:8787
+pnpm run index        # rebuild public/search/ hybrid corpus (index + vectors)
+pnpm run index:eval   # labeled-query semantic quality gate (EmbeddingGemma)
 pnpm run typecheck    # vue-tsc --noEmit
 pnpm run lint         # ESLint (flat config)   (lint:fix to autofix)
 pnpm run stylelint    # Stylelint
@@ -59,6 +61,29 @@ pnpm run test:e2e:full# Playwright, all projects
 pnpm run test:a11y    # axe accessibility smoke, Chromium Desktop
 ```
 
+### Hybrid search index
+
+Cmd+K uses [`@vanduo-oss/vdl-hybrid-search`](https://www.npmjs.com/package/@vanduo-oss/vdl-hybrid-search)
+over committed assets in `public/search/` (`search-index.json`, `vectors.json`).
+Semantic retrieval uses **EmbeddingGemma-300M**
+(`onnx-community/embeddinggemma-300m-ONNX`) with task prefixes
+(`task: search result | query: …` / `title: … | text: …`).
+
+After changing `nav.ts` or page body copy that should be searchable, regenerate
+and sanity-check:
+
+```bash
+pnpm index
+pnpm index:eval
+# or crawl a local preview instead of production:
+pnpm build && pnpm preview   # in another terminal
+VD3_DOCS_SITE=http://127.0.0.1:8787 pnpm index
+```
+
+Default crawl target is `https://vd3.vanduo.dev`. Indexing downloads EmbeddingGemma
+once (cached locally) and is **not** part of every CI/`vite-ssg` build. First
+browser warm-up of the semantic model is larger than MiniLM; fuzzy search still
+works immediately while it loads.
 CI (`.github/workflows/ci.yml`) runs typecheck, lint, stylelint, format:check,
 and build on Node 24. The unit/e2e/size suites are run locally (they are omitted
 from CI to conserve Actions minutes). `deploy.yml` builds and publishes `dist/`
@@ -70,7 +95,7 @@ to GitHub Pages at [https://vd3.vanduo.dev/](https://vd3.vanduo.dev/)
 ```text
 src/
   main.ts             # vite-ssg app factory (VanduoVue plugin + router + pinia)
-  App.vue             # app shell — navbar + <RouterView /> + footer
+  App.vue             # app shell — site dock + <RouterView /> + overlays
   router.ts           # route table
   nav.ts              # navigation tree
   pages/              # one SFC per route (component demos, guides, core, effects)
@@ -82,6 +107,9 @@ src/
   stores/             # Pinia setup stores (theme, search, nav, customizer)
   styles/             # docs.css + site styling
   utils/
+
+public/
+  search/             # hybrid search-index.json + vectors.json (pnpm index)
 
 tests/
   e2e/                # Playwright specs (visual-parity, a11y-smoke)

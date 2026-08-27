@@ -3376,8 +3376,11 @@ a:hover .vd-card-interactive.vd-card-glow {
   pointer-events: auto;
 }
 
-/* Modal */
+/* Modal — higher opacity / blur so results stay readable over busy pages */
 .global-search-modal {
+  --vd-glass-bg-opacity: 0.9;
+  --vd-glass-blur: 20px;
+
   position: fixed;
   top: 15vh;
   left: 50%;
@@ -3556,6 +3559,11 @@ a:hover .vd-card-interactive.vd-card-glow {
   border-top: 1px solid var(--vd-glass-border-light);
   font-size: 0.7rem;
   color: var(--vd-text-secondary);
+}
+
+.global-search-footer-status {
+  margin-left: auto;
+  opacity: 0.85;
 }
 
 .global-search-footer kbd {

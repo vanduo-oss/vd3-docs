@@ -1,9 +1,13 @@
-import { describe, expect, it } from 'vitest';
-import { mount } from '@vue/test-utils';
-import { createPinia } from 'pinia';
-import { createRouter, createMemoryHistory } from 'vue-router';
-import GlobalSearchModal from '@/overlays/GlobalSearchModal.vue';
-import { useSearchStore } from '@/stores/search';
+import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
+import { mount } from "@vue/test-utils";
+import { createPinia } from "pinia";
+import { createRouter, createMemoryHistory } from "vue-router";
+import GlobalSearchModal from "@/overlays/GlobalSearchModal.vue";
+import {
+  useSearchStore,
+  __setSearchEngineFactoryForTests,
+} from "@/stores/search";
+import type { HybridSearch, MergedHit } from "@vanduo-oss/vdl-hybrid-search";
 
 /**
  * Interaction test for the command-palette search overlay. The search STORE is
@@ -11,22 +15,67 @@ import { useSearchStore } from '@/stores/search';
  * component itself: the global cmd+k keydown, typing to filter, arrow-key
  * navigation, and the ARIA listbox/option structure the results render into.
  *
- * The component Teleports to <body> and installs a window `keydown` listener in
- * onMounted, so we attach to the real document and dispatch keyboard events on
- * `window`, then query the teleported DOM.
+ * HybridSearch is mocked so CI never downloads MiniLM.
  */
+
+const makeHit = (title: string, id: string): MergedHit => ({
+  score: 0.9,
+  source: "fuzzy",
+  doc: {
+    id,
+    title,
+    route: `/${id}`,
+    icon: "cube",
+    category: "Actions",
+    tab: "components",
+    tabTitle: "Components",
+    keywords: [],
+  },
+});
+
+const createMockEngine = (): HybridSearch =>
+  ({
+    queryMinLength: 2,
+    queryMaxLength: 240,
+    onSemanticProgress: vi.fn(() => () => {}),
+    initFuzzy: vi.fn(async () => {}),
+    initSemantic: vi.fn(async () => {}),
+    isSemanticReady: vi.fn(() => false),
+    search: vi.fn(async (query: string) => {
+      const q = query.toLowerCase();
+      const all = [
+        makeHit("Button", "button"),
+        makeHit("Button Groups", "button-groups"),
+      ];
+      const merged = all.filter((h) => h.doc.title.toLowerCase().includes(q));
+      return { query, mode: "fuzzy" as const, fuzzy: [], semantic: [], merged };
+    }),
+  }) as unknown as HybridSearch;
+
 const makeRouter = () =>
   createRouter({
     history: createMemoryHistory(),
-    routes: [{ path: '/:pathMatch(.*)*', component: { template: '<div />' } }],
+    routes: [{ path: "/:pathMatch(.*)*", component: { template: "<div />" } }],
   });
 
 const pressKey = (init: KeyboardEventInit): void => {
-  window.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, ...init }));
+  window.dispatchEvent(
+    new KeyboardEvent("keydown", { bubbles: true, ...init }),
+  );
 };
 
-describe('GlobalSearchModal', () => {
-  it('opens on cmd+k, filters on input, and arrow-navigates the listbox', async () => {
+describe("GlobalSearchModal", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    __setSearchEngineFactoryForTests(() => createMockEngine());
+  });
+
+  afterEach(() => {
+    __setSearchEngineFactoryForTests(null);
+    vi.useRealTimers();
+  });
+
+  it("opens on cmd+k, filters on input, and arrow-navigates the listbox", async () => {
     const pinia = createPinia();
     const wrapper = mount(GlobalSearchModal, {
       global: { plugins: [pinia, makeRouter()] },
@@ -34,27 +83,27 @@ describe('GlobalSearchModal', () => {
     });
     const store = useSearchStore(pinia);
 
-    // Closed initially — no results listbox is rendered.
     expect(store.isOpen).toBe(false);
     expect(document.body.querySelector('[role="listbox"]')).toBeNull();
 
-    // Cmd+K opens the modal.
-    pressKey({ key: 'k', metaKey: true });
+    pressKey({ key: "k", metaKey: true });
     await wrapper.vm.$nextTick();
     expect(store.isOpen).toBe(true);
 
-    // Type a query into the teleported search input (v-model → store.query).
     const input = document.body.querySelector(
-      '.global-search-input',
+      ".global-search-input",
     ) as HTMLInputElement | null;
     expect(input).not.toBeNull();
-    input!.value = 'button';
-    input!.dispatchEvent(new Event('input'));
+    input!.value = "button";
+    input!.dispatchEvent(new Event("input"));
     await wrapper.vm.$nextTick();
-    expect(store.query).toBe('button');
+    expect(store.query).toBe("button");
+
+    await vi.advanceTimersByTimeAsync(400);
+    await Promise.resolve();
+    await wrapper.vm.$nextTick();
     expect(store.ordered.length).toBeGreaterThan(1);
 
-    // Results render as a role=listbox with role=option children.
     const listbox = document.body.querySelector(
       '[role="listbox"]',
     ) as HTMLElement | null;
@@ -62,18 +111,16 @@ describe('GlobalSearchModal', () => {
     const options = listbox!.querySelectorAll('[role="option"]');
     expect(options.length).toBe(store.ordered.length);
 
-    // ArrowDown moves the active option; the selected one carries aria-selected.
     expect(store.activeIndex).toBe(0);
-    pressKey({ key: 'ArrowDown' });
+    pressKey({ key: "ArrowDown" });
     await wrapper.vm.$nextTick();
     expect(store.activeIndex).toBe(1);
     expect(listbox!.querySelector('[aria-selected="true"]')).not.toBeNull();
 
-    // Escape closes and clears.
-    pressKey({ key: 'Escape' });
+    pressKey({ key: "Escape" });
     await wrapper.vm.$nextTick();
     expect(store.isOpen).toBe(false);
-    expect(store.query).toBe('');
+    expect(store.query).toBe("");
 
     wrapper.unmount();
   });

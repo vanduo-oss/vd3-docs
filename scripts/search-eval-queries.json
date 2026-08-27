@@ -1,0 +1,91 @@
+[
+  {
+    "query": "how to make objects transparent?",
+    "expectTitles": ["Glass", "Surfaces", "Liquid Gradient"]
+  },
+  {
+    "query": "how to make element transparent?",
+    "expectTitles": ["Glass", "Surfaces", "Liquid Gradient"]
+  },
+  {
+    "query": "glass card",
+    "expectTitles": ["Glass", "Card", "Expanding Cards"]
+  },
+  {
+    "query": "how do i theme my app",
+    "expectTitles": [
+      "Theme customizer",
+      "CSS variables & theming",
+      "Getting started",
+      "Theme switcher"
+    ]
+  },
+  {
+    "query": "keyboard navigation",
+    "expectTitles": ["Accessibility", "Navigation", "Navbar", "Menu", "Sidenav"]
+  },
+  {
+    "query": "frosted glass blur opacity",
+    "expectTitles": ["Glass", "Surfaces"]
+  },
+  {
+    "query": "dialog modal overlay",
+    "expectTitles": ["Modal", "Offcanvas", "Drawer"]
+  },
+  {
+    "query": "form validation errors",
+    "expectTitles": ["Form validation", "Forms", "Alert"]
+  },
+  {
+    "query": "draw freehand canvas",
+    "expectTitles": ["Draw", "Flowchart", "Charts"]
+  },
+  {
+    "query": "hex grid map",
+    "expectTitles": ["Hex Grid", "Grid system"]
+  },
+  {
+    "query": "music player audio",
+    "expectTitles": ["Music Player"]
+  },
+  {
+    "query": "code editor syntax highlight",
+    "expectTitles": ["Code Editor", "Code snippet"]
+  },
+  {
+    "query": "accessibility aria focus",
+    "expectTitles": ["Accessibility"]
+  },
+  {
+    "query": "getting started install",
+    "expectTitles": ["Getting started"]
+  },
+  {
+    "query": "color palette tokens",
+    "expectTitles": ["Color palette", "CSS variables & theming"]
+  },
+  {
+    "query": "dock bottom navigation oola",
+    "expectTitles": ["Oola Dock", "Dock"]
+  },
+  {
+    "query": "parallax scroll effect",
+    "expectTitles": ["Parallax"]
+  },
+  {
+    "query": "morph water wave transition",
+    "expectTitles": ["Morph", "Liquid Gradient"]
+  },
+  {
+    "query": "banana",
+    "expectEmpty": true
+  },
+  {
+    "query": "blooper",
+    "expectEmpty": true
+  },
+  {
+    "query": "crazy test xyzzy",
+    "expectEmpty": true
+  }
+]

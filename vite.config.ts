@@ -37,6 +37,7 @@ export default defineConfig({
     // Keep the published packages out of the pre-bundle so a contributor can
     // still `pnpm link` sibling trees without a stale dep optimizer cache.
     exclude: ["@vanduo-oss/vd3", "@vanduo-oss/vd3-cbun"],
+    include: ["fuse.js", "@huggingface/transformers"],
   },
   server: {
     fs: {
@@ -52,7 +53,8 @@ export default defineConfig({
   },
   ssr: {
     // SSG must transform the packages' .vue components (not require them as
-    // CJS) during prerender.
+    // CJS) during prerender. Hybrid search peers stay client-only via dynamic
+    // import from the search store (not imported at SSG entry).
     noExternal: ["@vanduo-oss/vd3", "@vanduo-oss/vd3-cbun"],
   },
   build: {
