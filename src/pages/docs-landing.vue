@@ -88,6 +88,22 @@ const cards: DocsCard[] = [
     meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.4.0" },
   },
 ];
+
+const resources = [
+  { label: "About", to: "/about" as const },
+  {
+    label: "GitHub",
+    href: "https://github.com/vanduo-oss/vd3",
+  },
+  {
+    label: "NPM",
+    href: "https://www.npmjs.com/package/@vanduo-oss/vd3",
+  },
+  {
+    label: "License",
+    href: "https://github.com/vanduo-oss/vd3/blob/main/LICENSE",
+  },
+] as const;
 </script>
 
 <template>
@@ -191,6 +207,20 @@ const cards: DocsCard[] = [
           </div>
         </RouterLink>
       </div>
+
+      <nav class="docs-landing-resources" aria-label="Resources">
+        <h3 class="docs-landing-resources-title">Resources</h3>
+        <ul class="docs-landing-resources-list">
+          <li v-for="item in resources" :key="item.label">
+            <RouterLink v-if="'to' in item" :to="item.to">{{
+              item.label
+            }}</RouterLink>
+            <a v-else :href="item.href" target="_blank" rel="noopener">{{
+              item.label
+            }}</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </section>
 </template>

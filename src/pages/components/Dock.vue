@@ -97,12 +97,14 @@ function onKeydown(event: KeyboardEvent): void {
 }
 
 function measureNavOffset(): number {
-  const nav = document.querySelector(".vd-navbar");
-  if (!nav) return 64;
-  const rect = nav.getBoundingClientRect();
-  // Floating/glass chrome is inset from the viewport top — height alone
-  // tucks the overlay under the pill. bottom is the first clear pixel.
-  return Math.ceil(Math.max(rect.height, rect.bottom));
+  const dock = document.querySelector(".vd-site-dock.vd-dock-fixed");
+  if (!dock) return 64;
+  const rect = dock.getBoundingClientRect();
+  // Prefer the edge that still occupies the top of the viewport (top placement).
+  // Otherwise return bottom clearance so expanded playground sits above a
+  // bottom dock, or a small top inset for left/right.
+  if (rect.top <= 8) return Math.ceil(Math.max(rect.height, rect.bottom));
+  return 16;
 }
 
 function enterExpanded(): void {
@@ -242,7 +244,7 @@ const itemApi: [string, string][] = [
       Package defaults stay <code>placement="bottom"</code>, no tint, radius
       <code>1.25</code>, glass <code>34</code>. This playground starts at
       <strong
-        >bottom / theme ink (light black, dark green) / radius 2 / glass 34 / ū
+        >bottom / theme ink (light black, dark green) / radius 1.5 / glass 34 / ū
         / stack</strong
       >. Brand click here cycles <code>bottom</code> → <code>left</code> →
       <code>top</code> → <code>right</code> → <code>bottom</code>. The package

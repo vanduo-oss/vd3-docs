@@ -28,3 +28,9 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
     dispatchEvent: vi.fn(),
   }));
 }
+
+// Vite injects this at build time; unit tests need a stand-in.
+if (typeof (globalThis as unknown as { __APP_VERSION__?: string }).__APP_VERSION__ === "undefined") {
+  (globalThis as unknown as { __APP_VERSION__: string }).__APP_VERSION__ =
+    "0.0.0-test";
+}

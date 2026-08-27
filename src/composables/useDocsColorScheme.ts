@@ -6,12 +6,17 @@ import {
   type ComputedRef,
   type Ref,
 } from "vue";
-import type { DockRadius, DockTint } from "@vanduo-oss/vd3";
+import { DOCK_TINTS, type DockRadius, type DockTint } from "@vanduo-oss/vd3";
+import {
+  DOCS_DEFAULT_PRIMARY_DARK,
+  docsDefaultPrimary,
+  type DocsColorScheme,
+} from "@/constants/docsPrimary";
 
-/** Docs demo/home dock radius — 2 (one step below pill). Package default stays 1.25. */
-export const DOCS_DOCK_RADIUS = "2" as const satisfies DockRadius;
+/** Docs demo/home dock radius — 1.5. Package default stays 1.25. */
+export const DOCS_DOCK_RADIUS = "1.5" as const satisfies DockRadius;
 
-export type DocsColorScheme = "light" | "dark";
+export type { DocsColorScheme };
 
 /**
  * Effective light/dark for docs chrome. Same contract as Hex / CBUN hex:
@@ -29,27 +34,50 @@ export function readDocsColorScheme(): DocsColorScheme {
     : "light";
 }
 
-/** Light = ink (no tint / black frost). Dark = OC-8 green swatch. */
-export function docsDockTint(scheme: DocsColorScheme): DockTint | "" {
-  return scheme === "dark" ? "green" : "";
+export function readDocsPrimary(): string {
+  const scheme = readDocsColorScheme();
+  if (typeof document === "undefined") return docsDefaultPrimary(scheme);
+  return (
+    document.documentElement.getAttribute("data-primary") ||
+    docsDefaultPrimary(scheme)
+  );
 }
 
 /**
- * Reactive scheme + default dock tint. Updates when the navbar/package
- * switcher flips `data-theme`, or when OS scheme changes under `system`.
+ * Light = untinted ink frost. Dark + Ink (black) = same untinted frost.
+ * Dark + DOCK_TINT primary = that hue; unknown → docs dark default (blue).
+ */
+export function docsDockTint(
+  scheme: DocsColorScheme,
+  primary: string = DOCS_DEFAULT_PRIMARY_DARK,
+): DockTint | "" {
+  if (scheme !== "dark") return "";
+  if (primary === "black") return "";
+  if ((DOCK_TINTS as readonly string[]).includes(primary)) {
+    return primary as DockTint;
+  }
+  return DOCS_DEFAULT_PRIMARY_DARK;
+}
+
+/**
+ * Reactive scheme + dock tint. Updates when the theme switcher flips
+ * `data-theme` / `data-primary`, or when OS scheme changes under `system`.
  */
 export function useDocsColorScheme(): {
   scheme: Ref<DocsColorScheme>;
+  primary: Ref<string>;
   dockTint: ComputedRef<DockTint | "">;
 } {
   const scheme = ref<DocsColorScheme>(readDocsColorScheme());
-  const dockTint = computed(() => docsDockTint(scheme.value));
+  const primary = ref<string>(readDocsPrimary());
+  const dockTint = computed(() => docsDockTint(scheme.value, primary.value));
 
   let mq: MediaQueryList | null = null;
   let mo: MutationObserver | null = null;
 
   const sync = (): void => {
     scheme.value = readDocsColorScheme();
+    primary.value = readDocsPrimary();
   };
 
   onMounted(() => {
@@ -62,7 +90,7 @@ export function useDocsColorScheme(): {
       mo = new MutationObserver(sync);
       mo.observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ["data-theme"],
+        attributeFilter: ["data-theme", "data-primary"],
       });
     }
   });
@@ -72,5 +100,5 @@ export function useDocsColorScheme(): {
     mo?.disconnect();
   });
 
-  return { scheme, dockTint };
+  return { scheme, primary, dockTint };
 }

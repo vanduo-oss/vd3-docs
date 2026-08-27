@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useThemeStore } from "@/stores/theme";
 import { useClickOutside } from "@/composables/useClickOutside";
-import { PRIMARY_COLORS } from "@vanduo-oss/vd3";
+import { useDocsColorScheme } from "@/composables/useDocsColorScheme";
+import { docsPrimarySwatches } from "@/constants/docsPrimary";
 
 const theme = useThemeStore();
+const { scheme } = useDocsColorScheme();
+const primarySwatches = computed(() => docsPrimarySwatches(scheme.value));
 const isOpen = ref(false);
 const panelRef = ref<HTMLElement | null>(null);
 const triggerRef = ref<HTMLElement | null>(null);
 
 const PANEL_WIDTH = 320;
 const MOBILE_BREAKPOINT = 768;
+const GAP = 8;
 
 const resetPanelPosition = (): void => {
   const panel = panelRef.value;
@@ -18,11 +22,18 @@ const resetPanelPosition = (): void => {
   panel.style.top = "";
   panel.style.right = "";
   panel.style.left = "";
+  panel.style.bottom = "";
   panel.style.height = "";
   panel.style.maxHeight = "";
 };
 
-/** Align teleported panel under the navbar trigger (framework customizer parity). */
+const clampRight = (preferredRight: number, viewportWidth: number): number => {
+  const panelLeft = viewportWidth - preferredRight - PANEL_WIDTH;
+  if (panelLeft < GAP) return viewportWidth - PANEL_WIDTH - GAP;
+  return preferredRight;
+};
+
+/** Anchor teleported panel near the dock action trigger for any edge. */
 const positionPanel = (): void => {
   const panel = panelRef.value;
   const trigger = triggerRef.value;
@@ -34,20 +45,54 @@ const positionPanel = (): void => {
   }
 
   const triggerRect = trigger.getBoundingClientRect();
-  const panelTop = triggerRect.bottom + 8;
   const viewportWidth = window.innerWidth;
-  let panelRight = viewportWidth - triggerRect.right;
+  const viewportHeight = window.innerHeight;
+  const edge =
+    document.documentElement.getAttribute("data-docs-dock") || "bottom";
 
-  const panelLeft = viewportWidth - panelRight - PANEL_WIDTH;
-  if (panelLeft < 8) {
-    panelRight = viewportWidth - PANEL_WIDTH - 8;
+  panel.style.height = "auto";
+  panel.style.left = "";
+  panel.style.right = "";
+  panel.style.top = "";
+  panel.style.bottom = "";
+
+  if (edge === "top") {
+    const panelTop = triggerRect.bottom + GAP;
+    const panelRight = clampRight(
+      viewportWidth - triggerRect.right,
+      viewportWidth,
+    );
+    panel.style.top = `${panelTop}px`;
+    panel.style.right = `${panelRight}px`;
+    panel.style.maxHeight = `${Math.max(160, viewportHeight - panelTop - GAP)}px`;
+    return;
   }
 
-  panel.style.top = `${panelTop}px`;
+  if (edge === "left") {
+    const panelLeft = triggerRect.right + GAP;
+    panel.style.left = `${panelLeft}px`;
+    panel.style.top = `${Math.max(GAP, triggerRect.top)}px`;
+    panel.style.maxHeight = `${Math.max(160, viewportHeight - triggerRect.top - GAP)}px`;
+    return;
+  }
+
+  if (edge === "right") {
+    const panelRight = viewportWidth - triggerRect.left + GAP;
+    panel.style.right = `${panelRight}px`;
+    panel.style.top = `${Math.max(GAP, triggerRect.top)}px`;
+    panel.style.maxHeight = `${Math.max(160, viewportHeight - triggerRect.top - GAP)}px`;
+    return;
+  }
+
+  // bottom (default): float the panel above the dock trigger
+  const panelRight = clampRight(
+    viewportWidth - triggerRect.right,
+    viewportWidth,
+  );
   panel.style.right = `${panelRight}px`;
-  panel.style.left = "";
-  panel.style.height = "auto";
-  panel.style.maxHeight = `calc(100vh - ${panelTop}px)`;
+  panel.style.bottom = `${viewportHeight - triggerRect.top + GAP}px`;
+  panel.style.top = "auto";
+  panel.style.maxHeight = `${Math.max(160, triggerRect.top - GAP * 2)}px`;
 };
 
 const open = (): void => {
@@ -70,7 +115,7 @@ const onKeydown = (event: KeyboardEvent): void => {
 };
 
 const onReposition = (): void => {
-  positionPanel();
+  if (isOpen.value) positionPanel();
 };
 
 watch(isOpen, async (open) => {
@@ -84,11 +129,13 @@ onMounted(() => {
   window.addEventListener("keydown", onKeydown);
   window.addEventListener("vd:open-customizer", open);
   window.addEventListener("resize", onReposition);
+  window.addEventListener("scroll", onReposition, true);
 });
 onUnmounted(() => {
   window.removeEventListener("keydown", onKeydown);
   window.removeEventListener("vd:open-customizer", open);
   window.removeEventListener("resize", onReposition);
+  window.removeEventListener("scroll", onReposition, true);
 });
 
 defineExpose({ open, close, toggle });
@@ -123,29 +170,17 @@ defineExpose({ open, close, toggle });
         aria-label="Theme customizer"
       >
         <div class="vd-theme-customizer-panel-inner">
-          <div class="tc-header">
-            <h3 class="tc-title">Customize Theme</h3>
-            <button
-              type="button"
-              class="customizer-mobile-close"
-              aria-label="Close"
-              @click="close"
-            >
-              <i class="ph-bold ph-x"></i>
-            </button>
-          </div>
           <div class="tc-body">
             <!--
               Docs-site lock-in: only Primary Color is user-editable here.
               Palette / Neutral / Radius / Font stay forced to docs defaults
-              (see theme store applyDocsLockedPrefs). The framework
-              VdThemeCustomizer still ships the full control set for consumers.
+              (see theme store applyDocsLockedPrefs). Both schemes offer Ink
+              (black) + eight DOCK_TINTS; default primary for new visitors is blue.
             -->
             <div class="tc-section">
-              <label class="tc-label">Primary Color</label>
               <div class="tc-color-grid">
                 <button
-                  v-for="c in PRIMARY_COLORS"
+                  v-for="c in primarySwatches"
                   :key="c.key"
                   type="button"
                   class="tc-color-swatch"
@@ -158,15 +193,6 @@ defineExpose({ open, close, toggle });
                 ></button>
               </div>
             </div>
-          </div>
-          <div class="tc-footer">
-            <button
-              type="button"
-              class="customizer-reset btn btn-sm btn-outline"
-              @click="theme.reset"
-            >
-              Reset to Defaults
-            </button>
           </div>
         </div>
       </aside>

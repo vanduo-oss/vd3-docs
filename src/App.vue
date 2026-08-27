@@ -2,8 +2,7 @@
 import { computed, onMounted } from "vue";
 import { RouterView, useRoute } from "vue-router";
 import { useHead } from "@unhead/vue";
-import VdNavbar from "@/layout/VdNavbar.vue";
-import VdFooter from "@/layout/VdFooter.vue";
+import VdSiteDock from "@/layout/VdSiteDock.vue";
 import DocsLayout from "@/layout/DocsLayout.vue";
 import GlobalSearchModal from "@/overlays/GlobalSearchModal.vue";
 import LiveCustomizer from "@/overlays/LiveCustomizer.vue";
@@ -59,7 +58,7 @@ onMounted(() => {
 <template>
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <VdNavbar />
+  <VdSiteDock />
 
   <main id="main-content">
     <DocsLayout v-if="route.meta.layout === 'docs'">
@@ -67,8 +66,6 @@ onMounted(() => {
     </DocsLayout>
     <RouterView v-else />
   </main>
-
-  <VdFooter />
 
   <GlobalSearchModal />
   <LiveCustomizer />

@@ -10,7 +10,7 @@ the docs-local ū mark on the left. The page MUST document that consumers
 replace that icon via `#brand`, and MUST document `radius`, `glass`, `tint`,
 and `itemLayout`. A page-local live customizer SHALL drive those real props
 (plus orientation) without writing `useThemePreference()` or `<html data-*>`.
-Reset SHALL restore ū, glass 34, radius 2, stack, and the
+Reset SHALL restore ū, glass 34, radius 1.5, stack, and the
 theme-aware tint (ink / no tint in light, Open Color green in dark).
 
 #### Scenario: live dock
@@ -24,7 +24,7 @@ theme-aware tint (ink / no tint in light, Open Color green in dark).
 
 The home page SHALL include `#home-oola` between the hero and
 `#home-seemore`. At scroll 0 it MUST show a single horizontal contained
-`VdDock` with ū on the left, radius 2, and a theme-aware tint
+`VdDock` with ū on the left, radius 1.5, and a theme-aware tint
 (ink / no tint in light, Open Color green in dark). Further scroll MAY fan
 eight Open Color tinted docks around that mark, then assemble a vertical
 stack with copy on the right and a CTA to `/components/dock`.

@@ -101,12 +101,14 @@ html {
   );
   --vd-color-muted: var(--vd-text-muted);
 
-  /* Docs shell chrome — rem at 16px baseline, scales with font-size above */
-
-  /* Float inset (~fib-8…21) + bar height — keep content clear of capsule.
-     4.5rem = ~72px preview bar (was 4rem for the 64px preview). */
-  --docs-main-offset: calc(4.5rem + var(--vd-navbar-float-inset, 0.75rem));
-  --docs-sticky-offset: calc(4.875rem + var(--vd-navbar-float-inset, 0.75rem));
+  /* Docs shell chrome — rem at 16px baseline, scales with font-size above.
+     Offsets clear the fixed site dock (data-docs-dock) instead of a top navbar. */
+  --docs-dock-clearance: 5.75rem;
+  --docs-dock-edge-pad-bottom: 0;
+  --docs-dock-edge-pad-left: 0;
+  --docs-dock-edge-pad-right: 0;
+  --docs-main-offset: 1rem;
+  --docs-sticky-offset: 1rem;
 
   /* Sticky affix under the floating pill: main-offset clears the capsule,
      +0.5rem is a small intentional gap (a 64px offset assumed a full-bleed bar). */
@@ -117,6 +119,42 @@ html {
   --docs-sidebar-tablet-max-offset: 9.375rem; /* was 150px */
   --docs-main-min-height-offset: 12.5rem; /* was 200px */
   --docs-mobile-nav-extra: 3.75rem; /* was 60px */
+}
+
+html[data-docs-dock="bottom"],
+html:not([data-docs-dock]) {
+  --docs-main-offset: 1rem;
+  --docs-sticky-offset: 1rem;
+  --docs-dock-edge-pad-bottom: var(--docs-dock-clearance);
+}
+
+html[data-docs-dock="top"] {
+  --docs-main-offset: var(--docs-dock-clearance);
+  --docs-sticky-offset: var(--docs-dock-clearance);
+  --docs-dock-edge-pad-bottom: 0;
+}
+
+html[data-docs-dock="left"],
+html[data-docs-dock="right"] {
+  /* Match fixed dock footprint (height + inset) plus a small gap so content
+     is pushed aside instead of sitting under the vertical pill. */
+  --docs-dock-clearance: calc(
+    var(--vd-dock-height) + var(--vd-dock-inset) + 0.5rem
+  );
+}
+
+html[data-docs-dock="left"] {
+  --docs-main-offset: 1rem;
+  --docs-sticky-offset: 1rem;
+  --docs-dock-edge-pad-left: var(--docs-dock-clearance);
+  --docs-dock-edge-pad-bottom: 0;
+}
+
+html[data-docs-dock="right"] {
+  --docs-main-offset: 1rem;
+  --docs-sticky-offset: 1rem;
+  --docs-dock-edge-pad-right: var(--docs-dock-clearance);
+  --docs-dock-edge-pad-bottom: 0;
 }
 
 html[data-font="nunito"],
@@ -222,46 +260,40 @@ select,
   padding-bottom: 0.5rem;
 }
 
-/* ── Dark mode scrollbars (docs) ─────────────────── */
-[data-theme="dark"] {
-  --vd-bg-primary: var(--vd-charcoal-9);
-  --docs-scrollbar-thumb: color-mix(
-    in srgb,
-    var(--vd-text-secondary) 38%,
-    var(--vd-bg-primary)
-  );
-  --docs-scrollbar-track: color-mix(
-    in srgb,
-    var(--vd-bg-secondary) 55%,
-    transparent
-  );
-}
-
-[data-theme="dark"],
-[data-theme="dark"] * {
+/* ── Docs scrollbars (theme-aware, both schemes) ───
+   Custom styles for light + dark so WebKit/Blink do not fall back to the
+   native light-mode track (dark fill + white outline). Track stays
+   transparent; thumb uses token mixes that adapt with the scheme.
+   Token vars live on the shared :root block below. */
+:root,
+:root * {
   scrollbar-width: thin;
   scrollbar-color: var(--docs-scrollbar-thumb) var(--docs-scrollbar-track);
 }
 
-[data-theme="dark"]::-webkit-scrollbar,
-[data-theme="dark"] *::-webkit-scrollbar {
+:root::-webkit-scrollbar,
+:root *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-[data-theme="dark"]::-webkit-scrollbar-track,
-[data-theme="dark"] *::-webkit-scrollbar-track {
+:root::-webkit-scrollbar-track,
+:root *::-webkit-scrollbar-track {
   background: var(--docs-scrollbar-track);
+  border: none;
+  box-shadow: none;
 }
 
-[data-theme="dark"]::-webkit-scrollbar-thumb,
-[data-theme="dark"] *::-webkit-scrollbar-thumb {
+:root::-webkit-scrollbar-thumb,
+:root *::-webkit-scrollbar-thumb {
   background: var(--docs-scrollbar-thumb);
+  border: none;
   border-radius: 4px;
+  box-shadow: none;
 }
 
-[data-theme="dark"]::-webkit-scrollbar-thumb:hover,
-[data-theme="dark"] *::-webkit-scrollbar-thumb:hover {
+:root::-webkit-scrollbar-thumb:hover,
+:root *::-webkit-scrollbar-thumb:hover {
   background: color-mix(
     in srgb,
     var(--docs-scrollbar-thumb) 82%,
@@ -269,51 +301,13 @@ select,
   );
 }
 
+[data-theme="dark"] {
+  --vd-bg-primary: var(--vd-charcoal-9);
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --vd-bg-primary: var(--vd-charcoal-9);
-    --docs-scrollbar-thumb: color-mix(
-      in srgb,
-      var(--vd-text-secondary) 38%,
-      var(--vd-bg-primary)
-    );
-    --docs-scrollbar-track: color-mix(
-      in srgb,
-      var(--vd-bg-secondary) 55%,
-      transparent
-    );
-  }
-
-  :root:not([data-theme]),
-  :root:not([data-theme]) * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--docs-scrollbar-thumb) var(--docs-scrollbar-track);
-  }
-
-  :root:not([data-theme])::-webkit-scrollbar,
-  :root:not([data-theme]) *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  :root:not([data-theme])::-webkit-scrollbar-track,
-  :root:not([data-theme]) *::-webkit-scrollbar-track {
-    background: var(--docs-scrollbar-track);
-  }
-
-  :root:not([data-theme])::-webkit-scrollbar-thumb,
-  :root:not([data-theme]) *::-webkit-scrollbar-thumb {
-    background: var(--docs-scrollbar-thumb);
-    border-radius: 4px;
-  }
-
-  :root:not([data-theme])::-webkit-scrollbar-thumb:hover,
-  :root:not([data-theme]) *::-webkit-scrollbar-thumb:hover {
-    background: color-mix(
-      in srgb,
-      var(--docs-scrollbar-thumb) 82%,
-      var(--vd-text-primary)
-    );
   }
 }
 
@@ -326,6 +320,25 @@ html[data-theme="dark"][data-primary="green"] {
   --vd-color-primary-active: var(--vd-green-9);
 }
 
+/* Dark + ink (black): lift accents to mid/light greys so they read on dark bg.
+   Package black ramp is near-black at stops 7–9; semantic primary-4 is usable
+   but brand marks / filled chrome need the lighter grey stops. */
+html[data-theme="dark"][data-primary="black"] {
+  --vd-color-primary: var(--vd-primary-3);
+  --vd-color-primary-light: var(--vd-primary-2);
+  --vd-color-primary-dark: var(--vd-primary-4);
+  --vd-color-primary-hover: var(--vd-primary-2);
+  --vd-color-primary-active: var(--vd-primary-4);
+  --vd-brand-accent: var(--vd-primary-3);
+  --vd3-mark-inner-light: var(--vd-primary-2);
+  --vd3-mark-inner-dark: var(--vd-primary-4);
+  --vd3-mark-outer-fill: color-mix(
+    in srgb,
+    var(--vd-primary-3) 85%,
+    var(--vd-primary-5)
+  );
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme])[data-primary="green"] {
     --vd-color-primary: var(--vd-green-8);
@@ -334,10 +347,32 @@ html[data-theme="dark"][data-primary="green"] {
     --vd-color-primary-hover: var(--vd-green-7);
     --vd-color-primary-active: var(--vd-green-9);
   }
+
+  :root:not([data-theme])[data-primary="black"] {
+    --vd-color-primary: var(--vd-primary-3);
+    --vd-color-primary-light: var(--vd-primary-2);
+    --vd-color-primary-dark: var(--vd-primary-4);
+    --vd-color-primary-hover: var(--vd-primary-2);
+    --vd-color-primary-active: var(--vd-primary-4);
+    --vd-brand-accent: var(--vd-primary-3);
+    --vd3-mark-inner-light: var(--vd-primary-2);
+    --vd3-mark-inner-dark: var(--vd-primary-4);
+    --vd3-mark-outer-fill: color-mix(
+      in srgb,
+      var(--vd-primary-3) 85%,
+      var(--vd-primary-5)
+    );
+  }
 }
 
 /* ── Brand mark tokens (track active data-primary) ── */
 :root {
+  --docs-scrollbar-thumb: color-mix(
+    in srgb,
+    var(--vd-text-secondary) 38%,
+    var(--vd-bg-primary)
+  );
+  --docs-scrollbar-track: transparent;
   --vd-brand-accent: var(--vd-primary-8);
   --vd3-mark-inner-light: var(--vd-brand-accent);
   --vd3-mark-inner-dark: var(--vd-primary-9);
@@ -2321,6 +2356,38 @@ a:hover .vd-card-interactive.vd-card-glow {
   align-items: stretch;
 }
 
+#docs-landing .docs-landing-resources {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid
+    color-mix(in srgb, var(--vd-border-color) 70%, transparent);
+}
+
+#docs-landing .docs-landing-resources-title {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: var(--vd-text-primary);
+}
+
+#docs-landing .docs-landing-resources-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#docs-landing .docs-landing-resources-list a {
+  color: var(--vd-color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#docs-landing .docs-landing-resources-list a:hover {
+  text-decoration: underline;
+}
+
 #docs-landing .docs-landing-link {
   display: block;
   min-width: 0;
@@ -2935,17 +3002,161 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 /* ── Global Search ──────────────────────────────── */
 
-/* Always-visible navbar actions (search + theme) */
-.navbar-actions-always {
+/* Site dock action chrome (search + theme + customizer) */
+.vd-site-dock .vd-dock-actions {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  margin-left: auto;
-  order: 99;
-  transform: translateY(1px);
+  gap: 0.25rem;
 }
 
-/* Navbar trigger button — chess-like borderless chrome */
+.vd-site-dock.is-vertical .vd-dock-actions {
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Unify brand corners: horizontal always left, vertical always bottom
+   (package defaults mirror opposite edges via row-/column-reverse). */
+.vd-site-dock.vd-dock-edge-top:not(.is-square),
+.vd-site-dock.vd-dock-edge-top.is-horizontal {
+  flex-direction: row;
+}
+
+.vd-site-dock.vd-dock-edge-right:not(.is-square),
+.vd-site-dock.vd-dock-edge-right.is-vertical {
+  flex-direction: column-reverse;
+}
+
+/* Thin the site dock short axis (horizontal height / vertical width).
+   Package default is 5.4rem — 75% × 1.05² keeps icons usable with less chrome. */
+.vd-site-dock {
+  --vd-dock-height: 4.465125rem; /* 5.4rem * 0.75 * 1.05 * 1.05 */
+}
+
+/* Central nav: slightly larger icons + labels than package defaults. */
+.vd-site-dock .vd-dock-links .vd-dock-item .ph {
+  font-size: 1.125rem; /* was vd-text-base (1rem) via VdIcon sm */
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-label {
+  font-size: 0.625rem; /* package default 0.55rem */
+}
+
+/* Avoid animating horizontal width when not morphing — scrollbar / layout
+   viewport changes would otherwise jiggle the bottom/top pill across routes. */
+.vd-site-dock.vd-dock-edge-bottom:not(.is-square, .is-morphing),
+.vd-site-dock.vd-dock-edge-top:not(.is-square, .is-morphing) {
+  transition-property:
+    height, min-height, left, right, top, bottom, transform, padding, gap,
+    flex-direction;
+}
+
+.vd-site-dock .vd-site-dock-brand-mark,
+.vd-site-dock .vd-site-dock-brand-mark svg {
+  width: var(--vd-dock-brand-size);
+  height: var(--vd-dock-brand-size);
+  display: block;
+}
+
+/* Brand mark: idle still; hover ramps slow→medium; morph spins fast. */
+@property --vd-site-dock-brand-spin {
+  syntax: "<time>";
+  inherits: true;
+  initial-value: 12s;
+}
+
+@keyframes vd-site-dock-brand-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.vd-site-dock .vd-dock-brand .vd3-mark-spin {
+  transform-origin: 361px 361px;
+  animation: vd-site-dock-brand-spin var(--vd-site-dock-brand-spin) linear
+    infinite;
+  animation-play-state: paused;
+  transition: --vd-site-dock-brand-spin 1s ease;
+}
+
+.vd-site-dock .vd-dock-brand:hover .vd3-mark-spin,
+.vd-site-dock .vd-dock-brand:focus-visible .vd3-mark-spin {
+  animation-play-state: running;
+  --vd-site-dock-brand-spin: 5s;
+}
+
+.vd-site-dock.is-morphing .vd-dock-brand .vd3-mark-spin {
+  animation-play-state: running;
+  --vd-site-dock-brand-spin: 0.9s;
+  transition: --vd-site-dock-brand-spin 0.15s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vd-site-dock .vd-dock-brand .vd3-mark-spin {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Light scheme: site dock is ink glass — page primary greens (7–9) disappear
+   on it. Soft light chrome matches nav/action icons; dark scheme keeps greens. */
+[data-theme="light"] .vd-site-dock .vd-site-dock-brand-mark {
+  --vd3-mark-inner-light: color-mix(in srgb, #fff 78%, #8a9199);
+  --vd3-mark-inner-dark: color-mix(in srgb, #fff 42%, #6b737c);
+  --vd3-mark-outer-fill: color-mix(in srgb, #fff 58%, #7a828a);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .vd-site-dock .vd-site-dock-brand-mark {
+    --vd3-mark-inner-light: color-mix(in srgb, #fff 78%, #8a9199);
+    --vd3-mark-inner-dark: color-mix(in srgb, #fff 42%, #6b737c);
+    --vd3-mark-outer-fill: color-mix(in srgb, #fff 58%, #7a828a);
+  }
+}
+
+.vd-site-dock .global-search-trigger,
+.vd-site-dock .vd-theme-customizer-trigger,
+.vd-site-dock .vd-theme-switcher-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 0;
+  padding: 0;
+  opacity: 0.85;
+}
+
+.vd-site-dock .global-search-trigger:hover,
+.vd-site-dock .vd-theme-customizer-trigger:hover,
+.vd-site-dock .vd-theme-customizer-trigger[aria-expanded="true"],
+.vd-site-dock .vd-theme-switcher-toggle:hover,
+.vd-site-dock .vd-theme-switcher-toggle.dark-mode-toggle:hover {
+  opacity: 1;
+  color: var(--vd-text-primary);
+  border-color: transparent;
+  background: transparent;
+}
+
+.vd-site-dock .vd-theme-switcher,
+.vd-site-dock .vd-theme-customizer {
+  display: inline-flex;
+  align-items: center;
+}
+
+.vd-site-dock .global-search-trigger i,
+.vd-site-dock .vd-theme-switcher-toggle .ph,
+.vd-site-dock .vd-theme-customizer-trigger i {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+/* Navbar trigger button — chess-like borderless chrome (legacy demos) */
 .global-search-trigger {
   display: inline-flex;
   align-items: center;

@@ -45,6 +45,7 @@ interface Route {
 
 const ROUTES: readonly Route[] = [
   { path: '/', label: 'home' },
+  { path: '/docs-landing', label: 'docs-landing' },
   { path: '/components/button', label: 'components-button' },
   { path: '/components/forms', label: 'components-forms' },
   { path: '/guides/getting-started', label: 'guides-getting-started' },

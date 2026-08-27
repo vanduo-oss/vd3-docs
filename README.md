@@ -74,7 +74,7 @@ src/
   router.ts           # route table
   nav.ts              # navigation tree
   pages/              # one SFC per route (component demos, guides, core, effects)
-  layout/             # VdNavbar, VdFooter, sidenav, etc.
+  layout/             # VdSiteDock, sidenav, docs layout, etc.
   overlays/           # VdThemeCustomizer, VdThemeSwitcher, search modal
   customizer/         # theme-customizer pieces
   composables/        # reusable composition functions
