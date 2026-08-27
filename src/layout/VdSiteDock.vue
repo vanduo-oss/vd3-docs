@@ -5,6 +5,7 @@ import {
   VdDock,
   VdDockItem,
   dockOrientationOf,
+  useTooltips,
   type DockItemLayout,
   type DockPlacement,
 } from "@vanduo-oss/vd3";
@@ -22,12 +23,27 @@ const route = useRoute();
 const router = useRouter();
 const { dockTint } = useDocsColorScheme();
 const placement = ref<DockPlacement>("bottom");
-const dockRef = ref<{ $el?: HTMLElement } | null>(null);
+const tooltipRoot = ref<HTMLElement | null>(null);
+const dockEl = ref<HTMLElement | null>(null);
 
-/** Horizontal edges: icon+label inline; vertical edges: stacked. */
+/** Horizontal edges: inline class for package; CSS centers icon-only items. */
 const itemLayout = computed<DockItemLayout>(() =>
   dockOrientationOf(placement.value) === "horizontal" ? "inline" : "stack",
 );
+
+/** Tooltip opens away from the dock edge. */
+const tooltipPlacement = computed(() => {
+  switch (placement.value) {
+    case "top":
+      return "bottom";
+    case "left":
+      return "right";
+    case "right":
+      return "left";
+    default:
+      return "top";
+  }
+});
 
 const links = [
   { id: "home", label: "Home", icon: "house", to: "/" },
@@ -71,17 +87,27 @@ const syncDockAttr = (edge: DockPlacement): void => {
   document.documentElement.setAttribute("data-docs-dock", edge);
 };
 
+/** Function ref so $el is set before useTooltips' onMounted scan. */
+const setDockRef = (inst: unknown): void => {
+  const el = (inst as { $el?: unknown } | null)?.$el;
+  const node = el instanceof HTMLElement ? el : null;
+  dockEl.value = node;
+  tooltipRoot.value = node;
+};
+
+useTooltips(tooltipRoot);
+
 watch(placement, syncDockAttr, { immediate: true });
 
 onMounted(() => {
-  const el = dockRef.value?.$el;
+  const el = dockEl.value;
   if (el instanceof HTMLElement) {
     el.addEventListener("click", onDockClick);
   }
 });
 
 onUnmounted(() => {
-  const el = dockRef.value?.$el;
+  const el = dockEl.value;
   if (el instanceof HTMLElement) {
     el.removeEventListener("click", onDockClick);
   }
@@ -92,7 +118,7 @@ onUnmounted(() => {
 
 <template>
   <VdDock
-    ref="dockRef"
+    :ref="setDockRef"
     class="vd-site-dock"
     v-model:placement="placement"
     position="fixed"
@@ -105,7 +131,7 @@ onUnmounted(() => {
     label="Site"
   >
     <template #brand>
-      <Vd3BrandMark size="2.25rem" class="vd-site-dock-brand-mark" />
+      <Vd3BrandMark size="2.75rem" class="vd-site-dock-brand-mark" />
     </template>
 
     <VdDockItem
@@ -114,6 +140,9 @@ onUnmounted(() => {
       :icon="link.icon"
       :label="link.label"
       :active="activeId === link.id"
+      :data-tooltip="link.label"
+      :data-tooltip-placement="tooltipPlacement"
+      data-tooltip-variant="glass"
     />
 
     <template #actions>

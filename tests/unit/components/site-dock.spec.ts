@@ -44,13 +44,18 @@ const mountDock = async (): Promise<{
 };
 
 describe("VdSiteDock", () => {
-  it("renders brand, nav items, and action triggers", async () => {
+  it("renders brand, icon-only nav items with tooltips, and action triggers", async () => {
     const { wrapper } = await mountDock();
     expect(wrapper.find(".vd-brand-mark").exists()).toBe(true);
-    expect(wrapper.text()).toContain("Home");
-    expect(wrapper.text()).toContain("Docs");
-    expect(wrapper.text()).toContain("CBUN");
-    expect(wrapper.text()).toContain("Showcase");
+
+    for (const label of ["Home", "Docs", "CBUN", "Showcase"] as const) {
+      const item = wrapper.get(`button.vd-dock-item[aria-label="${label}"]`);
+      expect(item.attributes("data-tooltip")).toBe(label);
+      expect(item.attributes("data-tooltip-placement")).toBe("top");
+      expect(item.attributes("data-tooltip-variant")).toBe("glass");
+    }
+
+    expect(wrapper.find(".vd-dock-links .vd-dock-label").exists()).toBe(true);
     expect(
       wrapper.find('button[aria-label="Open global search"]').exists(),
     ).toBe(true);
@@ -101,6 +106,29 @@ describe("VdSiteDock", () => {
     const dock = wrapper.find(".vd-dock");
     expect(dock.classes()).toContain("vd-dock-items-stack");
     expect(dock.classes()).not.toContain("vd-dock-items-inline");
+
+    const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
+    expect(home.attributes("data-tooltip-placement")).toBe("right");
+    wrapper.unmount();
+  });
+
+  it("maps tooltip placement away from each dock edge", async () => {
+    const { wrapper } = await mountDock();
+    const vm = wrapper.vm as unknown as { placement: string };
+    const home = () =>
+      wrapper.get('button.vd-dock-item[aria-label="Home"]');
+
+    const cases: Array<[string, string]> = [
+      ["bottom", "top"],
+      ["top", "bottom"],
+      ["left", "right"],
+      ["right", "left"],
+    ];
+    for (const [edge, tip] of cases) {
+      vm.placement = edge;
+      await flushPromises();
+      expect(home().attributes("data-tooltip-placement")).toBe(tip);
+    }
     wrapper.unmount();
   });
 });

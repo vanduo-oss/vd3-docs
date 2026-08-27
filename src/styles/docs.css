@@ -102,8 +102,9 @@ html {
   --vd-color-muted: var(--vd-text-muted);
 
   /* Docs shell chrome — rem at 16px baseline, scales with font-size above.
-     Offsets clear the fixed site dock (data-docs-dock) instead of a top navbar. */
-  --docs-dock-clearance: 5.75rem;
+     Offsets clear the fixed site dock (data-docs-dock) instead of a top navbar.
+     ~6.75rem dock height + inset (~1.3125rem) + small gap. */
+  --docs-dock-clearance: 8.25rem;
   --docs-dock-edge-pad-bottom: 0;
   --docs-dock-edge-pad-left: 0;
   --docs-dock-edge-pad-right: 0;
@@ -1320,9 +1321,11 @@ section:last-of-type {
   overflow-wrap: break-word;
 }
 
-.doc-nav-link:hover {
+.doc-nav-link:hover,
+.doc-nav-link:focus {
   color: var(--vd-color-primary);
   background-color: var(--vd-bg-secondary);
+  text-decoration: none;
 }
 
 .doc-nav-link.active {
@@ -3026,19 +3029,34 @@ a:hover .vd-card-interactive.vd-card-glow {
   flex-direction: column-reverse;
 }
 
-/* Thin the site dock short axis (horizontal height / vertical width).
-   Package default is 5.4rem — 75% × 1.05² keeps icons usable with less chrome. */
+/* MacOS-style site dock: thick pill + large icon-only nav (labels via tooltip). */
 .vd-site-dock {
-  --vd-dock-height: 4.465125rem; /* 5.4rem * 0.75 * 1.05 * 1.05 */
+  --vd-dock-height: 6.75rem;
+  --vd-dock-brand-size: 2.75rem;
 }
 
-/* Central nav: slightly larger icons + labels than package defaults. */
+/* Central nav: ~48px phosphor glyphs, no visible labels. */
+.vd-site-dock .vd-dock-links .vd-dock-item {
+  gap: 0;
+  padding: 0.35rem 0.55rem;
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+}
+
 .vd-site-dock .vd-dock-links .vd-dock-item .ph {
-  font-size: 1.125rem; /* was vd-text-base (1rem) via VdIcon sm */
+  font-size: 3rem;
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-label {
-  font-size: 0.625rem; /* package default 0.55rem */
+  display: none;
+}
+
+/* Icon-only: center glyphs regardless of inline/stack itemLayout. */
+.vd-site-dock.vd-dock-items-inline .vd-dock-links .vd-dock-item,
+.vd-site-dock.vd-dock-items-stack .vd-dock-links .vd-dock-item {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Avoid animating horizontal width when not morphing — scrollbar / layout

@@ -29,14 +29,24 @@ test.describe("Site Oola dock chrome", () => {
     await expect(dock).toHaveClass(/vd-dock-edge-bottom/);
     await expect(dock).toHaveClass(/vd-dock-items-inline/);
     await expect(dock).toHaveCSS("--vd-dock-radius", "1.5rem");
-    await expect(dock.getByRole("button", { name: "Home" })).toBeVisible();
-    await expect(dock.getByRole("button", { name: "Docs" })).toBeVisible();
+    const home = dock.getByRole("button", { name: "Home" });
+    const docs = dock.getByRole("button", { name: "Docs" });
+    await expect(home).toBeVisible();
+    await expect(docs).toBeVisible();
+    await expect(home).toHaveAttribute("data-tooltip", "Home");
+    await expect(home).toHaveAttribute("data-tooltip-placement", "top");
+    await expect(home).toHaveAttribute("data-tooltip-variant", "glass");
     await expect(
       dock.getByRole("button", { name: "Open global search" }),
     ).toBeVisible();
     await expect(
       dock.getByRole("button", { name: "Open theme customizer" }),
     ).toBeVisible();
+
+    await home.hover();
+    const tooltip = page.locator(".vd-tooltip.vd-tooltip-top").first();
+    await expect(tooltip).toBeVisible();
+    await expect(tooltip).toHaveText("Home");
   });
 
   test("Docs item navigates to docs landing", async ({ page }) => {
@@ -127,7 +137,7 @@ test.describe("Site Oola dock chrome", () => {
     await cycleDockTo(dock, brand, "left");
     await assertVerticalChrome("left");
 
-    // Short-axis thickness is 75% × 1.05² of package 5.4rem (docs --vd-dock-height).
+    // Short-axis thickness matches docs --vd-dock-height (macOS-style 6.75rem).
     const thickness = await dock.evaluate((el) => {
       const rem = Number.parseFloat(
         getComputedStyle(document.documentElement).fontSize,
@@ -135,7 +145,7 @@ test.describe("Site Oola dock chrome", () => {
       const box = el.getBoundingClientRect();
       return {
         actual: box.width,
-        expected: 5.4 * 0.75 * 1.05 * 1.05 * rem,
+        expected: 6.75 * rem,
       };
     });
     expect(thickness.actual).toBeGreaterThan(thickness.expected - 4);
