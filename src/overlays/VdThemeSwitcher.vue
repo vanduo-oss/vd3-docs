@@ -32,12 +32,12 @@ const cycle = (): void => {
   <div class="vd-theme-switcher" data-theme-ui="cycle">
     <button
       type="button"
-      class="vd-theme-switcher-toggle dark-mode-toggle"
+      class="vd-theme-switcher-toggle"
       :aria-label="`Theme: ${current.label}. Click for ${nextLabel}`"
       @click="cycle"
     >
       <i
-        class="ph"
+        class="ph-bold"
         :class="current.icon"
         data-theme-icon
         aria-hidden="true"

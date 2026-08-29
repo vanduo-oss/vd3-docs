@@ -3078,7 +3078,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 /* MacOS-style site dock: icon-only nav (labels via tooltip), not oversized. */
 .vd-site-dock {
   --vd-dock-height: 5.15rem;
-  --vd-dock-brand-size: 2.25rem;
+  --vd-dock-brand-size: 3.375rem;
 }
 
 /* Central nav: ~34px glyphs (~28% under prior 3rem), no visible labels. */
@@ -3091,6 +3091,36 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 .vd-site-dock .vd-dock-links .vd-dock-item .ph {
   font-size: 2.15rem;
+}
+
+/* Icon-only nav: mute idle links; only the active route reads at full strength. */
+.vd-site-dock .vd-dock-links .vd-dock-item:not(.is-active) {
+  opacity: 1;
+  color: var(--vd-text-secondary);
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item:not(.is-active) .ph {
+  opacity: 0.48;
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item.is-active {
+  opacity: 1;
+  color: var(--vd-dock-tint, var(--vd-text-primary));
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item.is-active .ph {
+  opacity: 1;
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item:hover:not(.is-active),
+.vd-site-dock .vd-dock-links .vd-dock-item:focus-visible:not(.is-active) {
+  opacity: 1;
+  color: color-mix(in srgb, var(--vd-text-primary) 70%, var(--vd-text-secondary));
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item:hover:not(.is-active) .ph,
+.vd-site-dock .vd-dock-links .vd-dock-item:focus-visible:not(.is-active) .ph {
+  opacity: 0.72;
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-label {
@@ -3119,6 +3149,28 @@ a:hover .vd-card-interactive.vd-card-glow {
   width: var(--vd-dock-brand-size);
   height: var(--vd-dock-brand-size);
   display: block;
+}
+
+/* Brand slot: flush padding + optical center (viewBox ink sits high). */
+.vd-site-dock .vd-dock-brand {
+  padding: 0;
+  align-self: center;
+}
+
+.vd-site-dock.is-vertical .vd-dock-brand {
+  padding: 0;
+  width: 100%;
+}
+
+.vd-site-dock .vd-site-dock-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.vd-site-dock .vd-site-dock-brand-mark .vd3-mark {
+  transform: translateY(0.1em);
 }
 
 /* Brand mark: idle still; hover ramps slow→medium; morph spins fast. */
@@ -3177,34 +3229,41 @@ a:hover .vd-card-interactive.vd-card-glow {
   }
 }
 
-.vd-site-dock .global-search-trigger,
-.vd-site-dock .vd-theme-customizer-trigger,
-.vd-site-dock .vd-theme-switcher-toggle {
+.vd-site-dock .vd-dock-actions button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 2.25rem;
   height: 2.25rem;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  flex-shrink: 0;
   border: 0;
   border-radius: 0.75rem;
   background: transparent;
-  color: inherit;
+  color: var(--vd-text-secondary);
   cursor: pointer;
   font-size: 1.1rem;
   line-height: 0;
   padding: 0;
-  opacity: 0.85;
+  opacity: 0.72;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease;
 }
 
-.vd-site-dock .global-search-trigger:hover,
-.vd-site-dock .vd-theme-customizer-trigger:hover,
-.vd-site-dock .vd-theme-customizer-trigger[aria-expanded="true"],
-.vd-site-dock .vd-theme-switcher-toggle:hover,
-.vd-site-dock .vd-theme-switcher-toggle.dark-mode-toggle:hover {
+.vd-site-dock .vd-dock-actions button:hover,
+.vd-site-dock .vd-dock-actions button:focus-visible,
+.vd-site-dock .vd-dock-actions button[aria-expanded="true"] {
   opacity: 1;
   color: var(--vd-text-primary);
-  border-color: transparent;
   background: transparent;
+  border-color: transparent;
+}
+
+.vd-site-dock .vd-dock-actions button i {
+  font-size: 1.15rem;
+  line-height: 1;
 }
 
 .vd-site-dock .vd-theme-switcher,
@@ -3213,11 +3272,131 @@ a:hover .vd-card-interactive.vd-card-glow {
   align-items: center;
 }
 
-.vd-site-dock .global-search-trigger i,
-.vd-site-dock .vd-theme-switcher-toggle .ph,
-.vd-site-dock .vd-theme-customizer-trigger i {
-  font-size: 1.15rem;
-  line-height: 1;
+/* Narrow phone dock — keep in sync with DOCK_NARROW_QUERY (520px) in @vanduo-oss/vd3. */
+@media (max-width: 520px) {
+  :root {
+    --docs-dock-clearance: 5.75rem;
+  }
+
+  .vd-site-dock {
+    --vd-dock-height: 4.6rem;
+    --vd-dock-brand-size: 2.85rem;
+    padding-inline: 0.85rem;
+  }
+
+  /* Full-width pill: drop centered translateX pill geometry from the package. */
+  .vd-site-dock.vd-dock-edge-bottom:not(.is-square, .is-morphing),
+  .vd-site-dock.vd-dock-edge-top:not(.is-square, .is-morphing) {
+    left: var(--vd-dock-inset);
+    right: var(--vd-dock-inset);
+    width: auto;
+    max-width: none;
+    transform: none;
+  }
+
+  .vd-site-dock.vd-dock-edge-bottom:not(.is-square) {
+    bottom: max(var(--vd-dock-inset), env(safe-area-inset-bottom, 0px));
+  }
+
+  html[data-docs-dock="top"] .vd-site-dock.vd-dock-edge-top:not(.is-square) {
+    top: max(var(--vd-dock-inset), env(safe-area-inset-top, 0px));
+  }
+
+  .vd-site-dock .vd-dock-brand,
+  .vd-site-dock .vd-dock-actions {
+    flex-shrink: 0;
+  }
+
+  /* Swipeable middle strip: nav links + theme controls scroll horizontally. */
+  .vd-site-dock .vd-dock-nav {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 0.75rem,
+      #000 calc(100% - 0.75rem),
+      transparent
+    );
+  }
+
+  .vd-site-dock .vd-dock-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vd-site-dock .vd-dock-links {
+    flex-wrap: nowrap;
+    width: max-content;
+    min-width: min-content;
+  }
+
+  .vd-site-dock .vd-dock-links .vd-dock-item {
+    min-width: 3.25rem;
+    flex-shrink: 0;
+  }
+
+  .vd-site-dock .vd-dock-links .vd-dock-item .ph {
+    font-size: 1.85rem;
+  }
+
+  .vd-site-dock-strip-divider {
+    flex-shrink: 0;
+    align-self: center;
+    width: 1px;
+    height: 1.65rem;
+    margin-inline: 0.15rem;
+    background: color-mix(in srgb, var(--vd-text-primary) 14%, transparent);
+  }
+
+  .vd-site-dock .vd-dock-links .vd-theme-switcher,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer {
+    flex-shrink: 0;
+  }
+
+  .vd-site-dock .vd-dock-links .vd-theme-switcher button,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 0.75rem;
+    background: transparent;
+    color: var(--vd-text-secondary);
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 0;
+    padding: 0;
+    opacity: 0.72;
+    transition:
+      opacity 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .vd-site-dock .vd-dock-links .vd-theme-switcher button:hover,
+  .vd-site-dock .vd-dock-links .vd-theme-switcher button:focus-visible,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger:hover,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger:focus-visible,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger[aria-expanded="true"] {
+    opacity: 1;
+    color: var(--vd-text-primary);
+  }
+
+  .vd-site-dock .vd-dock-links .vd-theme-switcher button i,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger i {
+    font-size: 1.15rem;
+    line-height: 1;
+  }
 }
 
 /* Navbar trigger button — chess-like borderless chrome (legacy demos) */
@@ -3388,10 +3567,10 @@ a:hover .vd-card-interactive.vd-card-glow {
   z-index: 9999;
   width: 92%;
   max-width: 640px;
-  background: var(--vd-glass-bg-light);
-  backdrop-filter: blur(var(--vd-glass-blur, 12px))
+  background: color-mix(in srgb, var(--vd-bg-primary) 90%, transparent);
+  backdrop-filter: blur(var(--vd-glass-blur))
     saturate(var(--vd-glass-saturate, 1.8));
-  -webkit-backdrop-filter: blur(var(--vd-glass-blur, 12px))
+  -webkit-backdrop-filter: blur(var(--vd-glass-blur))
     saturate(var(--vd-glass-saturate, 1.8));
   border: 1px solid var(--vd-glass-border-light);
   border-radius: calc(var(--vd-card-border-radius) * 1.5);

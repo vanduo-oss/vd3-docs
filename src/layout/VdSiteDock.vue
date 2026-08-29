@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from "vue";
 import { useRoute, useRouter } from "vue-router";
 import {
   VdDock,
@@ -16,8 +23,14 @@ import {
   DOCS_DOCK_RADIUS,
   useDocsColorScheme,
 } from "@/composables/useDocsColorScheme";
+import { useDocsDockNarrow } from "@/composables/useDocsDockNarrow";
 
 const SITE_DOCK_STORAGE_KEY = "vd3-docs-site-dock";
+
+type DockExposed = {
+  $el?: unknown;
+  snapToPlacement?: (target: DockPlacement) => void;
+};
 
 const route = useRoute();
 const router = useRouter();
@@ -25,6 +38,18 @@ const { dockTint } = useDocsColorScheme();
 const placement = ref<DockPlacement>("bottom");
 const tooltipRoot = ref<HTMLElement | null>(null);
 const dockEl = ref<HTMLElement | null>(null);
+const dockInst = ref<DockExposed | null>(null);
+const lastWidePlacement = ref<DockPlacement>("bottom");
+
+const isNarrow = useDocsDockNarrow({
+  onExitNarrow: () => {
+    try {
+      localStorage.setItem(SITE_DOCK_STORAGE_KEY, lastWidePlacement.value);
+    } catch {
+      /* ignore quota / private mode */
+    }
+  },
+});
 
 /** Horizontal edges: inline class for package; CSS centers icon-only items. */
 const itemLayout = computed<DockItemLayout>(() =>
@@ -78,6 +103,29 @@ const onDockClick = (event: Event): void => {
   if (link) go(link.to);
 };
 
+/**
+ * Docs-side narrow brand toggle: package sets canToggle=false under 520px.
+ * Removable once vd3 exposes a narrow-aware bottom↔top flip.
+ */
+const onBrandCapture = (event: Event): void => {
+  if (!isNarrow.value) return;
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  if (!target.closest(".vd-dock-brand")) return;
+
+  event.stopPropagation();
+  event.preventDefault();
+
+  const next: DockPlacement = placement.value === "top" ? "bottom" : "top";
+  dockInst.value?.snapToPlacement?.(next);
+  try {
+    localStorage.setItem(SITE_DOCK_STORAGE_KEY, lastWidePlacement.value);
+  } catch {
+    /* keep desktop edge out of mobile flip persistence */
+  }
+  void nextTick(() => patchBrandA11y());
+};
+
 const onSearchClick = (): void => {
   window.dispatchEvent(new CustomEvent("vd:open-search"));
 };
@@ -87,9 +135,24 @@ const syncDockAttr = (edge: DockPlacement): void => {
   document.documentElement.setAttribute("data-docs-dock", edge);
 };
 
+/** Re-enable brand on narrow; package sets aria-disabled when canToggle is false. */
+const patchBrandA11y = (): void => {
+  const el = dockEl.value;
+  if (!el || !isNarrow.value) return;
+  const brand = el.querySelector(".vd-dock-brand");
+  if (!(brand instanceof HTMLButtonElement)) return;
+  brand.removeAttribute("aria-disabled");
+  brand.setAttribute(
+    "aria-label",
+    placement.value === "top" ? "Move dock to bottom" : "Move dock to top",
+  );
+};
+
 /** Function ref so $el is set before useTooltips' onMounted scan. */
 const setDockRef = (inst: unknown): void => {
-  const el = (inst as { $el?: unknown } | null)?.$el;
+  const exposed = inst as DockExposed | null;
+  dockInst.value = exposed;
+  const el = exposed?.$el;
   const node = el instanceof HTMLElement ? el : null;
   dockEl.value = node;
   tooltipRoot.value = node;
@@ -97,19 +160,58 @@ const setDockRef = (inst: unknown): void => {
 
 useTooltips(tooltipRoot);
 
-watch(placement, syncDockAttr, { immediate: true });
+watch(placement, (edge) => {
+  if (!isNarrow.value) {
+    lastWidePlacement.value = edge;
+  }
+  syncDockAttr(edge);
+  void nextTick(() => patchBrandA11y());
+}, { immediate: true });
+
+watch(isNarrow, (narrow) => {
+  if (narrow) {
+    try {
+      localStorage.setItem(SITE_DOCK_STORAGE_KEY, lastWidePlacement.value);
+    } catch {
+      /* ignore quota / private mode */
+    }
+  }
+  void nextTick(() => patchBrandA11y());
+});
 
 onMounted(() => {
+  if (!isNarrow.value) {
+    lastWidePlacement.value = placement.value;
+  } else {
+    try {
+      const stored = localStorage.getItem(SITE_DOCK_STORAGE_KEY);
+      if (
+        stored === "left" ||
+        stored === "right" ||
+        stored === "top" ||
+        stored === "bottom"
+      ) {
+        lastWidePlacement.value = stored;
+      }
+    } catch {
+      /* ignore quota / private mode */
+    }
+  }
+
   const el = dockEl.value;
   if (el instanceof HTMLElement) {
     el.addEventListener("click", onDockClick);
+    el.addEventListener("click", onBrandCapture, true);
   }
+
+  void nextTick(() => patchBrandA11y());
 });
 
 onUnmounted(() => {
   const el = dockEl.value;
   if (el instanceof HTMLElement) {
     el.removeEventListener("click", onDockClick);
+    el.removeEventListener("click", onBrandCapture, true);
   }
   if (typeof document === "undefined") return;
   document.documentElement.removeAttribute("data-docs-dock");
@@ -131,7 +233,7 @@ onUnmounted(() => {
     label="Site"
   >
     <template #brand>
-      <Vd3BrandMark size="2.25rem" class="vd-site-dock-brand-mark" />
+      <Vd3BrandMark size="3.375rem" class="vd-site-dock-brand-mark" />
     </template>
 
     <VdDockItem
@@ -145,6 +247,12 @@ onUnmounted(() => {
       data-tooltip-variant="dock"
     />
 
+    <template v-if="isNarrow">
+      <span class="vd-site-dock-strip-divider" aria-hidden="true"></span>
+      <VdThemeSwitcher />
+      <VdThemeCustomizer />
+    </template>
+
     <template #actions>
       <button
         type="button"
@@ -154,8 +262,10 @@ onUnmounted(() => {
       >
         <i class="ph-bold ph-magnifying-glass" aria-hidden="true"></i>
       </button>
-      <VdThemeSwitcher />
-      <VdThemeCustomizer />
+      <template v-if="!isNarrow">
+        <VdThemeSwitcher />
+        <VdThemeCustomizer />
+      </template>
     </template>
   </VdDock>
 </template>
