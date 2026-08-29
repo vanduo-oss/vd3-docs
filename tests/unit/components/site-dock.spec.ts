@@ -34,7 +34,7 @@ const mountDock = async (): Promise<{
         },
         VdThemeCustomizer: {
           template:
-            '<button type="button" aria-label="Open theme customizer" />',
+            '<button type="button" aria-label="Choose theme color" />',
         },
         VdIcon: true,
       },
@@ -63,7 +63,7 @@ describe("VdSiteDock", () => {
       true,
     );
     expect(
-      wrapper.find('button[aria-label="Open theme customizer"]').exists(),
+      wrapper.find('button[aria-label="Choose theme color"]').exists(),
     ).toBe(true);
     expect(wrapper.find(".vd-dock").classes()).toContain("vd-dock-fixed");
     wrapper.unmount();

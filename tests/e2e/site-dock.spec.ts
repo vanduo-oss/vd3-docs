@@ -40,7 +40,7 @@ test.describe("Site Oola dock chrome", () => {
       dock.getByRole("button", { name: "Open global search" }),
     ).toBeVisible();
     await expect(
-      dock.getByRole("button", { name: "Open theme customizer" }),
+      dock.getByRole("button", { name: "Choose theme color" }),
     ).toBeVisible();
 
     await home.hover();
@@ -98,7 +98,7 @@ test.describe("Site Oola dock chrome", () => {
     const search = dock.getByRole("button", { name: "Open global search" });
     const theme = dock.locator("button.vd-theme-switcher-toggle").first();
     const customizer = dock.getByRole("button", {
-      name: "Open theme customizer",
+      name: "Choose theme color",
     });
 
     const assertVerticalChrome = async (side: "left" | "right") => {
@@ -117,9 +117,9 @@ test.describe("Site Oola dock chrome", () => {
       expect(brandBox).toBeTruthy();
       expect(dockBox).toBeTruthy();
 
-      // Actions form a vertical column (Y increases down the stack).
-      expect(themeBox!.y).toBeGreaterThan(searchBox!.y + 4);
-      expect(customizerBox!.y).toBeGreaterThan(themeBox!.y + 4);
+      // Swatches outermost (topmost) on both vertical edges.
+      expect(customizerBox!.y).toBeLessThan(themeBox!.y - 4);
+      expect(themeBox!.y).toBeLessThan(searchBox!.y - 4);
 
       // Brand stays at the bottom of the vertical pill.
       expect(brandBox!.y).toBeGreaterThan(customizerBox!.y + 4);
@@ -171,6 +171,9 @@ test.describe("Site Oola dock chrome", () => {
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     const brand = dock.locator("button.vd-dock-brand").first();
     const search = dock.getByRole("button", { name: "Open global search" });
+    const customizer = dock.getByRole("button", {
+      name: "Choose theme color",
+    });
 
     await cycleDockTo(dock, brand, "left");
     await cycleDockTo(dock, brand, "top");
@@ -178,9 +181,13 @@ test.describe("Site Oola dock chrome", () => {
 
     const brandBox = await brand.boundingBox();
     const searchBox = await search.boundingBox();
+    const customizerBox = await customizer.boundingBox();
     expect(brandBox).toBeTruthy();
     expect(searchBox).toBeTruthy();
+    expect(customizerBox).toBeTruthy();
     expect(brandBox!.x).toBeLessThan(searchBox!.x - 4);
+    // Swatches outermost (rightmost) on horizontal edges.
+    expect(customizerBox!.x).toBeGreaterThan(searchBox!.x + 4);
   });
 
   test("search action opens the global search modal", async ({ page }) => {
@@ -232,5 +239,52 @@ test.describe("Site Oola dock chrome", () => {
     expect(morphSpin.durationMs).toBeGreaterThan(400);
 
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
+  });
+
+  test("theme customizer unfolds swatches fan and closes on pick", async ({
+    page,
+  }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+    const trigger = page.getByRole("button", { name: "Choose theme color" });
+    const fan = page.locator(".vd-theme-customizer-fan");
+
+    await expect(fan).not.toHaveClass(/is-open/);
+    await trigger.click();
+    await expect(fan).toHaveClass(/is-open/);
+    await expect(fan).toHaveClass(/fan-up/);
+    await expect(fan.getByRole("option")).toHaveCount(9);
+    await expect(fan.getByRole("option", { name: "Ink" })).toBeVisible();
+    await expect(fan.getByRole("option", { name: "Yellow" })).toBeVisible();
+
+    await fan.getByRole("option", { name: "Yellow" }).click();
+    await expect(fan).not.toHaveClass(/is-open/);
+    await expect(page.locator("html")).toHaveAttribute("data-primary", "yellow");
+  });
+
+  test("swatches fan direction follows dock edge", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+    const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
+    const brand = dock.locator("button.vd-dock-brand").first();
+    const trigger = page.getByRole("button", { name: "Choose theme color" });
+    const fan = page.locator(".vd-theme-customizer-fan");
+
+    const expectFanDir = async (
+      edge: "bottom" | "left" | "top" | "right",
+      dir: "up" | "right" | "down" | "left",
+    ) => {
+      await expect(dock).toHaveClass(new RegExp(`vd-dock-edge-${edge}`));
+      await trigger.click();
+      await expect(fan).toHaveClass(new RegExp(`fan-${dir}`));
+      await page.keyboard.press("Escape");
+      await expect(fan).not.toHaveClass(/is-open/);
+    };
+
+    await expectFanDir("bottom", "up");
+    await cycleDockTo(dock, brand, "left");
+    await expectFanDir("left", "right");
+    await cycleDockTo(dock, brand, "top");
+    await expectFanDir("top", "down");
+    await cycleDockTo(dock, brand, "right");
+    await expectFanDir("right", "left");
   });
 });
