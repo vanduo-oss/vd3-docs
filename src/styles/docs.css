@@ -3963,15 +3963,21 @@ a:hover .vd-card-interactive.vd-card-glow {
 
     /* Matches the 6px / 2px home ring polish above. */
     --home-cta-ring-inset: calc(6px + 2px);
+
+    /* Fibonacci side inset — ~8% narrower CTAs, clear of card/container edges. */
+    --home-cta-mobile-inset: var(--vd-space-fib-8, 0.8125rem);
+    --home-cta-mobile-side: calc(
+      var(--home-cta-ring-inset) + var(--home-cta-mobile-inset)
+    );
   }
 
   #home .hero-cta-buttons,
   #home .oola-home-cta,
   #home .seemore-home-cta {
     flex-flow: column nowrap;
-    align-items: stretch;
+    align-items: center;
     box-sizing: border-box;
-    padding-inline: var(--home-cta-ring-inset);
+    padding-inline: var(--home-cta-mobile-side);
   }
 
   /* Break out of .hero-content 2rem pad to the container gutter. */
@@ -4002,7 +4008,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     align-items: center;
     justify-content: center;
     text-align: center;
-    align-self: stretch;
+    align-self: center;
     box-sizing: border-box;
     width: 100%;
     max-width: none;
@@ -4020,22 +4026,20 @@ a:hover .vd-card-interactive.vd-card-glow {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
-    justify-self: stretch;
+    justify-self: center;
   }
 
-  /* Card uses inline padding: 3rem 2rem plus 1px borders. */
+  /* Card uses inline padding: 3rem 2rem — stay inside, don’t break out to edges. */
   #home #cta .vd-btn,
   #home #cta .vd-card > .vd-btn {
-    width: calc(
-      100% + 4rem + 2 * var(--vd-card-border-width, 1px) - 2 *
-        var(--home-cta-ring-inset)
-    );
-    margin-left: calc(
-      -2rem - var(--vd-card-border-width, 1px) + var(--home-cta-ring-inset)
-    );
-    margin-right: calc(
-      -2rem - var(--vd-card-border-width, 1px) + var(--home-cta-ring-inset)
-    );
+    width: calc(100% - 2 * var(--home-cta-mobile-inset));
+    max-width: calc(100% - 2 * var(--home-cta-mobile-inset));
+    margin-inline: auto;
+  }
+
+  #home #cta .vd-btn-ring {
+    width: calc(100% - 2 * var(--home-cta-ring-inset));
+    margin-inline: auto;
   }
 }
 

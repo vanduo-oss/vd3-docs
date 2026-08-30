@@ -1441,7 +1441,7 @@ onUnmounted(() => {
   .oola-home-cta {
     flex-direction: column;
     flex-wrap: nowrap;
-    align-items: stretch;
+    align-items: center;
     width: 100%;
   }
 
@@ -1450,6 +1450,7 @@ onUnmounted(() => {
     align-items: center;
     justify-content: center;
     text-align: center;
+    align-self: center;
     width: 100%;
     box-sizing: border-box;
     margin-left: 0;

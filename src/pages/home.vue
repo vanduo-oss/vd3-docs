@@ -594,7 +594,7 @@ const swatches = [
   .seemore-home-cta {
     flex-direction: column;
     flex-wrap: nowrap;
-    align-items: stretch;
+    align-items: center;
     width: 100%;
   }
 
@@ -603,7 +603,7 @@ const swatches = [
     align-items: center;
     justify-content: center;
     text-align: center;
-    align-self: stretch;
+    align-self: center;
     width: 100%;
     box-sizing: border-box;
   }
