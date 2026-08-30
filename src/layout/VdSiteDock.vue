@@ -7,7 +7,9 @@ import {
   dockOrientationOf,
   useTooltips,
   type DockItemLayout,
+  type DockOrientation,
   type DockPlacement,
+  type DockVisualPhase,
 } from "@vanduo-oss/vd3";
 import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
 import VdThemeCustomizer from "@/overlays/VdThemeCustomizer.vue";
@@ -17,6 +19,7 @@ import {
   DOCS_DOCK_TOOLTIP_DELAY_MS,
   useDocsColorScheme,
 } from "@/composables/useDocsColorScheme";
+import { playSiteDockNarrowBrandMorph } from "@/composables/siteDockNarrowBrandMorph";
 import { useDocsDockNarrow } from "@/composables/useDocsDockNarrow";
 import { useSiteDockBrandSpin } from "@/composables/useSiteDockBrandSpin";
 
@@ -32,6 +35,10 @@ const BRAND_EDGE_TIP: Record<DockPlacement, string> = {
 type DockExposed = {
   $el?: unknown;
   snapToPlacement?: (target: DockPlacement) => void;
+  isMorphing?: { value: boolean };
+  visualPhase?: { value: DockVisualPhase };
+  placement?: { value: DockPlacement };
+  orientation?: { value: DockOrientation };
 };
 
 const route = useRoute();
@@ -121,7 +128,7 @@ const onDockClick = (event: Event): void => {
 
 /**
  * Docs-side narrow brand toggle: package sets canToggle=false under 520px.
- * Removable once vd3 exposes a narrow-aware bottom↔top flip.
+ * playSiteDockNarrowBrandMorph mirrors desktop shrink→relocate timing.
  */
 const onBrandCapture = (event: Event): void => {
   if (!isNarrow.value) return;
@@ -133,13 +140,19 @@ const onBrandCapture = (event: Event): void => {
   event.preventDefault();
 
   const next: DockPlacement = placement.value === "top" ? "bottom" : "top";
-  dockInst.value?.snapToPlacement?.(next);
-  try {
-    localStorage.setItem(SITE_DOCK_STORAGE_KEY, lastWidePlacement.value);
-  } catch {
-    /* keep desktop edge out of mobile flip persistence */
-  }
-  void nextTick(() => patchBrandA11y());
+  playSiteDockNarrowBrandMorph(dockInst.value, next, {
+    onApplied: () => {
+      try {
+        localStorage.setItem(SITE_DOCK_STORAGE_KEY, lastWidePlacement.value);
+      } catch {
+        /* keep desktop edge out of mobile flip persistence */
+      }
+      void nextTick(() => {
+        patchBrandA11y();
+        syncDockTooltips();
+      });
+    },
+  });
 };
 
 const onSearchClick = (): void => {

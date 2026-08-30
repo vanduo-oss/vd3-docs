@@ -278,6 +278,26 @@ test.describe("Site Oola dock chrome", () => {
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
   });
 
+  test("narrow brand click morphs bottom to top with square waypoint", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 844 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
+    const brand = dock.locator("button.vd-dock-brand").first();
+
+    await expect(dock).toHaveClass(/vd-dock-edge-bottom/);
+    await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
+
+    await brand.click({ force: true });
+    await expect(dock).toHaveClass(/is-morphing/, { timeout: 2000 });
+    await expect(dock).toHaveClass(/is-square/, { timeout: 2000 });
+
+    await expect(dock).toHaveClass(/vd-dock-edge-top/, { timeout: 5000 });
+    await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
+  });
+
   test("theme customizer unfolds swatches fan and closes on pick", async ({
     page,
   }) => {
