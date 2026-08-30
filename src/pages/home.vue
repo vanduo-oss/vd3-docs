@@ -255,15 +255,12 @@ const swatches = [
             >
               <i class="ph ph-rocket" aria-hidden="true"></i> Getting Started
             </RouterLink>
-            <RouterLink
-              to="/components/button"
-              class="vd-btn vd-btn-outline vd-btn-ring"
-            >
+            <RouterLink to="/components/button" class="vd-btn vd-btn-ink">
               <i class="ph ph-cube" aria-hidden="true"></i> Browse Components
             </RouterLink>
             <a
               href="https://github.com/vanduo-oss/vd3"
-              class="vd-btn vd-btn-outline vd-btn-ring"
+              class="vd-btn vd-btn-ink"
               target="_blank"
               rel="noopener"
             >
