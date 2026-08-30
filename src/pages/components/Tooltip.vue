@@ -11,16 +11,29 @@ const vue3Wiring = `import { ref } from 'vue';
 import { useTooltips } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
-useTooltips(root);   // wires [data-tooltip] inside root; cleanup on unmount`;
+
+// wires [data-tooltip] inside root; cleanup on unmount
+useTooltips(root);
+
+// …or dwell 520ms before showing (dock and toolbar chrome)
+useTooltips(root, { showDelay: 520 });`;
 
 const vue3Api: [string, string][] = [
   [
-    "useTooltips(root)",
+    "useTooltips(root, options?)",
     "Composable — wires every [data-tooltip] / [data-tooltip-html] element inside the root ref. Call once in setup().",
   ],
   [
+    "options.showDelay",
+    "Hover dwell in ms before a tooltip appears. Default 0 (immediate). Any trigger can override it with data-tooltip-delay.",
+  ],
+  [
+    "(dynamic triggers)",
+    "The root is watched with a MutationObserver, so triggers added, removed, or re-attributed after mount bind themselves — no manual rescan.",
+  ],
+  [
     "(automatic cleanup)",
-    "Hover listeners and the tooltip node are removed on component unmount.",
+    "Hover listeners, the observer, and the tooltip node are removed on component unmount.",
   ],
 ];
 
@@ -49,6 +62,19 @@ const variantsHtml = `<!-- Color variants -->
 <!-- Size variants -->
 <button data-tooltip="Small tooltip" data-tooltip-size="sm">Small</button>
 <button data-tooltip="Large tooltip" data-tooltip-size="lg">Large</button>`;
+
+const delayHtml = `<!-- Composable default: useTooltips(root, { showDelay: 520 }) -->
+
+<!-- Per-trigger override wins over the composable default -->
+<button data-tooltip="Immediate" data-tooltip-delay="0">0ms</button>
+<button data-tooltip="Waited 520ms" data-tooltip-delay="520">520ms</button>
+
+<!-- Dock chrome: denser frost, --vd-tooltip-dock-* custom properties -->
+<button data-tooltip="Dock chrome frost"
+        data-tooltip-variant="dock"
+        data-tooltip-delay="520">
+  Dock variant
+</button>`;
 
 const htmlContentHtml = `<!-- HTML content tooltip -->
 <button class="vd-btn vd-btn-outline-primary"
@@ -89,6 +115,22 @@ const cssVars: [string, string, string][] = [
   ["--vd-tooltip-arrow-size", "5px", "Arrow dimensions (Fibonacci)"],
   ["--vd-tooltip-max-width", "233px", "Max width (Fibonacci)"],
   ["--vd-tooltip-z-index", "1070", "Stacking above most components"],
+  [
+    "--vd-tooltip-dock-bg",
+    "color-mix(in srgb, #12141a 78%, transparent)",
+    "Dock variant background (flips to a frosted white in light schemes)",
+  ],
+  ["--vd-tooltip-dock-color", "#f4f4f5", "Dock variant text color"],
+  [
+    "--vd-tooltip-dock-border",
+    "color-mix(in srgb, #fff 22%, transparent)",
+    "Dock variant border",
+  ],
+  [
+    "--vd-tooltip-dock-shadow",
+    "drop + inset highlight",
+    "Dock variant elevation; the arrow reuses --vd-tooltip-dock-bg",
+  ],
 ];
 
 const classRows: [string, string][] = [
@@ -118,6 +160,10 @@ const classRows: [string, string][] = [
     ".vd-tooltip-glass",
     "Frosted glass background with blur and translucent border.",
   ],
+  [
+    ".vd-tooltip-dock",
+    "Denser frost than glass, sized for icon-only dock and toolbar chrome. Follows the color scheme (ink in dark, frosted white in light) and cancels the per-placement arrow margin, since useTooltips already positions with a gap.",
+  ],
   [".vd-tooltip-sm", "Compact padding and smaller font."],
   [".vd-tooltip-lg", "More spacious padding and larger font."],
   [".vd-tooltip-html", "Allows HTML content inside the tooltip body."],
@@ -141,10 +187,14 @@ const dataAttrs: [string, string][] = [
     "Tooltip position relative to the trigger. Default: top.",
   ],
   [
-    'data-tooltip-variant="light|dark|glass"',
-    "Visual style variant. Default: standard (white).",
+    'data-tooltip-variant="light|dark|glass|dock"',
+    "Visual style variant. Default: standard (white). dock is the chrome variant.",
   ],
   ['data-tooltip-size="sm|lg"', "Size modifier. Default: medium."],
+  [
+    'data-tooltip-delay="520"',
+    "Per-trigger hover dwell in ms, overriding the composable's showDelay. Ignored if it is not a non-negative integer.",
+  ],
 ];
 </script>
 
@@ -283,6 +333,62 @@ const dataAttrs: [string, string][] = [
           </div>
         </div>
         <DocCodeSnippet :html="variantsHtml" />
+      </div>
+    </div>
+
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>Show delay &amp; the dock variant</h6>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-text-sm vd-text-muted vd-mb-4">
+              Immediate tooltips are noisy on chrome you sweep across — a dock,
+              a toolbar — so <code>useTooltips</code> takes a
+              <code>showDelay</code> and any trigger can override it with
+              <code>data-tooltip-delay</code>. This page wires the composable at
+              its default (0ms), so the first two buttons below get their dwell
+              from the attribute alone. Pair the delay with
+              <code>data-tooltip-variant="dock"</code> for the denser frost that
+              reads over ink chrome — the site dock at the edge of this window
+              uses exactly this combination at 520ms.
+            </p>
+            <div
+              style="
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: center;
+                min-height: 100px;
+              "
+            >
+              <button
+                class="vd-btn vd-btn-outline"
+                data-tooltip="Immediate — no dwell"
+              >
+                0ms
+              </button>
+              <button
+                class="vd-btn vd-btn-outline"
+                data-tooltip="Waited 520ms before showing"
+                data-tooltip-delay="520"
+              >
+                520ms
+              </button>
+              <button
+                class="vd-btn vd-btn-outline"
+                data-tooltip="Dock chrome frost"
+                data-tooltip-variant="dock"
+                data-tooltip-delay="520"
+              >
+                Dock variant
+              </button>
+            </div>
+            <DocCodeSnippet class="vd-mt-4" :html="delayHtml" />
+          </div>
+        </div>
       </div>
     </div>
 
