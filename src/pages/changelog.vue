@@ -50,7 +50,6 @@ useAffix(root);
           <code>@vanduo-oss/vd3</code> (the Vue 3 design system and component
           library) and <code>@vanduo-oss/vd3-cbun</code> (the components bundle:
           charts, code-editor, draw, flowchart, hex-grid, music-player).
-          Packages only — never docs-site content.
         </p>
       </div>
     </div>

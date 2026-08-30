@@ -120,35 +120,17 @@ const resources = [
         <p class="vd-text-lg vd-text-muted">
           Explore Vanduo Documentation, Guides and Changelog
         </p>
-        <span
-          id="docs-component-count"
-          class="vd-badge vd-badge-outlined"
-          style="
-            margin-top: 0.75rem;
-            font-size: 0.85rem;
-            padding: 0.4rem 0.8rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            color: var(--vd-color-primary);
-            background-color: rgba(var(--vd-color-primary-rgb), 0.1);
-            border-color: rgba(var(--vd-color-primary-rgb), 0.3);
-          "
-        >
-          <i class="ph ph-cube"></i> <span>47+</span> components
-        </span>
-        <p
-          class="docs-landing-version"
-          style="
-            margin-top: 0.85rem;
-            font-size: 0.75rem;
-            letter-spacing: 0.03em;
-            color: var(--vd-text-muted);
-          "
-        >
-          Documentation v{{ docsVersion }}
-        </p>
       </div>
+    </div>
+
+    <div class="vd-container-responsive docs-landing-meta">
+      <span
+        id="docs-component-count"
+        class="vd-badge vd-badge-outlined docs-landing-meta-badge"
+      >
+        <i class="ph ph-cube"></i> <span>47+</span> components
+      </span>
+      <span class="docs-landing-version">Documentation v{{ docsVersion }}</span>
     </div>
 
     <!-- Main Content -->

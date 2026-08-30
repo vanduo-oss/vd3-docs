@@ -2351,8 +2351,34 @@ a:hover .vd-card-interactive.vd-card-glow {
   --vd-glass-highlight-alpha: 0;
 }
 
+#docs-landing .docs-landing-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+  padding: 3.5rem 0 0;
+}
+
+#docs-landing .docs-landing-meta-badge {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--vd-color-primary);
+  background-color: rgba(var(--vd-color-primary-rgb), 0.1);
+  border-color: rgba(var(--vd-color-primary-rgb), 0.3);
+}
+
+#docs-landing .docs-landing-version {
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--vd-text-muted);
+}
+
 #docs-landing .docs-landing-main {
-  padding-top: 7rem;
+  padding-top: 2rem;
   padding-bottom: 1rem;
 }
 
