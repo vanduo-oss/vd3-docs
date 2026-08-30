@@ -65,8 +65,8 @@ watch(
         (EmbeddingGemma) in your browser. Your queries are processed on-device
         and are not sent to Vanduo servers for AI ranking. Under the EU AI Act,
         this is an AI feature you can turn off at any time.
-        <strong>Note:</strong> first use downloads ~300MB and may use significant
-        CPU/GPU on some devices.
+        <strong>Note:</strong> first use downloads ~300MB and may use
+        significant CPU/GPU on some devices.
         <button
           type="button"
           class="vd-btn vd-btn-ink vd-btn-sm global-search-ai-notice-ack"
