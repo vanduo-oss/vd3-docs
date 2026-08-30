@@ -2367,8 +2367,8 @@ a:hover .vd-card-interactive.vd-card-glow {
   align-items: center;
   gap: 0.35rem;
   color: var(--vd-color-primary);
-  background-color: rgba(var(--vd-color-primary-rgb), 0.1);
-  border-color: rgba(var(--vd-color-primary-rgb), 0.3);
+  background-color: rgb(var(--vd-color-primary-rgb) / 10%);
+  border-color: rgb(var(--vd-color-primary-rgb) / 30%);
 }
 
 #docs-landing .docs-landing-version {
