@@ -50,4 +50,31 @@ test.describe("Global hybrid search", () => {
     const aiToggle = dialog.getByRole("switch", { name: "AI search" });
     await expect(aiToggle).not.toBeChecked();
   });
+
+  test("dismisses AI disclaimer after acknowledge", async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.removeItem("vd3-docs:ai-search-disclaimer-ack");
+    });
+
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await page.keyboard.press("Meta+k");
+
+    const dialog = page.getByRole("dialog", { name: "Search entire site" });
+    await expect(dialog).toBeVisible();
+
+    const aiToggle = dialog.getByRole("switch", { name: "AI search" });
+    await aiToggle.click();
+    await expect(dialog.locator(".vd-global-search-ai-notice")).toBeVisible();
+    await expect(dialog.getByRole("button", { name: "Got it" })).toBeVisible();
+
+    await dialog.getByRole("button", { name: "Got it" }).click();
+    await expect(dialog.locator(".vd-global-search-ai-notice")).toBeHidden();
+    await expect(aiToggle).toBeChecked();
+
+    await page.keyboard.press("Escape");
+    await page.keyboard.press("Meta+k");
+    await expect(dialog).toBeVisible();
+    await expect(aiToggle).toBeChecked();
+    await expect(dialog.locator(".vd-global-search-ai-notice")).toBeHidden();
+  });
 });

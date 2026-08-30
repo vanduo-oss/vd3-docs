@@ -3,6 +3,7 @@ import { mount } from "@vue/test-utils";
 import { createPinia } from "pinia";
 import { createRouter, createMemoryHistory } from "vue-router";
 import GlobalSearchModal from "@/overlays/GlobalSearchModal.vue";
+import { AI_SEARCH_DISCLAIMER_ACK_KEY } from "@/composables/useAiSearchDisclaimerAck";
 import {
   __setSearchEngineFactoryForTests,
 } from "@/stores/search";
@@ -57,12 +58,14 @@ const pressKey = (init: KeyboardEventInit): void => {
 describe("GlobalSearchModal", () => {
   beforeEach(() => {
     vi.useFakeTimers();
+    localStorage.removeItem(AI_SEARCH_DISCLAIMER_ACK_KEY);
     __setSearchEngineFactoryForTests(() => createMockEngine());
   });
 
   afterEach(() => {
     __setSearchEngineFactoryForTests(null);
     vi.useRealTimers();
+    localStorage.removeItem(AI_SEARCH_DISCLAIMER_ACK_KEY);
     document.body.innerHTML = "";
   });
 
@@ -133,6 +136,43 @@ describe("GlobalSearchModal", () => {
     expect(
       document.body.querySelector(".vd-global-search-ai-notice")?.textContent,
     ).toContain("EU AI Act");
+
+    wrapper.unmount();
+  });
+
+  it("hides disclaimer after acknowledge without disabling AI", async () => {
+    const pinia = createPinia();
+    const wrapper = mount(GlobalSearchModal, {
+      global: {
+        plugins: [pinia, makeRouter()],
+        stubs: { Teleport: false },
+      },
+      attachTo: document.body,
+    });
+
+    pressKey({ key: "k", metaKey: true });
+    await wrapper.vm.$nextTick();
+
+    const toggle = document.body.querySelector(
+      '.vd-form-switch input[role="switch"]',
+    ) as HTMLInputElement;
+    toggle.click();
+    await wrapper.vm.$nextTick();
+
+    const notice = document.body.querySelector(".vd-global-search-ai-notice");
+    expect(notice).toBeTruthy();
+    expect(getComputedStyle(notice!).display).not.toBe("none");
+
+    const ack = document.body.querySelector(
+      ".global-search-ai-notice-ack",
+    ) as HTMLButtonElement;
+    ack.click();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    expect(localStorage.getItem(AI_SEARCH_DISCLAIMER_ACK_KEY)).toBe("1");
+    expect(toggle.checked).toBe(true);
+    expect(getComputedStyle(notice!).display).toBe("none");
 
     wrapper.unmount();
   });
