@@ -2480,7 +2480,8 @@
         "Options",
         "Controller (return value)",
         "The DocSearchResult shape (passed to @select )",
-        "Accessibility"
+        "Accessibility",
+        "Related"
       ],
       "bodyText": "VdDocSearch is a combobox/listbox search over a collection of documents you supply. Feed it a DocSearchDoc[] and the useDocSearch composable ranks matches (title > category > keywords > content), debounces typing, highlights the matched terms, and wires full keyboard navigation plus a global ⌘ K / Ctrl K shortcut. The component is a thin, accessible shell — reach for the composable directly when you want to render results your own way.. Try typing switch , toast , menu or install — matched terms are highlighted and results are grouped by category.. Last @search : waiting for input…. Last @select : nothing chosen yet. :max-results=\"3\" , :min-query-length=\"1\" and highlight-tag=\"strong\" — searches on a single character and caps the list at three.. Same ranking, debounce and keyboard state, but the result list below is hand-rolled from the controller's reactive results — no VdDocSearch shell.. useDocSearch(docs: MaybeRefOrGetter<DocSearchDoc[]>, options?) is the headless engine behind the component. The index is rebuilt whenever the reactive docs source changes, so a live array (ref or getter) stays in sync. Ranking weights a title match at +100 (with +50 for an exact title and +25 for a prefix), a category match at +50 , a keyword match at +30 , and a content match at +10 ; results are sorted by score and sliced to maxResults . It is SSR-safe — the only browser access (the global ⌘ K listener) is registered on mount and released on unmount.. :data — DocSearchDoc[] — the searchable documents (required).. :min-query-length — Queries shorter than this never search (default 2).. :max-results — Maximum results shown (default 10).. :debounce-ms — Debounce applied to typing, in ms (default 150).. :highlight-tag — Wrapper tag for matched terms; whitelist mark | span | strong | em (default 'mark').. :keyboard-shortcut — Enable the ⌘K / Ctrl+K shortcut and its badge (default true).. :placeholder — Input placeholder (default 'Search...').. :empty-title — Empty-state heading (default 'No results found').. :empty-text — Empty-state body (default 'Try different keywords or check spelling').. :aria-label — Listbox accessible name (default 'Search results').. @select — (result: DocSearchResult) — a result was chosen by click or Enter.. @search — (query, results) — fired after a debounced search settles.. @open — The results panel opened.. @close — The results panel closed.. title — string — primary label and the highest-weighted match field (required).. id? — string — stable identifier; falls back to a slug of title.. content? — string — body text; the lowest-weighted matches and the source of the excerpt.. category? — string — grouping label; its slug also picks the result's category icon.. keywords? — string[] — extra match terms; derived from title + content when omitted.. href? — string — result destination (defaults to #<id>).. icon? — string — explicit Phosphor icon class; falls back to the category icon.. minQueryLength — number — gate below which no search runs (default 2).. maxResults — number — cap on returned results (default 10).. debounceMs — number — debounce before a settled search (default 150).. highlightTag — string — safe wrapper tag for matches, mark | span | strong | em (default 'mark').. keyboardShortcut — boolean — enable the ⌘K / Ctrl+K focus shortcut (default true).. input — Ref — the element ⌘K / Ctrl+K focuses (and selects).. categoryIcons — Record<string, string> — category-slug → Phosphor icon overrides for results without an icon.. onSelect / onSearch / onOpen / onClose — Lifecycle hooks. VdDocSearch forwards these as its four emits.. query — Ref<string> — live input value; mutate it (v-model) to drive a debounced search.. results — Ref<DocSearchResult[]> — the current ranked results.. isOpen — Ref<boolean> — whether the results panel is open.. activeIndex — Ref<number> — highlighted result index for keyboard nav, or -1.. search(query?) — Run the ranking synchronously (no debounce); resets activeIndex and returns the results.. open() / close() — Open or close the results panel.. navigate(direction) — Move activeIndex by direction, wrapping at the ends.. select(index?) — Select a result (defaults to the active one): closes, clears the query, fires onSelect.. handleKeydown(event) — Combobox key handler for the input (Arrow / Enter / Escape / Tab).. highlight(text, query?) — -escape text and wrap matches in the highlight tag.. score — number — relevance; results sort by it, descending, then keep document order.",
       "classes": [
@@ -4794,6 +4795,198 @@
       ]
     },
     {
+      "id": "global-search",
+      "title": "Global Search",
+      "category": "Core",
+      "tab": "components",
+      "tabTitle": "Components",
+      "route": "/components/global-search",
+      "icon": "magnifying-glass-plus",
+      "keywords": [
+        "search",
+        "global",
+        "palette",
+        "cmd k",
+        "command",
+        "modal",
+        "ai"
+      ],
+      "headings": [
+        "Global search",
+        "Live demo",
+        "Mechanics",
+        "Props",
+        "Emits & slots",
+        "useGlobalSearch",
+        "custom properties",
+        "Accessibility"
+      ],
+      "bodyText": "VdGlobalSearch is a site-wide command palette: glass overlay, grouped results, keyboard navigation, and an optional AI search toggle (off by default) with an informational disclaimer. Pass a GlobalSearchAdapter — the component stays engine-agnostic (HybridSearch, REST, or in-memory).. Press ⌘K or / (when focus is not in an input). AI toggle uses a demo adapter — no model download.. When co-mounting VdDocSearch , set :keyboard-shortcut=\"false\" on the inline combobox so only the global palette owns Cmd/Ctrl+K.. #ai-notice — override EU AI Act disclaimer .. ⌘K / Ctrl+K — Open palette. / — Open (when not typing in a field). ↑ ↓ — Move selection (wraps). ↵ — Select highlighted hit. esc — Close and clear query. vd:open-search — CustomEvent — e.g. dock brand. adapter — Required GlobalSearchAdapter — async search(query, { ai }).. shortcut — true | { key, slash } — Cmd/Ctrl+K and / (default both on).. showAiToggle — Show AI opt-in switch + disclaimer slot (default true).. ai — { enabled?, defaultEnabled?, persistKey? } — AI preference.. progressMessage — Footer status while semantic model loads.. placeholder / dialogLabel / inputLabel — and ARIA labels.. openEventName — CustomEvent name to open (default vd:open-search).. select — User chose a hit (click or Enter).. search — Debounced search settled with query + hits.. update:aiEnabled — AI toggle changed.. open / close — Modal visibility.. adapter — Same GlobalSearchAdapter as the component.. minQueryLength / debounceMs — Defaults 2 and 350.. shortcut — Global keydown registration (onMounted).. ai.persistKey — localStorage key for { aiEnabled }.. groupBy — Optional (hit) => categoryPath string.. open / close / move / setAiEnabled — Modal control.. highlight(text) — Returns safe with <mark> for query.. --vd-global-search-modal-max-width — 640px. --vd-global-search-modal-top — 15vh. --vd-global-search-glass-opacity — 0.9. --vd-global-search-glass-blur — 20px",
+      "classes": [],
+      "chunks": [
+        {
+          "type": "paragraph",
+          "text": "VdGlobalSearch is a site-wide command palette: glass overlay, grouped results, keyboard navigation, and an optional AI search toggle (off by default) with an informational disclaimer. Pass a GlobalSearchAdapter — the component stays engine-agnostic (HybridSearch, REST, or in-memory).",
+          "heading": "Global search"
+        },
+        {
+          "type": "paragraph",
+          "text": "Press ⌘K or / (when focus is not in an input). AI toggle uses a demo adapter — no model download.",
+          "heading": "Live demo"
+        },
+        {
+          "type": "paragraph",
+          "text": "When co-mounting VdDocSearch , set :keyboard-shortcut=\"false\" on the inline combobox so only the global palette owns Cmd/Ctrl+K.",
+          "heading": "Mechanics"
+        },
+        {
+          "type": "class",
+          "text": "⌘K / Ctrl+K — Open palette",
+          "heading": "Mechanics"
+        },
+        {
+          "type": "class",
+          "text": "/ — Open (when not typing in a field)",
+          "heading": "Mechanics"
+        },
+        {
+          "type": "class",
+          "text": "↑ ↓ — Move selection (wraps)",
+          "heading": "Mechanics"
+        },
+        {
+          "type": "class",
+          "text": "↵ — Select highlighted hit",
+          "heading": "Mechanics"
+        },
+        {
+          "type": "class",
+          "text": "esc — Close and clear query",
+          "heading": "Mechanics"
+        },
+        {
+          "type": "class",
+          "text": "vd:open-search — CustomEvent — e.g. dock brand",
+          "heading": "Mechanics"
+        },
+        {
+          "type": "class",
+          "text": "adapter — Required GlobalSearchAdapter — async search(query, { ai }).",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "shortcut — true | { key, slash } — Cmd/Ctrl+K and / (default both on).",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "showAiToggle — Show AI opt-in switch + disclaimer slot (default true).",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "ai — { enabled?, defaultEnabled?, persistKey? } — AI preference.",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "progressMessage — Footer status while semantic model loads.",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "placeholder / dialogLabel / inputLabel — and ARIA labels.",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "openEventName — CustomEvent name to open (default vd:open-search).",
+          "heading": "Props"
+        },
+        {
+          "type": "paragraph",
+          "text": "#ai-notice — override EU AI Act disclaimer .",
+          "heading": "Emits & slots"
+        },
+        {
+          "type": "class",
+          "text": "select — User chose a hit (click or Enter).",
+          "heading": "Emits & slots"
+        },
+        {
+          "type": "class",
+          "text": "search — Debounced search settled with query + hits.",
+          "heading": "Emits & slots"
+        },
+        {
+          "type": "class",
+          "text": "update:aiEnabled — AI toggle changed.",
+          "heading": "Emits & slots"
+        },
+        {
+          "type": "class",
+          "text": "open / close — Modal visibility.",
+          "heading": "Emits & slots"
+        },
+        {
+          "type": "class",
+          "text": "adapter — Same GlobalSearchAdapter as the component.",
+          "heading": "useGlobalSearch"
+        },
+        {
+          "type": "class",
+          "text": "minQueryLength / debounceMs — Defaults 2 and 350.",
+          "heading": "useGlobalSearch"
+        },
+        {
+          "type": "class",
+          "text": "shortcut — Global keydown registration (onMounted).",
+          "heading": "useGlobalSearch"
+        },
+        {
+          "type": "class",
+          "text": "ai.persistKey — localStorage key for { aiEnabled }.",
+          "heading": "useGlobalSearch"
+        },
+        {
+          "type": "class",
+          "text": "groupBy — Optional (hit) => categoryPath string.",
+          "heading": "useGlobalSearch"
+        },
+        {
+          "type": "class",
+          "text": "open / close / move / setAiEnabled — Modal control.",
+          "heading": "useGlobalSearch"
+        },
+        {
+          "type": "class",
+          "text": "highlight(text) — Returns safe with <mark> for query.",
+          "heading": "useGlobalSearch"
+        },
+        {
+          "type": "class",
+          "text": "--vd-global-search-modal-max-width — 640px",
+          "heading": "custom properties"
+        },
+        {
+          "type": "class",
+          "text": "--vd-global-search-modal-top — 15vh",
+          "heading": "custom properties"
+        },
+        {
+          "type": "class",
+          "text": "--vd-global-search-glass-opacity — 0.9",
+          "heading": "custom properties"
+        },
+        {
+          "type": "class",
+          "text": "--vd-global-search-glass-blur — 20px",
+          "heading": "custom properties"
+        }
+      ]
+    },
+    {
       "id": "hex",
       "title": "Hex Grid",
       "category": "Canvas",
@@ -4883,6 +5076,153 @@
           "type": "paragraph",
           "text": "Axial coordinate math and terrain tables, importable without a canvas or the DOM — handy for game logic, tests, or Node.",
           "heading": "Pure math ( /hex-math )"
+        }
+      ]
+    },
+    {
+      "id": "guide-hybrid-search",
+      "title": "Hybrid search",
+      "category": "Guides",
+      "tab": "components",
+      "tabTitle": "Components",
+      "route": "/guides/hybrid-search",
+      "icon": "brain",
+      "keywords": [
+        "search",
+        "hybrid",
+        "semantic",
+        "embedding",
+        "fuse",
+        "ai",
+        "transformers"
+      ],
+      "headings": [
+        "AI and hybrid search",
+        "Merge pipeline",
+        "Building the index",
+        "Embedding presets",
+        "Tuning (this site)",
+        "Eval harness",
+        "CSP, offline, privacy",
+        "Troubleshooting"
+      ],
+      "bodyText": "This site uses @vanduo-oss/vdl-hybrid-search 0.2.0+ for Cmd+K: fuzzy keyword search (Fuse.js) merged with optional in-browser semantic search (Transformers.js). The palette UI lives in VdGlobalSearch ; the engine is injected via GlobalSearchAdapter .. Run the CLI shipped with the library (this repo wraps it in pnpm index ):. search-index.json — Fuse corpus:. vectors.json — precomputed embeddings (same model / dimensions ):. Guardrails (category, keywords, headings, bodyText) improve ranking; the TypeScript type marks them optional but the indexer should populate them for production corpora.. Default is embeddinggemma . Changing preset requires re-indexing vectors with the same model, pooling, and normalization. HybridSearch warns when vectors.json model ≠ active modelName .. Labeled queries in scripts/search-eval-queries.json — run after indexing:. Measures top-1 / top-3 / MRR on intent queries and asserts nonsense queries return empty (post confidence cutoff). Use this when swapping MiniLM → EmbeddingGemma or changing index text.. embeddinggemma — embeddinggemma-300m-ONNX. minilm — all-MiniLM-L6-v2. e5 — multilingual-e5-small. fuseThreshold — 0.4. semanticThreshold — 0.3. fuzzyMinScore — 0.35. titleExactBoost — 0.15. maxResults — 20. maxSemanticResults — 10. confidence — adaptive. No semantic results — AI off, model still downloading, or threshold too high.. Nonsense queries match — Disable confidence or raise minTopScore .. Dimension error — vectors.json built with a different preset than runtime.. Console model mismatch — Re-run vdl-hybrid-index after preset change.. semantic-failed retry — Network/CDN blocked — check CSP or use local bundle.",
+      "classes": [],
+      "chunks": [
+        {
+          "type": "paragraph",
+          "text": "This site uses @vanduo-oss/vdl-hybrid-search 0.2.0+ for Cmd+K: fuzzy keyword search (Fuse.js) merged with optional in-browser semantic search (Transformers.js). The palette UI lives in VdGlobalSearch ; the engine is injected via GlobalSearchAdapter .",
+          "heading": "AI and hybrid search"
+        },
+        {
+          "type": "paragraph",
+          "text": "Run the CLI shipped with the library (this repo wraps it in pnpm index ):",
+          "heading": "Building the index"
+        },
+        {
+          "type": "paragraph",
+          "text": "search-index.json — Fuse corpus:",
+          "heading": "Building the index"
+        },
+        {
+          "type": "paragraph",
+          "text": "vectors.json — precomputed embeddings (same model / dimensions ):",
+          "heading": "Building the index"
+        },
+        {
+          "type": "paragraph",
+          "text": "Guardrails (category, keywords, headings, bodyText) improve ranking; the TypeScript type marks them optional but the indexer should populate them for production corpora.",
+          "heading": "Building the index"
+        },
+        {
+          "type": "paragraph",
+          "text": "Default is embeddinggemma . Changing preset requires re-indexing vectors with the same model, pooling, and normalization. HybridSearch warns when vectors.json model ≠ active modelName .",
+          "heading": "Embedding presets"
+        },
+        {
+          "type": "class",
+          "text": "embeddinggemma — embeddinggemma-300m-ONNX",
+          "heading": "Embedding presets"
+        },
+        {
+          "type": "class",
+          "text": "minilm — all-MiniLM-L6-v2",
+          "heading": "Embedding presets"
+        },
+        {
+          "type": "class",
+          "text": "e5 — multilingual-e5-small",
+          "heading": "Embedding presets"
+        },
+        {
+          "type": "class",
+          "text": "fuseThreshold — 0.4",
+          "heading": "Tuning (this site)"
+        },
+        {
+          "type": "class",
+          "text": "semanticThreshold — 0.3",
+          "heading": "Tuning (this site)"
+        },
+        {
+          "type": "class",
+          "text": "fuzzyMinScore — 0.35",
+          "heading": "Tuning (this site)"
+        },
+        {
+          "type": "class",
+          "text": "titleExactBoost — 0.15",
+          "heading": "Tuning (this site)"
+        },
+        {
+          "type": "class",
+          "text": "maxResults — 20",
+          "heading": "Tuning (this site)"
+        },
+        {
+          "type": "class",
+          "text": "maxSemanticResults — 10",
+          "heading": "Tuning (this site)"
+        },
+        {
+          "type": "class",
+          "text": "confidence — adaptive",
+          "heading": "Tuning (this site)"
+        },
+        {
+          "type": "paragraph",
+          "text": "Labeled queries in scripts/search-eval-queries.json — run after indexing:",
+          "heading": "Eval harness"
+        },
+        {
+          "type": "paragraph",
+          "text": "Measures top-1 / top-3 / MRR on intent queries and asserts nonsense queries return empty (post confidence cutoff). Use this when swapping MiniLM → EmbeddingGemma or changing index text.",
+          "heading": "Eval harness"
+        },
+        {
+          "type": "class",
+          "text": "No semantic results — AI off, model still downloading, or threshold too high.",
+          "heading": "Troubleshooting"
+        },
+        {
+          "type": "class",
+          "text": "Nonsense queries match — Disable confidence or raise minTopScore .",
+          "heading": "Troubleshooting"
+        },
+        {
+          "type": "class",
+          "text": "Dimension error — vectors.json built with a different preset than runtime.",
+          "heading": "Troubleshooting"
+        },
+        {
+          "type": "class",
+          "text": "Console model mismatch — Re-run vdl-hybrid-index after preset change.",
+          "heading": "Troubleshooting"
+        },
+        {
+          "type": "class",
+          "text": "semantic-failed retry — Network/CDN blocked — check CSP or use local bundle.",
+          "heading": "Troubleshooting"
         }
       ]
     },
@@ -6873,28 +7213,37 @@
         "bottom",
         "morph",
         "glass",
-        "customizer"
+        "customizer",
+        "tint mode",
+        "accent",
+        "surface"
       ],
       "headings": [
         "Oola Dock",
         "Live customizer",
         "Open Color tints",
+        "Surface vs accent tint",
         "Fixed app chrome",
         "VdDock API",
         "VdDockItem API"
       ],
-      "bodyText": "VdDock is a fat Seemore glass pill that morphs horizontal ↔ vertical through a square waypoint. Package defaults stay placement=\"bottom\" , no tint, radius 1.25 , glass 34 . This playground starts at bottom / theme ink (light black, dark green) / radius 2 / glass 34 / ū / stack . Brand click here cycles bottom → left → top → right → bottom . The package still morphs the paired edge ( bottom ↔ left , top ↔ right ). Fixed docks force a horizontal edge when the viewport is ≤520px; this playground opts out of that JS lock so Place and ū work in a narrow pane, and shows only the brand, centered. The #brand slot sits on the morph-origin corner — these demos use the oola ū mark. Replace it with your logo. Radius is dock-own and goes past the theme 0.5rem cap.. Page-local knobs bound to real VdDock props — they do not write the site theme. Click ū (or your chosen brand) to cycle bottom → left → top → right. On a narrow pane the playground shows only the brand, centered. Toggle orientation still morphs the pair. Full screen expands this playground only (not the browser).. position=\"fixed\" pins to the viewport like oolasite. Default edge is placement=\"bottom\" . Offset your main with --vd-dock-height and --vd-dock-inset . Use :menu=\"false\" on VdThemeSwitcher so the menu cannot clip under the pill.. v-model:orientation — \"horizontal\" | \"vertical\". Brand click morphs through a square waypoint (480ms / 720ms) on the current pair.. v-model:placement — \"bottom\" | \"top\" | \"left\" | \"right\" (default bottom). Source of truth for the edge. Pairs: bottom ↔ left, top ↔ right.. :position — \"fixed\" (viewport chrome, default) | \"contained\" (absolute in a relative parent — use this in docs and cards). Fixed docks force a horizontal edge at ≤520px; this playground lifts that JS lock.. :dark — Always-dark near-black frost (default true).. :tint — Optional Open Color wash: red | orange | yellow | green | teal | blue | violet | pink.. :glass — Seemore step 1 | 2 | 3 | 5 | 8 | 13 | 21 | 34 (default 34).. :radius — Dock-own scale — not theme RadiusOption (max 0.5). 0.5 | 0.75 | 1 | 1.25 (default) | 1.5 | 2 | 9999 (pill). Sets --vd-dock-radius.. :itemLayout — \"stack\" icon-above-label (default) | \"inline\" icon-then-label.. :brandToggles — Brand click toggles the paired edge (default true). The package disables this at ≤520px on fixed chrome; this playground opts out.. :cycle — \"pair\" (default) keeps bottom ↔ left / top ↔ right. \"edges\" walks bottom → left → top → right → bottom. This playground uses edges.. :persist — Opt-in. Writes getStoragePrefix() + \"dock-orient\" as the placement string. Default false.. :label — aria-label for the nav (default \"Primary\").. #brand — Morph-origin corner. Demos use ū; swap any icon or wordmark. Bottom/left: brand left or bottom. Top/right: brand right or top.. default — Items — VdDockItem or any .vd-dock-item.. #actions — Trailing controls. Theme switcher should use :menu=\"false\".. :icon — Phosphor name via VdIcon. Omit for a label-only item.. :label — Visible label and accessible name.. :active — Adds .is-active and aria-current=\"page\".",
+      "bodyText": "VdDock is a fat Seemore glass pill that morphs horizontal ↔ vertical through a square waypoint. Package defaults stay placement=\"bottom\" , no tint, radius 1.25 , glass 34 . This playground starts at bottom / theme ink (light black, dark green) / radius 1.5 / glass 34 / ū / stack . Brand click here cycles bottom → left → top → right → bottom . The package still morphs the paired edge ( bottom ↔ left , top ↔ right ). Fixed docks force a horizontal edge when the viewport is ≤520px; this playground opts out of that JS lock so Place and ū work in a narrow pane, and shows only the brand, centered. The #brand slot sits on the morph-origin corner — these demos use the oola ū mark. Replace it with your logo. Radius is dock-own and goes past the theme 0.5rem cap.. Page-local knobs bound to real VdDock props — they do not write the site theme. Click ū (or your chosen brand) to cycle bottom → left → top → right. On a narrow pane the playground shows only the brand, centered. Toggle orientation still morphs the pair. Full screen expands this playground only (not the browser).. tintMode decides what :tint paints. surface (the default, left) washes the pill itself. accent (right) holds the pill at constant ink and only publishes --vd-dock-tint , so the hue lands on the active item and the #brand slot while the glass stays neutral. That is what this site's own dock uses — chrome that sits over changing page content reads better when only the icons move with the theme.. position=\"fixed\" pins to the viewport like oolasite. Default edge is placement=\"bottom\" . Offset your main with --vd-dock-height and --vd-dock-inset . Use :menu=\"false\" on VdThemeSwitcher so the menu cannot clip under the pill.. v-model:orientation — \"horizontal\" | \"vertical\". Brand click morphs through a square waypoint (480ms / 720ms) on the current pair.. v-model:placement — \"bottom\" | \"top\" | \"left\" | \"right\" (default bottom). Source of truth for the edge. Pairs: bottom ↔ left, top ↔ right.. :position — \"fixed\" (viewport chrome, default) | \"contained\" (absolute in a relative parent — use this in docs and cards). Fixed docks force a horizontal edge at ≤520px; this playground lifts that JS lock.. :dark — Always-dark near-black frost (default true).. :tint — Optional Open Color wash: red | orange | yellow | green | teal | blue | violet | pink.. :tintMode — \"surface\" (default) paints the pill with :tint. \"accent\" holds the pill at constant ink and only publishes --vd-dock-tint, so items and the #brand slot carry the hue. No effect without :tint.. :glass — Seemore step 1 | 2 | 3 | 5 | 8 | 13 | 21 | 34 (default 34).. :radius — Dock-own scale — not theme RadiusOption (max 0.5). 0.5 | 0.75 | 1 | 1.25 (default) | 1.5 | 2 | 9999 (pill). Sets --vd-dock-radius.. :itemLayout — \"stack\" icon-above-label (default) | \"inline\" icon-then-label.. :brandToggles — Brand click toggles the paired edge (default true). The package disables this at ≤520px on fixed chrome; this playground opts out.. :cycle — \"pair\" (default) keeps bottom ↔ left / top ↔ right. \"edges\" walks bottom → left → top → right → bottom. This playground uses edges.. :persist — Opt-in. Writes getStoragePrefix() + \"dock-orient\" as the placement string. Default false.. :label — aria-label for the nav (default \"Primary\").. #brand — Morph-origin corner. Demos use ū; swap any icon or wordmark. Bottom/left: brand left or bottom. Top/right: brand right or top.. default — Items — VdDockItem or any .vd-dock-item.. #actions — Trailing controls. Theme switcher should use :menu=\"false\".. :icon — Phosphor name via VdIcon. Omit for a label-only item.. :label — Visible label and accessible name.. :active — Adds .is-active and aria-current=\"page\".",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "VdDock is a fat Seemore glass pill that morphs horizontal ↔ vertical through a square waypoint. Package defaults stay placement=\"bottom\" , no tint, radius 1.25 , glass 34 . This playground starts at bottom / theme ink (light black, dark green) / radius 2 / glass 34 / ū / stack . Brand click here cycles bottom → left → top → right → bottom . The package still morphs the paired edge ( bottom ↔ left , top ↔ right ). Fixed docks force a horizontal edge when the viewport is ≤520px; this playground opts out of that JS lock so Place and ū work in a narrow pane, and shows only the brand, centered. The #brand slot sits on the morph-origin corner — these demos use the oola ū mark. Replace it with your logo. Radius is dock-own and goes past the theme 0.5rem cap.",
+          "text": "VdDock is a fat Seemore glass pill that morphs horizontal ↔ vertical through a square waypoint. Package defaults stay placement=\"bottom\" , no tint, radius 1.25 , glass 34 . This playground starts at bottom / theme ink (light black, dark green) / radius 1.5 / glass 34 / ū / stack . Brand click here cycles bottom → left → top → right → bottom . The package still morphs the paired edge ( bottom ↔ left , top ↔ right ). Fixed docks force a horizontal edge when the viewport is ≤520px; this playground opts out of that JS lock so Place and ū work in a narrow pane, and shows only the brand, centered. The #brand slot sits on the morph-origin corner — these demos use the oola ū mark. Replace it with your logo. Radius is dock-own and goes past the theme 0.5rem cap.",
           "heading": "Oola Dock"
         },
         {
           "type": "paragraph",
           "text": "Page-local knobs bound to real VdDock props — they do not write the site theme. Click ū (or your chosen brand) to cycle bottom → left → top → right. On a narrow pane the playground shows only the brand, centered. Toggle orientation still morphs the pair. Full screen expands this playground only (not the browser).",
           "heading": "Live customizer"
+        },
+        {
+          "type": "paragraph",
+          "text": "tintMode decides what :tint paints. surface (the default, left) washes the pill itself. accent (right) holds the pill at constant ink and only publishes --vd-dock-tint , so the hue lands on the active item and the #brand slot while the glass stays neutral. That is what this site's own dock uses — chrome that sits over changing page content reads better when only the icons move with the theme.",
+          "heading": "Surface vs accent tint"
         },
         {
           "type": "paragraph",
@@ -6924,6 +7273,11 @@
         {
           "type": "class",
           "text": ":tint — Optional Open Color wash: red | orange | yellow | green | teal | blue | violet | pink.",
+          "heading": "VdDock API"
+        },
+        {
+          "type": "class",
+          "text": ":tintMode — \"surface\" (default) paints the pill with :tint. \"accent\" holds the pill at constant ink and only publishes --vd-dock-tint, so items and the #brand slot carry the hue. No effect without :tint.",
           "heading": "VdDock API"
         },
         {
@@ -9708,7 +10062,7 @@
         "VdDataTable API ( 3)",
         "VdEmptyState API ( 3)"
       ],
-      "bodyText": "Presentational VdTable ( table) plus VdDataTable — client search, sort, selection, and paging via useTableState . Apps own fetch. Cell slots compose VdAvatar / VdBadge ; a dashboard recipe can sit a cbun VdChart above the grid.. Sortable headers expose aria-sort . columns.variant tints headers here (not on VdTable ). Search is client-side unless :manual .. No teammates yet. Invite someone to populate this grid.. Composition only — cbun charts stay in @vanduo-oss/vd3-cbun ; the table stays in vd3.. Select row 1 — AL Ada Lovelace. Select row 2 — GH Grace Hopper. Select row 3 — AT Alan Turing. Select row 4 — KJ Katherine Johnson. Select row 5 — DV Dorothy Vaughan. Ada Lovelace — Admin. Grace Hopper — Editor. Alan Turing — Viewer. Katherine Johnson — Editor. John Doe — [email&#160;protected]. Jane Smith — [email&#160;protected]. Mike Johnson — [email&#160;protected]. Product A — $29.99. Product B — $39.99. Product C — $49.99. #001 — Active. #002 — Pending. #003 — Failed. .vd-table — Base component class required for all Vanduo tables.. .vd-table-bordered — Modifier class that adds borders to all outer boundaries and internal cells.. .vd-table-striped — Modifier class that adds alternating background colors to body rows (zebra striping).. .vd-table-hover — Modifier class that enables a hover background color effect on body rows.. .vd-table-responsive — Wrapper class that enables horizontal scrolling on small screens.. .vd-data-table — Interactive grid chrome wrapping .vd-table (toolbar, sticky header, footer).. .vd-empty — Reusable empty-state stack (icon, title, description, action).. :columns — Array of { key, label }. Optional variant is typed but not applied — VdTable is presentational markup.. :rows — Array of plain row objects keyed by each column's key.. :striped — Zebra row striping.. :bordered — Cell borders.. :hover — Row hover highlight.. :caption — Accessible table caption.. :columns — { key, label, sortable?, align?, width?, variant? }. variant adds vd-table-{variant} on the header cell.. :rows — Row objects. Apps own fetch; pass already-sliced rows with :manual.. :row-key — String key or (row, index) => id (default 'id').. :selectable — 'none' | 'single' | 'multiple'. Row + select-all checkboxes are labelled.. v-model:sort / v-model:selected / v-model:page — Controlled sort, selection, page.. :searchable / :search-keys / :search-placeholder — Toolbar VdInput filters client-side unless :manual.. :page-size / :manual / :loading — Paging; skip client pipeline; skeleton rows.. :empty-title / :empty-description / :max-height — Empty ; sticky-header scrollport.. :striped / :bordered / :hover / :sm / :caption — Same visual language as VdTable.",
+      "bodyText": "Presentational VdTable ( table) plus VdDataTable — client search, sort, selection, and paging via useTableState . Apps own fetch. Cell slots compose VdAvatar / VdBadge ; a dashboard recipe can sit a cbun VdChart above the grid.. Sortable headers expose aria-sort . columns.variant tints headers here (not on VdTable ). Search is client-side unless :manual .. No teammates yet. Invite someone to populate this grid.. Composition only — cbun charts stay in @vanduo-oss/vd3-cbun ; the table stays in vd3.. Select row 1 — AL Ada Lovelace. Select row 2 — GH Grace Hopper. Select row 3 — AT Alan Turing. Select row 4 — KJ Katherine Johnson. Select row 5 — DV Dorothy Vaughan. Ada Lovelace — Admin. Grace Hopper — Editor. Alan Turing — Viewer. Katherine Johnson — Editor. John Doe — john@example.com. Jane Smith — jane@example.com. Mike Johnson — mike@example.com. Product A — $29.99. Product B — $39.99. Product C — $49.99. #001 — Active. #002 — Pending. #003 — Failed. .vd-table — Base component class required for all Vanduo tables.. .vd-table-bordered — Modifier class that adds borders to all outer boundaries and internal cells.. .vd-table-striped — Modifier class that adds alternating background colors to body rows (zebra striping).. .vd-table-hover — Modifier class that enables a hover background color effect on body rows.. .vd-table-responsive — Wrapper class that enables horizontal scrolling on small screens.. .vd-data-table — Interactive grid chrome wrapping .vd-table (toolbar, sticky header, footer).. .vd-empty — Reusable empty-state stack (icon, title, description, action).. :columns — Array of { key, label }. Optional variant is typed but not applied — VdTable is presentational markup.. :rows — Array of plain row objects keyed by each column's key.. :striped — Zebra row striping.. :bordered — Cell borders.. :hover — Row hover highlight.. :caption — Accessible table caption.. :columns — { key, label, sortable?, align?, width?, variant? }. variant adds vd-table-{variant} on the header cell.. :rows — Row objects. Apps own fetch; pass already-sliced rows with :manual.. :row-key — String key or (row, index) => id (default 'id').. :selectable — 'none' | 'single' | 'multiple'. Row + select-all checkboxes are labelled.. v-model:sort / v-model:selected / v-model:page — Controlled sort, selection, page.. :searchable / :search-keys / :search-placeholder — Toolbar VdInput filters client-side unless :manual.. :page-size / :manual / :loading — Paging; skip client pipeline; skeleton rows.. :empty-title / :empty-description / :max-height — Empty ; sticky-header scrollport.. :striped / :bordered / :hover / :sm / :caption — Same visual language as VdTable.",
       "classes": [
         ".vd-table",
         ".vd-table-bordered",
@@ -9810,17 +10164,17 @@
         },
         {
           "type": "class",
-          "text": "John Doe — [email&#160;protected]",
+          "text": "John Doe — john@example.com",
           "heading": "Bordered Table"
         },
         {
           "type": "class",
-          "text": "Jane Smith — [email&#160;protected]",
+          "text": "Jane Smith — jane@example.com",
           "heading": "Bordered Table"
         },
         {
           "type": "class",
-          "text": "Mike Johnson — [email&#160;protected]",
+          "text": "Mike Johnson — mike@example.com",
           "heading": "Bordered Table"
         },
         {
@@ -10339,11 +10693,18 @@
       "keywords": [
         "customizer",
         "tokens",
-        "live-edit"
+        "live-edit",
+        "swatches",
+        "fan",
+        "variant",
+        "primary",
+        "controlled"
       ],
       "headings": [
         "Theme Customizer",
         "Live Demo",
+        "Swatches variant",
+        "Controlled primary",
         "Usage",
         "Panel Sections",
         "Available Primary Colors",
@@ -10352,18 +10713,19 @@
         "Theme Singleton API",
         "API Reference",
         "Props",
+        "Emits",
         "Exposed (template ref)",
         "Window Event",
         "API",
         "localStorage Keys",
         "Coordination with VdThemeSwitcher"
       ],
-      "bodyText": "VdThemeCustomizer lets users personalize the theme in real time — palette, primary color, neutral scale, border radius, and font family — all on top of the default Open Color palette. Every control writes through the shared useThemePreference() singleton, so it stays in sync with the Theme Switcher and persists to localStorage . Color mode itself lives in the switcher; see the Theme Customizer walkthrough for the full story.. This is a real <VdThemeCustomizer> . It renders its own paint-roller trigger (click it) and teleports the panel under it — every change applies to this page immediately:. The buttons dogfood the exposed open() / close() / toggle() methods.. show-palette — When enabled, the panel adds a Palette section so users can switch between Open Color and Fibonacci. Off by default in this demo (open the panel and flip the switch to see it).. Drop the component anywhere — it brings its own trigger and panel:. Mount it once (typically in your navbar). Any other button can open it by dispatching the vd:open-customizer window event.. Color mode (light / dark / system) is owned by VdThemeSwitcher ; both share the same singleton.. Neutral colors affect backgrounds, borders, and text throughout the framework.. Open/close a specific instance, or any mounted one:. The customizer is a thin UI over useThemePreference() — you can read or drive the same state directly:. Both components read and write the same useThemePreference() singleton, so they never clobber each other:. showPalette — boolean. open() — Open the customizer panel.. close() — Close the customizer panel.. toggle() — Toggle the customizer panel.. vd:open-customizer — A mounted VdThemeCustomizer opens its panel when this window event is dispatched — wire it to a navbar trigger.. .vd-theme-customizer — Root wrapper; gains .is-open while the panel is open.. .vd-theme-customizer-trigger — The built-in paint-roller trigger button (also carries data-theme-customizer-trigger).. .vd-theme-customizer-overlay — Teleported backdrop; .is-active while open.. .vd-theme-customizer-panel — Teleported panel <aside role=\"dialog\">; .is-open while open.. data-primary / data-neutral — Applied to < >. Remap the --vd-primary-* / --vd-gray-* variables.. data-radius / data-font — Applied to < >. Set --vd-radius-scale and the font stack (data-font removed for system).. data-palette — Applied to < >. Selects the Open Color or Fibonacci palette.. vanduo-palette — open-color. vanduo-primary-color — black / amber. vanduo-neutral-color — stone / charcoal. vanduo-radius — 0.5. vanduo-font-preference — nunito. vanduo-theme-preference — system",
+      "bodyText": "VdThemeCustomizer lets users personalize the theme in real time — palette, primary color, neutral scale, border radius, and font family — all on top of the default Open Color palette. Every control writes through the shared useThemePreference() singleton, so it stays in sync with the Theme Switcher and persists to localStorage . Color mode itself lives in the switcher; see the Theme Customizer walkthrough for the full story. Two presentations ship: variant=\"panel\" (the default editor below) and variant=\"swatches\" , a primary-only fan for dock and toolbar chrome.. This is a real <VdThemeCustomizer> . It renders its own paint-roller trigger (click it) and teleports the panel under it — every change applies to this page immediately:. The buttons dogfood the exposed open() / close() / toggle() methods.. show-palette — When enabled, the panel adds a Palette section so users can switch between Open Color and Fibonacci. Off by default in this demo (open the panel and flip the switch to see it).. variant=\"swatches\" drops the 320px panel for a primary-only fan hinged at the trigger — the presentation this site's own dock uses. swatches curates which hues appear, direction sets the axis, and preview (on by default) applies a hue on hover and puts the old one back if you leave without picking.. Blades always render in PRIMARY_COLORS order rather than the order you list them, and that order is not alphabetical — teal comes before blue . direction=\"auto\" aims the fan away from the nearest viewport edge , which is not the same as aiming it where there is the most room; chrome that migrates between edges (a dock, say) should pass an explicit direction.. This fan runs controlled , so it writes the local ref beside it and leaves the site theme alone — the page colors do not change when you pick.. Unbound, the component both reads and writes useThemePreference() . Bind :primary and it switches to controlled mode: it renders from your value and reports every change — hover previews included — through @update:primary , touching the singleton never.. Reach for this when the app already owns the hue and needs to clamp or transform it. This site does exactly that: its store narrows primary to Ink plus the eight dock tints and forces palette, font, radius, and neutral to docs defaults, so an uncontrolled customizer writing the singleton would slip past both rules.. Drop the component anywhere — it brings its own trigger and panel:. Mount it once (typically in your navbar). Any other button can open it by dispatching the vd:open-customizer window event.. Color mode (light / dark / system) is owned by VdThemeSwitcher ; both share the same singleton.. Neutral colors affect backgrounds, borders, and text throughout the framework.. Open/close a specific instance, or any mounted one:. The customizer is a thin UI over useThemePreference() — you can read or drive the same state directly:. Both components read and write the same useThemePreference() singleton, so they never clobber each other:. showPalette — boolean. variant — \"panel\" | \"swatches\". swatches — readonly string[]. direction — \"auto\" | \"up\" | \"down\" | \"left\" | \"right\". preview — boolean. primary — string. update:primary — (value: string). open() — Open the customizer panel.. close() — Close the customizer panel.. toggle() — Toggle the customizer panel.. vd:open-customizer — A mounted VdThemeCustomizer opens its panel when this window event is dispatched — wire it to a navbar trigger.. .vd-theme-customizer — Root wrapper; gains .is-open while the panel is open.. .vd-theme-customizer-trigger — The built-in paint-roller trigger button (also carries data-theme-customizer-trigger).. .vd-theme-customizer-overlay — Teleported backdrop; .is-active while open.. .vd-theme-customizer-panel — Teleported panel <aside role=\"dialog\">; .is-open while open.. .vd-theme-customizer-fan — Teleported swatches fan <div role=\"listbox\">; .is-open while open, plus a fan-up / fan-down / fan-left / fan-right direction class.. .tc-fan-item — One blade <button role=\"option\">; .is-active for the current hue, .is-hovered while previewing. Carries data-color with the hue key.. --vd-customizer-fan-blade-width / -dot-size / -label-size — Blade geometry: 6.25rem, 1.2rem, 0.68rem by default.. --vd-customizer-fan-stagger / -z-index / -blade-radius — Per-blade transition delay (30ms), stacking context (1100), and blade rounding (999px).. data-primary / data-neutral — Applied to < >. Remap the --vd-primary-* / --vd-gray-* variables.. data-radius / data-font — Applied to < >. Set --vd-radius-scale and the font stack (data-font removed for system).. data-palette — Applied to < >. Selects the Open Color or Fibonacci palette.. vanduo-palette — open-color. vanduo-primary-color — black / amber. vanduo-neutral-color — stone / charcoal. vanduo-radius — 0.5. vanduo-font-preference — nunito. vanduo-theme-preference — system",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "VdThemeCustomizer lets users personalize the theme in real time — palette, primary color, neutral scale, border radius, and font family — all on top of the default Open Color palette. Every control writes through the shared useThemePreference() singleton, so it stays in sync with the Theme Switcher and persists to localStorage . Color mode itself lives in the switcher; see the Theme Customizer walkthrough for the full story.",
+          "text": "VdThemeCustomizer lets users personalize the theme in real time — palette, primary color, neutral scale, border radius, and font family — all on top of the default Open Color palette. Every control writes through the shared useThemePreference() singleton, so it stays in sync with the Theme Switcher and persists to localStorage . Color mode itself lives in the switcher; see the Theme Customizer walkthrough for the full story. Two presentations ship: variant=\"panel\" (the default editor below) and variant=\"swatches\" , a primary-only fan for dock and toolbar chrome.",
           "heading": "Theme Customizer"
         },
         {
@@ -10380,6 +10742,31 @@
           "type": "paragraph",
           "text": "show-palette — When enabled, the panel adds a Palette section so users can switch between Open Color and Fibonacci. Off by default in this demo (open the panel and flip the switch to see it).",
           "heading": "Live Demo"
+        },
+        {
+          "type": "paragraph",
+          "text": "variant=\"swatches\" drops the 320px panel for a primary-only fan hinged at the trigger — the presentation this site's own dock uses. swatches curates which hues appear, direction sets the axis, and preview (on by default) applies a hue on hover and puts the old one back if you leave without picking.",
+          "heading": "Swatches variant"
+        },
+        {
+          "type": "paragraph",
+          "text": "Blades always render in PRIMARY_COLORS order rather than the order you list them, and that order is not alphabetical — teal comes before blue . direction=\"auto\" aims the fan away from the nearest viewport edge , which is not the same as aiming it where there is the most room; chrome that migrates between edges (a dock, say) should pass an explicit direction.",
+          "heading": "Swatches variant"
+        },
+        {
+          "type": "paragraph",
+          "text": "This fan runs controlled , so it writes the local ref beside it and leaves the site theme alone — the page colors do not change when you pick.",
+          "heading": "Swatches variant"
+        },
+        {
+          "type": "paragraph",
+          "text": "Unbound, the component both reads and writes useThemePreference() . Bind :primary and it switches to controlled mode: it renders from your value and reports every change — hover previews included — through @update:primary , touching the singleton never.",
+          "heading": "Controlled primary"
+        },
+        {
+          "type": "paragraph",
+          "text": "Reach for this when the app already owns the hue and needs to clamp or transform it. This site does exactly that: its store narrows primary to Ink plus the eight dock tints and forces palette, font, radius, and neutral to docs defaults, so an uncontrolled customizer writing the singleton would slip past both rules.",
+          "heading": "Controlled primary"
         },
         {
           "type": "paragraph",
@@ -10415,6 +10802,36 @@
           "type": "class",
           "text": "showPalette — boolean",
           "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "variant — \"panel\" | \"swatches\"",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "swatches — readonly string[]",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "direction — \"auto\" | \"up\" | \"down\" | \"left\" | \"right\"",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "preview — boolean",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "primary — string",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "update:primary — (value: string)",
+          "heading": "Emits"
         },
         {
           "type": "class",
@@ -10454,6 +10871,26 @@
         {
           "type": "class",
           "text": ".vd-theme-customizer-panel — Teleported panel <aside role=\"dialog\">; .is-open while open.",
+          "heading": "API"
+        },
+        {
+          "type": "class",
+          "text": ".vd-theme-customizer-fan — Teleported swatches fan <div role=\"listbox\">; .is-open while open, plus a fan-up / fan-down / fan-left / fan-right direction class.",
+          "heading": "API"
+        },
+        {
+          "type": "class",
+          "text": ".tc-fan-item — One blade <button role=\"option\">; .is-active for the current hue, .is-hovered while previewing. Carries data-color with the hue key.",
+          "heading": "API"
+        },
+        {
+          "type": "class",
+          "text": "--vd-customizer-fan-blade-width / -dot-size / -label-size — Blade geometry: 6.25rem, 1.2rem, 0.68rem by default.",
+          "heading": "API"
+        },
+        {
+          "type": "class",
+          "text": "--vd-customizer-fan-stagger / -z-index / -blade-radius — Per-blade transition delay (30ms), stacking context (1100), and blade rounding (999px).",
           "heading": "API"
         },
         {
@@ -11092,12 +11529,15 @@
       "keywords": [
         "tooltip",
         "hover",
-        "hint"
+        "hint",
+        "delay",
+        "dock"
       ],
       "headings": [
         "Tooltips",
         "Placements",
         "Variants & Sizes",
+        "Show delay & the dock variant",
         "Content",
         "Variables",
         "API Reference",
@@ -11107,7 +11547,7 @@
         "Composable API",
         "Accessibility"
       ],
-      "bodyText": "Contextual hover overlays that display supplementary information. Tooltips support four directional placements (top, bottom, left, right), light/dark/glass variants, size tiers, and content. All positioning and visibility are handled via data attributes and — minimal JavaScript is required for initialization.. --vd-tooltip-bg — var(--vd-color-white). --vd-tooltip-bg-light — var(--vd-color-gray-100). --vd-tooltip-bg-dark — var(--vd-color-gray-900). --vd-tooltip-text-color — var(--vd-color-gray-900). --vd-tooltip-text-color-light — var(--vd-color-gray-800). --vd-tooltip-text-color-dark — var(--vd-color-white). --vd-tooltip-padding-y — 0.5rem (8px). --vd-tooltip-padding-x — 0.8125rem (13px). --vd-tooltip-arrow-size — 5px. --vd-tooltip-max-width — 233px. --vd-tooltip-z-index — 1070. .vd-tooltip — Base tooltip element. Positioned absolutely with arrow, shadow, and max-width.. .vd-tooltip-top / [data-placement=\"top\"] — Tooltip appears above the trigger.. .vd-tooltip-bottom / [data-placement=\"bottom\"] — Tooltip appears below the trigger.. .vd-tooltip-left / [data-placement=\"left\"] — Tooltip appears to the left.. .vd-tooltip-right / [data-placement=\"right\"] — Tooltip appears to the right.. .vd-tooltip-light — Light gray background with dark text.. .vd-tooltip-dark — Dark background with white text.. .vd-tooltip-glass — Frosted glass background with blur and translucent border.. .vd-tooltip-sm — Compact padding and smaller font.. .vd-tooltip-lg — More spacious padding and larger font.. .vd-tooltip- — Allows content inside the tooltip body.. .vd-tooltip-wrapper — Optional inline-block wrapper for positioning context.. data-tooltip=\"text\" — Plain text content for the tooltip. Wired by useTooltips(root).. data-tooltip- =\" \" — content for the tooltip. Escaped automatically if the attribute contains plain text with entities.. data-tooltip-placement=\"top|bottom|left|right\" — Tooltip position relative to the trigger. Default: top.. data-tooltip-variant=\"light|dark|glass\" — Visual style variant. Default: standard (white).. data-tooltip-size=\"sm|lg\" — Size modifier. Default: medium.. useTooltips(root) — Composable — wires every [data-tooltip] / [data-tooltip- ] element inside the root ref. Call once in setup().. (automatic cleanup) — Hover listeners and the tooltip node are removed on component unmount.",
+      "bodyText": "Contextual hover overlays that display supplementary information. Tooltips support four directional placements (top, bottom, left, right), light/dark/glass variants, size tiers, and content. All positioning and visibility are handled via data attributes and — minimal JavaScript is required for initialization.. Immediate tooltips are noisy on chrome you sweep across — a dock, a toolbar — so useTooltips takes a showDelay and any trigger can override it with data-tooltip-delay . This page wires the composable at its default (0ms), so the first two buttons below get their dwell from the attribute alone. Pair the delay with data-tooltip-variant=\"dock\" for the denser frost that reads over ink chrome — the site dock at the edge of this window uses exactly this combination at 520ms.. --vd-tooltip-bg — var(--vd-color-white). --vd-tooltip-bg-light — var(--vd-color-gray-100). --vd-tooltip-bg-dark — var(--vd-color-gray-900). --vd-tooltip-text-color — var(--vd-color-gray-900). --vd-tooltip-text-color-light — var(--vd-color-gray-800). --vd-tooltip-text-color-dark — var(--vd-color-white). --vd-tooltip-padding-y — 0.5rem (8px). --vd-tooltip-padding-x — 0.8125rem (13px). --vd-tooltip-arrow-size — 5px. --vd-tooltip-max-width — 233px. --vd-tooltip-z-index — 1070. --vd-tooltip-dock-bg — color-mix(in srgb, #12141a 78%, transparent). --vd-tooltip-dock-color — #f4f4f5. --vd-tooltip-dock-border — color-mix(in srgb, #fff 22%, transparent). --vd-tooltip-dock-shadow — drop + inset highlight. .vd-tooltip — Base tooltip element. Positioned absolutely with arrow, shadow, and max-width.. .vd-tooltip-top / [data-placement=\"top\"] — Tooltip appears above the trigger.. .vd-tooltip-bottom / [data-placement=\"bottom\"] — Tooltip appears below the trigger.. .vd-tooltip-left / [data-placement=\"left\"] — Tooltip appears to the left.. .vd-tooltip-right / [data-placement=\"right\"] — Tooltip appears to the right.. .vd-tooltip-light — Light gray background with dark text.. .vd-tooltip-dark — Dark background with white text.. .vd-tooltip-glass — Frosted glass background with blur and translucent border.. .vd-tooltip-dock — Denser frost than glass, sized for icon-only dock and toolbar chrome. Follows the color scheme (ink in dark, frosted white in light) and cancels the per-placement arrow margin, since useTooltips already positions with a gap.. .vd-tooltip-sm — Compact padding and smaller font.. .vd-tooltip-lg — More spacious padding and larger font.. .vd-tooltip- — Allows content inside the tooltip body.. .vd-tooltip-wrapper — Optional inline-block wrapper for positioning context.. data-tooltip=\"text\" — Plain text content for the tooltip. Wired by useTooltips(root).. data-tooltip- =\" \" — content for the tooltip. Escaped automatically if the attribute contains plain text with entities.. data-tooltip-placement=\"top|bottom|left|right\" — Tooltip position relative to the trigger. Default: top.. data-tooltip-variant=\"light|dark|glass|dock\" — Visual style variant. Default: standard (white). dock is the chrome variant.. data-tooltip-size=\"sm|lg\" — Size modifier. Default: medium.. data-tooltip-delay=\"520\" — Per-trigger hover dwell in ms, overriding the composable's showDelay. Ignored if it is not a non-negative integer.. useTooltips(root, options?) — Composable — wires every [data-tooltip] / [data-tooltip- ] element inside the root ref. Call once in setup().. options.showDelay — Hover dwell in ms before a tooltip appears. Default 0 (immediate). Any trigger can override it with data-tooltip-delay.. (dynamic triggers) — The root is watched with a MutationObserver, so triggers added, removed, or re-attributed after mount bind themselves — no manual rescan.. (automatic cleanup) — Hover listeners, the observer, and the tooltip node are removed on component unmount.",
       "classes": [
         ".vd-tooltip",
         ".vd-tooltip-top / [data-placement=\"top\"]",
@@ -11117,6 +11557,7 @@
         ".vd-tooltip-light",
         ".vd-tooltip-dark",
         ".vd-tooltip-glass",
+        ".vd-tooltip-dock",
         ".vd-tooltip-sm",
         ".vd-tooltip-lg",
         ".vd-tooltip-",
@@ -11127,6 +11568,11 @@
           "type": "paragraph",
           "text": "Contextual hover overlays that display supplementary information. Tooltips support four directional placements (top, bottom, left, right), light/dark/glass variants, size tiers, and content. All positioning and visibility are handled via data attributes and — minimal JavaScript is required for initialization.",
           "heading": "Tooltips"
+        },
+        {
+          "type": "paragraph",
+          "text": "Immediate tooltips are noisy on chrome you sweep across — a dock, a toolbar — so useTooltips takes a showDelay and any trigger can override it with data-tooltip-delay . This page wires the composable at its default (0ms), so the first two buttons below get their dwell from the attribute alone. Pair the delay with data-tooltip-variant=\"dock\" for the denser frost that reads over ink chrome — the site dock at the edge of this window uses exactly this combination at 520ms.",
+          "heading": "Show delay & the dock variant"
         },
         {
           "type": "class",
@@ -11185,6 +11631,26 @@
         },
         {
           "type": "class",
+          "text": "--vd-tooltip-dock-bg — color-mix(in srgb, #12141a 78%, transparent)",
+          "heading": "Variables"
+        },
+        {
+          "type": "class",
+          "text": "--vd-tooltip-dock-color — #f4f4f5",
+          "heading": "Variables"
+        },
+        {
+          "type": "class",
+          "text": "--vd-tooltip-dock-border — color-mix(in srgb, #fff 22%, transparent)",
+          "heading": "Variables"
+        },
+        {
+          "type": "class",
+          "text": "--vd-tooltip-dock-shadow — drop + inset highlight",
+          "heading": "Variables"
+        },
+        {
+          "type": "class",
           "text": ".vd-tooltip — Base tooltip element. Positioned absolutely with arrow, shadow, and max-width.",
           "heading": "Classes"
         },
@@ -11225,6 +11691,11 @@
         },
         {
           "type": "class",
+          "text": ".vd-tooltip-dock — Denser frost than glass, sized for icon-only dock and toolbar chrome. Follows the color scheme (ink in dark, frosted white in light) and cancels the per-placement arrow margin, since useTooltips already positions with a gap.",
+          "heading": "Classes"
+        },
+        {
+          "type": "class",
           "text": ".vd-tooltip-sm — Compact padding and smaller font.",
           "heading": "Classes"
         },
@@ -11260,7 +11731,7 @@
         },
         {
           "type": "class",
-          "text": "data-tooltip-variant=\"light|dark|glass\" — Visual style variant. Default: standard (white).",
+          "text": "data-tooltip-variant=\"light|dark|glass|dock\" — Visual style variant. Default: standard (white). dock is the chrome variant.",
           "heading": "Data Attributes"
         },
         {
@@ -11270,12 +11741,27 @@
         },
         {
           "type": "class",
-          "text": "useTooltips(root) — Composable — wires every [data-tooltip] / [data-tooltip- ] element inside the root ref. Call once in setup().",
+          "text": "data-tooltip-delay=\"520\" — Per-trigger hover dwell in ms, overriding the composable's showDelay. Ignored if it is not a non-negative integer.",
+          "heading": "Data Attributes"
+        },
+        {
+          "type": "class",
+          "text": "useTooltips(root, options?) — Composable — wires every [data-tooltip] / [data-tooltip- ] element inside the root ref. Call once in setup().",
           "heading": "Composable API"
         },
         {
           "type": "class",
-          "text": "(automatic cleanup) — Hover listeners and the tooltip node are removed on component unmount.",
+          "text": "options.showDelay — Hover dwell in ms before a tooltip appears. Default 0 (immediate). Any trigger can override it with data-tooltip-delay.",
+          "heading": "Composable API"
+        },
+        {
+          "type": "class",
+          "text": "(dynamic triggers) — The root is watched with a MutationObserver, so triggers added, removed, or re-attributed after mount bind themselves — no manual rescan.",
+          "heading": "Composable API"
+        },
+        {
+          "type": "class",
+          "text": "(automatic cleanup) — Hover listeners, the observer, and the tooltip node are removed on component unmount.",
           "heading": "Composable API"
         }
       ]
@@ -13282,7 +13768,7 @@
         "@vanduo-oss/vd3-cbun",
         "Hardened"
       ],
-      "bodyText": "Release notes for the vd3 line packages — @vanduo-oss/vd3 (the 3 design system and component library) and @vanduo-oss/vd3-cbun (the components bundle: charts, code-editor, draw, flowchart, hex-grid, music-player). Packages only — never docs-site content.. The standalone 3 design system & component library.. Snippet chrome and an ink button — tabbed , in the header, and a 2px outline variant. vd3 still does not tokenize.. When any of / / js / shell / / json is set, the component renders the collapsible tabbed “ ” widget (toggle, tablist, panes, raw-source ). Simple mode ( code / language / copyable ) is unchanged. Optional highlight(code, language) injects escaped ; without it, source is text. See /components/code-snippet .. .vd-btn-ink : transparent fill, a single 2px outline (not .vd-btn-ring ). Hover fills black in light and primary in dark; the label uses --vd-text-on-primary . Existing outline / ghost / ring treatments are unchanged. See /components/button .. stays in .vd-code-snippet-header (top-right) for simple and chrome modes. Tabs get aria-controls / pane role=\"tabpanel\" and Left / Right / Home / End navigation, matching VdTabs . A .vd-visually-hidden child inside .vd-btn no longer wraps the label.. Oola Dock — a morphing glass pill that is not a navbar. Horizontal ↔ vertical through a square waypoint, dock-own radius past the theme 0.5rem cap.. Fat Seemore glass chrome with useDockOrientation , position fixed or contained, Open Color tint , Seemore glass , and itemLayout , and placement (bottom / top / left / right). Brand is a slot — demos use ū on the morph-origin corner. See /components/dock .. Headless auth screens and a client data table — still a UI kit, not an app framework. No fetch, no dataProvider, no Resource registry.. VdAuthCard , VdLogin , VdSignUp , and VdForgotPassword emit submit / social . Password fields use WHATWG autocomplete tokens and a real reveal button. Primitives: VdCheckbox , VdOtpInput , VdInput slots + revealPassword , VdCard glass . See /components/login .. useTableState (search → sort → page, or manual for server-sliced rows) and VdDataTable (sortable aria-sort headers, cell slots, selection, sticky header, skeleton loading, VdEmptyState , composed VdPagination ). Presentational VdTable is unchanged. See /components/table .. Seemore Glass — Fibonacci strength-step frosted material — plus reusable decorative Surfaces for hero backdrops.. Canonical modifiers .vd-glass-{1,2,3,5,8,13,21} bundle blur, tint, border, saturate, grain, and elevation. Base .vd-glass is step 5; legacy sm|lg|xl alias to 3/8/13. New .vd-glass-adaptive , a11y media-query hardening, and scroll glass that never transitions backdrop-filter . See /effects/glass .. Layer 5 .vd-surface with mesh, stripe, noise, aurora, dots, and grid — plus intensity .vd-surface-{3,5,8} . Documented at /effects/surfaces .. Optional theme preference storage prefix so multi-app same-origin hosts can isolate localStorage keys without colliding on the default vanduo-* namespace.. Pass app.use(VanduoVue, { storagePrefix: \"app-\" }) or call setStoragePrefix / getStoragePrefix at bootstrap to remap the six preference keys. Default remains vanduo-* (back-compat); no automatic migration between prefixes. See /guides/ -variables .. Adds the theme-aware Liquid Gradient WebGL effect, and fixes native select chevron tiling when consumers use the background shorthand.. Interactive vanilla WebGL atmosphere under /effects/liquid-gradient — .vd-liquid-gradient + useLiquidGradient / createLiquidGradient , bound to primary / neutral / background tokens with --vd-liquid-* knobs. Inspired by Cameron Knight’s MIT CodePen (no Three.js).. Focus / disabled / dark theme caret rules now re-declare background-repeat , background-position , and background-size so a consumer background shorthand cannot leave a tiling SVG caret.. A patch release: opt-in glass modal and animated stepper , plus polish across loading buttons, spotlight, morph, button groups, transfer, and collections.. VdModal gains an opt-in glass prop that applies the existing .vd-modal-glass / .vd-modal-glass-backdrop classes (same idea as VdFab ’s glass ). was already shipped; the prop wires it for consumers. Fallthrough attrs bind on the dialog root so glass token overrides land correctly through Teleport.. Containers with .vd-stepper-animated get a staggered IntersectionObserver reveal (mirrors timeline). useStepper accepts optional UseStepperOptions ( staggerMs , maxStaggerIndex ); prefers-reduced-motion and missing IntersectionObserver reveal immediately.. Outline, ghost, and plain buttons with .is-loading now keep a visible spinner — the legacy currentColor spinner was invisible once the label used color: transparent . Solid variants already pinned their colours; these treatments now pin their accent colours the same way.. Spotlight uses a body-level .vd-spotlight-highlight instead of a huge box-shadow on the target, so transformed ancestors no longer trap the dimming layer; geometry animates between steps.. Morph no longer reverse-animates at end-of-swap: a short .is-morph-settling freeze + cooldown blocks re-entrant clicks; default duration/easing are snappier. Same settle path for useMorphBadges .. .vd-btn-group.vd-btn-group-vertical no longer inherits horizontal edge-sharing margins/radii; labels stay nowrap and the stack sizes to the widest button. Transfer move buttons use Phosphor carets via VdIcon with clearer hover/focus-visible styles.. Collections flush inside a card body clip to the card’s inner radius so hover backgrounds do not square off past rounded corners. Stepper connector ::after is pointer-events: none so decorative lines never steal clicks.. A minor release adding an opt-in button ring modifier . Additive only — no button without it renders differently.. Buttons gain a detached outer ring with a transparent gap, for marking one action as the primary one on a screen that already uses solid buttons throughout. It is a modifier rather than a variant, so it layers onto any existing variant, size and state — via the class or :ring on VdButton — and because the gap is real transparency it reads correctly on cards, glass and imagery. Tunable through the --vd-btn-ring-* custom properties.. A minor release: a new extra-large VdModal size, broad accessibility & lifecycle hardening , and a security-hardened sanitizer. No breaking changes.. VdModal gains a fourth size tier — size=\"xl\" (987px, via the --vd-modal-width-xl token and .vd-modal-panel-xl class) — for release notes, side-by-side content, and wider forms.. VdModal and VdOffcanvas now trap focus, restore it to the opener on close, and release the body scroll lock on unmount; VdTabs implements the full WAI-ARIA tabs pattern (arrow-key navigation + roving tabindex); VdCustomSelect exposes aria-activedescendant ; VdRating is a valid single-checked radiogroup; and useTimepicker is now keyboard-operable.. sanitizeHtml now correctly keeps allow-listed inline SVG (a case-mismatched allowlist had silently stripped all SVG) and scrubs dangerous inline style values under allowStyle . useClickOutside now attaches when created already-enabled, and useStepper no longer emits a spurious change on mount.. A test-only guard asserts the generated token data stays in sync with the authored token source, catching drift in CI.. The standalone 3 line — one package ships DTCG design tokens, the full tree, and typed Vd* components and composables. Sole peer dependency: >= 3.3 .. A zero-dependency generator emits @vanduo-oss/vd3/tokens.json and the typed token-data module; the authored tree bundles into @vanduo-oss/vd3/ (full) and @vanduo-oss/vd3/ /core (tokens-only, no icons), with fonts and Phosphor icons shipped in-package.. The full typed Vd* component set — including the seven layout primitives — plus the interactive composables, carried over 1:1 as pure .. VdBreadcrumb , VdFooter , VdFab (speed-dial), VdNavbar (burger + overlay + body-lock + glass-on-scroll), VdThemeS",
+      "bodyText": "Release notes for the vd3 line packages — @vanduo-oss/vd3 (the 3 design system and component library) and @vanduo-oss/vd3-cbun (the components bundle: charts, code-editor, draw, flowchart, hex-grid, music-player). Packages only — never docs-site content.. The standalone 3 design system & component library.. Global search palette — site-wide Cmd+K modal with grouped results, keyboard navigation, and an engine-agnostic adapter hook for hybrid or REST backends. Plus the Oola dock chrome this site had been forking locally: accent tinting, the primary-only swatches fan, and delayed dock tooltips.. Teleport overlay palette with optional AI opt-in toggle, disclaimer slot, debounced adapter injection, and Cmd/Ctrl+K + / shortcuts. Co-mount with VdDocSearch by setting :keyboard-shortcut=\"false\" on the inline combobox. See /components/global-search .. surface (default) keeps the old behaviour — tint paints the pill. accent holds the pill at constant ink and leaves --vd-dock-tint for items and the brand slot to consume, so the hue reads on the icons instead of the glass. This site's dock now uses it in place of a local inline-style override. See /components/dock .. A primary-only fan hinged at the trigger, for dock and toolbar chrome with no room for the 320px panel. swatches curates the hues, direction sets the axis, and preview applies on hover. Bind :primary and listen to @update:primary to keep an app-side store authoritative instead of the useThemePreference() singleton. See /components/theme-customizer .. useTooltips(root, { showDelay }) sets the hover dwell before a tip appears, overridable per trigger with data-tooltip-delay . The root is now watched with a MutationObserver , so triggers added after mount bind themselves. data-tooltip-variant=\"dock\" opts into the denser .vd-tooltip-dock frost and its --vd-tooltip-dock-* custom properties. See /components/tooltip .. Snippet chrome and an ink button — tabbed , in the header, and a 2px outline variant. vd3 still does not tokenize.. When any of / / js / shell / / json is set, the component renders the collapsible tabbed “ ” widget (toggle, tablist, panes, raw-source ). Simple mode ( code / language / copyable ) is unchanged. Optional highlight(code, language) injects escaped ; without it, source is text. See /components/code-snippet .. .vd-btn-ink : transparent fill, a single 2px outline (not .vd-btn-ring ). Hover fills black in light and primary in dark; the label uses --vd-text-on-primary . Existing outline / ghost / ring treatments are unchanged. See /components/button .. stays in .vd-code-snippet-header (top-right) for simple and chrome modes. Tabs get aria-controls / pane role=\"tabpanel\" and Left / Right / Home / End navigation, matching VdTabs . A .vd-visually-hidden child inside .vd-btn no longer wraps the label.. Oola Dock — a morphing glass pill that is not a navbar. Horizontal ↔ vertical through a square waypoint, dock-own radius past the theme 0.5rem cap.. Fat Seemore glass chrome with useDockOrientation , position fixed or contained, Open Color tint , Seemore glass , and itemLayout , and placement (bottom / top / left / right). Brand is a slot — demos use ū on the morph-origin corner. See /components/dock .. Headless auth screens and a client data table — still a UI kit, not an app framework. No fetch, no dataProvider, no Resource registry.. VdAuthCard , VdLogin , VdSignUp , and VdForgotPassword emit submit / social . Password fields use WHATWG autocomplete tokens and a real reveal button. Primitives: VdCheckbox , VdOtpInput , VdInput slots + revealPassword , VdCard glass . See /components/login .. useTableState (search → sort → page, or manual for server-sliced rows) and VdDataTable (sortable aria-sort headers, cell slots, selection, sticky header, skeleton loading, VdEmptyState , composed VdPagination ). Presentational VdTable is unchanged. See /components/table .. Seemore Glass — Fibonacci strength-step frosted material — plus reusable decorative Surfaces for hero backdrops.. Canonical modifiers .vd-glass-{1,2,3,5,8,13,21} bundle blur, tint, border, saturate, grain, and elevation. Base .vd-glass is step 5; legacy sm|lg|xl alias to 3/8/13. New .vd-glass-adaptive , a11y media-query hardening, and scroll glass that never transitions backdrop-filter . See /effects/glass .. Layer 5 .vd-surface with mesh, stripe, noise, aurora, dots, and grid — plus intensity .vd-surface-{3,5,8} . Documented at /effects/surfaces .. Optional theme preference storage prefix so multi-app same-origin hosts can isolate localStorage keys without colliding on the default vanduo-* namespace.. Pass app.use(VanduoVue, { storagePrefix: \"app-\" }) or call setStoragePrefix / getStoragePrefix at bootstrap to remap the six preference keys. Default remains vanduo-* (back-compat); no automatic migration between prefixes. See /guides/ -variables .. Adds the theme-aware Liquid Gradient WebGL effect, and fixes native select chevron tiling when consumers use the background shorthand.. Interactive vanilla WebGL atmosphere under /effects/liquid-gradient — .vd-liquid-gradient + useLiquidGradient / createLiquidGradient , bound to primary / neutral / background tokens with --vd-liquid-* knobs. Inspired by Cameron Knight’s MIT CodePen (no Three.js).. Focus / disabled / dark theme caret rules now re-declare background-repeat , background-position , and background-size so a consumer background shorthand cannot leave a tiling SVG caret.. A patch release: opt-in glass modal and animated stepper , plus polish across loading buttons, spotlight, morph, button groups, transfer, and collections.. VdModal gains an opt-in glass prop that applies the existing .vd-modal-glass / .vd-modal-glass-backdrop classes (same idea as VdFab ’s glass ). was already shipped; the prop wires it for consumers. Fallthrough attrs bind on the dialog root so glass token overrides land correctly through Teleport.. Containers with .vd-stepper-animated get a staggered IntersectionObserver reveal (mirrors timeline). useStepper accepts optional UseStepperOptions ( staggerMs , maxStaggerIndex ); prefers-reduced-motion and missing IntersectionObserver reveal immediately.. Outline, ghost, and plain buttons with .is-loading now keep a visible spinner — the legacy currentColor spinner was invisible once the label used color: transparent . Solid variants already pinned their colours; these treatments now pin their accent colours the same way.. Spotlight uses a body-level .vd-spotlight-highlight instead of a huge box-shadow on the target, so transformed ancestors no longer trap the dimming layer; geometry animates between steps.. Morph no longer reverse-animates at end-of-swap: a short .is-morph-settling freeze + cooldown blocks re-entrant clicks; default duration/easing are snappier. Same settle path for useMorphBadges .. .vd-btn-group.vd-btn-group-vertical no longer inherits horizontal edge-sharing margins/radii; labels stay nowrap and the stack sizes to the widest button. Transfer move buttons use Phosphor carets via VdIcon with clearer hover/focus-visible styles.. Collections flush inside a card body clip to the card’s inner radius so hover backgrounds do not square off past rounded corners. Stepper connector ::after is pointer-events: none so decorative lines never steal clicks.. A minor release adding an opt-in button ring modifier . Additive only — no button without it renders differently.. Buttons gain a detached outer ring with a transparent gap, for marking one action as the primary one on a screen that already uses solid buttons throughout. It is a modifier rather than a variant, so it layers onto any existing variant, size and state — via the class or :ring on VdButton — and because the gap is real transparency it reads correctly on cards, glass and imagery. Tunable through the --vd-btn-ring-* custom properties.. A minor release: a new extra-large VdModal size, broad accessibility & lifecycle hardening , and a security-hardened sanitizer. No breaking changes.. VdModal gain",
       "classes": [],
       "chunks": [
         {
@@ -13297,8 +13783,33 @@
         },
         {
           "type": "paragraph",
-          "text": "Snippet chrome and an ink button — tabbed , in the header, and a 2px outline variant. vd3 still does not tokenize.",
+          "text": "Global search palette — site-wide Cmd+K modal with grouped results, keyboard navigation, and an engine-agnostic adapter hook for hybrid or REST backends. Plus the Oola dock chrome this site had been forking locally: accent tinting, the primary-only swatches fan, and delayed dock tooltips.",
           "heading": "@vanduo-oss/vd3"
+        },
+        {
+          "type": "paragraph",
+          "text": "Teleport overlay palette with optional AI opt-in toggle, disclaimer slot, debounced adapter injection, and Cmd/Ctrl+K + / shortcuts. Co-mount with VdDocSearch by setting :keyboard-shortcut=\"false\" on the inline combobox. See /components/global-search .",
+          "heading": "New"
+        },
+        {
+          "type": "paragraph",
+          "text": "surface (default) keeps the old behaviour — tint paints the pill. accent holds the pill at constant ink and leaves --vd-dock-tint for items and the brand slot to consume, so the hue reads on the icons instead of the glass. This site's dock now uses it in place of a local inline-style override. See /components/dock .",
+          "heading": "New"
+        },
+        {
+          "type": "paragraph",
+          "text": "A primary-only fan hinged at the trigger, for dock and toolbar chrome with no room for the 320px panel. swatches curates the hues, direction sets the axis, and preview applies on hover. Bind :primary and listen to @update:primary to keep an app-side store authoritative instead of the useThemePreference() singleton. See /components/theme-customizer .",
+          "heading": "New"
+        },
+        {
+          "type": "paragraph",
+          "text": "useTooltips(root, { showDelay }) sets the hover dwell before a tip appears, overridable per trigger with data-tooltip-delay . The root is now watched with a MutationObserver , so triggers added after mount bind themselves. data-tooltip-variant=\"dock\" opts into the denser .vd-tooltip-dock frost and its --vd-tooltip-dock-* custom properties. See /components/tooltip .",
+          "heading": "New"
+        },
+        {
+          "type": "paragraph",
+          "text": "Snippet chrome and an ink button — tabbed , in the header, and a 2px outline variant. vd3 still does not tokenize.",
+          "heading": "New"
         },
         {
           "type": "paragraph",
@@ -13659,7 +14170,8 @@
         "Documentation",
         "Components",
         "Guides",
-        "Changelog"
+        "Changelog",
+        "Resources"
       ],
       "bodyText": "Explore Vanduo Documentation, Guides and Changelog. Documentation v1.4.0. Explore the building blocks of Vanduo UI.. Step-by-step tutorials to master Vanduo.. See what's new in Vanduo and track each release update.",
       "classes": [],
