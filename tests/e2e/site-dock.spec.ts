@@ -59,6 +59,35 @@ test.describe("Site Oola dock chrome", () => {
     expect(Math.abs(tipCy - homeCy)).toBeLessThan(6);
   });
 
+  test("narrow dock keeps Home visible in the nav scrollport", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 844 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
+    const home = dock.getByRole("button", { name: "Home", exact: true });
+    await expect(home).toBeVisible();
+    await expect(home).toHaveAttribute("data-tooltip", "Home");
+    await expect(home).toHaveAttribute("data-tooltip-variant", "dock");
+
+    const aligned = await dock.evaluate((el) => {
+      const nav = el.querySelector(".vd-dock-nav");
+      const item = el.querySelector('.vd-dock-item[aria-label="Home"]');
+      if (!(nav instanceof HTMLElement) || !(item instanceof HTMLElement)) {
+        return false;
+      }
+      const navRect = nav.getBoundingClientRect();
+      const homeRect = item.getBoundingClientRect();
+      return (
+        getComputedStyle(nav).justifyContent === "flex-start" &&
+        homeRect.left >= navRect.left - 1 &&
+        homeRect.right <= navRect.right + 1
+      );
+    });
+    expect(aligned).toBe(true);
+  });
+
   test("Docs item navigates to docs landing", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
     await page

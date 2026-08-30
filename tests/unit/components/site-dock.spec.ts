@@ -1,13 +1,30 @@
-import { describe, expect, it } from "vitest";
-import { mount, flushPromises } from "@vue/test-utils";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { flushPromises, mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import { createMemoryHistory, createRouter, type Router } from "vue-router";
+import { DOCK_NARROW_QUERY } from "@vanduo-oss/vd3";
 import VdSiteDock from "@/layout/VdSiteDock.vue";
 
-const mountDock = async (): Promise<{
+function stubMatchMedia(narrow: boolean): typeof window.matchMedia {
+  return (query: string) =>
+    ({
+      matches: query === DOCK_NARROW_QUERY ? narrow : false,
+      media: query,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+    }) as unknown as MediaQueryList;
+}
+
+const mountDock = async (options?: {
+  narrow?: boolean;
+}): Promise<{
   wrapper: ReturnType<typeof mount>;
   router: Router;
 }> => {
+  if (options?.narrow) {
+    vi.stubGlobal("matchMedia", stubMatchMedia(true));
+  }
+
   setActivePinia(createPinia());
   const router = createRouter({
     history: createMemoryHistory(),
@@ -44,6 +61,10 @@ const mountDock = async (): Promise<{
 };
 
 describe("VdSiteDock", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it("renders brand, icon-only nav items with tooltips, and action triggers", async () => {
     const { wrapper } = await mountDock();
     await flushPromises();
@@ -129,6 +150,29 @@ describe("VdSiteDock", () => {
 
     const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
     expect(home.attributes("data-tooltip-placement")).toBe("right");
+    wrapper.unmount();
+  });
+
+  it("keeps Home in the narrow dock link strip with tooltips", async () => {
+    const { wrapper } = await mountDock({ narrow: true });
+    const vm = wrapper.vm as unknown as { placement: string };
+    vm.placement = "bottom";
+    await flushPromises();
+
+    const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
+    expect(home.attributes("data-tooltip")).toBe("Home");
+    expect(home.attributes("data-tooltip-placement")).toBe("top");
+    expect(home.attributes("data-tooltip-variant")).toBe("dock");
+    expect(home.classes()).toContain("is-active");
+
+    expect(wrapper.find(".vd-site-dock-strip-divider").exists()).toBe(true);
+    expect(
+      wrapper.find('.vd-dock-links button[aria-label="Theme switcher"]').exists(),
+    ).toBe(true);
+    expect(
+      wrapper.find('.vd-dock-actions button[aria-label="Theme switcher"]').exists(),
+    ).toBe(false);
+
     wrapper.unmount();
   });
 

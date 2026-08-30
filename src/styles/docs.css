@@ -3280,8 +3280,10 @@ a:hover .vd-card-interactive.vd-card-glow {
     flex-shrink: 0;
   }
 
-  /* Swipeable middle strip: nav links + theme controls scroll horizontally. */
-  .vd-site-dock .vd-dock-nav {
+  /* Swipeable middle strip: nav links + theme controls scroll horizontally.
+     Beat .vd-dock.is-horizontal .vd-dock-nav { justify-content: center } so
+     the first item (Home) is not clipped off the scrollport's left edge. */
+  .vd-site-dock.vd-dock.is-horizontal .vd-dock-nav {
     flex: 1 1 auto;
     min-width: 0;
     overflow: auto hidden;
