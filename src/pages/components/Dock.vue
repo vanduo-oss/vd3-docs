@@ -4,6 +4,7 @@ import {
   DOCK_GLASS_STEPS,
   DOCK_RADIUS_OPTIONS,
   DOCK_TINTS,
+  DOCK_TINT_MODES,
   VdDock,
   VdDockItem,
   VdIcon,
@@ -16,6 +17,7 @@ import {
   type DockPlacement,
   type DockRadius,
   type DockTint,
+  type DockTintMode,
 } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import OolaUMark from "@/components/OolaUMark.vue";
@@ -33,6 +35,7 @@ const tintFollowsTheme = ref(true);
 const orientation = ref<DockOrientation>("horizontal");
 const placement = ref<DockPlacement>("bottom");
 const tint = ref<DockTint | "">(themeTint.value);
+const tintMode = ref<DockTintMode>("surface");
 const glass = ref<DockGlass>(34);
 const radius = ref<DockRadius>(DOCS_DOCK_RADIUS);
 const itemLayout = ref<DockItemLayout>("stack");
@@ -85,6 +88,7 @@ function resetPlayground(): void {
   placement.value = "bottom";
   tintFollowsTheme.value = true;
   tint.value = themeTint.value;
+  tintMode.value = "surface";
   glass.value = 34;
   radius.value = DOCS_DOCK_RADIUS;
   itemLayout.value = "stack";
@@ -97,12 +101,14 @@ function onKeydown(event: KeyboardEvent): void {
 }
 
 function measureNavOffset(): number {
-  const nav = document.querySelector(".vd-navbar");
-  if (!nav) return 64;
-  const rect = nav.getBoundingClientRect();
-  // Floating/glass chrome is inset from the viewport top — height alone
-  // tucks the overlay under the pill. bottom is the first clear pixel.
-  return Math.ceil(Math.max(rect.height, rect.bottom));
+  const dock = document.querySelector(".vd-site-dock.vd-dock-fixed");
+  if (!dock) return 64;
+  const rect = dock.getBoundingClientRect();
+  // Prefer the edge that still occupies the top of the viewport (top placement).
+  // Otherwise return bottom clearance so expanded playground sits above a
+  // bottom dock, or a small top inset for left/right.
+  if (rect.top <= 8) return Math.ceil(Math.max(rect.height, rect.bottom));
+  return 16;
 }
 
 function enterExpanded(): void {
@@ -178,6 +184,14 @@ const placement = ref("bottom");
   </VdDock>
 </template>`;
 
+const tintModeSnippet = `<template>
+  <!-- surface (default): the tint washes the pill -->
+  <VdDock tint="violet" />
+
+  <!-- accent: pill stays ink, --vd-dock-tint goes to items and #brand -->
+  <VdDock tint="violet" tint-mode="accent" />
+</template>`;
+
 const vue3Api: [string, string][] = [
   [
     "v-model:orientation",
@@ -195,6 +209,10 @@ const vue3Api: [string, string][] = [
   [
     ":tint",
     "Optional Open Color wash: red | orange | yellow | green | teal | blue | violet | pink.",
+  ],
+  [
+    ":tintMode",
+    '"surface" (default) paints the pill with :tint. "accent" holds the pill at constant ink and only publishes --vd-dock-tint, so items and the #brand slot carry the hue. No effect without :tint.',
   ],
   [":glass", "Seemore step 1 | 2 | 3 | 5 | 8 | 13 | 21 | 34 (default 34)."],
   [
@@ -242,8 +260,8 @@ const itemApi: [string, string][] = [
       Package defaults stay <code>placement="bottom"</code>, no tint, radius
       <code>1.25</code>, glass <code>34</code>. This playground starts at
       <strong
-        >bottom / theme ink (light black, dark green) / radius 2 / glass 34 / ū
-        / stack</strong
+        >bottom / theme ink (light black, dark green) / radius 1.5 / glass 34 /
+        ū / stack</strong
       >. Brand click here cycles <code>bottom</code> → <code>left</code> →
       <code>top</code> → <code>right</code> → <code>bottom</code>. The package
       still morphs the paired edge (<code>bottom</code> ↔ <code>left</code>,
@@ -288,6 +306,7 @@ const itemApi: [string, string][] = [
                 v-model:placement="placement"
                 position="contained"
                 :tint="tint || undefined"
+                :tint-mode="tintMode"
                 :glass="glass"
                 :radius="radius"
                 :item-layout="itemLayout"
@@ -348,6 +367,22 @@ const itemApi: [string, string][] = [
                     @click="setTint(hue)"
                   >
                     {{ hue }}
+                  </button>
+                </div>
+              </div>
+              <div class="dock-play-row">
+                <span class="dock-play-label">Tint mode</span>
+                <div class="dock-play-chips">
+                  <button
+                    v-for="mode in DOCK_TINT_MODES"
+                    :key="mode"
+                    type="button"
+                    class="dock-chip"
+                    :class="{ 'is-active': tintMode === mode }"
+                    :disabled="tint === ''"
+                    @click="tintMode = mode"
+                  >
+                    {{ mode }}
                   </button>
                 </div>
               </div>
@@ -462,6 +497,49 @@ const itemApi: [string, string][] = [
                 </VdDock>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6><i class="ph ph-drop-half"></i>Surface vs accent tint</h6>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-text-sm vd-text-muted vd-mb-3">
+              <code>tintMode</code> decides what <code>:tint</code> paints.
+              <code>surface</code> (the default, left) washes the pill itself.
+              <code>accent</code> (right) holds the pill at constant ink and
+              only publishes <code>--vd-dock-tint</code>, so the hue lands on
+              the active item and the <code>#brand</code> slot while the glass
+              stays neutral. That is what this site's own dock uses — chrome
+              that sits over changing page content reads better when only the
+              icons move with the theme.
+            </p>
+            <div class="dock-tint-grid">
+              <div class="dock-stage dock-stage-sm">
+                <VdDock position="contained" tint="violet" tint-mode="surface">
+                  <template #brand>
+                    <OolaUMark :size="22" />
+                  </template>
+                  <VdDockItem icon="house" label="Home" active />
+                  <VdDockItem icon="info" label="About" />
+                </VdDock>
+              </div>
+              <div class="dock-stage dock-stage-sm">
+                <VdDock position="contained" tint="violet" tint-mode="accent">
+                  <template #brand>
+                    <OolaUMark :size="22" />
+                  </template>
+                  <VdDockItem icon="house" label="Home" active />
+                  <VdDockItem icon="info" label="About" />
+                </VdDock>
+              </div>
+            </div>
+            <DocCodeSnippet :vue="tintModeSnippet" />
           </div>
         </div>
       </div>

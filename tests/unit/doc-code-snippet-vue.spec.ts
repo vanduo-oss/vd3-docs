@@ -43,7 +43,7 @@ describe("DocCodeSnippet vue tab", () => {
 });
 
 describe("Dock page View Code snippets", () => {
-  it("passes non-empty Vue SFCs to both DocCodeSnippet instances", () => {
+  it("passes non-empty Vue SFCs to every DocCodeSnippet instance", () => {
     const wrapper = mount(DockPage, {
       global: {
         stubs: {
@@ -56,7 +56,7 @@ describe("Dock page View Code snippets", () => {
       },
     });
     const snippets = wrapper.findAllComponents(DocCodeSnippet);
-    expect(snippets).toHaveLength(2);
+    expect(snippets).toHaveLength(3);
     for (const snippet of snippets) {
       const vue = snippet.props("vue") as string;
       expect(vue).toContain("<VdDock");

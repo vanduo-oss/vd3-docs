@@ -1,175 +1,98 @@
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
+import {
+  VdThemeCustomizer as VdThemeCustomizerBase,
+  type SwatchFanDirection,
+} from "@vanduo-oss/vd3";
 import { useThemeStore } from "@/stores/theme";
-import { useClickOutside } from "@/composables/useClickOutside";
-import { PRIMARY_COLORS } from "@vanduo-oss/vd3";
+import { DOCS_PRIMARY_SWATCH_KEYS } from "@/constants/docsPrimary";
+
+type DockEdge = "bottom" | "top" | "left" | "right";
+
+/**
+ * Docs-site lock-in around the package swatches fan: only Primary Color is
+ * user-editable here. Palette / Neutral / Radius / Font stay forced to docs
+ * defaults, so the fan runs controlled — `primary` in, `update:primary` out
+ * through the store, which clamps to the docs-allowed hues (Ink + eight dock
+ * tints) instead of writing the package's `useThemePreference()` singleton.
+ */
+const props = withDefaults(
+  defineProps<{
+    /** When set, wires a site-dock tooltip on the swatches trigger. */
+    tooltipPlacement?: string;
+  }>(),
+  {},
+);
 
 const theme = useThemeStore();
-const isOpen = ref(false);
-const panelRef = ref<HTMLElement | null>(null);
-const triggerRef = ref<HTMLElement | null>(null);
 
-const PANEL_WIDTH = 320;
-const MOBILE_BREAKPOINT = 768;
-
-const resetPanelPosition = (): void => {
-  const panel = panelRef.value;
-  if (!panel) return;
-  panel.style.top = "";
-  panel.style.right = "";
-  panel.style.left = "";
-  panel.style.height = "";
-  panel.style.maxHeight = "";
+/**
+ * The fan follows the dock, not the viewport: `direction="auto"` would aim it
+ * away from the nearest edge, which is the same answer only while the dock is
+ * pinned to that edge.
+ */
+const FAN_DIRECTION: Record<DockEdge, SwatchFanDirection> = {
+  bottom: "up",
+  top: "down",
+  left: "right",
+  right: "left",
 };
 
-/** Align teleported panel under the navbar trigger (framework customizer parity). */
-const positionPanel = (): void => {
-  const panel = panelRef.value;
-  const trigger = triggerRef.value;
-  if (!panel || !trigger) return;
+const dockEdge = ref<DockEdge>("bottom");
 
-  if (window.innerWidth < MOBILE_BREAKPOINT) {
-    resetPanelPosition();
-    return;
-  }
-
-  const triggerRect = trigger.getBoundingClientRect();
-  const panelTop = triggerRect.bottom + 8;
-  const viewportWidth = window.innerWidth;
-  let panelRight = viewportWidth - triggerRect.right;
-
-  const panelLeft = viewportWidth - panelRight - PANEL_WIDTH;
-  if (panelLeft < 8) {
-    panelRight = viewportWidth - PANEL_WIDTH - 8;
-  }
-
-  panel.style.top = `${panelTop}px`;
-  panel.style.right = `${panelRight}px`;
-  panel.style.left = "";
-  panel.style.height = "auto";
-  panel.style.maxHeight = `calc(100vh - ${panelTop}px)`;
+const syncDockEdge = (): void => {
+  const edge = document.documentElement.getAttribute("data-docs-dock");
+  dockEdge.value =
+    edge === "top" || edge === "left" || edge === "right" ? edge : "bottom";
 };
 
-const open = (): void => {
-  isOpen.value = true;
-};
-const close = (): void => {
-  isOpen.value = false;
-};
-const toggle = (): void => {
-  isOpen.value ? close() : open();
-};
+const direction = computed<SwatchFanDirection>(
+  () => FAN_DIRECTION[dockEdge.value],
+);
 
-// Close when a click lands outside the panel (and isn't the trigger). The
-// teleported panel + corner trigger made the backdrop unreliable, so this is
-// the authoritative outside-click close.
-useClickOutside([panelRef, triggerRef], close, isOpen);
+const base = ref<InstanceType<typeof VdThemeCustomizerBase> | null>(null);
 
-const onKeydown = (event: KeyboardEvent): void => {
-  if (event.key === "Escape" && isOpen.value) close();
-};
-
-const onReposition = (): void => {
-  positionPanel();
-};
-
-watch(isOpen, async (open) => {
-  if (open) {
-    await nextTick();
-    positionPanel();
-  }
-});
+let dockObserver: MutationObserver | null = null;
 
 onMounted(() => {
-  window.addEventListener("keydown", onKeydown);
-  window.addEventListener("vd:open-customizer", open);
-  window.addEventListener("resize", onReposition);
-});
-onUnmounted(() => {
-  window.removeEventListener("keydown", onKeydown);
-  window.removeEventListener("vd:open-customizer", open);
-  window.removeEventListener("resize", onReposition);
+  syncDockEdge();
+  dockObserver = new MutationObserver(syncDockEdge);
+  dockObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-docs-dock"],
+  });
 });
 
-defineExpose({ open, close, toggle });
+onUnmounted(() => {
+  dockObserver?.disconnect();
+  dockObserver = null;
+});
+
+const dockTooltipBind = computed(() =>
+  props.tooltipPlacement
+    ? {
+        "data-tooltip": "Theme color",
+        "data-tooltip-placement": props.tooltipPlacement,
+        "data-tooltip-variant": "dock",
+      }
+    : {},
+);
+
+defineExpose({
+  open: (): void => base.value?.open(),
+  close: (): void => base.value?.close(),
+  toggle: (): void => base.value?.toggle(),
+});
 </script>
 
 <template>
-  <div class="vd-theme-customizer" :class="{ 'is-open': isOpen }">
-    <button
-      ref="triggerRef"
-      type="button"
-      class="vd-theme-customizer-trigger"
-      data-theme-customizer-trigger
-      aria-label="Open theme customizer"
-      :aria-expanded="isOpen"
-      @click="toggle"
-    >
-      <i class="ph-bold ph-paint-roller" aria-hidden="true"></i>
-    </button>
-
-    <Teleport to="body">
-      <div
-        class="vd-theme-customizer-overlay"
-        :class="{ 'is-active': isOpen }"
-        @click="close"
-      ></div>
-
-      <aside
-        ref="panelRef"
-        class="vd-theme-customizer-panel"
-        :class="{ 'is-open': isOpen }"
-        role="dialog"
-        aria-label="Theme customizer"
-      >
-        <div class="vd-theme-customizer-panel-inner">
-          <div class="tc-header">
-            <h3 class="tc-title">Customize Theme</h3>
-            <button
-              type="button"
-              class="customizer-mobile-close"
-              aria-label="Close"
-              @click="close"
-            >
-              <i class="ph-bold ph-x"></i>
-            </button>
-          </div>
-          <div class="tc-body">
-            <!--
-              Docs-site lock-in: only Primary Color is user-editable here.
-              Palette / Neutral / Radius / Font stay forced to docs defaults
-              (see theme store applyDocsLockedPrefs). The framework
-              VdThemeCustomizer still ships the full control set for consumers.
-            -->
-            <div class="tc-section">
-              <label class="tc-label">Primary Color</label>
-              <div class="tc-color-grid">
-                <button
-                  v-for="c in PRIMARY_COLORS"
-                  :key="c.key"
-                  type="button"
-                  class="tc-color-swatch"
-                  :class="{ 'is-active': theme.primary === c.key }"
-                  :data-color="c.key"
-                  :style="{ '--vd-swatch-color': c.color }"
-                  :title="c.name"
-                  :aria-label="c.name"
-                  @click="theme.setPrimary(c.key)"
-                ></button>
-              </div>
-            </div>
-          </div>
-          <div class="tc-footer">
-            <button
-              type="button"
-              class="customizer-reset btn btn-sm btn-outline"
-              @click="theme.reset"
-            >
-              Reset to Defaults
-            </button>
-          </div>
-        </div>
-      </aside>
-    </Teleport>
-  </div>
+  <VdThemeCustomizerBase
+    ref="base"
+    variant="swatches"
+    :swatches="DOCS_PRIMARY_SWATCH_KEYS"
+    :direction="direction"
+    :primary="theme.primary"
+    v-bind="dockTooltipBind"
+    @update:primary="theme.setPrimary"
+  />
 </template>

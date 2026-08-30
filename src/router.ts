@@ -67,6 +67,7 @@ import DraggablePage from "@/pages/interactive/Draggable.vue";
 import ImageBoxPage from "@/pages/media/ImageBox.vue";
 import PopoverPage from "@/pages/components/Popover.vue";
 import DocSearchPage from "@/pages/components/DocSearch.vue";
+import GlobalSearchPage from "@/pages/components/GlobalSearch.vue";
 import SearchPage from "@/pages/interactive/Search.vue";
 import TemplatePage from "@/pages/components/Template.vue";
 import NavigationPage from "@/pages/components/Navigation.vue";
@@ -89,6 +90,7 @@ import ProductionPage from "@/pages/guides/ProductionBestPractices.vue";
 import TroubleshootingPage from "@/pages/guides/Troubleshooting.vue";
 import UtilitiesCheatSheetPage from "@/pages/guides/UtilitiesCheatSheet.vue";
 import VanduoEcosystemPage from "@/pages/guides/VanduoEcosystem.vue";
+import HybridSearchGuidePage from "@/pages/guides/HybridSearch.vue";
 import MorphPage from "@/pages/effects/Morph.vue";
 import ParallaxPage from "@/pages/effects/Parallax.vue";
 import LiquidGradientPage from "@/pages/effects/LiquidGradient.vue";
@@ -160,6 +162,7 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   "image-box": ImageBoxPage,
   popover: PopoverPage,
   "doc-search": DocSearchPage,
+  "global-search": GlobalSearchPage,
   search: SearchPage,
   template: TemplatePage,
   navigation: NavigationPage,
@@ -191,6 +194,7 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   troubleshooting: TroubleshootingPage,
   "utilities-cheat-sheet": UtilitiesCheatSheetPage,
   "vanduo-ecosystem": VanduoEcosystemPage,
+  "guide-hybrid-search": HybridSearchGuidePage,
 };
 
 function definePage<T>(component: T): T {

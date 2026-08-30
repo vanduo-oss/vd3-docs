@@ -25,6 +25,20 @@ const nextLinks = [
     desc: "Tokens → generated CSS → components & composables.",
     badge: "Guide",
   },
+  {
+    to: "/guides/hybrid-search",
+    icon: "ph-brain",
+    title: "Hybrid search",
+    desc: "Fuse + in-browser semantic search with vdl-hybrid-search.",
+    badge: "Guide",
+  },
+  {
+    to: "/components/global-search",
+    icon: "ph-magnifying-glass-plus",
+    title: "Global search",
+    desc: "VdGlobalSearch palette wired to an injected adapter.",
+    badge: "Component",
+  },
 ];
 
 // The three repositories that make up the vd3 line.

@@ -255,15 +255,12 @@ const swatches = [
             >
               <i class="ph ph-rocket" aria-hidden="true"></i> Getting Started
             </RouterLink>
-            <RouterLink
-              to="/components/button"
-              class="vd-btn vd-btn-outline vd-btn-ring"
-            >
+            <RouterLink to="/components/button" class="vd-btn vd-btn-ink">
               <i class="ph ph-cube" aria-hidden="true"></i> Browse Components
             </RouterLink>
             <a
               href="https://github.com/vanduo-oss/vd3"
-              class="vd-btn vd-btn-outline vd-btn-ring"
+              class="vd-btn vd-btn-ink"
               target="_blank"
               rel="noopener"
             >
@@ -273,62 +270,6 @@ const swatches = [
         </div>
       </div>
     </div>
-
-    <HomeOolaSection />
-
-    <!-- Seemore Glass story -->
-    <section
-      id="home-seemore"
-      class="seemore-home"
-      aria-labelledby="seemore-home-title"
-    >
-      <div class="vd-container-responsive seemore-home-inner">
-        <div class="vd-row" style="align-items: center">
-          <div class="vd-col-12 vd-col-lg-5">
-            <h2 id="seemore-home-title" class="seemore-home-title">
-              See more glass.
-            </h2>
-            <p class="seemore-home-lead">
-              <strong>Seemore Glass</strong>: every strength step follows the
-              Fibonacci sequence — the same harmonic spine as vd3’s spacing,
-              radius, and golden-ratio DNA — so blur, tint, edge, and elevation
-              thicken together as one material.
-            </p>
-            <p class="seemore-home-lead vd-text-muted">
-              Pair it with decorative Surfaces (mesh, stripe, noise, aurora,
-              dots, grid) and your frosted UI finally has a stage worthy of the
-              frost.
-            </p>
-            <div class="seemore-home-cta">
-              <RouterLink
-                to="/effects/glass"
-                class="vd-btn vd-btn-outline vd-btn-ring"
-              >
-                Explore Seemore Glass
-              </RouterLink>
-              <RouterLink to="/effects/surfaces" class="vd-btn vd-btn-ink">
-                Browse Surfaces
-              </RouterLink>
-            </div>
-          </div>
-          <div class="vd-col-12 vd-col-lg-7">
-            <div
-              class="vd-surface vd-surface-stripe vd-surface-5 seemore-surface-motion seemore-home-stage"
-            >
-              <div
-                class="vd-glass vd-glass-8 vd-glass-adaptive vd-glass-floating seemore-home-panel"
-              >
-                <span class="seemore-home-kicker">.vd-glass-8</span>
-                <p>
-                  Fibonacci step eight — navigation-grade frost over a live
-                  <code>.vd-surface-stripe</code> backdrop.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <div class="vd-container-responsive">
       <!-- Features -->
@@ -403,7 +344,65 @@ const swatches = [
           </div>
         </div>
       </div>
+    </div>
 
+    <!-- Seemore Glass story -->
+    <section
+      id="home-seemore"
+      class="seemore-home"
+      aria-labelledby="seemore-home-title"
+    >
+      <div class="vd-container-responsive seemore-home-inner">
+        <div class="vd-row" style="align-items: center">
+          <div class="vd-col-12 vd-col-lg-5">
+            <h2 id="seemore-home-title" class="seemore-home-title">
+              See more glass.
+            </h2>
+            <p class="seemore-home-lead">
+              <strong>Seemore Glass</strong>: every strength step follows the
+              Fibonacci sequence — the same harmonic spine as vd3’s spacing,
+              radius, and golden-ratio DNA — so blur, tint, edge, and elevation
+              thicken together as one material.
+            </p>
+            <p class="seemore-home-lead vd-text-muted">
+              Pair it with decorative Surfaces (mesh, stripe, noise, aurora,
+              dots, grid) and your frosted UI finally has a stage worthy of the
+              frost.
+            </p>
+            <div class="seemore-home-cta">
+              <RouterLink
+                to="/effects/glass"
+                class="vd-btn vd-btn-outline vd-btn-ring"
+              >
+                Explore Seemore Glass
+              </RouterLink>
+              <RouterLink to="/effects/surfaces" class="vd-btn vd-btn-ink">
+                Browse Surfaces
+              </RouterLink>
+            </div>
+          </div>
+          <div class="vd-col-12 vd-col-lg-7">
+            <div
+              class="vd-surface vd-surface-stripe vd-surface-5 seemore-surface-motion seemore-home-stage"
+            >
+              <div
+                class="vd-glass vd-glass-8 vd-glass-adaptive vd-glass-floating seemore-home-panel"
+              >
+                <span class="seemore-home-kicker">.vd-glass-8</span>
+                <p>
+                  Fibonacci step eight — navigation-grade frost over a live
+                  <code>.vd-surface-stripe</code> backdrop.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <HomeOolaSection />
+
+    <div class="vd-container-responsive">
       <!-- Icons Overview -->
       <div
         id="home-icons"
@@ -595,7 +594,7 @@ const swatches = [
   .seemore-home-cta {
     flex-direction: column;
     flex-wrap: nowrap;
-    align-items: stretch;
+    align-items: center;
     width: 100%;
   }
 
@@ -604,7 +603,7 @@ const swatches = [
     align-items: center;
     justify-content: center;
     text-align: center;
-    align-self: stretch;
+    align-self: center;
     width: 100%;
     box-sizing: border-box;
   }

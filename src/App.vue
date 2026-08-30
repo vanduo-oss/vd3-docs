@@ -2,18 +2,19 @@
 import { computed, onMounted } from "vue";
 import { RouterView, useRoute } from "vue-router";
 import { useHead } from "@unhead/vue";
-import VdNavbar from "@/layout/VdNavbar.vue";
-import VdFooter from "@/layout/VdFooter.vue";
+import VdSiteDock from "@/layout/VdSiteDock.vue";
 import DocsLayout from "@/layout/DocsLayout.vue";
 import GlobalSearchModal from "@/overlays/GlobalSearchModal.vue";
 import LiveCustomizer from "@/overlays/LiveCustomizer.vue";
 import { VdToastContainer } from "@vanduo-oss/vd3";
 import { useThemeStore } from "@/stores/theme";
 import { useCustomizerStore } from "@/stores/customizer";
+import { useSearchStore } from "@/stores/search";
 
 const route = useRoute();
 const theme = useThemeStore();
 const customizer = useCustomizerStore();
+const search = useSearchStore();
 
 // ── Per-route SEO (baked into the SSG HTML via @unhead) ──────────────
 const BASE_URL = "https://vd3.vanduo.dev";
@@ -53,13 +54,14 @@ useHead({
 onMounted(() => {
   theme.init();
   customizer.init();
+  search.init();
 });
 </script>
 
 <template>
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <VdNavbar />
+  <VdSiteDock />
 
   <main id="main-content">
     <DocsLayout v-if="route.meta.layout === 'docs'">
@@ -67,8 +69,6 @@ onMounted(() => {
     </DocsLayout>
     <RouterView v-else />
   </main>
-
-  <VdFooter />
 
   <GlobalSearchModal />
   <LiveCustomizer />

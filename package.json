@@ -1,6 +1,6 @@
 {
   "name": "@vanduo-oss/vd3-docs",
-  "version": "1.4.0",
+  "version": "1.7.0",
   "description": "Vue 3 + vite-ssg documentation site for the vd3 line (@vanduo-oss/vd3 + @vanduo-oss/vd3-cbun)",
   "private": true,
   "type": "module",
@@ -32,28 +32,33 @@
     "test:size": "node tests/scripts/size.mjs",
     "test:e2e": "playwright test --project='Chromium Desktop'",
     "test:e2e:full": "playwright test",
-    "test:a11y": "playwright test a11y-smoke --project='Chromium Desktop'"
+    "test:a11y": "playwright test a11y-smoke --project='Chromium Desktop'",
+    "index": "node scripts/hybrid-search-indexer.mjs",
+    "index:eval": "node scripts/hybrid-search-eval.mjs"
   },
   "dependencies": {
+    "@huggingface/transformers": "4.2.0",
     "@unhead/vue": "2.1.15",
-    "@vanduo-oss/vd3": "1.6.0",
+    "@vanduo-oss/vd3": "1.7.0",
     "@vanduo-oss/vd3-cbun": "1.4.0",
+    "@vanduo-oss/vdl-hybrid-search": "0.2.0",
     "animejs": "4.5.0",
+    "fuse.js": "7.5.0",
     "pinia": "^3.0.4",
-    "vue": "^3.5.40",
-    "vue-router": "^5.2.0"
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",
     "@eslint/js": "10.0.1",
     "@playwright/test": "^1.62.1",
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.4.0",
     "@typescript-eslint/parser": "8.62.0",
     "@vitejs/plugin-vue": "^6.0.8",
-    "@vue/test-utils": "^2.4.11",
+    "@vue/test-utils": "^2.5.0",
     "@vue/tsconfig": "^0.9.1",
     "axe-core": "4.12.1",
-    "eslint": "^10.8.0",
+    "eslint": "^10.9.1",
     "eslint-plugin-vue": "^10.10.0",
     "jsdom": "^29.1.1",
     "prettier": "^3.9.6",
@@ -61,11 +66,11 @@
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "8.62.0",
-    "vite": "^8.2.0",
+    "vite": "^8.2.2",
     "vite-ssg": "^28.3.0",
-    "vitest": "^4.1.10",
+    "vitest": "^4.1.11",
     "vue-eslint-parser": "10.4.1",
-    "vue-tsc": "^3.3.8"
+    "vue-tsc": "^3.3.11"
   },
   "engines": {
     "node": ">=24",

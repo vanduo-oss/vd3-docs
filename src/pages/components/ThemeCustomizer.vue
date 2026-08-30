@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import {
@@ -14,6 +14,22 @@ import {
 // stay in sync with VdThemeSwitcher.
 const customizerRef = ref<InstanceType<typeof VdThemeCustomizer> | null>(null);
 const showPalette = ref(false);
+
+// Controlled-mode demo: this ref is the source of truth, so the fan never
+// touches the site theme — nothing below writes <html data-primary>.
+const DEMO_SWATCHES = [
+  "black",
+  "red",
+  "orange",
+  "green",
+  "blue",
+  "violet",
+] as const;
+const demoPrimary = ref("violet");
+const demoSwatchColor = computed(
+  () =>
+    PRIMARY_COLORS.find((c) => c.key === demoPrimary.value)?.color ?? "#000000",
+);
 
 const openPanel = (): void => customizerRef.value?.open();
 const closePanel = (): void => customizerRef.value?.close();
@@ -74,11 +90,72 @@ theme.setTheme("dark");
 // Reset every field to the defaults:
 theme.reset();`;
 
+const swatchesVue = `<template>
+  <!-- Primary-only fan, hinged at the trigger -->
+  <VdThemeCustomizer
+    variant="swatches"
+    :swatches="['black', 'red', 'orange', 'green', 'blue', 'violet']"
+    direction="up"
+  />
+<\/template>`;
+
+const controlledVue = `<script setup lang="ts">
+import { ref } from "vue";
+import { VdThemeCustomizer } from "@vanduo-oss/vd3";
+
+// Your store owns the value — the fan only reports intent.
+const primary = ref("violet");
+const onPrimary = (next: string) => {
+  primary.value = clampToBrandHues(next);
+};
+<\/script>
+
+<template>
+  <VdThemeCustomizer
+    variant="swatches"
+    :primary="primary"
+    @update:primary="onPrimary"
+  />
+<\/template>`;
+
 const propsRows: [string, string, string][] = [
   [
     "showPalette",
     "boolean",
-    "Render the palette-selection section (Open Color / Fibonacci). Default true.",
+    "Render the palette-selection section (Open Color / Fibonacci). Default true. panel variant only.",
+  ],
+  [
+    "variant",
+    '"panel" | "swatches"',
+    'Default "panel" — the full palette / primary / neutral / radius / font editor. "swatches" replaces it with a primary-only fan hinged at the trigger, for dock and toolbar chrome with no room for a 320px panel.',
+  ],
+  [
+    "swatches",
+    "readonly string[]",
+    "Restrict the fan to these PRIMARY_COLORS keys. Unknown keys are ignored; unset or empty offers all 18, which makes for a crowded fan. Blades always render in PRIMARY_COLORS order, not the order you pass.",
+  ],
+  [
+    "direction",
+    '"auto" | "up" | "down" | "left" | "right"',
+    'Fan axis, default "auto". Auto points away from the nearest viewport edge — which matches the dock edge only while the trigger is pinned there, so chrome that moves between edges should set this explicitly.',
+  ],
+  [
+    "preview",
+    "boolean",
+    "Default true. Applies a hue on hover and restores the previous one if the fan closes without a pick. Set false when previewing is too expensive or too jumpy.",
+  ],
+  [
+    "primary",
+    "string",
+    "Bind to take control: the component renders from this value and reports changes through update:primary instead of writing the useThemePreference() singleton. Leave unbound for the singleton-backed default.",
+  ],
+];
+
+const emitsRows: [string, string, string][] = [
+  [
+    "update:primary",
+    "(value: string)",
+    "Emitted instead of writing the theme singleton whenever primary is bound — on hover preview, on preview restore, and on commit. Unbound, the component never emits.",
   ],
 ];
 
@@ -108,6 +185,26 @@ const cssApi: [string, string, string][] = [
     ".vd-theme-customizer-panel",
     'Teleported panel <aside role="dialog">; .is-open while open.',
     "Class",
+  ],
+  [
+    ".vd-theme-customizer-fan",
+    'Teleported swatches fan <div role="listbox">; .is-open while open, plus a fan-up / fan-down / fan-left / fan-right direction class.',
+    "Class",
+  ],
+  [
+    ".tc-fan-item",
+    'One blade <button role="option">; .is-active for the current hue, .is-hovered while previewing. Carries data-color with the hue key.',
+    "Class",
+  ],
+  [
+    "--vd-customizer-fan-blade-width / -dot-size / -label-size",
+    "Blade geometry: 6.25rem, 1.2rem, 0.68rem by default.",
+    "CSS Variable",
+  ],
+  [
+    "--vd-customizer-fan-stagger / -z-index / -blade-radius",
+    "Per-blade transition delay (30ms), stacking context (1100), and blade rounding (999px).",
+    "CSS Variable",
   ],
   [
     "data-primary / data-neutral",
@@ -165,7 +262,10 @@ const storageRows: [string, string, string][] = [
       <RouterLink to="/guides/theme-customizer"
         >Theme Customizer walkthrough</RouterLink
       >
-      for the full story.
+      for the full story. Two presentations ship:
+      <code>variant="panel"</code> (the default editor below) and
+      <code>variant="swatches"</code>, a primary-only fan for dock and toolbar
+      chrome.
     </p>
 
     <!-- Live Demo: real component -->
@@ -229,6 +329,86 @@ const storageRows: [string, string, string][] = [
           section so users can switch between Open Color and Fibonacci. Off by
           default in this demo (open the panel and flip the switch to see it).
         </p>
+      </div>
+    </div>
+
+    <!-- Swatches variant -->
+    <div class="vd-card vd-card-glow demo-card vd-mb-8">
+      <div class="vd-card-header">
+        <h6><i class="ph ph-swatches"></i>Swatches variant</h6>
+      </div>
+      <div class="vd-card-body">
+        <p class="vd-mb-5">
+          <code>variant="swatches"</code> drops the 320px panel for a
+          primary-only fan hinged at the trigger — the presentation this site's
+          own dock uses. <code>swatches</code> curates which hues appear,
+          <code>direction</code> sets the axis, and <code>preview</code> (on by
+          default) applies a hue on hover and puts the old one back if you leave
+          without picking.
+        </p>
+        <p class="vd-text-sm vd-text-muted vd-mb-5">
+          Blades always render in <code>PRIMARY_COLORS</code> order rather than
+          the order you list them, and that order is not alphabetical —
+          <code>teal</code> comes before <code>blue</code>.
+          <code>direction="auto"</code> aims the fan away from the
+          <em>nearest viewport edge</em>, which is not the same as aiming it
+          where there is the most room; chrome that migrates between edges (a
+          dock, say) should pass an explicit direction.
+        </p>
+        <div
+          class="vd-d-flex vd-flex-wrap vd-gap-5 vd-align-items-center theme-customizer-demo-row"
+        >
+          <VdThemeCustomizer
+            variant="swatches"
+            :swatches="DEMO_SWATCHES"
+            direction="right"
+            :primary="demoPrimary"
+            @update:primary="demoPrimary = $event"
+          />
+          <div class="vd-d-flex vd-gap-3 vd-align-items-center">
+            <span
+              aria-hidden="true"
+              style="
+                width: 1.5rem;
+                height: 1.5rem;
+                border-radius: 999px;
+                border: 1px solid var(--vd-border-color);
+              "
+              :style="{ background: demoSwatchColor }"
+            ></span>
+            <code>primary = "{{ demoPrimary }}"</code>
+          </div>
+        </div>
+        <p class="vd-text-sm vd-text-muted vd-mt-4" style="margin: 0">
+          This fan runs <strong>controlled</strong>, so it writes the local ref
+          beside it and leaves the site theme alone — the page colors do not
+          change when you pick.
+        </p>
+        <DocCodeSnippet class="vd-mt-5" :vue="swatchesVue" />
+      </div>
+    </div>
+
+    <!-- Controlled mode -->
+    <div class="vd-card vd-card-glow demo-card vd-mb-8">
+      <div class="vd-card-header">
+        <h6><i class="ph ph-arrows-left-right"></i>Controlled primary</h6>
+      </div>
+      <div class="vd-card-body">
+        <p class="vd-mb-5">
+          Unbound, the component both reads and writes
+          <code>useThemePreference()</code>. Bind <code>:primary</code> and it
+          switches to controlled mode: it renders from your value and reports
+          every change — hover previews included — through
+          <code>@update:primary</code>, touching the singleton never.
+        </p>
+        <p class="vd-text-sm vd-text-muted vd-mb-5">
+          Reach for this when the app already owns the hue and needs to clamp or
+          transform it. This site does exactly that: its store narrows primary
+          to Ink plus the eight dock tints and forces palette, font, radius, and
+          neutral to docs defaults, so an uncontrolled customizer writing the
+          singleton would slip past both rules.
+        </p>
+        <DocCodeSnippet :vue="controlledVue" />
       </div>
     </div>
 
@@ -381,6 +561,30 @@ const storageRows: [string, string, string][] = [
             </thead>
             <tbody>
               <tr v-for="row in propsRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>
+                  <code>{{ row[1] }}</code>
+                </td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="vd-mt-6">Emits</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th style="width: 22%">Event</th>
+                <th style="width: 20%">Payload</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in emitsRows" :key="row[0]">
                 <td>
                   <code>{{ row[0] }}</code>
                 </td>

@@ -736,5 +736,35 @@ const resultFields: [string, string][] = [
         </ul>
       </div>
     </div>
+
+    <div class="vd-card vd-card-glow demo-card">
+      <div class="vd-card-header">
+        <h6>
+          <i class="ph ph-link mr-2" style="color: var(--vd-color-primary)"></i
+          >Related
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <ul>
+          <li>
+            <RouterLink to="/components/global-search"
+              >Global search</RouterLink
+            >
+            — site-wide palette with an injected adapter (Cmd+K on the docs
+            site).
+          </li>
+          <li>
+            <RouterLink to="/interactive/search">useSearch</RouterLink>
+            — headless async source registry without UI.
+          </li>
+          <li>
+            <RouterLink to="/guides/hybrid-search"
+              >Hybrid search guide</RouterLink
+            >
+            — build the Fuse + semantic index with vdl-hybrid-search.
+          </li>
+        </ul>
+      </div>
+    </div>
   </section>
 </template>

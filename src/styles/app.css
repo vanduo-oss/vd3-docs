@@ -22,8 +22,15 @@ body {
   min-height: 100vh;
 }
 
+html {
+  /* Keep layout viewport width stable so the fixed horizontal site dock
+     does not shrink/expand when page scrollbars appear or disappear. */
+  scrollbar-gutter: stable;
+}
+
 #main-content {
-  padding-top: var(--docs-main-offset);
+  padding: var(--docs-main-offset) var(--docs-dock-edge-pad-right, 0)
+    var(--docs-dock-edge-pad-bottom, 0) var(--docs-dock-edge-pad-left, 0);
   min-height: calc(100vh - var(--docs-main-min-height-offset));
 }
 

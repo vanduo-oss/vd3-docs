@@ -76,7 +76,10 @@ const cards: DocsCard[] = [
     title: "Changelog",
     desc: "See what's new in Vanduo and track each release update.",
     highlights: [
-      { icon: "ph-sparkle", text: "vd3 1.4.0 — Auth screens & data table" },
+      {
+        icon: "ph-sparkle",
+        text: "vd3 1.7.0 — Global search palette & Oola dock",
+      },
       { icon: "ph-git-branch", text: "Release notes for @vanduo-oss/vd3" },
     ],
     miniIcons: [
@@ -85,9 +88,25 @@ const cards: DocsCard[] = [
       { title: "Roadmap", icon: "ph-map-trifold" },
     ],
     tags: ["Releases", "Tokens", "Lifecycle"],
-    meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.4.0" },
+    meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.7.0" },
   },
 ];
+
+const resources = [
+  { label: "About", to: "/about" as const },
+  {
+    label: "GitHub",
+    href: "https://github.com/vanduo-oss/vd3",
+  },
+  {
+    label: "NPM",
+    href: "https://www.npmjs.com/package/@vanduo-oss/vd3",
+  },
+  {
+    label: "License",
+    href: "https://github.com/vanduo-oss/vd3/blob/main/LICENSE",
+  },
+] as const;
 </script>
 
 <template>
@@ -101,35 +120,17 @@ const cards: DocsCard[] = [
         <p class="vd-text-lg vd-text-muted">
           Explore Vanduo Documentation, Guides and Changelog
         </p>
-        <span
-          id="docs-component-count"
-          class="vd-badge vd-badge-outlined"
-          style="
-            margin-top: 0.75rem;
-            font-size: 0.85rem;
-            padding: 0.4rem 0.8rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            color: var(--vd-color-primary);
-            background-color: rgba(var(--vd-color-primary-rgb), 0.1);
-            border-color: rgba(var(--vd-color-primary-rgb), 0.3);
-          "
-        >
-          <i class="ph ph-cube"></i> <span>47+</span> components
-        </span>
-        <p
-          class="docs-landing-version"
-          style="
-            margin-top: 0.85rem;
-            font-size: 0.75rem;
-            letter-spacing: 0.03em;
-            color: var(--vd-text-muted);
-          "
-        >
-          Documentation v{{ docsVersion }}
-        </p>
       </div>
+    </div>
+
+    <div class="vd-container-responsive docs-landing-meta">
+      <span
+        id="docs-component-count"
+        class="vd-badge vd-badge-outlined docs-landing-meta-badge"
+      >
+        <i class="ph ph-cube"></i> <span>47+</span> components
+      </span>
+      <span class="docs-landing-version">Documentation v{{ docsVersion }}</span>
     </div>
 
     <!-- Main Content -->
@@ -191,6 +192,20 @@ const cards: DocsCard[] = [
           </div>
         </RouterLink>
       </div>
+
+      <nav class="docs-landing-resources" aria-label="Resources">
+        <h3 class="docs-landing-resources-title">Resources</h3>
+        <ul class="docs-landing-resources-list">
+          <li v-for="item in resources" :key="item.label">
+            <RouterLink v-if="'to' in item" :to="item.to">{{
+              item.label
+            }}</RouterLink>
+            <a v-else :href="item.href" target="_blank" rel="noopener">{{
+              item.label
+            }}</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </section>
 </template>

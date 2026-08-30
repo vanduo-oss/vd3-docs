@@ -101,12 +101,15 @@ html {
   );
   --vd-color-muted: var(--vd-text-muted);
 
-  /* Docs shell chrome — rem at 16px baseline, scales with font-size above */
-
-  /* Float inset (~fib-8…21) + bar height — keep content clear of capsule.
-     4.5rem = ~72px preview bar (was 4rem for the 64px preview). */
-  --docs-main-offset: calc(4.5rem + var(--vd-navbar-float-inset, 0.75rem));
-  --docs-sticky-offset: calc(4.875rem + var(--vd-navbar-float-inset, 0.75rem));
+  /* Docs shell chrome — rem at 16px baseline, scales with font-size above.
+     Offsets clear the fixed site dock (data-docs-dock) instead of a top navbar.
+     ~5.15rem dock height + inset (~1.3125rem) + small gap. */
+  --docs-dock-clearance: 6.75rem;
+  --docs-dock-edge-pad-bottom: 0;
+  --docs-dock-edge-pad-left: 0;
+  --docs-dock-edge-pad-right: 0;
+  --docs-main-offset: 1rem;
+  --docs-sticky-offset: 1rem;
 
   /* Sticky affix under the floating pill: main-offset clears the capsule,
      +0.5rem is a small intentional gap (a 64px offset assumed a full-bleed bar). */
@@ -117,6 +120,42 @@ html {
   --docs-sidebar-tablet-max-offset: 9.375rem; /* was 150px */
   --docs-main-min-height-offset: 12.5rem; /* was 200px */
   --docs-mobile-nav-extra: 3.75rem; /* was 60px */
+}
+
+html[data-docs-dock="bottom"],
+html:not([data-docs-dock]) {
+  --docs-main-offset: 1rem;
+  --docs-sticky-offset: 1rem;
+  --docs-dock-edge-pad-bottom: var(--docs-dock-clearance);
+}
+
+html[data-docs-dock="top"] {
+  --docs-main-offset: var(--docs-dock-clearance);
+  --docs-sticky-offset: var(--docs-dock-clearance);
+  --docs-dock-edge-pad-bottom: 0;
+}
+
+html[data-docs-dock="left"],
+html[data-docs-dock="right"] {
+  /* Match fixed dock footprint (height + inset) plus a small gap so content
+     is pushed aside instead of sitting under the vertical pill. */
+  --docs-dock-clearance: calc(
+    var(--vd-dock-height) + var(--vd-dock-inset) + 0.5rem
+  );
+}
+
+html[data-docs-dock="left"] {
+  --docs-main-offset: 1rem;
+  --docs-sticky-offset: 1rem;
+  --docs-dock-edge-pad-left: var(--docs-dock-clearance);
+  --docs-dock-edge-pad-bottom: 0;
+}
+
+html[data-docs-dock="right"] {
+  --docs-main-offset: 1rem;
+  --docs-sticky-offset: 1rem;
+  --docs-dock-edge-pad-right: var(--docs-dock-clearance);
+  --docs-dock-edge-pad-bottom: 0;
 }
 
 html[data-font="nunito"],
@@ -222,46 +261,40 @@ select,
   padding-bottom: 0.5rem;
 }
 
-/* ── Dark mode scrollbars (docs) ─────────────────── */
-[data-theme="dark"] {
-  --vd-bg-primary: var(--vd-charcoal-9);
-  --docs-scrollbar-thumb: color-mix(
-    in srgb,
-    var(--vd-text-secondary) 38%,
-    var(--vd-bg-primary)
-  );
-  --docs-scrollbar-track: color-mix(
-    in srgb,
-    var(--vd-bg-secondary) 55%,
-    transparent
-  );
-}
-
-[data-theme="dark"],
-[data-theme="dark"] * {
+/* ── Docs scrollbars (theme-aware, both schemes) ───
+   Custom styles for light + dark so WebKit/Blink do not fall back to the
+   native light-mode track (dark fill + white outline). Track stays
+   transparent; thumb uses token mixes that adapt with the scheme.
+   Token vars live on the shared :root block below. */
+:root,
+:root * {
   scrollbar-width: thin;
   scrollbar-color: var(--docs-scrollbar-thumb) var(--docs-scrollbar-track);
 }
 
-[data-theme="dark"]::-webkit-scrollbar,
-[data-theme="dark"] *::-webkit-scrollbar {
+:root::-webkit-scrollbar,
+:root *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-[data-theme="dark"]::-webkit-scrollbar-track,
-[data-theme="dark"] *::-webkit-scrollbar-track {
+:root::-webkit-scrollbar-track,
+:root *::-webkit-scrollbar-track {
   background: var(--docs-scrollbar-track);
+  border: none;
+  box-shadow: none;
 }
 
-[data-theme="dark"]::-webkit-scrollbar-thumb,
-[data-theme="dark"] *::-webkit-scrollbar-thumb {
+:root::-webkit-scrollbar-thumb,
+:root *::-webkit-scrollbar-thumb {
   background: var(--docs-scrollbar-thumb);
+  border: none;
   border-radius: 4px;
+  box-shadow: none;
 }
 
-[data-theme="dark"]::-webkit-scrollbar-thumb:hover,
-[data-theme="dark"] *::-webkit-scrollbar-thumb:hover {
+:root::-webkit-scrollbar-thumb:hover,
+:root *::-webkit-scrollbar-thumb:hover {
   background: color-mix(
     in srgb,
     var(--docs-scrollbar-thumb) 82%,
@@ -269,51 +302,13 @@ select,
   );
 }
 
+[data-theme="dark"] {
+  --vd-bg-primary: var(--vd-charcoal-9);
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --vd-bg-primary: var(--vd-charcoal-9);
-    --docs-scrollbar-thumb: color-mix(
-      in srgb,
-      var(--vd-text-secondary) 38%,
-      var(--vd-bg-primary)
-    );
-    --docs-scrollbar-track: color-mix(
-      in srgb,
-      var(--vd-bg-secondary) 55%,
-      transparent
-    );
-  }
-
-  :root:not([data-theme]),
-  :root:not([data-theme]) * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--docs-scrollbar-thumb) var(--docs-scrollbar-track);
-  }
-
-  :root:not([data-theme])::-webkit-scrollbar,
-  :root:not([data-theme]) *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  :root:not([data-theme])::-webkit-scrollbar-track,
-  :root:not([data-theme]) *::-webkit-scrollbar-track {
-    background: var(--docs-scrollbar-track);
-  }
-
-  :root:not([data-theme])::-webkit-scrollbar-thumb,
-  :root:not([data-theme]) *::-webkit-scrollbar-thumb {
-    background: var(--docs-scrollbar-thumb);
-    border-radius: 4px;
-  }
-
-  :root:not([data-theme])::-webkit-scrollbar-thumb:hover,
-  :root:not([data-theme]) *::-webkit-scrollbar-thumb:hover {
-    background: color-mix(
-      in srgb,
-      var(--docs-scrollbar-thumb) 82%,
-      var(--vd-text-primary)
-    );
   }
 }
 
@@ -326,6 +321,25 @@ html[data-theme="dark"][data-primary="green"] {
   --vd-color-primary-active: var(--vd-green-9);
 }
 
+/* Dark + ink (black): lift accents to mid/light greys so they read on dark bg.
+   Package black ramp is near-black at stops 7–9; semantic primary-4 is usable
+   but brand marks / filled chrome need the lighter grey stops. */
+html[data-theme="dark"][data-primary="black"] {
+  --vd-color-primary: var(--vd-primary-3);
+  --vd-color-primary-light: var(--vd-primary-2);
+  --vd-color-primary-dark: var(--vd-primary-4);
+  --vd-color-primary-hover: var(--vd-primary-2);
+  --vd-color-primary-active: var(--vd-primary-4);
+  --vd-brand-accent: var(--vd-primary-3);
+  --vd3-mark-inner-light: var(--vd-primary-2);
+  --vd3-mark-inner-dark: var(--vd-primary-4);
+  --vd3-mark-outer-fill: color-mix(
+    in srgb,
+    var(--vd-primary-3) 85%,
+    var(--vd-primary-5)
+  );
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme])[data-primary="green"] {
     --vd-color-primary: var(--vd-green-8);
@@ -334,10 +348,32 @@ html[data-theme="dark"][data-primary="green"] {
     --vd-color-primary-hover: var(--vd-green-7);
     --vd-color-primary-active: var(--vd-green-9);
   }
+
+  :root:not([data-theme])[data-primary="black"] {
+    --vd-color-primary: var(--vd-primary-3);
+    --vd-color-primary-light: var(--vd-primary-2);
+    --vd-color-primary-dark: var(--vd-primary-4);
+    --vd-color-primary-hover: var(--vd-primary-2);
+    --vd-color-primary-active: var(--vd-primary-4);
+    --vd-brand-accent: var(--vd-primary-3);
+    --vd3-mark-inner-light: var(--vd-primary-2);
+    --vd3-mark-inner-dark: var(--vd-primary-4);
+    --vd3-mark-outer-fill: color-mix(
+      in srgb,
+      var(--vd-primary-3) 85%,
+      var(--vd-primary-5)
+    );
+  }
 }
 
 /* ── Brand mark tokens (track active data-primary) ── */
 :root {
+  --docs-scrollbar-thumb: color-mix(
+    in srgb,
+    var(--vd-text-secondary) 38%,
+    var(--vd-bg-primary)
+  );
+  --docs-scrollbar-track: transparent;
   --vd-brand-accent: var(--vd-primary-8);
   --vd3-mark-inner-light: var(--vd-brand-accent);
   --vd3-mark-inner-dark: var(--vd-primary-9);
@@ -564,8 +600,12 @@ html[data-theme="dark"][data-primary="green"] {
   left: 0;
 }
 
+/* Keep tooltips measurable while hidden — `display:none` zeros getBoundingClientRect
+   and makes useTooltips place top/left tips as if they had no size (they then grow
+   the wrong direction and look off-center). Package already uses opacity until .is-visible. */
 .vd-tooltip:not(.is-visible) {
-  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 /* ── Hero title mobile alignment ───────────────────── */
@@ -1285,9 +1325,11 @@ section:last-of-type {
   overflow-wrap: break-word;
 }
 
-.doc-nav-link:hover {
+.doc-nav-link:hover,
+.doc-nav-link:focus {
   color: var(--vd-color-primary);
   background-color: var(--vd-bg-secondary);
+  text-decoration: none;
 }
 
 .doc-nav-link.active {
@@ -2309,8 +2351,34 @@ a:hover .vd-card-interactive.vd-card-glow {
   --vd-glass-highlight-alpha: 0;
 }
 
+#docs-landing .docs-landing-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+  padding: 3.5rem 0 0;
+}
+
+#docs-landing .docs-landing-meta-badge {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--vd-color-primary);
+  background-color: rgb(var(--vd-color-primary-rgb) / 10%);
+  border-color: rgb(var(--vd-color-primary-rgb) / 30%);
+}
+
+#docs-landing .docs-landing-version {
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--vd-text-muted);
+}
+
 #docs-landing .docs-landing-main {
-  padding-top: 7rem;
+  padding-top: 2rem;
   padding-bottom: 1rem;
 }
 
@@ -2319,6 +2387,38 @@ a:hover .vd-card-interactive.vd-card-glow {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--vd-grid-gutter, 1.25rem);
   align-items: stretch;
+}
+
+#docs-landing .docs-landing-resources {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid
+    color-mix(in srgb, var(--vd-border-color) 70%, transparent);
+}
+
+#docs-landing .docs-landing-resources-title {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: var(--vd-text-primary);
+}
+
+#docs-landing .docs-landing-resources-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#docs-landing .docs-landing-resources-list a {
+  color: var(--vd-color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#docs-landing .docs-landing-resources-list a:hover {
+  text-decoration: underline;
 }
 
 #docs-landing .docs-landing-link {
@@ -2935,17 +3035,373 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 /* ── Global Search ──────────────────────────────── */
 
-/* Always-visible navbar actions (search + theme) */
-.navbar-actions-always {
+/* Site dock action chrome (search + theme + customizer) */
+.vd-site-dock .vd-dock-actions {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  margin-left: auto;
-  order: 99;
-  transform: translateY(1px);
+  gap: 0.25rem;
 }
 
-/* Navbar trigger button — chess-like borderless chrome */
+/* Vertical docks: swatches topmost on both edges (matches horizontal,
+   where the customizer is the outermost/rightmost action). */
+.vd-site-dock.is-vertical .vd-dock-actions {
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+/* Unify brand corners: horizontal always left, vertical always bottom
+   (package defaults mirror opposite edges via row-/column-reverse). */
+.vd-site-dock.vd-dock-edge-top:not(.is-square),
+.vd-site-dock.vd-dock-edge-top.is-horizontal {
+  flex-direction: row;
+}
+
+.vd-site-dock.vd-dock-edge-right:not(.is-square),
+.vd-site-dock.vd-dock-edge-right.is-vertical {
+  flex-direction: column-reverse;
+}
+
+/* MacOS-style site dock: icon-only nav (labels via tooltip), not oversized. */
+.vd-site-dock {
+  --vd-dock-height: 5.15rem;
+  --vd-dock-brand-size: 3.375rem;
+}
+
+/* Central nav: ~34px glyphs (~28% under prior 3rem), no visible labels. */
+.vd-site-dock .vd-dock-links .vd-dock-item {
+  gap: 0;
+  padding: 0.3rem 0.45rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item .ph {
+  font-size: 2.15rem;
+}
+
+/* Icon-only nav: mute idle links; only the active route reads at full strength. */
+.vd-site-dock .vd-dock-links .vd-dock-item:not(.is-active) {
+  opacity: 1;
+  color: var(--vd-text-secondary);
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item:not(.is-active) .ph {
+  opacity: 0.48;
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item.is-active {
+  opacity: 1;
+  color: var(--vd-dock-tint, var(--vd-text-primary));
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item.is-active .ph {
+  opacity: 1;
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item:hover:not(.is-active),
+.vd-site-dock .vd-dock-links .vd-dock-item:focus-visible:not(.is-active) {
+  opacity: 1;
+  color: color-mix(
+    in srgb,
+    var(--vd-text-primary) 70%,
+    var(--vd-text-secondary)
+  );
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-item:hover:not(.is-active) .ph,
+.vd-site-dock .vd-dock-links .vd-dock-item:focus-visible:not(.is-active) .ph {
+  opacity: 0.72;
+}
+
+.vd-site-dock .vd-dock-links .vd-dock-label {
+  display: none;
+}
+
+/* Icon-only: center glyphs regardless of inline/stack itemLayout. */
+.vd-site-dock.vd-dock-items-inline .vd-dock-links .vd-dock-item,
+.vd-site-dock.vd-dock-items-stack .vd-dock-links .vd-dock-item {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Avoid animating horizontal width when not morphing — scrollbar / layout
+   viewport changes would otherwise jiggle the bottom/top pill across routes. */
+.vd-site-dock.vd-dock-edge-bottom:not(.is-square, .is-morphing),
+.vd-site-dock.vd-dock-edge-top:not(.is-square, .is-morphing) {
+  transition-property:
+    height, min-height, left, right, top, bottom, transform, padding, gap,
+    flex-direction;
+}
+
+.vd-site-dock .vd-site-dock-brand-mark,
+.vd-site-dock .vd-site-dock-brand-mark svg {
+  width: var(--vd-dock-brand-size);
+  height: var(--vd-dock-brand-size);
+  display: block;
+}
+
+/* Brand slot: flush padding + optical center (viewBox ink sits high). */
+.vd-site-dock .vd-dock-brand {
+  padding: 0;
+  align-self: center;
+}
+
+.vd-site-dock.is-vertical .vd-dock-brand {
+  padding: 0;
+  width: 100%;
+}
+
+/* Ink dock: brand mark tracks --vd-dock-tint (same hue as active nav icon).
+   When primary is Ink (black), accent is unset — soft grey chrome. */
+.vd-site-dock .vd-site-dock-brand-mark {
+  --vd3-mark-inner-light: color-mix(
+    in srgb,
+    var(--vd-dock-tint, #a1a1aa) 72%,
+    #fff
+  );
+  --vd3-mark-inner-dark: color-mix(
+    in srgb,
+    var(--vd-dock-tint, #71717a) 88%,
+    #000
+  );
+  --vd3-mark-outer-fill: color-mix(
+    in srgb,
+    var(--vd-dock-tint, #8a9199) 78%,
+    #000
+  );
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+/* Horizontal edges (+ square morph waypoint): padded viewBox leaves ink mass
+   high; nudge scales with rendered mark size (0.1em was ~1.6px and did not
+   track --vd-dock-brand-size). */
+.vd-site-dock:not(.is-vertical) .vd-site-dock-brand-mark .vd3-mark {
+  transform: translateY(calc(var(--vd-dock-brand-size) * 0.075));
+}
+
+/* Brand mark: idle still; hover ramps slow→medium; morph spins fast. */
+@property --vd-site-dock-brand-spin {
+  syntax: "<time>";
+  inherits: true;
+  initial-value: 12s;
+}
+
+@property --vd-site-dock-brand-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes vd-site-dock-brand-spin {
+  to {
+    --vd-site-dock-brand-angle: 360deg;
+  }
+}
+
+.vd-site-dock .vd-dock-brand .vd3-mark-spin {
+  transform: rotate(var(--vd-site-dock-brand-angle));
+  transform-origin: 361px 361px;
+  animation: vd-site-dock-brand-spin var(--vd-site-dock-brand-spin) linear
+    infinite;
+  animation-play-state: paused;
+}
+
+.vd-site-dock .vd-dock-brand:hover .vd3-mark-spin,
+.vd-site-dock .vd-dock-brand:focus-visible .vd3-mark-spin {
+  animation-play-state: running;
+}
+
+.vd-site-dock.is-morphing .vd-dock-brand .vd3-mark-spin {
+  animation-play-state: running;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vd-site-dock .vd-dock-brand .vd3-mark-spin {
+    animation: none;
+    transition: none;
+  }
+}
+
+.vd-site-dock .vd-dock-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--vd-text-secondary);
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 0;
+  padding: 0;
+  opacity: 0.72;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease;
+}
+
+.vd-site-dock .vd-dock-actions button:hover,
+.vd-site-dock .vd-dock-actions button:focus-visible,
+.vd-site-dock .vd-dock-actions button[aria-expanded="true"] {
+  opacity: 1;
+  color: var(--vd-text-primary);
+  background: transparent;
+  border-color: transparent;
+}
+
+.vd-site-dock .vd-dock-actions button i {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.vd-site-dock .vd-theme-switcher,
+.vd-site-dock .vd-theme-customizer {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Narrow phone dock — keep in sync with DOCK_NARROW_QUERY (520px) in @vanduo-oss/vd3. */
+@media (max-width: 520px) {
+  :root {
+    --docs-dock-clearance: 5.75rem;
+  }
+
+  .vd-site-dock {
+    --vd-dock-height: 4.6rem;
+    --vd-dock-brand-size: 2.85rem;
+
+    padding-inline: 0.85rem;
+  }
+
+  /* Full-width pill: drop centered translateX pill geometry from the package. */
+  .vd-site-dock.vd-dock-edge-bottom:not(.is-square, .is-morphing),
+  .vd-site-dock.vd-dock-edge-top:not(.is-square, .is-morphing) {
+    left: var(--vd-dock-inset);
+    right: var(--vd-dock-inset);
+    width: auto;
+    max-width: none;
+    transform: none;
+  }
+
+  .vd-site-dock.vd-dock-edge-bottom:not(.is-square) {
+    bottom: max(var(--vd-dock-inset), env(safe-area-inset-bottom, 0px));
+  }
+
+  html[data-docs-dock="top"] .vd-site-dock.vd-dock-edge-top:not(.is-square) {
+    top: max(var(--vd-dock-inset), env(safe-area-inset-top, 0px));
+  }
+
+  .vd-site-dock .vd-dock-brand,
+  .vd-site-dock .vd-dock-actions {
+    flex-shrink: 0;
+  }
+
+  /* Swipeable middle strip: nav links + theme controls scroll horizontally.
+     Beat .vd-dock.is-horizontal .vd-dock-nav { justify-content: center } so
+     the first item (Home) is not clipped off the scrollport's left edge. */
+  .vd-site-dock.vd-dock.is-horizontal .vd-dock-nav {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: auto hidden;
+    justify-content: flex-start;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 0.75rem,
+      #000 calc(100% - 0.75rem),
+      transparent
+    );
+  }
+
+  .vd-site-dock .vd-dock-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vd-site-dock .vd-dock-links {
+    flex-wrap: nowrap;
+    width: max-content;
+    min-width: min-content;
+  }
+
+  .vd-site-dock .vd-dock-links .vd-dock-item {
+    min-width: 3.25rem;
+    flex-shrink: 0;
+  }
+
+  .vd-site-dock .vd-dock-links .vd-dock-item .ph {
+    font-size: 1.85rem;
+  }
+
+  .vd-site-dock-strip-divider {
+    flex-shrink: 0;
+    align-self: center;
+    width: 1px;
+    height: 1.65rem;
+    margin-inline: 0.15rem;
+    background: color-mix(in srgb, var(--vd-text-primary) 14%, transparent);
+  }
+
+  .vd-site-dock .vd-dock-links .vd-theme-switcher,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer {
+    flex-shrink: 0;
+  }
+
+  .vd-site-dock .vd-dock-links .vd-theme-switcher button,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 0.75rem;
+    background: transparent;
+    color: var(--vd-text-secondary);
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 0;
+    padding: 0;
+    opacity: 0.72;
+    transition:
+      opacity 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .vd-site-dock .vd-dock-links .vd-theme-switcher button:hover,
+  .vd-site-dock .vd-dock-links .vd-theme-switcher button:focus-visible,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger:hover,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger:focus-visible,
+  .vd-site-dock
+    .vd-dock-links
+    .vd-theme-customizer-trigger[aria-expanded="true"] {
+    opacity: 1;
+    color: var(--vd-text-primary);
+  }
+
+  .vd-site-dock .vd-dock-links .vd-theme-switcher button i,
+  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger i {
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+}
+
+/* Navbar trigger button — chess-like borderless chrome (legacy demos) */
 .global-search-trigger {
   display: inline-flex;
   align-items: center;
@@ -3081,262 +3537,6 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 .navbar-actions-always .vd-theme-switcher-toggle .ph-moon::before {
   content: "\e330";
-}
-
-/* Overlay */
-.global-search-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  background: rgb(0 0 0 / 45%);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-
-.global-search-overlay.is-open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Modal */
-.global-search-modal {
-  position: fixed;
-  top: 15vh;
-  left: 50%;
-  transform: translateX(-50%) scale(0.96);
-  z-index: 9999;
-  width: 92%;
-  max-width: 640px;
-  background: var(--vd-glass-bg-light);
-  backdrop-filter: blur(var(--vd-glass-blur, 12px))
-    saturate(var(--vd-glass-saturate, 1.8));
-  -webkit-backdrop-filter: blur(var(--vd-glass-blur, 12px))
-    saturate(var(--vd-glass-saturate, 1.8));
-  border: 1px solid var(--vd-glass-border-light);
-  border-radius: calc(var(--vd-card-border-radius) * 1.5);
-  box-shadow:
-    var(--vd-glass-shadow),
-    0 30px 70px rgb(0 0 0 / 45%);
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  max-height: 70vh;
-  overflow: hidden;
-}
-
-.global-search-modal.is-open {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) scale(1);
-}
-
-/* Modal header / input */
-.global-search-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--vd-glass-border-light);
-}
-
-.global-search-header .global-search-icon {
-  font-size: 1.25rem;
-  color: var(--vd-text-secondary);
-  flex-shrink: 0;
-}
-
-.global-search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 1.1rem;
-  color: var(--vd-text-primary);
-  font-family: inherit;
-}
-
-.global-search-input::placeholder {
-  color: var(--vd-text-secondary);
-  opacity: 0.7;
-}
-
-.global-search-kbd {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.6rem;
-  padding: 0.15rem 0.4rem;
-  font-size: 0.7rem;
-  font-family: inherit;
-  background: var(--vd-bg-secondary);
-  border: 1px solid var(--vd-border-color);
-  border-radius: 4px;
-  color: var(--vd-text-secondary);
-  flex-shrink: 0;
-}
-
-/* Results area */
-.global-search-results {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0.5rem;
-  min-height: 0;
-}
-
-.global-search-results:empty {
-  display: none;
-}
-
-.global-search-results-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.global-search-category-label {
-  padding: 0.5rem 0.75rem 0.25rem;
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--vd-text-secondary);
-  opacity: 0.7;
-}
-
-.global-search-result {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0.75rem;
-  border-radius: var(--vd-card-border-radius);
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.global-search-result:hover,
-.global-search-result.is-active {
-  background: var(--vd-bg-secondary);
-}
-
-.global-search-result.is-active {
-  outline: 2px solid var(--vd-color-primary);
-  outline-offset: -2px;
-}
-
-.global-search-result-icon {
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  background: var(--vd-color-primary-alpha-10);
-  color: var(--vd-color-primary);
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-
-.global-search-result-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.global-search-result-title {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--vd-text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.global-search-result-title mark {
-  background: rgb(var(--vd-color-primary-rgb, 232, 166, 19), 0.25);
-  color: var(--vd-color-primary);
-  border-radius: 2px;
-  padding: 0 1px;
-}
-
-.global-search-result-meta {
-  font-size: 0.75rem;
-  color: var(--vd-text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Modal footer */
-.global-search-footer {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 0.6rem 1.25rem;
-  border-top: 1px solid var(--vd-glass-border-light);
-  font-size: 0.7rem;
-  color: var(--vd-text-secondary);
-}
-
-.global-search-footer kbd {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.4rem;
-  height: 1.4rem;
-  padding: 0 0.3rem;
-  font-size: 0.65rem;
-  font-family: inherit;
-  background: var(--vd-bg-secondary);
-  border: 1px solid var(--vd-border-color);
-  border-radius: 3px;
-  margin: 0 0.15rem;
-}
-
-/* Empty state */
-.global-search-empty {
-  text-align: center;
-  padding: 2rem 1rem;
-  color: var(--vd-text-secondary);
-}
-
-.global-search-empty-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.75rem;
-  opacity: 0.4;
-}
-
-.global-search-empty-title {
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-.global-search-empty-text {
-  font-size: 0.85rem;
-  opacity: 0.7;
-}
-
-/* Hint state (no query yet) */
-.global-search-hint {
-  text-align: center;
-  padding: 2.5rem 1rem;
-  color: var(--vd-text-secondary);
-}
-
-.global-search-hint-icon {
-  font-size: 2rem;
-  color: var(--vd-color-primary);
-  margin-bottom: 0.5rem;
-}
-
-.global-search-hint-text {
-  font-size: 0.85rem;
-  opacity: 0.7;
 }
 
 /* Hero search wrapper — matches .hero-content width (same as CTA button row) */
@@ -3481,14 +3681,14 @@ a:hover .vd-card-interactive.vd-card-glow {
   );
 }
 
-/* Reuse global search result styles in dropdown */
-.hero-search-dropdown .global-search-results-list {
+/* Reuse vd3 global search result styles in hero dropdown */
+.hero-search-dropdown .vd-global-search-results-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.hero-search-dropdown .global-search-category-label {
+.hero-search-dropdown .vd-global-search-category-label {
   padding: 0.5rem 0.75rem 0.25rem;
   font-size: 0.7rem;
   font-weight: 600;
@@ -3498,7 +3698,7 @@ a:hover .vd-card-interactive.vd-card-glow {
   opacity: 0.7;
 }
 
-.hero-search-dropdown .global-search-result {
+.hero-search-dropdown .vd-global-search-result {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -3508,12 +3708,12 @@ a:hover .vd-card-interactive.vd-card-glow {
   transition: background 0.15s;
 }
 
-.hero-search-dropdown .global-search-result:hover,
-.hero-search-dropdown .global-search-result.is-active {
+.hero-search-dropdown .vd-global-search-result:hover,
+.hero-search-dropdown .vd-global-search-result.is-active {
   background: var(--vd-bg-secondary);
 }
 
-.hero-search-dropdown .global-search-result.is-active {
+.hero-search-dropdown .vd-global-search-result.is-active {
   outline: 2px solid var(--vd-color-primary);
   outline-offset: -2px;
 }
@@ -3565,21 +3765,33 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 @media (max-width: 767.98px) {
-  .global-search-modal {
-    top: 0;
-    width: 100%;
-    max-width: 100%;
-    max-height: 100vh;
-    border-radius: 0;
-    transform: translateX(-50%) translateY(-10px);
+  .vd-global-search-modal {
+    top: max(0.75rem, env(safe-area-inset-top, 0px));
+    width: calc(100% - 2 * var(--vd-container-padding, 1rem));
+    max-width: calc(100% - 2 * var(--vd-container-padding, 1rem));
+    max-height: calc(
+      100vh - max(0.75rem, env(safe-area-inset-top, 0px)) -
+        env(safe-area-inset-bottom, 0px)
+    );
+    border-radius: calc(var(--vd-card-border-radius) * 1.5);
+    box-shadow:
+      var(--vd-glass-float-shadow, var(--vd-glass-shadow)),
+      0 24px 64px color-mix(in srgb, #000 45%, transparent);
+    transform: translateX(-50%) translateY(-8px) scale(0.98);
   }
 
-  .global-search-modal.is-open {
-    transform: translateX(-50%) translateY(0);
+  .vd-global-search-modal.is-open {
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 
-  .global-search-footer {
+  /* Hide keyboard hints on touch; keep AI toggle + disclaimer visible. */
+  .vd-global-search-footer-hints,
+  .vd-global-search-kbd {
     display: none;
+  }
+
+  .vd-global-search-footer {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
   }
 
   .hero-search kbd {
@@ -3777,15 +3989,21 @@ a:hover .vd-card-interactive.vd-card-glow {
 
     /* Matches the 6px / 2px home ring polish above. */
     --home-cta-ring-inset: calc(6px + 2px);
+
+    /* Fibonacci side inset — ~8% narrower CTAs, clear of card/container edges. */
+    --home-cta-mobile-inset: var(--vd-space-fib-8, 0.8125rem);
+    --home-cta-mobile-side: calc(
+      var(--home-cta-ring-inset) + var(--home-cta-mobile-inset)
+    );
   }
 
   #home .hero-cta-buttons,
   #home .oola-home-cta,
   #home .seemore-home-cta {
     flex-flow: column nowrap;
-    align-items: stretch;
+    align-items: center;
     box-sizing: border-box;
-    padding-inline: var(--home-cta-ring-inset);
+    padding-inline: var(--home-cta-mobile-side);
   }
 
   /* Break out of .hero-content 2rem pad to the container gutter. */
@@ -3816,7 +4034,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     align-items: center;
     justify-content: center;
     text-align: center;
-    align-self: stretch;
+    align-self: center;
     box-sizing: border-box;
     width: 100%;
     max-width: none;
@@ -3834,22 +4052,20 @@ a:hover .vd-card-interactive.vd-card-glow {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
-    justify-self: stretch;
+    justify-self: center;
   }
 
-  /* Card uses inline padding: 3rem 2rem plus 1px borders. */
+  /* Card uses inline padding: 3rem 2rem — stay inside, don’t break out to edges. */
   #home #cta .vd-btn,
   #home #cta .vd-card > .vd-btn {
-    width: calc(
-      100% + 4rem + 2 * var(--vd-card-border-width, 1px) - 2 *
-        var(--home-cta-ring-inset)
-    );
-    margin-left: calc(
-      -2rem - var(--vd-card-border-width, 1px) + var(--home-cta-ring-inset)
-    );
-    margin-right: calc(
-      -2rem - var(--vd-card-border-width, 1px) + var(--home-cta-ring-inset)
-    );
+    width: calc(100% - 2 * var(--home-cta-mobile-inset));
+    max-width: calc(100% - 2 * var(--home-cta-mobile-inset));
+    margin-inline: auto;
+  }
+
+  #home #cta .vd-btn-ring {
+    width: calc(100% - 2 * var(--home-cta-ring-inset));
+    margin-inline: auto;
   }
 }
 
