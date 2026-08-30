@@ -95,7 +95,7 @@ describe("useThemeStore", () => {
     window.localStorage.clear();
     clearThemeAttrs();
     setThemeDefaults({
-      PRIMARY_LIGHT: "blue",
+      PRIMARY_LIGHT: "black",
       PRIMARY_DARK: "blue",
       FONT: "nunito",
     });
@@ -134,13 +134,13 @@ describe("useThemeStore", () => {
     expect(theme.palette).toBe("open-color");
     expect(theme.font).toBe("nunito");
     expect(["stone", "charcoal"]).toContain(theme.neutral);
-    // system + jsdom matchMedia(false) → light → docs default blue
-    expect(theme.primary).toBe("blue");
+    // system + jsdom matchMedia(false) → light → docs default Ink
+    expect(theme.primary).toBe("black");
   });
 
   it("init overwrites stored non-primary prefs but keeps an explicit dock primary", () => {
     setThemeDefaults({
-      PRIMARY_LIGHT: "blue",
+      PRIMARY_LIGHT: "black",
       PRIMARY_DARK: "blue",
       FONT: "nunito",
     });
@@ -166,7 +166,7 @@ describe("useThemeStore", () => {
   });
 
   it("keeps stored blue as the docs auto default (no migrate-to-green)", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "blue", PRIMARY_DARK: "blue" });
+    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "blue" });
     window.localStorage.setItem("vanduo-theme-preference", "dark");
     window.localStorage.setItem("vanduo-primary-color", "blue");
     const theme = useThemeStore();
@@ -176,7 +176,7 @@ describe("useThemeStore", () => {
   });
 
   it("keeps Ink (black) in light and dark; coerces amber/rose to blue", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "blue", PRIMARY_DARK: "blue" });
+    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "blue" });
     window.localStorage.setItem("vanduo-theme-preference", "light");
     window.localStorage.setItem("vanduo-primary-color", "black");
     const theme = useThemeStore();
@@ -184,23 +184,26 @@ describe("useThemeStore", () => {
     expect(theme.primary).toBe("black");
 
     theme.setPrimary("amber");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("black");
     theme.setPrimary("rose");
+    expect(theme.primary).toBe("black");
+
+    theme.setTheme("dark");
+    theme.setPrimary("amber");
     expect(theme.primary).toBe("blue");
 
     theme.setPrimary("black");
-    theme.setTheme("dark");
     expect(theme.primary).toBe("black");
-    theme.setPrimary("black");
+    theme.setTheme("light");
     expect(theme.primary).toBe("black");
   });
 
-  it("defaults light and dark primary to blue", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "blue", PRIMARY_DARK: "blue" });
+  it("defaults light primary to Ink and dark primary to blue", () => {
+    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "blue" });
     const theme = useThemeStore();
     theme.init();
     theme.setTheme("light");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("black");
     theme.setTheme("dark");
     expect(theme.primary).toBe("blue");
   });
@@ -246,13 +249,12 @@ describe("useThemeStore", () => {
     expect(theme.primary).toBe("violet");
   });
 
-  it("preserves Ink across theme flips", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "blue", PRIMARY_DARK: "blue" });
+  it("preserves explicit Ink picked in dark across theme flips", () => {
+    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "blue" });
     const theme = useThemeStore();
     theme.init();
-    theme.setPrimary("black");
     theme.setTheme("dark");
-    expect(theme.primary).toBe("black");
+    theme.setPrimary("black");
     theme.setTheme("light");
     expect(theme.primary).toBe("black");
   });

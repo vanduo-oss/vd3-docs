@@ -8,20 +8,22 @@ export type DocsPrimarySwatch = {
   color: string;
 };
 
-/** Light-mode docs default — blue accents (dock stays untinted ink frost). */
-export const DOCS_DEFAULT_PRIMARY_LIGHT = "blue";
+/** Light-mode docs default — Ink (black); dock accent stays grayscale. */
+export const DOCS_DEFAULT_PRIMARY_LIGHT = "black";
 
 /** Dark-mode docs default — blue (dock tint follows when primary is a DOCK_TINT). */
 export const DOCS_DEFAULT_PRIMARY_DARK = "blue";
 
 /**
  * Shared docs default primary. Prefer `docsDefaultPrimary(scheme)` when scheme
- * is known; both schemes currently resolve to blue.
+ * is known.
  */
 export const DOCS_DEFAULT_PRIMARY = DOCS_DEFAULT_PRIMARY_DARK;
 
-export function docsDefaultPrimary(_scheme: DocsColorScheme): string {
-  return DOCS_DEFAULT_PRIMARY;
+export function docsDefaultPrimary(scheme: DocsColorScheme): string {
+  return scheme === "light"
+    ? DOCS_DEFAULT_PRIMARY_LIGHT
+    : DOCS_DEFAULT_PRIMARY_DARK;
 }
 
 const DOCK_PRIMARY_COLORS = PRIMARY_COLORS.filter((c) =>
@@ -53,6 +55,16 @@ export function coerceDocsPrimary(
 ): string {
   return isDocsAllowedPrimary(key, scheme) ? key : docsDefaultPrimary(scheme);
 }
+
+/**
+ * Keys for the package swatches fan — black plus the eight dock tints. The fan
+ * renders in `PRIMARY_COLORS` order regardless of the order given here, which
+ * is the same order `docsPrimarySwatches()` produces.
+ */
+export const DOCS_PRIMARY_SWATCH_KEYS: readonly string[] = [
+  "black",
+  ...DOCK_PRIMARY_COLORS.map((c) => c.key),
+];
 
 /**
  * Customizer swatches: Ink (black) + eight dock hues in both schemes.

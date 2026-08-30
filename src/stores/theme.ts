@@ -3,7 +3,6 @@ import { computed, reactive, ref } from "vue";
 import {
   applyPreference,
   defaultPreference,
-  isDefaultPrimary,
   loadPreference,
   persistPreference,
   type Palette,
@@ -14,8 +13,6 @@ import {
 import {
   coerceDocsPrimary,
   docsDefaultPrimary,
-  DOCS_DEFAULT_PRIMARY_DARK,
-  DOCS_DEFAULT_PRIMARY_LIGHT,
   isDocsAllowedPrimary,
   type DocsColorScheme,
 } from "@/constants/docsPrimary";
@@ -44,15 +41,13 @@ export const useThemeStore = defineStore("theme", () => {
       : (theme as DocsColorScheme);
   const docsDefaultNeutral = (theme: ThemeMode): string =>
     DOCS_NEUTRAL[resolveScheme(theme)];
-  // Auto-primary follows docs blue (both schemes). Ink (black) is an explicit
-  // pick — not auto — so it sticks across reloads and theme flips.
+  // Auto-primary follows docs defaults (Ink in light, blue in dark). An
+  // explicit hue or Ink sticks across reloads and theme flips.
   const isDocsDefaultPrimary = (
     primary: string,
     scheme: DocsColorScheme,
   ): boolean =>
-    isDefaultPrimary(primary) ||
-    primary === DOCS_DEFAULT_PRIMARY_LIGHT ||
-    primary === DOCS_DEFAULT_PRIMARY_DARK ||
+    primary === docsDefaultPrimary(scheme) ||
     !isDocsAllowedPrimary(primary, scheme);
 
   /** Force palette / font / radius / neutral to docs defaults (primary untouched). */
@@ -64,11 +59,12 @@ export const useThemeStore = defineStore("theme", () => {
   };
 
   const commit = (): void => {
+    const scheme = resolveScheme(prefs.theme);
+    const intended = coerceDocsPrimary(prefs.primary, scheme);
     applyPreference(prefs);
     // Package `applyPreference` remaps PRIMARY_LIGHT/DARK values to the
-    // scheme default. Re-assert a scheme-allowed primary for the docs shell.
-    const scheme = resolveScheme(prefs.theme);
-    prefs.primary = coerceDocsPrimary(prefs.primary, scheme);
+    // scheme default. Re-assert the docs-allowed primary for the docs shell.
+    prefs.primary = intended;
     if (typeof document !== "undefined") {
       document.documentElement.setAttribute("data-primary", prefs.primary);
     }
