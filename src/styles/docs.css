@@ -3740,20 +3740,32 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 @media (max-width: 767.98px) {
   .vd-global-search-modal {
-    top: 0;
-    width: 100%;
-    max-width: 100%;
-    max-height: 100vh;
-    border-radius: 0;
-    transform: translateX(-50%) translateY(-10px);
+    top: max(0.75rem, env(safe-area-inset-top, 0px));
+    width: calc(100% - 2 * var(--vd-container-padding, 1rem));
+    max-width: calc(100% - 2 * var(--vd-container-padding, 1rem));
+    max-height: calc(
+      100vh - max(0.75rem, env(safe-area-inset-top, 0px)) -
+        env(safe-area-inset-bottom, 0px)
+    );
+    border-radius: calc(var(--vd-card-border-radius) * 1.5);
+    box-shadow:
+      var(--vd-glass-float-shadow, var(--vd-glass-shadow)),
+      0 24px 64px color-mix(in srgb, #000 45%, transparent);
+    transform: translateX(-50%) translateY(-8px) scale(0.98);
   }
 
   .vd-global-search-modal.is-open {
-    transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  /* Hide keyboard hints on touch; keep AI toggle + disclaimer visible. */
+  .vd-global-search-footer-hints,
+  .vd-global-search-kbd {
+    display: none;
   }
 
   .vd-global-search-footer {
-    display: none;
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
   }
 
   .hero-search kbd {

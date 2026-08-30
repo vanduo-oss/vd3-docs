@@ -31,4 +31,23 @@ test.describe("Global hybrid search", () => {
     const aiToggle = dialog.getByRole("switch", { name: "AI search" });
     await expect(aiToggle).not.toBeChecked();
   });
+
+  test("shows AI toggle on narrow viewport", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await page.keyboard.press("Meta+k");
+
+    const dialog = page.getByRole("dialog", { name: "Search entire site" });
+    await expect(dialog).toBeVisible();
+
+    const modal = page.locator(".vd-global-search-modal.is-open");
+    await expect(modal).toBeVisible();
+    await expect(modal).toHaveCSS("border-radius", /^(?!0px$).+/);
+
+    const footerControls = dialog.locator(".vd-global-search-footer-controls");
+    await expect(footerControls).toBeVisible();
+
+    const aiToggle = dialog.getByRole("switch", { name: "AI search" });
+    await expect(aiToggle).not.toBeChecked();
+  });
 });
