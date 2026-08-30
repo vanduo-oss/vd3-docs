@@ -46,14 +46,23 @@ const mountDock = async (): Promise<{
 describe("VdSiteDock", () => {
   it("renders brand, icon-only nav items with tooltips, and action triggers", async () => {
     const { wrapper } = await mountDock();
+    await flushPromises();
     expect(wrapper.find(".vd-brand-mark").exists()).toBe(true);
 
     for (const label of ["Home", "Docs", "CBUN", "Showcase"] as const) {
       const item = wrapper.get(`button.vd-dock-item[aria-label="${label}"]`);
       expect(item.attributes("data-tooltip")).toBe(label);
-      expect(item.attributes("data-tooltip-placement")).toBe("top");
+      expect(item.attributes("data-tooltip-placement")).toBe("right");
       expect(item.attributes("data-tooltip-variant")).toBe("dock");
     }
+
+    const search = wrapper.get('button[aria-label="Open global search"]');
+    expect(search.attributes("data-tooltip")).toBe("Search");
+    expect(search.attributes("data-tooltip-variant")).toBe("dock");
+
+    const brand = wrapper.find(".vd-dock-brand");
+    expect(brand.exists()).toBe(true);
+    expect(brand.attributes("data-tooltip")).toBe("Move dock to top");
 
     expect(wrapper.find(".vd-dock-links .vd-dock-label").exists()).toBe(true);
     expect(
@@ -81,18 +90,29 @@ describe("VdSiteDock", () => {
   it("sets data-docs-dock on html for edge padding", async () => {
     const { wrapper } = await mountDock();
     expect(document.documentElement.getAttribute("data-docs-dock")).toBe(
-      "bottom",
+      "left",
     );
     wrapper.unmount();
     expect(document.documentElement.getAttribute("data-docs-dock")).toBeNull();
   });
 
-  it("uses radius 1.5 and inline item layout on horizontal edges", async () => {
+  it("uses radius 1.5 and stacked item layout on vertical default edge", async () => {
     const { wrapper } = await mountDock();
     const dock = wrapper.find(".vd-dock");
     expect(dock.attributes("style") ?? "").toMatch(
       /--vd-dock-radius:\s*1\.5(?:rem)?/,
     );
+    expect(dock.classes()).toContain("vd-dock-items-stack");
+    expect(dock.classes()).not.toContain("vd-dock-items-inline");
+    wrapper.unmount();
+  });
+
+  it("uses inline item layout on horizontal edges", async () => {
+    const { wrapper } = await mountDock();
+    const vm = wrapper.vm as unknown as { placement: string };
+    vm.placement = "bottom";
+    await flushPromises();
+    const dock = wrapper.find(".vd-dock");
     expect(dock.classes()).toContain("vd-dock-items-inline");
     expect(dock.classes()).not.toContain("vd-dock-items-stack");
     wrapper.unmount();

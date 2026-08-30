@@ -26,15 +26,15 @@ test.describe("Site Oola dock chrome", () => {
     await page.goto("/", { waitUntil: "networkidle" });
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     await expect(dock).toBeVisible();
-    await expect(dock).toHaveClass(/vd-dock-edge-bottom/);
-    await expect(dock).toHaveClass(/vd-dock-items-inline/);
+    await expect(dock).toHaveClass(/vd-dock-edge-left/);
+    await expect(dock).toHaveClass(/vd-dock-items-stack/);
     await expect(dock).toHaveCSS("--vd-dock-radius", "1.5rem");
     const home = dock.getByRole("button", { name: "Home" });
     const docs = dock.getByRole("button", { name: "Docs" });
     await expect(home).toBeVisible();
     await expect(docs).toBeVisible();
     await expect(home).toHaveAttribute("data-tooltip", "Home");
-    await expect(home).toHaveAttribute("data-tooltip-placement", "top");
+    await expect(home).toHaveAttribute("data-tooltip-placement", "right");
     await expect(home).toHaveAttribute("data-tooltip-variant", "dock");
     await expect(
       dock.getByRole("button", { name: "Open global search" }),
@@ -44,19 +44,19 @@ test.describe("Site Oola dock chrome", () => {
     ).toBeVisible();
 
     await home.hover();
-    const tooltip = page.locator(".vd-tooltip.vd-tooltip-top.vd-tooltip-dock").first();
+    const tooltip = page.locator(".vd-tooltip.vd-tooltip-right.vd-tooltip-dock").first();
     await expect(tooltip).toBeVisible();
     await expect(tooltip).toHaveText("Home");
-    // Top placement must sit above the trigger (not grow downward into the dock).
+    // Right placement must clear the trigger's right edge, not overlap the dock.
     const homeBox = await home.boundingBox();
     const tipBox = await tooltip.boundingBox();
     expect(homeBox).toBeTruthy();
     expect(tipBox).toBeTruthy();
-    expect(tipBox!.y + tipBox!.height).toBeLessThanOrEqual(homeBox!.y + 2);
-    // Horizontally centered on the Home item (allow small optical tolerance).
-    const homeCx = homeBox!.x + homeBox!.width / 2;
-    const tipCx = tipBox!.x + tipBox!.width / 2;
-    expect(Math.abs(tipCx - homeCx)).toBeLessThan(6);
+    expect(tipBox!.x).toBeGreaterThanOrEqual(homeBox!.x + homeBox!.width - 2);
+    // Vertically centered on the Home item (allow small optical tolerance).
+    const homeCy = homeBox!.y + homeBox!.height / 2;
+    const tipCy = tipBox!.y + tipBox!.height / 2;
+    expect(Math.abs(tipCy - homeCy)).toBeLessThan(6);
   });
 
   test("Docs item navigates to docs landing", async ({ page }) => {
@@ -81,12 +81,12 @@ test.describe("Site Oola dock chrome", () => {
     await page.goto("/", { waitUntil: "networkidle" });
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     const brand = dock.locator("button.vd-dock-brand").first();
-    await expect(dock).toHaveClass(/vd-dock-edge-bottom/);
+    await expect(dock).toHaveClass(/vd-dock-edge-left/);
 
-    await cycleDockTo(dock, brand, "left");
     await cycleDockTo(dock, brand, "top");
     await cycleDockTo(dock, brand, "right");
     await cycleDockTo(dock, brand, "bottom");
+    await cycleDockTo(dock, brand, "left");
   });
 
   test("vertical dock stacks actions, keeps brand bottom, and clears content", async ({
@@ -144,7 +144,6 @@ test.describe("Site Oola dock chrome", () => {
       expect(cleared).toBe(true);
     };
 
-    await cycleDockTo(dock, brand, "left");
     await assertVerticalChrome("left");
 
     // Short-axis thickness matches docs --vd-dock-height (macOS-style 5.15rem).
@@ -175,7 +174,6 @@ test.describe("Site Oola dock chrome", () => {
       name: "Choose theme color",
     });
 
-    await cycleDockTo(dock, brand, "left");
     await cycleDockTo(dock, brand, "top");
     await expect(dock).toHaveClass(/is-horizontal/);
 
@@ -196,7 +194,7 @@ test.describe("Site Oola dock chrome", () => {
       .locator("nav.vd-site-dock")
       .getByRole("button", { name: "Open global search" })
       .click();
-    await expect(page.locator(".global-search-modal.is-open")).toBeVisible();
+    await expect(page.locator(".vd-global-search-modal.is-open")).toBeVisible();
   });
 
   test("brand mark spins on hover and spins fast while morphing", async ({
@@ -224,12 +222,22 @@ test.describe("Site Oola dock chrome", () => {
     await brand.click({ force: true });
     await expect(dock).toHaveClass(/is-morphing/, { timeout: 2000 });
 
+    // The composable retimes through the Web Animations API so the mark never
+    // snaps back to 0deg, which leaves computed `animation-duration` at the CSS
+    // idle value. Read the live effect timing instead.
     const morphSpin = await spin.evaluate((el) => {
-      const style = getComputedStyle(el);
+      const anim = el
+        .getAnimations()
+        .find((a) =>
+          (a as Animation & { animationName?: string }).animationName?.includes(
+            "vd-site-dock-brand-spin",
+          ),
+        );
+      const timing = anim?.effect?.getTiming();
       return {
-        playState: style.animationPlayState,
-        durationMs: Number.parseFloat(style.animationDuration) * 1000,
-        name: style.animationName,
+        playState: getComputedStyle(el).animationPlayState,
+        durationMs: Number.parseFloat(String(timing?.duration ?? "")),
+        name: getComputedStyle(el).animationName,
       };
     });
     expect(morphSpin.playState).toBe("running");
@@ -251,9 +259,11 @@ test.describe("Site Oola dock chrome", () => {
     await expect(fan).not.toHaveClass(/is-open/);
     await trigger.click();
     await expect(fan).toHaveClass(/is-open/);
-    await expect(fan).toHaveClass(/fan-up/);
+    await expect(fan).toHaveClass(/fan-right/);
     await expect(fan.getByRole("option")).toHaveCount(9);
-    await expect(fan.getByRole("option", { name: "Ink" })).toBeVisible();
+    // The package fan labels hues from PRIMARY_COLORS, so black reads "Black"
+    // where the retired docs fork branded it "Ink".
+    await expect(fan.getByRole("option", { name: "Black" })).toBeVisible();
     await expect(fan.getByRole("option", { name: "Yellow" })).toBeVisible();
 
     await fan.getByRole("option", { name: "Yellow" }).click();
@@ -279,12 +289,12 @@ test.describe("Site Oola dock chrome", () => {
       await expect(fan).not.toHaveClass(/is-open/);
     };
 
-    await expectFanDir("bottom", "up");
-    await cycleDockTo(dock, brand, "left");
     await expectFanDir("left", "right");
     await cycleDockTo(dock, brand, "top");
     await expectFanDir("top", "down");
     await cycleDockTo(dock, brand, "right");
     await expectFanDir("right", "left");
+    await cycleDockTo(dock, brand, "bottom");
+    await expectFanDir("bottom", "up");
   });
 });

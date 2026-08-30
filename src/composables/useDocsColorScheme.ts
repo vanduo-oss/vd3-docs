@@ -13,6 +13,8 @@ import {
   type DocsColorScheme,
 } from "@/constants/docsPrimary";
 
+export const DOCS_DOCK_TOOLTIP_DELAY_MS = 520;
+
 /** Docs demo/home dock radius — 1.5. Package default stays 1.25. */
 export const DOCS_DOCK_RADIUS = "1.5" as const satisfies DockRadius;
 
@@ -44,19 +46,39 @@ export function readDocsPrimary(): string {
 }
 
 /**
- * Light = untinted ink frost. Dark + Ink (black) = same untinted frost.
- * Dark + DOCK_TINT primary = that hue; unknown → docs dark default (blue).
+ * Accent hue for dock chrome (active nav icon, --vd-dock-tint). Same in light
+ * and dark — only the ink frost background stays untinted.
  */
-export function docsDockTint(
+export function docsDockAccent(
   scheme: DocsColorScheme,
   primary: string = DOCS_DEFAULT_PRIMARY_DARK,
 ): DockTint | "" {
-  if (scheme !== "dark") return "";
   if (primary === "black") return "";
   if ((DOCK_TINTS as readonly string[]).includes(primary)) {
     return primary as DockTint;
   }
+  const fallback = docsDefaultPrimary(scheme);
+  if (fallback === "black") return "";
+  if ((DOCK_TINTS as readonly string[]).includes(fallback)) {
+    return fallback as DockTint;
+  }
   return DOCS_DEFAULT_PRIMARY_DARK;
+}
+
+/** Site / story docks always use untinted ink frost. */
+export function docsDockBackgroundTint(
+  _scheme: DocsColorScheme,
+  _primary: string = DOCS_DEFAULT_PRIMARY_DARK,
+): DockTint | "" {
+  return "";
+}
+
+/** @deprecated Use docsDockAccent for icon tint; background is always ink. */
+export function docsDockTint(
+  scheme: DocsColorScheme,
+  primary: string = DOCS_DEFAULT_PRIMARY_DARK,
+): DockTint | "" {
+  return docsDockBackgroundTint(scheme, primary);
 }
 
 /**
@@ -66,12 +88,18 @@ export function docsDockTint(
 export function useDocsColorScheme(): {
   scheme: Ref<DocsColorScheme>;
   primary: Ref<string>;
+  /** Always "" — ink frost background on site/story docks. */
   dockTint: ComputedRef<DockTint | "">;
+  dockAccent: ComputedRef<DockTint | "">;
 } {
   const scheme = ref<DocsColorScheme>(readDocsColorScheme());
   const primary = ref<string>(readDocsPrimary());
-  const dockTint = computed(() => docsDockTint(scheme.value, primary.value));
-
+  const dockTint = computed(() =>
+    docsDockBackgroundTint(scheme.value, primary.value),
+  );
+  const dockAccent = computed(() =>
+    docsDockAccent(scheme.value, primary.value),
+  );
   let mq: MediaQueryList | null = null;
   let mo: MutationObserver | null = null;
 
@@ -100,5 +128,5 @@ export function useDocsColorScheme(): {
     mo?.disconnect();
   });
 
-  return { scheme, primary, dockTint };
+  return { scheme, primary, dockTint, dockAccent };
 }

@@ -26,7 +26,10 @@ export function useDocsDockNarrow(
     isNarrow.value = event.matches;
   };
 
-  if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
+  if (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function"
+  ) {
     mq = window.matchMedia(DOCK_NARROW_QUERY);
     isNarrow.value = mq.matches;
     mq.addEventListener("change", onChange);

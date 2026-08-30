@@ -119,7 +119,7 @@ const docks: { tint: DockTint; label: string }[] = DOCK_TINTS.map((tint) => ({
   label: tint,
 }));
 
-const { dockTint: inkTint } = useDocsColorScheme();
+const { dockAccent } = useDocsColorScheme();
 
 const root = ref<HTMLElement | null>(null);
 const stageEl = ref<HTMLElement | null>(null);
@@ -970,7 +970,8 @@ onUnmounted(() => {
               ref="storyDock"
               v-model:placement="placement"
               position="contained"
-              :tint="inkTint || undefined"
+              :tint="dockAccent"
+              tint-mode="accent"
               :radius="DOCS_DOCK_RADIUS"
               :brand-toggles="meetClickable"
               label="Oola Dock"

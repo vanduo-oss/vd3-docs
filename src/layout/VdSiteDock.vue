@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import {
-  computed,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  ref,
-  watch,
-} from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import {
   VdDock,
@@ -21,11 +14,20 @@ import VdThemeCustomizer from "@/overlays/VdThemeCustomizer.vue";
 import VdThemeSwitcher from "@/overlays/VdThemeSwitcher.vue";
 import {
   DOCS_DOCK_RADIUS,
+  DOCS_DOCK_TOOLTIP_DELAY_MS,
   useDocsColorScheme,
 } from "@/composables/useDocsColorScheme";
 import { useDocsDockNarrow } from "@/composables/useDocsDockNarrow";
+import { useSiteDockBrandSpin } from "@/composables/useSiteDockBrandSpin";
 
 const SITE_DOCK_STORAGE_KEY = "vd3-docs-site-dock";
+
+const BRAND_EDGE_TIP: Record<DockPlacement, string> = {
+  bottom: "Move dock to left",
+  left: "Move dock to top",
+  top: "Move dock to right",
+  right: "Move dock to bottom",
+};
 
 type DockExposed = {
   $el?: unknown;
@@ -34,12 +36,12 @@ type DockExposed = {
 
 const route = useRoute();
 const router = useRouter();
-const { dockTint } = useDocsColorScheme();
-const placement = ref<DockPlacement>("bottom");
+const { dockAccent } = useDocsColorScheme();
+const placement = ref<DockPlacement>("left");
 const tooltipRoot = ref<HTMLElement | null>(null);
 const dockEl = ref<HTMLElement | null>(null);
 const dockInst = ref<DockExposed | null>(null);
-const lastWidePlacement = ref<DockPlacement>("bottom");
+const lastWidePlacement = ref<DockPlacement>("left");
 
 const isNarrow = useDocsDockNarrow({
   onExitNarrow: () => {
@@ -69,6 +71,20 @@ const tooltipPlacement = computed(() => {
       return "top";
   }
 });
+
+const brandTooltip = computed(() => {
+  if (isNarrow.value) {
+    return placement.value === "top"
+      ? "Move dock to bottom"
+      : "Move dock to top";
+  }
+  return BRAND_EDGE_TIP[placement.value];
+});
+
+const dockTooltipBind = computed(() => ({
+  "data-tooltip-placement": tooltipPlacement.value,
+  "data-tooltip-variant": "dock",
+}));
 
 const links = [
   { id: "home", label: "Home", icon: "house", to: "/" },
@@ -148,6 +164,19 @@ const patchBrandA11y = (): void => {
   );
 };
 
+const syncDockTooltips = (): void => {
+  const el = dockEl.value;
+  if (!el) return;
+
+  const brand = el.querySelector(".vd-dock-brand");
+  if (brand instanceof HTMLElement) {
+    brand.setAttribute("data-tooltip", brandTooltip.value);
+    for (const [key, value] of Object.entries(dockTooltipBind.value)) {
+      brand.setAttribute(key, value);
+    }
+  }
+};
+
 /** Function ref so $el is set before useTooltips' onMounted scan. */
 const setDockRef = (inst: unknown): void => {
   const exposed = inst as DockExposed | null;
@@ -158,15 +187,23 @@ const setDockRef = (inst: unknown): void => {
   tooltipRoot.value = node;
 };
 
-useTooltips(tooltipRoot);
+useTooltips(tooltipRoot, { showDelay: DOCS_DOCK_TOOLTIP_DELAY_MS });
+useSiteDockBrandSpin(dockEl);
 
-watch(placement, (edge) => {
-  if (!isNarrow.value) {
-    lastWidePlacement.value = edge;
-  }
-  syncDockAttr(edge);
-  void nextTick(() => patchBrandA11y());
-}, { immediate: true });
+watch(
+  placement,
+  (edge) => {
+    if (!isNarrow.value) {
+      lastWidePlacement.value = edge;
+    }
+    syncDockAttr(edge);
+    void nextTick(() => {
+      patchBrandA11y();
+      syncDockTooltips();
+    });
+  },
+  { immediate: true },
+);
 
 watch(isNarrow, (narrow) => {
   if (narrow) {
@@ -176,7 +213,14 @@ watch(isNarrow, (narrow) => {
       /* ignore quota / private mode */
     }
   }
-  void nextTick(() => patchBrandA11y());
+  void nextTick(() => {
+    patchBrandA11y();
+    syncDockTooltips();
+  });
+});
+
+watch(brandTooltip, () => {
+  void nextTick(() => syncDockTooltips());
 });
 
 onMounted(() => {
@@ -204,7 +248,10 @@ onMounted(() => {
     el.addEventListener("click", onBrandCapture, true);
   }
 
-  void nextTick(() => patchBrandA11y());
+  void nextTick(() => {
+    patchBrandA11y();
+    syncDockTooltips();
+  });
 });
 
 onUnmounted(() => {
@@ -229,7 +276,8 @@ onUnmounted(() => {
     :storage-key="SITE_DOCK_STORAGE_KEY"
     :radius="DOCS_DOCK_RADIUS"
     :item-layout="itemLayout"
-    :tint="dockTint"
+    :tint="dockAccent"
+    tint-mode="accent"
     label="Site"
   >
     <template #brand>
@@ -243,14 +291,13 @@ onUnmounted(() => {
       :label="link.label"
       :active="activeId === link.id"
       :data-tooltip="link.label"
-      :data-tooltip-placement="tooltipPlacement"
-      data-tooltip-variant="dock"
+      v-bind="dockTooltipBind"
     />
 
     <template v-if="isNarrow">
       <span class="vd-site-dock-strip-divider" aria-hidden="true"></span>
-      <VdThemeSwitcher />
-      <VdThemeCustomizer />
+      <VdThemeSwitcher :tooltip-placement="tooltipPlacement" />
+      <VdThemeCustomizer :tooltip-placement="tooltipPlacement" />
     </template>
 
     <template #actions>
@@ -258,13 +305,15 @@ onUnmounted(() => {
         type="button"
         class="global-search-trigger vd-site-dock-search"
         aria-label="Open global search"
+        data-tooltip="Search"
+        v-bind="dockTooltipBind"
         @click="onSearchClick"
       >
         <i class="ph-bold ph-magnifying-glass" aria-hidden="true"></i>
       </button>
       <template v-if="!isNarrow">
-        <VdThemeSwitcher />
-        <VdThemeCustomizer />
+        <VdThemeSwitcher :tooltip-placement="tooltipPlacement" />
+        <VdThemeCustomizer :tooltip-placement="tooltipPlacement" />
       </template>
     </template>
   </VdDock>

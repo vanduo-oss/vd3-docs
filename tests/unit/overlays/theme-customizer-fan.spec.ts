@@ -117,9 +117,10 @@ describe("VdThemeCustomizer swatches fan", () => {
     );
     expect(closedTransform).toContain("scale(0.5)");
 
-    // Center blade sits on top of the overlapped fan.
+    // Center blade sits on top of the overlapped fan. The package drives this
+    // through --fan-z so the hover rule can out-specify it without !important.
     const center = items[4] as HTMLElement;
-    expect(center.style.zIndex).toBe("9");
+    expect(center.style.getPropertyValue("--fan-z")).toBe("9");
     wrapper.unmount();
   });
 
