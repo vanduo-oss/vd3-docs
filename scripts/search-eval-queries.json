@@ -87,5 +87,17 @@
   {
     "query": "crazy test xyzzy",
     "expectEmpty": true
+  },
+  {
+    "query": "global search palette cmd k",
+    "expectTitles": ["Global Search", "Doc Search"]
+  },
+  {
+    "query": "hybrid semantic embedding index",
+    "expectTitles": ["Hybrid search", "Global Search"]
+  },
+  {
+    "query": "vdl hybrid search fuse transformers",
+    "expectTitles": ["Hybrid search"]
   }
 ]

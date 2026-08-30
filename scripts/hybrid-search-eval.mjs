@@ -14,13 +14,16 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {
-  ABS_DISPLAY_FLOOR,
-  EMBEDDING_MODEL_ID,
-  MIN_TOP_SCORE,
-  RELATIVE_TOP_FRACTION,
+  adaptiveCutoff as libAdaptiveCutoff,
   cosineSimilarity,
   prefixQuery,
-} from './lib/embeddinggemma.mjs';
+  EMBEDDING_PRESETS,
+  DEFAULT_CONFIDENCE,
+} from '@vanduo-oss/vdl-hybrid-search';
+
+const EMBEDDING_MODEL_ID = EMBEDDING_PRESETS.embeddinggemma.modelName;
+const MIN_TOP_SCORE = DEFAULT_CONFIDENCE.minTopScore;
+const QUERY_PREFIX = EMBEDDING_PRESETS.embeddinggemma.queryPrefix;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -28,9 +31,8 @@ const INDEX_PATH = path.join(ROOT, 'public/search/search-index.json');
 const VECTORS_PATH = path.join(ROOT, 'public/search/vectors.json');
 const QUERIES_PATH = path.join(ROOT, 'scripts/search-eval-queries.json');
 
-function adaptiveCutoff(topScore) {
-  if (!(topScore > 0) || !Number.isFinite(topScore)) return ABS_DISPLAY_FLOOR;
-  return Math.max(ABS_DISPLAY_FLOOR, topScore * RELATIVE_TOP_FRACTION);
+function displayCutoff(topScore) {
+  return libAdaptiveCutoff(topScore, DEFAULT_CONFIDENCE);
 }
 
 async function main() {
@@ -75,7 +77,7 @@ async function main() {
 
   for (const c of cases) {
     const q = String(c.query || '').trim();
-    const out = await extractor(prefixQuery(q), {
+    const out = await extractor(prefixQuery(q, QUERY_PREFIX), {
       pooling: 'mean',
       normalize: true,
     });
@@ -88,7 +90,7 @@ async function main() {
     scored.sort((a, b) => b.score - a.score);
 
     const top = scored[0]?.score ?? 0;
-    const cutoff = adaptiveCutoff(top);
+    const cutoff = displayCutoff(top);
     const kept =
       top >= MIN_TOP_SCORE
         ? scored.filter((s) => s.score >= cutoff).slice(0, 10)

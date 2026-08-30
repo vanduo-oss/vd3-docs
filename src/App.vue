@@ -9,10 +9,12 @@ import LiveCustomizer from "@/overlays/LiveCustomizer.vue";
 import { VdToastContainer } from "@vanduo-oss/vd3";
 import { useThemeStore } from "@/stores/theme";
 import { useCustomizerStore } from "@/stores/customizer";
+import { useSearchStore } from "@/stores/search";
 
 const route = useRoute();
 const theme = useThemeStore();
 const customizer = useCustomizerStore();
+const search = useSearchStore();
 
 // ── Per-route SEO (baked into the SSG HTML via @unhead) ──────────────
 const BASE_URL = "https://vd3.vanduo.dev";
@@ -52,6 +54,7 @@ useHead({
 onMounted(() => {
   theme.init();
   customizer.init();
+  search.init();
 });
 </script>
 

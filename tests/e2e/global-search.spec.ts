@@ -27,5 +27,8 @@ test.describe("Global hybrid search", () => {
     ).toBeVisible({
       timeout: 15000,
     });
+
+    const aiToggle = dialog.getByRole("switch", { name: "AI search" });
+    await expect(aiToggle).not.toBeChecked();
   });
 });

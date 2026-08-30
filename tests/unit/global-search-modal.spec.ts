@@ -4,19 +4,9 @@ import { createPinia } from "pinia";
 import { createRouter, createMemoryHistory } from "vue-router";
 import GlobalSearchModal from "@/overlays/GlobalSearchModal.vue";
 import {
-  useSearchStore,
   __setSearchEngineFactoryForTests,
 } from "@/stores/search";
 import type { HybridSearch, MergedHit } from "@vanduo-oss/vdl-hybrid-search";
-
-/**
- * Interaction test for the command-palette search overlay. The search STORE is
- * unit-tested separately (useGlobalSearch.spec.ts); this exercises the MODAL
- * component itself: the global cmd+k keydown, typing to filter, arrow-key
- * navigation, and the ARIA listbox/option structure the results render into.
- *
- * HybridSearch is mocked so CI never downloads MiniLM.
- */
 
 const makeHit = (title: string, id: string): MergedHit => ({
   score: 0.9,
@@ -73,54 +63,76 @@ describe("GlobalSearchModal", () => {
   afterEach(() => {
     __setSearchEngineFactoryForTests(null);
     vi.useRealTimers();
+    document.body.innerHTML = "";
   });
 
   it("opens on cmd+k, filters on input, and arrow-navigates the listbox", async () => {
     const pinia = createPinia();
     const wrapper = mount(GlobalSearchModal, {
-      global: { plugins: [pinia, makeRouter()] },
+      global: {
+        plugins: [pinia, makeRouter()],
+        stubs: { Teleport: false },
+      },
       attachTo: document.body,
     });
-    const store = useSearchStore(pinia);
 
-    expect(store.isOpen).toBe(false);
-    expect(document.body.querySelector('[role="listbox"]')).toBeNull();
+    expect(document.body.querySelector(".vd-global-search-modal.is-open")).toBeNull();
 
     pressKey({ key: "k", metaKey: true });
     await wrapper.vm.$nextTick();
-    expect(store.isOpen).toBe(true);
+    expect(document.body.querySelector(".vd-global-search-modal.is-open")).toBeTruthy();
 
     const input = document.body.querySelector(
-      ".global-search-input",
-    ) as HTMLInputElement | null;
-    expect(input).not.toBeNull();
-    input!.value = "button";
-    input!.dispatchEvent(new Event("input"));
+      ".vd-global-search-input",
+    ) as HTMLInputElement;
+    input.value = "button";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
     await wrapper.vm.$nextTick();
-    expect(store.query).toBe("button");
-
     await vi.advanceTimersByTimeAsync(400);
     await Promise.resolve();
     await wrapper.vm.$nextTick();
-    expect(store.ordered.length).toBeGreaterThan(1);
 
-    const listbox = document.body.querySelector(
-      '[role="listbox"]',
-    ) as HTMLElement | null;
-    expect(listbox).not.toBeNull();
+    const listbox = document.body.querySelector('[role="listbox"]');
+    expect(listbox).toBeTruthy();
     const options = listbox!.querySelectorAll('[role="option"]');
-    expect(options.length).toBe(store.ordered.length);
+    expect(options.length).toBeGreaterThan(1);
 
-    expect(store.activeIndex).toBe(0);
     pressKey({ key: "ArrowDown" });
     await wrapper.vm.$nextTick();
-    expect(store.activeIndex).toBe(1);
-    expect(listbox!.querySelector('[aria-selected="true"]')).not.toBeNull();
+    expect(listbox!.querySelector('[aria-selected="true"]')).toBeTruthy();
 
     pressKey({ key: "Escape" });
     await wrapper.vm.$nextTick();
-    expect(store.isOpen).toBe(false);
-    expect(store.query).toBe("");
+    expect(document.body.querySelector(".vd-global-search-modal.is-open")).toBeNull();
+
+    wrapper.unmount();
+  });
+
+  it("shows AI toggle off by default and disclaimer when enabled", async () => {
+    const pinia = createPinia();
+    const wrapper = mount(GlobalSearchModal, {
+      global: {
+        plugins: [pinia, makeRouter()],
+        stubs: { Teleport: false },
+      },
+      attachTo: document.body,
+    });
+
+    pressKey({ key: "k", metaKey: true });
+    await wrapper.vm.$nextTick();
+
+    const toggle = document.body.querySelector(
+      '.vd-form-switch input[role="switch"]',
+    ) as HTMLInputElement;
+    expect(toggle.checked).toBe(false);
+    expect(document.body.querySelector(".vd-global-search-ai-notice")).toBeNull();
+
+    toggle.click();
+    await wrapper.vm.$nextTick();
+    expect(document.body.querySelector(".vd-global-search-ai-notice")).toBeTruthy();
+    expect(
+      document.body.querySelector(".vd-global-search-ai-notice")?.textContent,
+    ).toContain("EU AI Act");
 
     wrapper.unmount();
   });
