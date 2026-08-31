@@ -3326,8 +3326,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   /* Shrink brand further and nudge toward the left edge of the pill. */
   .vd-site-dock:not(.is-vertical) .vd-site-dock-brand-mark .vd3-mark {
-    transform:
-      translateX(-0.2rem)
+    transform: translateX(-0.2rem)
       translateY(calc(var(--vd-dock-brand-size) * 0.075));
   }
 
