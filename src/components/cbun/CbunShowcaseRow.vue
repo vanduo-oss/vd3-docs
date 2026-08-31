@@ -194,6 +194,16 @@ onBeforeUnmount(exitFullscreen);
 
   .cbun-row-demo {
     order: 2;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .cbun-row-context {
+    min-width: 0;
+  }
+
+  .cbun-stage {
+    max-width: 100%;
   }
 }
 </style>

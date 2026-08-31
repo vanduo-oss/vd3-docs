@@ -96,7 +96,7 @@ describe("useThemeStore", () => {
     clearThemeAttrs();
     setThemeDefaults({
       PRIMARY_LIGHT: "black",
-      PRIMARY_DARK: "blue",
+      PRIMARY_DARK: "green",
       FONT: "nunito",
     });
   });
@@ -141,7 +141,7 @@ describe("useThemeStore", () => {
   it("init overwrites stored non-primary prefs but keeps an explicit dock primary", () => {
     setThemeDefaults({
       PRIMARY_LIGHT: "black",
-      PRIMARY_DARK: "blue",
+      PRIMARY_DARK: "green",
       FONT: "nunito",
     });
     window.localStorage.setItem("vanduo-theme-preference", "dark");
@@ -175,8 +175,8 @@ describe("useThemeStore", () => {
     expect(document.documentElement.getAttribute("data-primary")).toBe("blue");
   });
 
-  it("keeps Ink (black) in light and dark; coerces amber/rose to blue", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "blue" });
+  it("keeps Ink (black) in light and dark; coerces amber/rose to green in dark", () => {
+    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "green" });
     window.localStorage.setItem("vanduo-theme-preference", "light");
     window.localStorage.setItem("vanduo-primary-color", "black");
     const theme = useThemeStore();
@@ -190,7 +190,7 @@ describe("useThemeStore", () => {
 
     theme.setTheme("dark");
     theme.setPrimary("amber");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("green");
 
     theme.setPrimary("black");
     expect(theme.primary).toBe("black");
@@ -198,14 +198,14 @@ describe("useThemeStore", () => {
     expect(theme.primary).toBe("black");
   });
 
-  it("defaults light primary to Ink and dark primary to blue", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "blue" });
+  it("defaults light primary to Ink and dark primary to green", () => {
+    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "green" });
     const theme = useThemeStore();
     theme.init();
     theme.setTheme("light");
     expect(theme.primary).toBe("black");
     theme.setTheme("dark");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("green");
   });
 
   it("docs primary swatches include Ink + eight hues in both schemes", () => {
@@ -250,7 +250,7 @@ describe("useThemeStore", () => {
   });
 
   it("preserves explicit Ink picked in dark across theme flips", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "blue" });
+    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "green" });
     const theme = useThemeStore();
     theme.init();
     theme.setTheme("dark");

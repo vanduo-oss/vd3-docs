@@ -37,14 +37,14 @@ export const createApp = ViteSSG(
   },
   async ({ app, initialState }) => {
     app.use(createPinia());
-    // Docs first-paint / package defaults: Ink in light, blue in dark.
+    // Docs first-paint / package defaults: Ink in light, green in dark.
     // (Per-mode neutral — stone in light, charcoal in dark — is handled in the
-    // theme store; the engine has no NEUTRAL_DARK default. Dark + green still
-    // gets logo-green accent pins in docs.css when the user picks green.)
+    // theme store; the engine has no NEUTRAL_DARK default. Dark + green gets
+    // logo-green accent pins in docs.css.)
     app.use(VanduoVue, {
       themeDefaults: {
         PRIMARY_LIGHT: "black",
-        PRIMARY_DARK: "blue",
+        PRIMARY_DARK: "green",
         FONT: "nunito",
       },
     });

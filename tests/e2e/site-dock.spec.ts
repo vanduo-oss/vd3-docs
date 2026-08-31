@@ -68,8 +68,7 @@ test.describe("Site Oola dock chrome", () => {
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     const home = dock.getByRole("button", { name: "Home", exact: true });
     await expect(home).toBeVisible();
-    await expect(home).toHaveAttribute("data-tooltip", "Home");
-    await expect(home).toHaveAttribute("data-tooltip-variant", "dock");
+    await expect(home).not.toHaveAttribute("data-tooltip");
 
     const aligned = await dock.evaluate((el) => {
       const nav = el.querySelector(".vd-dock-nav");
@@ -86,6 +85,79 @@ test.describe("Site Oola dock chrome", () => {
       );
     });
     expect(aligned).toBe(true);
+  });
+
+  test("narrow dock shows labels, hides tooltips, and sits near edges", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
+    await expect(dock).toBeVisible();
+
+    for (const label of ["Home", "Docs", "CBUN", "Showcase"] as const) {
+      const item = dock.getByRole("button", { name: label, exact: true });
+      await expect(item).toBeVisible();
+      await expect(item.locator(".vd-dock-label")).toHaveText(label);
+      await expect(item).not.toHaveAttribute("data-tooltip");
+    }
+
+    const home = dock.getByRole("button", { name: "Home", exact: true });
+    await home.focus();
+    await page.waitForTimeout(600);
+    await expect(page.locator(".vd-tooltip.vd-tooltip-dock")).toHaveCount(0);
+
+    const metrics = await dock.evaluate((el) => {
+      const rem = Number.parseFloat(
+        getComputedStyle(document.documentElement).fontSize,
+      );
+      const box = el.getBoundingClientRect();
+      const brandMark = el.querySelector(".vd-site-dock-brand-mark");
+      const brandBox =
+        brandMark instanceof HTMLElement
+          ? brandMark.getBoundingClientRect()
+          : null;
+      const viewW = document.documentElement.clientWidth;
+      return {
+        left: box.left,
+        rightGap: viewW - box.right,
+        brandWidth: brandBox?.width ?? 0,
+        expectedBrand: 2.35 * rem,
+        expectedInset: 0.5 * rem,
+      };
+    });
+    expect(metrics.left).toBeLessThanOrEqual(metrics.expectedInset + 2);
+    expect(metrics.rightGap).toBeLessThanOrEqual(metrics.expectedInset + 2);
+    expect(metrics.brandWidth).toBeGreaterThan(metrics.expectedBrand - 4);
+    expect(metrics.brandWidth).toBeLessThan(metrics.expectedBrand + 4);
+
+    // Top placement keeps the same inset and label chrome.
+    const brand = dock.locator("button.vd-dock-brand").first();
+    await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
+    await brand.click({ force: true });
+    await expect(dock).toHaveClass(/vd-dock-edge-top/, { timeout: 5000 });
+    await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
+
+    const topMetrics = await dock.evaluate((el) => {
+      const rem = Number.parseFloat(
+        getComputedStyle(document.documentElement).fontSize,
+      );
+      const box = el.getBoundingClientRect();
+      const viewW = document.documentElement.clientWidth;
+      return {
+        top: box.top,
+        left: box.left,
+        rightGap: viewW - box.right,
+        expectedInset: 0.5 * rem,
+      };
+    });
+    expect(topMetrics.top).toBeLessThanOrEqual(topMetrics.expectedInset + 2);
+    expect(topMetrics.left).toBeLessThanOrEqual(topMetrics.expectedInset + 2);
+    expect(topMetrics.rightGap).toBeLessThanOrEqual(
+      topMetrics.expectedInset + 5,
+    );
+    await expect(dock.locator(".vd-dock-item .vd-dock-label")).toHaveCount(4);
   });
 
   test("Docs item navigates to docs landing", async ({ page }) => {

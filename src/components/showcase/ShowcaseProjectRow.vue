@@ -437,6 +437,12 @@ function onDarkError() {
 
   .showcase-row-media {
     order: 2;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .showcase-frame {
+    max-width: 100%;
   }
 }
 </style>

@@ -41,7 +41,7 @@ export const useThemeStore = defineStore("theme", () => {
       : (theme as DocsColorScheme);
   const docsDefaultNeutral = (theme: ThemeMode): string =>
     DOCS_NEUTRAL[resolveScheme(theme)];
-  // Auto-primary follows docs defaults (Ink in light, blue in dark). An
+  // Auto-primary follows docs defaults (Ink in light, green in dark). An
   // explicit hue or Ink sticks across reloads and theme flips.
   const isDocsDefaultPrimary = (
     primary: string,

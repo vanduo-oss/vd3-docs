@@ -153,17 +153,25 @@ describe("VdSiteDock", () => {
     wrapper.unmount();
   });
 
-  it("keeps Home in the narrow dock link strip with tooltips", async () => {
+  it("keeps Home in the narrow dock link strip without tooltips", async () => {
     const { wrapper } = await mountDock({ narrow: true });
     const vm = wrapper.vm as unknown as { placement: string };
     vm.placement = "bottom";
     await flushPromises();
 
     const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
-    expect(home.attributes("data-tooltip")).toBe("Home");
-    expect(home.attributes("data-tooltip-placement")).toBe("top");
-    expect(home.attributes("data-tooltip-variant")).toBe("dock");
+    expect(home.attributes("data-tooltip")).toBeUndefined();
+    expect(home.attributes("data-tooltip-placement")).toBeUndefined();
+    expect(home.attributes("data-tooltip-variant")).toBeUndefined();
     expect(home.classes()).toContain("is-active");
+    expect(home.find(".vd-dock-label").text()).toBe("Home");
+
+    const search = wrapper.get('button[aria-label="Open global search"]');
+    expect(search.attributes("data-tooltip")).toBeUndefined();
+
+    const brand = wrapper.find(".vd-dock-brand");
+    expect(brand.exists()).toBe(true);
+    expect(brand.attributes("data-tooltip")).toBeUndefined();
 
     expect(wrapper.find(".vd-site-dock-strip-divider").exists()).toBe(true);
     expect(

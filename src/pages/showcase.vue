@@ -114,8 +114,9 @@ const projects: ShowcaseProject[] = [
 
 <style scoped>
 .showcase-intro {
-  padding: 3.5rem 0 1rem;
+  padding-block: 3.5rem 1rem;
   max-width: 48rem;
+  margin-inline: auto;
 }
 
 .showcase-intro p {

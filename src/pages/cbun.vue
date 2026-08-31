@@ -129,8 +129,9 @@ const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
 
 <style scoped>
 .cbun-intro {
-  padding: 3.5rem 0 2.5rem;
+  padding-block: 3.5rem 2.5rem;
   max-width: 48rem;
+  margin-inline: auto;
 }
 
 .cbun-intro p {

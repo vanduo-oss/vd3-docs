@@ -79,19 +79,28 @@ const tooltipPlacement = computed(() => {
   }
 });
 
-const brandTooltip = computed(() => {
-  if (isNarrow.value) {
-    return placement.value === "top"
-      ? "Move dock to bottom"
-      : "Move dock to top";
-  }
-  return BRAND_EDGE_TIP[placement.value];
-});
+const brandTooltip = computed(() => BRAND_EDGE_TIP[placement.value]);
 
-const dockTooltipBind = computed(() => ({
-  "data-tooltip-placement": tooltipPlacement.value,
-  "data-tooltip-variant": "dock",
-}));
+/** Desktop-only: mobile uses visible nav labels; tooltips stick on touch/focus. */
+const dockTooltipBind = computed(() =>
+  isNarrow.value
+    ? {}
+    : {
+        "data-tooltip-placement": tooltipPlacement.value,
+        "data-tooltip-variant": "dock",
+      },
+);
+
+const themeTooltipPlacement = computed(() =>
+  isNarrow.value ? undefined : tooltipPlacement.value,
+);
+
+const hideVisibleDockTooltips = (): void => {
+  if (typeof document === "undefined") return;
+  document
+    .querySelectorAll(".vd-tooltip.vd-tooltip-dock")
+    .forEach((tip) => tip.remove());
+};
 
 const links = [
   { id: "home", label: "Home", icon: "house", to: "/" },
@@ -182,11 +191,19 @@ const syncDockTooltips = (): void => {
   if (!el) return;
 
   const brand = el.querySelector(".vd-dock-brand");
-  if (brand instanceof HTMLElement) {
-    brand.setAttribute("data-tooltip", brandTooltip.value);
-    for (const [key, value] of Object.entries(dockTooltipBind.value)) {
-      brand.setAttribute(key, value);
-    }
+  if (!(brand instanceof HTMLElement)) return;
+
+  if (isNarrow.value) {
+    brand.removeAttribute("data-tooltip");
+    brand.removeAttribute("data-tooltip-placement");
+    brand.removeAttribute("data-tooltip-variant");
+    hideVisibleDockTooltips();
+    return;
+  }
+
+  brand.setAttribute("data-tooltip", brandTooltip.value);
+  for (const [key, value] of Object.entries(dockTooltipBind.value)) {
+    brand.setAttribute(key, value);
   }
 };
 
@@ -225,6 +242,7 @@ watch(isNarrow, (narrow) => {
     } catch {
       /* ignore quota / private mode */
     }
+    hideVisibleDockTooltips();
   }
   void nextTick(() => {
     patchBrandA11y();
@@ -303,14 +321,14 @@ onUnmounted(() => {
       :icon="link.icon"
       :label="link.label"
       :active="activeId === link.id"
-      :data-tooltip="link.label"
+      :data-tooltip="isNarrow ? undefined : link.label"
       v-bind="dockTooltipBind"
     />
 
     <template v-if="isNarrow">
       <span class="vd-site-dock-strip-divider" aria-hidden="true"></span>
-      <VdThemeSwitcher :tooltip-placement="tooltipPlacement" />
-      <VdThemeCustomizer :tooltip-placement="tooltipPlacement" />
+      <VdThemeSwitcher :tooltip-placement="themeTooltipPlacement" />
+      <VdThemeCustomizer :tooltip-placement="themeTooltipPlacement" />
     </template>
 
     <template #actions>
@@ -318,15 +336,15 @@ onUnmounted(() => {
         type="button"
         class="global-search-trigger vd-site-dock-search"
         aria-label="Open global search"
-        data-tooltip="Search"
+        :data-tooltip="isNarrow ? undefined : 'Search'"
         v-bind="dockTooltipBind"
         @click="onSearchClick"
       >
         <i class="ph-bold ph-magnifying-glass" aria-hidden="true"></i>
       </button>
       <template v-if="!isNarrow">
-        <VdThemeSwitcher :tooltip-placement="tooltipPlacement" />
-        <VdThemeCustomizer :tooltip-placement="tooltipPlacement" />
+        <VdThemeSwitcher :tooltip-placement="themeTooltipPlacement" />
+        <VdThemeCustomizer :tooltip-placement="themeTooltipPlacement" />
       </template>
     </template>
   </VdDock>
