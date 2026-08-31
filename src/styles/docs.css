@@ -103,12 +103,8 @@ html {
 
   /* Docs shell chrome — rem at 16px baseline, scales with font-size above.
      Offsets clear the fixed site dock (data-docs-dock) instead of a top navbar.
-     Compact site dock: height + inset + small gap. */
-  --docs-dock-clearance: calc(
-    var(--vd-site-dock-height) + var(--vd-site-dock-inset) + 0.375rem
-  );
-  --vd-site-dock-height: 4.375rem;
-  --vd-site-dock-inset: 0.75rem;
+     Mobile default; desktop compact tokens apply from 521px up. */
+  --docs-dock-clearance: 5.5rem;
   --docs-dock-edge-pad-bottom: 0;
   --docs-dock-edge-pad-left: 0;
   --docs-dock-edge-pad-right: 0;
@@ -145,7 +141,7 @@ html[data-docs-dock="right"] {
   /* Match fixed dock footprint (height + inset) plus a small gap so content
      is pushed aside instead of sitting under the vertical pill. */
   --docs-dock-clearance: calc(
-    var(--vd-site-dock-height) + var(--vd-site-dock-inset) + 0.375rem
+    var(--vd-dock-height) + var(--vd-dock-inset) + 0.5rem
   );
 }
 
@@ -161,6 +157,24 @@ html[data-docs-dock="right"] {
   --docs-sticky-offset: 1rem;
   --docs-dock-edge-pad-right: var(--docs-dock-clearance);
   --docs-dock-edge-pad-bottom: 0;
+}
+
+/* Desktop site dock footprint — mobile keeps the live 5.5rem clearance. */
+@media (min-width: 521px) {
+  :root {
+    --vd-site-dock-height: 4.375rem;
+    --vd-site-dock-inset: 0.75rem;
+    --docs-dock-clearance: calc(
+      var(--vd-site-dock-height) + var(--vd-site-dock-inset) + 0.375rem
+    );
+  }
+
+  html[data-docs-dock="left"],
+  html[data-docs-dock="right"] {
+    --docs-dock-clearance: calc(
+      var(--vd-site-dock-height) + var(--vd-site-dock-inset) + 0.375rem
+    );
+  }
 }
 
 /* Fullscreen demo stages: inset from fixed site dock on every edge. */
@@ -3097,33 +3111,22 @@ a:hover .vd-card-interactive.vd-card-glow {
   flex-direction: column-reverse;
 }
 
-/* MacOS-style site dock: compact pill — ~15% tighter than prior chrome. */
+/* MacOS-style site dock — base matches live mobile polish; desktop compacts below. */
 .vd-site-dock {
-  --vd-dock-height: var(--vd-site-dock-height);
-  --vd-dock-inset: var(--vd-site-dock-inset);
-  --vd-dock-brand-size: 3.0375rem;
-  gap: 0.5rem;
-}
-
-.vd-site-dock.vd-dock.is-horizontal {
-  padding: 0.45rem 0.875rem;
-}
-
-.vd-site-dock.vd-dock.is-vertical {
-  padding: 0.5rem 0.4rem;
-  gap: 0.45rem;
+  --vd-dock-height: 5.15rem;
+  --vd-dock-brand-size: 3.375rem;
 }
 
 /* Central nav: ~34px glyphs (~28% under prior 3rem), no visible labels. */
 .vd-site-dock .vd-dock-links .vd-dock-item {
   gap: 0;
-  padding: 0.2rem 0.35rem;
-  min-width: 2.35rem;
-  min-height: 2.35rem;
+  padding: 0.3rem 0.45rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-item .ph {
-  font-size: 2.0425rem;
+  font-size: 2.15rem;
 }
 
 /* Icon-only nav: mute idle links; only the active route reads at full strength. */
@@ -3174,6 +3177,45 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 /* Horizontal edges (desktop): oola inline icon + label, no tooltips. */
 @media (min-width: 521px) {
+  .vd-site-dock {
+    --vd-dock-height: var(--vd-site-dock-height);
+    --vd-dock-inset: var(--vd-site-dock-inset);
+    --vd-dock-brand-size: 3.0375rem;
+    gap: 0.5rem;
+  }
+
+  .vd-site-dock.vd-dock.is-horizontal {
+    padding: 0.45rem 0.875rem;
+  }
+
+  .vd-site-dock.vd-dock.is-vertical {
+    padding: 0.5rem 0.4rem;
+    gap: 0.45rem;
+  }
+
+  .vd-site-dock .vd-dock-links .vd-dock-item {
+    padding: 0.2rem 0.35rem;
+    min-width: 2.35rem;
+    min-height: 2.35rem;
+  }
+
+  .vd-site-dock .vd-dock-links .vd-dock-item .ph {
+    font-size: 2.0425rem;
+  }
+
+  .vd-site-dock .vd-dock-actions button {
+    width: 1.9rem;
+    height: 1.9rem;
+    min-width: 1.9rem;
+    min-height: 1.9rem;
+    border-radius: 0.65rem;
+    font-size: 1rem;
+  }
+
+  .vd-site-dock .vd-dock-actions button i {
+    font-size: 1.05rem;
+  }
+
   .vd-site-dock.vd-dock-edge-top .vd-dock-links .vd-dock-label,
   .vd-site-dock.vd-dock-edge-bottom .vd-dock-links .vd-dock-label {
     display: block;
@@ -3317,17 +3359,17 @@ a:hover .vd-card-interactive.vd-card-glow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.9rem;
-  height: 1.9rem;
-  min-width: 1.9rem;
-  min-height: 1.9rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
   flex-shrink: 0;
   border: 0;
-  border-radius: 0.65rem;
+  border-radius: 0.75rem;
   background: transparent;
   color: var(--vd-text-secondary);
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 0;
   padding: 0;
   opacity: 0.72;
@@ -3346,7 +3388,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 .vd-site-dock .vd-dock-actions button i {
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   line-height: 1;
 }
 
@@ -3360,19 +3402,19 @@ a:hover .vd-card-interactive.vd-card-glow {
 @media (max-width: 520px) {
   :root {
     /* Compact icon + label stack + tighter inset (~0.5rem). */
-    --docs-dock-clearance: calc(4.15rem + 0.5rem + 0.375rem);
-    --vd-site-dock-height: 4.15rem;
-    --vd-site-dock-inset: 0.5rem;
+    --docs-dock-clearance: 5.5rem;
   }
 
   .vd-site-dock {
-    --vd-dock-brand-size: 1.89rem;
+    --vd-dock-inset: 0.5rem; /* 8px — closer to viewport edges */
+    --vd-dock-height: 4.65rem;
+    --vd-dock-brand-size: 2.35rem;
 
-    padding-inline: 0.4rem;
+    padding-inline: 0.5rem;
   }
 
   .vd-site-dock.vd-dock.is-horizontal {
-    padding-block: 0.25rem;
+    padding-block: 0.35rem;
   }
 
   /* Full-width pill: beat package .vd-dock.vd-dock-edge-top:not(.is-square)
@@ -3439,6 +3481,14 @@ a:hover .vd-card-interactive.vd-card-glow {
     min-width: min-content;
   }
 
+  /* Mobile: icon above label — beat inline itemLayout on the narrow strip. */
+  .vd-site-dock.vd-dock-items-inline .vd-dock-links .vd-dock-item,
+  .vd-site-dock.vd-dock-items-stack .vd-dock-links .vd-dock-item {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   /* Mobile: show compact labels under the four primary nav icons. */
   .vd-site-dock .vd-dock-links .vd-dock-item {
     gap: 0.1rem;
@@ -3449,7 +3499,7 @@ a:hover .vd-card-interactive.vd-card-glow {
   }
 
   .vd-site-dock .vd-dock-links .vd-dock-item .ph {
-    font-size: 1.4725rem;
+    font-size: 1.55rem;
   }
 
   .vd-site-dock .vd-dock-links .vd-dock-item .vd-dock-label {

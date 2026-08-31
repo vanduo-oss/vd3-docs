@@ -66,7 +66,7 @@ const isHorizontalEdge = computed(
 );
 
 const itemLayout = computed<DockItemLayout>(() =>
-  isHorizontalEdge.value ? "inline" : "stack",
+  isHorizontalEdge.value && !isNarrow.value ? "inline" : "stack",
 );
 
 /** Tooltips only on vertical desktop; horizontal uses inline labels instead. */
