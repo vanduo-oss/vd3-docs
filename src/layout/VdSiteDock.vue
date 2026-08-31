@@ -320,7 +320,10 @@ onUnmounted(() => {
     label="Site"
   >
     <template #brand>
-      <Vd3BrandMark size="var(--vd-dock-brand-size)" class="vd-site-dock-brand-mark" />
+      <Vd3BrandMark
+        size="var(--vd-dock-brand-size)"
+        class="vd-site-dock-brand-mark"
+      />
     </template>
 
     <VdDockItem

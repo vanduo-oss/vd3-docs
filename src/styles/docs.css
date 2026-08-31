@@ -3181,6 +3181,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     --vd-dock-height: var(--vd-site-dock-height);
     --vd-dock-inset: var(--vd-site-dock-inset);
     --vd-dock-brand-size: 3.0375rem;
+
     gap: 0.5rem;
   }
 
@@ -3229,10 +3230,13 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   .vd-site-dock.vd-dock-edge-top .vd-dock-links .vd-dock-item .ph,
   .vd-site-dock.vd-dock-edge-bottom .vd-dock-links .vd-dock-item .ph {
-    font-size: 1.78125rem;
+    font-size: 1.7813rem;
   }
 
-  .vd-site-dock.vd-dock-edge-top .vd-dock-links .vd-dock-item.is-active .vd-dock-label,
+  .vd-site-dock.vd-dock-edge-top
+    .vd-dock-links
+    .vd-dock-item.is-active
+    .vd-dock-label,
   .vd-site-dock.vd-dock-edge-bottom
     .vd-dock-links
     .vd-dock-item.is-active
@@ -3241,7 +3245,9 @@ a:hover .vd-card-interactive.vd-card-glow {
     font-weight: 600;
   }
 
-  .vd-site-dock.vd-dock-edge-top.vd-dock-items-inline .vd-dock-links .vd-dock-item,
+  .vd-site-dock.vd-dock-edge-top.vd-dock-items-inline
+    .vd-dock-links
+    .vd-dock-item,
   .vd-site-dock.vd-dock-edge-bottom.vd-dock-items-inline
     .vd-dock-links
     .vd-dock-item {
