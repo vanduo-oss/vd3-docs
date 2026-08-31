@@ -24,19 +24,15 @@ const seedDoc = {
   ],
 };
 
-/* Full-screen sketch mode — the canvas fills the viewport beneath the fixed
-   navbar (which deliberately stays visible); everything else is covered.
-   All DOM access happens in handlers/lifecycle, so SSG prerender stays safe. */
+/* Full-screen sketch mode — canvas fills the viewport inset from the fixed
+   site dock, which deliberately stays visible above the stage. */
 const fullscreen = ref(false);
-const navOffset = ref(64);
 
 function onKeydown(event: KeyboardEvent) {
   if (event.key === "Escape") exitFullscreen();
 }
 
 function enterFullscreen() {
-  const nav = document.querySelector(".vd-navbar");
-  navOffset.value = nav ? Math.round(nav.getBoundingClientRect().height) : 64;
   fullscreen.value = true;
   document.body.style.overflow = "hidden";
   window.addEventListener("keydown", onKeydown);
@@ -144,8 +140,7 @@ const methods: [string, string][] = [
 
     <div
       class="vd-card demo-card vd-mb-6 draw-stage"
-      :class="{ 'is-fullscreen': fullscreen }"
-      :style="fullscreen ? { top: `${navOffset}px` } : undefined"
+      :class="{ 'is-fullscreen docs-stage-fullscreen': fullscreen }"
     >
       <div class="vd-card-header draw-stage-header">
         <h6><i class="ph ph-paint-brush"></i> Sketchpad</h6>
@@ -276,26 +271,5 @@ const methods: [string, string][] = [
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
-}
-
-/* Full-screen sketch mode: fills the viewport under the fixed navbar, which
-   stays visible on purpose (z-index sits below the navbar's). */
-.draw-stage.is-fullscreen {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  border-radius: 0;
-  z-index: 900;
-  display: flex;
-  flex-direction: column;
-  background: var(--vd-bg-primary);
-}
-
-.draw-stage.is-fullscreen .draw-stage-body {
-  flex: 1;
-  min-height: 0;
-  padding: 0.5rem;
 }
 </style>

@@ -60,9 +60,18 @@ const isNarrow = useDocsDockNarrow({
   },
 });
 
-/** Horizontal edges: inline class for package; CSS centers icon-only items. */
+/** Horizontal edges: inline layout + visible labels; vertical stays icon-only. */
+const isHorizontalEdge = computed(
+  () => dockOrientationOf(placement.value) === "horizontal",
+);
+
 const itemLayout = computed<DockItemLayout>(() =>
-  dockOrientationOf(placement.value) === "horizontal" ? "inline" : "stack",
+  isHorizontalEdge.value ? "inline" : "stack",
+);
+
+/** Tooltips only on vertical desktop; horizontal uses inline labels instead. */
+const showDockTooltips = computed(
+  () => !isNarrow.value && !isHorizontalEdge.value,
 );
 
 /** Tooltip opens away from the dock edge. */
@@ -81,18 +90,17 @@ const tooltipPlacement = computed(() => {
 
 const brandTooltip = computed(() => BRAND_EDGE_TIP[placement.value]);
 
-/** Desktop-only: mobile uses visible nav labels; tooltips stick on touch/focus. */
 const dockTooltipBind = computed(() =>
-  isNarrow.value
-    ? {}
-    : {
+  showDockTooltips.value
+    ? {
         "data-tooltip-placement": tooltipPlacement.value,
         "data-tooltip-variant": "dock",
-      },
+      }
+    : {},
 );
 
 const themeTooltipPlacement = computed(() =>
-  isNarrow.value ? undefined : tooltipPlacement.value,
+  showDockTooltips.value ? tooltipPlacement.value : undefined,
 );
 
 const hideVisibleDockTooltips = (): void => {
@@ -193,7 +201,7 @@ const syncDockTooltips = (): void => {
   const brand = el.querySelector(".vd-dock-brand");
   if (!(brand instanceof HTMLElement)) return;
 
-  if (isNarrow.value) {
+  if (isNarrow.value || isHorizontalEdge.value) {
     brand.removeAttribute("data-tooltip");
     brand.removeAttribute("data-tooltip-placement");
     brand.removeAttribute("data-tooltip-variant");
@@ -312,7 +320,7 @@ onUnmounted(() => {
     label="Site"
   >
     <template #brand>
-      <Vd3BrandMark size="3.375rem" class="vd-site-dock-brand-mark" />
+      <Vd3BrandMark size="var(--vd-dock-brand-size)" class="vd-site-dock-brand-mark" />
     </template>
 
     <VdDockItem
@@ -321,7 +329,7 @@ onUnmounted(() => {
       :icon="link.icon"
       :label="link.label"
       :active="activeId === link.id"
-      :data-tooltip="isNarrow ? undefined : link.label"
+      :data-tooltip="showDockTooltips ? link.label : undefined"
       v-bind="dockTooltipBind"
     />
 
@@ -336,7 +344,7 @@ onUnmounted(() => {
         type="button"
         class="global-search-trigger vd-site-dock-search"
         aria-label="Open global search"
-        :data-tooltip="isNarrow ? undefined : 'Search'"
+        :data-tooltip="showDockTooltips ? 'Search' : undefined"
         v-bind="dockTooltipBind"
         @click="onSearchClick"
       >

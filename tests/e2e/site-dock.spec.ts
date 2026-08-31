@@ -247,7 +247,7 @@ test.describe("Site Oola dock chrome", () => {
 
     await assertVerticalChrome("left");
 
-    // Short-axis thickness matches docs --vd-dock-height (macOS-style 5.15rem).
+    // Short-axis thickness matches docs --vd-site-dock-height (compact 4.375rem).
     const thickness = await dock.evaluate((el) => {
       const rem = Number.parseFloat(
         getComputedStyle(document.documentElement).fontSize,
@@ -255,7 +255,7 @@ test.describe("Site Oola dock chrome", () => {
       const box = el.getBoundingClientRect();
       return {
         actual: box.width,
-        expected: 5.15 * rem,
+        expected: 4.375 * rem,
       };
     });
     expect(thickness.actual).toBeGreaterThan(thickness.expected - 4);

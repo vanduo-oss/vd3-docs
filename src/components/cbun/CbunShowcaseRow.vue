@@ -12,15 +12,12 @@ defineProps<{
 }>();
 
 const fullscreen = ref(false);
-const navOffset = ref(64);
 
 function onKeydown(event: KeyboardEvent) {
   if (event.key === "Escape") exitFullscreen();
 }
 
 function enterFullscreen() {
-  const nav = document.querySelector(".vd-navbar");
-  navOffset.value = nav ? Math.round(nav.getBoundingClientRect().height) : 64;
   fullscreen.value = true;
   document.body.style.overflow = "hidden";
   window.addEventListener("keydown", onKeydown);
@@ -49,8 +46,7 @@ onBeforeUnmount(exitFullscreen);
     <div class="cbun-row-demo">
       <div
         class="vd-card demo-card cbun-stage"
-        :class="{ 'is-fullscreen': fullscreen }"
-        :style="fullscreen ? { top: `${navOffset}px` } : undefined"
+        :class="{ 'is-fullscreen docs-stage-fullscreen': fullscreen }"
       >
         <div class="vd-card-header cbun-stage-header">
           <h6>
@@ -151,27 +147,6 @@ onBeforeUnmount(exitFullscreen);
   display: flex;
   flex-direction: column;
   min-height: 280px;
-  overflow: hidden;
-}
-
-.cbun-stage.is-fullscreen {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  border-radius: 0;
-  z-index: 900;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background: var(--vd-bg-primary);
-}
-
-.cbun-stage.is-fullscreen .cbun-stage-body {
-  flex: 1;
-  min-height: 0;
-  padding: 0.5rem;
   overflow: hidden;
 }
 

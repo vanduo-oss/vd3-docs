@@ -42,8 +42,6 @@ const itemLayout = ref<DockItemLayout>("stack");
 const brandId = ref("u");
 const activeItem = ref("home");
 const expanded = ref(false);
-const navOffset = ref(64);
-const navOffsetPx = computed(() => `${navOffset.value}px`);
 
 /** Same walk as VdDock cycle="edges": bottom → left → top → right → bottom. */
 const PLACE_EDGES: DockPlacement[] = ["bottom", "left", "top", "right"];
@@ -100,19 +98,7 @@ function onKeydown(event: KeyboardEvent): void {
   if (event.key === "Escape") exitExpanded();
 }
 
-function measureNavOffset(): number {
-  const dock = document.querySelector(".vd-site-dock.vd-dock-fixed");
-  if (!dock) return 64;
-  const rect = dock.getBoundingClientRect();
-  // Prefer the edge that still occupies the top of the viewport (top placement).
-  // Otherwise return bottom clearance so expanded playground sits above a
-  // bottom dock, or a small top inset for left/right.
-  if (rect.top <= 8) return Math.ceil(Math.max(rect.height, rect.bottom));
-  return 16;
-}
-
 function enterExpanded(): void {
-  navOffset.value = measureNavOffset();
   expanded.value = true;
   document.body.style.overflow = "hidden";
   window.addEventListener("keydown", onKeydown);
@@ -277,8 +263,7 @@ const itemApi: [string, string][] = [
       <div class="vd-col-12">
         <div
           class="vd-card vd-card-glow demo-card dock-customizer"
-          :class="{ 'is-expanded': expanded }"
-          :style="expanded ? { top: `${navOffset}px` } : undefined"
+          :class="{ 'is-expanded docs-stage-fullscreen': expanded }"
         >
           <div class="vd-card-header dock-customizer-header">
             <h6><i class="ph ph-sliders-horizontal"></i>Live customizer</h6>
@@ -748,18 +733,6 @@ const itemApi: [string, string][] = [
 }
 
 .dock-customizer.is-expanded {
-  position: fixed;
-  top: v-bind(navOffsetPx);
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  border-radius: 0;
-  z-index: 900;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background: var(--vd-bg-primary);
   /* .vd-card uses translateZ(0); keep this overlay viewport-fixed. */
   transform: none;
 }

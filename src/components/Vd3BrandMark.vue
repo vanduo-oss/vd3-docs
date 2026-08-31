@@ -3,7 +3,7 @@ import Vd3Mark from "@/components/Vd3Mark.vue";
 
 withDefaults(
   defineProps<{
-    size?: "2.25rem" | "3.25rem" | "3.375rem";
+    size?: string;
   }>(),
   {
     size: "3.25rem",

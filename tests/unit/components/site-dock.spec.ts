@@ -128,7 +128,7 @@ describe("VdSiteDock", () => {
     wrapper.unmount();
   });
 
-  it("uses inline item layout on horizontal edges", async () => {
+  it("uses inline item layout on horizontal edges without tooltips", async () => {
     const { wrapper } = await mountDock();
     const vm = wrapper.vm as unknown as { placement: string };
     vm.placement = "bottom";
@@ -136,6 +136,10 @@ describe("VdSiteDock", () => {
     const dock = wrapper.find(".vd-dock");
     expect(dock.classes()).toContain("vd-dock-items-inline");
     expect(dock.classes()).not.toContain("vd-dock-items-stack");
+
+    const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
+    expect(home.attributes("data-tooltip")).toBeUndefined();
+    expect(home.find(".vd-dock-label").text()).toBe("Home");
     wrapper.unmount();
   });
 
@@ -184,23 +188,44 @@ describe("VdSiteDock", () => {
     wrapper.unmount();
   });
 
-  it("maps tooltip placement away from each dock edge", async () => {
+  it("maps tooltip placement away from vertical dock edges", async () => {
     const { wrapper } = await mountDock();
     const vm = wrapper.vm as unknown as { placement: string };
     const home = () =>
       wrapper.get('button.vd-dock-item[aria-label="Home"]');
 
     const cases: Array<[string, string]> = [
-      ["bottom", "top"],
-      ["top", "bottom"],
       ["left", "right"],
       ["right", "left"],
     ];
     for (const [edge, tip] of cases) {
       vm.placement = edge;
       await flushPromises();
+      expect(home().attributes("data-tooltip")).toBe("Home");
       expect(home().attributes("data-tooltip-placement")).toBe(tip);
     }
+    wrapper.unmount();
+  });
+
+  it("omits chrome tooltips on horizontal desktop edges", async () => {
+    const { wrapper } = await mountDock();
+    const vm = wrapper.vm as unknown as { placement: string };
+
+    for (const edge of ["bottom", "top"] as const) {
+      vm.placement = edge;
+      await flushPromises();
+
+      const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
+      expect(home.attributes("data-tooltip")).toBeUndefined();
+      expect(home.find(".vd-dock-label").text()).toBe("Home");
+
+      const search = wrapper.get('button[aria-label="Open global search"]');
+      expect(search.attributes("data-tooltip")).toBeUndefined();
+
+      const brand = wrapper.find(".vd-dock-brand");
+      expect(brand.attributes("data-tooltip")).toBeUndefined();
+    }
+
     wrapper.unmount();
   });
 });
