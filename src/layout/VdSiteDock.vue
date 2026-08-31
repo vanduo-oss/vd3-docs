@@ -25,6 +25,15 @@ import { useSiteDockBrandSpin } from "@/composables/useSiteDockBrandSpin";
 
 const SITE_DOCK_STORAGE_KEY = "vd3-docs-site-dock";
 
+const persistSiteDockPlacement = (edge: DockPlacement): void => {
+  if (typeof localStorage === "undefined") return;
+  try {
+    localStorage.setItem(SITE_DOCK_STORAGE_KEY, edge);
+  } catch {
+    /* ignore quota / private mode */
+  }
+};
+
 const BRAND_EDGE_TIP: Record<DockPlacement, string> = {
   bottom: "Move dock to left",
   left: "Move dock to top",
@@ -52,11 +61,7 @@ const lastWidePlacement = ref<DockPlacement>("left");
 
 const isNarrow = useDocsDockNarrow({
   onExitNarrow: () => {
-    try {
-      localStorage.setItem(SITE_DOCK_STORAGE_KEY, lastWidePlacement.value);
-    } catch {
-      /* ignore quota / private mode */
-    }
+    persistSiteDockPlacement(lastWidePlacement.value);
   },
 });
 
@@ -159,11 +164,7 @@ const onBrandCapture = (event: Event): void => {
   const next: DockPlacement = placement.value === "top" ? "bottom" : "top";
   playSiteDockNarrowBrandMorph(dockInst.value, next, {
     onApplied: () => {
-      try {
-        localStorage.setItem(SITE_DOCK_STORAGE_KEY, lastWidePlacement.value);
-      } catch {
-        /* keep desktop edge out of mobile flip persistence */
-      }
+      persistSiteDockPlacement(next);
       void nextTick(() => {
         patchBrandA11y();
         syncDockTooltips();
@@ -231,9 +232,6 @@ useSiteDockBrandSpin(dockEl);
 watch(
   placement,
   (edge) => {
-    if (!isNarrow.value) {
-      lastWidePlacement.value = edge;
-    }
     syncDockAttr(edge);
     void nextTick(() => {
       patchBrandA11y();
@@ -243,13 +241,17 @@ watch(
   { immediate: true },
 );
 
+watch(placement, (edge) => {
+  if (!isNarrow.value) {
+    lastWidePlacement.value = edge;
+    persistSiteDockPlacement(edge);
+  } else if (edge === "top" || edge === "bottom") {
+    persistSiteDockPlacement(edge);
+  }
+});
+
 watch(isNarrow, (narrow) => {
   if (narrow) {
-    try {
-      localStorage.setItem(SITE_DOCK_STORAGE_KEY, lastWidePlacement.value);
-    } catch {
-      /* ignore quota / private mode */
-    }
     hideVisibleDockTooltips();
   }
   void nextTick(() => {

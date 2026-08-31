@@ -63,6 +63,7 @@ const mountDock = async (options?: {
 describe("VdSiteDock", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
+    localStorage.removeItem("vd3-docs-site-dock");
   });
 
   it("renders brand, icon-only nav items with tooltips, and action triggers", async () => {
@@ -226,6 +227,42 @@ describe("VdSiteDock", () => {
       expect(brand.attributes("data-tooltip")).toBeUndefined();
     }
 
+    wrapper.unmount();
+  });
+
+  it("restores narrow top placement from localStorage on remount", async () => {
+    localStorage.setItem("vd3-docs-site-dock", "top");
+
+    const { wrapper } = await mountDock({ narrow: true });
+    await flushPromises();
+
+    expect(wrapper.find(".vd-dock").classes()).toContain("vd-dock-edge-top");
+    expect(document.documentElement.getAttribute("data-docs-dock")).toBe("top");
+    wrapper.unmount();
+
+    const { wrapper: remount } = await mountDock({ narrow: true });
+    await flushPromises();
+
+    expect(remount.find(".vd-dock").classes()).toContain("vd-dock-edge-top");
+    remount.unmount();
+  });
+
+  it("persists top when the brand toggles on narrow", async () => {
+    vi.useFakeTimers();
+    localStorage.removeItem("vd3-docs-site-dock");
+
+    const { wrapper } = await mountDock({ narrow: true });
+    await flushPromises();
+    expect(wrapper.find(".vd-dock").classes()).toContain("vd-dock-edge-bottom");
+
+    await wrapper.find(".vd-dock-brand").trigger("click");
+    await vi.advanceTimersByTimeAsync(480 + 720 + 50);
+    await flushPromises();
+
+    expect(localStorage.getItem("vd3-docs-site-dock")).toBe("top");
+    expect(wrapper.find(".vd-dock").classes()).toContain("vd-dock-edge-top");
+
+    vi.useRealTimers();
     wrapper.unmount();
   });
 });
