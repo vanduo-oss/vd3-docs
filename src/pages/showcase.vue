@@ -73,7 +73,7 @@ const projects: ShowcaseProject[] = [
     <div class="about-header">
       <div class="vd-container-responsive">
         <h2 style="color: var(--vd-color-primary)">
-          <i class="ph ph-images"></i> Showcase
+          <i class="ph ph-projector-screen"></i> Showcase
         </h2>
         <p class="vd-text-lg vd-text-muted">
           Real apps built with <code>@vanduo-oss/vd3</code> — live demos, source

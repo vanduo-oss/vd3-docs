@@ -24,7 +24,7 @@ const DEFAULT_DESCRIPTION =
 
 const pageTitle = computed(() => {
   const t = route.meta?.title as string | undefined;
-  if (route.path === "/") return "vd3 UI";
+  if (route.path === "/") return "vd3";
   if (!t || t === "vd3 Docs") return BRAND_TITLE;
   return `${t} — vd3`;
 });

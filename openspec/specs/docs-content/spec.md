@@ -326,17 +326,14 @@ NOT modify `app.css` or other shell/layout stylesheets.
 
 ### Requirement: home hero random approved logo effect
 
-On each full page load of `/`, the home hero mark SHALL display one effect chosen
-uniformly at random from the approved set: `bloom-spin`, `spin`, `counter-spin`,
-`pulse`, `breathe-spin`, `wobble`, `heartbeat`, `stagger-pulse`, `morph-scale-swap`,
-`soft-glow`, `chromatic-soft`, `liquid-displace`, `stroke-draw`, `outline-only`,
-`specular-sweep`, `cascade-in`.
+On each full page load of `/`, the home hero mark SHALL display the
+`stroke-draw` effect.
 
-#### Scenario: reload may change effect
+#### Scenario: reload shows stroke-draw
 
 - **GIVEN** the home page with motion allowed
-- **WHEN** the user performs multiple hard reloads
-- **THEN** the hero mark may show different effects from the approved set only
+- **WHEN** the user loads `/`
+- **THEN** the hero mark uses the `stroke-draw` effect
 
 ### Requirement: upright mark on hero and chrome
 

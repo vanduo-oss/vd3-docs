@@ -72,7 +72,7 @@ export const nav: NavTree = {
       id: "showcase",
       title: "Showcase",
       route: "/showcase",
-      icon: "images",
+      icon: "projector-screen",
       keywords: [
         "showcase",
         "demo",

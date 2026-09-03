@@ -477,16 +477,45 @@ html[data-theme="dark"][data-primary="black"] {
   overflow: visible;
 }
 
+#home .hero-title-brand,
+#about .hero-title-brand {
+  font-family: Michroma, sans-serif;
+}
+
+#home .hero-title-brand {
+  font-size: 1.2em;
+}
+
+.about-intro-logo-stage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: visible;
+  width: calc(
+    8.125rem * var(--vd3-mark-view-size-ratio, 1.193) *
+      var(--vd3-mark-stage-scale, 1.85)
+  );
+  height: calc(
+    8.125rem * var(--vd3-mark-view-size-ratio, 1.193) *
+      var(--vd3-mark-stage-scale, 1.85)
+  );
+}
+
+#about .about-intro-brand .vd3-mark {
+  width: 8.125rem;
+  height: 8.125rem;
+  display: block;
+  flex-shrink: 0;
+  transform: translateY(-0.04em);
+  margin-inline-end: -1.375rem;
+}
+
 .hero-title-brand {
   font-weight: 400;
   line-height: 1;
   color: var(--vd-brand-accent);
   transition: color 0.35s ease;
-}
-
-.hero-title-word {
-  color: #475569;
-  text-transform: uppercase;
 }
 
 .hero-title-text {
@@ -510,6 +539,10 @@ html[data-theme="dark"][data-primary="black"] {
   overflow: visible;
 }
 
+#home .hero-title-logo-wrap {
+  margin-inline-end: -3.75em;
+}
+
 .hero-title-logo-stage {
   display: inline-flex;
   align-items: center;
@@ -524,6 +557,17 @@ html[data-theme="dark"][data-primary="black"] {
   );
   height: calc(
     2.5em * var(--vd3-mark-view-size-ratio, 1.193) *
+      var(--vd3-mark-stage-scale, 1.85)
+  );
+}
+
+#home .hero-title-logo-stage {
+  width: calc(
+    6.25em * var(--vd3-mark-view-size-ratio, 1.193) *
+      var(--vd3-mark-stage-scale, 1.85)
+  );
+  height: calc(
+    6.25em * var(--vd3-mark-view-size-ratio, 1.193) *
       var(--vd3-mark-stage-scale, 1.85)
   );
 }
@@ -671,13 +715,6 @@ html[data-theme="dark"][data-primary="black"] {
 
   .hero-title-text {
     align-items: center;
-  }
-
-  .hero-title .hero-title-word {
-    font-size: 0.5em;
-    line-height: 1;
-    margin-left: 0;
-    margin-top: 0.15em;
   }
 
   .hero-cta-buttons {
@@ -3117,6 +3154,31 @@ a:hover .vd-card-interactive.vd-card-glow {
   --vd-dock-brand-size: 3.375rem;
 }
 
+/* Docs-only: deeper ink pill than package vd-dock-dark (#0a0a0a @ 90%). */
+.vd-site-dock.vd-dock-dark.vd-glass-34 {
+  --vd-glass-bg-opacity: 0.98;
+  --vd-glass-blur: 16px;
+  --vd-glass-saturate: 1.15;
+  --vd-glass-border-alpha: 0.1;
+  --vd-glass-highlight-alpha: 0;
+
+  background: color-mix(in srgb, #030303 97%, transparent);
+  background-image: none;
+  border-color: rgb(255 255 255 / 10%);
+  box-shadow:
+    0 10px 36px rgb(0 0 0 / 62%),
+    inset 0 1px 0 rgb(255 255 255 / 6%);
+}
+
+.vd-site-dock.vd-dock-dark.vd-dock-tint-accent[class*="vd-dock-tint-"] {
+  background: color-mix(in srgb, #030303 97%, transparent);
+  background-image: none;
+}
+
+.vd-site-dock.vd-dock-dark.vd-glass-34::before {
+  opacity: 0;
+}
+
 /* Central nav: ~34px glyphs (~28% under prior 3rem), no visible labels. */
 .vd-site-dock .vd-dock-links .vd-dock-item {
   gap: 0;
@@ -4162,7 +4224,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 /* Home marketing CTAs — one stacked column width ≤991.98px.
    Hero / Oola / Seemore / #cta pills share the page container column
-   so Getting Started, See Oola Dock live, and Documentation match. */
+   so Getting Started and Documentation match. */
 @media (max-width: 991.98px) {
   #home {
     --home-cta-gutter: var(--vd-container-padding, 0.8125rem);
@@ -4243,6 +4305,27 @@ a:hover .vd-card-interactive.vd-card-glow {
   #home #cta .vd-btn-ring {
     width: calc(100% - 2 * var(--home-cta-ring-inset));
     margin-inline: auto;
+  }
+
+  /* Marketing copy: center with the stacked CTAs; balance wraps, not justify. */
+  #home .seemore-home-title,
+  #home .seemore-home-lead,
+  #home .oola-home-mobile .oola-home-title,
+  #home .oola-home-mobile .oola-home-lead,
+  #home .open-color-title,
+  #home .open-color-subtitle,
+  #home .icons-section-title,
+  #home .icons-section-subtitle {
+    text-align: center;
+    text-wrap: balance;
+    margin-inline: auto;
+  }
+
+  #home .seemore-home-lead,
+  #home .oola-home-mobile .oola-home-lead,
+  #home .open-color-subtitle,
+  #home .icons-section-subtitle {
+    max-width: min(28rem, 100%);
   }
 }
 

@@ -1,38 +1,14 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { useMorph } from "@vanduo-oss/vd3";
 import HomeOolaSection from "@/components/HomeOolaSection.vue";
 import Vd3Mark from "@/components/Vd3Mark.vue";
-import {
-  isBloomSpinFx,
-  pickRandomLogoFx,
-  vd3MarkSize,
-  type ApprovedLogoFx,
-} from "@/utils/logoFx";
+import { HERO_LOGO_FX, vd3MarkSize } from "@/utils/logoFx";
 import "@/styles/logo-fx.css";
 
-const heroFx = ref<ApprovedLogoFx>("spin");
-const heroBloomActive = ref(false);
-const heroSpinning = ref(false);
-
-function startHeroBloom(): void {
-  heroBloomActive.value = false;
-  heroSpinning.value = false;
-  requestAnimationFrame(() => {
-    heroBloomActive.value = true;
-    window.setTimeout(() => {
-      heroSpinning.value = true;
-    }, 1800);
-  });
-}
-
-onMounted(() => {
-  heroFx.value = pickRandomLogoFx();
-  if (isBloomSpinFx(heroFx.value)) {
-    startHeroBloom();
-  }
-});
+/** Previous hero mark was 2.5em — scaled up 2.5× for the home hero. */
+const HERO_MARK_EM = 6.25;
 
 interface Feature {
   icon: string;
@@ -233,19 +209,13 @@ const swatches = [
             <span class="hero-title-logo-wrap">
               <span
                 class="hero-title-logo-stage logo-fx-tile"
-                :data-fx="heroFx"
+                :data-fx="HERO_LOGO_FX"
               >
-                <Vd3Mark
-                  :size="vd3MarkSize(2.5)"
-                  :blooming="isBloomSpinFx(heroFx)"
-                  :bloom-active="heroBloomActive"
-                  :spinning="heroSpinning"
-                />
+                <Vd3Mark :size="vd3MarkSize(HERO_MARK_EM)" />
               </span>
             </span>
             <span class="hero-title-text">
               <span class="hero-title-brand">vd3</span>
-              <span class="hero-title-word">UI</span>
             </span>
           </h2>
           <div class="vd-mt-6 hero-cta-buttons">

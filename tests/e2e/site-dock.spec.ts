@@ -26,22 +26,29 @@ test.describe("Site Oola dock chrome", () => {
     await page.goto("/", { waitUntil: "networkidle" });
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     await expect(dock).toBeVisible();
-    await expect(dock).toHaveClass(/vd-dock-edge-left/);
-    await expect(dock).toHaveClass(/vd-dock-items-stack/);
+    await expect(dock).toHaveClass(/vd-dock-edge-top/);
+    await expect(dock).toHaveClass(/vd-dock-items-inline/);
     await expect(dock).toHaveCSS("--vd-dock-radius", "1.5rem");
     const home = dock.getByRole("button", { name: "Home" });
     const docs = dock.getByRole("button", { name: "Docs" });
     await expect(home).toBeVisible();
     await expect(docs).toBeVisible();
-    await expect(home).toHaveAttribute("data-tooltip", "Home");
-    await expect(home).toHaveAttribute("data-tooltip-placement", "right");
-    await expect(home).toHaveAttribute("data-tooltip-variant", "dock");
+    await expect(home).not.toHaveAttribute("data-tooltip");
+    await expect(home.locator(".vd-dock-label")).toHaveText("Home");
     await expect(
       dock.getByRole("button", { name: "Open global search" }),
     ).toBeVisible();
     await expect(
       dock.getByRole("button", { name: "Choose theme color" }),
     ).toBeVisible();
+
+    const brand = dock.locator("button.vd-dock-brand").first();
+    await cycleDockTo(dock, brand, "right");
+    await cycleDockTo(dock, brand, "bottom");
+    await cycleDockTo(dock, brand, "left");
+    await expect(home).toHaveAttribute("data-tooltip", "Home");
+    await expect(home).toHaveAttribute("data-tooltip-placement", "right");
+    await expect(home).toHaveAttribute("data-tooltip-variant", "dock");
 
     await home.hover();
     const tooltip = page.locator(".vd-tooltip.vd-tooltip-right.vd-tooltip-dock").first();
@@ -132,12 +139,8 @@ test.describe("Site Oola dock chrome", () => {
     expect(metrics.brandWidth).toBeGreaterThan(metrics.expectedBrand - 4);
     expect(metrics.brandWidth).toBeLessThan(metrics.expectedBrand + 4);
 
-    // Top placement keeps the same inset and label chrome.
-    const brand = dock.locator("button.vd-dock-brand").first();
-    await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
-    await brand.click({ force: true });
-    await expect(dock).toHaveClass(/vd-dock-edge-top/, { timeout: 5000 });
-    await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
+    // First-time narrow users start on the top horizontal edge.
+    await expect(dock).toHaveClass(/vd-dock-edge-top/);
 
     const topMetrics = await dock.evaluate((el) => {
       const rem = Number.parseFloat(
@@ -182,12 +185,12 @@ test.describe("Site Oola dock chrome", () => {
     await page.goto("/", { waitUntil: "networkidle" });
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     const brand = dock.locator("button.vd-dock-brand").first();
-    await expect(dock).toHaveClass(/vd-dock-edge-left/);
+    await expect(dock).toHaveClass(/vd-dock-edge-top/);
 
-    await cycleDockTo(dock, brand, "top");
     await cycleDockTo(dock, brand, "right");
     await cycleDockTo(dock, brand, "bottom");
     await cycleDockTo(dock, brand, "left");
+    await cycleDockTo(dock, brand, "top");
   });
 
   test("vertical dock stacks actions, keeps brand bottom, and clears content", async ({
@@ -245,6 +248,9 @@ test.describe("Site Oola dock chrome", () => {
       expect(cleared).toBe(true);
     };
 
+    await cycleDockTo(dock, brand, "right");
+    await cycleDockTo(dock, brand, "bottom");
+    await cycleDockTo(dock, brand, "left");
     await assertVerticalChrome("left");
 
     // Short-axis thickness matches docs --vd-site-dock-height (compact 4.375rem).
@@ -275,7 +281,7 @@ test.describe("Site Oola dock chrome", () => {
       name: "Choose theme color",
     });
 
-    await cycleDockTo(dock, brand, "top");
+    await expect(dock).toHaveClass(/vd-dock-edge-top/);
     await expect(dock).toHaveClass(/is-horizontal/);
 
     const brandBox = await brand.boundingBox();
@@ -410,12 +416,12 @@ test.describe("Site Oola dock chrome", () => {
       await expect(fan).not.toHaveClass(/is-open/);
     };
 
-    await expectFanDir("left", "right");
-    await cycleDockTo(dock, brand, "top");
     await expectFanDir("top", "down");
     await cycleDockTo(dock, brand, "right");
     await expectFanDir("right", "left");
     await cycleDockTo(dock, brand, "bottom");
     await expectFanDir("bottom", "up");
+    await cycleDockTo(dock, brand, "left");
+    await expectFanDir("left", "right");
   });
 });

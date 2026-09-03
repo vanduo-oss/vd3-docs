@@ -1,6 +1,6 @@
 <script setup lang="ts">
-// Static content page — a plain-language overview of vd3 UI.
-import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
+import Vd3Mark from "@/components/Vd3Mark.vue";
+import "@/styles/logo-fx.css";
 </script>
 
 <template>
@@ -21,8 +21,13 @@ import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
     <div class="about-intro">
       <div class="about-intro-inner">
         <div class="about-intro-brand-wrap">
-          <div class="vd-footer-brand">
-            <Vd3BrandMark size="3.25rem" class="vd-brand-mark-lg" />
+          <div class="vd-footer-brand about-intro-brand">
+            <span
+              class="about-intro-logo-stage logo-fx-tile"
+              data-fx="stagger-pulse"
+            >
+              <Vd3Mark size="8.125rem" />
+            </span>
             <h3 class="vd-footer-brand-title">
               <span class="hero-title-text">
                 <span class="hero-title-brand">vd3</span>

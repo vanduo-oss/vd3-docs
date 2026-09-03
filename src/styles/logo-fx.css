@@ -7,7 +7,11 @@
   /* Stage box multiplier — sqrt(2) fits upright; ~1.85 leaves pulse/glow/shadow bleed */
   --vd3-mark-stage-scale: 1.85;
   --vd3-mark-view-size-ratio: 1.1931;
-  --vd3-mark-spin-duration: 12s;
+  --vd3-mark-spin-duration: 16s;
+  --vd3-mark-fx-slowdown: 1.35;
+  --vd3-mark-stroke-draw-duration: calc(
+    4.2s * var(--vd3-mark-fx-slowdown) * 1.25
+  );
 }
 
 .vd3-mark {
@@ -205,7 +209,7 @@
   }
 }
 
-/* stroke-draw: draw → fill → dissolve back (loop) */
+/* stroke-draw: draw → fill → hold (once per load) */
 @keyframes vd3-mark-stroke-draw-inner {
   0% {
     stroke-dashoffset: 1354;
@@ -225,16 +229,10 @@
     stroke-opacity: 0;
   }
 
-  78% {
+  100% {
     stroke-dashoffset: 0;
     fill-opacity: 1;
     stroke-opacity: 0;
-  }
-
-  100% {
-    stroke-dashoffset: 1354;
-    fill-opacity: 0;
-    stroke-opacity: 1;
   }
 }
 
@@ -257,16 +255,10 @@
     stroke-opacity: 0;
   }
 
-  78% {
+  100% {
     stroke-dashoffset: 0;
     fill-opacity: 1;
     stroke-opacity: 0;
-  }
-
-  100% {
-    stroke-dashoffset: 629;
-    fill-opacity: 0;
-    stroke-opacity: 1;
   }
 }
 
@@ -428,27 +420,50 @@
 @keyframes vd3-mark-chromatic {
   0%,
   100% {
-    filter: drop-shadow(-2px 0 0 var(--vd-color-primary-alpha-40))
-      drop-shadow(2px 0 0 var(--vd-color-primary-alpha-30));
+    filter: drop-shadow(-6px 0 0 rgb(255 80 120 / 75%))
+      drop-shadow(6px 0 0 rgb(80 200 255 / 75%))
+      drop-shadow(0 0 18px var(--vd-color-primary-alpha-50));
     transform: scale(1);
   }
 
   25% {
-    filter: drop-shadow(0 -2.5px 0 var(--vd-color-primary-alpha-45))
-      drop-shadow(0 2.5px 0 var(--vd-color-primary-alpha-30));
-    transform: scale(1.02);
+    filter: drop-shadow(0 -10px 0 rgb(255 120 60 / 85%))
+      drop-shadow(0 10px 0 rgb(120 255 180 / 80%))
+      drop-shadow(0 0 28px var(--vd-color-primary-alpha-60));
+    transform: scale(1.06);
   }
 
   50% {
-    filter: drop-shadow(2.5px 0 0 var(--vd-color-primary-alpha-40))
-      drop-shadow(-2.5px 0 0 var(--vd-color-primary-alpha-30));
-    transform: scale(1);
+    filter: drop-shadow(10px 0 0 rgb(255 80 120 / 85%))
+      drop-shadow(-10px 0 0 rgb(80 200 255 / 80%))
+      drop-shadow(0 0 32px var(--vd-color-primary-alpha-65));
+    transform: scale(1.04);
   }
 
   75% {
-    filter: drop-shadow(0 2.5px 0 var(--vd-color-primary-alpha-45))
-      drop-shadow(0 -2.5px 0 var(--vd-color-primary-alpha-30));
-    transform: scale(1.02);
+    filter: drop-shadow(0 10px 0 rgb(255 120 60 / 85%))
+      drop-shadow(0 -10px 0 rgb(120 255 180 / 80%))
+      drop-shadow(0 0 28px var(--vd-color-primary-alpha-60));
+    transform: scale(1.06);
+  }
+}
+
+@keyframes vd3-mark-chromatic-spin-burst {
+  0%,
+  72% {
+    transform: rotate(0deg);
+  }
+
+  82% {
+    transform: rotate(200deg);
+  }
+
+  92% {
+    transform: rotate(330deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -565,17 +580,20 @@
 }
 
 .logo-fx-tile[data-fx="stagger-pulse"] .vd3-mark-outer[data-i="0"] {
-  animation: vd3-mark-outer-pulse 2.4s ease-in-out infinite;
+  animation: vd3-mark-outer-pulse calc(2.4s * var(--vd3-mark-fx-slowdown))
+    ease-in-out infinite;
 }
 
 .logo-fx-tile[data-fx="stagger-pulse"] .vd3-mark-outer[data-i="1"] {
-  animation: vd3-mark-outer-pulse 2.4s ease-in-out infinite;
-  animation-delay: 0.4s;
+  animation: vd3-mark-outer-pulse calc(2.4s * var(--vd3-mark-fx-slowdown))
+    ease-in-out infinite;
+  animation-delay: calc(0.4s * var(--vd3-mark-fx-slowdown));
 }
 
 .logo-fx-tile[data-fx="stagger-pulse"] .vd3-mark-outer[data-i="2"] {
-  animation: vd3-mark-outer-pulse 2.4s ease-in-out infinite;
-  animation-delay: 0.8s;
+  animation: vd3-mark-outer-pulse calc(2.4s * var(--vd3-mark-fx-slowdown))
+    ease-in-out infinite;
+  animation-delay: calc(0.8s * var(--vd3-mark-fx-slowdown));
 }
 
 .logo-fx-tile[data-fx="morph-scale-swap"] .vd3-mark-spin {
@@ -595,11 +613,13 @@
 
 .logo-fx-tile[data-fx="chromatic-soft"] .vd3-mark {
   transform-origin: center;
-  animation: vd3-mark-chromatic 4s ease-in-out infinite;
+  animation: vd3-mark-chromatic calc(4s * var(--vd3-mark-fx-slowdown))
+    ease-in-out infinite;
 }
 
 .logo-fx-tile[data-fx="chromatic-soft"] .vd3-mark-spin {
-  animation: vd3-mark-spin calc(var(--vd3-mark-spin-duration) * 1.35) linear
+  animation: vd3-mark-chromatic-spin-burst
+    calc(var(--vd3-mark-spin-duration) * 1.35) cubic-bezier(0.45, 0, 0.2, 1)
     infinite;
 }
 
@@ -692,25 +712,27 @@
   stroke: var(--vd3-mark-inner-light, #2f9e44);
   stroke-dasharray: 1354;
   stroke-dashoffset: 1354;
-  animation: vd3-mark-stroke-draw-inner 4.2s ease-in-out infinite;
+  animation: vd3-mark-stroke-draw-inner var(--vd3-mark-stroke-draw-duration)
+    ease-in-out forwards;
 }
 
 .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-outer {
   stroke-dasharray: 629;
   stroke-dashoffset: 629;
-  animation: vd3-mark-stroke-draw-outer 4.2s ease-in-out infinite;
+  animation: vd3-mark-stroke-draw-outer var(--vd3-mark-stroke-draw-duration)
+    ease-in-out forwards;
 }
 
 .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-outer[data-i="1"] {
-  animation-delay: 0.35s;
+  animation-delay: calc(0.35s * var(--vd3-mark-fx-slowdown) * 1.25);
 }
 
 .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-outer[data-i="2"] {
-  animation-delay: 0.55s;
+  animation-delay: calc(0.55s * var(--vd3-mark-fx-slowdown) * 1.25);
 }
 
 .logo-fx-tile[data-fx="stroke-draw"] .vd3-mark-outer[data-i="0"] {
-  animation-delay: 0.75s;
+  animation-delay: calc(0.75s * var(--vd3-mark-fx-slowdown) * 1.25);
 }
 
 .logo-fx-tile[data-fx="fill-reveal"] .vd3-mark-spin {
