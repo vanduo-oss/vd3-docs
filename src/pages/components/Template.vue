@@ -67,9 +67,9 @@ const splitLayoutHtml = `<!-- Two-column split: sidebar + content -->
   <section id="template">
     <h5 class="demo-title"><i class="ph ph-layout"></i>Template</h5>
     <p class="vd-mb-8">
-      Common layout templates built from vd3 primitives. These are pure
-      markup patterns — no JavaScript, no special build step. Copy and adapt
-      them as starting points for your own pages.
+      Common layout templates built from vd3 primitives. These are pure markup
+      patterns — no JavaScript, no special build step. Copy and adapt them as
+      starting points for your own pages.
     </p>
 
     <!-- Page skeleton -->

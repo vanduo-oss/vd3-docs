@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, type CSSProperties } from "vue";
 import { RouterLink } from "vue-router";
-import {
-  DOCK_TINTS,
-  VdDock,
-  VdDockItem,
-  type DockTint,
-} from "@vanduo-oss/vd3";
+import { DOCK_TINTS, VdDock, VdDockItem, type DockTint } from "@vanduo-oss/vd3";
 import OolaUMark from "@/components/OolaUMark.vue";
 import {
   DOCS_DOCK_RADIUS,

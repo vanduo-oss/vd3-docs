@@ -154,10 +154,10 @@ const vue3Api: [string, string][] = [
   <section id="vd-charts">
     <h5 class="demo-title"><i class="ph ph-chart-donut"></i>Charts</h5>
     <p class="vd-mb-8">
-      <strong>vd3 Charts</strong> is a standalone SVG-first package for
-      common dashboard charts, installed separately from the framework. It
-      renders accessible SVG, reads vd3 theme tokens, and ships an optional
-      Vue 3 binding (<code>@vanduo-oss/vd3-cbun/charts</code>) used here.
+      <strong>vd3 Charts</strong> is a standalone SVG-first package for common
+      dashboard charts, installed separately from the framework. It renders
+      accessible SVG, reads vd3 theme tokens, and ships an optional Vue 3
+      binding (<code>@vanduo-oss/vd3-cbun/charts</code>) used here.
     </p>
 
     <!-- Mark clicks — new in @vanduo-oss/vd3-cbun 1.3.0 -->

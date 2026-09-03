@@ -88,8 +88,8 @@ import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';`;
     <p class="vd-mb-6">
       <strong>vd3</strong> is the Vue 3 design system from
       <code>vanduo-oss</code>, shipped as a small, standalone set of packages
-      under the <code>@vanduo-oss</code> scope. There is no separate token /
-      CSS / JS split to wire together — one component library, plus one optional
+      under the <code>@vanduo-oss</code> scope. There is no separate token / CSS
+      / JS split to wire together — one component library, plus one optional
       canvas bundle, documented by this site.
     </p>
 

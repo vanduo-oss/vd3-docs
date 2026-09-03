@@ -420,8 +420,8 @@ const apiRows: [string, string, string][] = [
           </div>
           <div class="vd-card-body">
             <p class="vd-mb-5">
-              vd3 ships <strong>5 curated font options</strong>, switchable
-              at runtime via the <code>data-font</code> attribute on
+              vd3 ships <strong>5 curated font options</strong>, switchable at
+              runtime via the <code>data-font</code> attribute on
               <code>&lt;html&gt;</code> (also exposed by FontSwitcher and the
               Theme Customizer). The preference persists in
               <code>localStorage.vanduo-font-preference</code>.

@@ -186,9 +186,7 @@ const apiRows: [string, string, string][] = [
                     </li>
                   </ul>
                 </div>
-                <template #copyright>
-                  © 2026 vd3 — built with vd3.
-                </template>
+                <template #copyright> © 2026 vd3 — built with vd3. </template>
               </VdFooter>
             </div>
           </div>

@@ -151,9 +151,7 @@ const attrs: [string, string, string][] = [
               The option lists (hue names, neutrals, radii, fonts) come from
               <code>@vanduo-oss/vd3</code> so they match its token catalog
               exactly — see
-              <RouterLink to="/guides/vd3-ecosystem"
-                >vd3 ecosystem</RouterLink
-              >.
+              <RouterLink to="/guides/vd3-ecosystem">vd3 ecosystem</RouterLink>.
             </p>
           </div>
         </div>

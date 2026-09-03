@@ -119,7 +119,12 @@ const links = [
   { id: "home", label: "Home", icon: "house", to: "/" },
   { id: "docs", label: "Docs", icon: "book-open-text", to: "/docs-landing" },
   { id: "cbun", label: "CBUN", icon: "package", to: "/cbun" },
-  { id: "showcase", label: "Showcase", icon: "projector-screen", to: "/showcase" },
+  {
+    id: "showcase",
+    label: "Showcase",
+    icon: "projector-screen",
+    to: "/showcase",
+  },
 ] as const;
 
 const isActive = (to: string): boolean => {

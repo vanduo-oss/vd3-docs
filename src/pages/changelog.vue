@@ -84,8 +84,7 @@ useAffix(root);
               <div class="vd-col-12">
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
                   <strong>Snippet Copy header</strong> — on phones, Copy stays
-                  on the same row as the language tabs. CSS-only; no API
-                  change.
+                  on the same row as the language tabs. CSS-only; no API change.
                 </p>
                 <div class="change-group">
                   <h5>Fixed</h5>
