@@ -5,16 +5,7 @@ onlyBuiltDependencies:
   - '@playwright/test'
 
 overrides:
-  # Security: force the transitive brace-expansion (pulled via minimatch under
-  # eslint's config-array/typescript-estree and @vue/test-utils > js-beautify)
-  # to a patched release — GHSA-3jxr-9vmj-r5cp (ReDoS via exponential brace
-  # expansion). Dev-only (never shipped in dist); keeps `pnpm audit` green.
-  # Pinned to 5.0.7 to match vd3-cbun's `^5.0.7` floor so both repos dedupe to
-  # the same brace-expansion.
   brace-expansion: 5.0.7
-  # Hygiene: bump eslint's transitive flatted (file-entry-cache > flat-cache >
-  # flatted, the lint on-disk cache) off the ≤3.4.1 line to the maintained
-  # 3.4.2 release. Scoped so only ≤3.4.1 is rewritten; dev-only.
   flatted@<=3.4.1: '>=3.4.2'
 
 patchedDependencies:

@@ -78,7 +78,7 @@ const cards: DocsCard[] = [
     highlights: [
       {
         icon: "ph-sparkle",
-        text: "vd3 1.7.0 — Global search palette & Oola dock",
+        text: "vd3 1.7.1 — snippet Copy stays on one mobile header row",
       },
       { icon: "ph-git-branch", text: "Release notes for @vanduo-oss/vd3" },
     ],
@@ -88,7 +88,7 @@ const cards: DocsCard[] = [
       { title: "Roadmap", icon: "ph-map-trifold" },
     ],
     tags: ["Releases", "Tokens", "Lifecycle"],
-    meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.7.0" },
+    meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.7.1" },
   },
 ];
 
