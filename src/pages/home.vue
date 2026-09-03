@@ -13,6 +13,8 @@ const HERO_MARK_EM = 6.25;
 interface Feature {
   icon: string;
   title: string;
+  /** One-line front-face summary so the grid reads without interaction. */
+  teaser: string;
   body: string;
   /** Where "Read the guide" on the revealed card face leads. */
   guide: { to: string; label: string };
@@ -22,13 +24,54 @@ const features: Feature[] = [
   {
     icon: "ph-package",
     title: "One Complete System",
-    body: "vd3 is a standalone Vue 3 design system — typed components, a composable for every interaction, and design tokens, all shipped in a single package. No extra runtime, no configuration ceremony.",
+    teaser: "63 components, 39 composables, one install.",
+    body: "Typed components, a composable behind every interaction, design tokens, and the full CSS layer — all in @vanduo-oss/vd3. Nothing to wire up first, no configuration ceremony.",
     guide: { to: "/guides/vd3-ecosystem", label: "The vd3 Ecosystem" },
   },
   {
+    icon: "ph-spiral",
+    title: "Fibonacci & Golden Ratio",
+    teaser: "Spacing, shadows, grids, and colour on one proportional spine.",
+    body: "Shadow offsets step 1/2, 2/3, 3/5, 8/13. Containers land on 987px and 1597px; golden rows split 1:1.618. The optional Fibonacci palette places every hue on the 137.5° golden angle.",
+    guide: { to: "/guides/fibonacci", label: "The Fibonacci Scale" },
+  },
+  {
+    icon: "ph-database",
+    title: "One Source of Truth",
+    teaser: "Change one token; the whole system re-skins.",
+    body: "Tokens ship as DTCG JSON and compile to the CSS variables every component reads — the same variables the vd3-cbun widgets read. Retune a value once and nothing drifts out of sync.",
+    guide: { to: "/guides/css-variables", label: "CSS Variables & Theming" },
+  },
+  {
+    icon: "ph-wheelchair",
+    title: "Accessible by Default",
+    teaser: "Focus traps, roving tabindex, reduced motion — already on.",
+    body: "ARIA roles, visible focus rings, keyboard paths through every menu, tree, and dialog, and prefers-reduced-motion honoured across roughly two dozen stylesheets. Mostly you just avoid undoing it.",
+    guide: { to: "/guides/accessibility", label: "Accessibility Essentials" },
+  },
+  {
+    icon: "ph-moon-stars",
+    title: "Dark Mode & Live Theming",
+    teaser: "Palette, primary, neutral, radius, font — all live.",
+    body: "Light, dark, and system themes driven by data-* attributes on the root element, with a drop-in switcher and a live customizer. Preferences persist, and every component re-skins in the same frame.",
+    guide: { to: "/guides/theme-customizer", label: "Theme Customizer" },
+  },
+  {
     icon: "ph-atom",
-    title: "Built for Vue 3",
-    body: "Typed <script setup> components, a composable for every interaction, Pinia-free reactive stores, and static rendering via vite-ssg. It's tree-shakeable ESM, so you pull in only the pieces you actually use.",
+    title: "Vue 3 and Nothing Else",
+    teaser: "One peer dependency. Zero runtime dependencies.",
+    body: "Typed <script setup> components with no state library to install and no runtime to boot. The only peer is Vue 3.3+, dependencies is empty, and it's SSR-safe and tree-shakeable — you ship what you import.",
+    guide: {
+      to: "/guides/framework-integration",
+      label: "Installation & Integration",
+    },
+  },
+  {
+    icon: "ph-magic-wand",
+    title: "Beyond Components",
+    teaser:
+      "Datepickers, tours, validation, drag and drop — no wrapper needed.",
+    body: "A whole layer runs on markup plus a composable: date and time pickers, spotlight tours, ten-rule form validation, drag and drop, a lightbox, and a swipeable carousel. Add an attribute, call the composable, done.",
     guide: {
       to: "/guides/runtime-architecture",
       label: "vd3 Architecture",
@@ -37,46 +80,15 @@ const features: Feature[] = [
   {
     icon: "ph-squares-four",
     title: "The vd3-cbun Bundle",
-    body: "Need more than the core kit? @vanduo-oss/vd3-cbun adds production-ready charts, an interactive flowchart canvas, hex grids, and a full music player — each a typed Vue 3 component that inherits the same tokens.",
+    teaser: "Charts, flowcharts, hex grids, a code editor, a draw canvas.",
+    body: "@vanduo-oss/vd3-cbun adds six chart types, an interactive flowchart editor, a canvas hex grid, a code editor, a drawing surface, and a music player. Same tokens, same zero-dependency rule — no d3, no Three.js.",
     guide: { to: "/cbun", label: "vd3 Components Bundle" },
-  },
-  {
-    icon: "ph-database",
-    title: "One Source of Truth",
-    body: "Design tokens ship with @vanduo-oss/vd3 as DTCG JSON and compile to the CSS variables every component reads. Change a token once and the whole system re-skins in lockstep — never drifting out of sync.",
-    guide: { to: "/guides/css-variables", label: "CSS Variables & Theming" },
-  },
-  {
-    icon: "ph-spiral",
-    title: "Fibonacci & Golden Ratio",
-    body: "Spacing, type scale, shadows, and grid layouts are derived from the Fibonacci sequence and the Golden Ratio, so layouts feel balanced without manual tweaking.",
-    guide: { to: "/guides/fibonacci", label: "The Fibonacci Scale" },
-  },
-  {
-    icon: "ph-wheelchair",
-    title: "Accessible by Default",
-    body: "ARIA roles, visible focus rings, semantic markup, keyboard-first interactions, and prefers-reduced-motion support ship with every component. Accessibility is on from the start — never a bolt-on.",
-    guide: { to: "/guides/accessibility", label: "Accessibility Essentials" },
-  },
-  {
-    icon: "ph-moon-stars",
-    title: "Dark Mode & Live Theming",
-    body: "Light, dark, and system-synced themes driven by CSS variables, with a drop-in switcher and a live customizer. Theme once at the token layer and every component re-skins instantly.",
-    guide: { to: "/guides/theme-customizer", label: "Theme Customizer" },
-  },
-  {
-    icon: "ph-shield-check",
-    title: "Conflict-Free",
-    body: "Every class is namespaced with vd- and the components scope cleanly, so vd3 coexists with Bootstrap, Tailwind, or legacy styles without cascade surprises.",
-    guide: {
-      to: "/guides/framework-integration",
-      label: "Installation & Integration",
-    },
   },
   {
     icon: "ph-code",
     title: "Docs Built for Copy-Paste",
-    body: "Every component and composable comes with a live demo, a typed API table, and copy-paste-ready snippets — written to read like the platform itself, so you can lift examples straight into your app.",
+    teaser: "Live demo, typed API table, snippet — on every page.",
+    body: "Ninety-plus reference pages and fifteen guides, each with a running demo, a typed prop table, and a snippet written to be lifted straight into your app.",
     guide: { to: "/guides/getting-started", label: "Getting Started" },
   },
 ];
@@ -255,9 +267,8 @@ const swatches = [
           Features
         </h3>
         <p class="vd-text-center vd-text-muted vd-mb-8">
-          A standalone Vue 3 design system — components, composables, and tokens
-          in one package, with the vd3-cbun bundle for charts, flowcharts, and
-          more. Tap a card to dig in.
+          Everything below ships in one package and answers to one set of
+          tokens. Open a card for the detail.
         </p>
         <div class="vd-row philosophy-cards" style="align-items: stretch">
           <div
@@ -288,9 +299,10 @@ const swatches = [
                   aria-hidden="true"
                 ></i>
                 <h4 class="feature-morph-title">{{ feature.title }}</h4>
-                <span class="feature-morph-hint vd-text-muted"
-                  >Tap to learn more</span
-                >
+                <p class="feature-morph-teaser">{{ feature.teaser }}</p>
+                <span class="feature-morph-hint vd-text-muted">
+                  <i class="ph ph-caret-down" aria-hidden="true"></i> Details
+                </span>
               </span>
               <span class="vd-morph-content feature-morph-face vd-morph-next">
                 <h4 class="feature-morph-title">{{ feature.title }}</h4>
@@ -446,8 +458,8 @@ const swatches = [
         <p class="open-color-subtitle vd-text-muted vd-mb-8">
           vd3 ships with <strong>Open Color</strong> (MIT) as its default
           palette — the friendly, battle-tested scale you already know. Prefer
-          color that shares the golden-angle DNA of vd3's spacing and grid?
-          The <strong>Fibonacci</strong> palette is one toggle away.
+          color that shares the golden-angle DNA of vd3's spacing and grid? The
+          <strong>Fibonacci</strong> palette is one toggle away.
         </p>
         <div class="vd-row">
           <div class="vd-col-12">
