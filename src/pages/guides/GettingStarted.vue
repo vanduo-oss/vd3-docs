@@ -39,7 +39,7 @@ const scaffoldShell = `pnpm create vite my-app --template vue-ts
 cd my-app
 pnpm add @vanduo-oss/vd3`;
 
-const mainJs = `// main.ts — register Vanduo and its styles
+const mainJs = `// main.ts — register vd3 and its styles
 import { createApp } from 'vue';
 import { VanduoVue } from '@vanduo-oss/vd3';
 import '@vanduo-oss/vd3/css';
@@ -53,7 +53,7 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
 
 <template>
   <VdCard>
-    <h1>Build fast with Vanduo</h1>
+    <h1>Build fast with vd3</h1>
     <p class="vd-text-lg vd-text-muted">First-class Vue 3 components.</p>
     <VdButton variant="primary" size="lg">Get started</VdButton>
   </VdCard>
@@ -67,7 +67,7 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      A five-minute path to a Vanduo-styled page with <strong>Vue 3</strong> —
+      A five-minute path to a vd3-styled page with <strong>Vue 3</strong> —
       Vite, one CSS import, the <code>VanduoVue</code> plugin, and a named
       <code>VdCard</code> / <code>VdButton</code>. For plugin options, Nuxt, and
       the canvas bundle, use
@@ -96,7 +96,7 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
         <div class="vd-card demo-card">
           <div class="vd-card-header">
             <h6>
-              <i class="ph ph-number-circle-two"></i> Register Vanduo &amp; its
+              <i class="ph ph-number-circle-two"></i> Register vd3 &amp; its
               styles
             </h6>
           </div>
@@ -137,7 +137,7 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
               <code>@vanduo-oss/vd3</code>:
             </p>
             <VdCard class="vd-mb-4">
-              <h1>Build fast with Vanduo</h1>
+              <h1>Build fast with vd3</h1>
               <p class="vd-text-lg vd-text-muted">
                 First-class Vue 3 components.
               </p>

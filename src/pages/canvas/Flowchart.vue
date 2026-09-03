@@ -437,7 +437,7 @@ const methods: [string, string][] = [
   <section id="vd-flowchart">
     <h5 class="demo-title"><i class="ph ph-flow-arrow"></i>Flowchart</h5>
     <p class="vd-mb-8">
-      <strong>Vanduo Flowchart</strong> is a standalone SVG flowchart editor
+      <strong>vd3 Flowchart</strong> is a standalone SVG flowchart editor
       from <code>@vanduo-oss/vd3-cbun/flowchart</code>. Drag from the palette,
       connect ports, edit text inline, auto-arrange layouts, and export/import
       JSON. The demo below loads a radial mind map with branches and sub-topics.

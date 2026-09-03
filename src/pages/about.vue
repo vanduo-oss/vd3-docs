@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// Static content page — a plain-language overview of the vd3 line of Vanduo UI.
+// Static content page — a plain-language overview of vd3 UI.
 import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
 </script>
 
@@ -40,7 +40,7 @@ import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
           <h3>What it is</h3>
           <p>
             vd3 UI is the standalone Vue&nbsp;3 design system and component
-            library of Vanduo. It ships everything in a single package — design
+            library from <code>vanduo-oss</code>. It ships everything in a single package — design
             tokens, a full CSS layer, and typed
             <code>&lt;Vd*&gt;</code> components with matching
             <code>useX</code> composables. Its only dependency is Vue itself.

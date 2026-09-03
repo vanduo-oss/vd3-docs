@@ -53,7 +53,7 @@ export const createApp = ViteSSG(
     // window.Vanduo* IIFE runtime to bootstrap, so there is nothing to load here.
 
     // Page <title> is managed per route by @unhead in App.vue (so it stays in
-    // sync with the SSG-baked title and the "— Vanduo" suffix).
+    // sync with the SSG-baked title and the "— vd3" suffix).
 
     if (import.meta.env.SSR && initialState) {
       initialState.pinia = {};

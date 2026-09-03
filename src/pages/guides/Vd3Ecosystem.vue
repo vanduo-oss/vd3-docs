@@ -80,16 +80,17 @@ import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';`;
 </script>
 
 <template>
-  <section id="vanduo-ecosystem">
+  <section id="vd3-ecosystem">
     <h5 class="demo-title">
       <i class="ph ph-planet"></i>vd3 ecosystem
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      <strong>vd3</strong> is the Vue-3-only line of Vanduo, shipped as a small,
-      standalone set of packages under the <code>@vanduo-oss</code> scope. There
-      is no separate token / CSS / JS split to wire together — one component
-      library, plus one optional canvas bundle, documented by this site.
+      <strong>vd3</strong> is the Vue 3 design system from
+      <code>vanduo-oss</code>, shipped as a small, standalone set of packages
+      under the <code>@vanduo-oss</code> scope. There is no separate token /
+      CSS / JS split to wire together — one component library, plus one optional
+      canvas bundle, documented by this site.
     </p>
 
     <!-- The three repos -->

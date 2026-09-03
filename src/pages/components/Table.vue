@@ -236,7 +236,7 @@ const hoverHtml = `<!-- Hover Table -->
 const apiRows: [string, string, string][] = [
   [
     ".vd-table",
-    "Base component class required for all Vanduo tables.",
+    "Base component class required for all vd3 tables.",
     "Component",
   ],
   [

@@ -298,7 +298,7 @@ const tokenRows: [string, string, string][] = [
                 rel="noopener noreferrer"
                 >“Interactive Liquid Gradient using Three.js”</a
               >
-              by Cameron Knight. Vanduo ships a vanilla WebGL reimplementation
+              by Cameron Knight. vd3 ships a vanilla WebGL reimplementation
               bound to theme tokens and <code>--vd-liquid-*</code> knobs — no
               Three.js CDN.
             </p>

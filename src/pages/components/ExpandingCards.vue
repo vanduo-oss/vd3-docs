@@ -230,9 +230,9 @@ const apiRows: [string, string][] = [
                 rel="noopener noreferrer"
                 >“Expanding flex cards”</a
               >
-              by Zed Dash. Vanduo adds prefixed class names, documentation,
+              by Zed Dash. vd3 adds prefixed class names, documentation,
               optional keyboard navigation, and reduced-motion handling. Photo
-              strip images are Vanduo demo assets.
+              strip images are vd3 demo assets.
             </p>
           </div>
         </div>

@@ -95,7 +95,7 @@ export const ROUTES: readonly Route[] = [
   { path: '/guides/production', label: 'guides-production' },
   { path: '/guides/troubleshooting', label: 'guides-troubleshooting' },
   { path: '/guides/utilities-cheat-sheet', label: 'guides-utilities-cheat-sheet' },
-  { path: '/guides/vanduo-ecosystem', label: 'guides-vanduo-ecosystem' },
+  { path: '/guides/vd3-ecosystem', label: 'guides-vd3-ecosystem' },
   { path: '/guides/hybrid-search', label: 'guides-hybrid-search' },
   { path: '/effects/glass', label: 'effects-glass' },
   { path: '/effects/surfaces', label: 'effects-surfaces' },

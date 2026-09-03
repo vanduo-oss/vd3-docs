@@ -252,7 +252,7 @@ const cssVars = `:root {
       JavaScript/TypeScript, HTML, CSS, JSON, Markdown, Shell, and Python, with
       a line-number gutter, auto-indent + bracket/quote auto-close, read-only
       mode, a copy button, a placeholder, and a large-input performance guard.
-      It adapts to the active Vanduo theme via <code>--vd-*</code> tokens.
+      It adapts to the active vd3 theme via <code>--vd-*</code> tokens.
     </p>
 
     <!-- Interactive playground -->

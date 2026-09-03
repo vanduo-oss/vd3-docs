@@ -2776,7 +2776,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 /*
-         * vd-hex long-form cards: Vanduo utilities vd-mb-3 / vd-mb-4 use --vd-spacing-3 / --vd-spacing-4
+         * vd-hex long-form cards: vd3 utilities vd-mb-3 / vd-mb-4 use --vd-spacing-3 / --vd-spacing-4
          * (~3px / ~5px), which reads as “no gap” under headings. Use normal document rhythm here only.
          */
 #labs #vd-hex-demo .vd-card-body h4.vd-mb-4 {
@@ -3047,7 +3047,7 @@ a:hover .vd-card-interactive.vd-card-glow {
   }
 }
 
-/* Vanduo mark inside framework .vd-dynamic-loader (SPA + lazy-load placeholders) */
+/* vd3 mark inside framework .vd-dynamic-loader (SPA + lazy-load placeholders) */
 @keyframes vd-dynamic-loader-logo-spin {
   0% {
     transform: rotate(0deg);

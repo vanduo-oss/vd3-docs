@@ -16,7 +16,7 @@ import { VdNavbar } from "@vanduo-oss/vd3";
 <template>
   <VdNavbar position="sticky">
     <template #brand>
-      <a href="/">Vanduo</a>
+      <a href="/">vd3</a>
     </template>
 
     <!-- Default slot: the collapsible menu content -->
@@ -293,7 +293,7 @@ import { VdNavbar } from "@vanduo-oss/vd3";
             >
               <VdNavbar :dark="dark">
                 <template #brand>
-                  <a href="#" @click.prevent>Vanduo</a>
+                  <a href="#" @click.prevent>vd3</a>
                 </template>
                 <ul class="vd-navbar-nav">
                   <li>

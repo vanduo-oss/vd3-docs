@@ -41,7 +41,7 @@ export const nav: NavTree = {
       title: "Home",
       route: "/",
       icon: "house",
-      keywords: ["home", "vanduo", "ui"],
+      keywords: ["home", "vd3", "ui"],
     },
     {
       id: "docs-landing",
@@ -91,7 +91,7 @@ export const nav: NavTree = {
       title: "About",
       route: "/about",
       icon: "info",
-      keywords: ["about", "vanduo", "vd3", "overview"],
+      keywords: ["about", "vd3", "overview"],
     },
     {
       id: "changelog",
@@ -749,12 +749,12 @@ export const nav: NavTree = {
               file: "guides/utilities-cheat-sheet.html",
             },
             {
-              id: "vanduo-ecosystem",
+              id: "vd3-ecosystem",
               title: "vd3 ecosystem",
-              route: "/guides/vanduo-ecosystem",
+              route: "/guides/vd3-ecosystem",
               icon: "globe",
-              keywords: ["ecosystem", "tools", "projects"],
-              file: "guides/vanduo-ecosystem.html",
+              keywords: ["ecosystem", "tools", "projects", "vd3"],
+              file: "guides/vd3-ecosystem.html",
             },
             {
               id: "guide-hybrid-search",

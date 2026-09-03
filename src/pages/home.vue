@@ -47,7 +47,7 @@ const features: Feature[] = [
     icon: "ph-package",
     title: "One Complete System",
     body: "vd3 is a standalone Vue 3 design system — typed components, a composable for every interaction, and design tokens, all shipped in a single package. No extra runtime, no configuration ceremony.",
-    guide: { to: "/guides/vanduo-ecosystem", label: "The Vanduo Ecosystem" },
+    guide: { to: "/guides/vd3-ecosystem", label: "The vd3 Ecosystem" },
   },
   {
     icon: "ph-atom",
@@ -474,9 +474,9 @@ const swatches = [
           Open Color Palette
         </h3>
         <p class="open-color-subtitle vd-text-muted vd-mb-8">
-          Vanduo ships with <strong>Open Color</strong> (MIT) as its default
+          vd3 ships with <strong>Open Color</strong> (MIT) as its default
           palette — the friendly, battle-tested scale you already know. Prefer
-          color that shares the golden-angle DNA of Vanduo's spacing and grid?
+          color that shares the golden-angle DNA of vd3's spacing and grid?
           The <strong>Fibonacci</strong> palette is one toggle away.
         </p>
         <div class="vd-row">

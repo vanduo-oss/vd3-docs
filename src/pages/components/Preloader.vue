@@ -168,7 +168,7 @@ const vue3Api: [string, string][] = [
           <div class="vd-card-header"><h6>Copy-paste patterns</h6></div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-3">
-              These snippets rely only on classes from the Vanduo bundle (<code
+              These snippets rely only on classes from the vd3 bundle (<code
                 >vanduo.css</code
               >
               imports <code>spinner.css</code>). No separate "required CSS"

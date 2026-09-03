@@ -154,9 +154,9 @@ const vue3Api: [string, string][] = [
   <section id="vd-charts">
     <h5 class="demo-title"><i class="ph ph-chart-donut"></i>Charts</h5>
     <p class="vd-mb-8">
-      <strong>Vanduo Charts</strong> is a standalone SVG-first package for
+      <strong>vd3 Charts</strong> is a standalone SVG-first package for
       common dashboard charts, installed separately from the framework. It
-      renders accessible SVG, reads Vanduo theme tokens, and ships an optional
+      renders accessible SVG, reads vd3 theme tokens, and ships an optional
       Vue 3 binding (<code>@vanduo-oss/vd3-cbun/charts</code>) used here.
     </p>
 
@@ -396,7 +396,7 @@ const vue3Api: [string, string][] = [
             There is no global object or init step.
           </li>
           <li>
-            Charts read Vanduo theme tokens, so they follow the active theme
+            Charts read vd3 theme tokens, so they follow the active theme
             automatically.
           </li>
         </ul>

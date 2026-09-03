@@ -47,13 +47,13 @@ const darkCss = `/* Flipping data-theme (or useThemePreference().setTheme) is en
   --vd-color-primary: #6366f1; /* optional brand override */
 }`;
 
-// useThemeBridge — sync an app-owned light/dark toggle onto Vanduo.
+// useThemeBridge — sync an app-owned light/dark toggle onto vd3.
 const bridgeJs = `import { computed } from 'vue';
 import { useThemeBridge } from '@vanduo-oss/vd3';
 import { useColorMode } from '@nuxtjs/color-mode'; // any owner of light/dark
 
-// Vanduo keys dark mode off [data-theme] on <html>. When another system owns
-// the toggle, hand it that system's mode ref and Vanduo follows along:
+// vd3 keys dark mode off [data-theme] on <html>. When another system owns
+// the toggle, hand it that system's mode ref and vd3 follows along:
 const colorMode = useColorMode();
 useThemeBridge(computed(() => colorMode.preference));
 
@@ -80,7 +80,7 @@ const tiers: [string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      Every color, space, radius, and font in Vanduo is a CSS custom property
+      Every color, space, radius, and font in vd3 is a CSS custom property
       (<code>--vd-*</code>). Override them in your own stylesheet and the whole
       system updates — no recompile, no JavaScript. This token layer ships with
       <code>@vanduo-oss/vd3</code>.
@@ -176,7 +176,7 @@ const tiers: [string, string][] = [
           Already have a light/dark toggle (e.g.
           <code>@nuxtjs/color-mode</code>, a Pinia store, or your own ref)? The
           <code>useThemeBridge</code> composable from
-          <code>@vanduo-oss/vd3</code> keeps Vanduo in sync with it instead of
+          <code>@vanduo-oss/vd3</code> keeps vd3 in sync with it instead of
           adding a second source of truth.
         </p>
         <DocCodeSnippet :js="bridgeJs" :default-open="true" />

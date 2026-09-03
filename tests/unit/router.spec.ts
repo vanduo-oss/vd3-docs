@@ -6,8 +6,9 @@ describe('router', () => {
   it('buildRoutes emits one route per page plus one per section', () => {
     const routes = buildRoutes();
     const sectionCount = flattenNav(nav).length;
-    // +3: /quick-start redirect, /components/icon legacy redirect, not-found
-    expect(routes.length).toBe(nav.pages.length + sectionCount + 3);
+    // +4: /quick-start redirect, /guides/vanduo-ecosystem legacy redirect,
+    // /components/icon legacy redirect, not-found
+    expect(routes.length).toBe(nav.pages.length + sectionCount + 4);
   });
 
   it('every route has a meta.title', () => {

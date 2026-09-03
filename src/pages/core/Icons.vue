@@ -104,7 +104,7 @@ const vue3Api: [string, string][] = [
   <section id="icons" ref="root">
     <h5 class="demo-title"><i class="ph ph-images"></i>Icons</h5>
     <p class="vd-mb-8">
-      Vanduo includes
+      vd3 includes
       <a href="https://phosphoricons.com" target="_blank" rel="noopener"
         ><strong>Phosphor Icons</strong></a
       >

@@ -29,7 +29,7 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
 
 <template>
   <VdCard>
-    <h1>Build fast with Vanduo</h1>
+    <h1>Build fast with vd3</h1>
     <p class="vd-text-lg vd-text-muted">First-class Vue 3 components.</p>
     <VdButton variant="primary" size="lg">Get started</VdButton>
   </VdCard>

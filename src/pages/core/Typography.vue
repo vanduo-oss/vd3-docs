@@ -113,7 +113,7 @@ const leading = [
   },
 ];
 const leadingText =
-  "Vanduo keeps vertical rhythm tied to the golden ratio so dense headings and body copy feel balanced without hand-tuning every block.";
+  "vd3 keeps vertical rhythm tied to the golden ratio so dense headings and body copy feel balanced without hand-tuning every block.";
 
 const tracking = [
   { label: "tighter · −0.05em", ls: "var(--vd-letter-spacing-tighter)" },
@@ -369,7 +369,7 @@ const apiRows: [string, string, string][] = [
                 <span class="vd-text-sm vd-text-muted">{{ row.label }}</span
                 ><br />
                 <span class="vd-text-lg" :style="`letter-spacing: ${row.ls};`"
-                  >Vanduo</span
+                  >vd3</span
                 >
               </div>
             </div>
@@ -420,7 +420,7 @@ const apiRows: [string, string, string][] = [
           </div>
           <div class="vd-card-body">
             <p class="vd-mb-5">
-              Vanduo ships <strong>5 curated font options</strong>, switchable
+              vd3 ships <strong>5 curated font options</strong>, switchable
               at runtime via the <code>data-font</code> attribute on
               <code>&lt;html&gt;</code> (also exposed by FontSwitcher and the
               Theme Customizer). The preference persists in

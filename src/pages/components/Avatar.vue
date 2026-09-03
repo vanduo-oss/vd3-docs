@@ -26,7 +26,7 @@ const vue3Api: [string, string][] = [
 const apiRows: [string, string, string][] = [
   [
     ".vd-avatar",
-    "Base component class required for all Vanduo avatars.",
+    "Base component class required for all vd3 avatars.",
     "Component",
   ],
   [

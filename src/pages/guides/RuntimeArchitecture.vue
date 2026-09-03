@@ -222,7 +222,7 @@ theme.setTheme('dark');`;
           badge: 'Guide',
         },
         {
-          to: '/guides/vanduo-ecosystem',
+          to: '/guides/vd3-ecosystem',
           icon: 'ph-stack',
           title: 'vd3 ecosystem',
           desc: 'How vd3-docs, vd3, and vd3-cbun fit together.',

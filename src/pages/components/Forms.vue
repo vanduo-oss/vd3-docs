@@ -325,9 +325,9 @@ const classRef: [string, string, string][] = [
     <div class="vd-alert vd-alert-info vd-mb-6">
       <i class="ph ph-info"></i>
       <div>
-        Vanduo ships framework-wide defaults for native form controls. Use the
+        vd3 ships framework-wide defaults for native form controls. Use the
         documented <code>.vd-*</code> form classes for stable component markup,
-        and load app-specific overrides after Vanduo when embedding into an
+        and load app-specific overrides after vd3 when embedding into an
         existing design system. In Vue&nbsp;3, the
         <code>&lt;VdInput&gt;</code> component (below) wraps this markup with
         label / hint / error / prefix / suffix props.

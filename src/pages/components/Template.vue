@@ -46,7 +46,7 @@ const stackHtml = `<!-- Vertical stack with consistent spacing -->
 const heroHtml = `<!-- Hero: glass panel with a heading + CTA -->
 <section class="vd-hero vd-glass">
   <div class="vd-hero-content">
-    <h1>Vanduo UI</h1>
+    <h1>vd3 UI</h1>
     <p>Essential just like water is.</p>
     <a href="/docs" class="vd-btn vd-btn-primary vd-btn-lg">Get started</a>
   </div>
@@ -67,7 +67,7 @@ const splitLayoutHtml = `<!-- Two-column split: sidebar + content -->
   <section id="template">
     <h5 class="demo-title"><i class="ph ph-layout"></i>Template</h5>
     <p class="vd-mb-8">
-      Common layout templates built from Vanduo primitives. These are pure
+      Common layout templates built from vd3 primitives. These are pure
       markup patterns — no JavaScript, no special build step. Copy and adapt
       them as starting points for your own pages.
     </p>
@@ -118,7 +118,7 @@ const splitLayoutHtml = `<!-- Two-column split: sidebar + content -->
                 text-align: center;
               "
             >
-              <h1 style="margin-bottom: 0.5rem">Vanduo UI</h1>
+              <h1 style="margin-bottom: 0.5rem">vd3 UI</h1>
               <p style="margin-bottom: 1.5rem; color: var(--vd-text-muted)">
                 Essential just like water is.
               </p>

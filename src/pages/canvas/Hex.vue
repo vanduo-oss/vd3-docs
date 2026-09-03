@@ -498,9 +498,9 @@ const events: [string, string][] = [
   <section id="vd-hex">
     <h5 class="demo-title"><i class="ph ph-hexagon"></i>Hex Grid</h5>
     <p class="vd-mb-8">
-      <strong>Vanduo Hex Grid</strong> is a standalone, canvas-rendered axial
+      <strong>vd3 Hex Grid</strong> is a standalone, canvas-rendered axial
       hex grid, installed separately from the framework. Pan, zoom, select
-      hexes, and attach terrain or custom data. It reads Vanduo theme tokens,
+      hexes, and attach terrain or custom data. It reads vd3 theme tokens,
       ships a pure <code>@vanduo-oss/vd3-cbun/hex-grid/hex-math</code>
       subexport, and an optional Vue 3 binding
       (<code>@vanduo-oss/vd3-cbun/hex-grid</code>) used here.

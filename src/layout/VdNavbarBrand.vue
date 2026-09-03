@@ -5,7 +5,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  brand: "Vanduo",
+  brand: "vd3",
   href: "/",
 });
 </script>

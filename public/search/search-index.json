@@ -489,7 +489,7 @@
         "API Reference",
         "Component API ( 3)"
       ],
-      "bodyText": "Represent a user or entity with an image, initials, or icon across a range of sizes and shapes, and combine several into a stacked group.. .vd-avatar — Base component class required for all Vanduo avatars.. .vd-avatar-[size] — Size modifier class (e.g., -xs, -sm, -lg, -xl, -2xl). Defaults to medium if omitted.. .vd-avatar-status-[status] — Adds a status indicator badge (e.g., -online, -offline, -busy, -away).. .vd-avatar-group — Wrapper class for grouping multiple avatars together with overlapping margins.. :src / :alt — Image source and alt text.. :initials — Fallback initials shown when there is no image.. :size — xs | sm | md | lg | xl | 2xl (default md).. :variant — Initials background colour: primary | secondary | success | warning | error | info (default primary).. :shape — circle | rounded | square (default circle).. :status — online | offline | away | busy — renders a presence dot.",
+      "bodyText": "Represent a user or entity with an image, initials, or icon across a range of sizes and shapes, and combine several into a stacked group.. .vd-avatar — Base component class required for all vd3 avatars.. .vd-avatar-[size] — Size modifier class (e.g., -xs, -sm, -lg, -xl, -2xl). Defaults to medium if omitted.. .vd-avatar-status-[status] — Adds a status indicator badge (e.g., -online, -offline, -busy, -away).. .vd-avatar-group — Wrapper class for grouping multiple avatars together with overlapping margins.. :src / :alt — Image source and alt text.. :initials — Fallback initials shown when there is no image.. :size — xs | sm | md | lg | xl | 2xl (default md).. :variant — Initials background colour: primary | secondary | success | warning | error | info (default primary).. :shape — circle | rounded | square (default circle).. :status — online | offline | away | busy — renders a presence dot.",
       "classes": [
         ".vd-avatar",
         ".vd-avatar-[size]",
@@ -510,7 +510,7 @@
         },
         {
           "type": "class",
-          "text": ".vd-avatar — Base component class required for all Vanduo avatars.",
+          "text": ".vd-avatar — Base component class required for all vd3 avatars.",
           "heading": "API Reference"
         },
         {
@@ -1496,7 +1496,7 @@
         "Component API",
         "Notes"
       ],
-      "bodyText": "Vanduo Charts is a standalone SVG-first package for common dashboard charts, installed separately from the framework. It renders accessible SVG, reads Vanduo theme tokens, and ships an optional 3 binding ( @vanduo-oss/vd3-cbun/charts ) used here.. VdChart forwards clicks on marks as events — @bar-click , @point-click , and @slice-click — each carrying a ClickEvent { event, datum, index } . Click a bar:. No bar clicked yet.. Multi-series, value labels, per-point colour, reference-line annotations and pinned axis ranges — all opt-in, so default charts render unchanged.. type=\"bar\" — Category bars with band scale, axes, grid lines, tooltips, bar-click events.. type=\"line\" — Line path with optional points over category, number, or date-like x.. type=\"area\" — Filled area plus line path, sharing the cartesian infrastructure.. type=\"scatter\" — Circle marks over numeric, date-like, or categorical x.. type=\"donut\" — Arc slices, default inner-radius-ratio 0.62, center total, legend.. type=\"pie\" — Same polar renderer with inner-radius-ratio 0.. :type — 'bar' | 'line' | 'area' | 'scatter' | 'donut' | 'pie' (default 'bar').. :data — Array of row objects.. x / y — Cartesian accessors — key string or function.. label / value — Pie / donut accessors.. title / description — Rendered into SVG accessibility metadata.. :height — Container min-height in px (default 300).. :theme / :tooltip / :responsive — Theme overrides, custom/disabled tooltip, responsive resize.. :series — Multiple series — grouped bars, or one line/area path each (Series[]). New in 0.2.0.. :color — A color, a category-field name, or a per-datum (row) => color. New in 0.2.0.. :data-labels — true or { format, color } — draw value labels on each mark. New in 0.2.0.. :annotations — Reference lines: [{ y?, x?, label?, color?, dash? }]. New in 0.2.0.. :y-min / :y-max / :y-tick-count — Pin axis bounds and tick density (otherwise auto-scaled). New in 0.2.0.. :legend — true or { position } — shown by default for multi-series charts. New in 0.2.0.. @bar-click / @point-click / @slice-click — Mark-click events — each carries a ClickEvent { event, datum, index }. New in 1.3.0.",
+      "bodyText": "vd3 Charts is a standalone SVG-first package for common dashboard charts, installed separately from the framework. It renders accessible SVG, reads vd3 theme tokens, and ships an optional 3 binding ( @vanduo-oss/vd3-cbun/charts ) used here.. VdChart forwards clicks on marks as events — @bar-click , @point-click , and @slice-click — each carrying a ClickEvent { event, datum, index } . Click a bar:. No bar clicked yet.. Multi-series, value labels, per-point colour, reference-line annotations and pinned axis ranges — all opt-in, so default charts render unchanged.. type=\"bar\" — Category bars with band scale, axes, grid lines, tooltips, bar-click events.. type=\"line\" — Line path with optional points over category, number, or date-like x.. type=\"area\" — Filled area plus line path, sharing the cartesian infrastructure.. type=\"scatter\" — Circle marks over numeric, date-like, or categorical x.. type=\"donut\" — Arc slices, default inner-radius-ratio 0.62, center total, legend.. type=\"pie\" — Same polar renderer with inner-radius-ratio 0.. :type — 'bar' | 'line' | 'area' | 'scatter' | 'donut' | 'pie' (default 'bar').. :data — Array of row objects.. x / y — Cartesian accessors — key string or function.. label / value — Pie / donut accessors.. title / description — Rendered into SVG accessibility metadata.. :height — Container min-height in px (default 300).. :theme / :tooltip / :responsive — Theme overrides, custom/disabled tooltip, responsive resize.. :series — Multiple series — grouped bars, or one line/area path each (Series[]). New in 0.2.0.. :color — A color, a category-field name, or a per-datum (row) => color. New in 0.2.0.. :data-labels — true or { format, color } — draw value labels on each mark. New in 0.2.0.. :annotations — Reference lines: [{ y?, x?, label?, color?, dash? }]. New in 0.2.0.. :y-min / :y-max / :y-tick-count — Pin axis bounds and tick density (otherwise auto-scaled). New in 0.2.0.. :legend — true or { position } — shown by default for multi-series charts. New in 0.2.0.. @bar-click / @point-click / @slice-click — Mark-click events — each carries a ClickEvent { event, datum, index }. New in 1.3.0.",
       "classes": [
         ":type",
         ":data",
@@ -1512,7 +1512,7 @@
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Vanduo Charts is a standalone SVG-first package for common dashboard charts, installed separately from the framework. It renders accessible SVG, reads Vanduo theme tokens, and ships an optional 3 binding ( @vanduo-oss/vd3-cbun/charts ) used here.",
+          "text": "vd3 Charts is a standalone SVG-first package for common dashboard charts, installed separately from the framework. It renders accessible SVG, reads vd3 theme tokens, and ships an optional 3 binding ( @vanduo-oss/vd3-cbun/charts ) used here.",
           "heading": "Charts"
         },
         {
@@ -1654,7 +1654,7 @@
         "API Reference",
         "Component API ( 3)"
       ],
-      "bodyText": "Compact tokens for tags, filters, and selections, with contextual colors, optional icons, and a removable (dismissible) variant.. .vd-chip — Base component class required for all Vanduo chips and tags.. .vd-chip-[variant] — Solid color modifier on the unified status vocabulary (-primary, -secondary, -success, -warning, -danger, -info). -error is a retained alias for -danger.. .vd-chip-outline-[variant] — Outline color modifier featuring a transparent background with colored border.. .vd-chip-[size] — Size modifier class (e.g., -sm for small, -lg for large). Defaults to medium if omitted.. .vd-chip-dismissible — Modifier class that adjusts right padding to accommodate a close button.. .vd-chip-close — Component class for the 'X' close icon inside a dismissible chip.. :variant — primary | secondary | success | warning | danger | info (default \"primary\").. :size — sm | md | lg.. :outline — Transparent background with a coloured border.. :dismissible — Renders a close button that emits dismiss.. :clickable — Makes the chip emit click on activation.. :avatar — Image src rendered as a leading avatar.. default slot — Chip label.. @dismiss / @click — Emitted on close / click (when clickable).",
+      "bodyText": "Compact tokens for tags, filters, and selections, with contextual colors, optional icons, and a removable (dismissible) variant.. .vd-chip — Base component class required for all vd3 chips and tags.. .vd-chip-[variant] — Solid color modifier on the unified status vocabulary (-primary, -secondary, -success, -warning, -danger, -info). -error is a retained alias for -danger.. .vd-chip-outline-[variant] — Outline color modifier featuring a transparent background with colored border.. .vd-chip-[size] — Size modifier class (e.g., -sm for small, -lg for large). Defaults to medium if omitted.. .vd-chip-dismissible — Modifier class that adjusts right padding to accommodate a close button.. .vd-chip-close — Component class for the 'X' close icon inside a dismissible chip.. :variant — primary | secondary | success | warning | danger | info (default \"primary\").. :size — sm | md | lg.. :outline — Transparent background with a coloured border.. :dismissible — Renders a close button that emits dismiss.. :clickable — Makes the chip emit click on activation.. :avatar — Image src rendered as a leading avatar.. default slot — Chip label.. @dismiss / @click — Emitted on close / click (when clickable).",
       "classes": [
         ".vd-chip",
         ".vd-chip-[variant]",
@@ -1677,7 +1677,7 @@
         },
         {
           "type": "class",
-          "text": ".vd-chip — Base component class required for all Vanduo chips and tags.",
+          "text": ".vd-chip — Base component class required for all vd3 chips and tags.",
           "heading": "API Reference"
         },
         {
@@ -1786,7 +1786,7 @@
         "variables",
         "Accessibility"
       ],
-      "bodyText": "A lightweight, secure code editor built on the textarea-overlay model: a native <textarea> handles all editing (caret, selection, IME, undo/redo, clipboard, accessibility, mobile) while a first-party, ReDoS-safe tokenizer paints a syntax-highlight layer beneath it. No third-party editor and no runtime dependency beyond — and rendering is escaping-safe (no innerHTML ).. Ships in the components bundle at @vanduo-oss/vd3-cbun/code-editor . v1 highlights JavaScript/TypeScript, , , JSON, Markdown, Shell, and Python, with a line-number gutter, auto-indent + bracket/quote auto-close, read-only mode, a button, a placeholder, and a large-input performance guard. It adapts to the active Vanduo theme via --vd-* tokens.. Live v-model + reactive props — switch language and toggle features; the bound value updates as you type.. Bound value: 198 chars · 11 lines. A non-editable, syntax-highlighted viewer. The button still works.. An empty editor shows placeholder text until you type.. wrap soft-wraps long lines (the gutter and active-line highlight turn off while wrapping).. The subpath also re-exports the pure tokenizer helpers (no DOM) and the core class as VdCodeEditorCore .. v-model / modelValue — string. language — string. readOnly — boolean. lineNumbers — boolean. tabSize — number. wrap — boolean. autoClose — boolean. placeholder — string. maxLength — number. highlightActiveLine — boolean. spellcheck — boolean. ariaLabel — string. @update:modelValue — v-model — emits the new contents string.. @change — Contents changed; payload is the string value.. @focus / @blur — Native focus / blur events.. @ready — Emitted once with the framework-agnostic core instance.. getInstance() — The framework-agnostic core editor instance.. focus() / blur() — Move focus in / out of the editor.. getValue() / setValue(v) — Read / replace the contents.. getSelection() — { start, end, text } of the current selection.. setSelection(start, end?) — Set the selection range.. insertText(text) — Insert text at the caret (replacing any selection).. getContainer() — The root container element.",
+      "bodyText": "A lightweight, secure code editor built on the textarea-overlay model: a native <textarea> handles all editing (caret, selection, IME, undo/redo, clipboard, accessibility, mobile) while a first-party, ReDoS-safe tokenizer paints a syntax-highlight layer beneath it. No third-party editor and no runtime dependency beyond — and rendering is escaping-safe (no innerHTML ).. Ships in the components bundle at @vanduo-oss/vd3-cbun/code-editor . v1 highlights JavaScript/TypeScript, , , JSON, Markdown, Shell, and Python, with a line-number gutter, auto-indent + bracket/quote auto-close, read-only mode, a button, a placeholder, and a large-input performance guard. It adapts to the active vd3 theme via --vd-* tokens.. Live v-model + reactive props — switch language and toggle features; the bound value updates as you type.. Bound value: 198 chars · 11 lines. A non-editable, syntax-highlighted viewer. The button still works.. An empty editor shows placeholder text until you type.. wrap soft-wraps long lines (the gutter and active-line highlight turn off while wrapping).. The subpath also re-exports the pure tokenizer helpers (no DOM) and the core class as VdCodeEditorCore .. v-model / modelValue — string. language — string. readOnly — boolean. lineNumbers — boolean. tabSize — number. wrap — boolean. autoClose — boolean. placeholder — string. maxLength — number. highlightActiveLine — boolean. spellcheck — boolean. ariaLabel — string. @update:modelValue — v-model — emits the new contents string.. @change — Contents changed; payload is the string value.. @focus / @blur — Native focus / blur events.. @ready — Emitted once with the framework-agnostic core instance.. getInstance() — The framework-agnostic core editor instance.. focus() / blur() — Move focus in / out of the editor.. getValue() / setValue(v) — Read / replace the contents.. getSelection() — { start, end, text } of the current selection.. setSelection(start, end?) — Set the selection range.. insertText(text) — Insert text at the caret (replacing any selection).. getContainer() — The root container element.",
       "classes": [],
       "chunks": [
         {
@@ -1796,7 +1796,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Ships in the components bundle at @vanduo-oss/vd3-cbun/code-editor . v1 highlights JavaScript/TypeScript, , , JSON, Markdown, Shell, and Python, with a line-number gutter, auto-indent + bracket/quote auto-close, read-only mode, a button, a placeholder, and a large-input performance guard. It adapts to the active Vanduo theme via --vd-* tokens.",
+          "text": "Ships in the components bundle at @vanduo-oss/vd3-cbun/code-editor . v1 highlights JavaScript/TypeScript, , , JSON, Markdown, Shell, and Python, with a line-number gutter, auto-indent + bracket/quote auto-close, read-only mode, a button, a placeholder, and a large-input performance guard. It adapts to the active vd3 theme via --vd-* tokens.",
           "heading": "Code Editor"
         },
         {
@@ -2252,12 +2252,12 @@
         "Bridge an app-owned toggle 3",
         "Theming in action"
       ],
-      "bodyText": "Every color, space, radius, and font in Vanduo is a custom property ( --vd-* ). Override them in your own stylesheet and the whole system updates — no recompile, no JavaScript. This token layer ships with @vanduo-oss/vd3 .. Custom properties cascade, so you can re-theme one subtree:. Semantic tokens reference palette tokens; component tokens reference semantic ones. Override at the tier that matches your intent.. You rarely write this by hand — useThemePreference().setTheme('dark') or the theme customizer flips data-theme and the stylesheet remaps the tokens.. Already have a light/dark toggle (e.g. @nuxtjs/color-mode , a Pinia store, or your own ref)? The useThemeBridge composable from @vanduo-oss/vd3 keeps Vanduo in sync with it instead of adding a second source of truth.. Pass a Ref<'light' | 'dark' | 'system'> . The bridge re-syncs on mount and whenever the ref changes — useful for SSR / Nuxt apps where the host framework owns color mode.. Palette — --vd-blue-6, --vd-gray-0…9 — active scales (Open Color by default; --vd-oc-*/--vd-fib-* are the raw palette sources). Semantic — --vd-color-primary, --vd-bg-primary, --vd-text-primary, --vd-border-color. Component — --vd-btn-border-radius, --vd-card-bg — per-component knobs",
+      "bodyText": "Every color, space, radius, and font in vd3 is a custom property ( --vd-* ). Override them in your own stylesheet and the whole system updates — no recompile, no JavaScript. This token layer ships with @vanduo-oss/vd3 .. Custom properties cascade, so you can re-theme one subtree:. Semantic tokens reference palette tokens; component tokens reference semantic ones. Override at the tier that matches your intent.. You rarely write this by hand — useThemePreference().setTheme('dark') or the theme customizer flips data-theme and the stylesheet remaps the tokens.. Already have a light/dark toggle (e.g. @nuxtjs/color-mode , a Pinia store, or your own ref)? The useThemeBridge composable from @vanduo-oss/vd3 keeps vd3 in sync with it instead of adding a second source of truth.. Pass a Ref<'light' | 'dark' | 'system'> . The bridge re-syncs on mount and whenever the ref changes — useful for SSR / Nuxt apps where the host framework owns color mode.. Palette — --vd-blue-6, --vd-gray-0…9 — active scales (Open Color by default; --vd-oc-*/--vd-fib-* are the raw palette sources). Semantic — --vd-color-primary, --vd-bg-primary, --vd-text-primary, --vd-border-color. Component — --vd-btn-border-radius, --vd-card-bg — per-component knobs",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Every color, space, radius, and font in Vanduo is a custom property ( --vd-* ). Override them in your own stylesheet and the whole system updates — no recompile, no JavaScript. This token layer ships with @vanduo-oss/vd3 .",
+          "text": "Every color, space, radius, and font in vd3 is a custom property ( --vd-* ). Override them in your own stylesheet and the whole system updates — no recompile, no JavaScript. This token layer ships with @vanduo-oss/vd3 .",
           "heading": "variables & theming Guide"
         },
         {
@@ -2292,7 +2292,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Already have a light/dark toggle (e.g. @nuxtjs/color-mode , a Pinia store, or your own ref)? The useThemeBridge composable from @vanduo-oss/vd3 keeps Vanduo in sync with it instead of adding a second source of truth.",
+          "text": "Already have a light/dark toggle (e.g. @nuxtjs/color-mode , a Pinia store, or your own ref)? The useThemeBridge composable from @vanduo-oss/vd3 keeps vd3 in sync with it instead of adding a second source of truth.",
           "heading": "Bridge an app-owned toggle 3"
         },
         {
@@ -2908,12 +2908,12 @@
         "Brushes",
         "Exposed methods (template ref)"
       ],
-      "bodyText": "Vanduo Draw is a standalone SVG drawing tool from @vanduo-oss/vd3-cbun/draw . Its dependency-free brush engine turns freehand strokes into smooth, variable-width marks (pressure- and velocity-aware). Pick a brush (pen, pencil, marker, highlighter, calligraphy) and a color from the built-in palette, set size and opacity, and paint — or switch to the eraser, shapes, or sticky notes. Want room to think? Hit Full screen to sketch across the whole viewport ( Esc to come back). The chrome themes with the active --vd-* palette and light / dark mode; your marks keep the color you pick.. :data — Drawing document ({ shapes, viewport }); updates flow through load().. tool — Active tool — 'draw', 'eraser', 'select', 'hand', shapes… (default 'draw').. :readonly — Render as a non-editable viewer (no toolbar).. :gridSize / :snap — Background grid size; snap-to-edges (default on).. :history / :historyLimit — Toggle undo history and cap the snapshot count.. @change / @select / @viewport — Forwarded editor events (pan/zoom is not undoable).. @ready — Emitted once with the underlying VdDraw instance.. brush — Paint variable-width strokes with the active brush + color.. eraser — Drag to erase whole strokes / shapes you cross.. select / hand — Select, move, resize (select); pan the canvas (hand).. rectangle / ellipse / arrow — Secondary vector shapes in the current color.. text / sticky — Editable text and sticky notes.. pen — Crisp, pressure-tapered ink.. pencil — Thin, slightly textured, softer opacity.. marker — Thick, flat, semi-opaque.. highlighter — Wide, translucent, multiply blend (overlaps darken).. calligraphy — Fixed-angle nib — width follows stroke direction.. setColor / setBrush — Set the current color / brush preset for the next mark.. setBrushSize / setOpacity — Set the current brush size / opacity.. setGridSize / toggleGrid — Resize the grid cells / show + hide the grid.. undo / redo — Step through the whole-document history.. toSVG / toPNG — Export the drawing (self-contained SVG string / PNG data URL).. getInstance — The underlying VdDrawCore for imperative use.",
+      "bodyText": "vd3 Draw is a standalone SVG drawing tool from @vanduo-oss/vd3-cbun/draw . Its dependency-free brush engine turns freehand strokes into smooth, variable-width marks (pressure- and velocity-aware). Pick a brush (pen, pencil, marker, highlighter, calligraphy) and a color from the built-in palette, set size and opacity, and paint — or switch to the eraser, shapes, or sticky notes. Want room to think? Hit Full screen to sketch across the whole viewport ( Esc to come back). The chrome themes with the active --vd-* palette and light / dark mode; your marks keep the color you pick.. :data — Drawing document ({ shapes, viewport }); updates flow through load().. tool — Active tool — 'draw', 'eraser', 'select', 'hand', shapes… (default 'draw').. :readonly — Render as a non-editable viewer (no toolbar).. :gridSize / :snap — Background grid size; snap-to-edges (default on).. :history / :historyLimit — Toggle undo history and cap the snapshot count.. @change / @select / @viewport — Forwarded editor events (pan/zoom is not undoable).. @ready — Emitted once with the underlying VdDraw instance.. brush — Paint variable-width strokes with the active brush + color.. eraser — Drag to erase whole strokes / shapes you cross.. select / hand — Select, move, resize (select); pan the canvas (hand).. rectangle / ellipse / arrow — Secondary vector shapes in the current color.. text / sticky — Editable text and sticky notes.. pen — Crisp, pressure-tapered ink.. pencil — Thin, slightly textured, softer opacity.. marker — Thick, flat, semi-opaque.. highlighter — Wide, translucent, multiply blend (overlaps darken).. calligraphy — Fixed-angle nib — width follows stroke direction.. setColor / setBrush — Set the current color / brush preset for the next mark.. setBrushSize / setOpacity — Set the current brush size / opacity.. setGridSize / toggleGrid — Resize the grid cells / show + hide the grid.. undo / redo — Step through the whole-document history.. toSVG / toPNG — Export the drawing (self-contained SVG string / PNG data URL).. getInstance — The underlying VdDrawCore for imperative use.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Vanduo Draw is a standalone SVG drawing tool from @vanduo-oss/vd3-cbun/draw . Its dependency-free brush engine turns freehand strokes into smooth, variable-width marks (pressure- and velocity-aware). Pick a brush (pen, pencil, marker, highlighter, calligraphy) and a color from the built-in palette, set size and opacity, and paint — or switch to the eraser, shapes, or sticky notes. Want room to think? Hit Full screen to sketch across the whole viewport ( Esc to come back). The chrome themes with the active --vd-* palette and light / dark mode; your marks keep the color you pick.",
+          "text": "vd3 Draw is a standalone SVG drawing tool from @vanduo-oss/vd3-cbun/draw . Its dependency-free brush engine turns freehand strokes into smooth, variable-width marks (pressure- and velocity-aware). Pick a brush (pen, pencil, marker, highlighter, calligraphy) and a color from the built-in palette, set size and opacity, and paint — or switch to the eraser, shapes, or sticky notes. Want room to think? Hit Full screen to sketch across the whole viewport ( Esc to come back). The chrome themes with the active --vd-* palette and light / dark mode; your marks keep the color you pick.",
           "heading": "Draw"
         },
         {
@@ -3228,7 +3228,7 @@
         "API Reference",
         "Accessibility"
       ],
-      "bodyText": "A horizontal strip of panels that expand on click/focus — one stays wide while the others stay slim. Use ← → when a panel is focused. Great for featured galleries and showcases where you want one focal item at a time.. Uses a background image on each .vd-expanding-card via --vd-expanding-card-bg .. Set --vd-expanding-card-bg to a flat color (and --vd-expanding-card-bg-default so the icon circle matches).. Interaction and layout are adapted from the MIT-licensed CodePen “Expanding flex cards” by Zed Dash. Vanduo adds prefixed class names, documentation, optional keyboard navigation, and reduced-motion handling. Photo strip images are Vanduo demo assets.. .vd-expanding-cards — Container. Add data-vd-expanding-cards to enable it.. .vd-expanding-card — A panel. The active one expands; others slim down.. .vd-expanding-card.is-active — Sets the initially expanded card.. --vd-expanding-card-bg — Per-card background (url(...) or a color).. --vd-expanding-card-bg-default — Icon-circle background for solid-color cards.. .vd-expanding-card-label — Overlay holding the icon + title + subtitle.",
+      "bodyText": "A horizontal strip of panels that expand on click/focus — one stays wide while the others stay slim. Use ← → when a panel is focused. Great for featured galleries and showcases where you want one focal item at a time.. Uses a background image on each .vd-expanding-card via --vd-expanding-card-bg .. Set --vd-expanding-card-bg to a flat color (and --vd-expanding-card-bg-default so the icon circle matches).. Interaction and layout are adapted from the MIT-licensed CodePen “Expanding flex cards” by Zed Dash. vd3 adds prefixed class names, documentation, optional keyboard navigation, and reduced-motion handling. Photo strip images are vd3 demo assets.. .vd-expanding-cards — Container. Add data-vd-expanding-cards to enable it.. .vd-expanding-card — A panel. The active one expands; others slim down.. .vd-expanding-card.is-active — Sets the initially expanded card.. --vd-expanding-card-bg — Per-card background (url(...) or a color).. --vd-expanding-card-bg-default — Icon-circle background for solid-color cards.. .vd-expanding-card-label — Overlay holding the icon + title + subtitle.",
       "classes": [],
       "chunks": [
         {
@@ -3248,7 +3248,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Interaction and layout are adapted from the MIT-licensed CodePen “Expanding flex cards” by Zed Dash. Vanduo adds prefixed class names, documentation, optional keyboard navigation, and reduced-motion handling. Photo strip images are Vanduo demo assets.",
+          "text": "Interaction and layout are adapted from the MIT-licensed CodePen “Expanding flex cards” by Zed Dash. vd3 adds prefixed class names, documentation, optional keyboard navigation, and reduced-motion handling. Photo strip images are vd3 demo assets.",
           "heading": "Solid brand colors"
         },
         {
@@ -3307,12 +3307,12 @@
         "Why not a linear scale?",
         "See the scale in practice"
       ],
-      "bodyText": "Vanduo's spacing, type, and radius scales follow the Fibonacci sequence (1, 2, 3, 5, 8, 13, 21…) instead of a linear 4/8px grid. Because each step is the sum of the two before it, sizes relate to one another the way they do in nature — rhythm that feels balanced without manual tuning. It's a design philosophy baked into the tokens themselves, not any one component.. Each number is the sum of the two before it:. As the numbers grow, the ratio between neighbours approaches ≈ 1.618 — the golden ratio (φ) , the same proportion found in shells, sunflowers, and classical architecture. Our eyes read those proportions as balanced, which is why a φ-tuned scale feels right without fiddling.. Standard — equal columns. Balanced, but uniform — every section gets the same emphasis.. Fibonacci — 3 : 5 : 8. ~19% + ~31% + ~50%. Natural hierarchy — the eye flows from small to large.. Bar widths are a conceptual px demo of the sequence, not the rem values of --vd-space-fib-* .. Swap a single row class to get golden proportions — no custom . Width rules only apply to children with vd-col-fib-* :. 4-column (1 : 2 : 3 : 5). 3-column (3 : 5 : 8). A linear 4/8/12/16 scale gives every step the same visual jump, which flattens hierarchy. A Fibonacci scale grows proportionally, so small and large spaces stay distinct and the eye reads structure faster.. Want the proportions in layout form? The Golden ratio page has an interactive φ slider and grid demos.. vd-row-fib-3 — vd-col-fib-2 + vd-col-fib-3 + vd-col-fib-5. vd-row-fib-3-alt — vd-col-fib-3 + vd-col-fib-5 + vd-col-fib-8. vd-row-fib-4 — vd-col-fib-1 + vd-col-fib-2 + vd-col-fib-3 + vd-col-fib-5. 1, 2, 3 — Fine adjustments — borders, tight gaps. 5, 8 — Component padding, gaps between elements. 13, 21 — Section spacing, card padding. 34, 55, 89 — Page rhythm, hero spacing",
+      "bodyText": "vd3's spacing, type, and radius scales follow the Fibonacci sequence (1, 2, 3, 5, 8, 13, 21…) instead of a linear 4/8px grid. Because each step is the sum of the two before it, sizes relate to one another the way they do in nature — rhythm that feels balanced without manual tuning. It's a design philosophy baked into the tokens themselves, not any one component.. Each number is the sum of the two before it:. As the numbers grow, the ratio between neighbours approaches ≈ 1.618 — the golden ratio (φ) , the same proportion found in shells, sunflowers, and classical architecture. Our eyes read those proportions as balanced, which is why a φ-tuned scale feels right without fiddling.. Standard — equal columns. Balanced, but uniform — every section gets the same emphasis.. Fibonacci — 3 : 5 : 8. ~19% + ~31% + ~50%. Natural hierarchy — the eye flows from small to large.. Bar widths are a conceptual px demo of the sequence, not the rem values of --vd-space-fib-* .. Swap a single row class to get golden proportions — no custom . Width rules only apply to children with vd-col-fib-* :. 4-column (1 : 2 : 3 : 5). 3-column (3 : 5 : 8). A linear 4/8/12/16 scale gives every step the same visual jump, which flattens hierarchy. A Fibonacci scale grows proportionally, so small and large spaces stay distinct and the eye reads structure faster.. Want the proportions in layout form? The Golden ratio page has an interactive φ slider and grid demos.. vd-row-fib-3 — vd-col-fib-2 + vd-col-fib-3 + vd-col-fib-5. vd-row-fib-3-alt — vd-col-fib-3 + vd-col-fib-5 + vd-col-fib-8. vd-row-fib-4 — vd-col-fib-1 + vd-col-fib-2 + vd-col-fib-3 + vd-col-fib-5. 1, 2, 3 — Fine adjustments — borders, tight gaps. 5, 8 — Component padding, gaps between elements. 13, 21 — Section spacing, card padding. 34, 55, 89 — Page rhythm, hero spacing",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Vanduo's spacing, type, and radius scales follow the Fibonacci sequence (1, 2, 3, 5, 8, 13, 21…) instead of a linear 4/8px grid. Because each step is the sum of the two before it, sizes relate to one another the way they do in nature — rhythm that feels balanced without manual tuning. It's a design philosophy baked into the tokens themselves, not any one component.",
+          "text": "vd3's spacing, type, and radius scales follow the Fibonacci sequence (1, 2, 3, 5, 8, 13, 21…) instead of a linear 4/8px grid. Because each step is the sum of the two before it, sizes relate to one another the way they do in nature — rhythm that feels balanced without manual tuning. It's a design philosophy baked into the tokens themselves, not any one component.",
           "heading": "Fibonacci scale Guide"
         },
         {
@@ -3804,12 +3804,12 @@
         "Events",
         "Exposed methods (template ref)"
       ],
-      "bodyText": "Vanduo Flowchart is a standalone SVG flowchart editor from @vanduo-oss/vd3-cbun/flowchart . Drag from the palette, connect ports, edit text inline, auto-arrange layouts, and export/import JSON. The demo below loads a radial mind map with branches and sub-topics. The toolbar Arrange control is a single <select> with three layout modes — Tree , Radial , and Grid — and always shows the active mode (no placeholder row). Hit Full screen to work across the whole viewport ( Esc to come back). The chrome themes with the active --vd-flowchart-* tokens and the site light / dark mode.. :data — Flowchart document ({ nodes, edges, viewport? }); updates flow through the editor's load().. :readonly — Render as a non-editable viewer (hides palette and inspector).. :gridSize — Background grid size in px.. :preserveSelection — Keep the current selection across data-driven reloads when possible.. :autoFit — Fit the view to content once the editor reports a measurable size.. :history / :historyLimit — Toggle undo history and cap the snapshot count.. @change / @select / @viewport / @connect — Forwarded editor events (pan/zoom is not undoable).. @ready — Emitted once with the underlying VdFlowchart instance.. rounded-rect — Primary flow step. rect — Sharp process block. diamond — Decision. circle — Start or end state. textbox — Notes or descriptive payload. label — Free text annotation. junction — Fixed-size branch or merge point. change — Document mutated (add/move/edit). Resize completion fires with reason: 'node:resize'.. select — Selection changed; payload carries the selection snapshot.. viewport — Pan/zoom changed.. connect — A pointer-created edge connected two ports.. undo / redo — Step through the whole-document history.. layout(mode?) — Auto-arrange nodes — exactly three modes: 'tree', 'radial', or 'grid' (default 'tree'). The toolbar select mirrors the active mode.. getInstance() — The underlying VdFlowchartCore — fitView(), toJSON(), addNode(), etc.",
+      "bodyText": "vd3 Flowchart is a standalone SVG flowchart editor from @vanduo-oss/vd3-cbun/flowchart . Drag from the palette, connect ports, edit text inline, auto-arrange layouts, and export/import JSON. The demo below loads a radial mind map with branches and sub-topics. The toolbar Arrange control is a single <select> with three layout modes — Tree , Radial , and Grid — and always shows the active mode (no placeholder row). Hit Full screen to work across the whole viewport ( Esc to come back). The chrome themes with the active --vd-flowchart-* tokens and the site light / dark mode.. :data — Flowchart document ({ nodes, edges, viewport? }); updates flow through the editor's load().. :readonly — Render as a non-editable viewer (hides palette and inspector).. :gridSize — Background grid size in px.. :preserveSelection — Keep the current selection across data-driven reloads when possible.. :autoFit — Fit the view to content once the editor reports a measurable size.. :history / :historyLimit — Toggle undo history and cap the snapshot count.. @change / @select / @viewport / @connect — Forwarded editor events (pan/zoom is not undoable).. @ready — Emitted once with the underlying VdFlowchart instance.. rounded-rect — Primary flow step. rect — Sharp process block. diamond — Decision. circle — Start or end state. textbox — Notes or descriptive payload. label — Free text annotation. junction — Fixed-size branch or merge point. change — Document mutated (add/move/edit). Resize completion fires with reason: 'node:resize'.. select — Selection changed; payload carries the selection snapshot.. viewport — Pan/zoom changed.. connect — A pointer-created edge connected two ports.. undo / redo — Step through the whole-document history.. layout(mode?) — Auto-arrange nodes — exactly three modes: 'tree', 'radial', or 'grid' (default 'tree'). The toolbar select mirrors the active mode.. getInstance() — The underlying VdFlowchartCore — fitView(), toJSON(), addNode(), etc.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Vanduo Flowchart is a standalone SVG flowchart editor from @vanduo-oss/vd3-cbun/flowchart . Drag from the palette, connect ports, edit text inline, auto-arrange layouts, and export/import JSON. The demo below loads a radial mind map with branches and sub-topics. The toolbar Arrange control is a single <select> with three layout modes — Tree , Radial , and Grid — and always shows the active mode (no placeholder row). Hit Full screen to work across the whole viewport ( Esc to come back). The chrome themes with the active --vd-flowchart-* tokens and the site light / dark mode.",
+          "text": "vd3 Flowchart is a standalone SVG flowchart editor from @vanduo-oss/vd3-cbun/flowchart . Drag from the palette, connect ports, edit text inline, auto-arrange layouts, and export/import JSON. The demo below loads a radial mind map with branches and sub-topics. The toolbar Arrange control is a single <select> with three layout modes — Tree , Radial , and Grid — and always shows the active mode (no placeholder row). Hit Full screen to work across the whole viewport ( Esc to come back). The chrome themes with the active --vd-flowchart-* tokens and the site light / dark mode.",
           "heading": "Flowchart"
         },
         {
@@ -4546,23 +4546,23 @@
       "headings": [
         "Getting started Guide",
         "Scaffold a project",
-        "Register Vanduo & its styles",
+        "Register vd3 & its styles",
         "Use the components",
-        "Build fast with Vanduo",
+        "Build fast with vd3",
         "Next steps"
       ],
-      "bodyText": "A five-minute path to a Vanduo-styled page with 3 — Vite, one import, the VanduoVue plugin, and a named VdCard / VdButton . For plugin options, Nuxt, and the canvas bundle, use Installation & Integration .. Add the VanduoVue plugin and the stylesheet once in your entry file. The plugin applies theme defaults and a storage prefix — it does not register components globally.. Import each Vd* you use from @vanduo-oss/vd3 :. First-class 3 components.. Optional: @vanduo-oss/vd3-cbun adds charts, code-editor, draw, flowchart, hex-grid, and music-player on their own subpaths. See Installation for the full list.",
+      "bodyText": "A five-minute path to a vd3-styled page with 3 — Vite, one import, the VanduoVue plugin, and a named VdCard / VdButton . For plugin options, Nuxt, and the canvas bundle, use Installation & Integration .. Add the VanduoVue plugin and the stylesheet once in your entry file. The plugin applies theme defaults and a storage prefix — it does not register components globally.. Import each Vd* you use from @vanduo-oss/vd3 :. First-class 3 components.. Optional: @vanduo-oss/vd3-cbun adds charts, code-editor, draw, flowchart, hex-grid, and music-player on their own subpaths. See Installation for the full list.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "A five-minute path to a Vanduo-styled page with 3 — Vite, one import, the VanduoVue plugin, and a named VdCard / VdButton . For plugin options, Nuxt, and the canvas bundle, use Installation & Integration .",
+          "text": "A five-minute path to a vd3-styled page with 3 — Vite, one import, the VanduoVue plugin, and a named VdCard / VdButton . For plugin options, Nuxt, and the canvas bundle, use Installation & Integration .",
           "heading": "Getting started Guide"
         },
         {
           "type": "paragraph",
           "text": "Add the VanduoVue plugin and the stylesheet once in your entry file. The plugin applies theme defaults and a storage prefix — it does not register components globally.",
-          "heading": "Register Vanduo & its styles"
+          "heading": "Register vd3 & its styles"
         },
         {
           "type": "paragraph",
@@ -4572,12 +4572,12 @@
         {
           "type": "paragraph",
           "text": "First-class 3 components.",
-          "heading": "Build fast with Vanduo"
+          "heading": "Build fast with vd3"
         },
         {
           "type": "paragraph",
           "text": "Optional: @vanduo-oss/vd3-cbun adds charts, code-editor, draw, flowchart, hex-grid, and music-player on their own subpaths. See Installation for the full list.",
-          "heading": "Build fast with Vanduo"
+          "heading": "Build fast with vd3"
         }
       ]
     },
@@ -5015,7 +5015,7 @@
         "Events",
         "Pure math ( /hex-math )"
       ],
-      "bodyText": "Vanduo Hex Grid is a standalone, canvas-rendered axial hex grid, installed separately from the framework. Pan, zoom, select hexes, and attach terrain or custom data. It reads Vanduo theme tokens, ships a pure @vanduo-oss/vd3-cbun/hex-grid/hex-math subexport, and an optional 3 binding ( @vanduo-oss/vd3-cbun/hex-grid ) used here.. Axial coordinate math and terrain tables, importable without a canvas or the DOM — handy for game logic, tests, or Node.. :size — Hexagon size in px (default 30).. :width / :height — Grid columns / rows in hexes (default 10).. :rotation — Grid rotation in radians (default 0).. @select / @zoom / @pan — Forwarded interaction events.. @ready — Emitted once with the underlying VdHexGrid instance.. getInstance() — Template ref expose — call imperative API methods.. select — A hex was clicked; payload is the hex (with q, r).. zoom — Zoom changed; payload { scale }.. pan — Pan reset; payload { x, y } (emitted on resetView).",
+      "bodyText": "vd3 Hex Grid is a standalone, canvas-rendered axial hex grid, installed separately from the framework. Pan, zoom, select hexes, and attach terrain or custom data. It reads vd3 theme tokens, ships a pure @vanduo-oss/vd3-cbun/hex-grid/hex-math subexport, and an optional 3 binding ( @vanduo-oss/vd3-cbun/hex-grid ) used here.. Axial coordinate math and terrain tables, importable without a canvas or the DOM — handy for game logic, tests, or Node.. :size — Hexagon size in px (default 30).. :width / :height — Grid columns / rows in hexes (default 10).. :rotation — Grid rotation in radians (default 0).. @select / @zoom / @pan — Forwarded interaction events.. @ready — Emitted once with the underlying VdHexGrid instance.. getInstance() — Template ref expose — call imperative API methods.. select — A hex was clicked; payload is the hex (with q, r).. zoom — Zoom changed; payload { scale }.. pan — Pan reset; payload { x, y } (emitted on resetView).",
       "classes": [
         ":size",
         ":width / :height",
@@ -5024,7 +5024,7 @@
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Vanduo Hex Grid is a standalone, canvas-rendered axial hex grid, installed separately from the framework. Pan, zoom, select hexes, and attach terrain or custom data. It reads Vanduo theme tokens, ships a pure @vanduo-oss/vd3-cbun/hex-grid/hex-math subexport, and an optional 3 binding ( @vanduo-oss/vd3-cbun/hex-grid ) used here.",
+          "text": "vd3 Hex Grid is a standalone, canvas-rendered axial hex grid, installed separately from the framework. Pan, zoom, select hexes, and attach terrain or custom data. It reads vd3 theme tokens, ships a pure @vanduo-oss/vd3-cbun/hex-grid/hex-math subexport, and an optional 3 binding ( @vanduo-oss/vd3-cbun/hex-grid ) used here.",
           "heading": "Hex Grid"
         },
         {
@@ -5569,7 +5569,7 @@
         "Customization tokens",
         "Accessibility"
       ],
-      "bodyText": "Interactive liquid atmosphere rendered with vanilla WebGL (no Three.js). Colors follow vd3 primary , neutral , and background tokens and update live with light/dark theme changes. Move the pointer over the demo to ripple the surface.. Use the site theme switcher to flip light/dark and primary — the gradient rebinds automatically. Drag the knobs to override --vd-liquid-* on this host.. Theme colors come from --vd-color-primary-rgb / --vd-color-primary , --vd-neutral-2/6/8 , and --vd-bg-primary , mixed differently for data-theme=\"light\" vs dark .. Inspired by the MIT-licensed CodePen “Interactive Liquid Gradient using Three.js” by Cameron Knight. Vanduo ships a vanilla WebGL reimplementation bound to theme tokens and --vd-liquid-* knobs — no Three.js CDN.. .vd-liquid-gradient — host. .vd-liquid-gradient-canvas — child. .vd-liquid-gradient-active — host. data-vd-liquid-active — host. .vd-liquid-gradient-fixed — host. .vd-liquid-gradient-fill — host. --vd-liquid-speed — 1.15. --vd-liquid-intensity — 1.35. --vd-liquid-grain — 0.05. --vd-liquid-distort — 0.48. --vd-liquid-gradient-size — 0.48. --vd-liquid-primary-weight — 0.85. --vd-liquid-neutral-weight — 1.15. --vd-liquid-alpha — 1",
+      "bodyText": "Interactive liquid atmosphere rendered with vanilla WebGL (no Three.js). Colors follow vd3 primary , neutral , and background tokens and update live with light/dark theme changes. Move the pointer over the demo to ripple the surface.. Use the site theme switcher to flip light/dark and primary — the gradient rebinds automatically. Drag the knobs to override --vd-liquid-* on this host.. Theme colors come from --vd-color-primary-rgb / --vd-color-primary , --vd-neutral-2/6/8 , and --vd-bg-primary , mixed differently for data-theme=\"light\" vs dark .. Inspired by the MIT-licensed CodePen “Interactive Liquid Gradient using Three.js” by Cameron Knight. vd3 ships a vanilla WebGL reimplementation bound to theme tokens and --vd-liquid-* knobs — no Three.js CDN.. .vd-liquid-gradient — host. .vd-liquid-gradient-canvas — child. .vd-liquid-gradient-active — host. data-vd-liquid-active — host. .vd-liquid-gradient-fixed — host. .vd-liquid-gradient-fill — host. --vd-liquid-speed — 1.15. --vd-liquid-intensity — 1.35. --vd-liquid-grain — 0.05. --vd-liquid-distort — 0.48. --vd-liquid-gradient-size — 0.48. --vd-liquid-primary-weight — 0.85. --vd-liquid-neutral-weight — 1.15. --vd-liquid-alpha — 1",
       "classes": [
         ".vd-liquid-gradient",
         ".vd-liquid-gradient-canvas",
@@ -5665,7 +5665,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Inspired by the MIT-licensed CodePen “Interactive Liquid Gradient using Three.js” by Cameron Knight. Vanduo ships a vanilla WebGL reimplementation bound to theme tokens and --vd-liquid-* knobs — no Three.js CDN.",
+          "text": "Inspired by the MIT-licensed CodePen “Interactive Liquid Gradient using Three.js” by Cameron Knight. vd3 ships a vanilla WebGL reimplementation bound to theme tokens and --vd-liquid-* knobs — no Three.js CDN.",
           "heading": "Accessibility"
         }
       ]
@@ -6448,7 +6448,7 @@
         "Variables",
         "Accessibility"
       ],
-      "bodyText": "A fully accessible HTML5 audio player component with transport controls, volume, optional shuffle and repeat modes, seek bar, playlist, glass surface, and a detachable floating mode (corner placement, pointer-drag reposition, minimizable). Zero external dependencies, powered by the native Audio API, and it automatically adapts to the active Vanduo theme.. Install the player separately from the core framework. All live demos below use a bundled sample playlist from Invent the Universe , with Pale Blue Dot as the default first track. Ships an optional 3 binding ( @vanduo-oss/vd3-cbun/music-player ) used here.. Default config — play/pause, prev/next, volume, track name.. Enable showProgress for a seek bar + elapsed/duration times.. Enable showPlaylist and showProgress for a fuller player. Shuffle and repeat are always on the control bar.. Minimal floating bar, no track name shown.. Standard layout with track name — use vd-music-player-sm or omit size classes.. Roomier padding and controls — vd-music-player-lg for featured placement.. Full-width bar with progress bar, repeat, shuffle, and playlist.. Add glass: true or the vd-music-player-glass class to any player size or layout. Uses the same frosted tokens as vd-glass in the core framework.. detachable: true , minimizable: true , draggable: false . Snap to a corner via floatingPosition or detach(el, position) .. draggable: true adds a drag handle when floating. Still supports minimize/expand. Free positioning overrides corner presets.. Drive the player through the exposed player instance.. All 10 player emits are captured here in real time.. A curated track set from Stellardrone , from the album Invent the Universe . Source: Bandcamp . Licensed under CC BY 4.0 . No changes were made to the bundled audio files.. :tracks — Playlist — [{ name, url }].. :options — Player options object (see Options below).. @play / @pause / @ended — Playback lifecycle.. @trackchange — Active track changed; detail { index, name, url }.. @volumechange / @repeatchange — Volume or repeat-mode changed.. @detach / @attach / @minimize / @expand — Floating-mode transitions.. @ready — Emitted once with the container element.. expose: player / container() — Imperative API + container accessor.. tracks — Array. volume — number. shuffle — boolean. repeat — string. showProgress — boolean. showPlaylist — boolean. autoAdvance — boolean. glass — boolean. detachable — boolean. floatingPosition — string. draggable — boolean. minimizable — boolean. startMinimized — boolean. persistPosition — boolean. persistKey — string. musicplayer:play — Playback started.. musicplayer:pause — Playback paused.. musicplayer:trackchange — Active track changed; detail { index, name, url }.. musicplayer:volumechange — Volume changed; detail { volume }.. musicplayer:repeatchange — Repeat mode changed; detail { repeat }.. musicplayer:ended — Fires when repeat is off and autoAdvance is false at track end.. musicplayer:detach — Player floated above the page.. musicplayer:attach — Player docked back into place.. musicplayer:minimize — Player collapsed to essential transport + volume.. musicplayer:expand — Player restored from minimized.",
+      "bodyText": "A fully accessible HTML5 audio player component with transport controls, volume, optional shuffle and repeat modes, seek bar, playlist, glass surface, and a detachable floating mode (corner placement, pointer-drag reposition, minimizable). Zero external dependencies, powered by the native Audio API, and it automatically adapts to the active vd3 theme.. Install the player separately from the core framework. All live demos below use a bundled sample playlist from Invent the Universe , with Pale Blue Dot as the default first track. Ships an optional 3 binding ( @vanduo-oss/vd3-cbun/music-player ) used here.. Default config — play/pause, prev/next, volume, track name.. Enable showProgress for a seek bar + elapsed/duration times.. Enable showPlaylist and showProgress for a fuller player. Shuffle and repeat are always on the control bar.. Minimal floating bar, no track name shown.. Standard layout with track name — use vd-music-player-sm or omit size classes.. Roomier padding and controls — vd-music-player-lg for featured placement.. Full-width bar with progress bar, repeat, shuffle, and playlist.. Add glass: true or the vd-music-player-glass class to any player size or layout. Uses the same frosted tokens as vd-glass in the core framework.. detachable: true , minimizable: true , draggable: false . Snap to a corner via floatingPosition or detach(el, position) .. draggable: true adds a drag handle when floating. Still supports minimize/expand. Free positioning overrides corner presets.. Drive the player through the exposed player instance.. All 10 player emits are captured here in real time.. A curated track set from Stellardrone , from the album Invent the Universe . Source: Bandcamp . Licensed under CC BY 4.0 . No changes were made to the bundled audio files.. :tracks — Playlist — [{ name, url }].. :options — Player options object (see Options below).. @play / @pause / @ended — Playback lifecycle.. @trackchange — Active track changed; detail { index, name, url }.. @volumechange / @repeatchange — Volume or repeat-mode changed.. @detach / @attach / @minimize / @expand — Floating-mode transitions.. @ready — Emitted once with the container element.. expose: player / container() — Imperative API + container accessor.. tracks — Array. volume — number. shuffle — boolean. repeat — string. showProgress — boolean. showPlaylist — boolean. autoAdvance — boolean. glass — boolean. detachable — boolean. floatingPosition — string. draggable — boolean. minimizable — boolean. startMinimized — boolean. persistPosition — boolean. persistKey — string. musicplayer:play — Playback started.. musicplayer:pause — Playback paused.. musicplayer:trackchange — Active track changed; detail { index, name, url }.. musicplayer:volumechange — Volume changed; detail { volume }.. musicplayer:repeatchange — Repeat mode changed; detail { repeat }.. musicplayer:ended — Fires when repeat is off and autoAdvance is false at track end.. musicplayer:detach — Player floated above the page.. musicplayer:attach — Player docked back into place.. musicplayer:minimize — Player collapsed to essential transport + volume.. musicplayer:expand — Player restored from minimized.",
       "classes": [
         ":tracks",
         ":options"
@@ -6456,7 +6456,7 @@
       "chunks": [
         {
           "type": "paragraph",
-          "text": "A fully accessible HTML5 audio player component with transport controls, volume, optional shuffle and repeat modes, seek bar, playlist, glass surface, and a detachable floating mode (corner placement, pointer-drag reposition, minimizable). Zero external dependencies, powered by the native Audio API, and it automatically adapts to the active Vanduo theme.",
+          "text": "A fully accessible HTML5 audio player component with transport controls, volume, optional shuffle and repeat modes, seek bar, playlist, glass surface, and a detachable floating mode (corner placement, pointer-drag reposition, minimizable). Zero external dependencies, powered by the native Audio API, and it automatically adapts to the active vd3 theme.",
           "heading": "Music Player"
         },
         {
@@ -6989,12 +6989,12 @@
         "See also",
         "Sticky"
       ],
-      "bodyText": "Catalog of Vanduo's navigation primitives — breadcrumbs, pagination, navbar, sidenav, and sticky. Each component has its own dedicated page for full API + demos; this page is a quick-reference index.. Hierarchical trail showing the current page within a section.. Static or JS-driven page navigation.. Top-of-page brand + links container with sticky/glass variants.. Vertical sidebar nav with active-section highlight.. Make any element stick to a viewport edge on scroll.. Add data-pagination on the list; set data-total-pages , data-current-page , and optional data-max-visible .. Scroll inside the frame. The bar pins to the top of this preview, not the page.. Lead-in so the bar has room to travel before it pins.. Further content keeps the frame scrollable. When this box is at its end, or the pointer is outside it, the page scrolls normally.. Use a framed overflow container for docs previews so sticky examples cannot attach to the viewport and yank the page.. Keep scrolling here to see the bar stay pinned to the frame while this moves underneath.. The dedicated Sticky page covers offsets, affix events, and variants in more depth.",
+      "bodyText": "Catalog of vd3's navigation primitives — breadcrumbs, pagination, navbar, sidenav, and sticky. Each component has its own dedicated page for full API + demos; this page is a quick-reference index.. Hierarchical trail showing the current page within a section.. Static or JS-driven page navigation.. Top-of-page brand + links container with sticky/glass variants.. Vertical sidebar nav with active-section highlight.. Make any element stick to a viewport edge on scroll.. Add data-pagination on the list; set data-total-pages , data-current-page , and optional data-max-visible .. Scroll inside the frame. The bar pins to the top of this preview, not the page.. Lead-in so the bar has room to travel before it pins.. Further content keeps the frame scrollable. When this box is at its end, or the pointer is outside it, the page scrolls normally.. Use a framed overflow container for docs previews so sticky examples cannot attach to the viewport and yank the page.. Keep scrolling here to see the bar stay pinned to the frame while this moves underneath.. The dedicated Sticky page covers offsets, affix events, and variants in more depth.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Catalog of Vanduo's navigation primitives — breadcrumbs, pagination, navbar, sidenav, and sticky. Each component has its own dedicated page for full API + demos; this page is a quick-reference index.",
+          "text": "Catalog of vd3's navigation primitives — breadcrumbs, pagination, navbar, sidenav, and sticky. Each component has its own dedicated page for full API + demos; this page is a quick-reference index.",
           "heading": "Navigation"
         },
         {
@@ -7772,7 +7772,7 @@
         "VdPreloader API ( 3)",
         "API reference"
       ],
-      "bodyText": "Patterns for showing progress during navigation, lazy-loaded sections, and async work. Spinner markup, modifiers, quad loader ( .vd-dynamic-loader* ), accessibility notes, and the full class reference live on Spinners . Determinate bars (sizes, stripes, indeterminate, stacked fills, API) are documented under Progress .. Use beside controls or inside buttons while work completes.. Spinners — sizes, colors, grow, dots, centered layouts →. Switch from indeterminate spinners to a bar once you know completion percentage.. Progress — variants, stripes, sizes, API →. Same structure as this documentation site's placeholders: semantic-colored spinners inside .vd-dynamic-loader . Staggered rotation comes from spinner. ( .vd-dynamic-loader-grid ); extra animation-delay on each cell is optional.. Quad loader markup & overlay variant →. Use .vd-dynamic-loader-card so the loader sits above skeleton placeholders with the built-in scrim (see Spinners ).. These snippets rely only on classes from the Vanduo bundle ( vanduo. imports spinner. ). No separate \"required \" block.. For scroll- or fetch-triggered placeholders in your own app, reach for the useLazyLoad composable — see the Lazy Loading guide.. Spinner and quad-loader classes are fully listed on Spinners . Progress bar classes and examples are on Progress .. :variant — primary | secondary | success | warning | error | info (default primary).. :size — sm | md | lg | xl (default md).. :theme — light | dark (default light).. :text — Optional caption below the loader.. .vd-spinner* , .vd-spinner-dots , .vd-spinner-grow , .vd-spinner-center — Spinners — demos, variables, accessibility. .vd-dynamic-loader , .vd-dynamic-loader-grid , .vd-dynamic-loader-text , .vd-dynamic-loader-card — Spinners (quad loader section). .vd-progress , .vd-progress-bar , modifiers — Progress. VdPreloader component — Drives modern .vd-progress-bar[data-progress] and legacy .progress-bar[data-progress] for compatibility.",
+      "bodyText": "Patterns for showing progress during navigation, lazy-loaded sections, and async work. Spinner markup, modifiers, quad loader ( .vd-dynamic-loader* ), accessibility notes, and the full class reference live on Spinners . Determinate bars (sizes, stripes, indeterminate, stacked fills, API) are documented under Progress .. Use beside controls or inside buttons while work completes.. Spinners — sizes, colors, grow, dots, centered layouts →. Switch from indeterminate spinners to a bar once you know completion percentage.. Progress — variants, stripes, sizes, API →. Same structure as this documentation site's placeholders: semantic-colored spinners inside .vd-dynamic-loader . Staggered rotation comes from spinner. ( .vd-dynamic-loader-grid ); extra animation-delay on each cell is optional.. Quad loader markup & overlay variant →. Use .vd-dynamic-loader-card so the loader sits above skeleton placeholders with the built-in scrim (see Spinners ).. These snippets rely only on classes from the vd3 bundle ( vanduo. imports spinner. ). No separate \"required \" block.. For scroll- or fetch-triggered placeholders in your own app, reach for the useLazyLoad composable — see the Lazy Loading guide.. Spinner and quad-loader classes are fully listed on Spinners . Progress bar classes and examples are on Progress .. :variant — primary | secondary | success | warning | error | info (default primary).. :size — sm | md | lg | xl (default md).. :theme — light | dark (default light).. :text — Optional caption below the loader.. .vd-spinner* , .vd-spinner-dots , .vd-spinner-grow , .vd-spinner-center — Spinners — demos, variables, accessibility. .vd-dynamic-loader , .vd-dynamic-loader-grid , .vd-dynamic-loader-text , .vd-dynamic-loader-card — Spinners (quad loader section). .vd-progress , .vd-progress-bar , modifiers — Progress. VdPreloader component — Drives modern .vd-progress-bar[data-progress] and legacy .progress-bar[data-progress] for compatibility.",
       "classes": [
         ":variant",
         ":size",
@@ -7824,7 +7824,7 @@
         },
         {
           "type": "paragraph",
-          "text": "These snippets rely only on classes from the Vanduo bundle ( vanduo. imports spinner. ). No separate \"required \" block.",
+          "text": "These snippets rely only on classes from the vd3 bundle ( vanduo. imports spinner. ). No separate \"required \" block.",
           "heading": "-paste patterns"
         },
         {
@@ -9212,7 +9212,7 @@
         "Spinners",
         "Border Spinner",
         "Dots & Growing Spinner",
-        "Quad Loader (Signature Vanduo Loader)",
+        "Quad Loader (Signature vd3 Loader)",
         "Variables",
         "API Reference",
         "Usage",
@@ -9220,7 +9220,7 @@
         "Component API ( 3)",
         "Accessibility"
       ],
-      "bodyText": "Canonical reference for Vanduo loading spinners: border spinner, dot bounce, growing pulse, sizes and color modifiers, plus the signature quad-grid loader ( .vd-dynamic-loader* ). Styles ship in framework/ /components/spinner. , imported by the main vanduo. bundle — only; no extra layout is required. For loading UX patterns (progress handoff, placeholders), see Preloader .. Centering helper. The grid applies staggered rotation via .vd-dynamic-loader-grid (nth-child delays in ). Optional inline animation-delay overrides are only needed if you want custom rhythm.. Overlay on a skeleton card. --vd-spinner-size — 2rem. --vd-spinner-border-width — 3px. --vd-spinner-color — var(--vd-color-primary). --vd-spinner-speed — 0.65s. .vd-spinner — Border spinner — a rotating circular border. Default size 2rem.. .vd-spinner-xs — 1rem diameter, 2px border.. .vd-spinner-sm — 1.5rem diameter, 2px border.. .vd-spinner-lg — 3rem diameter, 4px border.. .vd-spinner-xl — 4rem diameter, 5px border.. .vd-spinner-success — Green accent color.. .vd-spinner-warning — Amber accent color.. .vd-spinner-error — Red accent color.. .vd-spinner-info — Cyan accent color.. .vd-spinner-light — White accent (for dark backgrounds).. .vd-spinner-dark — Dark text color accent.. .vd-spinner-dots — Three bouncing dots loader.. .vd-spinner-grow — Pulsing circle that grows and fades in a loop.. .vd-spinner-center — Flex container that centers a spinner with padding.. .vd-dynamic-loader — Signature 2x2 quad spinner grid with label.. .vd-dynamic-loader-grid — The 2x2 grid of spinners.. .vd-dynamic-loader-text — Muted label below the quad grid.. .vd-dynamic-loader-card — Relative container that hosts a full-cover .vd-dynamic-loader overlay.. :size — sm | md | lg (default md).. :label — Accessible label (visually-hidden text for screen readers).",
+      "bodyText": "Canonical reference for vd3 loading spinners: border spinner, dot bounce, growing pulse, sizes and color modifiers, plus the signature quad-grid loader ( .vd-dynamic-loader* ). Styles ship in framework/ /components/spinner. , imported by the main vanduo. bundle — only; no extra layout is required. For loading UX patterns (progress handoff, placeholders), see Preloader .. Centering helper. The grid applies staggered rotation via .vd-dynamic-loader-grid (nth-child delays in ). Optional inline animation-delay overrides are only needed if you want custom rhythm.. Overlay on a skeleton card. --vd-spinner-size — 2rem. --vd-spinner-border-width — 3px. --vd-spinner-color — var(--vd-color-primary). --vd-spinner-speed — 0.65s. .vd-spinner — Border spinner — a rotating circular border. Default size 2rem.. .vd-spinner-xs — 1rem diameter, 2px border.. .vd-spinner-sm — 1.5rem diameter, 2px border.. .vd-spinner-lg — 3rem diameter, 4px border.. .vd-spinner-xl — 4rem diameter, 5px border.. .vd-spinner-success — Green accent color.. .vd-spinner-warning — Amber accent color.. .vd-spinner-error — Red accent color.. .vd-spinner-info — Cyan accent color.. .vd-spinner-light — White accent (for dark backgrounds).. .vd-spinner-dark — Dark text color accent.. .vd-spinner-dots — Three bouncing dots loader.. .vd-spinner-grow — Pulsing circle that grows and fades in a loop.. .vd-spinner-center — Flex container that centers a spinner with padding.. .vd-dynamic-loader — Signature 2x2 quad spinner grid with label.. .vd-dynamic-loader-grid — The 2x2 grid of spinners.. .vd-dynamic-loader-text — Muted label below the quad grid.. .vd-dynamic-loader-card — Relative container that hosts a full-cover .vd-dynamic-loader overlay.. :size — sm | md | lg (default md).. :label — Accessible label (visually-hidden text for screen readers).",
       "classes": [
         ".vd-spinner",
         ".vd-spinner-xs",
@@ -9246,7 +9246,7 @@
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Canonical reference for Vanduo loading spinners: border spinner, dot bounce, growing pulse, sizes and color modifiers, plus the signature quad-grid loader ( .vd-dynamic-loader* ). Styles ship in framework/ /components/spinner. , imported by the main vanduo. bundle — only; no extra layout is required. For loading UX patterns (progress handoff, placeholders), see Preloader .",
+          "text": "Canonical reference for vd3 loading spinners: border spinner, dot bounce, growing pulse, sizes and color modifiers, plus the signature quad-grid loader ( .vd-dynamic-loader* ). Styles ship in framework/ /components/spinner. , imported by the main vanduo. bundle — only; no extra layout is required. For loading UX patterns (progress handoff, placeholders), see Preloader .",
           "heading": "Spinners"
         },
         {
@@ -9267,12 +9267,12 @@
         {
           "type": "paragraph",
           "text": "The grid applies staggered rotation via .vd-dynamic-loader-grid (nth-child delays in ). Optional inline animation-delay overrides are only needed if you want custom rhythm.",
-          "heading": "Quad Loader (Signature Vanduo Loader)"
+          "heading": "Quad Loader (Signature vd3 Loader)"
         },
         {
           "type": "paragraph",
           "text": "Overlay on a skeleton card",
-          "heading": "Quad Loader (Signature Vanduo Loader)"
+          "heading": "Quad Loader (Signature vd3 Loader)"
         },
         {
           "type": "class",
@@ -10062,7 +10062,7 @@
         "VdDataTable API ( 3)",
         "VdEmptyState API ( 3)"
       ],
-      "bodyText": "Presentational VdTable ( table) plus VdDataTable — client search, sort, selection, and paging via useTableState . Apps own fetch. Cell slots compose VdAvatar / VdBadge ; a dashboard recipe can sit a cbun VdChart above the grid.. Sortable headers expose aria-sort . columns.variant tints headers here (not on VdTable ). Search is client-side unless :manual .. No teammates yet. Invite someone to populate this grid.. Composition only — cbun charts stay in @vanduo-oss/vd3-cbun ; the table stays in vd3.. Select row 1 — AL Ada Lovelace. Select row 2 — GH Grace Hopper. Select row 3 — AT Alan Turing. Select row 4 — KJ Katherine Johnson. Select row 5 — DV Dorothy Vaughan. Ada Lovelace — Admin. Grace Hopper — Editor. Alan Turing — Viewer. Katherine Johnson — Editor. John Doe — john@example.com. Jane Smith — jane@example.com. Mike Johnson — mike@example.com. Product A — $29.99. Product B — $39.99. Product C — $49.99. #001 — Active. #002 — Pending. #003 — Failed. .vd-table — Base component class required for all Vanduo tables.. .vd-table-bordered — Modifier class that adds borders to all outer boundaries and internal cells.. .vd-table-striped — Modifier class that adds alternating background colors to body rows (zebra striping).. .vd-table-hover — Modifier class that enables a hover background color effect on body rows.. .vd-table-responsive — Wrapper class that enables horizontal scrolling on small screens.. .vd-data-table — Interactive grid chrome wrapping .vd-table (toolbar, sticky header, footer).. .vd-empty — Reusable empty-state stack (icon, title, description, action).. :columns — Array of { key, label }. Optional variant is typed but not applied — VdTable is presentational markup.. :rows — Array of plain row objects keyed by each column's key.. :striped — Zebra row striping.. :bordered — Cell borders.. :hover — Row hover highlight.. :caption — Accessible table caption.. :columns — { key, label, sortable?, align?, width?, variant? }. variant adds vd-table-{variant} on the header cell.. :rows — Row objects. Apps own fetch; pass already-sliced rows with :manual.. :row-key — String key or (row, index) => id (default 'id').. :selectable — 'none' | 'single' | 'multiple'. Row + select-all checkboxes are labelled.. v-model:sort / v-model:selected / v-model:page — Controlled sort, selection, page.. :searchable / :search-keys / :search-placeholder — Toolbar VdInput filters client-side unless :manual.. :page-size / :manual / :loading — Paging; skip client pipeline; skeleton rows.. :empty-title / :empty-description / :max-height — Empty ; sticky-header scrollport.. :striped / :bordered / :hover / :sm / :caption — Same visual language as VdTable.",
+      "bodyText": "Presentational VdTable ( table) plus VdDataTable — client search, sort, selection, and paging via useTableState . Apps own fetch. Cell slots compose VdAvatar / VdBadge ; a dashboard recipe can sit a cbun VdChart above the grid.. Sortable headers expose aria-sort . columns.variant tints headers here (not on VdTable ). Search is client-side unless :manual .. No teammates yet. Invite someone to populate this grid.. Composition only — cbun charts stay in @vanduo-oss/vd3-cbun ; the table stays in vd3.. Select row 1 — AL Ada Lovelace. Select row 2 — GH Grace Hopper. Select row 3 — AT Alan Turing. Select row 4 — KJ Katherine Johnson. Select row 5 — DV Dorothy Vaughan. Ada Lovelace — Admin. Grace Hopper — Editor. Alan Turing — Viewer. Katherine Johnson — Editor. John Doe — john@example.com. Jane Smith — jane@example.com. Mike Johnson — mike@example.com. Product A — $29.99. Product B — $39.99. Product C — $49.99. #001 — Active. #002 — Pending. #003 — Failed. .vd-table — Base component class required for all vd3 tables.. .vd-table-bordered — Modifier class that adds borders to all outer boundaries and internal cells.. .vd-table-striped — Modifier class that adds alternating background colors to body rows (zebra striping).. .vd-table-hover — Modifier class that enables a hover background color effect on body rows.. .vd-table-responsive — Wrapper class that enables horizontal scrolling on small screens.. .vd-data-table — Interactive grid chrome wrapping .vd-table (toolbar, sticky header, footer).. .vd-empty — Reusable empty-state stack (icon, title, description, action).. :columns — Array of { key, label }. Optional variant is typed but not applied — VdTable is presentational markup.. :rows — Array of plain row objects keyed by each column's key.. :striped — Zebra row striping.. :bordered — Cell borders.. :hover — Row hover highlight.. :caption — Accessible table caption.. :columns — { key, label, sortable?, align?, width?, variant? }. variant adds vd-table-{variant} on the header cell.. :rows — Row objects. Apps own fetch; pass already-sliced rows with :manual.. :row-key — String key or (row, index) => id (default 'id').. :selectable — 'none' | 'single' | 'multiple'. Row + select-all checkboxes are labelled.. v-model:sort / v-model:selected / v-model:page — Controlled sort, selection, page.. :searchable / :search-keys / :search-placeholder — Toolbar VdInput filters client-side unless :manual.. :page-size / :manual / :loading — Paging; skip client pipeline; skeleton rows.. :empty-title / :empty-description / :max-height — Empty ; sticky-header scrollport.. :striped / :bordered / :hover / :sm / :caption — Same visual language as VdTable.",
       "classes": [
         ".vd-table",
         ".vd-table-bordered",
@@ -10209,7 +10209,7 @@
         },
         {
           "type": "class",
-          "text": ".vd-table — Base component class required for all Vanduo tables.",
+          "text": ".vd-table — Base component class required for all vd3 tables.",
           "heading": "API Reference"
         },
         {
@@ -10640,19 +10640,19 @@
         "Page skeleton (navbar + main + footer)",
         "Page title",
         "Hero",
-        "Vanduo UI",
+        "vd3 UI",
         "Two-column split (sidebar + content)",
         "Card grid",
         "Stack & inline",
         "Section heading",
         "Notes"
       ],
-      "bodyText": "Common layout templates built from Vanduo primitives. These are pure markup patterns — no JavaScript, no special build step. and adapt them as starting points for your own pages.. Page content goes here.. Essential just like water is.. First paragraph.. Second paragraph.",
+      "bodyText": "Common layout templates built from vd3 primitives. These are pure markup patterns — no JavaScript, no special build step. and adapt them as starting points for your own pages.. Page content goes here.. Essential just like water is.. First paragraph.. Second paragraph.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Common layout templates built from Vanduo primitives. These are pure markup patterns — no JavaScript, no special build step. and adapt them as starting points for your own pages.",
+          "text": "Common layout templates built from vd3 primitives. These are pure markup patterns — no JavaScript, no special build step. and adapt them as starting points for your own pages.",
           "heading": "Template"
         },
         {
@@ -10668,7 +10668,7 @@
         {
           "type": "paragraph",
           "text": "Essential just like water is.",
-          "heading": "Vanduo UI"
+          "heading": "vd3 UI"
         },
         {
           "type": "paragraph",
@@ -10965,12 +10965,12 @@
         "Persistence",
         "Try it live"
       ],
-      "bodyText": "Vanduo themes by writing data-* attributes on < > — the reads them. In  3 the useThemePreference() singleton sets those attributes, persists the choice to localStorage , and re-applies it on load.. useThemePreference() writes these attributes; the framework does the rest:. The option lists (hue names, neutrals, radii, fonts) come from @vanduo-oss/vd3 so they match its token catalog exactly — see vd3 ecosystem .. data-theme — system · light · dark. data-palette — open-color · fibonacci. data-primary — 18 hues (e.g. violet, teal). data-neutral — 6 ramps (e.g. slate, gray). data-radius — 0 · 0.125 · 0.25 · 0.375 · 0.5. data-font — ubuntu, lato, …",
+      "bodyText": "vd3 themes by writing data-* attributes on < > — the reads them. In  3 the useThemePreference() singleton sets those attributes, persists the choice to localStorage , and re-applies it on load.. useThemePreference() writes these attributes; the framework does the rest:. The option lists (hue names, neutrals, radii, fonts) come from @vanduo-oss/vd3 so they match its token catalog exactly — see vd3 ecosystem .. data-theme — system · light · dark. data-palette — open-color · fibonacci. data-primary — 18 hues (e.g. violet, teal). data-neutral — 6 ramps (e.g. slate, gray). data-radius — 0 · 0.125 · 0.25 · 0.375 · 0.5. data-font — ubuntu, lato, …",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Vanduo themes by writing data-* attributes on < > — the reads them. In  3 the useThemePreference() singleton sets those attributes, persists the choice to localStorage , and re-applies it on load.",
+          "text": "vd3 themes by writing data-* attributes on < > — the reads them. In  3 the useThemePreference() singleton sets those attributes, persists the choice to localStorage , and re-applies it on load.",
           "heading": "Theme customizer Guide"
         },
         {
@@ -12590,17 +12590,18 @@
       ]
     },
     {
-      "id": "vanduo-ecosystem",
+      "id": "vd3-ecosystem",
       "title": "vd3 ecosystem",
       "category": "Guides",
       "tab": "components",
       "tabTitle": "Components",
-      "route": "/guides/vanduo-ecosystem",
+      "route": "/guides/vd3-ecosystem",
       "icon": "globe",
       "keywords": [
         "ecosystem",
         "tools",
-        "projects"
+        "projects",
+        "vd3"
       ],
       "headings": [
         "vd3 ecosystem Guide",
@@ -12608,12 +12609,12 @@
         "Install",
         "Where to go next"
       ],
-      "bodyText": "vd3 is the -3-only line of Vanduo, shipped as a small, standalone set of packages under the @vanduo-oss scope. There is no separate token / / JS split to wire together — one component library, plus one optional canvas bundle, documented by this site.. Design tokens generate the , the is themed by the same tokens, and the Vd* components and composables render against both — all inside @vanduo-oss/vd3 . @vanduo-oss/vd3-cbun sits alongside it for the heavier canvas widgets. Browse the CBUN showcase .. Start with the design system; add the canvas bundle only if you need it:. Then import from the two packages:. vd3 — @vanduo-oss/vd3. vd3-cbun — @vanduo-oss/vd3-cbun. vd3-docs — — (not published to npm)",
+      "bodyText": "vd3 is the 3 design system from vanduo-oss , shipped as a small, standalone set of packages under the @vanduo-oss scope. There is no separate token / / JS split to wire together — one component library, plus one optional canvas bundle, documented by this site.. Design tokens generate the , the is themed by the same tokens, and the Vd* components and composables render against both — all inside @vanduo-oss/vd3 . @vanduo-oss/vd3-cbun sits alongside it for the heavier canvas widgets. Browse the CBUN showcase .. Start with the design system; add the canvas bundle only if you need it:. Then import from the two packages:. vd3 — @vanduo-oss/vd3. vd3-cbun — @vanduo-oss/vd3-cbun. vd3-docs — — (not published to npm)",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "vd3 is the -3-only line of Vanduo, shipped as a small, standalone set of packages under the @vanduo-oss scope. There is no separate token / / JS split to wire together — one component library, plus one optional canvas bundle, documented by this site.",
+          "text": "vd3 is the 3 design system from vanduo-oss , shipped as a small, standalone set of packages under the @vanduo-oss scope. There is no separate token / / JS split to wire together — one component library, plus one optional canvas bundle, documented by this site.",
           "heading": "vd3 ecosystem Guide"
         },
         {
@@ -12902,12 +12903,12 @@
         "Variable Usage",
         "Addressing a specific palette"
       ],
-      "bodyText": "Vanduo's default palette is Open Color (MIT) — the friendly, battle-tested scale you already know. For a look that shares the same DNA as Vanduo's spacing, type, and grid, opt into the Fibonacci palette — a golden-angle generated system where hues rotate by the golden angle (~137.5°) and every shade sits on a golden-ratio lightness ramp — via the runtime data-palette switch.. Open Color is the :root default; opt into the Fibonacci (golden-angle) palette at runtime — every component follows automatically.. Prefer a UI? The Theme Customizer exposes the same live controls.. The raw scales below are fixed values. The semantic tokens ( --vd-bg-* , --vd-text-* , --vd-border-color ) remap per theme, so the same markup adapts automatically. Here is the same set in both modes:. Text primary · muted. Text primary · muted. The default brand color — primary actions and emphasis. Secondary actions and accents. Backgrounds, borders, text, and UI structure. Error states, destructive actions. Success states, confirmations. Warnings, cautions, attention. Information, help, neutral feedback. Every hue keeps its recognizable name. Use vd-bg-{color}-{shade} / vd-text-{color}-{shade} .. A golden-angle generated system — hues stepped by ≈137.5° on golden-ratio shade ramps. Opt in with data-palette=\"fibonacci\" and every scale follows.. Golden accent track — --vd-golden-1 … --vd-golden-8 , the signature of the Fibonacci palette.. Primary (Fibonacci \"Water\"). Gray (Fibonacci). Active scales follow data-palette . To pin a palette or reference a raw scale directly:. Both --vd-oc-* and --vd-fib-* are always defined, regardless of the active palette.. Default palette: Open Color by Heeyeun Jeong — MIT Licensed · optional Fibonacci palette generated by @vanduo-oss/vd3",
+      "bodyText": "vd3's default palette is Open Color (MIT) — the friendly, battle-tested scale you already know. For a look that shares the same DNA as vd3's spacing, type, and grid, opt into the Fibonacci palette — a golden-angle generated system where hues rotate by the golden angle (~137.5°) and every shade sits on a golden-ratio lightness ramp — via the runtime data-palette switch.. Open Color is the :root default; opt into the Fibonacci (golden-angle) palette at runtime — every component follows automatically.. Prefer a UI? The Theme Customizer exposes the same live controls.. The raw scales below are fixed values. The semantic tokens ( --vd-bg-* , --vd-text-* , --vd-border-color ) remap per theme, so the same markup adapts automatically. Here is the same set in both modes:. Text primary · muted. Text primary · muted. The default brand color — primary actions and emphasis. Secondary actions and accents. Backgrounds, borders, text, and UI structure. Error states, destructive actions. Success states, confirmations. Warnings, cautions, attention. Information, help, neutral feedback. Every hue keeps its recognizable name. Use vd-bg-{color}-{shade} / vd-text-{color}-{shade} .. A golden-angle generated system — hues stepped by ≈137.5° on golden-ratio shade ramps. Opt in with data-palette=\"fibonacci\" and every scale follows.. Golden accent track — --vd-golden-1 … --vd-golden-8 , the signature of the Fibonacci palette.. Primary (Fibonacci \"Water\"). Gray (Fibonacci). Active scales follow data-palette . To pin a palette or reference a raw scale directly:. Both --vd-oc-* and --vd-fib-* are always defined, regardless of the active palette.. Default palette: Open Color by Heeyeun Jeong — MIT Licensed · optional Fibonacci palette generated by @vanduo-oss/vd3",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Vanduo's default palette is Open Color (MIT) — the friendly, battle-tested scale you already know. For a look that shares the same DNA as Vanduo's spacing, type, and grid, opt into the Fibonacci palette — a golden-angle generated system where hues rotate by the golden angle (~137.5°) and every shade sits on a golden-ratio lightness ramp — via the runtime data-palette switch.",
+          "text": "vd3's default palette is Open Color (MIT) — the friendly, battle-tested scale you already know. For a look that shares the same DNA as vd3's spacing, type, and grid, opt into the Fibonacci palette — a golden-angle generated system where hues rotate by the golden angle (~137.5°) and every shade sits on a golden-ratio lightness ramp — via the runtime data-palette switch.",
           "heading": "Color Palette"
         },
         {
@@ -13035,7 +13036,7 @@
         "Feel the ratio — interactive spacing scale",
         "Where the golden ratio lives — and where it doesn't"
       ],
-      "bodyText": "This framework uses the Fibonacci sequence and Golden Ratio (phi = 1.618) as its proportional foundation. Spacing, typography, component dimensions, and grid layouts all derive from these mathematical relationships.. sm — base / sqrt(phi). lg — base x sqrt(phi). 2xl — base x phi^2. Drag through the Fibonacci spacing scale. Each step's ratio to the one before it sits near φ (1.618) — that convergence is why the rhythm feels balanced without manual tuning.. Vanduo is Fibonacci/φ-first in its design language , and pragmatically conventional where familiarity beats math. We'd rather be honest than dogmatic.. Compare layouts side by side in Fibonacci vs Standard , or flip the live toggle on the Grid System page.. Spacing scale (--vd-space-fib-*) — Fibonacci — 1, 2, 3, 5, 8, 13, 21…. Radius scale — Fibonacci. Shadows & elevation — Fibonacci offset/blur pairs (1/2, 2/3, 3/5…). Type scale — Golden scale at √φ (≈1.272) steps. Line-heights — φ-derived — 1.236, 1.382, 1.618. Button / card padding — Fibonacci pairs (~φ ratio). Container widths — Fibonacci / Lucas — 610, 987, 1597. Golden & Fibonacci grids — Opt-in (.vd-grid-golden, .vd-row-fib-*). Default 12-column grid — Equal columns — φ grids are a class away. Responsive breakpoints — Familiar 576 / 768 / 992 / 1200 / 1400. z-index & transition timings — Standard increments",
+      "bodyText": "This framework uses the Fibonacci sequence and Golden Ratio (phi = 1.618) as its proportional foundation. Spacing, typography, component dimensions, and grid layouts all derive from these mathematical relationships.. sm — base / sqrt(phi). lg — base x sqrt(phi). 2xl — base x phi^2. Drag through the Fibonacci spacing scale. Each step's ratio to the one before it sits near φ (1.618) — that convergence is why the rhythm feels balanced without manual tuning.. vd3 is Fibonacci/φ-first in its design language , and pragmatically conventional where familiarity beats math. We'd rather be honest than dogmatic.. Compare layouts side by side in Fibonacci vs Standard , or flip the live toggle on the Grid System page.. Spacing scale (--vd-space-fib-*) — Fibonacci — 1, 2, 3, 5, 8, 13, 21…. Radius scale — Fibonacci. Shadows & elevation — Fibonacci offset/blur pairs (1/2, 2/3, 3/5…). Type scale — Golden scale at √φ (≈1.272) steps. Line-heights — φ-derived — 1.236, 1.382, 1.618. Button / card padding — Fibonacci pairs (~φ ratio). Container widths — Fibonacci / Lucas — 610, 987, 1597. Golden & Fibonacci grids — Opt-in (.vd-grid-golden, .vd-row-fib-*). Default 12-column grid — Equal columns — φ grids are a class away. Responsive breakpoints — Familiar 576 / 768 / 992 / 1200 / 1400. z-index & transition timings — Standard increments",
       "classes": [],
       "chunks": [
         {
@@ -13080,7 +13081,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Vanduo is Fibonacci/φ-first in its design language , and pragmatically conventional where familiarity beats math. We'd rather be honest than dogmatic.",
+          "text": "vd3 is Fibonacci/φ-first in its design language , and pragmatically conventional where familiarity beats math. We'd rather be honest than dogmatic.",
           "heading": "Where the golden ratio lives — and where it doesn't"
         },
         {
@@ -13290,7 +13291,7 @@
         "VdIcon ( 3)",
         "Component API"
       ],
-      "bodyText": "Vanduo includes Phosphor Icons — a flexible icon family with 1,500+ icons in 6 weights. Icons are bundled locally with no external dependencies.. 6 distinct weights for different visual styles:. Duotone .ph-duotone. Note: The default /vanduo. bundle (and /icons/icons. ) load only the regular and fill weights. The bold, light, thin, and duotone weights above require /icons/icons-all. — this documentation site loads it to preview every weight. See Import Options below.. Include the icons stylesheet and use <i> elements with the appropriate classes:. Browse all 1,500+ icons at phosphoricons.com. Icons are font-based — style them with :. Icons by Phosphor Icons — MIT Licensed. Phosphor icons render as empty <i> elements (the glyph is a font), so they carry no text for assistive tech. Two rules cover every case:. Also mind touch targets : keep icon-only controls at least 24×24px (WCAG 2.2). More in Accessibility Essentials .. Prefer the VdIcon component when you want typed props instead of raw Phosphor classes:. :name — Phosphor icon name without the ph- prefix (e.g. \"rocket\").. :filled — Use the filled icon weight.. :size — sm | md | lg (default md).",
+      "bodyText": "vd3 includes Phosphor Icons — a flexible icon family with 1,500+ icons in 6 weights. Icons are bundled locally with no external dependencies.. 6 distinct weights for different visual styles:. Duotone .ph-duotone. Note: The default /vanduo. bundle (and /icons/icons. ) load only the regular and fill weights. The bold, light, thin, and duotone weights above require /icons/icons-all. — this documentation site loads it to preview every weight. See Import Options below.. Include the icons stylesheet and use <i> elements with the appropriate classes:. Browse all 1,500+ icons at phosphoricons.com. Icons are font-based — style them with :. Icons by Phosphor Icons — MIT Licensed. Phosphor icons render as empty <i> elements (the glyph is a font), so they carry no text for assistive tech. Two rules cover every case:. Also mind touch targets : keep icon-only controls at least 24×24px (WCAG 2.2). More in Accessibility Essentials .. Prefer the VdIcon component when you want typed props instead of raw Phosphor classes:. :name — Phosphor icon name without the ph- prefix (e.g. \"rocket\").. :filled — Use the filled icon weight.. :size — sm | md | lg (default md).",
       "classes": [
         ":name",
         ":filled",
@@ -13299,7 +13300,7 @@
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Vanduo includes Phosphor Icons — a flexible icon family with 1,500+ icons in 6 weights. Icons are bundled locally with no external dependencies.",
+          "text": "vd3 includes Phosphor Icons — a flexible icon family with 1,500+ icons in 6 weights. Icons are bundled locally with no external dependencies.",
           "heading": "Icons"
         },
         {
@@ -13416,12 +13417,12 @@
         "Colored Shadows",
         "Variables"
       ],
-      "bodyText": "Vanduo provides a comprehensive shadow system based on Fibonacci proportions, plus glow effects for interactive elements. Shadows create depth and visual hierarchy, while glow effects add emphasis on hover.. The same pairs drive the .vd-shadow-* utilities below ( .vd-shadow-2xl reaches 21/34). These proportions come from the Golden Ratio system.. Apply shadows with utility classes:. Add glowing effects to any element:. Control the glow intensity with size variants:. Semantic color shadows for emphasis:. Customize glow colors via variables:. Note: Glow intensity is automatically increased in dark mode for better visibility.",
+      "bodyText": "vd3 provides a comprehensive shadow system based on Fibonacci proportions, plus glow effects for interactive elements. Shadows create depth and visual hierarchy, while glow effects add emphasis on hover.. The same pairs drive the .vd-shadow-* utilities below ( .vd-shadow-2xl reaches 21/34). These proportions come from the Golden Ratio system.. Apply shadows with utility classes:. Add glowing effects to any element:. Control the glow intensity with size variants:. Semantic color shadows for emphasis:. Customize glow colors via variables:. Note: Glow intensity is automatically increased in dark mode for better visibility.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Vanduo provides a comprehensive shadow system based on Fibonacci proportions, plus glow effects for interactive elements. Shadows create depth and visual hierarchy, while glow effects add emphasis on hover.",
+          "text": "vd3 provides a comprehensive shadow system based on Fibonacci proportions, plus glow effects for interactive elements. Shadows create depth and visual hierarchy, while glow effects add emphasis on hover.",
           "heading": "Shadows & Glow"
         },
         {
@@ -13491,7 +13492,7 @@
         "Font families & runtime switching",
         "API Reference"
       ],
-      "bodyText": "A fluid, golden-ratio type system: ten size steps, φ-derived line-heights, a tracking scale, and five runtime-switchable font families — all driven by --vd-* tokens.. Utility classes .vd-text-xs … .vd-text-6xl apply each step. See the Golden Ratio page for the proportional system these derive from.. Type your own and drag through the scale — the preview, the utility class, and the size update live.. Line-heights come straight from φ: 1.236 (2/φ), 1.382 , 1.5 , and 1.618 (φ itself).. Vanduo keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.. Vanduo keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.. Vanduo keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.. Six tracking tokens, from tighter to widest .. Applied via the --vd-letter-spacing-* tokens.. Light · .vd-font-light (300). Normal · .vd-font-normal (400). Medium · .vd-font-medium (500). Semibold · .vd-font-semibold (600). Bold · .vd-font-bold (700). Extrabold · .vd-font-extrabold (800). Italic · .vd-text-italic. Vanduo ships 5 curated font options , switchable at runtime via the data-font attribute on < > (also exposed by FontSwitcher and the Theme Customizer). The preference persists in localStorage.vanduo-font-preference .. Self-hosting steps and the Google Fonts CDN path are covered in Variables & Theming . For minimum readable sizes and contrast, see Accessibility Essentials .. .vd-text-xs … .vd-text-6xl — Apply a step of the golden-ratio type scale.. .vd-font-light … .vd-font-extrabold — Font weight, 300–800.. .vd-text-italic — Italic font style.. --vd-line-height-{tight,snug,normal,relaxed,loose} — φ-derived leading tokens (1.236 → 2).. --vd-letter-spacing-{tighter…widest} — Tracking tokens (−0.05em → 0.1em).. data-font=\"[name]\" — Curated font stack on < > (ubuntu, open-sans, lato, jetbrains-mono, system).",
+      "bodyText": "A fluid, golden-ratio type system: ten size steps, φ-derived line-heights, a tracking scale, and five runtime-switchable font families — all driven by --vd-* tokens.. Utility classes .vd-text-xs … .vd-text-6xl apply each step. See the Golden Ratio page for the proportional system these derive from.. Type your own and drag through the scale — the preview, the utility class, and the size update live.. Line-heights come straight from φ: 1.236 (2/φ), 1.382 , 1.5 , and 1.618 (φ itself).. vd3 keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.. vd3 keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.. vd3 keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.. Six tracking tokens, from tighter to widest .. Applied via the --vd-letter-spacing-* tokens.. Light · .vd-font-light (300). Normal · .vd-font-normal (400). Medium · .vd-font-medium (500). Semibold · .vd-font-semibold (600). Bold · .vd-font-bold (700). Extrabold · .vd-font-extrabold (800). Italic · .vd-text-italic. vd3 ships 5 curated font options , switchable at runtime via the data-font attribute on < > (also exposed by FontSwitcher and the Theme Customizer). The preference persists in localStorage.vanduo-font-preference .. Self-hosting steps and the Google Fonts CDN path are covered in Variables & Theming . For minimum readable sizes and contrast, see Accessibility Essentials .. .vd-text-xs … .vd-text-6xl — Apply a step of the golden-ratio type scale.. .vd-font-light … .vd-font-extrabold — Font weight, 300–800.. .vd-text-italic — Italic font style.. --vd-line-height-{tight,snug,normal,relaxed,loose} — φ-derived leading tokens (1.236 → 2).. --vd-letter-spacing-{tighter…widest} — Tracking tokens (−0.05em → 0.1em).. data-font=\"[name]\" — Curated font stack on < > (ubuntu, open-sans, lato, jetbrains-mono, system).",
       "classes": [],
       "chunks": [
         {
@@ -13516,17 +13517,17 @@
         },
         {
           "type": "paragraph",
-          "text": "Vanduo keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.",
+          "text": "vd3 keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.",
           "heading": "Line height (leading) — φ-derived"
         },
         {
           "type": "paragraph",
-          "text": "Vanduo keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.",
+          "text": "vd3 keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.",
           "heading": "Line height (leading) — φ-derived"
         },
         {
           "type": "paragraph",
-          "text": "Vanduo keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.",
+          "text": "vd3 keeps vertical rhythm tied to the golden ratio so dense headings and body feel balanced without hand-tuning every block.",
           "heading": "Line height (leading) — φ-derived"
         },
         {
@@ -13576,7 +13577,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Vanduo ships 5 curated font options , switchable at runtime via the data-font attribute on < > (also exposed by FontSwitcher and the Theme Customizer). The preference persists in localStorage.vanduo-font-preference .",
+          "text": "vd3 ships 5 curated font options , switchable at runtime via the data-font attribute on < > (also exposed by FontSwitcher and the Theme Customizer). The preference persists in localStorage.vanduo-font-preference .",
           "heading": "Font families & runtime switching"
         },
         {
@@ -13638,7 +13639,7 @@
         "What you get",
         "Open source"
       ],
-      "bodyText": "What vd3 UI is, and the ideas behind it. vd3 A 3 design system and component library. vd3 UI is the standalone  3 design system and component library of Vanduo. It ships everything in a single package — design tokens, a full layer, and typed <Vd*> components with matching useX composables. Its only dependency is itself.. You install one package, register a plugin, import the stylesheet, and start using components. There is no separate state library, no build-time runtime, and no global setup to wire up first.. vd3 is MIT-licensed and free to use. The source is public on GitHub , and these docs are themselves built with the real components.",
+      "bodyText": "What vd3 UI is, and the ideas behind it. vd3 A 3 design system and component library. vd3 UI is the standalone  3 design system and component library from vanduo-oss . It ships everything in a single package — design tokens, a full layer, and typed <Vd*> components with matching useX composables. Its only dependency is itself.. You install one package, register a plugin, import the stylesheet, and start using components. There is no separate state library, no build-time runtime, and no global setup to wire up first.. vd3 is MIT-licensed and free to use. The source is public on GitHub , and these docs are themselves built with the real components.",
       "classes": [],
       "chunks": [
         {
@@ -13653,7 +13654,7 @@
         },
         {
           "type": "paragraph",
-          "text": "vd3 UI is the standalone  3 design system and component library of Vanduo. It ships everything in a single package — design tokens, a full layer, and typed <Vd*> components with matching useX composables. Its only dependency is itself.",
+          "text": "vd3 UI is the standalone  3 design system and component library from vanduo-oss . It ships everything in a single package — design tokens, a full layer, and typed <Vd*> components with matching useX composables. Its only dependency is itself.",
           "heading": "What it is"
         },
         {
@@ -13768,12 +13769,12 @@
         "@vanduo-oss/vd3-cbun",
         "Hardened"
       ],
-      "bodyText": "Release notes for the vd3 line packages — @vanduo-oss/vd3 (the 3 design system and component library) and @vanduo-oss/vd3-cbun (the components bundle: charts, code-editor, draw, flowchart, hex-grid, music-player). Packages only — never docs-site content.. The standalone 3 design system & component library.. Global search palette — site-wide Cmd+K modal with grouped results, keyboard navigation, and an engine-agnostic adapter hook for hybrid or REST backends. Plus the Oola dock chrome this site had been forking locally: accent tinting, the primary-only swatches fan, and delayed dock tooltips.. Teleport overlay palette with optional AI opt-in toggle, disclaimer slot, debounced adapter injection, and Cmd/Ctrl+K + / shortcuts. Co-mount with VdDocSearch by setting :keyboard-shortcut=\"false\" on the inline combobox. See /components/global-search .. surface (default) keeps the old behaviour — tint paints the pill. accent holds the pill at constant ink and leaves --vd-dock-tint for items and the brand slot to consume, so the hue reads on the icons instead of the glass. This site's dock now uses it in place of a local inline-style override. See /components/dock .. A primary-only fan hinged at the trigger, for dock and toolbar chrome with no room for the 320px panel. swatches curates the hues, direction sets the axis, and preview applies on hover. Bind :primary and listen to @update:primary to keep an app-side store authoritative instead of the useThemePreference() singleton. See /components/theme-customizer .. useTooltips(root, { showDelay }) sets the hover dwell before a tip appears, overridable per trigger with data-tooltip-delay . The root is now watched with a MutationObserver , so triggers added after mount bind themselves. data-tooltip-variant=\"dock\" opts into the denser .vd-tooltip-dock frost and its --vd-tooltip-dock-* custom properties. See /components/tooltip .. Snippet chrome and an ink button — tabbed , in the header, and a 2px outline variant. vd3 still does not tokenize.. When any of / / js / shell / / json is set, the component renders the collapsible tabbed “ ” widget (toggle, tablist, panes, raw-source ). Simple mode ( code / language / copyable ) is unchanged. Optional highlight(code, language) injects escaped ; without it, source is text. See /components/code-snippet .. .vd-btn-ink : transparent fill, a single 2px outline (not .vd-btn-ring ). Hover fills black in light and primary in dark; the label uses --vd-text-on-primary . Existing outline / ghost / ring treatments are unchanged. See /components/button .. stays in .vd-code-snippet-header (top-right) for simple and chrome modes. Tabs get aria-controls / pane role=\"tabpanel\" and Left / Right / Home / End navigation, matching VdTabs . A .vd-visually-hidden child inside .vd-btn no longer wraps the label.. Oola Dock — a morphing glass pill that is not a navbar. Horizontal ↔ vertical through a square waypoint, dock-own radius past the theme 0.5rem cap.. Fat Seemore glass chrome with useDockOrientation , position fixed or contained, Open Color tint , Seemore glass , and itemLayout , and placement (bottom / top / left / right). Brand is a slot — demos use ū on the morph-origin corner. See /components/dock .. Headless auth screens and a client data table — still a UI kit, not an app framework. No fetch, no dataProvider, no Resource registry.. VdAuthCard , VdLogin , VdSignUp , and VdForgotPassword emit submit / social . Password fields use WHATWG autocomplete tokens and a real reveal button. Primitives: VdCheckbox , VdOtpInput , VdInput slots + revealPassword , VdCard glass . See /components/login .. useTableState (search → sort → page, or manual for server-sliced rows) and VdDataTable (sortable aria-sort headers, cell slots, selection, sticky header, skeleton loading, VdEmptyState , composed VdPagination ). Presentational VdTable is unchanged. See /components/table .. Seemore Glass — Fibonacci strength-step frosted material — plus reusable decorative Surfaces for hero backdrops.. Canonical modifiers .vd-glass-{1,2,3,5,8,13,21} bundle blur, tint, border, saturate, grain, and elevation. Base .vd-glass is step 5; legacy sm|lg|xl alias to 3/8/13. New .vd-glass-adaptive , a11y media-query hardening, and scroll glass that never transitions backdrop-filter . See /effects/glass .. Layer 5 .vd-surface with mesh, stripe, noise, aurora, dots, and grid — plus intensity .vd-surface-{3,5,8} . Documented at /effects/surfaces .. Optional theme preference storage prefix so multi-app same-origin hosts can isolate localStorage keys without colliding on the default vanduo-* namespace.. Pass app.use(VanduoVue, { storagePrefix: \"app-\" }) or call setStoragePrefix / getStoragePrefix at bootstrap to remap the six preference keys. Default remains vanduo-* (back-compat); no automatic migration between prefixes. See /guides/ -variables .. Adds the theme-aware Liquid Gradient WebGL effect, and fixes native select chevron tiling when consumers use the background shorthand.. Interactive vanilla WebGL atmosphere under /effects/liquid-gradient — .vd-liquid-gradient + useLiquidGradient / createLiquidGradient , bound to primary / neutral / background tokens with --vd-liquid-* knobs. Inspired by Cameron Knight’s MIT CodePen (no Three.js).. Focus / disabled / dark theme caret rules now re-declare background-repeat , background-position , and background-size so a consumer background shorthand cannot leave a tiling SVG caret.. A patch release: opt-in glass modal and animated stepper , plus polish across loading buttons, spotlight, morph, button groups, transfer, and collections.. VdModal gains an opt-in glass prop that applies the existing .vd-modal-glass / .vd-modal-glass-backdrop classes (same idea as VdFab ’s glass ). was already shipped; the prop wires it for consumers. Fallthrough attrs bind on the dialog root so glass token overrides land correctly through Teleport.. Containers with .vd-stepper-animated get a staggered IntersectionObserver reveal (mirrors timeline). useStepper accepts optional UseStepperOptions ( staggerMs , maxStaggerIndex ); prefers-reduced-motion and missing IntersectionObserver reveal immediately.. Outline, ghost, and plain buttons with .is-loading now keep a visible spinner — the legacy currentColor spinner was invisible once the label used color: transparent . Solid variants already pinned their colours; these treatments now pin their accent colours the same way.. Spotlight uses a body-level .vd-spotlight-highlight instead of a huge box-shadow on the target, so transformed ancestors no longer trap the dimming layer; geometry animates between steps.. Morph no longer reverse-animates at end-of-swap: a short .is-morph-settling freeze + cooldown blocks re-entrant clicks; default duration/easing are snappier. Same settle path for useMorphBadges .. .vd-btn-group.vd-btn-group-vertical no longer inherits horizontal edge-sharing margins/radii; labels stay nowrap and the stack sizes to the widest button. Transfer move buttons use Phosphor carets via VdIcon with clearer hover/focus-visible styles.. Collections flush inside a card body clip to the card’s inner radius so hover backgrounds do not square off past rounded corners. Stepper connector ::after is pointer-events: none so decorative lines never steal clicks.. A minor release adding an opt-in button ring modifier . Additive only — no button without it renders differently.. Buttons gain a detached outer ring with a transparent gap, for marking one action as the primary one on a screen that already uses solid buttons throughout. It is a modifier rather than a variant, so it layers onto any existing variant, size and state — via the class or :ring on VdButton — and because the gap is real transparency it reads correctly on cards, glass and imagery. Tunable through the --vd-btn-ring-* custom properties.. A minor release: a new extra-large VdModal size, broad accessibility & lifecycle hardening , and a security-hardened sanitizer. No breaking changes.. VdModal gain",
+      "bodyText": "Release notes for the vd3 line packages — @vanduo-oss/vd3 (the 3 design system and component library) and @vanduo-oss/vd3-cbun (the components bundle: charts, code-editor, draw, flowchart, hex-grid, music-player).. The standalone 3 design system & component library.. Global search palette — site-wide Cmd+K modal with grouped results, keyboard navigation, and an engine-agnostic adapter hook for hybrid or REST backends. Plus the Oola dock chrome this site had been forking locally: accent tinting, the primary-only swatches fan, and delayed dock tooltips.. Teleport overlay palette with optional AI opt-in toggle, disclaimer slot, debounced adapter injection, and Cmd/Ctrl+K + / shortcuts. Co-mount with VdDocSearch by setting :keyboard-shortcut=\"false\" on the inline combobox. See /components/global-search .. surface (default) keeps the old behaviour — tint paints the pill. accent holds the pill at constant ink and leaves --vd-dock-tint for items and the brand slot to consume, so the hue reads on the icons instead of the glass. This site's dock now uses it in place of a local inline-style override. See /components/dock .. A primary-only fan hinged at the trigger, for dock and toolbar chrome with no room for the 320px panel. swatches curates the hues, direction sets the axis, and preview applies on hover. Bind :primary and listen to @update:primary to keep an app-side store authoritative instead of the useThemePreference() singleton. See /components/theme-customizer .. useTooltips(root, { showDelay }) sets the hover dwell before a tip appears, overridable per trigger with data-tooltip-delay . The root is now watched with a MutationObserver , so triggers added after mount bind themselves. data-tooltip-variant=\"dock\" opts into the denser .vd-tooltip-dock frost and its --vd-tooltip-dock-* custom properties. See /components/tooltip .. Snippet chrome and an ink button — tabbed , in the header, and a 2px outline variant. vd3 still does not tokenize.. When any of / / js / shell / / json is set, the component renders the collapsible tabbed “ ” widget (toggle, tablist, panes, raw-source ). Simple mode ( code / language / copyable ) is unchanged. Optional highlight(code, language) injects escaped ; without it, source is text. See /components/code-snippet .. .vd-btn-ink : transparent fill, a single 2px outline (not .vd-btn-ring ). Hover fills black in light and primary in dark; the label uses --vd-text-on-primary . Existing outline / ghost / ring treatments are unchanged. See /components/button .. stays in .vd-code-snippet-header (top-right) for simple and chrome modes. Tabs get aria-controls / pane role=\"tabpanel\" and Left / Right / Home / End navigation, matching VdTabs . A .vd-visually-hidden child inside .vd-btn no longer wraps the label.. Oola Dock — a morphing glass pill that is not a navbar. Horizontal ↔ vertical through a square waypoint, dock-own radius past the theme 0.5rem cap.. Fat Seemore glass chrome with useDockOrientation , position fixed or contained, Open Color tint , Seemore glass , and itemLayout , and placement (bottom / top / left / right). Brand is a slot — demos use ū on the morph-origin corner. See /components/dock .. Headless auth screens and a client data table — still a UI kit, not an app framework. No fetch, no dataProvider, no Resource registry.. VdAuthCard , VdLogin , VdSignUp , and VdForgotPassword emit submit / social . Password fields use WHATWG autocomplete tokens and a real reveal button. Primitives: VdCheckbox , VdOtpInput , VdInput slots + revealPassword , VdCard glass . See /components/login .. useTableState (search → sort → page, or manual for server-sliced rows) and VdDataTable (sortable aria-sort headers, cell slots, selection, sticky header, skeleton loading, VdEmptyState , composed VdPagination ). Presentational VdTable is unchanged. See /components/table .. Seemore Glass — Fibonacci strength-step frosted material — plus reusable decorative Surfaces for hero backdrops.. Canonical modifiers .vd-glass-{1,2,3,5,8,13,21} bundle blur, tint, border, saturate, grain, and elevation. Base .vd-glass is step 5; legacy sm|lg|xl alias to 3/8/13. New .vd-glass-adaptive , a11y media-query hardening, and scroll glass that never transitions backdrop-filter . See /effects/glass .. Layer 5 .vd-surface with mesh, stripe, noise, aurora, dots, and grid — plus intensity .vd-surface-{3,5,8} . Documented at /effects/surfaces .. Optional theme preference storage prefix so multi-app same-origin hosts can isolate localStorage keys without colliding on the default vanduo-* namespace.. Pass app.use(VanduoVue, { storagePrefix: \"app-\" }) or call setStoragePrefix / getStoragePrefix at bootstrap to remap the six preference keys. Default remains vanduo-* (back-compat); no automatic migration between prefixes. See /guides/ -variables .. Adds the theme-aware Liquid Gradient WebGL effect, and fixes native select chevron tiling when consumers use the background shorthand.. Interactive vanilla WebGL atmosphere under /effects/liquid-gradient — .vd-liquid-gradient + useLiquidGradient / createLiquidGradient , bound to primary / neutral / background tokens with --vd-liquid-* knobs. Inspired by Cameron Knight’s MIT CodePen (no Three.js).. Focus / disabled / dark theme caret rules now re-declare background-repeat , background-position , and background-size so a consumer background shorthand cannot leave a tiling SVG caret.. A patch release: opt-in glass modal and animated stepper , plus polish across loading buttons, spotlight, morph, button groups, transfer, and collections.. VdModal gains an opt-in glass prop that applies the existing .vd-modal-glass / .vd-modal-glass-backdrop classes (same idea as VdFab ’s glass ). was already shipped; the prop wires it for consumers. Fallthrough attrs bind on the dialog root so glass token overrides land correctly through Teleport.. Containers with .vd-stepper-animated get a staggered IntersectionObserver reveal (mirrors timeline). useStepper accepts optional UseStepperOptions ( staggerMs , maxStaggerIndex ); prefers-reduced-motion and missing IntersectionObserver reveal immediately.. Outline, ghost, and plain buttons with .is-loading now keep a visible spinner — the legacy currentColor spinner was invisible once the label used color: transparent . Solid variants already pinned their colours; these treatments now pin their accent colours the same way.. Spotlight uses a body-level .vd-spotlight-highlight instead of a huge box-shadow on the target, so transformed ancestors no longer trap the dimming layer; geometry animates between steps.. Morph no longer reverse-animates at end-of-swap: a short .is-morph-settling freeze + cooldown blocks re-entrant clicks; default duration/easing are snappier. Same settle path for useMorphBadges .. .vd-btn-group.vd-btn-group-vertical no longer inherits horizontal edge-sharing margins/radii; labels stay nowrap and the stack sizes to the widest button. Transfer move buttons use Phosphor carets via VdIcon with clearer hover/focus-visible styles.. Collections flush inside a card body clip to the card’s inner radius so hover backgrounds do not square off past rounded corners. Stepper connector ::after is pointer-events: none so decorative lines never steal clicks.. A minor release adding an opt-in button ring modifier . Additive only — no button without it renders differently.. Buttons gain a detached outer ring with a transparent gap, for marking one action as the primary one on a screen that already uses solid buttons throughout. It is a modifier rather than a variant, so it layers onto any existing variant, size and state — via the class or :ring on VdButton — and because the gap is real transparency it reads correctly on cards, glass and imagery. Tunable through the --vd-btn-ring-* custom properties.. A minor release: a new extra-large VdModal size, broad accessibility & lifecycle hardening , and a security-hardened sanitizer. No breaking changes.. VdModal gains a fourth size tier — size=\"xl\" (987px, ",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Release notes for the vd3 line packages — @vanduo-oss/vd3 (the 3 design system and component library) and @vanduo-oss/vd3-cbun (the components bundle: charts, code-editor, draw, flowchart, hex-grid, music-player). Packages only — never docs-site content.",
+          "text": "Release notes for the vd3 line packages — @vanduo-oss/vd3 (the 3 design system and component library) and @vanduo-oss/vd3-cbun (the components bundle: charts, code-editor, draw, flowchart, hex-grid, music-player).",
           "heading": "Changelog"
         },
         {
@@ -14173,32 +14174,27 @@
         "Changelog",
         "Resources"
       ],
-      "bodyText": "Explore Vanduo Documentation, Guides and Changelog. Documentation v1.4.0. Explore the building blocks of Vanduo UI.. Step-by-step tutorials to master Vanduo.. See what's new in Vanduo and track each release update.",
+      "bodyText": "Explore vd3 Documentation, Guides and Changelog. Explore the building blocks of vd3 UI.. Step-by-step tutorials to master vd3.. See what's new in vd3 and track each release update.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Explore Vanduo Documentation, Guides and Changelog",
+          "text": "Explore vd3 Documentation, Guides and Changelog",
           "heading": "Documentation"
         },
         {
           "type": "paragraph",
-          "text": "Documentation v1.4.0",
-          "heading": "Documentation"
-        },
-        {
-          "type": "paragraph",
-          "text": "Explore the building blocks of Vanduo UI.",
+          "text": "Explore the building blocks of vd3 UI.",
           "heading": "Components"
         },
         {
           "type": "paragraph",
-          "text": "Step-by-step tutorials to master Vanduo.",
+          "text": "Step-by-step tutorials to master vd3.",
           "heading": "Guides"
         },
         {
           "type": "paragraph",
-          "text": "See what's new in Vanduo and track each release update.",
+          "text": "See what's new in vd3 and track each release update.",
           "heading": "Changelog"
         }
       ]
@@ -14218,8 +14214,6 @@
       ],
       "headings": [
         "vd3 UI",
-        "Oola Dock",
-        "See more glass.",
         "Features",
         "One Complete System",
         "Built for 3",
@@ -14230,73 +14224,15 @@
         "Dark Mode & Live Theming",
         "Conflict-Free",
         "Docs Built for -Paste",
+        "See more glass.",
+        "Oola Dock",
         "Phosphor Icons",
         "Open Color Palette",
         "Browse Documentation"
       ],
-      "bodyText": "vd3 UI Getting Started Browse Components GitHub Oola Dock is it a navbar or a dock? a floating footer?. Meet Oola Dock. And if you click it - it becomes horizontal.. oola-lah! look at these colors!. eight tints. same glass. pick a mood.. customize everything — place, radius, glass, brand.. is it a navbar or a dock? a floating footer?. Horizontal or Vertical — let your users choose.. Customize everything: place, radius, glass, brand.. Seemore Glass : every strength step follows the Fibonacci sequence — the same harmonic spine as vd3’s spacing, radius, and golden-ratio DNA — so blur, tint, edge, and elevation thicken together as one material.. Pair it with decorative Surfaces (mesh, stripe, noise, aurora, dots, grid) and your frosted UI finally has a stage worthy of the frost.. Fibonacci step eight — navigation-grade frost over a live .vd-surface-stripe backdrop.. A standalone 3 design system — components, composables, and tokens in one package, with the vd3-cbun bundle for charts, flowcharts, and more. Tap a card to dig in.. vd3 is a standalone 3 design system — typed components, a composable for every interaction, and design tokens, all shipped in a single package. No extra runtime, no configuration ceremony.. Typed <script setup> components, a composable for every interaction, Pinia-free reactive stores, and static rendering via vite-ssg. It's tree-shakeable ESM, so you pull in only the pieces you actually use.. Need more than the core kit? @vanduo-oss/vd3-cbun adds production-ready charts, an interactive flowchart canvas, hex grids, and a full music player — each a typed 3 component that inherits the same tokens.. Design tokens ship with @vanduo-oss/vd3 as DTCG JSON and compile to the variables every component reads. Change a token once and the whole system re-skins in lockstep — never drifting out of sync.. Spacing, type scale, shadows, and grid layouts are derived from the Fibonacci sequence and the Golden Ratio, so layouts feel balanced without manual tweaking.. ARIA roles, visible focus rings, semantic markup, keyboard-first interactions, and prefers-reduced-motion support ship with every component. Accessibility is on from the start — never a bolt-on.. Light, dark, and system-synced themes driven by variables, with a drop-in switcher and a live customizer. Theme once at the token layer and every component re-skins instantly.. Every class is namespaced with vd- and the components scope cleanly, so vd3 coexists with Bootstrap, Tailwind, or legacy styles without cascade surprises.. Every component and composable comes with a live demo, a typed API table, and -paste-ready snippets — written to read like the platform itself, so you can lift examples straight into your app.. 1,500+ icons in 6 weights, bundled locally. No CDN required.. Icons by Phosphor Icons — MIT Licensed. See full documentation →. Vanduo ships with Open Color (MIT) as its default palette — the friendly, battle-tested scale you already know. Prefer color that shares the golden-angle DNA of Vanduo's spacing and grid? The Fibonacci palette is one toggle away.. Open Color by Heeyeun Jeong (MIT), shipped through @vanduo-oss/vd3 . The optional golden-angle Fibonacci palette is one toggle away. See the full palette in the documentation →. Explore all components, utilities, and code examples.",
+      "bodyText": "vd3 UI Getting Started Browse Components GitHub Features A standalone 3 design system — components, composables, and tokens in one package, with the vd3-cbun bundle for charts, flowcharts, and more. Tap a card to dig in.. vd3 is a standalone 3 design system — typed components, a composable for every interaction, and design tokens, all shipped in a single package. No extra runtime, no configuration ceremony.. Typed <script setup> components, a composable for every interaction, Pinia-free reactive stores, and static rendering via vite-ssg. It's tree-shakeable ESM, so you pull in only the pieces you actually use.. Need more than the core kit? @vanduo-oss/vd3-cbun adds production-ready charts, an interactive flowchart canvas, hex grids, and a full music player — each a typed 3 component that inherits the same tokens.. Design tokens ship with @vanduo-oss/vd3 as DTCG JSON and compile to the variables every component reads. Change a token once and the whole system re-skins in lockstep — never drifting out of sync.. Spacing, type scale, shadows, and grid layouts are derived from the Fibonacci sequence and the Golden Ratio, so layouts feel balanced without manual tweaking.. ARIA roles, visible focus rings, semantic markup, keyboard-first interactions, and prefers-reduced-motion support ship with every component. Accessibility is on from the start — never a bolt-on.. Light, dark, and system-synced themes driven by variables, with a drop-in switcher and a live customizer. Theme once at the token layer and every component re-skins instantly.. Every class is namespaced with vd- and the components scope cleanly, so vd3 coexists with Bootstrap, Tailwind, or legacy styles without cascade surprises.. Every component and composable comes with a live demo, a typed API table, and -paste-ready snippets — written to read like the platform itself, so you can lift examples straight into your app.. Seemore Glass : every strength step follows the Fibonacci sequence — the same harmonic spine as vd3’s spacing, radius, and golden-ratio DNA — so blur, tint, edge, and elevation thicken together as one material.. Pair it with decorative Surfaces (mesh, stripe, noise, aurora, dots, grid) and your frosted UI finally has a stage worthy of the frost.. Fibonacci step eight — navigation-grade frost over a live .vd-surface-stripe backdrop.. is it a navbar or a dock? a floating footer?. Meet Oola Dock. And if you click it - it becomes horizontal.. oola-lah! look at these colors!. eight tints. same glass. pick a mood.. customize everything — place, radius, glass, brand.. is it a navbar or a dock? a floating footer?. Horizontal or Vertical — let your users choose.. Customize everything: place, radius, glass, brand.. 1,500+ icons in 6 weights, bundled locally. No CDN required.. Icons by Phosphor Icons — MIT Licensed. See full documentation →. vd3 ships with Open Color (MIT) as its default palette — the friendly, battle-tested scale you already know. Prefer color that shares the golden-angle DNA of vd3's spacing and grid? The Fibonacci palette is one toggle away.. Open Color by Heeyeun Jeong (MIT), shipped through @vanduo-oss/vd3 . The optional golden-angle Fibonacci palette is one toggle away. See the full palette in the documentation →. Explore all components, utilities, and code examples.",
       "classes": [],
       "chunks": [
-        {
-          "type": "paragraph",
-          "text": "is it a navbar or a dock? a floating footer?",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "Meet Oola Dock. And if you click it - it becomes horizontal.",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "oola-lah! look at these colors!",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "eight tints. same glass. pick a mood.",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "customize everything — place, radius, glass, brand.",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "is it a navbar or a dock? a floating footer?",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "Meet Oola Dock.",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "Horizontal or Vertical — let your users choose.",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "Customize everything: place, radius, glass, brand.",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "Seemore Glass : every strength step follows the Fibonacci sequence — the same harmonic spine as vd3’s spacing, radius, and golden-ratio DNA — so blur, tint, edge, and elevation thicken together as one material.",
-          "heading": "See more glass."
-        },
-        {
-          "type": "paragraph",
-          "text": "Pair it with decorative Surfaces (mesh, stripe, noise, aurora, dots, grid) and your frosted UI finally has a stage worthy of the frost.",
-          "heading": "See more glass."
-        },
-        {
-          "type": "paragraph",
-          "text": "Fibonacci step eight — navigation-grade frost over a live .vd-surface-stripe backdrop.",
-          "heading": "See more glass."
-        },
         {
           "type": "paragraph",
           "text": "A standalone 3 design system — components, composables, and tokens in one package, with the vd3-cbun bundle for charts, flowcharts, and more. Tap a card to dig in.",
@@ -14349,6 +14285,66 @@
         },
         {
           "type": "paragraph",
+          "text": "Seemore Glass : every strength step follows the Fibonacci sequence — the same harmonic spine as vd3’s spacing, radius, and golden-ratio DNA — so blur, tint, edge, and elevation thicken together as one material.",
+          "heading": "See more glass."
+        },
+        {
+          "type": "paragraph",
+          "text": "Pair it with decorative Surfaces (mesh, stripe, noise, aurora, dots, grid) and your frosted UI finally has a stage worthy of the frost.",
+          "heading": "See more glass."
+        },
+        {
+          "type": "paragraph",
+          "text": "Fibonacci step eight — navigation-grade frost over a live .vd-surface-stripe backdrop.",
+          "heading": "See more glass."
+        },
+        {
+          "type": "paragraph",
+          "text": "is it a navbar or a dock? a floating footer?",
+          "heading": "Oola Dock"
+        },
+        {
+          "type": "paragraph",
+          "text": "Meet Oola Dock. And if you click it - it becomes horizontal.",
+          "heading": "Oola Dock"
+        },
+        {
+          "type": "paragraph",
+          "text": "oola-lah! look at these colors!",
+          "heading": "Oola Dock"
+        },
+        {
+          "type": "paragraph",
+          "text": "eight tints. same glass. pick a mood.",
+          "heading": "Oola Dock"
+        },
+        {
+          "type": "paragraph",
+          "text": "customize everything — place, radius, glass, brand.",
+          "heading": "Oola Dock"
+        },
+        {
+          "type": "paragraph",
+          "text": "is it a navbar or a dock? a floating footer?",
+          "heading": "Oola Dock"
+        },
+        {
+          "type": "paragraph",
+          "text": "Meet Oola Dock.",
+          "heading": "Oola Dock"
+        },
+        {
+          "type": "paragraph",
+          "text": "Horizontal or Vertical — let your users choose.",
+          "heading": "Oola Dock"
+        },
+        {
+          "type": "paragraph",
+          "text": "Customize everything: place, radius, glass, brand.",
+          "heading": "Oola Dock"
+        },
+        {
+          "type": "paragraph",
           "text": "1,500+ icons in 6 weights, bundled locally. No CDN required.",
           "heading": "Phosphor Icons"
         },
@@ -14359,7 +14355,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Vanduo ships with Open Color (MIT) as its default palette — the friendly, battle-tested scale you already know. Prefer color that shares the golden-angle DNA of Vanduo's spacing and grid? The Fibonacci palette is one toggle away.",
+          "text": "vd3 ships with Open Color (MIT) as its default palette — the friendly, battle-tested scale you already know. Prefer color that shares the golden-angle DNA of vd3's spacing and grid? The Fibonacci palette is one toggle away.",
           "heading": "Open Color Palette"
         },
         {

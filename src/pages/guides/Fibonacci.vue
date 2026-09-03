@@ -129,7 +129,7 @@ const relatedComponents = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      Vanduo's spacing, type, and radius scales follow the Fibonacci sequence
+      vd3's spacing, type, and radius scales follow the Fibonacci sequence
       (1, 2, 3, 5, 8, 13, 21…) instead of a linear 4/8px grid. Because each step
       is the sum of the two before it, sizes relate to one another the way they
       do in nature — rhythm that feels balanced without manual tuning. It's a

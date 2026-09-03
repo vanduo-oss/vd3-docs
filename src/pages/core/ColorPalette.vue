@@ -185,7 +185,7 @@ const themingCss = `:root {
   <section id="color-palette">
     <h5 class="demo-title"><i class="ph ph-palette"></i>Color Palette</h5>
     <p class="vd-mb-8">
-      Vanduo's default palette is
+      vd3's default palette is
       <a
         href="https://yeun.github.io/open-color/"
         target="_blank"
@@ -193,7 +193,7 @@ const themingCss = `:root {
         ><strong>Open Color</strong></a
       >
       (MIT) — the friendly, battle-tested scale you already know. For a look
-      that shares the same DNA as Vanduo's spacing, type, and grid, opt into the
+      that shares the same DNA as vd3's spacing, type, and grid, opt into the
       <strong>Fibonacci</strong> palette — a <em>golden-angle generated</em>
       system where hues rotate by the golden angle (~137.5°) and every shade
       sits on a

@@ -53,7 +53,7 @@ const varsCss = `:root {
   <section id="shadows-glow">
     <h5 class="demo-title"><i class="ph ph-sun"></i>Shadows &amp; Glow</h5>
     <p class="vd-mb-8">
-      Vanduo provides a comprehensive shadow system based on Fibonacci
+      vd3 provides a comprehensive shadow system based on Fibonacci
       proportions, plus glow effects for interactive elements. Shadows create
       depth and visual hierarchy, while glow effects add emphasis on hover.
     </p>

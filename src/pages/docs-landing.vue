@@ -32,7 +32,7 @@ const cards: DocsCard[] = [
     cardClass: "docs-card-components",
     icon: "ph-cube",
     title: "Components",
-    desc: "Explore the building blocks of Vanduo UI.",
+    desc: "Explore the building blocks of vd3 UI.",
     highlights: [
       { icon: "ph-check-circle", text: "Live demos with copy-paste snippets" },
       {
@@ -55,7 +55,7 @@ const cards: DocsCard[] = [
     cardClass: "docs-card-guides",
     icon: "ph-compass",
     title: "Guides",
-    desc: "Step-by-step tutorials to master Vanduo.",
+    desc: "Step-by-step tutorials to master vd3.",
     highlights: [
       { icon: "ph-rocket-launch", text: "Quick start & zero-to-ship setup" },
       { icon: "ph-shield-check", text: "Security, lifecycle, and production" },
@@ -74,7 +74,7 @@ const cards: DocsCard[] = [
     cardClass: "docs-card-changelog",
     icon: "ph-clock-counter-clockwise",
     title: "Changelog",
-    desc: "See what's new in Vanduo and track each release update.",
+    desc: "See what's new in vd3 and track each release update.",
     highlights: [
       {
         icon: "ph-sparkle",
@@ -118,7 +118,7 @@ const resources = [
           <i class="ph ph-book-open-text"></i> Documentation
         </h2>
         <p class="vd-text-lg vd-text-muted">
-          Explore Vanduo Documentation, Guides and Changelog
+          Explore vd3 Documentation, Guides and Changelog
         </p>
       </div>
     </div>

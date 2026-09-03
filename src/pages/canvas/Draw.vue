@@ -125,7 +125,7 @@ const methods: [string, string][] = [
   <section id="vd-draw">
     <h5 class="demo-title"><i class="ph ph-paint-brush"></i>Draw</h5>
     <p class="vd-mb-8">
-      <strong>Vanduo Draw</strong> is a standalone SVG
+      <strong>vd3 Draw</strong> is a standalone SVG
       <strong>drawing tool</strong> from <code>@vanduo-oss/vd3-cbun/draw</code>.
       Its dependency-free brush engine turns freehand strokes into smooth,
       variable-width marks (pressure- and velocity-aware). Pick a

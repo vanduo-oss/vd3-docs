@@ -86,7 +86,7 @@ const attrs: [string, string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      Vanduo themes by writing <code>data-*</code> attributes on
+      vd3 themes by writing <code>data-*</code> attributes on
       <code>&lt;html&gt;</code> — the CSS reads them. In Vue&nbsp;3 the
       <code>useThemePreference()</code> singleton sets those attributes,
       persists the choice to <code>localStorage</code>, and re-applies it on
@@ -151,7 +151,7 @@ const attrs: [string, string, string][] = [
               The option lists (hue names, neutrals, radii, fonts) come from
               <code>@vanduo-oss/vd3</code> so they match its token catalog
               exactly — see
-              <RouterLink to="/guides/vanduo-ecosystem"
+              <RouterLink to="/guides/vd3-ecosystem"
                 >vd3 ecosystem</RouterLink
               >.
             </p>

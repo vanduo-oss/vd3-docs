@@ -487,7 +487,7 @@ function detachAndMinimize() {
       volume, optional shuffle and repeat modes, seek bar, playlist, glass
       surface, and a detachable floating mode (corner placement, pointer-drag
       reposition, minimizable). Zero external dependencies, powered by the
-      native Audio API, and it automatically adapts to the active Vanduo theme.
+      native Audio API, and it automatically adapts to the active vd3 theme.
     </p>
     <p class="vd-text-sm vd-text-muted vd-mb-8">
       Install the player separately from the core framework. All live demos

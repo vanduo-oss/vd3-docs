@@ -89,7 +89,7 @@ import SecurityPage from "@/pages/guides/SecurityPractices.vue";
 import ProductionPage from "@/pages/guides/ProductionBestPractices.vue";
 import TroubleshootingPage from "@/pages/guides/Troubleshooting.vue";
 import UtilitiesCheatSheetPage from "@/pages/guides/UtilitiesCheatSheet.vue";
-import VanduoEcosystemPage from "@/pages/guides/VanduoEcosystem.vue";
+import Vd3EcosystemPage from "@/pages/guides/Vd3Ecosystem.vue";
 import HybridSearchGuidePage from "@/pages/guides/HybridSearch.vue";
 import MorphPage from "@/pages/effects/Morph.vue";
 import ParallaxPage from "@/pages/effects/Parallax.vue";
@@ -193,7 +193,7 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   production: ProductionPage,
   troubleshooting: TroubleshootingPage,
   "utilities-cheat-sheet": UtilitiesCheatSheetPage,
-  "vanduo-ecosystem": VanduoEcosystemPage,
+  "vd3-ecosystem": Vd3EcosystemPage,
   "guide-hybrid-search": HybridSearchGuidePage,
 };
 
@@ -249,6 +249,12 @@ export const buildRoutes = (): RouteRecordRaw[] => {
     path: "/quick-start",
     redirect: "/guides/getting-started",
     meta: { title: "Quick Start", keywords: [] },
+  });
+
+  routes.push({
+    path: "/guides/vanduo-ecosystem",
+    redirect: "/guides/vd3-ecosystem",
+    meta: { title: "vd3 ecosystem", keywords: [] },
   });
 
   // Legacy alias — Icon lived under Primitives but duplicated /core/icons.

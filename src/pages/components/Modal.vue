@@ -683,7 +683,7 @@ const classRows: [string, string][] = [
               type="text"
               id="m-name"
               class="vd-input"
-              value="Vanduo Design System"
+              value="vd3 Design System"
             />
           </div>
           <div class="vd-form-group vd-mb-0">

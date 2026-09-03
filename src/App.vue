@@ -18,22 +18,22 @@ const search = useSearchStore();
 
 // ── Per-route SEO (baked into the SSG HTML via @unhead) ──────────────
 const BASE_URL = "https://vd3.vanduo.dev";
-const BRAND_TITLE = "Vanduo — Fibonacci-Tuned Vue 3 Design System";
+const BRAND_TITLE = "vd3 — Fibonacci-Tuned Vue 3 Design System";
 const DEFAULT_DESCRIPTION =
-  "Vanduo is a Fibonacci-tuned Vue 3 design system: first-class components and composables on a golden-ratio scale with a single, consistent token set.";
+  "vd3 is a Fibonacci-tuned Vue 3 design system: first-class components and composables on a golden-ratio scale with a single, consistent token set.";
 
 const pageTitle = computed(() => {
   const t = route.meta?.title as string | undefined;
   if (route.path === "/") return "vd3 UI";
-  if (!t || t === "Vanduo Docs") return BRAND_TITLE;
-  return `${t} — Vanduo`;
+  if (!t || t === "vd3 Docs") return BRAND_TITLE;
+  return `${t} — vd3`;
 });
 const pageDescription = computed(() => {
   const d = route.meta?.description as string | undefined;
   if (d) return d;
   const t = route.meta?.title as string | undefined;
   return t && route.path !== "/"
-    ? `${t} in Vanduo — the Fibonacci-tuned Vue 3 design system with first-class components and a single consistent token set.`
+    ? `${t} in vd3 — the Fibonacci-tuned Vue 3 design system with first-class components and a single consistent token set.`
     : DEFAULT_DESCRIPTION;
 });
 const canonical = computed(() => `${BASE_URL}${route.path}`);

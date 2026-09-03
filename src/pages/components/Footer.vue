@@ -18,7 +18,7 @@ const coreHtml = `<!-- Rendered output of &lt;VdFooter :columns="3"&gt; -->
         <li class="vd-footer-list-item"><a class="vd-footer-link" href="#">Components</a></li>
       </ul>
     </div>
-    <div class="vd-footer-copyright">© 2026 Vanduo</div>
+    <div class="vd-footer-copyright">© 2026 vd3</div>
   </div>
 </footer>`;
 
@@ -40,7 +40,7 @@ import { VdFooter } from "@vanduo-oss/vd3";
       </ul>
     </div>
 
-    <template #copyright>© 2026 Vanduo</template>
+    <template #copyright>© 2026 vd3</template>
   </VdFooter>
 </template>`;
 
@@ -187,7 +187,7 @@ const apiRows: [string, string, string][] = [
                   </ul>
                 </div>
                 <template #copyright>
-                  © 2026 Vanduo — built with vd3.
+                  © 2026 vd3 — built with vd3.
                 </template>
               </VdFooter>
             </div>
@@ -241,7 +241,7 @@ const apiRows: [string, string, string][] = [
                     </li>
                   </ul>
                 </div>
-                <template #copyright> © 2026 Vanduo. MIT licensed. </template>
+                <template #copyright> © 2026 vd3. MIT licensed. </template>
               </VdFooter>
             </div>
           </div>
