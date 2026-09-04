@@ -230,6 +230,40 @@ import "@/styles/hero-display-font.css";
 }
 
 @media (max-width: 767.98px) {
+  .about-intro-brand-wrap {
+    width: 100%;
+  }
+
+  .about-intro-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 0;
+  }
+
+  /* Same optical-gap idea as the home hero: stage + viewBox pad sit
+     below the ink. Reset the side-by-side pull and stack the title. */
+  .about-intro-logo-stage {
+    margin-inline-end: 0;
+    margin-bottom: calc(
+      1.5rem -
+        (
+          (
+              8.125rem * var(--vd3-mark-view-size-ratio, 1.193) *
+                var(--vd3-mark-stage-scale, 1.85) - 8.125rem
+            ) /
+            2 + 8.125rem * 0.264
+        )
+    );
+  }
+
+  .vd-footer-brand-title {
+    margin: 0;
+    text-align: center;
+  }
+
   .about-intro-subtitle {
     font-size: 0.95rem;
   }
