@@ -63,7 +63,7 @@ test.describe("Global hybrid search", () => {
     await expect(dialog).toBeVisible();
 
     const aiToggle = dialog.getByRole("switch", { name: "AI search" });
-    await aiToggle.click();
+    await dialog.locator("label.vd-form-switch", { hasText: "AI search" }).click();
     await expect(dialog.locator(".vd-global-search-ai-notice")).toBeVisible();
     await expect(dialog.getByRole("button", { name: "Got it" })).toBeVisible();
 

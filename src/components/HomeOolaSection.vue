@@ -18,13 +18,17 @@ const FAN_EXTRA = "customize everything — place, radius, glass, brand.";
 const FAN_LEAD_MOBILE = "Horizontal or Vertical — let your users choose.";
 const FAN_EXTRA_MOBILE = "Customize everything: place, radius, glass, brand.";
 
-/** Desktop: fan opens over the first ~55% of the sticky runway. */
+/** Desktop: fan opens over the first ~28% of the (lead-in + sticky) runway. */
 const DESKTOP_FAN_START = 0;
-const DESKTOP_FAN_END = 0.55;
+const DESKTOP_FAN_END = 0.28;
 
 /** Narrow: same left-hinge fan. */
-const MOBILE_FAN_START = 0.12;
-const MOBILE_FAN_END = 0.42;
+const MOBILE_FAN_START = 0.04;
+const MOBILE_FAN_END = 0.22;
+
+/** Approach window (viewport fraction) so the fan starts before the section sticks. */
+const DESKTOP_FAN_LEAD = 0.65;
+const MOBILE_FAN_LEAD = 0.4;
 
 const docks: { tint: DockTint; label: string }[] = DOCK_TINTS.map((tint) => ({
   tint,
@@ -114,9 +118,13 @@ function clampProgress(value: number): number {
 function readNativeProgress(): void {
   const el = root.value;
   if (!el) return;
-  const total = el.offsetHeight - window.innerHeight;
+  const viewH = window.innerHeight;
+  const lead = viewH * (narrow.value ? MOBILE_FAN_LEAD : DESKTOP_FAN_LEAD);
+  const total = el.offsetHeight - viewH + lead;
   progress.value =
-    total <= 0 ? 0 : clampProgress(-el.getBoundingClientRect().top / total);
+    total <= 0
+      ? 0
+      : clampProgress((-el.getBoundingClientRect().top + lead) / total);
 }
 
 let scrollTick = 0;

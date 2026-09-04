@@ -356,7 +356,7 @@ test.describe("Site Oola dock chrome", () => {
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
   });
 
-  test("narrow brand click morphs bottom to top with square waypoint", async ({
+  test("narrow brand click morphs top to bottom with square waypoint", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 320, height: 844 });
@@ -365,14 +365,14 @@ test.describe("Site Oola dock chrome", () => {
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     const brand = dock.locator("button.vd-dock-brand").first();
 
-    await expect(dock).toHaveClass(/vd-dock-edge-bottom/);
+    await expect(dock).toHaveClass(/vd-dock-edge-top/);
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
 
     await brand.click({ force: true });
     await expect(dock).toHaveClass(/is-morphing/, { timeout: 2000 });
     await expect(dock).toHaveClass(/is-square/, { timeout: 2000 });
 
-    await expect(dock).toHaveClass(/vd-dock-edge-top/, { timeout: 5000 });
+    await expect(dock).toHaveClass(/vd-dock-edge-bottom/, { timeout: 5000 });
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
   });
 
@@ -386,14 +386,17 @@ test.describe("Site Oola dock chrome", () => {
     await expect(fan).not.toHaveClass(/is-open/);
     await trigger.click();
     await expect(fan).toHaveClass(/is-open/);
-    await expect(fan).toHaveClass(/fan-right/);
+    await expect(fan).toHaveClass(/fan-down/);
     await expect(fan.getByRole("option")).toHaveCount(9);
     // The package fan labels hues from PRIMARY_COLORS, so black reads "Black"
     // where the retired docs fork branded it "Ink".
     await expect(fan.getByRole("option", { name: "Black" })).toBeVisible();
     await expect(fan.getByRole("option", { name: "Yellow" })).toBeVisible();
 
-    await fan.getByRole("option", { name: "Yellow" }).click();
+    await fan
+      .getByRole("option", { name: "Yellow" })
+      .locator(".tc-fan-swatch")
+      .click();
     await expect(fan).not.toHaveClass(/is-open/);
     await expect(page.locator("html")).toHaveAttribute("data-primary", "yellow");
   });
