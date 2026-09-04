@@ -582,7 +582,7 @@ const events: [string, string, string][] = [
 
 #scrollspy .waypoint-demo-tab-nav-pill button.is-active {
   background-color: var(--vd-waypoint-active-color);
-  color: #fff;
+  color: var(--vd-text-on-primary);
   font-weight: 600;
 }
 

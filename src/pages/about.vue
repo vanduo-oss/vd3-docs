@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Vd3Mark from "@/components/Vd3Mark.vue";
 import "@/styles/logo-fx.css";
+import "@/styles/hero-display-font.css";
 </script>
 
 <template>
@@ -140,6 +141,12 @@ import "@/styles/logo-fx.css";
   display: flex;
   justify-content: center;
   margin-bottom: 0.5rem;
+}
+
+/* Home hero: ~32px from the rightmost sphere to "vd3". The About
+   stage box pads past the ink; pull the title into that space. */
+.about-intro-logo-stage {
+  margin-inline-end: -4.15rem;
 }
 
 .about-intro-subtitle {

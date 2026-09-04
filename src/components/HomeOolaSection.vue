@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, type CSSProperties } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { DOCK_TINTS, VdDock, VdDockItem, type DockTint } from "@vanduo-oss/vd3";
 import OolaUMark from "@/components/OolaUMark.vue";
@@ -10,9 +10,9 @@ import {
 
 /**
  * Home Oola presentation — scroll-driven tint fan only (final beat of the
- * former silk story). Reduced motion: full fan + copy, no scroll animation.
+ * former silk story). Copy is always on; reduced motion skips the fan scroll.
  */
-const FAN_TITLE = "Oola Dock — in all its shapes and forms.";
+const FAN_TITLE = "Oola Dock — in all its shapes and colors.";
 const FAN_LEAD = "eight tints. same glass. pick a mood.";
 const FAN_EXTRA = "customize everything — place, radius, glass, brand.";
 const FAN_LEAD_MOBILE = "Horizontal or Vertical — let your users choose.";
@@ -21,14 +21,10 @@ const FAN_EXTRA_MOBILE = "Customize everything: place, radius, glass, brand.";
 /** Desktop: fan opens over the first ~55% of the sticky runway. */
 const DESKTOP_FAN_START = 0;
 const DESKTOP_FAN_END = 0.55;
-const DESKTOP_COPY_START = 0.2;
-const DESKTOP_COPY_END = 0.42;
 
-/** Narrow: same left-hinge fan, copy after the deck opens. */
+/** Narrow: same left-hinge fan. */
 const MOBILE_FAN_START = 0.12;
 const MOBILE_FAN_END = 0.42;
-const MOBILE_COPY_START = 0.45;
-const MOBILE_COPY_END = 0.58;
 
 const docks: { tint: DockTint; label: string }[] = DOCK_TINTS.map((tint) => ({
   tint,
@@ -62,48 +58,11 @@ function smootherstep(t: number): number {
   return x * x * x * (x * (x * 6 - 15) + 10);
 }
 
-function layerStyle(opacity: number): Record<string, string> {
-  const o = Math.min(1, Math.max(0, opacity));
-  const blur = reduced.value ? 0 : (1 - o) * 7;
-  const lift = reduced.value ? 0 : (1 - o) * 0.45;
-  return {
-    opacity: o.toFixed(3),
-    filter: blur > 0.04 ? `blur(${blur.toFixed(2)}px)` : "none",
-    transform: `translateY(${lift.toFixed(2)}rem)`,
-    pointerEvents: o > 0.5 ? "auto" : "none",
-  };
-}
-
 const fanAmount = computed(() => {
   if (reduced.value) return 1;
   const p = progress.value;
   if (narrow.value) return ramp(p, MOBILE_FAN_START, MOBILE_FAN_END);
   return ramp(p, DESKTOP_FAN_START, DESKTOP_FAN_END);
-});
-
-const fanCopyOpacity = computed(() => {
-  if (reduced.value) return 1;
-  const p = progress.value;
-  if (narrow.value) return 0;
-  return ramp(p, DESKTOP_COPY_START, DESKTOP_COPY_END);
-});
-
-const mobileCopyOpacity = computed(() => {
-  if (!narrow.value) return 0;
-  if (reduced.value) return 1;
-  if (fanAmount.value < 0.98) return 0;
-  return ramp(progress.value, MOBILE_COPY_START, MOBILE_COPY_END);
-});
-
-const mobileCopyStyle = computed<CSSProperties>(() => {
-  const o = Math.min(1, Math.max(0, mobileCopyOpacity.value));
-  const lift = reduced.value ? 0 : (1 - o) * 0.4;
-  return {
-    opacity: o.toFixed(3),
-    transform: `translateY(${lift.toFixed(2)}rem)`,
-    pointerEvents: o > 0.5 ? "auto" : "none",
-    visibility: o < 0.02 ? "hidden" : "visible",
-  };
 });
 
 const isFanning = computed(() => fanAmount.value > 0.02);
@@ -268,10 +227,7 @@ onUnmounted(() => {
 
         <h2 id="oola-home-title" class="vd-visually-hidden">Oola Dock</h2>
 
-        <div
-          class="oola-home-copy oola-home-copy-side"
-          :style="layerStyle(fanCopyOpacity)"
-        >
+        <div class="oola-home-copy oola-home-copy-side">
           <p class="oola-home-title">{{ FAN_TITLE }}</p>
           <p class="oola-home-lead">{{ FAN_LEAD }}</p>
           <p class="oola-home-lead">{{ FAN_EXTRA }}</p>
@@ -285,12 +241,7 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <div
-          class="oola-home-mobile oola-home-mobile-after"
-          :style="mobileCopyStyle"
-          :inert="mobileCopyOpacity < 0.5"
-          :aria-hidden="mobileCopyOpacity < 0.02"
-        >
+        <div class="oola-home-mobile oola-home-mobile-after">
           <p class="oola-home-title">{{ FAN_TITLE }}</p>
           <p class="oola-home-lead">{{ FAN_LEAD_MOBILE }}</p>
           <p class="oola-home-lead">{{ FAN_EXTRA_MOBILE }}</p>
@@ -315,14 +266,14 @@ onUnmounted(() => {
   --oola-fan-origin-x: 1.75rem;
   --oola-fan-origin-y: 50%;
 
-  margin-top: clamp(6rem, 14vh, 10rem);
-  min-height: 180vh;
+  margin-top: clamp(2.25rem, 5vh, 3.75rem);
+  min-height: 130vh;
 }
 
 .oola-home-pin {
   position: sticky;
   top: var(--docs-main-offset, 5.5rem);
-  height: calc(100vh - var(--docs-main-offset, 5.5rem));
+  height: min(32rem, calc(100vh - var(--docs-main-offset, 5.5rem)));
   overflow: hidden;
 }
 
@@ -335,7 +286,7 @@ onUnmounted(() => {
   height: 100%;
   max-width: 88rem;
   margin: 0 auto;
-  padding: 1.5rem 1.25rem 2rem;
+  padding: 1.25rem 1.25rem 1.5rem;
 }
 
 /* Fan card position — always the presentation frame (no ask/meet morph). */
@@ -448,8 +399,8 @@ onUnmounted(() => {
     --oola-fan-origin-y: 0;
     --oola-fan-progress: 0;
 
-    margin-top: clamp(3rem, 8vh, 5rem);
-    min-height: 180vh;
+    margin-top: clamp(2rem, 5vh, 3.25rem);
+    min-height: 140vh;
     overflow-x: clip;
   }
 

@@ -215,7 +215,7 @@ const apiRows: [string, string, string][] = [
 }
 #parallax .parallax-demo .pd-layer-dots {
   background-image: radial-gradient(
-    color-mix(in srgb, var(--vd-text-on-primary, #fff) 70%, transparent) 2.5px,
+    color-mix(in srgb, var(--vd-text-on-primary) 70%, transparent) 2.5px,
     transparent 2.5px
   );
   background-size: 30px 30px;
@@ -250,7 +250,7 @@ const apiRows: [string, string, string][] = [
   min-height: inherit;
   padding: 1.5rem;
   text-align: center;
-  color: var(--vd-text-on-primary, #fff);
+  color: var(--vd-text-on-primary);
   font-weight: 600;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }

@@ -280,7 +280,7 @@ const themingCss = `:root {
                   <div
                     style="
                       background: var(--vd-color-primary);
-                      color: var(--vd-text-on-primary, #fff);
+                      color: var(--vd-text-on-primary);
                       padding: 0.5rem 0.75rem;
                       border-radius: var(--vd-radius-fib-3);
                       margin-bottom: 0.5rem;
@@ -332,7 +332,7 @@ const themingCss = `:root {
                   <div
                     style="
                       background: var(--vd-color-primary);
-                      color: var(--vd-text-on-primary, #fff);
+                      color: var(--vd-text-on-primary);
                       padding: 0.5rem 0.75rem;
                       border-radius: var(--vd-radius-fib-3);
                       margin-bottom: 0.5rem;

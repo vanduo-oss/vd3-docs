@@ -66,7 +66,7 @@ const classRows: [string, string][] = [
     ".vd-badge",
     "Base badge. Inline-block with padding, rounded corners, and centered text.",
   ],
-  [".vd-badge-primary", "Primary color background with white text."],
+  [".vd-badge-primary", "Primary color background with on-fill ink."],
   [".vd-badge-secondary", "Secondary (teal/green) background."],
   [".vd-badge-success", "Green success background."],
   [".vd-badge-warning", "Amber warning background."],

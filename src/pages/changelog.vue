@@ -70,7 +70,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.7.1</span
+              >v1.7.2</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>September 2026
@@ -78,6 +78,61 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Contrast-aware on-fill ink</strong> — bright filled
+                  surfaces (yellow, orange, and similarly light primaries) use
+                  dark ink via <code>--vd-text-on-primary</code>,
+                  <code>--vd-text-on-primary-hover</code>, and
+                  <code>--vd-text-on-status</code> instead of hardcoded white.
+                  CSS-only; no API change.
+                </p>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-circle-half"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Contrast-aware on-fill ink</strong>
+                        <p>
+                          Filled primary and status chrome reads
+                          <code>--vd-text-on-primary</code> /
+                          <code>--vd-text-on-primary-hover</code> /
+                          <code>--vd-text-on-status</code> so yellow, orange,
+                          and other light fills get dark, high-contrast
+                          foreground instead of white. Applies to buttons
+                          (including hover-filled outline / ink and loading
+                          spinners) and other filled surfaces — chips, badges,
+                          alerts, and similar. Dark theme does not flip those
+                          bright fills back to white text. See
+                          <RouterLink to="/components/button"
+                            ><code>/components/button</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.7.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>September 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">

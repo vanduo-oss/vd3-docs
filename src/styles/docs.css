@@ -676,7 +676,7 @@ html[data-theme="dark"][data-primary="black"] {
   top: 0;
   left: -9999px;
   background: var(--vd-color-primary);
-  color: var(--vd-color-white);
+  color: var(--vd-text-on-primary);
   padding: 8px;
   text-decoration: none;
   z-index: 100;
@@ -1048,7 +1048,7 @@ section:last-of-type {
 .neutral-btn.active,
 .radius-btn.active {
   background: var(--vd-color-primary);
-  color: white;
+  color: var(--vd-text-on-primary);
   border-color: var(--vd-color-primary);
 }
 
@@ -1236,7 +1236,7 @@ section:last-of-type {
 
 .waypoint-demo-tab-nav-pill button.is-active {
   background-color: var(--vd-waypoint-active-color);
-  color: #fff;
+  color: var(--vd-text-on-primary);
   font-weight: 600;
 }
 
@@ -1946,8 +1946,7 @@ footer.vd-glass::before {
 #home .hero-cta-buttons .vd-btn-outline.vd-btn-ring,
 #home .seemore-home-cta .vd-btn-outline.vd-btn-ring,
 #home .oola-home-cta .vd-btn-outline.vd-btn-ring,
-#home #cta .vd-btn-outline.vd-btn-ring,
-#home-features .feature-morph-link.vd-btn-outline.vd-btn-ring {
+#home #cta .vd-btn-outline.vd-btn-ring {
   border-width: 2px;
 
   --vd-btn-ring-width: 2px;
@@ -1966,13 +1965,7 @@ footer.vd-glass::before {
   .vd-btn-outline.vd-btn-ring:hover:not(:disabled, .disabled, .is-disabled),
 #home
   #cta
-  .vd-btn-outline.vd-btn-ring:hover:not(:disabled, .disabled, .is-disabled),
-#home-features
-  .feature-morph-link.vd-btn-outline.vd-btn-ring:hover:not(
-    :disabled,
-    .disabled,
-    .is-disabled
-  ) {
+  .vd-btn-outline.vd-btn-ring:hover:not(:disabled, .disabled, .is-disabled) {
   --vd-btn-ring-color: var(--vd-color-primary);
 
   border-color: var(--vd-color-primary);
@@ -2084,7 +2077,7 @@ footer.vd-glass::before {
 }
 
 /* Home: "Read the guide" link on the revealed card face.
-   Type / padding / ring come from the shared #home marketing CTA rules. */
+   Type / padding come from the shared #home marketing CTA rules. */
 #home-features .feature-morph-card .feature-morph-link {
   margin-top: 0.5rem;
   display: inline-flex;
@@ -4355,7 +4348,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 .vd-table code:hover,
 .vd-code-snippet .code-selector:hover {
   background-color: var(--vd-color-primary);
-  color: var(--vd-color-white);
+  color: var(--vd-text-on-primary);
   border-radius: var(--vd-radius-fib-3, 4px);
 }
 
@@ -4512,7 +4505,7 @@ body.lcc-open .vd-offcanvas {
 }
 
 .lcc-engine-btn.active {
-  color: #fff;
+  color: var(--vd-text-on-primary);
   background: var(--vd-color-primary);
 }
 
@@ -4623,8 +4616,12 @@ body.lcc-open .vd-offcanvas {
   border-color: var(--vd-color-primary);
 }
 
+.lcc-seg-btn.active,
+.lcc-seg-btn.active i {
+  color: var(--vd-text-on-primary);
+}
+
 .lcc-seg-btn.active {
-  color: #fff;
   background: var(--vd-color-primary);
   border-color: var(--vd-color-primary);
 }

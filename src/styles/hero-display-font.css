@@ -1,0 +1,11 @@
+/* ── Hero display font (Zen Dots) ──────────────────
+   Display-only for home / About "vd3" wordmarks. Not the docs UI font.
+   Face is the Regular cut already shipped by @vanduo-oss/vd3 (no bold master). */
+
+#home .hero-title .hero-title-text,
+#home .hero-title .hero-title-brand,
+#about .vd-footer-brand-title .hero-title-text,
+#about .vd-footer-brand-title .hero-title-brand {
+  font-family: "Zen Dots", sans-serif;
+  font-weight: 400;
+}

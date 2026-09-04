@@ -6,6 +6,7 @@ import HomeOolaSection from "@/components/HomeOolaSection.vue";
 import Vd3Mark from "@/components/Vd3Mark.vue";
 import { HERO_LOGO_FX, vd3MarkSize } from "@/utils/logoFx";
 import "@/styles/logo-fx.css";
+import "@/styles/hero-display-font.css";
 
 /** Previous hero mark was 2.5em — scaled up 2.5× for the home hero. */
 const HERO_MARK_EM = 6.25;
@@ -309,7 +310,7 @@ const swatches = [
                 <p class="feature-morph-body">{{ feature.body }}</p>
                 <RouterLink
                   :to="feature.guide.to"
-                  class="vd-btn vd-btn-outline vd-btn-ring feature-morph-link"
+                  class="vd-btn vd-btn-ink feature-morph-link"
                   :tabindex="flipped[i] ? 0 : -1"
                   :aria-hidden="flipped[i] ? undefined : 'true'"
                   :aria-label="`Read the guide: ${feature.guide.label}`"

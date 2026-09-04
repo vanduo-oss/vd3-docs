@@ -49,9 +49,7 @@ const variantsHtml = `<button class="vd-btn vd-btn-primary">Primary</button>
 <button class="vd-btn vd-btn-outline-secondary">Outline Secondary</button>`;
 
 const variantsCss = `.vd-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   padding: var(--vd-btn-padding-y) var(--vd-btn-padding-x);
   font-weight: var(--vd-font-weight-medium);
   border-radius: var(--vd-btn-border-radius);
@@ -80,17 +78,18 @@ const sizesCss = `.vd-btn-sm {
 }
 
 .vd-btn-block {
-  display: flex;
+  display: block;
   width: 100%;
 }`;
 
-const inkHtml = `<button class="vd-btn vd-btn-ink">Ink</button>
-<button class="vd-btn vd-btn-ink vd-btn-sm">Small</button>
+const inkHtml = `<button class="vd-btn vd-btn-ink vd-btn-sm">Small</button>
+<button class="vd-btn vd-btn-ink">Default</button>
 <button class="vd-btn vd-btn-ink vd-btn-lg">Large</button>
+
 <button class="vd-btn vd-btn-ink vd-btn-ring">Ink + ring</button>`;
 
 const inkCss = `/* Fat single stroke on the border box — not .vd-btn-ring.
- * Hover fills black in light and primary in dark. */
+ * Light hover: white on black. Dark hover: on-fill ink on primary. */
 .vd-btn-ink {
   background-color: transparent;
   border: 2px solid var(--vd-color-primary);
@@ -100,6 +99,12 @@ const inkCss = `/* Fat single stroke on the border box — not .vd-btn-ring.
 .vd-btn-ink:hover:not(:disabled):not(.disabled):not(.is-disabled) {
   background-color: var(--vd-color-black);
   border-color: var(--vd-color-black);
+  color: var(--vd-color-white);
+}
+
+[data-theme="dark"] .vd-btn-ink:hover:not(:disabled):not(.disabled):not(.is-disabled) {
+  background-color: var(--vd-color-primary);
+  border-color: var(--vd-color-primary);
   color: var(--vd-text-on-primary);
 }`;
 
@@ -137,13 +142,17 @@ const iconHtml = `<button class="vd-btn vd-btn-icon vd-btn-primary" aria-label="
 <button class="vd-btn vd-btn-icon vd-btn-danger" aria-label="Delete"><i class="ph ph-trash"></i></button>
 <button class="vd-btn vd-btn-icon vd-btn-outline" aria-label="More options"><i class="ph ph-dots-three"></i></button>`;
 
-const loadingHtml = `<button class="vd-btn vd-btn-primary is-loading" aria-busy="true">
-  <span class="vd-btn-spinner" aria-hidden="true"></span>
-  Loading
-</button>
-<button class="vd-btn vd-btn-primary vd-btn-sm is-loading" aria-busy="true">
+const loadingHtml = `<button class="vd-btn vd-btn-primary vd-btn-sm is-loading" aria-busy="true">
   <span class="vd-btn-spinner" aria-hidden="true"></span>
   Small
+</button>
+<button class="vd-btn vd-btn-primary is-loading" aria-busy="true">
+  <span class="vd-btn-spinner" aria-hidden="true"></span>
+  Default
+</button>
+<button class="vd-btn vd-btn-primary vd-btn-lg is-loading" aria-busy="true">
+  <span class="vd-btn-spinner" aria-hidden="true"></span>
+  Large
 </button>
 <button class="vd-btn vd-btn-outline is-loading" aria-busy="true">
   <span class="vd-btn-spinner" aria-hidden="true"></span>
@@ -205,7 +214,7 @@ const classRef: ClassRef[] = [
   },
   {
     cls: ".vd-btn-ink",
-    desc: 'Fat single 2px outline (not the ring). Hover fills black in light and primary in dark. Also VdButton variant="ink".',
+    desc: 'Fat single 2px outline (not the ring). Hover fills black in light. On this docs site in dark, hover fills solid primary with dark ink. Also VdButton variant="ink".',
     type: "Variant",
   },
   { cls: ".vd-btn-sm", desc: "Small button size", type: "Size" },
@@ -239,7 +248,7 @@ const classRef: ClassRef[] = [
   },
   {
     cls: ".vd-btn-full",
-    desc: "Full-width button (inline-block)",
+    desc: "Alias of .vd-btn-block — full-width (display: block)",
     type: "Size",
   },
   {
@@ -259,27 +268,31 @@ const classRef: ClassRef[] = [
     <p class="vd-mb-8">
       Clickable actions in contextual color variants, three sizes, and outline,
       ink, ghost, ring, and icon looks, with built-in loading and disabled
-      states.
+      states. Filled primary and status chrome uses contrast-aware on-fill ink
+      (<code>--vd-text-on-primary</code> / <code>--vd-text-on-status</code>):
+      bright hues keep dark labels in light and dark.
     </p>
 
     <div class="vd-row">
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Button Variants</h6></div>
-          <div class="vd-card-body">
-            <button class="vd-btn vd-btn-primary">Primary</button>
-            <button class="vd-btn vd-btn-secondary">Secondary</button>
-            <button class="vd-btn vd-btn-success">Success</button>
-            <button class="vd-btn vd-btn-warning">Warning</button>
-            <button class="vd-btn vd-btn-danger">Danger</button>
-            <button class="vd-btn vd-btn-info">Info</button>
-            <button class="vd-btn vd-btn-outline">Outline</button>
-            <button class="vd-btn vd-btn-outline-primary">
-              Outline Primary
-            </button>
-            <button class="vd-btn vd-btn-outline-secondary">
-              Outline Secondary
-            </button>
+          <div class="vd-card-body btn-demo-card-body">
+            <div class="btn-demo-grid" data-demo="variants">
+              <button class="vd-btn vd-btn-primary">Primary</button>
+              <button class="vd-btn vd-btn-secondary">Secondary</button>
+              <button class="vd-btn vd-btn-success">Success</button>
+              <button class="vd-btn vd-btn-warning">Warning</button>
+              <button class="vd-btn vd-btn-danger">Danger</button>
+              <button class="vd-btn vd-btn-info">Info</button>
+              <button class="vd-btn vd-btn-outline">Outline</button>
+              <button class="vd-btn vd-btn-outline-primary">
+                Outline Primary
+              </button>
+              <button class="vd-btn vd-btn-outline-secondary">
+                Outline Secondary
+              </button>
+            </div>
           </div>
         </div>
         <DocCodeSnippet :html="variantsHtml" :css="variantsCss" />
@@ -306,11 +319,12 @@ const classRef: ClassRef[] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Button States</h6></div>
           <div class="vd-card-body">
+            <p class="vd-text-muted vd-mb-6">
+              Press is the live <code>:active</code> state — hold it down.
+            </p>
             <button class="vd-btn vd-btn-primary">Normal</button>
             <button class="vd-btn vd-btn-primary" disabled>Disabled</button>
-            <button class="vd-btn vd-btn-primary" aria-pressed="true">
-              Active
-            </button>
+            <button class="vd-btn vd-btn-primary" type="button">Press</button>
           </div>
         </div>
       </div>
@@ -320,15 +334,17 @@ const classRef: ClassRef[] = [
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Ghost Buttons</h6></div>
-          <div class="vd-card-body">
-            <button class="vd-btn vd-btn-ghost">Ghost</button>
-            <button class="vd-btn vd-btn-ghost-primary">Ghost Primary</button>
-            <button class="vd-btn vd-btn-ghost-secondary">
-              Ghost Secondary
-            </button>
-            <button class="vd-btn vd-btn-ghost-success">Ghost Success</button>
-            <button class="vd-btn vd-btn-ghost-error">Ghost Error</button>
-            <button class="vd-btn vd-btn-ghost-subtle">Ghost Subtle</button>
+          <div class="vd-card-body btn-demo-card-body">
+            <div class="btn-demo-grid" data-demo="ghost">
+              <button class="vd-btn vd-btn-ghost">Ghost</button>
+              <button class="vd-btn vd-btn-ghost-primary">Ghost Primary</button>
+              <button class="vd-btn vd-btn-ghost-secondary">
+                Ghost Secondary
+              </button>
+              <button class="vd-btn vd-btn-ghost-success">Ghost Success</button>
+              <button class="vd-btn vd-btn-ghost-error">Ghost Error</button>
+              <button class="vd-btn vd-btn-ghost-subtle">Ghost Subtle</button>
+            </div>
           </div>
         </div>
         <DocCodeSnippet :html="ghostHtml" />
@@ -344,14 +360,19 @@ const classRef: ClassRef[] = [
               A fat single outline on the border box — not the detached
               <code>.vd-btn-ring</code> halo, and not the 1px
               <code>.vd-btn-outline</code> stroke that fills primary on hover.
-              Rest is transparent; hover fills black in light and primary in
-              dark. Use it as <code>variant="ink"</code> or
-              <code>.vd-btn-ink</code> on a link styled as a button.
+              Rest is transparent; hover fills black with a white label in
+              light, and solid primary with on-fill ink in dark. Use it as
+              <code>variant="ink"</code> or <code>.vd-btn-ink</code> on a link
+              styled as a button.
             </p>
-            <button class="vd-btn vd-btn-ink">Ink</button>
-            <button class="vd-btn vd-btn-ink vd-btn-sm">Small</button>
-            <button class="vd-btn vd-btn-ink vd-btn-lg">Large</button>
-            <button class="vd-btn vd-btn-ink vd-btn-ring">Ink + ring</button>
+            <div class="btn-demo-sizes" data-demo="ink-sizes">
+              <button class="vd-btn vd-btn-ink vd-btn-sm">Small</button>
+              <button class="vd-btn vd-btn-ink">Default</button>
+              <button class="vd-btn vd-btn-ink vd-btn-lg">Large</button>
+            </div>
+            <div class="vd-mt-6">
+              <button class="vd-btn vd-btn-ink vd-btn-ring">Ink + ring</button>
+            </div>
           </div>
         </div>
         <DocCodeSnippet :html="inkHtml" :css="inkCss" />
@@ -439,21 +460,32 @@ const classRef: ClassRef[] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Loading State</h6></div>
           <div class="vd-card-body">
-            <button class="vd-btn vd-btn-primary is-loading" aria-busy="true">
-              <span class="vd-btn-spinner" aria-hidden="true"></span>
-              Loading
-            </button>
-            <button
-              class="vd-btn vd-btn-primary vd-btn-sm is-loading"
-              aria-busy="true"
-            >
-              <span class="vd-btn-spinner" aria-hidden="true"></span>
-              Small
-            </button>
-            <button class="vd-btn vd-btn-outline is-loading" aria-busy="true">
-              <span class="vd-btn-spinner" aria-hidden="true"></span>
-              Outline
-            </button>
+            <div class="btn-demo-sizes" data-demo="loading-sizes">
+              <button
+                class="vd-btn vd-btn-primary vd-btn-sm is-loading"
+                aria-busy="true"
+              >
+                <span class="vd-btn-spinner" aria-hidden="true"></span>
+                Small
+              </button>
+              <button class="vd-btn vd-btn-primary is-loading" aria-busy="true">
+                <span class="vd-btn-spinner" aria-hidden="true"></span>
+                Default
+              </button>
+              <button
+                class="vd-btn vd-btn-primary vd-btn-lg is-loading"
+                aria-busy="true"
+              >
+                <span class="vd-btn-spinner" aria-hidden="true"></span>
+                Large
+              </button>
+            </div>
+            <div class="vd-mt-6">
+              <button class="vd-btn vd-btn-outline is-loading" aria-busy="true">
+                <span class="vd-btn-spinner" aria-hidden="true"></span>
+                Outline
+              </button>
+            </div>
           </div>
         </div>
         <DocCodeSnippet :html="loadingHtml" />
@@ -525,17 +557,44 @@ const classRef: ClassRef[] = [
 </template>
 
 <style scoped>
-/*
-  vd3 1.2.2 centers .vd-btn-spinner with top/left 50% + negative margin.
-  That sits optically low in these demos (filled + outline). Re-center with the
-  independent `translate` property so the rotate animation keeps working.
-  Temporary docs dogfood override until package CSS is fixed.
-*/
-:deep(.vd-btn.is-loading .vd-btn-spinner),
-:deep(.vd-btn.is-loading::after) {
-  top: 50%;
-  left: 50%;
+.btn-demo-card-body {
+  container-type: inline-size;
+}
+
+.btn-demo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
+  align-items: stretch;
+  gap: var(--vd-space-fib-8, 0.75rem);
+}
+
+.btn-demo-grid > .vd-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: 100%;
+  height: 100%;
+  min-height: 4.25rem;
   margin: 0;
-  translate: -50% -50%;
+  box-sizing: border-box;
+}
+
+@container (min-width: 28rem) {
+  .btn-demo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.btn-demo-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--vd-space-fib-8, 0.75rem);
+}
+
+.btn-demo-sizes > .vd-btn {
+  margin: 0;
 }
 </style>
