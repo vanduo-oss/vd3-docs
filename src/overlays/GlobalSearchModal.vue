@@ -46,6 +46,7 @@ watch(
   <VdGlobalSearch
     :adapter="search.searchAdapter"
     :progress-message="progressMessage"
+    ai-toggle-label="Semantic Search (BETA)"
     :ai="{
       enabled: aiEnabled,
       persistKey: 'vd3-docs-search',

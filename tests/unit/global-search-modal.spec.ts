@@ -4,9 +4,7 @@ import { createPinia } from "pinia";
 import { createRouter, createMemoryHistory } from "vue-router";
 import GlobalSearchModal from "@/overlays/GlobalSearchModal.vue";
 import { AI_SEARCH_DISCLAIMER_ACK_KEY } from "@/composables/useAiSearchDisclaimerAck";
-import {
-  __setSearchEngineFactoryForTests,
-} from "@/stores/search";
+import { __setSearchEngineFactoryForTests } from "@/stores/search";
 import type { HybridSearch, MergedHit } from "@vanduo-oss/vdl-hybrid-search";
 
 const makeHit = (title: string, id: string): MergedHit => ({
@@ -79,11 +77,15 @@ describe("GlobalSearchModal", () => {
       attachTo: document.body,
     });
 
-    expect(document.body.querySelector(".vd-global-search-modal.is-open")).toBeNull();
+    expect(
+      document.body.querySelector(".vd-global-search-modal.is-open"),
+    ).toBeNull();
 
     pressKey({ key: "k", metaKey: true });
     await wrapper.vm.$nextTick();
-    expect(document.body.querySelector(".vd-global-search-modal.is-open")).toBeTruthy();
+    expect(
+      document.body.querySelector(".vd-global-search-modal.is-open"),
+    ).toBeTruthy();
 
     const input = document.body.querySelector(
       ".vd-global-search-input",
@@ -106,7 +108,9 @@ describe("GlobalSearchModal", () => {
 
     pressKey({ key: "Escape" });
     await wrapper.vm.$nextTick();
-    expect(document.body.querySelector(".vd-global-search-modal.is-open")).toBeNull();
+    expect(
+      document.body.querySelector(".vd-global-search-modal.is-open"),
+    ).toBeNull();
 
     wrapper.unmount();
   });
@@ -128,11 +132,18 @@ describe("GlobalSearchModal", () => {
       '.vd-form-switch input[role="switch"]',
     ) as HTMLInputElement;
     expect(toggle.checked).toBe(false);
-    expect(document.body.querySelector(".vd-global-search-ai-notice")).toBeNull();
+    expect(
+      document.body.querySelector(".vd-form-switch-label")?.textContent,
+    ).toContain("Semantic Search (BETA)");
+    expect(
+      document.body.querySelector(".vd-global-search-ai-notice"),
+    ).toBeNull();
 
     toggle.click();
     await wrapper.vm.$nextTick();
-    expect(document.body.querySelector(".vd-global-search-ai-notice")).toBeTruthy();
+    expect(
+      document.body.querySelector(".vd-global-search-ai-notice"),
+    ).toBeTruthy();
     expect(
       document.body.querySelector(".vd-global-search-ai-notice")?.textContent,
     ).toContain("EU AI Act");

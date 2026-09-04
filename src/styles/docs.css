@@ -4043,12 +4043,13 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 @media (max-width: 767.98px) {
   .vd-global-search-modal {
-    top: max(0.75rem, env(safe-area-inset-top, 0px));
+    --docs-search-modal-top: max(0.75rem, env(safe-area-inset-top, 0px));
+
+    top: var(--docs-search-modal-top);
     width: calc(100% - 2 * var(--vd-container-padding, 1rem));
     max-width: calc(100% - 2 * var(--vd-container-padding, 1rem));
     max-height: calc(
-      100vh - max(0.75rem, env(safe-area-inset-top, 0px)) -
-        env(safe-area-inset-bottom, 0px)
+      100vh - var(--docs-search-modal-top) - env(safe-area-inset-bottom, 0px)
     );
     border-radius: calc(var(--vd-card-border-radius) * 1.5);
     box-shadow:
@@ -4059,6 +4060,15 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   .vd-global-search-modal.is-open {
     transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  /* Top Oola dock: keep the palette under the pill, not over it. */
+  html[data-docs-dock="top"] .vd-global-search-overlay {
+    top: var(--docs-dock-edge-pad-top);
+  }
+
+  html[data-docs-dock="top"] .vd-global-search-modal {
+    --docs-search-modal-top: calc(var(--docs-dock-edge-pad-top) + 0.5rem);
   }
 
   /* Hide keyboard hints on touch; keep AI toggle + disclaimer visible. */

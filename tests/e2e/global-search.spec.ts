@@ -28,7 +28,9 @@ test.describe("Global hybrid search", () => {
       timeout: 15000,
     });
 
-    const aiToggle = dialog.getByRole("switch", { name: "AI search" });
+    const aiToggle = dialog.getByRole("switch", {
+      name: "Semantic Search (BETA)",
+    });
     await expect(aiToggle).not.toBeChecked();
   });
 
@@ -47,8 +49,31 @@ test.describe("Global hybrid search", () => {
     const footerControls = dialog.locator(".vd-global-search-footer-controls");
     await expect(footerControls).toBeVisible();
 
-    const aiToggle = dialog.getByRole("switch", { name: "AI search" });
+    const aiToggle = dialog.getByRole("switch", {
+      name: "Semantic Search (BETA)",
+    });
     await expect(aiToggle).not.toBeChecked();
+  });
+
+  test("sits below the top Oola dock on mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.addInitScript(() => {
+      window.localStorage.removeItem("vd3-docs-site-dock");
+    });
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+
+    const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
+    await expect(dock).toHaveClass(/vd-dock-edge-top/);
+
+    await page.keyboard.press("Meta+k");
+    const modal = page.locator(".vd-global-search-modal.is-open");
+    await expect(modal).toBeVisible();
+
+    const dockBox = await dock.boundingBox();
+    const modalBox = await modal.boundingBox();
+    expect(dockBox).toBeTruthy();
+    expect(modalBox).toBeTruthy();
+    expect(modalBox!.y).toBeGreaterThanOrEqual(dockBox!.y + dockBox!.height);
   });
 
   test("dismisses AI disclaimer after acknowledge", async ({ page }) => {
@@ -62,8 +87,12 @@ test.describe("Global hybrid search", () => {
     const dialog = page.getByRole("dialog", { name: "Search entire site" });
     await expect(dialog).toBeVisible();
 
-    const aiToggle = dialog.getByRole("switch", { name: "AI search" });
-    await dialog.locator("label.vd-form-switch", { hasText: "AI search" }).click();
+    const aiToggle = dialog.getByRole("switch", {
+      name: "Semantic Search (BETA)",
+    });
+    await dialog
+      .locator("label.vd-form-switch", { hasText: "Semantic Search (BETA)" })
+      .click();
     await expect(dialog.locator(".vd-global-search-ai-notice")).toBeVisible();
     await expect(dialog.getByRole("button", { name: "Got it" })).toBeVisible();
 
