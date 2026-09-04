@@ -18,17 +18,17 @@ const FAN_EXTRA = "customize everything — place, radius, glass, brand.";
 const FAN_LEAD_MOBILE = "Horizontal or Vertical — let your users choose.";
 const FAN_EXTRA_MOBILE = "Customize everything: place, radius, glass, brand.";
 
-/** Desktop: fan opens over the first ~28% of the (lead-in + sticky) runway. */
+/** Desktop: start on approach; finish near the sticky pin so scroll can play the fan. */
 const DESKTOP_FAN_START = 0;
-const DESKTOP_FAN_END = 0.28;
+const DESKTOP_FAN_END = 0.7;
 
-/** Narrow: same left-hinge fan. */
-const MOBILE_FAN_START = 0.04;
-const MOBILE_FAN_END = 0.22;
+/** Narrow: same left-hinge fan, stretched across the approach. */
+const MOBILE_FAN_START = 0.06;
+const MOBILE_FAN_END = 0.46;
 
 /** Approach window (viewport fraction) so the fan starts before the section sticks. */
-const DESKTOP_FAN_LEAD = 0.65;
-const MOBILE_FAN_LEAD = 0.4;
+const DESKTOP_FAN_LEAD = 0.62;
+const MOBILE_FAN_LEAD = 0.38;
 
 const docks: { tint: DockTint; label: string }[] = DOCK_TINTS.map((tint) => ({
   tint,
