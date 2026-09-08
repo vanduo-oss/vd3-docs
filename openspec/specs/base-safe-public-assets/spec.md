@@ -1,7 +1,8 @@
 # base-safe-public-assets Specification
 
 ## Purpose
-TBD - created by archiving change fix-pages-base-asset-paths. Update Purpose after archive.
+Resolve non-`<img>` public asset URLs under Vite `base` via
+`` `${import.meta.env.BASE_URL}…` ``.
 ## Requirements
 ### Requirement: public assets referenced outside `<img src>` resolve under the deploy base
 

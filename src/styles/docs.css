@@ -3511,12 +3511,14 @@ a:hover .vd-card-interactive.vd-card-glow {
   }
 
   /* Full-width pill: beat package .vd-dock.vd-dock-edge-top:not(.is-square)
-     (same 0,3,0 without the extra .vd-dock) so top/bottom stay edge-to-edge. */
+     (same 0,3,0 without the extra .vd-dock) so top/bottom stay edge-to-edge.
+     Use 100vw (not left+right+width:auto): html { scrollbar-gutter: stable }
+     shrinks the layout CB (~11px), which made rightGap look like inset+gutter. */
   .vd-site-dock.vd-dock.vd-dock-edge-bottom:not(.is-square, .is-morphing),
   .vd-site-dock.vd-dock.vd-dock-edge-top:not(.is-square, .is-morphing) {
     left: var(--vd-dock-inset);
-    right: var(--vd-dock-inset);
-    width: auto;
+    right: auto;
+    width: calc(100vw - 2 * var(--vd-dock-inset));
     max-width: none;
     transform: none;
   }

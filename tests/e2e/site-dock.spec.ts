@@ -125,6 +125,8 @@ test.describe("Site Oola dock chrome", () => {
         brandMark instanceof HTMLElement
           ? brandMark.getBoundingClientRect()
           : null;
+      // Layout width excludes the scrollbar; fixed docks are laid out against it.
+      // window.innerWidth includes the scrollbar and falsely inflates rightGap.
       const viewW = document.documentElement.clientWidth;
       return {
         left: box.left,
