@@ -1,27 +1,8 @@
 <script setup lang="ts">
 import { VdDraw } from "@vanduo-oss/vd3-cbun/draw";
+import { drawSeedDoc } from "@/constants/drawSeed";
 
 defineProps<{ fullscreen?: boolean }>();
-
-const seedDoc = {
-  version: "1.1.0",
-  viewport: { x: 0, y: 0, scale: 1 },
-  shapes: [
-    {
-      id: "sine-green",
-      type: "freehand",
-      brush: "pen",
-      color: "#2f9e44",
-      size: 8,
-      points: Array.from({ length: 49 }, (_, i) => {
-        const t = i / 48;
-        const x = 60 + t * 520;
-        const y = 160 + Math.sin(t * Math.PI * 2.5) * 48;
-        return [Math.round(x * 10) / 10, Math.round(y * 10) / 10];
-      }),
-    },
-  ],
-};
 </script>
 
 <template>
@@ -31,7 +12,7 @@ const seedDoc = {
     inside the showcase card (and fullscreen still stretches).
   -->
   <div class="cbun-draw-wrap" :class="{ 'is-fullscreen': fullscreen }">
-    <VdDraw :data="seedDoc" tool="draw" />
+    <VdDraw :data="drawSeedDoc" tool="draw" />
   </div>
 </template>
 

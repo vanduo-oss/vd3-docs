@@ -2,27 +2,9 @@
 import { onBeforeUnmount, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdDraw } from "@vanduo-oss/vd3-cbun/draw";
+import { drawSeedDoc } from "@/constants/drawSeed";
 
-const seedDoc = {
-  version: "1.1.0",
-  viewport: { x: 0, y: 0, scale: 1 },
-  shapes: [
-    {
-      id: "sine-green",
-      type: "freehand",
-      brush: "pen",
-      color: "#2f9e44",
-      size: 8,
-      // Smooth green sine wave — sole demo filler.
-      points: Array.from({ length: 49 }, (_, i) => {
-        const t = i / 48;
-        const x = 60 + t * 520;
-        const y = 160 + Math.sin(t * Math.PI * 2.5) * 48;
-        return [Math.round(x * 10) / 10, Math.round(y * 10) / 10];
-      }),
-    },
-  ],
-};
+const drawRef = ref<any>(null);
 
 /* Full-screen sketch mode — canvas fills the viewport inset from the fixed
    site dock, which deliberately stays visible above the stage. */
@@ -52,6 +34,173 @@ function toggleFullscreen() {
 
 onBeforeUnmount(exitFullscreen);
 
+// ── Sketchpad Stage Actions ────────────────────────────────────────────────
+function resetToSeed() {
+  drawRef.value?.getInstance()?.load(drawSeedDoc);
+  shapeCount.value = drawSeedDoc.shapes.length;
+  lastAction.value = "reset (seed loaded)";
+}
+
+function clearCanvas() {
+  drawRef.value?.getInstance()?.clear();
+  shapeCount.value = 0;
+  lastAction.value = "canvas cleared";
+}
+
+function toggleGrid() {
+  drawRef.value?.getInstance()?.toggleGrid();
+  lastAction.value = "grid toggled";
+}
+
+function selectBrush(brushName: string) {
+  const inst = drawRef.value?.getInstance();
+  if (!inst) return;
+  inst.setBrush(brushName);
+  inst.setTool("draw");
+  activeBrush.value = brushName;
+  lastAction.value = `brush: ${brushName}`;
+  if (typeof document !== "undefined") {
+    document
+      .getElementById("sketchpad-stage")
+      ?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+// ── Live Reactive State ────────────────────────────────────────────────────
+const shapeCount = ref(drawSeedDoc.shapes.length);
+const activeBrush = ref("pen");
+const zoomPercent = ref(100);
+const panPos = ref({ x: 0, y: 0 });
+const lastAction = ref("mounted");
+
+function onChange(payload: any) {
+  lastAction.value = payload?.action || "change";
+  const inst = drawRef.value?.getInstance();
+  if (inst) {
+    shapeCount.value = inst.getShapes().length;
+  }
+}
+
+function onSelect(payload: any) {
+  lastAction.value = payload?.selectedIds?.length
+    ? `select (${payload.selectedIds.length} item${payload.selectedIds.length > 1 ? "s" : ""})`
+    : "deselect";
+}
+
+function onViewport(payload: any) {
+  const vp = payload?.viewport;
+  if (vp) {
+    zoomPercent.value = Math.round((vp.scale || 1) * 100);
+    panPos.value = { x: Math.round(vp.x || 0), y: Math.round(vp.y || 0) };
+  }
+}
+
+function onReady(instance: any) {
+  if (instance) {
+    shapeCount.value = instance.getShapes().length;
+  }
+}
+
+// ── Live Export Studio ─────────────────────────────────────────────────────
+const exportedSvg = ref<string>("");
+const exportedPng = ref<string>("");
+const exportFormat = ref<"svg" | "png">("svg");
+const copied = ref(false);
+const isExporting = ref(false);
+
+async function triggerExport(format: "svg" | "png") {
+  exportFormat.value = format;
+  isExporting.value = true;
+  const inst = drawRef.value?.getInstance();
+  if (!inst) {
+    isExporting.value = false;
+    return;
+  }
+  try {
+    if (format === "svg") {
+      exportedSvg.value = inst.toSVG();
+    } else {
+      exportedPng.value = await inst.toPNG({ scale: 2 });
+    }
+  } catch (err) {
+    console.error("Export failed", err);
+  } finally {
+    isExporting.value = false;
+  }
+}
+
+async function copySvgToClipboard() {
+  if (!exportedSvg.value || typeof navigator === "undefined") return;
+  await navigator.clipboard.writeText(exportedSvg.value);
+  copied.value = true;
+  setTimeout(() => (copied.value = false), 2000);
+}
+
+function downloadExport() {
+  if (typeof document === "undefined") return;
+  const a = document.createElement("a");
+  if (exportFormat.value === "svg" && exportedSvg.value) {
+    const blob = new Blob([exportedSvg.value], { type: "image/svg+xml" });
+    a.href = URL.createObjectURL(blob);
+    a.download = "sketchpad.svg";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } else if (exportFormat.value === "png" && exportedPng.value) {
+    a.href = exportedPng.value;
+    a.download = "sketchpad.png";
+    a.click();
+  }
+}
+
+// ── Multi-Brush Showcase Data ──────────────────────────────────────────────
+const brushDetails = [
+  {
+    name: "pen",
+    label: "Pen",
+    icon: "ph ph-pen-nib",
+    feel: "Crisp, pressure-tapered ink.",
+    badge: "Dynamic Taper",
+    color: "#245f52",
+    specs: "Thinning: 0.6 · Smoothing: 0.5 · Streamline: 0.5",
+  },
+  {
+    name: "pencil",
+    label: "Pencil",
+    icon: "ph ph-pencil-simple",
+    feel: "Thin, textured, softer opacity for expressive sketch lines.",
+    badge: "Graphite Feel",
+    color: "#868e96",
+    specs: "Thinning: 0.2 · Smoothing: 0.3 · Opacity: 0.85",
+  },
+  {
+    name: "marker",
+    label: "Marker",
+    icon: "ph ph-paint-brush",
+    feel: "Thick, flat, semi-opaque stroke with bold weight.",
+    badge: "Bold Stroke",
+    color: "#1971c2",
+    specs: "Thinning: 0.1 · Smoothing: 0.6 · Opacity: 0.9",
+  },
+  {
+    name: "highlighter",
+    label: "Highlighter",
+    icon: "ph ph-highlighter",
+    feel: "Wide, translucent, multiply blend mode (overlaps darken).",
+    badge: "Multiply Blend",
+    color: "#fab005",
+    specs: "Thinning: 0 · Smoothing: 0.8 · Blend: multiply",
+  },
+  {
+    name: "calligraphy",
+    label: "Calligraphy",
+    icon: "ph ph-scribble-loop",
+    feel: "Fixed 45° chisel nib — line width responds to stroke angle.",
+    badge: "Chisel Nib 45°",
+    color: "#7048e8",
+    specs: "Thinning: 0.4 · Nib Angle: 45° · Streamline: 0.5",
+  },
+];
+
 const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
 
 const vue3Usage = `<script setup lang="ts">
@@ -60,19 +209,23 @@ import '@vanduo-oss/vd3-cbun/draw/css';
 <\/script>
 
 <template>
-  <!-- The toolbar (brushes, colors, size, eraser) is built in. -->
+  <!-- Built-in toolbar (brushes, swatches, size, eraser, shapes, sticky notes) -->
   <VdDraw tool="draw" @change="onChange" />
 </template>`;
 
 const tools: [string, string][] = [
   ["brush", "Paint variable-width strokes with the active brush + color."],
-  ["eraser", "Drag to erase whole strokes / shapes you cross."],
-  ["select / hand", "Select, move, resize (select); pan the canvas (hand)."],
+  ["eraser", "Drag to erase whole strokes / shapes with visual radius circle."],
+  ["select", "Select, move, and resize shapes with compass direction cursors."],
+  ["hand", "Pan the infinite canvas with grab / grabbing cursor feedback."],
   [
     "rectangle / ellipse / arrow",
-    "Secondary vector shapes in the current color.",
+    "Secondary vector shapes and arrows with matching arrowhead colors.",
   ],
-  ["text / sticky", "Editable text and sticky notes."],
+  [
+    "text / sticky",
+    "Editable text and sticky notes with automatic word wrapping.",
+  ],
 ];
 
 const brushes: [string, string][] = [
@@ -125,44 +278,232 @@ const methods: [string, string][] = [
   <section id="vd-draw">
     <h5 class="demo-title"><i class="ph ph-paint-brush"></i>Draw</h5>
     <p class="vd-mb-8">
-      <strong>vd3 Draw</strong> is a standalone SVG
-      <strong>drawing tool</strong> from <code>@vanduo-oss/vd3-cbun/draw</code>.
-      Its dependency-free brush engine turns freehand strokes into smooth,
-      variable-width marks (pressure- and velocity-aware). Pick a
-      <strong>brush</strong> (pen, pencil, marker, highlighter, calligraphy) and
-      a <strong>color</strong> from the built-in palette, set size and opacity,
-      and paint — or switch to the eraser, shapes, or sticky notes. Want room to
-      think? Hit <strong>Full screen</strong> to sketch across the whole
-      viewport (<kbd>Esc</kbd> to come back). The chrome themes with the active
-      <code>--vd-*</code> palette and light / dark mode; your marks keep the
-      color you pick.
+      <strong>vd3 Draw</strong> is a standalone vector
+      <strong>drawing & sketchpad tool</strong> from
+      <code>@vanduo-oss/vd3-cbun/draw</code>. Its dependency-free brush engine
+      turns freehand strokes into smooth, variable-width marks (pressure- and
+      velocity-aware). Pick from 5 <strong>artistic brushes</strong> (pen,
+      pencil, marker, highlighter, calligraphy) and a
+      <strong>color</strong> from the built-in palette, or switch to geometric
+      shapes, arrows, and auto-wrapping sticky notes. The chrome themes
+      seamlessly with the active <code>--vd-*</code> palette and light / dark
+      mode; your marks preserve their true vector colors.
     </p>
 
+    <!-- Main Sketchpad Stage -->
     <div
-      class="vd-card demo-card vd-mb-6 draw-stage"
+      id="sketchpad-stage"
+      class="vd-card demo-card vd-mb-4 draw-stage"
       :class="{ 'is-fullscreen docs-stage-fullscreen': fullscreen }"
     >
       <div class="vd-card-header draw-stage-header">
-        <h6><i class="ph ph-paint-brush"></i> Sketchpad</h6>
-        <button
-          type="button"
-          class="vd-btn vd-btn-outline vd-btn-sm"
-          :aria-pressed="fullscreen"
-          @click="toggleFullscreen"
-        >
-          <i :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"></i>
-          {{ fullscreen ? "Exit full screen" : "Full screen" }}
-        </button>
+        <h6><i class="ph ph-paint-brush"></i> Interactive Sketchpad</h6>
+        <div class="draw-stage-actions">
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            title="Reload initial showcase illustration"
+            @click="resetToSeed"
+          >
+            <i class="ph ph-arrow-counter-clockwise"></i> Reset Demo
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            title="Clear all shapes"
+            @click="clearCanvas"
+          >
+            <i class="ph ph-trash"></i> Clear
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            title="Toggle background grid"
+            @click="toggleGrid"
+          >
+            <i class="ph ph-grid-four"></i> Grid
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            :aria-pressed="fullscreen"
+            @click="toggleFullscreen"
+          >
+            <i :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"></i>
+            {{ fullscreen ? "Exit full screen" : "Full screen" }}
+          </button>
+        </div>
       </div>
       <div class="vd-card-body draw-stage-body">
         <VdDraw
-          :data="seedDoc"
+          ref="drawRef"
+          :data="drawSeedDoc"
           tool="draw"
           :style="fullscreen ? { height: '100%' } : undefined"
+          @change="onChange"
+          @select="onSelect"
+          @viewport="onViewport"
+          @ready="onReady"
         />
       </div>
     </div>
 
+    <!-- Live Event & State Ribbon -->
+    <div class="draw-state-bar vd-mb-6">
+      <div class="state-chip">
+        <i class="ph ph-shapes"></i>
+        <span
+          >Shapes: <strong>{{ shapeCount }}</strong></span
+        >
+      </div>
+      <div class="state-chip">
+        <i class="ph ph-magnifying-glass"></i>
+        <span
+          >Zoom: <strong>{{ zoomPercent }}%</strong></span
+        >
+      </div>
+      <div class="state-chip">
+        <i class="ph ph-arrows-out-cardinal"></i>
+        <span
+          >Pan: <strong>{{ panPos.x }}, {{ panPos.y }}</strong></span
+        >
+      </div>
+      <div class="state-chip">
+        <i class="ph ph-activity"></i>
+        <span
+          >Last event: <code>{{ lastAction }}</code></span
+        >
+      </div>
+    </div>
+
+    <!-- Multi-Brush Showcase Section -->
+    <div class="vd-card demo-card vd-mb-6">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-paint-brush-broad mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i>
+          Brush Presets & Physics
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <p class="vd-mb-4">
+          Each brush preset uses customized velocity smoothing, streamline
+          interpolation, and taper curves. Click any preset to activate it
+          immediately on the sketchpad above:
+        </p>
+        <div class="brush-grid">
+          <div
+            v-for="b in brushDetails"
+            :key="b.name"
+            class="brush-card"
+            :class="{ 'is-active': activeBrush === b.name }"
+          >
+            <div class="brush-card-header">
+              <div class="brush-title">
+                <i :class="b.icon" :style="{ color: b.color }"></i>
+                <strong>{{ b.label }}</strong>
+              </div>
+              <span
+                class="brush-badge"
+                :style="{ borderColor: b.color, color: b.color }"
+              >
+                {{ b.badge }}
+              </span>
+            </div>
+            <p class="brush-feel">{{ b.feel }}</p>
+            <div class="brush-specs">{{ b.specs }}</div>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm brush-select-btn"
+              @click="selectBrush(b.name)"
+            >
+              <i class="ph ph-check"></i> Try {{ b.label }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Export Studio Card -->
+    <div class="vd-card demo-card vd-mb-6">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-export mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i>
+          Export Studio (SVG & PNG)
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <p class="vd-mb-4">
+          Export standalone, self-contained vector SVGs or high-resolution PNGs
+          directly from the canvas. Arrow markers, colors, and multi-line texts
+          are preserved in the export:
+        </p>
+        <div class="export-actions vd-mb-4">
+          <button
+            type="button"
+            class="vd-btn vd-btn-primary vd-btn-sm"
+            :disabled="isExporting"
+            @click="triggerExport('svg')"
+          >
+            <i class="ph ph-file-svg"></i> Export SVG
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            :disabled="isExporting"
+            @click="triggerExport('png')"
+          >
+            <i class="ph ph-image"></i> Export PNG (2×)
+          </button>
+        </div>
+
+        <div v-if="exportedSvg || exportedPng" class="export-preview-box">
+          <div class="export-preview-header">
+            <span class="export-format-tag">
+              Format: <strong>{{ exportFormat.toUpperCase() }}</strong>
+            </span>
+            <div class="export-preview-buttons">
+              <button
+                v-if="exportFormat === 'svg'"
+                type="button"
+                class="vd-btn vd-btn-outline vd-btn-sm"
+                @click="copySvgToClipboard"
+              >
+                <i :class="copied ? 'ph ph-check' : 'ph ph-copy'"></i>
+                {{ copied ? "Copied!" : "Copy SVG" }}
+              </button>
+              <button
+                type="button"
+                class="vd-btn vd-btn-primary vd-btn-sm"
+                @click="downloadExport"
+              >
+                <i class="ph ph-download-simple"></i> Download
+              </button>
+            </div>
+          </div>
+          <div class="export-preview-stage">
+            <div
+              v-if="exportFormat === 'svg'"
+              class="svg-rendered-preview"
+              v-html="exportedSvg"
+            ></div>
+            <img
+              v-else-if="exportFormat === 'png'"
+              :src="exportedPng"
+              alt="Exported drawing"
+              class="png-rendered-preview"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Documentation -->
     <div class="vd-card vd-card-glow demo-card">
       <div class="vd-card-header">
         <h6>
@@ -271,5 +612,187 @@ const methods: [string, string][] = [
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.draw-stage-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ── Live State Ribbon ─────────────────────────────────────────────────── */
+.draw-state-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.6rem 1rem;
+  background: var(--vd-bg-secondary, rgba(0, 0, 0, 0.03));
+  border: 1px solid var(--vd-border-color, rgba(0, 0, 0, 0.08));
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.state-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--vd-text-muted, #67746a);
+}
+
+.state-chip i {
+  color: var(--vd-color-primary, #245f52);
+}
+
+.state-chip strong {
+  color: var(--vd-text-primary, #1f2720);
+}
+
+.state-chip code {
+  font-size: 0.8rem;
+  padding: 0.1rem 0.3rem;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+}
+
+/* ── Multi-Brush Cards ─────────────────────────────────────────────────── */
+.brush-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.brush-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--vd-border-color, rgba(0, 0, 0, 0.1));
+  background: var(--vd-bg-primary, #fff);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.brush-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  border-color: var(--vd-color-primary, #245f52);
+}
+
+.brush-card.is-active {
+  border-color: var(--vd-color-primary, #245f52);
+  box-shadow: 0 0 0 1.5px var(--vd-color-primary, #245f52);
+}
+
+.brush-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.brush-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1rem;
+}
+
+.brush-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid currentColor;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+.brush-feel {
+  font-size: 0.82rem;
+  color: var(--vd-text-muted, #67746a);
+  margin-bottom: 0.5rem;
+  flex: 1 1 auto;
+}
+
+.brush-specs {
+  font-size: 0.72rem;
+  color: var(--vd-text-muted, #868e96);
+  background: var(--vd-bg-secondary, rgba(0, 0, 0, 0.03));
+  padding: 0.35rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  font-family: monospace;
+}
+
+.brush-select-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ── Export Studio ─────────────────────────────────────────────────────── */
+.export-actions {
+  display: inline-flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.export-preview-box {
+  margin-top: 1rem;
+  border: 1px solid var(--vd-border-color, rgba(0, 0, 0, 0.1));
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.export-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  background: var(--vd-bg-secondary, rgba(0, 0, 0, 0.03));
+  border-bottom: 1px solid var(--vd-border-color, rgba(0, 0, 0, 0.08));
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.export-format-tag {
+  font-size: 0.85rem;
+  color: var(--vd-text-muted, #67746a);
+}
+
+.export-preview-buttons {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.export-preview-stage {
+  padding: 1.5rem;
+  background: var(--vd-bg-primary, #fff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.svg-rendered-preview :deep(svg) {
+  max-width: 100%;
+  max-height: 360px;
+  height: auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--vd-border-color, rgba(0, 0, 0, 0.08));
+  border-radius: 6px;
+}
+
+.png-rendered-preview {
+  max-width: 100%;
+  max-height: 360px;
+  height: auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--vd-border-color, rgba(0, 0, 0, 0.08));
+  border-radius: 6px;
 }
 </style>
