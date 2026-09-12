@@ -4,7 +4,6 @@ export interface NavSection {
   route: string;
   icon?: string;
   keywords: string[];
-  file?: string;
 }
 
 export interface NavCategory {
@@ -125,7 +124,6 @@ export const nav: NavTree = {
                 "golden",
                 "open color",
               ],
-              file: "core/color-palette.html",
             },
             {
               id: "typography",
@@ -133,7 +131,6 @@ export const nav: NavTree = {
               route: "/core/typography",
               icon: "text-aa",
               keywords: ["typography", "font", "type"],
-              file: "core/typography.html",
             },
             {
               id: "icons",
@@ -141,7 +138,6 @@ export const nav: NavTree = {
               route: "/core/icons",
               icon: "images",
               keywords: ["icons", "icon", "phosphor", "glyph", "vdicon"],
-              file: "core/icons.html",
             },
             {
               id: "golden-ratio",
@@ -149,7 +145,6 @@ export const nav: NavTree = {
               route: "/core/golden-ratio",
               icon: "shapes",
               keywords: ["ratio", "phi", "fibonacci"],
-              file: "core/golden-ratio.html",
             },
             {
               id: "grid-system",
@@ -157,7 +152,6 @@ export const nav: NavTree = {
               route: "/core/grid-system",
               icon: "grid-four",
               keywords: ["grid", "layout", "columns"],
-              file: "core/grid-system.html",
             },
             {
               id: "shadows-glow",
@@ -165,7 +159,6 @@ export const nav: NavTree = {
               route: "/core/shadows-glow",
               icon: "square",
               keywords: ["shadow", "elevation", "glow"],
-              file: "core/shadows-glow.html",
             },
           ],
         },
@@ -187,7 +180,6 @@ export const nav: NavTree = {
               route: "/components/theme-switcher",
               icon: "palette",
               keywords: ["theme", "dark", "light", "contrast"],
-              file: "components/theme-switcher.html",
             },
             {
               id: "theme-customizer",
@@ -204,7 +196,6 @@ export const nav: NavTree = {
                 "primary",
                 "controlled",
               ],
-              file: "components/theme-customizer.html",
             },
           ],
         },
@@ -219,7 +210,6 @@ export const nav: NavTree = {
               route: "/components/button",
               icon: "cursor-click",
               keywords: ["button", "click", "cta", "ring", "outline", "ink"],
-              file: "components/button.html",
             },
             {
               id: "badge",
@@ -227,7 +217,6 @@ export const nav: NavTree = {
               route: "/components/badge",
               icon: "tag",
               keywords: ["badge", "tag", "pill"],
-              file: "components/badge.html",
             },
             {
               id: "alert",
@@ -235,7 +224,6 @@ export const nav: NavTree = {
               route: "/components/alert",
               icon: "warning",
               keywords: ["alert", "notice", "banner"],
-              file: "components/alert.html",
             },
             {
               id: "card",
@@ -243,7 +231,6 @@ export const nav: NavTree = {
               route: "/components/card",
               icon: "credit-card",
               keywords: ["card", "panel", "container"],
-              file: "components/card.html",
             },
             {
               id: "dropdown",
@@ -251,7 +238,6 @@ export const nav: NavTree = {
               route: "/components/dropdown",
               icon: "caret-down",
               keywords: ["dropdown", "menu", "split", "select"],
-              file: "components/dropdown.html",
             },
             {
               id: "menu",
@@ -266,7 +252,6 @@ export const nav: NavTree = {
               route: "/components/popover",
               icon: "chat-circle-dots",
               keywords: ["popover", "hover", "click", "focus", "tooltip"],
-              file: "components/popover.html",
             },
             {
               id: "doc-search",
@@ -302,7 +287,6 @@ export const nav: NavTree = {
               route: "/components/fab",
               icon: "plus-circle",
               keywords: ["fab", "floating", "action", "button"],
-              file: "components/fab.html",
             },
             {
               id: "ripple",
@@ -310,7 +294,6 @@ export const nav: NavTree = {
               route: "/components/ripple",
               icon: "drop",
               keywords: ["ripple", "click", "material"],
-              file: "components/ripple.html",
             },
             {
               id: "expanding-cards",
@@ -318,7 +301,6 @@ export const nav: NavTree = {
               route: "/components/expanding-cards",
               icon: "squares-four",
               keywords: ["expanding", "cards", "gallery", "showcase"],
-              file: "components/expanding-cards.html",
             },
             {
               id: "spotlight",
@@ -326,7 +308,6 @@ export const nav: NavTree = {
               route: "/components/spotlight",
               icon: "frame-corners",
               keywords: ["spotlight", "lightbox", "zoom", "gallery"],
-              file: "components/spotlight.html",
             },
             {
               id: "timeline",
@@ -334,7 +315,6 @@ export const nav: NavTree = {
               route: "/components/timeline",
               icon: "clock-clockwise",
               keywords: ["timeline", "history", "changelog", "steps"],
-              file: "components/timeline.html",
             },
             {
               id: "template",
@@ -342,7 +322,6 @@ export const nav: NavTree = {
               route: "/components/template",
               icon: "layout",
               keywords: ["template", "layout", "skeleton", "starter"],
-              file: "components/template.html",
             },
             {
               id: "navigation",
@@ -357,7 +336,6 @@ export const nav: NavTree = {
                 "breadcrumb",
                 "pagination",
               ],
-              file: "components/navigation.html",
             },
           ],
         },
@@ -372,7 +350,6 @@ export const nav: NavTree = {
               route: "/components/modal",
               icon: "rectangle",
               keywords: ["modal", "dialog", "overlay"],
-              file: "components/modal.html",
             },
             {
               id: "toast",
@@ -380,7 +357,6 @@ export const nav: NavTree = {
               route: "/components/toast",
               icon: "bell",
               keywords: ["toast", "notification", "snackbar"],
-              file: "components/toast.html",
             },
             {
               id: "tooltip",
@@ -388,7 +364,6 @@ export const nav: NavTree = {
               route: "/components/tooltip",
               icon: "chat-text",
               keywords: ["tooltip", "hover", "hint", "delay", "dock"],
-              file: "components/tooltip.html",
             },
             {
               id: "chip",
@@ -396,7 +371,6 @@ export const nav: NavTree = {
               route: "/components/chip",
               icon: "tag",
               keywords: ["chip", "tag", "token"],
-              file: "feedback/chips.html",
             },
             {
               id: "skeleton",
@@ -404,7 +378,6 @@ export const nav: NavTree = {
               route: "/components/skeleton",
               icon: "shapes",
               keywords: ["skeleton", "placeholder", "loading"],
-              file: "components/skeleton.html",
             },
             {
               id: "preloader",
@@ -412,7 +385,6 @@ export const nav: NavTree = {
               route: "/components/preloader",
               icon: "circle-notch",
               keywords: ["preloader", "spinner", "loader"],
-              file: "feedback/preloader.html",
             },
           ],
         },
@@ -427,7 +399,6 @@ export const nav: NavTree = {
               route: "/components/avatar",
               icon: "user-circle",
               keywords: ["avatar", "user", "profile"],
-              file: "data-display/avatars.html",
             },
             {
               id: "table",
@@ -443,7 +414,6 @@ export const nav: NavTree = {
                 "search",
                 "empty",
               ],
-              file: "data-display/tables.html",
             },
             {
               id: "collection",
@@ -451,7 +421,6 @@ export const nav: NavTree = {
               route: "/components/collection",
               icon: "list-bullets",
               keywords: ["collection", "list", "items"],
-              file: "data-display/collections.html",
             },
             {
               id: "breadcrumb",
@@ -459,7 +428,6 @@ export const nav: NavTree = {
               route: "/components/breadcrumb",
               icon: "caret-right",
               keywords: ["breadcrumb", "crumbs", "trail"],
-              file: "components/breadcrumbs.html",
             },
           ],
         },
@@ -474,7 +442,6 @@ export const nav: NavTree = {
               route: "/components/tabs",
               icon: "tabs",
               keywords: ["tabs", "tab", "segmented"],
-              file: "components/tabs.html",
             },
             {
               id: "accordion",
@@ -482,7 +449,6 @@ export const nav: NavTree = {
               route: "/components/accordion",
               icon: "list",
               keywords: ["accordion", "collapse", "expand"],
-              file: "components/accordion.html",
             },
             {
               id: "flow",
@@ -490,7 +456,6 @@ export const nav: NavTree = {
               route: "/components/flow",
               icon: "slideshow",
               keywords: ["flow", "carousel", "slideshow"],
-              file: "components/flow.html",
             },
             {
               id: "draggable",
@@ -498,7 +463,6 @@ export const nav: NavTree = {
               route: "/interactive/draggable",
               icon: "arrows-out-cardinal",
               keywords: ["draggable", "drag", "drop", "dropzone"],
-              file: "interactive/draggable.html",
             },
             {
               id: "search",
@@ -506,7 +470,6 @@ export const nav: NavTree = {
               route: "/interactive/search",
               icon: "magnifying-glass",
               keywords: ["search", "find", "query", "autocomplete", "registry"],
-              file: "interactive/search.html",
             },
           ],
         },
@@ -530,7 +493,6 @@ export const nav: NavTree = {
                 "dashboard",
                 "graph",
               ],
-              file: "canvas/vd-charts.html",
             },
             {
               id: "flowchart",
@@ -546,7 +508,6 @@ export const nav: NavTree = {
                 "nodes",
                 "edges",
               ],
-              file: "canvas/vd-flowchart.html",
             },
             {
               id: "hex",
@@ -562,7 +523,6 @@ export const nav: NavTree = {
                 "pathfinding",
                 "terrain",
               ],
-              file: "canvas/vd-hex.html",
             },
             {
               id: "draw",
@@ -602,7 +562,6 @@ export const nav: NavTree = {
                 "media",
                 "sound",
               ],
-              file: "media/music-player.html",
             },
             {
               id: "image-box",
@@ -610,7 +569,6 @@ export const nav: NavTree = {
               route: "/media/image-box",
               icon: "image-square",
               keywords: ["image", "box", "caption", "zoom", "gallery"],
-              file: "media/image-box.html",
             },
           ],
         },
@@ -650,7 +608,6 @@ export const nav: NavTree = {
               route: "/guides/getting-started",
               icon: "rocket-launch",
               keywords: ["getting started", "install", "setup"],
-              file: "guides/getting-started-guide.html",
             },
             {
               id: "first-layout",
@@ -658,7 +615,6 @@ export const nav: NavTree = {
               route: "/guides/first-layout",
               icon: "layout",
               keywords: ["layout", "first", "navbar"],
-              file: "guides/first-layout.html",
             },
             {
               id: "framework-integration",
@@ -666,7 +622,6 @@ export const nav: NavTree = {
               route: "/guides/framework-integration",
               icon: "plug",
               keywords: ["integration", "vue", "install", "nuxt", "plugin"],
-              file: "guides/framework-integration.html",
             },
             {
               id: "runtime-architecture",
@@ -674,7 +629,6 @@ export const nav: NavTree = {
               route: "/guides/runtime-architecture",
               icon: "cpu",
               keywords: ["runtime", "architecture", "css", "js"],
-              file: "guides/runtime-architecture.html",
             },
             {
               id: "lazy-loading",
@@ -682,7 +636,6 @@ export const nav: NavTree = {
               route: "/guides/lazy-loading",
               icon: "download",
               keywords: ["lazy", "load", "tree-shake"],
-              file: "guides/lazy-loading-guide.html",
             },
             {
               id: "css-variables",
@@ -690,7 +643,6 @@ export const nav: NavTree = {
               route: "/guides/css-variables",
               icon: "sliders",
               keywords: ["css", "variables", "theme"],
-              file: "guides/css-variables-theming.html",
             },
             {
               id: "theme-customizer-guide",
@@ -698,7 +650,6 @@ export const nav: NavTree = {
               route: "/guides/theme-customizer",
               icon: "paint-brush",
               keywords: ["customizer", "live-edit"],
-              file: "guides/theme-customizer-guide.html",
             },
             {
               id: "fibonacci",
@@ -706,7 +657,6 @@ export const nav: NavTree = {
               route: "/guides/fibonacci",
               icon: "shapes",
               keywords: ["fibonacci", "scale", "spacing"],
-              file: "guides/fibonacci-vs-standard.html",
             },
             {
               id: "accessibility",
@@ -714,7 +664,6 @@ export const nav: NavTree = {
               route: "/guides/accessibility",
               icon: "wheelchair",
               keywords: ["accessibility", "a11y", "aria"],
-              file: "guides/accessibility-essentials.html",
             },
             {
               id: "security",
@@ -722,7 +671,6 @@ export const nav: NavTree = {
               route: "/guides/security",
               icon: "shield-check",
               keywords: ["security", "xss", "csp", "auth", "login", "csrf"],
-              file: "guides/security-practices.html",
             },
             {
               id: "production",
@@ -730,7 +678,6 @@ export const nav: NavTree = {
               route: "/guides/production",
               icon: "rocket",
               keywords: ["production", "build", "bundle"],
-              file: "guides/production-best-practices.html",
             },
             {
               id: "troubleshooting",
@@ -738,7 +685,6 @@ export const nav: NavTree = {
               route: "/guides/troubleshooting",
               icon: "wrench",
               keywords: ["troubleshoot", "fix", "debug"],
-              file: "guides/troubleshooting.html",
             },
             {
               id: "utilities-cheat-sheet",
@@ -746,7 +692,6 @@ export const nav: NavTree = {
               route: "/guides/utilities-cheat-sheet",
               icon: "list-bullets",
               keywords: ["utilities", "cheat", "reference"],
-              file: "guides/utilities-cheat-sheet.html",
             },
             {
               id: "vd3-ecosystem",
@@ -754,7 +699,6 @@ export const nav: NavTree = {
               route: "/guides/vd3-ecosystem",
               icon: "globe",
               keywords: ["ecosystem", "tools", "projects", "vd3"],
-              file: "guides/vd3-ecosystem.html",
             },
             {
               id: "guide-hybrid-search",
@@ -770,7 +714,6 @@ export const nav: NavTree = {
                 "ai",
                 "transformers",
               ],
-              file: "guides/hybrid-search.html",
             },
           ],
         },
@@ -792,7 +735,6 @@ export const nav: NavTree = {
                 "fibonacci",
                 "backdrop-filter",
               ],
-              file: "effects/glass.html",
             },
             {
               id: "surfaces",
@@ -810,7 +752,6 @@ export const nav: NavTree = {
                 "backdrop",
                 "seemore",
               ],
-              file: "effects/surfaces.html",
             },
             {
               id: "morph",
@@ -818,7 +759,6 @@ export const nav: NavTree = {
               route: "/effects/morph",
               icon: "shapes",
               keywords: ["morph", "shape", "animation"],
-              file: "effects/morph.html",
             },
             {
               id: "parallax",
@@ -826,7 +766,6 @@ export const nav: NavTree = {
               route: "/effects/parallax",
               icon: "mountains",
               keywords: ["parallax", "scroll", "background"],
-              file: "effects/parallax.html",
             },
             {
               id: "liquid-gradient",
@@ -840,7 +779,6 @@ export const nav: NavTree = {
                 "atmosphere",
                 "pointer",
               ],
-              file: "effects/liquid-gradient.html",
             },
           ],
         },
@@ -855,7 +793,6 @@ export const nav: NavTree = {
               route: "/components/forms",
               icon: "list",
               keywords: ["form", "input", "select"],
-              file: "components/forms.html",
             },
             {
               id: "login",
@@ -878,7 +815,6 @@ export const nav: NavTree = {
               route: "/components/form-validation",
               icon: "check",
               keywords: ["form", "validation", "error"],
-              file: "components/form-validation.html",
             },
             {
               id: "datepicker",
@@ -886,7 +822,6 @@ export const nav: NavTree = {
               route: "/components/datepicker",
               icon: "calendar",
               keywords: ["date", "datepicker", "calendar"],
-              file: "components/datepicker.html",
             },
             {
               id: "timepicker",
@@ -894,7 +829,6 @@ export const nav: NavTree = {
               route: "/components/timepicker",
               icon: "clock",
               keywords: ["time", "timepicker", "clock"],
-              file: "components/timepicker.html",
             },
             {
               id: "rating",
@@ -902,7 +836,6 @@ export const nav: NavTree = {
               route: "/components/rating",
               icon: "star",
               keywords: ["rating", "stars", "review"],
-              file: "components/rating.html",
             },
             {
               id: "switch",
@@ -931,7 +864,6 @@ export const nav: NavTree = {
               route: "/components/stepper",
               icon: "steps",
               keywords: ["stepper", "wizard", "steps"],
-              file: "components/stepper.html",
             },
             {
               id: "autocomplete",
@@ -939,7 +871,6 @@ export const nav: NavTree = {
               route: "/components/autocomplete",
               icon: "text-aa",
               keywords: ["autocomplete", "typeahead", "search"],
-              file: "components/autocomplete.html",
             },
             {
               id: "transfer",
@@ -947,7 +878,6 @@ export const nav: NavTree = {
               route: "/components/transfer",
               icon: "arrows-left-right",
               keywords: ["transfer", "shuttle", "list"],
-              file: "components/transfer.html",
             },
             {
               id: "tree",
@@ -955,7 +885,6 @@ export const nav: NavTree = {
               route: "/components/tree",
               icon: "tree",
               keywords: ["tree", "hierarchy", "nested"],
-              file: "components/tree-view.html",
             },
             {
               id: "pagination",
@@ -963,7 +892,6 @@ export const nav: NavTree = {
               route: "/components/pagination",
               icon: "dots-three",
               keywords: ["pagination", "pages", "pager"],
-              file: "components/button-groups.html",
             },
             {
               id: "button-groups",
@@ -971,7 +899,6 @@ export const nav: NavTree = {
               route: "/components/button-groups",
               icon: "squares-four",
               keywords: ["button", "group", "toolbar"],
-              file: "components/button-groups.html",
             },
           ],
         },
@@ -986,7 +913,6 @@ export const nav: NavTree = {
               route: "/components/progress",
               icon: "chart-bar",
               keywords: ["progress", "bar", "loading"],
-              file: "components/progress.html",
             },
             {
               id: "spinner",
@@ -994,7 +920,6 @@ export const nav: NavTree = {
               route: "/components/spinner",
               icon: "spinner",
               keywords: ["spinner", "loader", "spinner-gap"],
-              file: "components/spinner.html",
             },
             {
               id: "code-snippet",
@@ -1002,7 +927,6 @@ export const nav: NavTree = {
               route: "/components/code-snippet",
               icon: "code",
               keywords: ["code", "snippet", "highlight"],
-              file: "components/code-snippet.html",
             },
           ],
         },
@@ -1027,7 +951,6 @@ export const nav: NavTree = {
                 "switcher",
                 "layout",
               ],
-              file: "primitives/primitives.html",
             },
             {
               id: "separator",
@@ -1042,7 +965,6 @@ export const nav: NavTree = {
               route: "/components/sidenav",
               icon: "sidebar",
               keywords: ["sidenav", "drawer", "panel"],
-              file: "components/sidenav.html",
             },
             {
               id: "sticky",
@@ -1050,7 +972,6 @@ export const nav: NavTree = {
               route: "/components/sticky",
               icon: "bookmark-simple",
               keywords: ["sticky", "affix", "pinned"],
-              file: "components/affix.html",
             },
             {
               id: "scrollspy",
@@ -1058,7 +979,6 @@ export const nav: NavTree = {
               route: "/components/scrollspy",
               icon: "map-trifold",
               keywords: ["scrollspy", "waypoint", "nav"],
-              file: "components/scrollspy.html",
             },
             {
               id: "offcanvas",
@@ -1066,7 +986,6 @@ export const nav: NavTree = {
               route: "/components/offcanvas",
               icon: "rectangle",
               keywords: ["offcanvas", "panel", "slide"],
-              file: "components/offcanvas.html",
             },
             {
               id: "navbar",
@@ -1074,7 +993,6 @@ export const nav: NavTree = {
               route: "/components/navbar",
               icon: "browser",
               keywords: ["navbar", "header", "top"],
-              file: "components/navbar.html",
             },
             {
               id: "dock",
@@ -1100,7 +1018,6 @@ export const nav: NavTree = {
               route: "/components/footer",
               icon: "layout",
               keywords: ["footer", "bottom", "columns"],
-              file: "components/footer.html",
             },
           ],
         },

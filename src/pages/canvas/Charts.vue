@@ -43,6 +43,18 @@ const donutData = [
   { channel: "Email", revenue: 1800 },
 ];
 
+const areaData = [
+  { month: "Jan", sessions: 2800 },
+  { month: "Feb", sessions: 3600 },
+  { month: "Mar", sessions: 3300 },
+  { month: "Apr", sessions: 4700 },
+];
+
+const lastSliceClick = ref<string | null>(null);
+const onSliceClick = (e: ClickEvent<(typeof donutData)[number]>): void => {
+  lastSliceClick.value = `${e.datum.channel}: $${e.datum.revenue} (slice #${e.index + 1})`;
+};
+
 // 3. Negative Values (Profit / Loss)
 const profitLossData = [
   { quarter: "Q1", profit: 45 },
@@ -262,8 +274,9 @@ const keyboardShortcuts: [string, string][] = [
     </div>
 
     <p class="vd-mb-6">
-      <strong>vd3 Charts</strong> is an SVG-first, zero-dependency data
-      visualization engine designed for modern dashboards. It features full
+      <strong>vd3 Charts</strong> is the SVG-first data visualization widget
+      from <code>@vanduo-oss/vd3-cbun</code>
+      (<code>@vanduo-oss/vd3-cbun/charts</code>). It features full
       <strong>WAI-ARIA Graphics Module 1.0</strong> semantics, roving
       <strong>keyboard arrow navigation</strong> with live focus rings, an
       auto-generated <strong>accessible HTML data table fallback</strong> (WCAG
@@ -360,8 +373,9 @@ const keyboardShortcuts: [string, string][] = [
       <i class="ph ph-chart-line-up" aria-hidden="true"></i> Core Chart Types
     </h3>
     <p class="vd-text-muted vd-mb-6">
-      Categorical bar charts, time & continuous line charts, and donut / pie
-      charts with automatic dimension measurement and responsive resize.
+      Bar, line, area, scatter, donut, and pie — automatic dimension measurement
+      and responsive resize. Click a donut or pie slice to see
+      <code>@slice-click</code>.
     </p>
 
     <div class="vd-row vd-mb-8">
@@ -402,6 +416,23 @@ const keyboardShortcuts: [string, string][] = [
       <div class="vd-col-12 vd-col-lg-4 vd-mb-4">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
+            <h6><i class="ph ph-chart-line"></i> Area Chart</h6>
+          </div>
+          <div class="vd-card-body">
+            <VdChart
+              type="area"
+              :data="areaData"
+              x="month"
+              y="sessions"
+              title="Sessions"
+              :height="280"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="vd-col-12 vd-col-lg-6 vd-mb-4">
+        <div class="vd-card demo-card">
+          <div class="vd-card-header">
             <h6><i class="ph ph-chart-donut"></i> Donut Chart</h6>
           </div>
           <div class="vd-card-body">
@@ -412,6 +443,34 @@ const keyboardShortcuts: [string, string][] = [
               value="revenue"
               title="Revenue mix"
               :height="280"
+              @slice-click="onSliceClick"
+            />
+            <div class="chart-status-bar vd-mt-2">
+              <span class="status-chip">
+                <i class="ph ph-hand-pointing"></i>
+                <template v-if="lastSliceClick"
+                  >Last slice: <strong>{{ lastSliceClick }}</strong></template
+                >
+                <template v-else>Click a slice to emit @slice-click.</template>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vd-col-12 vd-col-lg-6 vd-mb-4">
+        <div class="vd-card demo-card">
+          <div class="vd-card-header">
+            <h6><i class="ph ph-chart-pie"></i> Pie Chart</h6>
+          </div>
+          <div class="vd-card-body">
+            <VdChart
+              type="pie"
+              :data="donutData"
+              label="channel"
+              value="revenue"
+              title="Revenue mix (pie)"
+              :height="280"
+              @slice-click="onSliceClick"
             />
           </div>
         </div>

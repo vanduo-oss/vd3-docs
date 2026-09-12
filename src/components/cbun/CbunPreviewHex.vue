@@ -94,7 +94,14 @@ watch([theme, primary, () => themeStore.ready], () => applyHexTheme());
     class="cbun-hex-wrap"
     :style="fullscreen ? { height: '100%' } : { height: '280px' }"
   >
-    <VdHexGrid :size="28" :width="10" :height="7" @ready="onReady" />
+    <VdHexGrid
+      :size="28"
+      :width="10"
+      :height="7"
+      :pixel-ratio="'auto'"
+      :cull="true"
+      @ready="onReady"
+    />
   </div>
 </template>
 

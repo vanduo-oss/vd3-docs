@@ -7,6 +7,7 @@ import { VdHexGrid } from "@vanduo-oss/vd3-cbun/hex-grid";
 import {
   TerrainType,
   getAdjacentHexes,
+  hexDistance,
 } from "@vanduo-oss/vd3-cbun/hex-grid/hex-math";
 
 const DEFAULT_SIZE = 30;
@@ -50,6 +51,16 @@ interface GridInstance {
   ) => Array<{ q: number; r: number }>;
   setHexFill: (q: number, r: number, color: string) => void;
   getAllHexes: () => HexCell[];
+  getVisibleHexes: () => HexCell[];
+  getRenderStats: () => {
+    total: number;
+    visible: number;
+    drawn: number;
+    mode: string;
+    lastRenderMs: number;
+    pixelRatio: number;
+    scale: number;
+  };
   setCustomRender: (
     callback: (
       ctx: CanvasRenderingContext2D,
@@ -68,6 +79,22 @@ const width = ref(DEFAULT_WIDTH);
 const height = ref(DEFAULT_HEIGHT);
 const rotationDeg = ref(0);
 const rotationRad = computed(() => (rotationDeg.value * Math.PI) / 180);
+const pixelRatio = ref<number | "auto">("auto");
+const cull = ref(true);
+const renderStats = ref({
+  total: 0,
+  visible: 0,
+  drawn: 0,
+  mode: "—",
+  lastRenderMs: 0,
+  pixelRatio: 1,
+  scale: 1,
+});
+
+const refreshRenderStats = (): void => {
+  if (!gridInstance?.getRenderStats) return;
+  renderStats.value = { ...gridInstance.getRenderStats() };
+};
 
 const zoomPercent = ref(100);
 const showInfo = ref(false);
@@ -264,15 +291,23 @@ const highlightPath = (path: Array<{ q: number; r: number }>): void => {
 };
 
 /**
- * BFS over existing hexes. Unlike the core's getPath (which treats a hex with no
- * terrain as impassable), terrainless hexes are passable here so the demo grid
- * routes out of the box; assigned terrain still blocks impassable tiles.
+ * Prefer core getPath when both ends have terrain (core treats empty terrain as
+ * impassable). Fall back to a demo BFS that treats terrainless hexes as passable
+ * so the empty-grid showcase still routes.
  */
 const computePath = (
   start: { q: number; r: number },
   end: { q: number; r: number },
 ): Array<{ q: number; r: number }> => {
   if (!gridInstance) return [];
+
+  const startTerrain = gridInstance.getHexTerrain(start.q, start.r);
+  const endTerrain = gridInstance.getHexTerrain(end.q, end.r);
+  if (startTerrain && endTerrain) {
+    const corePath = gridInstance.getPath(start.q, start.r, end.q, end.r);
+    if (corePath.length) return corePath;
+  }
+
   const passable = (q: number, r: number): boolean => {
     if (!gridInstance!.hasHex(q, r)) return false;
     const terrain = gridInstance!.getHexTerrain(q, r);
@@ -332,14 +367,23 @@ const onReady = (instance: GridInstance): void => {
   instance.fillRandom = themeAwareFillRandom;
   instance.setCustomRender(overlayRender);
   applyHexTheme();
+  refreshRenderStats();
   // App.vue applies the theme/primary attributes in its onMounted, which runs
   // after this child mounts — re-read the resolved primary once that settles so
   // the outline tracks the global primary color instead of the SSR default.
-  nextTick(() => applyHexTheme());
+  nextTick(() => {
+    applyHexTheme();
+    refreshRenderStats();
+  });
 };
 
 const onZoom = (data: { scale: number }): void => {
   zoomPercent.value = Math.round(data.scale * 100);
+  refreshRenderStats();
+};
+
+const onPan = (): void => {
+  refreshRenderStats();
 };
 
 const onSelect = (hex: HexCell): void => {
@@ -427,7 +471,14 @@ const applyTerrainToSelected = (): void => {
 
 // Re-bake the grid palette whenever theme/primary change, and once the theme
 // store finishes hydrating (which sets data-theme/data-primary on <html>).
-watch([theme, primary, () => themeStore.ready], () => applyHexTheme());
+watch([theme, primary, () => themeStore.ready], () => {
+  applyHexTheme();
+  refreshRenderStats();
+});
+
+watch([cull, pixelRatio, size, width, height], () => {
+  nextTick(() => refreshRenderStats());
+});
 
 watch(showCoords, () => requestRender());
 
@@ -478,12 +529,36 @@ import { hexDistance, getAdjacentHexes, TerrainType } from '@vanduo-oss/vd3-cbun
 hexDistance(0, 0, 2, -1); // → 2
 getAdjacentHexes(0, 0);   // → 6 neighbors`;
 
+const mathOrigin = { q: 0, r: 0 };
+const mathTargetQ = ref(2);
+const mathTargetR = ref(-1);
+const mathDistance = computed(() =>
+  hexDistance(mathOrigin.q, mathOrigin.r, mathTargetQ.value, mathTargetR.value),
+);
+const mathNeighbors = computed(() =>
+  getAdjacentHexes(mathOrigin.q, mathOrigin.r)
+    .map((n) => `(${n.q},${n.r})`)
+    .join(", "),
+);
+
 const vue3Api: [string, string][] = [
   [":size", "Hexagon size in px (default 30)."],
   [":width / :height", "Grid columns / rows in hexes (default 10)."],
   [":rotation", "Grid rotation in radians (default 0)."],
+  [
+    ":pixel-ratio",
+    "`'auto'` (default, clamped to 2) or an explicit DPR for HiDPI canvas buffers.",
+  ],
+  [
+    ":cull",
+    "Viewport culling (default true) — only visible hexes are drawn; false draws the full grid.",
+  ],
   ["@select / @zoom / @pan", "Forwarded interaction events."],
   ["@ready", "Emitted once with the underlying VdHexGrid instance."],
+  [
+    "getVisibleHexes / getRenderStats",
+    "Imperative observability on the ready instance (culled set + last-frame metrics).",
+  ],
   ["getInstance()", "Template ref expose — call imperative API methods."],
 ];
 
@@ -498,12 +573,13 @@ const events: [string, string][] = [
   <section id="vd-hex">
     <h5 class="demo-title"><i class="ph ph-hexagon"></i>Hex Grid</h5>
     <p class="vd-mb-8">
-      <strong>vd3 Hex Grid</strong> is a standalone, canvas-rendered axial hex
-      grid, installed separately from the framework. Pan, zoom, select hexes,
-      and attach terrain or custom data. It reads vd3 theme tokens, ships a pure
-      <code>@vanduo-oss/vd3-cbun/hex-grid/hex-math</code>
-      subexport, and an optional Vue 3 binding
-      (<code>@vanduo-oss/vd3-cbun/hex-grid</code>) used here.
+      <strong>vd3 Hex Grid</strong> is a canvas-rendered axial hex grid from
+      <code>@vanduo-oss/vd3-cbun</code>. Pan, zoom, select hexes, and attach
+      terrain or custom data. HiDPI <code>pixelRatio</code>, viewport
+      <code>cull</code>, and <code>getRenderStats()</code> keep large grids
+      sharp and observable. It reads vd3 theme tokens, ships a pure
+      <code>@vanduo-oss/vd3-cbun/hex-grid/hex-math</code> subexport, and the Vue
+      component (<code>@vanduo-oss/vd3-cbun/hex-grid</code>) used here.
     </p>
 
     <div class="vd-row vd-mb-6">
@@ -523,9 +599,12 @@ const events: [string, string][] = [
               :width="width"
               :height="height"
               :rotation="rotationRad"
+              :pixel-ratio="pixelRatio"
+              :cull="cull"
               @ready="onReady"
               @select="onSelect"
               @zoom="onZoom"
+              @pan="onPan"
             />
             <div
               class="canvas-toolbar"
@@ -649,6 +728,40 @@ const events: [string, string][] = [
                 style="width: 100%"
               />
               <span class="vd-text-sm vd-text-muted">{{ rotationDeg }}°</span>
+            </div>
+
+            <div class="vd-mb-4">
+              <label class="vd-form-label" for="hex-dpr-select"
+                >Pixel ratio (DPR)</label
+              >
+              <select
+                id="hex-dpr-select"
+                class="vd-form-select"
+                :value="String(pixelRatio)"
+                @change="
+                  pixelRatio =
+                    ($event.target as HTMLSelectElement).value === 'auto'
+                      ? 'auto'
+                      : Number(($event.target as HTMLSelectElement).value)
+                "
+              >
+                <option value="auto">auto (≤2)</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+
+            <div class="vd-mb-4">
+              <label class="vd-form-label">
+                <input v-model="cull" type="checkbox" class="vd-me-2" />
+                Viewport culling
+              </label>
+              <p class="vd-text-sm vd-text-muted vd-mb-0">
+                Visible {{ renderStats.visible }} / {{ renderStats.total }} ·
+                mode <code>{{ renderStats.mode }}</code> ·
+                {{ renderStats.lastRenderMs.toFixed(1) }}ms · DPR
+                {{ renderStats.pixelRatio }}
+              </p>
             </div>
 
             <div class="vd-inline vd-mt-2" data-gap="fib-5">
@@ -864,6 +977,38 @@ const events: [string, string][] = [
           Axial coordinate math and terrain tables, importable without a canvas
           or the DOM — handy for game logic, tests, or Node.
         </p>
+        <div class="vd-row vd-mb-4">
+          <div class="vd-col-6 vd-col-md-3 vd-mb-3">
+            <label class="vd-form-label" for="math-tq">Target q</label>
+            <input
+              id="math-tq"
+              v-model.number="mathTargetQ"
+              type="number"
+              class="vd-form-control"
+              step="1"
+            />
+          </div>
+          <div class="vd-col-6 vd-col-md-3 vd-mb-3">
+            <label class="vd-form-label" for="math-tr">Target r</label>
+            <input
+              id="math-tr"
+              v-model.number="mathTargetR"
+              type="number"
+              class="vd-form-control"
+              step="1"
+            />
+          </div>
+          <div class="vd-col-12 vd-col-md-6 vd-mb-3">
+            <p class="vd-mb-1">
+              Distance from (0,0) →
+              <strong>({{ mathTargetQ }}, {{ mathTargetR }})</strong>:
+              <code>{{ mathDistance }}</code>
+            </p>
+            <p class="vd-text-sm vd-text-muted vd-mb-0">
+              Neighbors of (0,0): {{ mathNeighbors }}
+            </p>
+          </div>
+        </div>
         <DocCodeSnippet :js="mathUsage" />
       </div>
     </div>

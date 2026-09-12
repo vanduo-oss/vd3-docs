@@ -7,11 +7,13 @@ a live demo built from the real, typed `Vd*` components and composables of
 Vue 3 design system) and the charts, code-editor, draw, flowchart, hex-grid, and
 music-player components of
 [`@vanduo-oss/vd3-cbun`](https://www.npmjs.com/package/@vanduo-oss/vd3-cbun) (the
-components bundle), consumed as published npm dependencies (`@vanduo-oss/vd3-cbun`
-`^1.2.0`), not vendored source. Until `@vanduo-oss/vd3@1.7.2` is on npm,
-this branch links the sibling `../vd3` checkout (`file:../vd3`) so the
-site dogfoods contrast-aware on-fill ink. Unlike the previous docs site (which consumed `@vanduo-oss/framework` CSS
-classes only), vd3-docs renders the actual Vue 3 components a consumer installs.
+components bundle), consumed as published npm dependencies with exact pins
+(`@vanduo-oss/vd3@1.7.2`, `@vanduo-oss/vd3-cbun@1.4.1`), not vendored source.
+Local worktrees may temporarily `link:` the sibling `../vd3` /
+`../vd3-cbun` checkouts for unreleased library work; the committed manifest
+keeps the exact published versions. Unlike the previous docs site (which
+consumed `@vanduo-oss/framework` CSS classes only), vd3-docs renders the
+actual Vue 3 components a consumer installs.
 
 The site is pre-rendered to static HTML with `vite-ssg` (one page per `nav.ts`
 route) and is `private` — it is **not** published to npm.

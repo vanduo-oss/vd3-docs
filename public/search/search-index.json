@@ -585,7 +585,7 @@
         "Variables",
         "Accessibility"
       ],
-      "bodyText": "Small inline status indicators, counters, and labels. Badges scale with their parent font size and support contextual color variants, pill shapes, and three size tiers.. .vd-badge — Base badge. Inline-block with padding, rounded corners, and centered text.. .vd-badge-primary — Primary color background with white text.. .vd-badge-secondary — Secondary (teal/green) background.. .vd-badge-success — Green success background.. .vd-badge-warning — Amber warning background.. .vd-badge-danger — Red danger background — the unified status name (matches variant=\"danger\").. .vd-badge-error — Retained backward-compatible alias for .vd-badge-danger.. .vd-badge-info — Cyan info background.. .vd-badge-light — Light gray background (inverted in dark mode).. .vd-badge-dark — Dark gray background with light text.. .vd-badge-pill — Fully rounded pill shape (border-radius: 50rem).. .vd-badge-outlined — Transparent background with colored border and text.. .vd-badge-sm — Compact size (font-size: 0.65em).. .vd-badge-lg — Large size (font-size: 0.875em).. :variant — primary | secondary | success | warning | danger | info (default \"primary\"). The bare .vd-badge class is neutral/secondary, but the VdBadge component defaults to primary.. :pill — Fully-rounded pill shape.. default slot — Badge content.. (size / outline) — -only classes (.vd-badge-sm / -lg / -outlined) that ship in vd3's — not wrapped as VdBadge props.. --vd-badge-padding-y — 0.25em. --vd-badge-padding-x — 0.4em (ratio ~phi). --vd-badge-padding-y-sm — 0.15em. --vd-badge-padding-x-sm — 0.25em (ratio ~phi). --vd-badge-padding-y-lg — 0.35em. --vd-badge-padding-x-lg — 0.55em (ratio ~phi). --vd-badge-font-size — 0.75em. --vd-badge-font-weight — var(--vd-font-weight-semibold). --vd-badge-border-radius — var(--vd-btn-border-radius-sm). --vd-badge-pill-border-radius — 50rem",
+      "bodyText": "Small inline status indicators, counters, and labels. Badges scale with their parent font size and support contextual color variants, pill shapes, and three size tiers.. .vd-badge — Base badge. Inline-block with padding, rounded corners, and centered text.. .vd-badge-primary — Primary color background with on-fill ink.. .vd-badge-secondary — Secondary (teal/green) background.. .vd-badge-success — Green success background.. .vd-badge-warning — Amber warning background.. .vd-badge-danger — Red danger background — the unified status name (matches variant=\"danger\").. .vd-badge-error — Retained backward-compatible alias for .vd-badge-danger.. .vd-badge-info — Cyan info background.. .vd-badge-light — Light gray background (inverted in dark mode).. .vd-badge-dark — Dark gray background with light text.. .vd-badge-pill — Fully rounded pill shape (border-radius: 50rem).. .vd-badge-outlined — Transparent background with colored border and text.. .vd-badge-sm — Compact size (font-size: 0.65em).. .vd-badge-lg — Large size (font-size: 0.875em).. :variant — primary | secondary | success | warning | danger | info (default \"primary\"). The bare .vd-badge class is neutral/secondary, but the VdBadge component defaults to primary.. :pill — Fully-rounded pill shape.. default slot — Badge content.. (size / outline) — -only classes (.vd-badge-sm / -lg / -outlined) that ship in vd3's — not wrapped as VdBadge props.. --vd-badge-padding-y — 0.25em. --vd-badge-padding-x — 0.4em (ratio ~phi). --vd-badge-padding-y-sm — 0.15em. --vd-badge-padding-x-sm — 0.25em (ratio ~phi). --vd-badge-padding-y-lg — 0.35em. --vd-badge-padding-x-lg — 0.55em (ratio ~phi). --vd-badge-font-size — 0.75em. --vd-badge-font-weight — var(--vd-font-weight-semibold). --vd-badge-border-radius — var(--vd-btn-border-radius-sm). --vd-badge-pill-border-radius — 50rem",
       "classes": [
         ".vd-badge",
         ".vd-badge-primary",
@@ -617,7 +617,7 @@
         },
         {
           "type": "class",
-          "text": ".vd-badge-primary — Primary color background with white text.",
+          "text": ".vd-badge-primary — Primary color background with on-fill ink.",
           "heading": "Classes"
         },
         {
@@ -920,17 +920,22 @@
         "Classes",
         "Component API ( 3)"
       ],
-      "bodyText": "Clickable actions in contextual color variants, three sizes, and outline, ink, ghost, ring, and icon looks, with built-in loading and disabled states.. A fat single outline on the border box — not the detached .vd-btn-ring halo, and not the 1px .vd-btn-outline stroke that fills primary on hover. Rest is transparent; hover fills black in light and primary in dark. Use it as variant=\"ink\" or .vd-btn-ink on a link styled as a button.. A detached outer ring for the one action you want read first on a screen that already uses solid buttons everywhere. It is a modifier, not a variant — add .vd-btn-ring to whatever button you already have. The gap is transparent, so it keeps working on cards, glass and imagery.. .vd-btn — Base button class — required on all buttons. .vd-btn-primary — Primary action color. .vd-btn-secondary — Secondary/neutral action color. .vd-btn-success — Success/positive action color. .vd-btn-warning — Warning/caution action color. .vd-btn-danger — Danger/destructive action color — unified status name (matches variant=\"danger\"). .vd-btn-error — Retained backward-compatible alias for .vd-btn-danger. .vd-btn-info — Informational action color. .vd-btn-outline — Outlined button (neutral border). .vd-btn-outline-primary — Outlined button with primary color. .vd-btn-outline-secondary — Outlined button with secondary color. .vd-btn-ink — Fat single 2px outline (not the ring). Hover fills black in light and primary in dark. Also VdButton variant=\"ink\".. .vd-btn-sm — Small button size. .vd-btn-lg — Large button size. .vd-btn-block — Full-width block button. .vd-btn-ghost — Transparent background with hover tint. .vd-btn-ghost-primary … .vd-btn-ghost-subtle — Ghost with color-tinted hover states. .vd-btn-icon — Circular icon-only button. .vd-btn-ring — Detached outer ring with a transparent gap — layers on any variant and size. Suppressed inside .vd-btn-group. Tune with --vd-btn-ring-width / -gap / -color. .is-loading — Loading state — blanks the label and shows a spinner (prefer a .vd-btn-spinner child, matching VdButton; legacy ::after alone is fine for outline/ghost). .vd-btn-spinner — Real spinner element used by VdButton :loading — suppresses the legacy ::after and keeps solid-variant colours correct. .vd-btn-full — Full-width button (inline-block). disabled — Disables interaction and dims button. :variant — primary | secondary | success | warning | danger | info, or \"ghost\" / \"ink\" (default \"primary\").. :size — sm | md | lg (default \"md\").. :loading — Shows a spinner and blocks clicks (adds .is-loading and a .vd-btn-spinner child; label is blanked).. :disabled — Disables the button.. :ring — Draws a detached outer ring around the button (adds .vd-btn-ring). Layers on any variant and size; default false.. :type — button | submit | reset (default \"button\").. @click — Emitted on click (suppressed while disabled or loading).. (outline / ghost-colour / icon) — -only classes (.vd-btn-outline, .vd-btn-ghost-primary…, .vd-btn-icon) that ship in vd3's — not wrapped as VdButton props.",
+      "bodyText": "Clickable actions in contextual color variants, three sizes, and outline, ink, ghost, ring, and icon looks, with built-in loading and disabled states. Filled primary and status chrome uses contrast-aware on-fill ink ( --vd-text-on-primary / --vd-text-on-status ): bright hues keep dark labels in light and dark.. Press is the live :active state — hold it down.. A fat single outline on the border box — not the detached .vd-btn-ring halo, and not the 1px .vd-btn-outline stroke that fills primary on hover. Rest is transparent; hover fills black with a white label in light, and solid primary with on-fill ink in dark. Use it as variant=\"ink\" or .vd-btn-ink on a link styled as a button.. A detached outer ring for the one action you want read first on a screen that already uses solid buttons everywhere. It is a modifier, not a variant — add .vd-btn-ring to whatever button you already have. The gap is transparent, so it keeps working on cards, glass and imagery.. .vd-btn — Base button class — required on all buttons. .vd-btn-primary — Primary action color. .vd-btn-secondary — Secondary/neutral action color. .vd-btn-success — Success/positive action color. .vd-btn-warning — Warning/caution action color. .vd-btn-danger — Danger/destructive action color — unified status name (matches variant=\"danger\"). .vd-btn-error — Retained backward-compatible alias for .vd-btn-danger. .vd-btn-info — Informational action color. .vd-btn-outline — Outlined button (neutral border). .vd-btn-outline-primary — Outlined button with primary color. .vd-btn-outline-secondary — Outlined button with secondary color. .vd-btn-ink — Fat single 2px outline (not the ring). Hover fills black in light. On this docs site in dark, hover fills solid primary with dark ink. Also VdButton variant=\"ink\".. .vd-btn-sm — Small button size. .vd-btn-lg — Large button size. .vd-btn-block — Full-width block button. .vd-btn-ghost — Transparent background with hover tint. .vd-btn-ghost-primary … .vd-btn-ghost-subtle — Ghost with color-tinted hover states. .vd-btn-icon — Circular icon-only button. .vd-btn-ring — Detached outer ring with a transparent gap — layers on any variant and size. Suppressed inside .vd-btn-group. Tune with --vd-btn-ring-width / -gap / -color. .is-loading — Loading state — blanks the label and shows a spinner (prefer a .vd-btn-spinner child, matching VdButton; legacy ::after alone is fine for outline/ghost). .vd-btn-spinner — Real spinner element used by VdButton :loading — suppresses the legacy ::after and keeps solid-variant colours correct. .vd-btn-full — Alias of .vd-btn-block — full-width (display: block). disabled — Disables interaction and dims button. :variant — primary | secondary | success | warning | danger | info, or \"ghost\" / \"ink\" (default \"primary\").. :size — sm | md | lg (default \"md\").. :loading — Shows a spinner and blocks clicks (adds .is-loading and a .vd-btn-spinner child; label is blanked).. :disabled — Disables the button.. :ring — Draws a detached outer ring around the button (adds .vd-btn-ring). Layers on any variant and size; default false.. :type — button | submit | reset (default \"button\").. @click — Emitted on click (suppressed while disabled or loading).. (outline / ghost-colour / icon) — -only classes (.vd-btn-outline, .vd-btn-ghost-primary…, .vd-btn-icon) that ship in vd3's — not wrapped as VdButton props.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "Clickable actions in contextual color variants, three sizes, and outline, ink, ghost, ring, and icon looks, with built-in loading and disabled states.",
+          "text": "Clickable actions in contextual color variants, three sizes, and outline, ink, ghost, ring, and icon looks, with built-in loading and disabled states. Filled primary and status chrome uses contrast-aware on-fill ink ( --vd-text-on-primary / --vd-text-on-status ): bright hues keep dark labels in light and dark.",
           "heading": "Buttons"
         },
         {
           "type": "paragraph",
-          "text": "A fat single outline on the border box — not the detached .vd-btn-ring halo, and not the 1px .vd-btn-outline stroke that fills primary on hover. Rest is transparent; hover fills black in light and primary in dark. Use it as variant=\"ink\" or .vd-btn-ink on a link styled as a button.",
+          "text": "Press is the live :active state — hold it down.",
+          "heading": "Button States"
+        },
+        {
+          "type": "paragraph",
+          "text": "A fat single outline on the border box — not the detached .vd-btn-ring halo, and not the 1px .vd-btn-outline stroke that fills primary on hover. Rest is transparent; hover fills black with a white label in light, and solid primary with on-fill ink in dark. Use it as variant=\"ink\" or .vd-btn-ink on a link styled as a button.",
           "heading": "Ink Buttons"
         },
         {
@@ -995,7 +1000,7 @@
         },
         {
           "type": "class",
-          "text": ".vd-btn-ink — Fat single 2px outline (not the ring). Hover fills black in light and primary in dark. Also VdButton variant=\"ink\".",
+          "text": ".vd-btn-ink — Fat single 2px outline (not the ring). Hover fills black in light. On this docs site in dark, hover fills solid primary with dark ink. Also VdButton variant=\"ink\".",
           "heading": "Classes"
         },
         {
@@ -1045,7 +1050,7 @@
         },
         {
           "type": "class",
-          "text": ".vd-btn-full — Full-width button (inline-block)",
+          "text": ".vd-btn-full — Alias of .vd-btn-block — full-width (display: block)",
           "heading": "Classes"
         },
         {
@@ -10062,7 +10067,7 @@
         "VdDataTable API ( 3)",
         "VdEmptyState API ( 3)"
       ],
-      "bodyText": "Presentational VdTable ( table) plus VdDataTable — client search, sort, selection, and paging via useTableState . Apps own fetch. Cell slots compose VdAvatar / VdBadge ; a dashboard recipe can sit a cbun VdChart above the grid.. Sortable headers expose aria-sort . columns.variant tints headers here (not on VdTable ). Search is client-side unless :manual .. No teammates yet. Invite someone to populate this grid.. Composition only — cbun charts stay in @vanduo-oss/vd3-cbun ; the table stays in vd3.. Select row 1 — AL Ada Lovelace. Select row 2 — GH Grace Hopper. Select row 3 — AT Alan Turing. Select row 4 — KJ Katherine Johnson. Select row 5 — DV Dorothy Vaughan. Ada Lovelace — Admin. Grace Hopper — Editor. Alan Turing — Viewer. Katherine Johnson — Editor. John Doe — john@example.com. Jane Smith — jane@example.com. Mike Johnson — mike@example.com. Product A — $29.99. Product B — $39.99. Product C — $49.99. #001 — Active. #002 — Pending. #003 — Failed. .vd-table — Base component class required for all vd3 tables.. .vd-table-bordered — Modifier class that adds borders to all outer boundaries and internal cells.. .vd-table-striped — Modifier class that adds alternating background colors to body rows (zebra striping).. .vd-table-hover — Modifier class that enables a hover background color effect on body rows.. .vd-table-responsive — Wrapper class that enables horizontal scrolling on small screens.. .vd-data-table — Interactive grid chrome wrapping .vd-table (toolbar, sticky header, footer).. .vd-empty — Reusable empty-state stack (icon, title, description, action).. :columns — Array of { key, label }. Optional variant is typed but not applied — VdTable is presentational markup.. :rows — Array of plain row objects keyed by each column's key.. :striped — Zebra row striping.. :bordered — Cell borders.. :hover — Row hover highlight.. :caption — Accessible table caption.. :columns — { key, label, sortable?, align?, width?, variant? }. variant adds vd-table-{variant} on the header cell.. :rows — Row objects. Apps own fetch; pass already-sliced rows with :manual.. :row-key — String key or (row, index) => id (default 'id').. :selectable — 'none' | 'single' | 'multiple'. Row + select-all checkboxes are labelled.. v-model:sort / v-model:selected / v-model:page — Controlled sort, selection, page.. :searchable / :search-keys / :search-placeholder — Toolbar VdInput filters client-side unless :manual.. :page-size / :manual / :loading — Paging; skip client pipeline; skeleton rows.. :empty-title / :empty-description / :max-height — Empty ; sticky-header scrollport.. :striped / :bordered / :hover / :sm / :caption — Same visual language as VdTable.",
+      "bodyText": "Presentational VdTable ( table) plus VdDataTable — client search, sort, selection, and paging via useTableState . Apps own fetch. Cell slots compose VdAvatar / VdBadge ; a dashboard recipe can sit a cbun VdChart above the grid.. Sortable headers expose aria-sort . columns.variant tints headers here (not on VdTable ). Search is client-side unless :manual .. No teammates yet. Invite someone to populate this grid.. Composition only — cbun charts stay in @vanduo-oss/vd3-cbun ; the table stays in vd3.. Select row 1 — AL Ada Lovelace. Select row 2 — GH Grace Hopper. Select row 3 — AT Alan Turing. Select row 4 — KJ Katherine Johnson. Select row 5 — DV Dorothy Vaughan. Ada Lovelace — Admin. Grace Hopper — Editor. Alan Turing — Viewer. Katherine Johnson — Editor. John Doe — [email&#160;protected]. Jane Smith — [email&#160;protected]. Mike Johnson — [email&#160;protected]. Product A — $29.99. Product B — $39.99. Product C — $49.99. #001 — Active. #002 — Pending. #003 — Failed. .vd-table — Base component class required for all vd3 tables.. .vd-table-bordered — Modifier class that adds borders to all outer boundaries and internal cells.. .vd-table-striped — Modifier class that adds alternating background colors to body rows (zebra striping).. .vd-table-hover — Modifier class that enables a hover background color effect on body rows.. .vd-table-responsive — Wrapper class that enables horizontal scrolling on small screens.. .vd-data-table — Interactive grid chrome wrapping .vd-table (toolbar, sticky header, footer).. .vd-empty — Reusable empty-state stack (icon, title, description, action).. :columns — Array of { key, label }. Optional variant is typed but not applied — VdTable is presentational markup.. :rows — Array of plain row objects keyed by each column's key.. :striped — Zebra row striping.. :bordered — Cell borders.. :hover — Row hover highlight.. :caption — Accessible table caption.. :columns — { key, label, sortable?, align?, width?, variant? }. variant adds vd-table-{variant} on the header cell.. :rows — Row objects. Apps own fetch; pass already-sliced rows with :manual.. :row-key — String key or (row, index) => id (default 'id').. :selectable — 'none' | 'single' | 'multiple'. Row + select-all checkboxes are labelled.. v-model:sort / v-model:selected / v-model:page — Controlled sort, selection, page.. :searchable / :search-keys / :search-placeholder — Toolbar VdInput filters client-side unless :manual.. :page-size / :manual / :loading — Paging; skip client pipeline; skeleton rows.. :empty-title / :empty-description / :max-height — Empty ; sticky-header scrollport.. :striped / :bordered / :hover / :sm / :caption — Same visual language as VdTable.",
       "classes": [
         ".vd-table",
         ".vd-table-bordered",
@@ -10164,17 +10169,17 @@
         },
         {
           "type": "class",
-          "text": "John Doe — john@example.com",
+          "text": "John Doe — [email&#160;protected]",
           "heading": "Bordered Table"
         },
         {
           "type": "class",
-          "text": "Jane Smith — jane@example.com",
+          "text": "Jane Smith — [email&#160;protected]",
           "heading": "Bordered Table"
         },
         {
           "type": "class",
-          "text": "Mike Johnson — mike@example.com",
+          "text": "Mike Johnson — [email&#160;protected]",
           "heading": "Bordered Table"
         },
         {
@@ -13627,7 +13632,6 @@
       "icon": "info",
       "keywords": [
         "about",
-        "vanduo",
         "vd3",
         "overview"
       ],
@@ -13759,8 +13763,8 @@
       "headings": [
         "Changelog",
         "@vanduo-oss/vd3",
-        "New",
         "Fixed",
+        "New",
         "Accessibility",
         "Security & fixes",
         "Internal",
@@ -13769,7 +13773,7 @@
         "@vanduo-oss/vd3-cbun",
         "Hardened"
       ],
-      "bodyText": "Release notes for the vd3 line packages — @vanduo-oss/vd3 (the 3 design system and component library) and @vanduo-oss/vd3-cbun (the components bundle: charts, code-editor, draw, flowchart, hex-grid, music-player).. The standalone 3 design system & component library.. Global search palette — site-wide Cmd+K modal with grouped results, keyboard navigation, and an engine-agnostic adapter hook for hybrid or REST backends. Plus the Oola dock chrome this site had been forking locally: accent tinting, the primary-only swatches fan, and delayed dock tooltips.. Teleport overlay palette with optional AI opt-in toggle, disclaimer slot, debounced adapter injection, and Cmd/Ctrl+K + / shortcuts. Co-mount with VdDocSearch by setting :keyboard-shortcut=\"false\" on the inline combobox. See /components/global-search .. surface (default) keeps the old behaviour — tint paints the pill. accent holds the pill at constant ink and leaves --vd-dock-tint for items and the brand slot to consume, so the hue reads on the icons instead of the glass. This site's dock now uses it in place of a local inline-style override. See /components/dock .. A primary-only fan hinged at the trigger, for dock and toolbar chrome with no room for the 320px panel. swatches curates the hues, direction sets the axis, and preview applies on hover. Bind :primary and listen to @update:primary to keep an app-side store authoritative instead of the useThemePreference() singleton. See /components/theme-customizer .. useTooltips(root, { showDelay }) sets the hover dwell before a tip appears, overridable per trigger with data-tooltip-delay . The root is now watched with a MutationObserver , so triggers added after mount bind themselves. data-tooltip-variant=\"dock\" opts into the denser .vd-tooltip-dock frost and its --vd-tooltip-dock-* custom properties. See /components/tooltip .. Snippet chrome and an ink button — tabbed , in the header, and a 2px outline variant. vd3 still does not tokenize.. When any of / / js / shell / / json is set, the component renders the collapsible tabbed “ ” widget (toggle, tablist, panes, raw-source ). Simple mode ( code / language / copyable ) is unchanged. Optional highlight(code, language) injects escaped ; without it, source is text. See /components/code-snippet .. .vd-btn-ink : transparent fill, a single 2px outline (not .vd-btn-ring ). Hover fills black in light and primary in dark; the label uses --vd-text-on-primary . Existing outline / ghost / ring treatments are unchanged. See /components/button .. stays in .vd-code-snippet-header (top-right) for simple and chrome modes. Tabs get aria-controls / pane role=\"tabpanel\" and Left / Right / Home / End navigation, matching VdTabs . A .vd-visually-hidden child inside .vd-btn no longer wraps the label.. Oola Dock — a morphing glass pill that is not a navbar. Horizontal ↔ vertical through a square waypoint, dock-own radius past the theme 0.5rem cap.. Fat Seemore glass chrome with useDockOrientation , position fixed or contained, Open Color tint , Seemore glass , and itemLayout , and placement (bottom / top / left / right). Brand is a slot — demos use ū on the morph-origin corner. See /components/dock .. Headless auth screens and a client data table — still a UI kit, not an app framework. No fetch, no dataProvider, no Resource registry.. VdAuthCard , VdLogin , VdSignUp , and VdForgotPassword emit submit / social . Password fields use WHATWG autocomplete tokens and a real reveal button. Primitives: VdCheckbox , VdOtpInput , VdInput slots + revealPassword , VdCard glass . See /components/login .. useTableState (search → sort → page, or manual for server-sliced rows) and VdDataTable (sortable aria-sort headers, cell slots, selection, sticky header, skeleton loading, VdEmptyState , composed VdPagination ). Presentational VdTable is unchanged. See /components/table .. Seemore Glass — Fibonacci strength-step frosted material — plus reusable decorative Surfaces for hero backdrops.. Canonical modifiers .vd-glass-{1,2,3,5,8,13,21} bundle blur, tint, border, saturate, grain, and elevation. Base .vd-glass is step 5; legacy sm|lg|xl alias to 3/8/13. New .vd-glass-adaptive , a11y media-query hardening, and scroll glass that never transitions backdrop-filter . See /effects/glass .. Layer 5 .vd-surface with mesh, stripe, noise, aurora, dots, and grid — plus intensity .vd-surface-{3,5,8} . Documented at /effects/surfaces .. Optional theme preference storage prefix so multi-app same-origin hosts can isolate localStorage keys without colliding on the default vanduo-* namespace.. Pass app.use(VanduoVue, { storagePrefix: \"app-\" }) or call setStoragePrefix / getStoragePrefix at bootstrap to remap the six preference keys. Default remains vanduo-* (back-compat); no automatic migration between prefixes. See /guides/ -variables .. Adds the theme-aware Liquid Gradient WebGL effect, and fixes native select chevron tiling when consumers use the background shorthand.. Interactive vanilla WebGL atmosphere under /effects/liquid-gradient — .vd-liquid-gradient + useLiquidGradient / createLiquidGradient , bound to primary / neutral / background tokens with --vd-liquid-* knobs. Inspired by Cameron Knight’s MIT CodePen (no Three.js).. Focus / disabled / dark theme caret rules now re-declare background-repeat , background-position , and background-size so a consumer background shorthand cannot leave a tiling SVG caret.. A patch release: opt-in glass modal and animated stepper , plus polish across loading buttons, spotlight, morph, button groups, transfer, and collections.. VdModal gains an opt-in glass prop that applies the existing .vd-modal-glass / .vd-modal-glass-backdrop classes (same idea as VdFab ’s glass ). was already shipped; the prop wires it for consumers. Fallthrough attrs bind on the dialog root so glass token overrides land correctly through Teleport.. Containers with .vd-stepper-animated get a staggered IntersectionObserver reveal (mirrors timeline). useStepper accepts optional UseStepperOptions ( staggerMs , maxStaggerIndex ); prefers-reduced-motion and missing IntersectionObserver reveal immediately.. Outline, ghost, and plain buttons with .is-loading now keep a visible spinner — the legacy currentColor spinner was invisible once the label used color: transparent . Solid variants already pinned their colours; these treatments now pin their accent colours the same way.. Spotlight uses a body-level .vd-spotlight-highlight instead of a huge box-shadow on the target, so transformed ancestors no longer trap the dimming layer; geometry animates between steps.. Morph no longer reverse-animates at end-of-swap: a short .is-morph-settling freeze + cooldown blocks re-entrant clicks; default duration/easing are snappier. Same settle path for useMorphBadges .. .vd-btn-group.vd-btn-group-vertical no longer inherits horizontal edge-sharing margins/radii; labels stay nowrap and the stack sizes to the widest button. Transfer move buttons use Phosphor carets via VdIcon with clearer hover/focus-visible styles.. Collections flush inside a card body clip to the card’s inner radius so hover backgrounds do not square off past rounded corners. Stepper connector ::after is pointer-events: none so decorative lines never steal clicks.. A minor release adding an opt-in button ring modifier . Additive only — no button without it renders differently.. Buttons gain a detached outer ring with a transparent gap, for marking one action as the primary one on a screen that already uses solid buttons throughout. It is a modifier rather than a variant, so it layers onto any existing variant, size and state — via the class or :ring on VdButton — and because the gap is real transparency it reads correctly on cards, glass and imagery. Tunable through the --vd-btn-ring-* custom properties.. A minor release: a new extra-large VdModal size, broad accessibility & lifecycle hardening , and a security-hardened sanitizer. No breaking changes.. VdModal gains a fourth size tier — size=\"xl\" (987px, ",
+      "bodyText": "Release notes for the vd3 line packages — @vanduo-oss/vd3 (the 3 design system and component library) and @vanduo-oss/vd3-cbun (the components bundle: charts, code-editor, draw, flowchart, hex-grid, music-player).. The standalone 3 design system & component library.. Contrast-aware on-fill ink — bright filled surfaces (yellow, orange, and similarly light primaries) use dark ink via --vd-text-on-primary , --vd-text-on-primary-hover , and --vd-text-on-status instead of hardcoded white. -only; no API change.. Filled primary and status chrome reads --vd-text-on-primary / --vd-text-on-primary-hover / --vd-text-on-status so yellow, orange, and other light fills get dark, high-contrast foreground instead of white. Applies to buttons (including hover-filled outline / ink and loading spinners) and other filled surfaces — chips, badges, alerts, and similar. Dark theme does not flip those bright fills back to white text. See /components/button .. Snippet header — on phones, stays on the same row as the language tabs. -only; no API change.. At viewports ≤640px, and language tabs stay on one .vd-code-snippet-header row instead of wrapping onto its own row above the tablist. See /components/code-snippet .. Global search palette — site-wide Cmd+K modal with grouped results, keyboard navigation, and an engine-agnostic adapter hook for hybrid or REST backends. Plus the Oola dock chrome this site had been forking locally: accent tinting, the primary-only swatches fan, and delayed dock tooltips.. Teleport overlay palette with optional AI opt-in toggle, disclaimer slot, debounced adapter injection, and Cmd/Ctrl+K + / shortcuts. Co-mount with VdDocSearch by setting :keyboard-shortcut=\"false\" on the inline combobox. See /components/global-search .. surface (default) keeps the old behaviour — tint paints the pill. accent holds the pill at constant ink and leaves --vd-dock-tint for items and the brand slot to consume, so the hue reads on the icons instead of the glass. This site's dock now uses it in place of a local inline-style override. See /components/dock .. A primary-only fan hinged at the trigger, for dock and toolbar chrome with no room for the 320px panel. swatches curates the hues, direction sets the axis, and preview applies on hover. Bind :primary and listen to @update:primary to keep an app-side store authoritative instead of the useThemePreference() singleton. See /components/theme-customizer .. useTooltips(root, { showDelay }) sets the hover dwell before a tip appears, overridable per trigger with data-tooltip-delay . The root is now watched with a MutationObserver , so triggers added after mount bind themselves. data-tooltip-variant=\"dock\" opts into the denser .vd-tooltip-dock frost and its --vd-tooltip-dock-* custom properties. See /components/tooltip .. Snippet chrome and an ink button — tabbed , in the header, and a 2px outline variant. vd3 still does not tokenize.. When any of / / js / shell / / json is set, the component renders the collapsible tabbed “ ” widget (toggle, tablist, panes, raw-source ). Simple mode ( code / language / copyable ) is unchanged. Optional highlight(code, language) injects escaped ; without it, source is text. See /components/code-snippet .. .vd-btn-ink : transparent fill, a single 2px outline (not .vd-btn-ring ). Hover fills black in light and primary in dark; the label uses --vd-text-on-primary . Existing outline / ghost / ring treatments are unchanged. See /components/button .. stays in .vd-code-snippet-header (top-right) for simple and chrome modes. Tabs get aria-controls / pane role=\"tabpanel\" and Left / Right / Home / End navigation, matching VdTabs . A .vd-visually-hidden child inside .vd-btn no longer wraps the label.. Oola Dock — a morphing glass pill that is not a navbar. Horizontal ↔ vertical through a square waypoint, dock-own radius past the theme 0.5rem cap.. Fat Seemore glass chrome with useDockOrientation , position fixed or contained, Open Color tint , Seemore glass , and itemLayout , and placement (bottom / top / left / right). Brand is a slot — demos use ū on the morph-origin corner. See /components/dock .. Headless auth screens and a client data table — still a UI kit, not an app framework. No fetch, no dataProvider, no Resource registry.. VdAuthCard , VdLogin , VdSignUp , and VdForgotPassword emit submit / social . Password fields use WHATWG autocomplete tokens and a real reveal button. Primitives: VdCheckbox , VdOtpInput , VdInput slots + revealPassword , VdCard glass . See /components/login .. useTableState (search → sort → page, or manual for server-sliced rows) and VdDataTable (sortable aria-sort headers, cell slots, selection, sticky header, skeleton loading, VdEmptyState , composed VdPagination ). Presentational VdTable is unchanged. See /components/table .. Seemore Glass — Fibonacci strength-step frosted material — plus reusable decorative Surfaces for hero backdrops.. Canonical modifiers .vd-glass-{1,2,3,5,8,13,21} bundle blur, tint, border, saturate, grain, and elevation. Base .vd-glass is step 5; legacy sm|lg|xl alias to 3/8/13. New .vd-glass-adaptive , a11y media-query hardening, and scroll glass that never transitions backdrop-filter . See /effects/glass .. Layer 5 .vd-surface with mesh, stripe, noise, aurora, dots, and grid — plus intensity .vd-surface-{3,5,8} . Documented at /effects/surfaces .. Optional theme preference storage prefix so multi-app same-origin hosts can isolate localStorage keys without colliding on the default vanduo-* namespace.. Pass app.use(VanduoVue, { storagePrefix: \"app-\" }) or call setStoragePrefix / getStoragePrefix at bootstrap to remap the six preference keys. Default remains vanduo-* (back-compat); no automatic migration between prefixes. See /guides/ -variables .. Adds the theme-aware Liquid Gradient WebGL effect, and fixes native select chevron tiling when consumers use the background shorthand.. Interactive vanilla WebGL atmosphere under /effects/liquid-gradient — .vd-liquid-gradient + useLiquidGradient / createLiquidGradient , bound to primary / neutral / background tokens with --vd-liquid-* knobs. Inspired by Cameron Knight’s MIT CodePen (no Three.js).. Focus / disabled / dark theme caret rules now re-declare background-repeat , background-position , and background-size so a consumer background shorthand cannot leave a tiling SVG caret.. A patch release: opt-in glass modal and animated stepper , plus polish across loading buttons, spotlight, morph, button groups, transfer, and collections.. VdModal gains an opt-in glass prop that applies the existing .vd-modal-glass / .vd-modal-glass-backdrop classes (same idea as VdFab ’s glass ). was already shipped; the prop wires it for consumers. Fallthrough attrs bind on the dialog root so glass token overrides land correctly through Teleport.. Containers with .vd-stepper-animated get a staggered IntersectionObserver reveal (mirrors timeline). useStepper accepts optional UseStepperOptions ( staggerMs , maxStaggerIndex ); prefers-reduced-motion and missing IntersectionObserver reveal immediately.. Outline, ghost, and plain buttons with .is-loading now keep a visible spinner — the legacy currentColor spinner was invisible once the label used color: transparent . Solid variants already pinned their colours; these treatments now pin their accent colours the same way.. Spotlight uses a body-level .vd-spotlight-highlight instead of a huge box-shadow on the target, so transformed ancestors no longer trap the dimming layer; geometry animates between steps.. Morph no longer reverse-animates at end-of-swap: a short .is-morph-settling freeze + cooldown blocks re-entrant clicks; default duration/easing are snappier. Same settle path for useMorphBadges .. .vd-btn-group.vd-btn-group-vertical no longer inherits horizontal edge-sharing margins/radii; labels stay nowrap and the stack sizes to the widest button. Transfer move buttons use Phosphor carets via VdIcon with clearer hover/focus-visible styles.. Collections flush inside a card",
       "classes": [],
       "chunks": [
         {
@@ -13784,8 +13788,28 @@
         },
         {
           "type": "paragraph",
-          "text": "Global search palette — site-wide Cmd+K modal with grouped results, keyboard navigation, and an engine-agnostic adapter hook for hybrid or REST backends. Plus the Oola dock chrome this site had been forking locally: accent tinting, the primary-only swatches fan, and delayed dock tooltips.",
+          "text": "Contrast-aware on-fill ink — bright filled surfaces (yellow, orange, and similarly light primaries) use dark ink via --vd-text-on-primary , --vd-text-on-primary-hover , and --vd-text-on-status instead of hardcoded white. -only; no API change.",
           "heading": "@vanduo-oss/vd3"
+        },
+        {
+          "type": "paragraph",
+          "text": "Filled primary and status chrome reads --vd-text-on-primary / --vd-text-on-primary-hover / --vd-text-on-status so yellow, orange, and other light fills get dark, high-contrast foreground instead of white. Applies to buttons (including hover-filled outline / ink and loading spinners) and other filled surfaces — chips, badges, alerts, and similar. Dark theme does not flip those bright fills back to white text. See /components/button .",
+          "heading": "Fixed"
+        },
+        {
+          "type": "paragraph",
+          "text": "Snippet header — on phones, stays on the same row as the language tabs. -only; no API change.",
+          "heading": "Fixed"
+        },
+        {
+          "type": "paragraph",
+          "text": "At viewports ≤640px, and language tabs stay on one .vd-code-snippet-header row instead of wrapping onto its own row above the tablist. See /components/code-snippet .",
+          "heading": "Fixed"
+        },
+        {
+          "type": "paragraph",
+          "text": "Global search palette — site-wide Cmd+K modal with grouped results, keyboard navigation, and an engine-agnostic adapter hook for hybrid or REST backends. Plus the Oola dock chrome this site had been forking locally: accent tinting, the primary-only swatches fan, and delayed dock tooltips.",
+          "heading": "Fixed"
         },
         {
           "type": "paragraph",
@@ -14209,20 +14233,20 @@
       "icon": "house",
       "keywords": [
         "home",
-        "vanduo",
+        "vd3",
         "ui"
       ],
       "headings": [
-        "vd3 UI",
+        "vd3",
         "Features",
         "One Complete System",
-        "Built for 3",
-        "The vd3-cbun Bundle",
-        "One Source of Truth",
         "Fibonacci & Golden Ratio",
+        "One Source of Truth",
         "Accessible by Default",
         "Dark Mode & Live Theming",
-        "Conflict-Free",
+        "3 and Nothing Else",
+        "Beyond Components",
+        "The vd3-cbun Bundle",
         "Docs Built for -Paste",
         "See more glass.",
         "Oola Dock",
@@ -14230,57 +14254,102 @@
         "Open Color Palette",
         "Browse Documentation"
       ],
-      "bodyText": "vd3 UI Getting Started Browse Components GitHub Features A standalone 3 design system — components, composables, and tokens in one package, with the vd3-cbun bundle for charts, flowcharts, and more. Tap a card to dig in.. vd3 is a standalone 3 design system — typed components, a composable for every interaction, and design tokens, all shipped in a single package. No extra runtime, no configuration ceremony.. Typed <script setup> components, a composable for every interaction, Pinia-free reactive stores, and static rendering via vite-ssg. It's tree-shakeable ESM, so you pull in only the pieces you actually use.. Need more than the core kit? @vanduo-oss/vd3-cbun adds production-ready charts, an interactive flowchart canvas, hex grids, and a full music player — each a typed 3 component that inherits the same tokens.. Design tokens ship with @vanduo-oss/vd3 as DTCG JSON and compile to the variables every component reads. Change a token once and the whole system re-skins in lockstep — never drifting out of sync.. Spacing, type scale, shadows, and grid layouts are derived from the Fibonacci sequence and the Golden Ratio, so layouts feel balanced without manual tweaking.. ARIA roles, visible focus rings, semantic markup, keyboard-first interactions, and prefers-reduced-motion support ship with every component. Accessibility is on from the start — never a bolt-on.. Light, dark, and system-synced themes driven by variables, with a drop-in switcher and a live customizer. Theme once at the token layer and every component re-skins instantly.. Every class is namespaced with vd- and the components scope cleanly, so vd3 coexists with Bootstrap, Tailwind, or legacy styles without cascade surprises.. Every component and composable comes with a live demo, a typed API table, and -paste-ready snippets — written to read like the platform itself, so you can lift examples straight into your app.. Seemore Glass : every strength step follows the Fibonacci sequence — the same harmonic spine as vd3’s spacing, radius, and golden-ratio DNA — so blur, tint, edge, and elevation thicken together as one material.. Pair it with decorative Surfaces (mesh, stripe, noise, aurora, dots, grid) and your frosted UI finally has a stage worthy of the frost.. Fibonacci step eight — navigation-grade frost over a live .vd-surface-stripe backdrop.. is it a navbar or a dock? a floating footer?. Meet Oola Dock. And if you click it - it becomes horizontal.. oola-lah! look at these colors!. eight tints. same glass. pick a mood.. customize everything — place, radius, glass, brand.. is it a navbar or a dock? a floating footer?. Horizontal or Vertical — let your users choose.. Customize everything: place, radius, glass, brand.. 1,500+ icons in 6 weights, bundled locally. No CDN required.. Icons by Phosphor Icons — MIT Licensed. See full documentation →. vd3 ships with Open Color (MIT) as its default palette — the friendly, battle-tested scale you already know. Prefer color that shares the golden-angle DNA of vd3's spacing and grid? The Fibonacci palette is one toggle away.. Open Color by Heeyeun Jeong (MIT), shipped through @vanduo-oss/vd3 . The optional golden-angle Fibonacci palette is one toggle away. See the full palette in the documentation →. Explore all components, utilities, and code examples.",
+      "bodyText": "vd3 Getting Started Browse Components GitHub Features Everything below ships in one package and answers to one set of tokens. Open a card for the detail.. 63 components, 39 composables, one install.. Typed components, a composable behind every interaction, design tokens, and the full layer — all in @vanduo-oss/vd3. Nothing to wire up first, no configuration ceremony.. Spacing, shadows, grids, and colour on one proportional spine.. Shadow offsets step 1/2, 2/3, 3/5, 8/13. Containers land on 987px and 1597px; golden rows split 1:1.618. The optional Fibonacci palette places every hue on the 137.5° golden angle.. Change one token; the whole system re-skins.. Tokens ship as DTCG JSON and compile to the variables every component reads — the same variables the vd3-cbun widgets read. Retune a value once and nothing drifts out of sync.. Focus traps, roving tabindex, reduced motion — already on.. ARIA roles, visible focus rings, keyboard paths through every menu, tree, and dialog, and prefers-reduced-motion honoured across roughly two dozen stylesheets. Mostly you just avoid undoing it.. Palette, primary, neutral, radius, font — all live.. Light, dark, and system themes driven by data-* attributes on the root element, with a drop-in switcher and a live customizer. Preferences persist, and every component re-skins in the same frame.. One peer dependency. Zero runtime dependencies.. Typed <script setup> components with no state library to install and no runtime to boot. The only peer is 3.3+, dependencies is empty, and it's SSR-safe and tree-shakeable — you ship what you import.. Datepickers, tours, validation, drag and drop — no wrapper needed.. A whole layer runs on markup plus a composable: date and time pickers, spotlight tours, ten-rule form validation, drag and drop, a lightbox, and a swipeable carousel. Add an attribute, call the composable, done.. Charts, flowcharts, hex grids, a code editor, a draw canvas.. @vanduo-oss/vd3-cbun adds six chart types, an interactive flowchart editor, a canvas hex grid, a code editor, a drawing surface, and a music player. Same tokens, same zero-dependency rule — no d3, no Three.js.. Live demo, typed API table, snippet — on every page.. Ninety-plus reference pages and fifteen guides, each with a running demo, a typed prop table, and a snippet written to be lifted straight into your app.. Seemore Glass : every strength step follows the Fibonacci sequence — the same harmonic spine as vd3’s spacing, radius, and golden-ratio DNA — so blur, tint, edge, and elevation thicken together as one material.. Pair it with decorative Surfaces (mesh, stripe, noise, aurora, dots, grid) and your frosted UI finally has a stage worthy of the frost.. Fibonacci step eight — navigation-grade frost over a live .vd-surface-stripe backdrop.. Oola Dock — in all its shapes and colors.. eight tints. same glass. pick a mood.. customize everything — place, radius, glass, brand.. Oola Dock — in all its shapes and colors.. Horizontal or Vertical — let your users choose.. Customize everything: place, radius, glass, brand.. 1,500+ icons in 6 weights, bundled locally. No CDN required.. Icons by Phosphor Icons — MIT Licensed. See full documentation →. vd3 ships with Open Color (MIT) as its default palette — the friendly, battle-tested scale you already know. Prefer color that shares the golden-angle DNA of vd3's spacing and grid? The Fibonacci palette is one toggle away.. Open Color by Heeyeun Jeong (MIT), shipped through @vanduo-oss/vd3 . The optional golden-angle Fibonacci palette is one toggle away. See the full palette in the documentation →. Explore all components, utilities, and code examples.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "A standalone 3 design system — components, composables, and tokens in one package, with the vd3-cbun bundle for charts, flowcharts, and more. Tap a card to dig in.",
+          "text": "Everything below ships in one package and answers to one set of tokens. Open a card for the detail.",
           "heading": "Features"
         },
         {
           "type": "paragraph",
-          "text": "vd3 is a standalone 3 design system — typed components, a composable for every interaction, and design tokens, all shipped in a single package. No extra runtime, no configuration ceremony.",
+          "text": "63 components, 39 composables, one install.",
           "heading": "One Complete System"
         },
         {
           "type": "paragraph",
-          "text": "Typed <script setup> components, a composable for every interaction, Pinia-free reactive stores, and static rendering via vite-ssg. It's tree-shakeable ESM, so you pull in only the pieces you actually use.",
-          "heading": "Built for 3"
+          "text": "Typed components, a composable behind every interaction, design tokens, and the full layer — all in @vanduo-oss/vd3. Nothing to wire up first, no configuration ceremony.",
+          "heading": "One Complete System"
         },
         {
           "type": "paragraph",
-          "text": "Need more than the core kit? @vanduo-oss/vd3-cbun adds production-ready charts, an interactive flowchart canvas, hex grids, and a full music player — each a typed 3 component that inherits the same tokens.",
-          "heading": "The vd3-cbun Bundle"
-        },
-        {
-          "type": "paragraph",
-          "text": "Design tokens ship with @vanduo-oss/vd3 as DTCG JSON and compile to the variables every component reads. Change a token once and the whole system re-skins in lockstep — never drifting out of sync.",
-          "heading": "One Source of Truth"
-        },
-        {
-          "type": "paragraph",
-          "text": "Spacing, type scale, shadows, and grid layouts are derived from the Fibonacci sequence and the Golden Ratio, so layouts feel balanced without manual tweaking.",
+          "text": "Spacing, shadows, grids, and colour on one proportional spine.",
           "heading": "Fibonacci & Golden Ratio"
         },
         {
           "type": "paragraph",
-          "text": "ARIA roles, visible focus rings, semantic markup, keyboard-first interactions, and prefers-reduced-motion support ship with every component. Accessibility is on from the start — never a bolt-on.",
+          "text": "Shadow offsets step 1/2, 2/3, 3/5, 8/13. Containers land on 987px and 1597px; golden rows split 1:1.618. The optional Fibonacci palette places every hue on the 137.5° golden angle.",
+          "heading": "Fibonacci & Golden Ratio"
+        },
+        {
+          "type": "paragraph",
+          "text": "Change one token; the whole system re-skins.",
+          "heading": "One Source of Truth"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tokens ship as DTCG JSON and compile to the variables every component reads — the same variables the vd3-cbun widgets read. Retune a value once and nothing drifts out of sync.",
+          "heading": "One Source of Truth"
+        },
+        {
+          "type": "paragraph",
+          "text": "Focus traps, roving tabindex, reduced motion — already on.",
           "heading": "Accessible by Default"
         },
         {
           "type": "paragraph",
-          "text": "Light, dark, and system-synced themes driven by variables, with a drop-in switcher and a live customizer. Theme once at the token layer and every component re-skins instantly.",
+          "text": "ARIA roles, visible focus rings, keyboard paths through every menu, tree, and dialog, and prefers-reduced-motion honoured across roughly two dozen stylesheets. Mostly you just avoid undoing it.",
+          "heading": "Accessible by Default"
+        },
+        {
+          "type": "paragraph",
+          "text": "Palette, primary, neutral, radius, font — all live.",
           "heading": "Dark Mode & Live Theming"
         },
         {
           "type": "paragraph",
-          "text": "Every class is namespaced with vd- and the components scope cleanly, so vd3 coexists with Bootstrap, Tailwind, or legacy styles without cascade surprises.",
-          "heading": "Conflict-Free"
+          "text": "Light, dark, and system themes driven by data-* attributes on the root element, with a drop-in switcher and a live customizer. Preferences persist, and every component re-skins in the same frame.",
+          "heading": "Dark Mode & Live Theming"
         },
         {
           "type": "paragraph",
-          "text": "Every component and composable comes with a live demo, a typed API table, and -paste-ready snippets — written to read like the platform itself, so you can lift examples straight into your app.",
+          "text": "One peer dependency. Zero runtime dependencies.",
+          "heading": "3 and Nothing Else"
+        },
+        {
+          "type": "paragraph",
+          "text": "Typed <script setup> components with no state library to install and no runtime to boot. The only peer is 3.3+, dependencies is empty, and it's SSR-safe and tree-shakeable — you ship what you import.",
+          "heading": "3 and Nothing Else"
+        },
+        {
+          "type": "paragraph",
+          "text": "Datepickers, tours, validation, drag and drop — no wrapper needed.",
+          "heading": "Beyond Components"
+        },
+        {
+          "type": "paragraph",
+          "text": "A whole layer runs on markup plus a composable: date and time pickers, spotlight tours, ten-rule form validation, drag and drop, a lightbox, and a swipeable carousel. Add an attribute, call the composable, done.",
+          "heading": "Beyond Components"
+        },
+        {
+          "type": "paragraph",
+          "text": "Charts, flowcharts, hex grids, a code editor, a draw canvas.",
+          "heading": "The vd3-cbun Bundle"
+        },
+        {
+          "type": "paragraph",
+          "text": "@vanduo-oss/vd3-cbun adds six chart types, an interactive flowchart editor, a canvas hex grid, a code editor, a drawing surface, and a music player. Same tokens, same zero-dependency rule — no d3, no Three.js.",
+          "heading": "The vd3-cbun Bundle"
+        },
+        {
+          "type": "paragraph",
+          "text": "Live demo, typed API table, snippet — on every page.",
+          "heading": "Docs Built for -Paste"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ninety-plus reference pages and fifteen guides, each with a running demo, a typed prop table, and a snippet written to be lifted straight into your app.",
           "heading": "Docs Built for -Paste"
         },
         {
@@ -14300,17 +14369,7 @@
         },
         {
           "type": "paragraph",
-          "text": "is it a navbar or a dock? a floating footer?",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "Meet Oola Dock. And if you click it - it becomes horizontal.",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "oola-lah! look at these colors!",
+          "text": "Oola Dock — in all its shapes and colors.",
           "heading": "Oola Dock"
         },
         {
@@ -14325,12 +14384,7 @@
         },
         {
           "type": "paragraph",
-          "text": "is it a navbar or a dock? a floating footer?",
-          "heading": "Oola Dock"
-        },
-        {
-          "type": "paragraph",
-          "text": "Meet Oola Dock.",
+          "text": "Oola Dock — in all its shapes and colors.",
           "heading": "Oola Dock"
         },
         {
@@ -14377,7 +14431,7 @@
       "tab": "pages",
       "tabTitle": "Pages",
       "route": "/showcase",
-      "icon": "images",
+      "icon": "projector-screen",
       "keywords": [
         "showcase",
         "demo",

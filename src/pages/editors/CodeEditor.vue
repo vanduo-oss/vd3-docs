@@ -46,7 +46,7 @@ type Id = User["id"];
 `,
   json: `{
   "name": "vd3-cbun",
-  "version": "1.1.0",
+  "version": "1.4.1",
   "private": false,
   "keywords": ["vue", "code-editor"],
   "nested": { "ok": true, "n": -3.14e2 }
@@ -134,6 +134,10 @@ const code = ref(SAMPLES.javascript);
 const readOnly = ref(false);
 const lineNumbers = ref(true);
 const wrap = ref(false);
+const autoClose = ref(true);
+const tabSize = ref(2);
+const highlightActiveLine = ref(true);
+const showCopy = ref(true);
 
 const onLanguageChange = (): void => {
   code.value = SAMPLES[language.value] ?? "";
@@ -325,6 +329,22 @@ const cssVars = `:root {
           <label class="ce-control ce-check">
             <input v-model="readOnly" type="checkbox" /> read-only
           </label>
+          <label class="ce-control ce-check">
+            <input v-model="autoClose" type="checkbox" /> auto-close
+          </label>
+          <label class="ce-control ce-check">
+            <input v-model="highlightActiveLine" type="checkbox" /> active line
+          </label>
+          <label class="ce-control ce-check">
+            <input v-model="showCopy" type="checkbox" /> copy button
+          </label>
+          <label class="ce-control">
+            <span>Tab size</span>
+            <select v-model.number="tabSize" class="ce-select">
+              <option :value="2">2</option>
+              <option :value="4">4</option>
+            </select>
+          </label>
         </div>
 
         <VdCodeEditor
@@ -333,6 +353,10 @@ const cssVars = `:root {
           :read-only="readOnly"
           :line-numbers="lineNumbers"
           :wrap="wrap"
+          :auto-close="autoClose"
+          :tab-size="tabSize"
+          :highlight-active-line="highlightActiveLine"
+          :copy="showCopy"
           style="height: 340px"
         />
 

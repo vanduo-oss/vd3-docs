@@ -16,7 +16,7 @@ and MUST NOT declare any of `@vanduo-oss/core`, `@vanduo-oss/framework`,
 `@vanduo-oss/hex-grid`, or `@vanduo-oss/music-player`. The two vd3
 dependencies SHALL be the PUBLISHED packages resolved from the npm registry —
 `@vanduo-oss/vd3` at exact `1.7.2` and `@vanduo-oss/vd3-cbun` at exact
-`1.4.0` (dogfooding). `.npmrc` SHALL set `save-exact=true` so newly added
+`1.4.1` (dogfooding). `.npmrc` SHALL set `save-exact=true` so newly added
 deps do not reintroduce caret ranges. A contributor MAY temporarily
 `pnpm link` (or `link:../`) the sibling working trees to render unreleased
 library work locally, but the committed manifest SHALL keep the exact
@@ -28,13 +28,13 @@ published versions.
 - **WHEN** its `name`, `private`, and `dependencies` are inspected
 - **THEN** `name` is `@vanduo-oss/vd3-docs`, `private` is `true`, the only
   `@vanduo-oss/*` runtime kit deps required by this requirement are
-  `@vanduo-oss/vd3` (`1.7.2`) and `@vanduo-oss/vd3-cbun` (`1.4.0`), and none
+  `@vanduo-oss/vd3` (`1.7.2`) and `@vanduo-oss/vd3-cbun` (`1.4.1`), and none
   of `core`, `framework`, `vue`, `charts`, `flowchart`, `hex-grid`, or
   `music-player` appear
 
 #### Scenario: published vd3 packages resolve from the registry
 
-- **GIVEN** the committed `package.json` pinning exact `1.7.2` / `1.4.0`
+- **GIVEN** the committed `package.json` pinning exact `1.7.2` / `1.4.1`
   vd3 deps and `save-exact=true`
 - **WHEN** `pnpm install` runs from the docs repo
 - **THEN** `@vanduo-oss/vd3` and `@vanduo-oss/vd3-cbun` resolve to those
@@ -48,12 +48,13 @@ published versions.
   / `../vd3-cbun` working trees
 - **THEN** those linked builds resolve in place of the published versions for
   the local session, while the committed manifest still pins exact `1.7.2` /
-  `1.4.0`
+  `1.4.1`
 
 ### Requirement: single stylesheet and plugin entry with no vanilla runtime
 
 `main.ts` SHALL source component styles from `@vanduo-oss/vd3/css` and the canvas
-styles from `@vanduo-oss/vd3-cbun/{charts,flowchart,music-player}/css`. It SHALL
+styles from
+`@vanduo-oss/vd3-cbun/{charts,code-editor,draw,flowchart,music-player}/css`. It SHALL
 install the `VanduoVue` plugin (imported from `@vanduo-oss/vd3`, the same
 identifier the old `@vanduo-oss/vue` exported) with
 `themeDefaults: { PRIMARY_DARK: "green" }`. It MUST NOT import or call

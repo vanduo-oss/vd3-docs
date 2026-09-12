@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref } from "vue";
+import { computed, onBeforeUnmount, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdDraw } from "@vanduo-oss/vd3-cbun/draw";
 import { drawSeedDoc } from "@/constants/drawSeed";
@@ -68,22 +68,49 @@ function selectBrush(brushName: string) {
 
 // ── Live Reactive State ────────────────────────────────────────────────────
 const shapeCount = ref(drawSeedDoc.shapes.length);
+const selectionCount = ref(0);
 const activeBrush = ref("pen");
 const zoomPercent = ref(100);
 const panPos = ref({ x: 0, y: 0 });
 const lastAction = ref("mounted");
+const readonly = ref(false);
+const snap = ref(true);
+const canUndo = ref(false);
+const canRedo = ref(false);
 
-function onChange(payload: any) {
-  lastAction.value = payload?.action || "change";
+function refreshHistoryFlags() {
+  const inst = drawRef.value?.getInstance();
+  if (!inst) return;
+  canUndo.value = Boolean(inst.canUndo?.());
+  canRedo.value = Boolean(inst.canRedo?.());
+}
+
+function undoDraw() {
+  drawRef.value?.undo?.() ?? drawRef.value?.getInstance()?.undo();
+  refreshHistoryFlags();
+  lastAction.value = "undo";
+}
+
+function redoDraw() {
+  drawRef.value?.redo?.() ?? drawRef.value?.getInstance()?.redo();
+  refreshHistoryFlags();
+  lastAction.value = "redo";
+}
+
+function onChange(payload: { reason?: string } | undefined) {
+  lastAction.value = payload?.reason || "change";
   const inst = drawRef.value?.getInstance();
   if (inst) {
     shapeCount.value = inst.getShapes().length;
   }
+  refreshHistoryFlags();
 }
 
-function onSelect(payload: any) {
-  lastAction.value = payload?.selectedIds?.length
-    ? `select (${payload.selectedIds.length} item${payload.selectedIds.length > 1 ? "s" : ""})`
+function onSelect(payload: { ids?: string[] } | undefined) {
+  const count = payload?.ids?.length ?? 0;
+  selectionCount.value = count;
+  lastAction.value = count
+    ? `select (${count} item${count > 1 ? "s" : ""})`
     : "deselect";
 }
 
@@ -98,6 +125,7 @@ function onViewport(payload: any) {
 function onReady(instance: any) {
   if (instance) {
     shapeCount.value = instance.getShapes().length;
+    refreshHistoryFlags();
   }
 }
 
@@ -107,6 +135,29 @@ const exportedPng = ref<string>("");
 const exportFormat = ref<"svg" | "png">("svg");
 const copied = ref(false);
 const isExporting = ref(false);
+
+function formatByteSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+function dataUrlByteLength(dataUrl: string): number {
+  const comma = dataUrl.indexOf(",");
+  const b64 = comma >= 0 ? dataUrl.slice(comma + 1) : dataUrl;
+  const padding = b64.endsWith("==") ? 2 : b64.endsWith("=") ? 1 : 0;
+  return Math.max(0, Math.floor((b64.length * 3) / 4) - padding);
+}
+
+const exportByteLabel = computed(() => {
+  if (exportFormat.value === "svg" && exportedSvg.value) {
+    return formatByteSize(new TextEncoder().encode(exportedSvg.value).length);
+  }
+  if (exportFormat.value === "png" && exportedPng.value) {
+    return formatByteSize(dataUrlByteLength(exportedPng.value));
+  }
+  return "";
+});
 
 async function triggerExport(format: "svg" | "png") {
   exportFormat.value = format;
@@ -253,7 +304,7 @@ const vue3Api: [string, string][] = [
   ],
   [
     "@change / @select / @viewport",
-    "Forwarded editor events (pan/zoom is not undoable).",
+    "Forwarded editor events (`change.reason`, `select.ids`, viewport pan/zoom).",
   ],
   ["@ready", "Emitted once with the underlying VdDraw instance."],
 ];
@@ -278,9 +329,10 @@ const methods: [string, string][] = [
   <section id="vd-draw">
     <h5 class="demo-title"><i class="ph ph-paint-brush"></i>Draw</h5>
     <p class="vd-mb-8">
-      <strong>vd3 Draw</strong> is a standalone vector
+      <strong>vd3 Draw</strong> is a vector
       <strong>drawing & sketchpad tool</strong> from
-      <code>@vanduo-oss/vd3-cbun/draw</code>. Its dependency-free brush engine
+      <code>@vanduo-oss/vd3-cbun</code>
+      (<code>@vanduo-oss/vd3-cbun/draw</code>). Its dependency-free brush engine
       turns freehand strokes into smooth, variable-width marks (pressure- and
       velocity-aware). Pick from 5 <strong>artistic brushes</strong> (pen,
       pencil, marker, highlighter, calligraphy) and a
@@ -299,39 +351,72 @@ const methods: [string, string][] = [
       <div class="vd-card-header draw-stage-header">
         <h6><i class="ph ph-paint-brush"></i> Interactive Sketchpad</h6>
         <div class="draw-stage-actions">
-          <button
-            type="button"
-            class="vd-btn vd-btn-outline vd-btn-sm"
-            title="Reload initial showcase illustration"
-            @click="resetToSeed"
-          >
-            <i class="ph ph-arrow-counter-clockwise"></i> Reset Demo
-          </button>
-          <button
-            type="button"
-            class="vd-btn vd-btn-outline vd-btn-sm"
-            title="Clear all shapes"
-            @click="clearCanvas"
-          >
-            <i class="ph ph-trash"></i> Clear
-          </button>
-          <button
-            type="button"
-            class="vd-btn vd-btn-outline vd-btn-sm"
-            title="Toggle background grid"
-            @click="toggleGrid"
-          >
-            <i class="ph ph-grid-four"></i> Grid
-          </button>
-          <button
-            type="button"
-            class="vd-btn vd-btn-outline vd-btn-sm"
-            :aria-pressed="fullscreen"
-            @click="toggleFullscreen"
-          >
-            <i :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"></i>
-            {{ fullscreen ? "Exit full screen" : "Full screen" }}
-          </button>
+          <div class="draw-stage-actions-row">
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              title="Undo last change"
+              :disabled="!canUndo || readonly"
+              @click="undoDraw"
+            >
+              <i class="ph ph-arrow-u-up-left"></i> Undo
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              title="Redo"
+              :disabled="!canRedo || readonly"
+              @click="redoDraw"
+            >
+              <i class="ph ph-arrow-u-up-right"></i> Redo
+            </button>
+          </div>
+          <div class="draw-stage-actions-row">
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              title="Reload initial showcase illustration"
+              @click="resetToSeed"
+            >
+              <i class="ph ph-arrow-counter-clockwise"></i> Reset Demo
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              title="Clear all shapes"
+              :disabled="readonly"
+              @click="clearCanvas"
+            >
+              <i class="ph ph-trash"></i> Clear
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              title="Toggle background grid"
+              @click="toggleGrid"
+            >
+              <i class="ph ph-grid-four"></i> Grid
+            </button>
+          </div>
+          <div class="draw-stage-actions-row">
+            <label class="vd-btn vd-btn-outline vd-btn-sm draw-toggle">
+              <input v-model="snap" type="checkbox" /> Snap
+            </label>
+            <label class="vd-btn vd-btn-outline vd-btn-sm draw-toggle">
+              <input v-model="readonly" type="checkbox" /> Readonly
+            </label>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              :aria-pressed="fullscreen"
+              @click="toggleFullscreen"
+            >
+              <i
+                :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"
+              ></i>
+              {{ fullscreen ? "Exit full screen" : "Full screen" }}
+            </button>
+          </div>
         </div>
       </div>
       <div class="vd-card-body draw-stage-body">
@@ -339,6 +424,8 @@ const methods: [string, string][] = [
           ref="drawRef"
           :data="drawSeedDoc"
           tool="draw"
+          :readonly="readonly"
+          :snap="snap"
           :style="fullscreen ? { height: '100%' } : undefined"
           @change="onChange"
           @select="onSelect"
@@ -354,6 +441,12 @@ const methods: [string, string][] = [
         <i class="ph ph-shapes"></i>
         <span
           >Shapes: <strong>{{ shapeCount }}</strong></span
+        >
+      </div>
+      <div class="state-chip">
+        <i class="ph ph-selection"></i>
+        <span
+          >Selection: <strong>{{ selectionCount }}</strong></span
         >
       </div>
       <div class="state-chip">
@@ -466,6 +559,9 @@ const methods: [string, string][] = [
           <div class="export-preview-header">
             <span class="export-format-tag">
               Format: <strong>{{ exportFormat.toUpperCase() }}</strong>
+              <template v-if="exportByteLabel">
+                · <strong>{{ exportByteLabel }}</strong>
+              </template>
             </span>
             <div class="export-preview-buttons">
               <button
@@ -608,17 +704,37 @@ const methods: [string, string][] = [
 <style scoped>
 .draw-stage-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
 }
 
 .draw-stage-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.draw-stage-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.draw-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  gap: 0.35rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+.draw-toggle input {
+  margin: 0;
 }
 
 /* ── Live State Ribbon ─────────────────────────────────────────────────── */

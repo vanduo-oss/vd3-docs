@@ -99,7 +99,8 @@ import "@/styles/hero-display-font.css";
             </li>
             <li>
               A separate <code>@vanduo-oss/vd3-cbun</code> bundle adding charts,
-              a flowchart editor, hex grids, and a music player.
+              a code editor, draw, a flowchart editor, hex grids, and a music
+              player.
             </li>
           </ul>
 

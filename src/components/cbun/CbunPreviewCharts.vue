@@ -17,6 +17,13 @@ const lineData = [
   { month: "Apr", visits: 5200 },
 ];
 
+const areaData = [
+  { month: "Jan", sessions: 2800 },
+  { month: "Feb", sessions: 3600 },
+  { month: "Mar", sessions: 3300 },
+  { month: "Apr", sessions: 4700 },
+];
+
 const donutData = [
   { channel: "Direct", revenue: 4200 },
   { channel: "Referral", revenue: 3100 },
@@ -33,7 +40,7 @@ const donutData = [
       x="month"
       y="sales"
       title="Monthly sales"
-      :height="280"
+      :height="240"
     />
     <VdChart
       type="line"
@@ -41,7 +48,15 @@ const donutData = [
       x="month"
       y="visits"
       title="Site visits"
-      :height="280"
+      :height="240"
+    />
+    <VdChart
+      type="area"
+      :data="areaData"
+      x="month"
+      y="sessions"
+      title="Sessions"
+      :height="240"
     />
     <VdChart
       type="donut"
@@ -49,7 +64,15 @@ const donutData = [
       label="channel"
       value="revenue"
       title="Revenue mix"
-      :height="280"
+      :height="240"
+    />
+    <VdChart
+      type="pie"
+      :data="donutData"
+      label="channel"
+      value="revenue"
+      title="Revenue mix (pie)"
+      :height="240"
     />
   </div>
   <VdChart

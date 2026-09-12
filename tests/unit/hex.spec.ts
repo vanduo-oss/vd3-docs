@@ -32,7 +32,7 @@ beforeAll(() => {
     () => make2d();
 });
 
-describe("VdHexGrid (@vanduo-oss/hex-grid/vue integration)", () => {
+describe("VdHexGrid (@vanduo-oss/vd3-cbun/hex-grid)", () => {
   it("mounts and renders the grid container + canvas", async () => {
     const wrapper = mount(VdHexGrid, {
       props: { size: 24, width: 8, height: 6 },
@@ -56,7 +56,6 @@ describe("Hex canvas page (/canvas/hex)", () => {
         stubs: {
           DocsLayout: { template: "<div><slot /></div>" },
           DocCodeSnippet: true,
-          EngineSwitch: { template: "<slot name='vue3' />" },
         },
       },
       attachTo: document.body,
