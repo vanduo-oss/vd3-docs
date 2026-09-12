@@ -25,7 +25,7 @@ const entries: CbunEntry[] = [
     title: "Charts",
     icon: "chart-donut",
     blurb:
-      "SVG bar, line, and donut charts that read the same --vd-* tokens as the core kit. Import only @vanduo-oss/vd3-cbun/charts when a page needs data viz.",
+      "SVG-first charts with WAI-ARIA Graphics 1.0 semantics, keyboard arrow navigation, and WCAG 1.1.1 data table fallback. Reads the same --vd-* theme tokens.",
     docsTo: "/canvas/charts",
     preview: CbunPreviewCharts,
   },
