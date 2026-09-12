@@ -1,29 +1,6 @@
 <script setup lang="ts">
 import { VdChart } from "@vanduo-oss/vd3-cbun/charts";
 
-defineProps<{ fullscreen?: boolean }>();
-
-const barData = [
-  { month: "Jan", sales: 120 },
-  { month: "Feb", sales: 180 },
-  { month: "Mar", sales: 150 },
-  { month: "Apr", sales: 220 },
-];
-
-const lineData = [
-  { month: "Jan", visits: 3200 },
-  { month: "Feb", visits: 4100 },
-  { month: "Mar", visits: 3700 },
-  { month: "Apr", visits: 5200 },
-];
-
-const areaData = [
-  { month: "Jan", sessions: 2800 },
-  { month: "Feb", sessions: 3600 },
-  { month: "Mar", sessions: 3300 },
-  { month: "Apr", sessions: 4700 },
-];
-
 const donutData = [
   { channel: "Direct", revenue: 4200 },
   { channel: "Referral", revenue: 3100 },
@@ -33,73 +10,12 @@ const donutData = [
 </script>
 
 <template>
-  <div v-if="fullscreen" class="cbun-charts-grid">
-    <VdChart
-      type="bar"
-      :data="barData"
-      x="month"
-      y="sales"
-      title="Monthly sales"
-      :height="240"
-    />
-    <VdChart
-      type="line"
-      :data="lineData"
-      x="month"
-      y="visits"
-      title="Site visits"
-      :height="240"
-    />
-    <VdChart
-      type="area"
-      :data="areaData"
-      x="month"
-      y="sessions"
-      title="Sessions"
-      :height="240"
-    />
-    <VdChart
-      type="donut"
-      :data="donutData"
-      label="channel"
-      value="revenue"
-      title="Revenue mix"
-      :height="240"
-    />
-    <VdChart
-      type="pie"
-      :data="donutData"
-      label="channel"
-      value="revenue"
-      title="Revenue mix (pie)"
-      :height="240"
-    />
-  </div>
   <VdChart
-    v-else
     type="donut"
     :data="donutData"
     label="channel"
     value="revenue"
     title="Revenue mix"
-    :height="260"
+    :height="380"
   />
 </template>
-
-<style scoped>
-.cbun-charts-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  align-items: start;
-  height: 100%;
-  overflow: auto;
-  padding: 0.25rem;
-}
-
-@media (max-width: 900px) {
-  .cbun-charts-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>

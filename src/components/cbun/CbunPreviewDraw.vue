@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import { VdDraw } from "@vanduo-oss/vd3-cbun/draw";
-import { drawSeedDoc } from "@/constants/drawSeed";
-
-defineProps<{ fullscreen?: boolean }>();
+import { drawSeedDoc, fitDrawDemoView } from "@/constants/drawSeed";
 </script>
 
 <template>
   <!--
     VdDraw's .vd-draw-host defaults to 560px and .vd-draw-shell to min-height
     380px. Force the host/shell to fill this frame so toolbar + canvas stay
-    inside the showcase card (and fullscreen still stretches).
+    inside the showcase card.
   -->
-  <div class="cbun-draw-wrap" :class="{ 'is-fullscreen': fullscreen }">
-    <VdDraw :data="drawSeedDoc" tool="draw" />
+  <div class="cbun-draw-wrap">
+    <VdDraw :data="drawSeedDoc" tool="draw" @ready="fitDrawDemoView" />
   </div>
 </template>
 
@@ -20,14 +18,9 @@ defineProps<{ fullscreen?: boolean }>();
 .cbun-draw-wrap {
   display: flex;
   flex-direction: column;
-  height: 400px;
-  min-height: 400px;
+  height: 420px;
+  min-height: 420px;
   overflow: hidden;
-}
-
-.cbun-draw-wrap.is-fullscreen {
-  height: 100%;
-  min-height: 0;
 }
 
 .cbun-draw-wrap :deep(.vd-draw),

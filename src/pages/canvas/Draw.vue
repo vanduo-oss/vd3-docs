@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdDraw } from "@vanduo-oss/vd3-cbun/draw";
-import { drawSeedDoc } from "@/constants/drawSeed";
+import { drawSeedDoc, fitDrawDemoView } from "@/constants/drawSeed";
 
 const drawRef = ref<any>(null);
 
@@ -36,7 +36,9 @@ onBeforeUnmount(exitFullscreen);
 
 // ── Sketchpad Stage Actions ────────────────────────────────────────────────
 function resetToSeed() {
-  drawRef.value?.getInstance()?.load(drawSeedDoc);
+  const inst = drawRef.value?.getInstance();
+  inst?.load(drawSeedDoc);
+  fitDrawDemoView(inst);
   shapeCount.value = drawSeedDoc.shapes.length;
   lastAction.value = "reset (seed loaded)";
 }
@@ -124,6 +126,7 @@ function onViewport(payload: any) {
 
 function onReady(instance: any) {
   if (instance) {
+    fitDrawDemoView(instance);
     shapeCount.value = instance.getShapes().length;
     refreshHistoryFlags();
   }
@@ -351,72 +354,66 @@ const methods: [string, string][] = [
       <div class="vd-card-header draw-stage-header">
         <h6><i class="ph ph-paint-brush"></i> Interactive Sketchpad</h6>
         <div class="draw-stage-actions">
-          <div class="draw-stage-actions-row">
-            <button
-              type="button"
-              class="vd-btn vd-btn-outline vd-btn-sm"
-              title="Undo last change"
-              :disabled="!canUndo || readonly"
-              @click="undoDraw"
-            >
-              <i class="ph ph-arrow-u-up-left"></i> Undo
-            </button>
-            <button
-              type="button"
-              class="vd-btn vd-btn-outline vd-btn-sm"
-              title="Redo"
-              :disabled="!canRedo || readonly"
-              @click="redoDraw"
-            >
-              <i class="ph ph-arrow-u-up-right"></i> Redo
-            </button>
-          </div>
-          <div class="draw-stage-actions-row">
-            <button
-              type="button"
-              class="vd-btn vd-btn-outline vd-btn-sm"
-              title="Reload initial showcase illustration"
-              @click="resetToSeed"
-            >
-              <i class="ph ph-arrow-counter-clockwise"></i> Reset Demo
-            </button>
-            <button
-              type="button"
-              class="vd-btn vd-btn-outline vd-btn-sm"
-              title="Clear all shapes"
-              :disabled="readonly"
-              @click="clearCanvas"
-            >
-              <i class="ph ph-trash"></i> Clear
-            </button>
-            <button
-              type="button"
-              class="vd-btn vd-btn-outline vd-btn-sm"
-              title="Toggle background grid"
-              @click="toggleGrid"
-            >
-              <i class="ph ph-grid-four"></i> Grid
-            </button>
-          </div>
-          <div class="draw-stage-actions-row">
-            <label class="vd-btn vd-btn-outline vd-btn-sm draw-toggle">
-              <input v-model="snap" type="checkbox" /> Snap
-            </label>
-            <label class="vd-btn vd-btn-outline vd-btn-sm draw-toggle">
-              <input v-model="readonly" type="checkbox" /> Readonly
-            </label>
-            <button
-              type="button"
-              class="vd-btn vd-btn-outline vd-btn-sm"
-              :aria-pressed="fullscreen"
-              @click="toggleFullscreen"
-            >
-              <i
-                :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"
-              ></i>
-              {{ fullscreen ? "Exit full screen" : "Full screen" }}
-            </button>
-          </div>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            title="Undo last change"
+            :disabled="!canUndo || readonly"
+            @click="undoDraw"
+          >
+            <i class="ph ph-arrow-u-up-left"></i> Undo
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            title="Redo"
+            :disabled="!canRedo || readonly"
+            @click="redoDraw"
+          >
+            <i class="ph ph-arrow-u-up-right"></i> Redo
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            title="Reload initial showcase illustration"
+            @click="resetToSeed"
+          >
+            <i class="ph ph-arrow-counter-clockwise"></i> Reset Demo
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            title="Clear all shapes"
+            :disabled="readonly"
+            @click="clearCanvas"
+          >
+            <i class="ph ph-trash"></i> Clear
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            title="Toggle background grid"
+            @click="toggleGrid"
+          >
+            <i class="ph ph-grid-four"></i> Grid
+          </button>
+          <label class="vd-btn vd-btn-outline vd-btn-sm draw-toggle">
+            <input v-model="snap" type="checkbox" /> Snap
+          </label>
+          <label class="vd-btn vd-btn-outline vd-btn-sm draw-toggle">
+            <input v-model="readonly" type="checkbox" /> Readonly
+          </label>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            :aria-pressed="fullscreen"
+            @click="toggleFullscreen"
+          >
+            <i
+              :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"
+            ></i>
+            {{ fullscreen ? "Exit full screen" : "Full screen" }}
+          </button>
         </div>
       </div>
       <div class="vd-card-body draw-stage-body">
@@ -704,25 +701,25 @@ const methods: [string, string][] = [
 <style scoped>
 .draw-stage-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  flex-wrap: wrap;
+}
+
+.draw-stage-header h6 {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  margin: 0;
 }
 
 .draw-stage-actions {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.4rem;
-  flex-shrink: 0;
-}
-
-.draw-stage-actions-row {
-  display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
   justify-content: flex-end;
   gap: 0.4rem;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .draw-toggle {

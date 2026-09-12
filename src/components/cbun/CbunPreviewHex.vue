@@ -4,8 +4,6 @@ import { storeToRefs } from "pinia";
 import { VdHexGrid } from "@vanduo-oss/vd3-cbun/hex-grid";
 import { useThemeStore } from "@/stores/theme";
 
-defineProps<{ fullscreen?: boolean }>();
-
 interface HexCell {
   q: number;
   r: number;
@@ -90,10 +88,7 @@ watch([theme, primary, () => themeStore.ready], () => applyHexTheme());
 </script>
 
 <template>
-  <div
-    class="cbun-hex-wrap"
-    :style="fullscreen ? { height: '100%' } : { height: '280px' }"
-  >
+  <div class="cbun-hex-wrap" style="height: 420px">
     <VdHexGrid
       :size="28"
       :width="10"

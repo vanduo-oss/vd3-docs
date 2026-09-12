@@ -1,70 +1,29 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref } from "vue";
 import { RouterLink } from "vue-router";
 
 defineProps<{
   title: string;
   icon: string;
   blurb: string;
+  strengths: string[];
   docsTo: string;
   /** When true: context left, demo right. Default (false): demo left, context right. */
   reversed?: boolean;
 }>();
-
-const fullscreen = ref(false);
-
-function onKeydown(event: KeyboardEvent) {
-  if (event.key === "Escape") exitFullscreen();
-}
-
-function enterFullscreen() {
-  fullscreen.value = true;
-  document.body.style.overflow = "hidden";
-  window.addEventListener("keydown", onKeydown);
-}
-
-function exitFullscreen() {
-  if (!fullscreen.value) return;
-  fullscreen.value = false;
-  document.body.style.overflow = "";
-  window.removeEventListener("keydown", onKeydown);
-}
-
-function toggleFullscreen() {
-  if (fullscreen.value) exitFullscreen();
-  else enterFullscreen();
-}
-
-onBeforeUnmount(exitFullscreen);
 </script>
 
 <template>
-  <section
-    class="cbun-row"
-    :class="{ 'is-reversed': reversed, 'is-fullscreen-active': fullscreen }"
-  >
+  <section class="cbun-row" :class="{ 'is-reversed': reversed }">
     <div class="cbun-row-demo">
-      <div
-        class="vd-card demo-card cbun-stage"
-        :class="{ 'is-fullscreen docs-stage-fullscreen': fullscreen }"
-      >
+      <div class="vd-card demo-card cbun-stage">
         <div class="vd-card-header cbun-stage-header">
           <h6>
             <i :class="`ph ph-${icon}`"></i>
             {{ title }}
           </h6>
-          <button
-            type="button"
-            class="vd-btn vd-btn-outline vd-btn-sm"
-            :aria-pressed="fullscreen"
-            @click="toggleFullscreen"
-          >
-            <i :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"></i>
-            {{ fullscreen ? "Exit full screen" : "Full screen" }}
-          </button>
         </div>
         <div class="vd-card-body cbun-stage-body">
-          <slot :fullscreen="fullscreen" />
+          <slot />
         </div>
       </div>
     </div>
@@ -75,20 +34,14 @@ onBeforeUnmount(exitFullscreen);
         {{ title }}
       </h3>
       <p class="cbun-row-blurb vd-text-muted">{{ blurb }}</p>
+      <ul class="cbun-row-strengths">
+        <li v-for="item in strengths" :key="item">{{ item }}</li>
+      </ul>
       <div class="cbun-row-actions">
         <RouterLink :to="docsTo" class="vd-btn vd-btn-primary">
           <i class="ph ph-book-open-text"></i>
           Docs demo
         </RouterLink>
-        <button
-          type="button"
-          class="vd-btn vd-btn-outline"
-          :aria-pressed="fullscreen"
-          @click="toggleFullscreen"
-        >
-          <i :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"></i>
-          {{ fullscreen ? "Exit full screen" : "Full screen" }}
-        </button>
       </div>
     </div>
   </section>
@@ -97,14 +50,14 @@ onBeforeUnmount(exitFullscreen);
 <style scoped>
 .cbun-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.55fr);
   gap: 2rem;
   align-items: center;
   padding: 2.5rem 0;
 }
 
 .cbun-row.is-reversed {
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.7fr);
 }
 
 .cbun-row.is-reversed .cbun-row-demo {
@@ -125,8 +78,19 @@ onBeforeUnmount(exitFullscreen);
 }
 
 .cbun-row-blurb {
-  margin: 0 0 1.25rem;
+  margin: 0 0 1rem;
   line-height: 1.6;
+}
+
+.cbun-row-strengths {
+  margin: 0 0 1.25rem;
+  padding-left: 1.15rem;
+  line-height: 1.55;
+  color: var(--vd-text-secondary);
+}
+
+.cbun-row-strengths li + li {
+  margin-top: 0.35rem;
 }
 
 .cbun-row-actions {
@@ -146,7 +110,7 @@ onBeforeUnmount(exitFullscreen);
 .cbun-stage-body {
   display: flex;
   flex-direction: column;
-  min-height: 280px;
+  min-height: 420px;
   overflow: hidden;
 }
 

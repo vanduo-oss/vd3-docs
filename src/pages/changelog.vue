@@ -1308,14 +1308,86 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.4.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>September 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  A hex-grid patch: DPR-aware backing store, viewport culling,
+                  and pan/zoom frame coalescing. Takes
+                  <code>VD_HEX_VERSION</code>
+                  <code>1.0.1 → 1.1.0</code>.
+                </p>
+
+                <div class="change-group">
+                  <h5>Changed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-hexagon"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Adaptive hex rendering</strong>
+                        <p>
+                          New <code>pixelRatio</code>
+                          (<code>number | 'auto'</code>, default
+                          <code>'auto'</code>) and <code>cull</code> (default
+                          <code>true</code>) keep sharp grids without redrawing
+                          every cell. Gesture frames coalesce; large views blit
+                          then re-render when idle. Adds
+                          <code>getVisibleHexes()</code>,
+                          <code>getRenderStats()</code>,
+                          <code>setPixelRatio()</code>,
+                          <code>setCull()</code>. See
+                          <RouterLink to="/canvas/hex"
+                            ><code>/canvas/hex</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-notebook"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>OpenSpec hygiene</strong>
+                        <p>
+                          Archived <code>sync-shipped-cbun-specs</code> —
+                          Catmull-Rom <code>line.smooth</code>,
+                          <code>VdDraw</code> template-ref CRUD, flowchart
+                          <code>--vd-bg-*</code> chrome, corrected CI
+                          <code>test:types</code>-after-build order, and real
+                          Purpose lines. No component API or serialization
+                          change.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
               >v1.4.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>August 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">

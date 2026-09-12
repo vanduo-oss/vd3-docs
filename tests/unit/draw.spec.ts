@@ -28,12 +28,12 @@ describe("VdDraw (@vanduo-oss/vd3-cbun/draw integration in docs)", () => {
     wrapper.unmount();
   });
 
-  it("drawSeedDoc contains all required sample entities", () => {
-    expect(drawSeedDoc.shapes.length).toBeGreaterThan(5);
+  it("drawSeedDoc contains the hello + smiley showcase artwork", () => {
+    expect(drawSeedDoc.shapes).toHaveLength(9);
     const types = new Set(drawSeedDoc.shapes.map((s) => s.type));
-    expect(types.has("rectangle")).toBe(true);
-    expect(types.has("sticky")).toBe(true);
-    expect(types.has("line")).toBe(true);
     expect(types.has("freehand")).toBe(true);
+    expect(types.has("ellipse")).toBe(true);
+    expect(drawSeedDoc.shapes.some((s) => s.id === "smile-fill")).toBe(true);
+    expect(drawSeedDoc.shapes.filter((s) => s.type === "freehand")).toHaveLength(6);
   });
 });
