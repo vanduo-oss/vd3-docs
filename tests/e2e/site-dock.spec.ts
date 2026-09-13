@@ -297,6 +297,64 @@ test.describe("Site Oola dock chrome", () => {
     expect(customizerBox!.x).toBeGreaterThan(searchBox!.x + 4);
   });
 
+  test("horizontal leftover matches vertical dock inset", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+    const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
+    const brand = dock.locator("button.vd-dock-brand").first();
+
+    const measure = () =>
+      dock.evaluate((el) => {
+        const box = el.getBoundingClientRect();
+        const rem = Number.parseFloat(
+          getComputedStyle(document.documentElement).fontSize,
+        );
+        const token = getComputedStyle(el)
+          .getPropertyValue("--vd-dock-inset")
+          .trim();
+        const inset = token.endsWith("rem")
+          ? Number.parseFloat(token) * rem
+          : Number.parseFloat(token);
+        return {
+          left: box.left,
+          rightGap: window.innerWidth - box.right,
+          top: box.top,
+          bottomGap: window.innerHeight - box.bottom,
+          inset,
+        };
+      });
+
+    const assertNearInset = (
+      value: number,
+      inset: number,
+      label: string,
+    ): void => {
+      expect(value, label).toBeGreaterThanOrEqual(inset - 2);
+      expect(value, label).toBeLessThanOrEqual(inset + 2);
+    };
+
+    await expect(dock).toHaveClass(/vd-dock-edge-top/);
+    const top = await measure();
+    assertNearInset(top.left, top.inset, "top dock left");
+    assertNearInset(top.rightGap, top.inset, "top dock right");
+
+    await cycleDockTo(dock, brand, "right");
+    const right = await measure();
+    assertNearInset(right.top, right.inset, "right dock top");
+    assertNearInset(right.bottomGap, right.inset, "right dock bottom");
+    expect(Math.abs(top.left - right.top)).toBeLessThan(3);
+    expect(Math.abs(top.rightGap - right.bottomGap)).toBeLessThan(3);
+
+    await cycleDockTo(dock, brand, "bottom");
+    const bottom = await measure();
+    assertNearInset(bottom.left, bottom.inset, "bottom dock left");
+    assertNearInset(bottom.rightGap, bottom.inset, "bottom dock right");
+
+    await cycleDockTo(dock, brand, "left");
+    const left = await measure();
+    assertNearInset(left.top, left.inset, "left dock top");
+    assertNearInset(left.bottomGap, left.inset, "left dock bottom");
+  });
+
   test("search action opens the global search modal", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
     await page

@@ -36,7 +36,7 @@ const defaultsVue = `import { VanduoVue, setThemeDefaults } from "@vanduo-oss/vd
 // Option A — pass themeDefaults to the plugin once, at bootstrap:
 app.use(VanduoVue, {
   themeDefaults: {
-    PRIMARY_LIGHT: "blue",
+    PRIMARY_LIGHT: "black",
     PRIMARY_DARK: "blue",
   },
 });

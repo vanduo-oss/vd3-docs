@@ -19,7 +19,7 @@ interface CbunEntry {
   preview: Component;
 }
 
-/** Alphabetical showcase order for the optional @vanduo-oss/vd3-cbun widgets. */
+/** /cbun showcase order for the optional @vanduo-oss/vd3-cbun widgets. */
 const entries: CbunEntry[] = [
   {
     id: "charts",
@@ -37,19 +37,19 @@ const entries: CbunEntry[] = [
     preview: CbunPreviewCharts,
   },
   {
-    id: "code-editor",
-    title: "Code editor",
-    icon: "code",
+    id: "flowchart",
+    title: "Flowchart",
+    icon: "flow-arrow",
     blurb:
-      "A lightweight syntax-highlighted editor for docs, playgrounds, and inline snippets — JavaScript, TypeScript, Python, JSON, Markdown, and more.",
+      "Node-and-edge diagram editing with auto-fit, routing, and theme-aware chrome. Ideal for workflows, architecture sketches, and interactive docs.",
     strengths: [
-      "First-party highlighter — drop highlight.js for docs snippets",
-      "Tokenizer-only subpath for highlight without the editor core",
-      "Multi-language support including real Vue SFC tokenization",
-      "Lightweight embed for playgrounds and inline examples",
+      "Auto-fit viewport so diagrams stay readable",
+      "Orthogonal and curved edge routing",
+      "Theme-aware chrome on --vd-* backgrounds",
+      "Built for workflows, architecture sketches, and interactive docs",
     ],
-    docsTo: "/editors/code-editor",
-    preview: CbunPreviewCodeEditor,
+    docsTo: "/canvas/flowchart",
+    preview: CbunPreviewFlowchart,
   },
   {
     id: "draw",
@@ -67,34 +67,19 @@ const entries: CbunEntry[] = [
     preview: CbunPreviewDraw,
   },
   {
-    id: "flowchart",
-    title: "Flowchart",
-    icon: "flow-arrow",
+    id: "code-editor",
+    title: "Code editor",
+    icon: "code",
     blurb:
-      "Node-and-edge diagram editing with auto-fit, routing, and theme-aware chrome. Ideal for workflows, architecture sketches, and interactive docs.",
+      "A lightweight syntax-highlighted editor for docs, playgrounds, and inline snippets — JavaScript, TypeScript, Python, JSON, Markdown, and more.",
     strengths: [
-      "Auto-fit viewport so diagrams stay readable",
-      "Orthogonal and curved edge routing",
-      "Theme-aware chrome on --vd-* backgrounds",
-      "Built for workflows, architecture sketches, and interactive docs",
+      "First-party highlighter — drop highlight.js for docs snippets",
+      "Tokenizer-only subpath for highlight without the editor core",
+      "Multi-language support including real Vue SFC tokenization",
+      "Lightweight embed for playgrounds and inline examples",
     ],
-    docsTo: "/canvas/flowchart",
-    preview: CbunPreviewFlowchart,
-  },
-  {
-    id: "hex-grid",
-    title: "Hex grid",
-    icon: "hexagon",
-    blurb:
-      "Axial hex canvases with terrain helpers and pathfinding math. Canvas-based, no CSS bundle — it picks up --vd-* colors from the page.",
-    strengths: [
-      "Axial hex math with terrain helpers and pathfinding",
-      "DPR-aware backing store and viewport culling for large grids",
-      "Canvas-based with no CSS bundle to ship",
-      "Picks up --vd-* colors from the page theme",
-    ],
-    docsTo: "/canvas/hex",
-    preview: CbunPreviewHex,
+    docsTo: "/editors/code-editor",
+    preview: CbunPreviewCodeEditor,
   },
   {
     id: "music-player",
@@ -110,6 +95,21 @@ const entries: CbunEntry[] = [
     ],
     docsTo: "/media/music-player",
     preview: CbunPreviewMusic,
+  },
+  {
+    id: "hex-grid",
+    title: "Hex grid",
+    icon: "hexagon",
+    blurb:
+      "Axial hex canvases with terrain helpers and pathfinding math. Canvas-based, no CSS bundle — it picks up --vd-* colors from the page.",
+    strengths: [
+      "Axial hex math with terrain helpers and pathfinding",
+      "DPR-aware backing store and viewport culling for large grids",
+      "Canvas-based with no CSS bundle to ship",
+      "Picks up --vd-* colors from the page theme",
+    ],
+    docsTo: "/canvas/hex",
+    preview: CbunPreviewHex,
   },
 ];
 

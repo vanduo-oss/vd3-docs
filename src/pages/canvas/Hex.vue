@@ -82,6 +82,8 @@ const hexThemeKey = computed(
 
 const PATH_FILL = "rgba(255, 159, 28, 0.5)";
 const PATH_ACCENT = "#ff9f1c";
+/** Docs demo empty-cell fill — outline only; package default remains bg-secondary. */
+const DEMO_CELL_FILL = "transparent";
 
 const readToken = (token: string, fallback: string): string => {
   if (typeof document === "undefined") return fallback;
@@ -91,8 +93,26 @@ const readToken = (token: string, fallback: string): string => {
   );
 };
 
+const demoCellStroke = (): string => readToken("--vd-color-primary", "#3b82f6");
+
 const requestRender = (): void => {
   gridInstance?.setCustomRender(overlayRender);
+};
+
+/**
+ * First-load / reset look for the docs canvas: no cell fill, stroke follows
+ * the current primary (light ink / dark blue by default, and any later pick).
+ * Terrain, Fill Random, and path highlights keep their own fills.
+ */
+const applyDemoOutlineStyle = (): void => {
+  if (!gridInstance) return;
+  const stroke = demoCellStroke();
+  for (const hex of gridInstance.getAllHexes()) {
+    if (hex.terrain) continue;
+    hex.fill = DEMO_CELL_FILL;
+    hex.stroke = stroke;
+  }
+  requestRender();
 };
 
 /**
@@ -255,6 +275,7 @@ const onReady = (instance: VdHexGridCore): void => {
   pathKeyIndex = new Map();
   pathFillBackup = new Map();
   instance.setCustomRender(overlayRender);
+  applyDemoOutlineStyle();
   refreshRenderStats();
   nextTick(() => refreshRenderStats());
 };
@@ -321,6 +342,7 @@ const resetGrid = (): void => {
   pathLength.value = null;
   pathNoRoute.value = false;
   clearPathHighlight();
+  applyDemoOutlineStyle();
   terrainName.value = null;
   terrainYields.value = null;
   terrainMovement.value = null;
@@ -357,7 +379,14 @@ const applyTerrainToSelected = (): void => {
   updateTerrainInfo(selectedQ.value, selectedR.value);
 };
 
-watch([cull, pixelRatio, size, width, height], () => {
+watch([size, width, height, rotationDeg], () => {
+  nextTick(() => {
+    applyDemoOutlineStyle();
+    refreshRenderStats();
+  });
+});
+
+watch([cull, pixelRatio], () => {
   nextTick(() => refreshRenderStats());
 });
 

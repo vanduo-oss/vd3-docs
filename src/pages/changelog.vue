@@ -75,6 +75,9 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>September 2026
             </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -1089,6 +1092,9 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
             </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Initial</span
+            >
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -1308,7 +1314,7 @@ useAffix(root);
               >v1.4.2</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>September 13, 2026
+              <i class="ph ph-calendar mr-1"></i>September 2026
             </span>
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
@@ -1415,9 +1421,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>September 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">

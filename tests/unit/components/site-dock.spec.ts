@@ -94,6 +94,19 @@ describe("VdSiteDock", () => {
       wrapper.find('button[aria-label="Choose theme color"]').exists(),
     ).toBe(true);
     expect(wrapper.find(".vd-dock").classes()).toContain("vd-dock-fixed");
+
+    const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
+    const docs = wrapper.get('button.vd-dock-item[aria-label="Docs"]');
+    const cbun = wrapper.get('button.vd-dock-item[aria-label="CBUN"]');
+    expect(home.findAll("i")).toHaveLength(1);
+    expect(docs.findAll("i")).toHaveLength(1);
+    expect(cbun.findAll("i")).toHaveLength(1);
+    expect(home.get("i").classes()).toContain("ph-fill");
+    expect(home.get("i").classes()).toContain("ph-house");
+    expect(docs.get("i").classes()).toContain("ph");
+    expect(docs.get("i").classes()).not.toContain("ph-fill");
+    expect(wrapper.find(".ph-duotone").exists()).toBe(false);
+    expect(wrapper.find(".vd-site-dock-weight-pair").exists()).toBe(false);
     wrapper.unmount();
   });
 
@@ -103,6 +116,14 @@ describe("VdSiteDock", () => {
     await docs.trigger("click");
     await flushPromises();
     expect(router.currentRoute.value.path).toBe("/docs-landing");
+
+    const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
+    expect(docs.classes()).toContain("is-active");
+    expect(docs.findAll("i")).toHaveLength(1);
+    expect(docs.get("i").classes()).toContain("ph-fill");
+    expect(home.classes()).not.toContain("is-active");
+    expect(home.get("i").classes()).toContain("ph");
+    expect(home.get("i").classes()).not.toContain("ph-fill");
     wrapper.unmount();
   });
 

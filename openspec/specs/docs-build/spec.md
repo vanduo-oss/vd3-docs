@@ -58,7 +58,8 @@ styles from
 `@vanduo-oss/vd3-cbun/{charts,code-editor,draw,flowchart,music-player}/css`. It SHALL
 install the `VanduoVue` plugin (imported from `@vanduo-oss/vd3`, the same
 identifier the old `@vanduo-oss/vue` exported) with
-`themeDefaults` whose `PRIMARY_LIGHT` and `PRIMARY_DARK` are both `"blue"`.
+`themeDefaults` whose `PRIMARY_LIGHT` is `"black"` and `PRIMARY_DARK` is
+`"blue"`.
 It MUST NOT import or call `loadVanduoRuntime` (which `@vanduo-oss/vd3` does
 not export) and MUST NOT load any framework IIFE or otherwise bootstrap a
 `window.Vanduo*` global runtime.
@@ -68,8 +69,8 @@ not export) and MUST NOT load any framework IIFE or otherwise bootstrap a
 - **GIVEN** `main.ts` after this change
 - **WHEN** its imports and `createApp` setup are read
 - **THEN** stylesheet imports come from `@vanduo-oss/vd3/css` and
-  `@vanduo-oss/vd3-cbun/*/css`, `themeDefaults.PRIMARY_LIGHT` and
-  `themeDefaults.PRIMARY_DARK` are both `"blue"`, and there is no
+  `@vanduo-oss/vd3-cbun/*/css`, `themeDefaults.PRIMARY_LIGHT` is `"black"`,
+  `themeDefaults.PRIMARY_DARK` is `"blue"`, and there is no
   `loadVanduoRuntime` import and no awaited client-only runtime-bootstrap block
 
 #### Scenario: the built bundle ships no vanilla runtime

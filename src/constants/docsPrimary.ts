@@ -1,4 +1,4 @@
-import { PRIMARY_COLORS } from "@vanduo-oss/vd3";
+import { PRIMARY_COLORS, getStoragePrefix } from "@vanduo-oss/vd3";
 
 export type DocsColorScheme = "light" | "dark";
 
@@ -8,11 +8,22 @@ export type DocsPrimarySwatch = {
   color: string;
 };
 
-/** Light-mode docs first-visit default — published primary token `blue`. */
-export const DOCS_DEFAULT_PRIMARY_LIGHT = "blue";
+export type DocsSchemePrimaries = {
+  light: string;
+  dark: string;
+};
 
-/** Dark-mode docs first-visit default — same published `blue` token. */
+/** Light-mode docs first-visit default — Ink (`black`). */
+export const DOCS_DEFAULT_PRIMARY_LIGHT = "black";
+
+/** Dark-mode docs first-visit default — published primary token `blue`. */
 export const DOCS_DEFAULT_PRIMARY_DARK = "blue";
+
+/**
+ * Former shared docs default written to the single `vanduo-primary-color` key.
+ * Legacy `blue` is treated as unset so first-visit remapping can run.
+ */
+export const DOCS_LEGACY_SHARED_PRIMARY = "blue";
 
 /**
  * Shared docs default primary. Prefer `docsDefaultPrimary(scheme)` when scheme
@@ -73,6 +84,82 @@ export function coerceDocsPrimary(
   scheme: DocsColorScheme,
 ): string {
   return isDocsAllowedPrimary(key, scheme) ? key : docsDefaultPrimary(scheme);
+}
+
+export function docsPrimaryStorageKeys(prefix: string = getStoragePrefix()): {
+  current: string;
+  light: string;
+  dark: string;
+} {
+  return {
+    current: `${prefix}primary-color`,
+    light: `${prefix}primary-color-light`,
+    dark: `${prefix}primary-color-dark`,
+  };
+}
+
+const readStorage = (key: string): string | null => {
+  if (typeof window === "undefined") return null;
+  try {
+    const value = window.localStorage.getItem(key);
+    return value && value.length > 0 ? value : null;
+  } catch {
+    return null;
+  }
+};
+
+const writeStorage = (key: string, value: string): void => {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    /* storage may be unavailable (private mode, quota) */
+  }
+};
+
+export function defaultDocsSchemePrimaries(): DocsSchemePrimaries {
+  return {
+    light: DOCS_DEFAULT_PRIMARY_LIGHT,
+    dark: DOCS_DEFAULT_PRIMARY_DARK,
+  };
+}
+
+/**
+ * Resolve per-scheme primaries. Prefers `vanduo-primary-color-light` /
+ * `vanduo-primary-color-dark`. A lone legacy `vanduo-primary-color` is the
+ * current scheme's pick unless it is still the old shared `blue` default.
+ */
+export function hydrateDocsSchemePrimaries(
+  scheme: DocsColorScheme,
+): DocsSchemePrimaries {
+  const keys = docsPrimaryStorageKeys();
+  const storedLight = readStorage(keys.light);
+  const storedDark = readStorage(keys.dark);
+
+  if (storedLight != null || storedDark != null) {
+    return {
+      light: coerceDocsPrimary(
+        storedLight ?? DOCS_DEFAULT_PRIMARY_LIGHT,
+        "light",
+      ),
+      dark: coerceDocsPrimary(storedDark ?? DOCS_DEFAULT_PRIMARY_DARK, "dark"),
+    };
+  }
+
+  const legacy = readStorage(keys.current);
+  if (legacy == null || legacy === DOCS_LEGACY_SHARED_PRIMARY) {
+    return defaultDocsSchemePrimaries();
+  }
+
+  const defaults = defaultDocsSchemePrimaries();
+  defaults[scheme] = coerceDocsPrimary(legacy, scheme);
+  return defaults;
+}
+
+export function persistDocsSchemePrimaries(pair: DocsSchemePrimaries): void {
+  const keys = docsPrimaryStorageKeys();
+  writeStorage(keys.light, pair.light);
+  writeStorage(keys.dark, pair.dark);
 }
 
 /**

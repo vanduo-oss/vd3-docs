@@ -3190,7 +3190,7 @@ a:hover .vd-card-interactive.vd-card-glow {
   background-image: none;
   border-color: rgb(255 255 255 / 10%);
   box-shadow:
-    0 10px 36px rgb(0 0 0 / 62%),
+    0 10px 32px rgb(0 0 0 / 50%),
     inset 0 1px 0 rgb(255 255 255 / 6%);
 }
 
@@ -3211,18 +3211,18 @@ a:hover .vd-card-interactive.vd-card-glow {
   min-height: 2.75rem;
 }
 
-.vd-site-dock .vd-dock-links .vd-dock-item .ph {
+.vd-site-dock .vd-dock-links .vd-dock-item :is(.ph, .ph-fill) {
   font-size: 2.15rem;
 }
 
-/* Icon-only nav: mute idle links; only the active route reads at full strength. */
+/* Idle links stay readable on ink; active still carries the tint. */
 .vd-site-dock .vd-dock-links .vd-dock-item:not(.is-active) {
   opacity: 1;
-  color: var(--vd-text-secondary);
+  color: color-mix(in srgb, var(--vd-text-primary) 88%, transparent);
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-item:not(.is-active) .ph {
-  opacity: 0.48;
+  opacity: 0.92;
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-item.is-active {
@@ -3230,23 +3230,19 @@ a:hover .vd-card-interactive.vd-card-glow {
   color: var(--vd-dock-tint, var(--vd-text-primary));
 }
 
-.vd-site-dock .vd-dock-links .vd-dock-item.is-active .ph {
+.vd-site-dock .vd-dock-links .vd-dock-item.is-active :is(.ph, .ph-fill) {
   opacity: 1;
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-item:hover:not(.is-active),
 .vd-site-dock .vd-dock-links .vd-dock-item:focus-visible:not(.is-active) {
   opacity: 1;
-  color: color-mix(
-    in srgb,
-    var(--vd-text-primary) 70%,
-    var(--vd-text-secondary)
-  );
+  color: var(--vd-text-primary);
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-item:hover:not(.is-active) .ph,
 .vd-site-dock .vd-dock-links .vd-dock-item:focus-visible:not(.is-active) .ph {
-  opacity: 0.72;
+  opacity: 1;
 }
 
 /* Vertical edges: icon-only nav (labels via tooltip). */
@@ -3286,7 +3282,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     min-height: 2.35rem;
   }
 
-  .vd-site-dock .vd-dock-links .vd-dock-item .ph {
+  .vd-site-dock .vd-dock-links .vd-dock-item :is(.ph, .ph-fill) {
     font-size: 2.0425rem;
   }
 
@@ -3311,11 +3307,17 @@ a:hover .vd-card-interactive.vd-card-glow {
     letter-spacing: 0.04em;
     text-transform: uppercase;
     line-height: 1;
-    opacity: 0.85;
+    opacity: 0.92;
   }
 
-  .vd-site-dock.vd-dock-edge-top .vd-dock-links .vd-dock-item .ph,
-  .vd-site-dock.vd-dock-edge-bottom .vd-dock-links .vd-dock-item .ph {
+  .vd-site-dock.vd-dock-edge-top
+    .vd-dock-links
+    .vd-dock-item
+    :is(.ph, .ph-fill),
+  .vd-site-dock.vd-dock-edge-bottom
+    .vd-dock-links
+    .vd-dock-item
+    :is(.ph, .ph-fill) {
     font-size: 1.7813rem;
   }
 
@@ -3328,7 +3330,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     .vd-dock-item.is-active
     .vd-dock-label {
     opacity: 1;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   .vd-site-dock.vd-dock-edge-top.vd-dock-items-inline
@@ -3352,6 +3354,22 @@ a:hover .vd-card-interactive.vd-card-glow {
   transition-property:
     height, min-height, left, right, top, bottom, transform, padding, gap,
     flex-direction;
+}
+
+/* Stretch the horizontal track so leftover inline space matches the vertical
+   dock's block inset (--vd-dock-inset / --vd-site-dock-inset). Beat package
+   .vd-dock.vd-dock-edge-top:not(.is-square) (1680px cap + centered shrink).
+   Use 100vw (not left+right+width:auto): html { scrollbar-gutter: stable }
+   shrinks the layout CB (~11px), which made rightGap look like inset+gutter.
+   Keep the override through is-morphing until is-square so ultrawide does
+   not snap to the 1680 cap mid-morph. */
+.vd-site-dock.vd-dock.vd-dock-edge-bottom:not(.is-square),
+.vd-site-dock.vd-dock.vd-dock-edge-top:not(.is-square) {
+  left: var(--vd-dock-inset);
+  right: auto;
+  width: calc(100vw - 2 * var(--vd-dock-inset));
+  max-width: none;
+  transform: none;
 }
 
 .vd-site-dock .vd-site-dock-brand-mark,
@@ -3459,12 +3477,12 @@ a:hover .vd-card-interactive.vd-card-glow {
   border: 0;
   border-radius: 0.75rem;
   background: transparent;
-  color: var(--vd-text-secondary);
+  color: color-mix(in srgb, var(--vd-text-primary) 88%, transparent);
   cursor: pointer;
   font-size: 1.1rem;
   line-height: 0;
   padding: 0;
-  opacity: 0.72;
+  opacity: 0.92;
   transition:
     opacity 0.2s ease,
     color 0.2s ease;
@@ -3507,19 +3525,6 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   .vd-site-dock.vd-dock.is-horizontal {
     padding-block: 0.35rem;
-  }
-
-  /* Full-width pill: beat package .vd-dock.vd-dock-edge-top:not(.is-square)
-     (same 0,3,0 without the extra .vd-dock) so top/bottom stay edge-to-edge.
-     Use 100vw (not left+right+width:auto): html { scrollbar-gutter: stable }
-     shrinks the layout CB (~11px), which made rightGap look like inset+gutter. */
-  .vd-site-dock.vd-dock.vd-dock-edge-bottom:not(.is-square, .is-morphing),
-  .vd-site-dock.vd-dock.vd-dock-edge-top:not(.is-square, .is-morphing) {
-    left: var(--vd-dock-inset);
-    right: auto;
-    width: calc(100vw - 2 * var(--vd-dock-inset));
-    max-width: none;
-    transform: none;
   }
 
   .vd-site-dock.vd-dock-edge-bottom:not(.is-square) {
@@ -3592,7 +3597,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     flex-shrink: 0;
   }
 
-  .vd-site-dock .vd-dock-links .vd-dock-item .ph {
+  .vd-site-dock .vd-dock-links .vd-dock-item :is(.ph, .ph-fill) {
     font-size: 1.55rem;
   }
 
@@ -3603,12 +3608,12 @@ a:hover .vd-card-interactive.vd-card-glow {
     letter-spacing: 0.02em;
     text-transform: none;
     line-height: 1;
-    opacity: 0.72;
+    opacity: 0.88;
   }
 
   .vd-site-dock .vd-dock-links .vd-dock-item.is-active .vd-dock-label {
     opacity: 1;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   .vd-site-dock-strip-divider {
@@ -3650,12 +3655,12 @@ a:hover .vd-card-interactive.vd-card-glow {
     border: 0;
     border-radius: 0.75rem;
     background: transparent;
-    color: var(--vd-text-secondary);
+    color: color-mix(in srgb, var(--vd-text-primary) 88%, transparent);
     cursor: pointer;
     font-size: 1.1rem;
     line-height: 0;
     padding: 0;
-    opacity: 0.72;
+    opacity: 0.92;
     transition:
       opacity 0.2s ease,
       color 0.2s ease;
