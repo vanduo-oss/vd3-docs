@@ -1,4 +1,4 @@
-import { DOCK_TINTS, PRIMARY_COLORS } from "@vanduo-oss/vd3";
+import { PRIMARY_COLORS } from "@vanduo-oss/vd3";
 
 export type DocsColorScheme = "light" | "dark";
 
@@ -26,14 +26,33 @@ export function docsDefaultPrimary(scheme: DocsColorScheme): string {
     : DOCS_DEFAULT_PRIMARY_DARK;
 }
 
-const DOCK_PRIMARY_COLORS = PRIMARY_COLORS.filter((c) =>
-  (DOCK_TINTS as readonly string[]).includes(c.key),
-);
+/**
+ * Fan hues from The Daily Accretion dock customizer. Filtered through
+ * `PRIMARY_COLORS` so blades stay in package rainbow order.
+ */
+export const DOCS_FAN_HUES = [
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "teal",
+  "cyan",
+  "sky",
+  "blue",
+  "violet",
+  "purple",
+  "pink",
+  "rose",
+] as const;
+
+const FAN_HUE_SET = new Set<string>(DOCS_FAN_HUES);
+
+const FAN_PRIMARY_COLORS = PRIMARY_COLORS.filter((c) => FAN_HUE_SET.has(c.key));
 
 const BLACK_PRIMARY = PRIMARY_COLORS.find((c) => c.key === "black");
 
-/** Dock-tint hues only (8) — shared base for swatches / tests. */
-export const DOCS_PRIMARY_COLORS = DOCK_PRIMARY_COLORS;
+/** Accretion fan hues (12) — shared base for swatches / tests. */
+export const DOCS_PRIMARY_COLORS = FAN_PRIMARY_COLORS;
 
 const INK_SWATCH: DocsPrimarySwatch = {
   key: "black",
@@ -45,7 +64,7 @@ export function isDocsAllowedPrimary(
   key: string,
   _scheme: DocsColorScheme,
 ): boolean {
-  if ((DOCK_TINTS as readonly string[]).includes(key)) return true;
+  if (FAN_HUE_SET.has(key)) return true;
   return key === "black";
 }
 
@@ -57,22 +76,22 @@ export function coerceDocsPrimary(
 }
 
 /**
- * Keys for the package swatches fan — black plus the eight dock tints. The fan
- * renders in `PRIMARY_COLORS` order regardless of the order given here, which
- * is the same order `docsPrimarySwatches()` produces.
+ * Keys for the package swatches fan — Ink plus the twelve accretion hues. The
+ * fan renders in `PRIMARY_COLORS` order regardless of the order given here,
+ * which is the same order `docsPrimarySwatches()` produces.
  */
 export const DOCS_PRIMARY_SWATCH_KEYS: readonly string[] = [
   "black",
-  ...DOCK_PRIMARY_COLORS.map((c) => c.key),
+  ...FAN_PRIMARY_COLORS.map((c) => c.key),
 ];
 
 /**
- * Customizer swatches: Ink (black) + eight dock hues in both schemes.
+ * Customizer swatches: Ink (black) + twelve accretion hues in both schemes.
  */
 export function docsPrimarySwatches(
   _scheme: DocsColorScheme,
 ): DocsPrimarySwatch[] {
-  const hues = DOCK_PRIMARY_COLORS.map((c) => ({
+  const hues = FAN_PRIMARY_COLORS.map((c) => ({
     key: c.key,
     name: c.name,
     color: c.color,

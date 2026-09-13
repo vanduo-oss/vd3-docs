@@ -175,7 +175,7 @@ describe("useThemeStore", () => {
     expect(document.documentElement.getAttribute("data-primary")).toBe("blue");
   });
 
-  it("keeps Ink (black) in light and dark; coerces amber/rose to green in dark", () => {
+  it("keeps Ink (black) in light and dark; coerces amber/lime; allows rose", () => {
     setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "green" });
     window.localStorage.setItem("vanduo-theme-preference", "light");
     window.localStorage.setItem("vanduo-primary-color", "black");
@@ -185,12 +185,18 @@ describe("useThemeStore", () => {
 
     theme.setPrimary("amber");
     expect(theme.primary).toBe("black");
-    theme.setPrimary("rose");
+    theme.setPrimary("lime");
     expect(theme.primary).toBe("black");
+    theme.setPrimary("rose");
+    expect(theme.primary).toBe("rose");
 
     theme.setTheme("dark");
     theme.setPrimary("amber");
     expect(theme.primary).toBe("green");
+    theme.setPrimary("lime");
+    expect(theme.primary).toBe("green");
+    theme.setPrimary("rose");
+    expect(theme.primary).toBe("rose");
 
     theme.setPrimary("black");
     expect(theme.primary).toBe("black");
@@ -208,20 +214,22 @@ describe("useThemeStore", () => {
     expect(theme.primary).toBe("green");
   });
 
-  it("docs primary swatches include Ink + eight hues in both schemes", () => {
-    expect(DOCS_PRIMARY_COLORS).toHaveLength(8);
-    expect(DOCS_PRIMARY_COLORS.map((c) => c.key).sort()).toEqual(
-      [
-        "blue",
-        "green",
-        "orange",
-        "pink",
-        "red",
-        "teal",
-        "violet",
-        "yellow",
-      ].sort(),
-    );
+  it("docs primary swatches include Ink + twelve accretion hues in both schemes", () => {
+    expect(DOCS_PRIMARY_COLORS).toHaveLength(12);
+    expect(DOCS_PRIMARY_COLORS.map((c) => c.key)).toEqual([
+      "red",
+      "orange",
+      "yellow",
+      "green",
+      "teal",
+      "cyan",
+      "sky",
+      "blue",
+      "violet",
+      "purple",
+      "pink",
+      "rose",
+    ]);
 
     const ink = {
       key: "black",
@@ -230,11 +238,11 @@ describe("useThemeStore", () => {
     };
 
     const light = docsPrimarySwatches("light");
-    expect(light).toHaveLength(9);
+    expect(light).toHaveLength(13);
     expect(light[0]).toEqual(ink);
 
     const dark = docsPrimarySwatches("dark");
-    expect(dark).toHaveLength(9);
+    expect(dark).toHaveLength(13);
     expect(dark[0]).toEqual(ink);
     expect(dark.map((c) => c.key)).toContain("black");
   });

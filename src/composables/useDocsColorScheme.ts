@@ -13,6 +13,14 @@ import {
   type DocsColorScheme,
 } from "@/constants/docsPrimary";
 
+/** Fan hues that are not DOCK_TINTS — nearest accent so VdDock can still tint. */
+const DOCS_FAN_DOCK_ACCENT: Record<string, DockTint> = {
+  cyan: "teal",
+  sky: "blue",
+  purple: "violet",
+  rose: "pink",
+};
+
 export const DOCS_DOCK_TOOLTIP_DELAY_MS = 520;
 
 /** Docs demo/home dock radius — 1.5. Package default stays 1.25. */
@@ -57,6 +65,8 @@ export function docsDockAccent(
   if ((DOCK_TINTS as readonly string[]).includes(primary)) {
     return primary as DockTint;
   }
+  const aliased = DOCS_FAN_DOCK_ACCENT[primary];
+  if (aliased) return aliased;
   const fallback = docsDefaultPrimary(scheme);
   if (fallback === "black") return "";
   if ((DOCK_TINTS as readonly string[]).includes(fallback)) {

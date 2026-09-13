@@ -389,7 +389,7 @@ test.describe("Site Oola dock chrome", () => {
     await trigger.click();
     await expect(fan).toHaveClass(/is-open/);
     await expect(fan).toHaveClass(/fan-down/);
-    await expect(fan.getByRole("option")).toHaveCount(9);
+    await expect(fan.getByRole("option")).toHaveCount(13);
     // The package fan labels hues from PRIMARY_COLORS, so black reads "Black"
     // where the retired docs fork branded it "Ink".
     await expect(fan.getByRole("option", { name: "Black" })).toBeVisible();

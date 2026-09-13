@@ -404,7 +404,7 @@ const storageRows: [string, string, string][] = [
         <p class="vd-text-sm vd-text-muted vd-mb-5">
           Reach for this when the app already owns the hue and needs to clamp or
           transform it. This site does exactly that: its store narrows primary
-          to Ink plus the eight dock tints and forces palette, font, radius, and
+          to Ink plus the twelve accretion fan hues and forces palette, font, radius, and
           neutral to docs defaults, so an uncontrolled customizer writing the
           singleton would slip past both rules.
         </p>
