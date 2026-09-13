@@ -1486,154 +1486,220 @@
       ],
       "headings": [
         "Charts",
-        "Mark clicks (new in 1.3.0)",
+        "Accessibility & Keyboard Navigation (WCAG 2.1 AA & WAI-ARIA Graphics 1.0)",
+        "Core Chart Types",
         "Bar Chart",
         "Line Chart",
+        "Area Chart",
         "Donut Chart",
-        "New in 0.2.0",
-        "Multi-Series",
-        "Labels + Per-Point Colour",
-        "Annotation + Axis Range",
-        "API Reference",
-        "Install",
-        "Usage",
+        "Pie Chart",
+        "Data Accuracy & Advanced Features",
+        "Profit & Loss (Negative Y-values)",
+        "Multi-Series Grouped Bar",
+        "Annotations & Pinned Range",
+        "Scatter Plot (2D Coordinates)",
+        "Data Labels & Stage Colors",
+        "WAI-ARIA Graphics Module 1.0 Architecture",
+        "API & Keyboard Reference",
+        "Installation",
+        "Accessible Chart Usage",
+        "Advanced Features Usage",
+        "Keyboard Navigation Shortcuts",
         "Chart Types",
-        "Component API",
-        "Notes"
+        "Component API (Props & Events)"
       ],
-      "bodyText": "vd3 Charts is a standalone SVG-first package for common dashboard charts, installed separately from the framework. It renders accessible SVG, reads vd3 theme tokens, and ships an optional 3 binding ( @vanduo-oss/vd3-cbun/charts ) used here.. VdChart forwards clicks on marks as events — @bar-click , @point-click , and @slice-click — each carrying a ClickEvent { event, datum, index } . Click a bar:. No bar clicked yet.. Multi-series, value labels, per-point colour, reference-line annotations and pinned axis ranges — all opt-in, so default charts render unchanged.. type=\"bar\" — Category bars with band scale, axes, grid lines, tooltips, bar-click events.. type=\"line\" — Line path with optional points over category, number, or date-like x.. type=\"area\" — Filled area plus line path, sharing the cartesian infrastructure.. type=\"scatter\" — Circle marks over numeric, date-like, or categorical x.. type=\"donut\" — Arc slices, default inner-radius-ratio 0.62, center total, legend.. type=\"pie\" — Same polar renderer with inner-radius-ratio 0.. :type — 'bar' | 'line' | 'area' | 'scatter' | 'donut' | 'pie' (default 'bar').. :data — Array of row objects.. x / y — Cartesian accessors — key string or function.. label / value — Pie / donut accessors.. title / description — Rendered into SVG accessibility metadata.. :height — Container min-height in px (default 300).. :theme / :tooltip / :responsive — Theme overrides, custom/disabled tooltip, responsive resize.. :series — Multiple series — grouped bars, or one line/area path each (Series[]). New in 0.2.0.. :color — A color, a category-field name, or a per-datum (row) => color. New in 0.2.0.. :data-labels — true or { format, color } — draw value labels on each mark. New in 0.2.0.. :annotations — Reference lines: [{ y?, x?, label?, color?, dash? }]. New in 0.2.0.. :y-min / :y-max / :y-tick-count — Pin axis bounds and tick density (otherwise auto-scaled). New in 0.2.0.. :legend — true or { position } — shown by default for multi-series charts. New in 0.2.0.. @bar-click / @point-click / @slice-click — Mark-click events — each carries a ClickEvent { event, datum, index }. New in 1.3.0.",
-      "classes": [
-        ":type",
-        ":data",
-        ":height",
-        ":theme / :tooltip / :responsive",
-        ":series",
-        ":color",
-        ":data-labels",
-        ":annotations",
-        ":y-min / :y-max / :y-tick-count",
-        ":legend"
-      ],
+      "bodyText": "vd3 Charts is the SVG-first data visualization widget from @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/charts ). It features full WAI-ARIA Graphics Module 1.0 semantics, roving keyboard arrow navigation with live focus rings, an auto-generated accessible data table fallback (WCAG 1.1.1), and native dark/light theme integration.. Bar, line, area, scatter, donut, and pie — automatic dimension measurement and responsive resize. Click a donut or pie slice to see @slice-click .. Handles mixed positive and negative values from zero baseline, multi-series grouped bars with legends, reference line annotations, and 2D scatter plots.. Most web chart libraries apply role=\"img\" to the entire SVG, which instructs screen readers to treat the chart as a static flattened image and ignore all internal data marks. vd3 Charts implements the official W3C WAI-ARIA Graphics Module 1.0 specification:. Applied to the root <svg> with aria-roledescription=\"[type] chart\" so screen readers recognize it as a structured graphical document containing interactive objects.. Applied to mark containers, series groups, and annotations with contextual aria-roledescription (e.g. \"data points\" , \"grouped bars\" ).. Applied to individual marks (bars, points, slices) with descriptive aria-roledescription and accessible value labels (e.g. \"Jan: $120k\" ).. Applied to decorative Cartesian axes, tick marks, and background grid lines to prevent screen reader clutter.. In addition to SVG graphics roles, every chart generates a semantic <table> (with <caption> , <th scope=\"col\"> , and <th scope=\"row\"> ) matching WCAG 1.1.1 Technique G73/G74 . Assistive technology users can navigate the full dataset with native table reading shortcuts.. Tab / Shift+Tab — Enter or leave the interactive chart mark group.. ArrowRight / ArrowDown — Move focus to the next data mark (cycles with wraparound) and displays its tooltip.. ArrowLeft / ArrowUp — Move focus to the previous data mark (cycles with wraparound) and displays its tooltip.. Home — Jump keyboard focus directly to the first data mark.. End — Jump keyboard focus directly to the last data mark.. Enter / Space — Trigger the mark's click callback (e.g. @bar-click, @point-click, @slice-click).. Escape — Blur the focused mark and dismiss the active tooltip.. type=\"bar\" — Category bars with band scale, axes, grid lines, negative y handling, keyboard arrow navigation, and data table fallback.. type=\"line\" — Line path with interactive circle marks over category, numeric, or date-like x values.. type=\"area\" — Filled area path closing to zero baseline plus line path, sharing the cartesian scale engine.. type=\"scatter\" — Circle marks over 2D numeric, date-like, or categorical scales with point click handling.. type=\"donut\" — Arc slices with inner-radius ratio (default 0.62), percentage tooltips, center total summary, and legend.. type=\"pie\" — Full pie polar renderer with inner-radius ratio 0.. :type — 'bar' | 'line' | 'area' | 'scatter' | 'donut' | 'pie' (default 'bar').. :data — Array of row objects.. x / y — Cartesian accessors — field key string or (datum) => value function.. label / value — Pie / donut accessors.. title / description — Rendered into SVG accessibility metadata (<title> and <desc> tags).. :data-table — true (sr-only, default) | 'visible' | false. Auto-generates an accessible <table> fulfilling WCAG 1.1.1 Level A.. :aria-role-description — Custom ARIA role description override for the SVG shell (defaults to `${type} chart`).. :height — Container min-height in px (default 300).. :theme / :tooltip / :responsive — Theme overrides, custom/disabled tooltip, responsive resize observer.. :series — Multiple series — grouped bars, or one line/area path each (Series[]).. :color — A color string, category-field name, or per-datum (row) => color callback.. :data-labels — true or { format, color } — draw value labels on each mark.. :annotations — Reference lines: [{ y?, x?, label?, color?, dash? }].. :y-min / :y-max / :y-tick-count — Pin axis bounds and tick density (supports negative floors and clamped baselines).. :legend — true or { position: 'top' | 'right' } — shown by default for multi-series charts.. @bar-click / @point-click / @slice-click — Mark-click events — each carries ClickEvent { event, datum, index }.",
+      "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "vd3 Charts is a standalone SVG-first package for common dashboard charts, installed separately from the framework. It renders accessible SVG, reads vd3 theme tokens, and ships an optional 3 binding ( @vanduo-oss/vd3-cbun/charts ) used here.",
+          "text": "vd3 Charts is the SVG-first data visualization widget from @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/charts ). It features full WAI-ARIA Graphics Module 1.0 semantics, roving keyboard arrow navigation with live focus rings, an auto-generated accessible data table fallback (WCAG 1.1.1), and native dark/light theme integration.",
           "heading": "Charts"
         },
         {
           "type": "paragraph",
-          "text": "VdChart forwards clicks on marks as events — @bar-click , @point-click , and @slice-click — each carrying a ClickEvent { event, datum, index } . Click a bar:",
-          "heading": "Mark clicks (new in 1.3.0)"
+          "text": "Bar, line, area, scatter, donut, and pie — automatic dimension measurement and responsive resize. Click a donut or pie slice to see @slice-click .",
+          "heading": "Core Chart Types"
         },
         {
           "type": "paragraph",
-          "text": "No bar clicked yet.",
-          "heading": "Mark clicks (new in 1.3.0)"
+          "text": "Handles mixed positive and negative values from zero baseline, multi-series grouped bars with legends, reference line annotations, and 2D scatter plots.",
+          "heading": "Data Accuracy & Advanced Features"
         },
         {
           "type": "paragraph",
-          "text": "Multi-series, value labels, per-point colour, reference-line annotations and pinned axis ranges — all opt-in, so default charts render unchanged.",
-          "heading": "New in 0.2.0"
+          "text": "Most web chart libraries apply role=\"img\" to the entire SVG, which instructs screen readers to treat the chart as a static flattened image and ignore all internal data marks. vd3 Charts implements the official W3C WAI-ARIA Graphics Module 1.0 specification:",
+          "heading": "WAI-ARIA Graphics Module 1.0 Architecture"
+        },
+        {
+          "type": "paragraph",
+          "text": "Applied to the root <svg> with aria-roledescription=\"[type] chart\" so screen readers recognize it as a structured graphical document containing interactive objects.",
+          "heading": "WAI-ARIA Graphics Module 1.0 Architecture"
+        },
+        {
+          "type": "paragraph",
+          "text": "Applied to mark containers, series groups, and annotations with contextual aria-roledescription (e.g. \"data points\" , \"grouped bars\" ).",
+          "heading": "WAI-ARIA Graphics Module 1.0 Architecture"
+        },
+        {
+          "type": "paragraph",
+          "text": "Applied to individual marks (bars, points, slices) with descriptive aria-roledescription and accessible value labels (e.g. \"Jan: $120k\" ).",
+          "heading": "WAI-ARIA Graphics Module 1.0 Architecture"
+        },
+        {
+          "type": "paragraph",
+          "text": "Applied to decorative Cartesian axes, tick marks, and background grid lines to prevent screen reader clutter.",
+          "heading": "WAI-ARIA Graphics Module 1.0 Architecture"
+        },
+        {
+          "type": "paragraph",
+          "text": "In addition to SVG graphics roles, every chart generates a semantic <table> (with <caption> , <th scope=\"col\"> , and <th scope=\"row\"> ) matching WCAG 1.1.1 Technique G73/G74 . Assistive technology users can navigate the full dataset with native table reading shortcuts.",
+          "heading": "WAI-ARIA Graphics Module 1.0 Architecture"
         },
         {
           "type": "class",
-          "text": "type=\"bar\" — Category bars with band scale, axes, grid lines, tooltips, bar-click events.",
+          "text": "Tab / Shift+Tab — Enter or leave the interactive chart mark group.",
+          "heading": "Keyboard Navigation Shortcuts"
+        },
+        {
+          "type": "class",
+          "text": "ArrowRight / ArrowDown — Move focus to the next data mark (cycles with wraparound) and displays its tooltip.",
+          "heading": "Keyboard Navigation Shortcuts"
+        },
+        {
+          "type": "class",
+          "text": "ArrowLeft / ArrowUp — Move focus to the previous data mark (cycles with wraparound) and displays its tooltip.",
+          "heading": "Keyboard Navigation Shortcuts"
+        },
+        {
+          "type": "class",
+          "text": "Home — Jump keyboard focus directly to the first data mark.",
+          "heading": "Keyboard Navigation Shortcuts"
+        },
+        {
+          "type": "class",
+          "text": "End — Jump keyboard focus directly to the last data mark.",
+          "heading": "Keyboard Navigation Shortcuts"
+        },
+        {
+          "type": "class",
+          "text": "Enter / Space — Trigger the mark's click callback (e.g. @bar-click, @point-click, @slice-click).",
+          "heading": "Keyboard Navigation Shortcuts"
+        },
+        {
+          "type": "class",
+          "text": "Escape — Blur the focused mark and dismiss the active tooltip.",
+          "heading": "Keyboard Navigation Shortcuts"
+        },
+        {
+          "type": "class",
+          "text": "type=\"bar\" — Category bars with band scale, axes, grid lines, negative y handling, keyboard arrow navigation, and data table fallback.",
           "heading": "Chart Types"
         },
         {
           "type": "class",
-          "text": "type=\"line\" — Line path with optional points over category, number, or date-like x.",
+          "text": "type=\"line\" — Line path with interactive circle marks over category, numeric, or date-like x values.",
           "heading": "Chart Types"
         },
         {
           "type": "class",
-          "text": "type=\"area\" — Filled area plus line path, sharing the cartesian infrastructure.",
+          "text": "type=\"area\" — Filled area path closing to zero baseline plus line path, sharing the cartesian scale engine.",
           "heading": "Chart Types"
         },
         {
           "type": "class",
-          "text": "type=\"scatter\" — Circle marks over numeric, date-like, or categorical x.",
+          "text": "type=\"scatter\" — Circle marks over 2D numeric, date-like, or categorical scales with point click handling.",
           "heading": "Chart Types"
         },
         {
           "type": "class",
-          "text": "type=\"donut\" — Arc slices, default inner-radius-ratio 0.62, center total, legend.",
+          "text": "type=\"donut\" — Arc slices with inner-radius ratio (default 0.62), percentage tooltips, center total summary, and legend.",
           "heading": "Chart Types"
         },
         {
           "type": "class",
-          "text": "type=\"pie\" — Same polar renderer with inner-radius-ratio 0.",
+          "text": "type=\"pie\" — Full pie polar renderer with inner-radius ratio 0.",
           "heading": "Chart Types"
         },
         {
           "type": "class",
           "text": ":type — 'bar' | 'line' | 'area' | 'scatter' | 'donut' | 'pie' (default 'bar').",
-          "heading": "Component API"
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
           "text": ":data — Array of row objects.",
-          "heading": "Component API"
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
-          "text": "x / y — Cartesian accessors — key string or function.",
-          "heading": "Component API"
+          "text": "x / y — Cartesian accessors — field key string or (datum) => value function.",
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
           "text": "label / value — Pie / donut accessors.",
-          "heading": "Component API"
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
-          "text": "title / description — Rendered into SVG accessibility metadata.",
-          "heading": "Component API"
+          "text": "title / description — Rendered into SVG accessibility metadata (<title> and <desc> tags).",
+          "heading": "Component API (Props & Events)"
+        },
+        {
+          "type": "class",
+          "text": ":data-table — true (sr-only, default) | 'visible' | false. Auto-generates an accessible <table> fulfilling WCAG 1.1.1 Level A.",
+          "heading": "Component API (Props & Events)"
+        },
+        {
+          "type": "class",
+          "text": ":aria-role-description — Custom ARIA role description override for the SVG shell (defaults to `${type} chart`).",
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
           "text": ":height — Container min-height in px (default 300).",
-          "heading": "Component API"
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
-          "text": ":theme / :tooltip / :responsive — Theme overrides, custom/disabled tooltip, responsive resize.",
-          "heading": "Component API"
+          "text": ":theme / :tooltip / :responsive — Theme overrides, custom/disabled tooltip, responsive resize observer.",
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
-          "text": ":series — Multiple series — grouped bars, or one line/area path each (Series[]). New in 0.2.0.",
-          "heading": "Component API"
+          "text": ":series — Multiple series — grouped bars, or one line/area path each (Series[]).",
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
-          "text": ":color — A color, a category-field name, or a per-datum (row) => color. New in 0.2.0.",
-          "heading": "Component API"
+          "text": ":color — A color string, category-field name, or per-datum (row) => color callback.",
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
-          "text": ":data-labels — true or { format, color } — draw value labels on each mark. New in 0.2.0.",
-          "heading": "Component API"
+          "text": ":data-labels — true or { format, color } — draw value labels on each mark.",
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
-          "text": ":annotations — Reference lines: [{ y?, x?, label?, color?, dash? }]. New in 0.2.0.",
-          "heading": "Component API"
+          "text": ":annotations — Reference lines: [{ y?, x?, label?, color?, dash? }].",
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
-          "text": ":y-min / :y-max / :y-tick-count — Pin axis bounds and tick density (otherwise auto-scaled). New in 0.2.0.",
-          "heading": "Component API"
+          "text": ":y-min / :y-max / :y-tick-count — Pin axis bounds and tick density (supports negative floors and clamped baselines).",
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
-          "text": ":legend — true or { position } — shown by default for multi-series charts. New in 0.2.0.",
-          "heading": "Component API"
+          "text": ":legend — true or { position: 'top' | 'right' } — shown by default for multi-series charts.",
+          "heading": "Component API (Props & Events)"
         },
         {
           "type": "class",
-          "text": "@bar-click / @point-click / @slice-click — Mark-click events — each carries a ClickEvent { event, datum, index }. New in 1.3.0.",
-          "heading": "Component API"
+          "text": "@bar-click / @point-click / @slice-click — Mark-click events — each carries ClickEvent { event, datum, index }.",
+          "heading": "Component API (Props & Events)"
         }
       ]
     },
@@ -1788,10 +1854,11 @@
         "Events",
         "Exposed methods (template ref)",
         "Framework-agnostic helpers",
+        "Tokenizer-only highlight subpath",
         "variables",
         "Accessibility"
       ],
-      "bodyText": "A lightweight, secure code editor built on the textarea-overlay model: a native <textarea> handles all editing (caret, selection, IME, undo/redo, clipboard, accessibility, mobile) while a first-party, ReDoS-safe tokenizer paints a syntax-highlight layer beneath it. No third-party editor and no runtime dependency beyond — and rendering is escaping-safe (no innerHTML ).. Ships in the components bundle at @vanduo-oss/vd3-cbun/code-editor . v1 highlights JavaScript/TypeScript, , , JSON, Markdown, Shell, and Python, with a line-number gutter, auto-indent + bracket/quote auto-close, read-only mode, a button, a placeholder, and a large-input performance guard. It adapts to the active vd3 theme via --vd-* tokens.. Live v-model + reactive props — switch language and toggle features; the bound value updates as you type.. Bound value: 198 chars · 11 lines. A non-editable, syntax-highlighted viewer. The button still works.. An empty editor shows placeholder text until you type.. wrap soft-wraps long lines (the gutter and active-line highlight turn off while wrapping).. The subpath also re-exports the pure tokenizer helpers (no DOM) and the core class as VdCodeEditorCore .. v-model / modelValue — string. language — string. readOnly — boolean. lineNumbers — boolean. tabSize — number. wrap — boolean. autoClose — boolean. placeholder — string. maxLength — number. highlightActiveLine — boolean. spellcheck — boolean. ariaLabel — string. @update:modelValue — v-model — emits the new contents string.. @change — Contents changed; payload is the string value.. @focus / @blur — Native focus / blur events.. @ready — Emitted once with the framework-agnostic core instance.. getInstance() — The framework-agnostic core editor instance.. focus() / blur() — Move focus in / out of the editor.. getValue() / setValue(v) — Read / replace the contents.. getSelection() — { start, end, text } of the current selection.. setSelection(start, end?) — Set the selection range.. insertText(text) — Insert text at the caret (replacing any selection).. getContainer() — The root container element.",
+      "bodyText": "A lightweight, secure code editor built on the textarea-overlay model: a native <textarea> handles all editing (caret, selection, IME, undo/redo, clipboard, accessibility, mobile) while a first-party, ReDoS-safe tokenizer paints a syntax-highlight layer beneath it. No third-party editor and no runtime dependency beyond — and rendering is escaping-safe (no innerHTML ).. Ships in the components bundle at @vanduo-oss/vd3-cbun/code-editor . v1 highlights JavaScript/TypeScript, , SFC, , JSON, Markdown, Shell, and Python, with a line-number gutter, auto-indent + bracket/quote auto-close, read-only mode, a button, a placeholder, and a large-input performance guard. It adapts to the active vd3 theme via --vd-* tokens.. Live v-model + reactive props — switch language and toggle features; the bound value updates as you type.. Bound value: 198 chars · 11 lines. A non-editable, syntax-highlighted viewer. The button still works.. An empty editor shows placeholder text until you type.. wrap soft-wraps long lines (the gutter and active-line highlight turn off while wrapping). Wrap mode shares scrollbar-gutter: stable on the textarea and highlight layer so a visible scrollbar no longer misaligns the caret.. The subpath also re-exports the pure tokenizer helpers (no DOM) and the core class as VdCodeEditorCore .. For static code snippets or SSR where the editor UI is not needed, @vanduo-oss/vd3-cbun/code-editor/highlight provides a tree-shakeable tokenizer and highlighter without loading or the editor core.. v-model / modelValue — string. language — string. readOnly — boolean. lineNumbers — boolean. tabSize — number. wrap — boolean. autoClose — boolean. placeholder — string. maxLength — number. highlightActiveLine — boolean. maxHighlightLength — number. spellcheck — boolean. ariaLabel — string. @update:modelValue — v-model — emits the new contents string.. @change — Contents changed; payload is the string value.. @focus / @blur — Native focus / blur events.. @ready — Emitted once with the framework-agnostic core instance.. getInstance() — The framework-agnostic core editor instance.. focus() / blur() — Move focus in / out of the editor.. getValue() / setValue(v) — Read / replace the contents.. getSelection() — { start, end, text } of the current selection.. setSelection(start, end?) — Set the selection range.. insertText(text) — Insert text at the caret (replacing any selection).. getContainer() — The root container element.",
       "classes": [],
       "chunks": [
         {
@@ -1801,7 +1868,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Ships in the components bundle at @vanduo-oss/vd3-cbun/code-editor . v1 highlights JavaScript/TypeScript, , , JSON, Markdown, Shell, and Python, with a line-number gutter, auto-indent + bracket/quote auto-close, read-only mode, a button, a placeholder, and a large-input performance guard. It adapts to the active vd3 theme via --vd-* tokens.",
+          "text": "Ships in the components bundle at @vanduo-oss/vd3-cbun/code-editor . v1 highlights JavaScript/TypeScript, , SFC, , JSON, Markdown, Shell, and Python, with a line-number gutter, auto-indent + bracket/quote auto-close, read-only mode, a button, a placeholder, and a large-input performance guard. It adapts to the active vd3 theme via --vd-* tokens.",
           "heading": "Code Editor"
         },
         {
@@ -1826,7 +1893,7 @@
         },
         {
           "type": "paragraph",
-          "text": "wrap soft-wraps long lines (the gutter and active-line highlight turn off while wrapping).",
+          "text": "wrap soft-wraps long lines (the gutter and active-line highlight turn off while wrapping). Wrap mode shares scrollbar-gutter: stable on the textarea and highlight layer so a visible scrollbar no longer misaligns the caret.",
           "heading": "Soft wrap"
         },
         {
@@ -1877,6 +1944,11 @@
         {
           "type": "class",
           "text": "highlightActiveLine — boolean",
+          "heading": "Props"
+        },
+        {
+          "type": "class",
+          "text": "maxHighlightLength — number",
           "heading": "Props"
         },
         {
@@ -1948,6 +2020,11 @@
           "type": "paragraph",
           "text": "The subpath also re-exports the pure tokenizer helpers (no DOM) and the core class as VdCodeEditorCore .",
           "heading": "Framework-agnostic helpers"
+        },
+        {
+          "type": "paragraph",
+          "text": "For static code snippets or SSR where the editor UI is not needed, @vanduo-oss/vd3-cbun/code-editor/highlight provides a tree-shakeable tokenizer and highlighter without loading or the editor core.",
+          "heading": "Tokenizer-only highlight subpath"
         }
       ]
     },
@@ -2904,7 +2981,9 @@
       ],
       "headings": [
         "Draw",
-        "Sketchpad",
+        "Interactive Sketchpad",
+        "Brush Presets & Physics",
+        "Export Studio (SVG & PNG)",
         "API Reference",
         "Install",
         "Usage",
@@ -2913,13 +2992,48 @@
         "Brushes",
         "Exposed methods (template ref)"
       ],
-      "bodyText": "vd3 Draw is a standalone SVG drawing tool from @vanduo-oss/vd3-cbun/draw . Its dependency-free brush engine turns freehand strokes into smooth, variable-width marks (pressure- and velocity-aware). Pick a brush (pen, pencil, marker, highlighter, calligraphy) and a color from the built-in palette, set size and opacity, and paint — or switch to the eraser, shapes, or sticky notes. Want room to think? Hit Full screen to sketch across the whole viewport ( Esc to come back). The chrome themes with the active --vd-* palette and light / dark mode; your marks keep the color you pick.. :data — Drawing document ({ shapes, viewport }); updates flow through load().. tool — Active tool — 'draw', 'eraser', 'select', 'hand', shapes… (default 'draw').. :readonly — Render as a non-editable viewer (no toolbar).. :gridSize / :snap — Background grid size; snap-to-edges (default on).. :history / :historyLimit — Toggle undo history and cap the snapshot count.. @change / @select / @viewport — Forwarded editor events (pan/zoom is not undoable).. @ready — Emitted once with the underlying VdDraw instance.. brush — Paint variable-width strokes with the active brush + color.. eraser — Drag to erase whole strokes / shapes you cross.. select / hand — Select, move, resize (select); pan the canvas (hand).. rectangle / ellipse / arrow — Secondary vector shapes in the current color.. text / sticky — Editable text and sticky notes.. pen — Crisp, pressure-tapered ink.. pencil — Thin, slightly textured, softer opacity.. marker — Thick, flat, semi-opaque.. highlighter — Wide, translucent, multiply blend (overlaps darken).. calligraphy — Fixed-angle nib — width follows stroke direction.. setColor / setBrush — Set the current color / brush preset for the next mark.. setBrushSize / setOpacity — Set the current brush size / opacity.. setGridSize / toggleGrid — Resize the grid cells / show + hide the grid.. undo / redo — Step through the whole-document history.. toSVG / toPNG — Export the drawing (self-contained SVG string / PNG data URL).. getInstance — The underlying VdDrawCore for imperative use.",
+      "bodyText": "vd3 Draw is a vector drawing & sketchpad tool from @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/draw ). Its dependency-free brush engine turns freehand strokes into smooth, variable-width marks (pressure- and velocity-aware). Pick from 5 artistic brushes (pen, pencil, marker, highlighter, calligraphy) and a color from the built-in palette, or switch to geometric shapes, arrows, and auto-wrapping sticky notes. The chrome themes seamlessly with the active --vd-* palette and light / dark mode; your marks preserve their true vector colors.. Each brush preset uses customized velocity smoothing, streamline interpolation, and taper curves. Click any preset to activate it immediately on the sketchpad above:. Crisp, pressure-tapered ink.. Thin, textured, softer opacity for expressive sketch lines.. Thick, flat, semi-opaque stroke with bold weight.. Wide, translucent, multiply blend mode (overlaps darken).. Fixed 45° chisel nib — line width responds to stroke angle.. Export standalone, self-contained vector SVGs or high-resolution PNGs directly from the canvas. Arrow markers, colors, and multi-line texts are preserved in the export:. :data — Drawing document ({ shapes, viewport }); updates flow through load().. tool — Active tool — 'draw', 'eraser', 'select', 'hand', shapes… (default 'draw').. :readonly — Render as a non-editable viewer (no toolbar).. :gridSize / :snap — Background grid size; snap-to-edges (default on).. :history / :historyLimit — Toggle undo history and cap the snapshot count.. @change / @select / @viewport — Forwarded editor events (`change.reason`, `select.ids`, viewport pan/zoom).. @ready — Emitted once with the underlying VdDraw instance.. brush — Paint variable-width strokes with the active brush + color.. eraser — Drag to erase whole strokes / shapes with visual radius circle.. select — Select, move, and resize shapes with compass direction cursors.. hand — Pan the infinite canvas with grab / grabbing cursor feedback.. rectangle / ellipse / arrow — Secondary vector shapes and arrows with matching arrowhead colors.. text / sticky — Editable text and sticky notes with automatic word wrapping.. pen — Crisp, pressure-tapered ink.. pencil — Thin, slightly textured, softer opacity.. marker — Thick, flat, semi-opaque.. highlighter — Wide, translucent, multiply blend (overlaps darken).. calligraphy — Fixed-angle nib — width follows stroke direction.. setReadonly / setSnap / setHistoryEnabled / setHistoryLimit — Update option props through surgical setters (no editor remount).. addShape / updateShape / removeShape / getShape / getShapes — Template-ref CRUD for shapes.. clear / load / toJSON — Replace, wipe, or serialize the document.. fitView(padding?) — Fit the viewport to content on the core instance (default padding 40).. setColor / setBrush — Set the current color / brush preset for the next mark.. setBrushSize / setOpacity — Set the current brush size / opacity.. setGridSize / toggleGrid — Resize the grid cells / show + hide the grid.. undo / redo — Step through the whole-document history.. toSVG / toPNG — Export the drawing (self-contained SVG string / PNG data URL).. getInstance — The underlying VdDrawCore for imperative use.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "vd3 Draw is a standalone SVG drawing tool from @vanduo-oss/vd3-cbun/draw . Its dependency-free brush engine turns freehand strokes into smooth, variable-width marks (pressure- and velocity-aware). Pick a brush (pen, pencil, marker, highlighter, calligraphy) and a color from the built-in palette, set size and opacity, and paint — or switch to the eraser, shapes, or sticky notes. Want room to think? Hit Full screen to sketch across the whole viewport ( Esc to come back). The chrome themes with the active --vd-* palette and light / dark mode; your marks keep the color you pick.",
+          "text": "vd3 Draw is a vector drawing & sketchpad tool from @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/draw ). Its dependency-free brush engine turns freehand strokes into smooth, variable-width marks (pressure- and velocity-aware). Pick from 5 artistic brushes (pen, pencil, marker, highlighter, calligraphy) and a color from the built-in palette, or switch to geometric shapes, arrows, and auto-wrapping sticky notes. The chrome themes seamlessly with the active --vd-* palette and light / dark mode; your marks preserve their true vector colors.",
           "heading": "Draw"
+        },
+        {
+          "type": "paragraph",
+          "text": "Each brush preset uses customized velocity smoothing, streamline interpolation, and taper curves. Click any preset to activate it immediately on the sketchpad above:",
+          "heading": "Brush Presets & Physics"
+        },
+        {
+          "type": "paragraph",
+          "text": "Crisp, pressure-tapered ink.",
+          "heading": "Brush Presets & Physics"
+        },
+        {
+          "type": "paragraph",
+          "text": "Thin, textured, softer opacity for expressive sketch lines.",
+          "heading": "Brush Presets & Physics"
+        },
+        {
+          "type": "paragraph",
+          "text": "Thick, flat, semi-opaque stroke with bold weight.",
+          "heading": "Brush Presets & Physics"
+        },
+        {
+          "type": "paragraph",
+          "text": "Wide, translucent, multiply blend mode (overlaps darken).",
+          "heading": "Brush Presets & Physics"
+        },
+        {
+          "type": "paragraph",
+          "text": "Fixed 45° chisel nib — line width responds to stroke angle.",
+          "heading": "Brush Presets & Physics"
+        },
+        {
+          "type": "paragraph",
+          "text": "Export standalone, self-contained vector SVGs or high-resolution PNGs directly from the canvas. Arrow markers, colors, and multi-line texts are preserved in the export:",
+          "heading": "Export Studio (SVG & PNG)"
         },
         {
           "type": "class",
@@ -2948,7 +3062,7 @@
         },
         {
           "type": "class",
-          "text": "@change / @select / @viewport — Forwarded editor events (pan/zoom is not undoable).",
+          "text": "@change / @select / @viewport — Forwarded editor events (`change.reason`, `select.ids`, viewport pan/zoom).",
           "heading": "Component API"
         },
         {
@@ -2963,22 +3077,27 @@
         },
         {
           "type": "class",
-          "text": "eraser — Drag to erase whole strokes / shapes you cross.",
+          "text": "eraser — Drag to erase whole strokes / shapes with visual radius circle.",
           "heading": "Tools"
         },
         {
           "type": "class",
-          "text": "select / hand — Select, move, resize (select); pan the canvas (hand).",
+          "text": "select — Select, move, and resize shapes with compass direction cursors.",
           "heading": "Tools"
         },
         {
           "type": "class",
-          "text": "rectangle / ellipse / arrow — Secondary vector shapes in the current color.",
+          "text": "hand — Pan the infinite canvas with grab / grabbing cursor feedback.",
           "heading": "Tools"
         },
         {
           "type": "class",
-          "text": "text / sticky — Editable text and sticky notes.",
+          "text": "rectangle / ellipse / arrow — Secondary vector shapes and arrows with matching arrowhead colors.",
+          "heading": "Tools"
+        },
+        {
+          "type": "class",
+          "text": "text / sticky — Editable text and sticky notes with automatic word wrapping.",
           "heading": "Tools"
         },
         {
@@ -3005,6 +3124,26 @@
           "type": "class",
           "text": "calligraphy — Fixed-angle nib — width follows stroke direction.",
           "heading": "Brushes"
+        },
+        {
+          "type": "class",
+          "text": "setReadonly / setSnap / setHistoryEnabled / setHistoryLimit — Update option props through surgical setters (no editor remount).",
+          "heading": "Exposed methods (template ref)"
+        },
+        {
+          "type": "class",
+          "text": "addShape / updateShape / removeShape / getShape / getShapes — Template-ref CRUD for shapes.",
+          "heading": "Exposed methods (template ref)"
+        },
+        {
+          "type": "class",
+          "text": "clear / load / toJSON — Replace, wipe, or serialize the document.",
+          "heading": "Exposed methods (template ref)"
+        },
+        {
+          "type": "class",
+          "text": "fitView(padding?) — Fit the viewport to content on the core instance (default padding 40).",
+          "heading": "Exposed methods (template ref)"
         },
         {
           "type": "class",
@@ -3809,12 +3948,12 @@
         "Events",
         "Exposed methods (template ref)"
       ],
-      "bodyText": "vd3 Flowchart is a standalone SVG flowchart editor from @vanduo-oss/vd3-cbun/flowchart . Drag from the palette, connect ports, edit text inline, auto-arrange layouts, and export/import JSON. The demo below loads a radial mind map with branches and sub-topics. The toolbar Arrange control is a single <select> with three layout modes — Tree , Radial , and Grid — and always shows the active mode (no placeholder row). Hit Full screen to work across the whole viewport ( Esc to come back). The chrome themes with the active --vd-flowchart-* tokens and the site light / dark mode.. :data — Flowchart document ({ nodes, edges, viewport? }); updates flow through the editor's load().. :readonly — Render as a non-editable viewer (hides palette and inspector).. :gridSize — Background grid size in px.. :preserveSelection — Keep the current selection across data-driven reloads when possible.. :autoFit — Fit the view to content once the editor reports a measurable size.. :history / :historyLimit — Toggle undo history and cap the snapshot count.. @change / @select / @viewport / @connect — Forwarded editor events (pan/zoom is not undoable).. @ready — Emitted once with the underlying VdFlowchart instance.. rounded-rect — Primary flow step. rect — Sharp process block. diamond — Decision. circle — Start or end state. textbox — Notes or descriptive payload. label — Free text annotation. junction — Fixed-size branch or merge point. change — Document mutated (add/move/edit). Resize completion fires with reason: 'node:resize'.. select — Selection changed; payload carries the selection snapshot.. viewport — Pan/zoom changed.. connect — A pointer-created edge connected two ports.. undo / redo — Step through the whole-document history.. layout(mode?) — Auto-arrange nodes — exactly three modes: 'tree', 'radial', or 'grid' (default 'tree'). The toolbar select mirrors the active mode.. getInstance() — The underlying VdFlowchartCore — fitView(), toJSON(), addNode(), etc.",
+      "bodyText": "vd3 Flowchart is an SVG flowchart editor from @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/flowchart ). Drag from the palette, connect ports, edit text inline, auto-arrange layouts, and export/import JSON. The demo below loads a radial mind map with branches and sub-topics. The toolbar Arrange control is a single <select> with three layout modes — Tree , Radial , and Grid — and always shows the active mode (no placeholder row). Hit Full screen to work across the whole viewport ( Esc to come back). The chrome themes with the active --vd-flowchart-* tokens and the site light / dark mode.. :data — Flowchart document ({ nodes, edges, viewport? }); updates flow through the editor's load().. :readonly — Render as a non-editable viewer (hides palette and inspector).. :gridSize — Background grid size in px.. :preserveSelection — Keep the current selection across data-driven reloads when possible.. :autoFit — Fit the view to content once the editor reports a measurable size.. :history / :historyLimit — Toggle undo history and cap the snapshot count.. @change / @select / @viewport / @connect — Forwarded editor events (pan/zoom is not undoable).. @ready — Emitted once with the underlying VdFlowchart instance.. rounded-rect — Primary flow step. rect — Sharp process block. diamond — Decision. circle — Start or end state. textbox — Notes or descriptive payload. label — Free text annotation. junction — Fixed-size branch or merge point. change — Document mutated (add/move/edit). Resize completion fires with reason: 'node:resize'.. select — Selection changed; payload carries the selection snapshot.. viewport — Pan/zoom changed.. connect — A pointer-created edge connected two ports.. undo / redo — Step through the whole-document history.. layout(mode?) — Auto-arrange nodes — exactly three modes: 'tree', 'radial', or 'grid' (default 'tree'). The toolbar select mirrors the active mode.. getInstance() — The underlying VdFlowchartCore — fitView(), toJSON(), addNode(), etc.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "vd3 Flowchart is a standalone SVG flowchart editor from @vanduo-oss/vd3-cbun/flowchart . Drag from the palette, connect ports, edit text inline, auto-arrange layouts, and export/import JSON. The demo below loads a radial mind map with branches and sub-topics. The toolbar Arrange control is a single <select> with three layout modes — Tree , Radial , and Grid — and always shows the active mode (no placeholder row). Hit Full screen to work across the whole viewport ( Esc to come back). The chrome themes with the active --vd-flowchart-* tokens and the site light / dark mode.",
+          "text": "vd3 Flowchart is an SVG flowchart editor from @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/flowchart ). Drag from the palette, connect ports, edit text inline, auto-arrange layouts, and export/import JSON. The demo below loads a radial mind map with branches and sub-topics. The toolbar Arrange control is a single <select> with three layout modes — Tree , Radial , and Grid — and always shows the active mode (no placeholder row). Hit Full screen to work across the whole viewport ( Esc to come back). The chrome themes with the active --vd-flowchart-* tokens and the site light / dark mode.",
           "heading": "Flowchart"
         },
         {
@@ -5020,17 +5159,24 @@
         "Events",
         "Pure math ( /hex-math )"
       ],
-      "bodyText": "vd3 Hex Grid is a standalone, canvas-rendered axial hex grid, installed separately from the framework. Pan, zoom, select hexes, and attach terrain or custom data. It reads vd3 theme tokens, ships a pure @vanduo-oss/vd3-cbun/hex-grid/hex-math subexport, and an optional 3 binding ( @vanduo-oss/vd3-cbun/hex-grid ) used here.. Axial coordinate math and terrain tables, importable without a canvas or the DOM — handy for game logic, tests, or Node.. :size — Hexagon size in px (default 30).. :width / :height — Grid columns / rows in hexes (default 10).. :rotation — Grid rotation in radians (default 0).. @select / @zoom / @pan — Forwarded interaction events.. @ready — Emitted once with the underlying VdHexGrid instance.. getInstance() — Template ref expose — call imperative API methods.. select — A hex was clicked; payload is the hex (with q, r).. zoom — Zoom changed; payload { scale }.. pan — Pan reset; payload { x, y } (emitted on resetView).",
+      "bodyText": "vd3 Hex Grid is a canvas-rendered axial hex grid from @vanduo-oss/vd3-cbun . Pan, zoom, select hexes, and attach terrain or custom data. HiDPI pixelRatio , viewport cull , and getRenderStats() keep large grids sharp and observable. It reads vd3 theme tokens, ships a pure @vanduo-oss/vd3-cbun/hex-grid/hex-math subexport, and the component ( @vanduo-oss/vd3-cbun/hex-grid ) used here.. Visible 0 / 0 · mode sharp · 0.0ms · DPR 1. Axial coordinate math and terrain tables, importable without a canvas or the DOM — handy for game logic, tests, or Node.. Distance from (0,0) → (2, -1) : 2. Neighbors of (0,0): (1,0), (1,-1), (0,-1), (-1,0), (-1,1), (0,1). :size — Hexagon size in px (default 30).. :width / :height — Grid columns / rows in hexes (default 10).. :rotation — Grid rotation in radians (default 0).. :pixel-ratio — `'auto'` (default, clamped to 2) or an explicit DPR for HiDPI canvas buffers.. :cull — Viewport culling (default true) — only visible hexes are drawn; false draws the full grid.. @select / @zoom / @pan — Forwarded interaction events.. @ready — Emitted once with the underlying VdHexGrid instance.. getVisibleHexes / getRenderStats — Imperative observability on the ready instance (culled set + last-frame metrics).. getInstance() — Template ref expose — call imperative API methods.. select — A hex was clicked; payload is the hex (with q, r).. zoom — Zoom changed; payload { scale }.. pan — Pan reset; payload { x, y } (emitted on resetView).",
       "classes": [
         ":size",
         ":width / :height",
-        ":rotation"
+        ":rotation",
+        ":pixel-ratio",
+        ":cull"
       ],
       "chunks": [
         {
           "type": "paragraph",
-          "text": "vd3 Hex Grid is a standalone, canvas-rendered axial hex grid, installed separately from the framework. Pan, zoom, select hexes, and attach terrain or custom data. It reads vd3 theme tokens, ships a pure @vanduo-oss/vd3-cbun/hex-grid/hex-math subexport, and an optional 3 binding ( @vanduo-oss/vd3-cbun/hex-grid ) used here.",
+          "text": "vd3 Hex Grid is a canvas-rendered axial hex grid from @vanduo-oss/vd3-cbun . Pan, zoom, select hexes, and attach terrain or custom data. HiDPI pixelRatio , viewport cull , and getRenderStats() keep large grids sharp and observable. It reads vd3 theme tokens, ships a pure @vanduo-oss/vd3-cbun/hex-grid/hex-math subexport, and the component ( @vanduo-oss/vd3-cbun/hex-grid ) used here.",
           "heading": "Hex Grid"
+        },
+        {
+          "type": "paragraph",
+          "text": "Visible 0 / 0 · mode sharp · 0.0ms · DPR 1",
+          "heading": "Grid Controls"
         },
         {
           "type": "class",
@@ -5049,12 +5195,27 @@
         },
         {
           "type": "class",
+          "text": ":pixel-ratio — `'auto'` (default, clamped to 2) or an explicit DPR for HiDPI canvas buffers.",
+          "heading": "Component API"
+        },
+        {
+          "type": "class",
+          "text": ":cull — Viewport culling (default true) — only visible hexes are drawn; false draws the full grid.",
+          "heading": "Component API"
+        },
+        {
+          "type": "class",
           "text": "@select / @zoom / @pan — Forwarded interaction events.",
           "heading": "Component API"
         },
         {
           "type": "class",
           "text": "@ready — Emitted once with the underlying VdHexGrid instance.",
+          "heading": "Component API"
+        },
+        {
+          "type": "class",
+          "text": "getVisibleHexes / getRenderStats — Imperative observability on the ready instance (culled set + last-frame metrics).",
           "heading": "Component API"
         },
         {
@@ -5080,6 +5241,16 @@
         {
           "type": "paragraph",
           "text": "Axial coordinate math and terrain tables, importable without a canvas or the DOM — handy for game logic, tests, or Node.",
+          "heading": "Pure math ( /hex-math )"
+        },
+        {
+          "type": "paragraph",
+          "text": "Distance from (0,0) → (2, -1) : 2",
+          "heading": "Pure math ( /hex-math )"
+        },
+        {
+          "type": "paragraph",
+          "text": "Neighbors of (0,0): (1,0), (1,-1), (0,-1), (-1,0), (-1,1), (0,1)",
           "heading": "Pure math ( /hex-math )"
         }
       ]
@@ -6453,7 +6624,7 @@
         "Variables",
         "Accessibility"
       ],
-      "bodyText": "A fully accessible HTML5 audio player component with transport controls, volume, optional shuffle and repeat modes, seek bar, playlist, glass surface, and a detachable floating mode (corner placement, pointer-drag reposition, minimizable). Zero external dependencies, powered by the native Audio API, and it automatically adapts to the active vd3 theme.. Install the player separately from the core framework. All live demos below use a bundled sample playlist from Invent the Universe , with Pale Blue Dot as the default first track. Ships an optional 3 binding ( @vanduo-oss/vd3-cbun/music-player ) used here.. Default config — play/pause, prev/next, volume, track name.. Enable showProgress for a seek bar + elapsed/duration times.. Enable showPlaylist and showProgress for a fuller player. Shuffle and repeat are always on the control bar.. Minimal floating bar, no track name shown.. Standard layout with track name — use vd-music-player-sm or omit size classes.. Roomier padding and controls — vd-music-player-lg for featured placement.. Full-width bar with progress bar, repeat, shuffle, and playlist.. Add glass: true or the vd-music-player-glass class to any player size or layout. Uses the same frosted tokens as vd-glass in the core framework.. detachable: true , minimizable: true , draggable: false . Snap to a corner via floatingPosition or detach(el, position) .. draggable: true adds a drag handle when floating. Still supports minimize/expand. Free positioning overrides corner presets.. Drive the player through the exposed player instance.. All 10 player emits are captured here in real time.. A curated track set from Stellardrone , from the album Invent the Universe . Source: Bandcamp . Licensed under CC BY 4.0 . No changes were made to the bundled audio files.. :tracks — Playlist — [{ name, url }].. :options — Player options object (see Options below).. @play / @pause / @ended — Playback lifecycle.. @trackchange — Active track changed; detail { index, name, url }.. @volumechange / @repeatchange — Volume or repeat-mode changed.. @detach / @attach / @minimize / @expand — Floating-mode transitions.. @ready — Emitted once with the container element.. expose: player / container() — Imperative API + container accessor.. tracks — Array. volume — number. shuffle — boolean. repeat — string. showProgress — boolean. showPlaylist — boolean. autoAdvance — boolean. glass — boolean. detachable — boolean. floatingPosition — string. draggable — boolean. minimizable — boolean. startMinimized — boolean. persistPosition — boolean. persistKey — string. musicplayer:play — Playback started.. musicplayer:pause — Playback paused.. musicplayer:trackchange — Active track changed; detail { index, name, url }.. musicplayer:volumechange — Volume changed; detail { volume }.. musicplayer:repeatchange — Repeat mode changed; detail { repeat }.. musicplayer:ended — Fires when repeat is off and autoAdvance is false at track end.. musicplayer:detach — Player floated above the page.. musicplayer:attach — Player docked back into place.. musicplayer:minimize — Player collapsed to essential transport + volume.. musicplayer:expand — Player restored from minimized.",
+      "bodyText": "A fully accessible HTML5 audio player component with transport controls, volume, optional shuffle and repeat modes, seek bar, playlist, glass surface, and a detachable floating mode (corner placement, pointer-drag reposition, minimizable). Zero external dependencies, powered by the native Audio API, and it automatically adapts to the active vd3 theme.. Part of @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/music-player ). All live demos below use a bundled sample playlist from Invent the Universe , with Pale Blue Dot as the default first track.. Default config — play/pause, prev/next, volume, track name.. Enable showProgress for a seek bar + elapsed/duration times.. Enable showPlaylist and showProgress for a fuller player. Shuffle and repeat are always on the control bar.. Minimal floating bar, no track name shown.. Standard layout with track name — use vd-music-player-sm or omit size classes.. Roomier padding and controls — vd-music-player-lg for featured placement.. Full-width bar with progress bar, repeat, shuffle, and playlist.. Add glass: true or the vd-music-player-glass class to any player size or layout. Uses the same frosted tokens as vd-glass in the core framework.. detachable: true , minimizable: true , draggable: false . Snap to a corner via floatingPosition or detach(el, position) .. draggable: true adds a drag handle when floating. Still supports minimize/expand. Free positioning overrides corner presets.. Drive the player through the exposed player instance.. All 10 player emits are captured here in real time.. A curated track set from Stellardrone , from the album Invent the Universe . Source: Bandcamp . Licensed under CC BY 4.0 . No changes were made to the bundled audio files.. :tracks — Playlist — [{ name, url }].. :options — Player options object (see Options below).. @play / @pause / @ended — Playback lifecycle.. @trackchange — Active track changed; detail { index, name, url }.. @volumechange / @repeatchange — Volume or repeat-mode changed.. @detach / @attach / @minimize / @expand — Floating-mode transitions.. @ready — Emitted once with the container element.. expose: player / container() — Imperative API + container accessor.. tracks — Array. volume — number. shuffle — boolean. repeat — string. showProgress — boolean. showPlaylist — boolean. autoAdvance — boolean. glass — boolean. detachable — boolean. floatingPosition — string. draggable — boolean. minimizable — boolean. startMinimized — boolean. persistPosition — boolean. persistKey — string. musicplayer:play — Playback started.. musicplayer:pause — Playback paused.. musicplayer:trackchange — Active track changed; detail { index, name, url }.. musicplayer:volumechange — Volume changed; detail { volume }.. musicplayer:repeatchange — Repeat mode changed; detail { repeat }.. musicplayer:ended — Fires when repeat is off and autoAdvance is false at track end.. musicplayer:detach — Player floated above the page.. musicplayer:attach — Player docked back into place.. musicplayer:minimize — Player collapsed to essential transport + volume.. musicplayer:expand — Player restored from minimized.",
       "classes": [
         ":tracks",
         ":options"
@@ -6466,7 +6637,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Install the player separately from the core framework. All live demos below use a bundled sample playlist from Invent the Universe , with Pale Blue Dot as the default first track. Ships an optional 3 binding ( @vanduo-oss/vd3-cbun/music-player ) used here.",
+          "text": "Part of @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/music-player ). All live demos below use a bundled sample playlist from Invent the Universe , with Pale Blue Dot as the default first track.",
           "heading": "Music Player"
         },
         {
@@ -10067,7 +10238,7 @@
         "VdDataTable API ( 3)",
         "VdEmptyState API ( 3)"
       ],
-      "bodyText": "Presentational VdTable ( table) plus VdDataTable — client search, sort, selection, and paging via useTableState . Apps own fetch. Cell slots compose VdAvatar / VdBadge ; a dashboard recipe can sit a cbun VdChart above the grid.. Sortable headers expose aria-sort . columns.variant tints headers here (not on VdTable ). Search is client-side unless :manual .. No teammates yet. Invite someone to populate this grid.. Composition only — cbun charts stay in @vanduo-oss/vd3-cbun ; the table stays in vd3.. Select row 1 — AL Ada Lovelace. Select row 2 — GH Grace Hopper. Select row 3 — AT Alan Turing. Select row 4 — KJ Katherine Johnson. Select row 5 — DV Dorothy Vaughan. Ada Lovelace — Admin. Grace Hopper — Editor. Alan Turing — Viewer. Katherine Johnson — Editor. John Doe — [email&#160;protected]. Jane Smith — [email&#160;protected]. Mike Johnson — [email&#160;protected]. Product A — $29.99. Product B — $39.99. Product C — $49.99. #001 — Active. #002 — Pending. #003 — Failed. .vd-table — Base component class required for all vd3 tables.. .vd-table-bordered — Modifier class that adds borders to all outer boundaries and internal cells.. .vd-table-striped — Modifier class that adds alternating background colors to body rows (zebra striping).. .vd-table-hover — Modifier class that enables a hover background color effect on body rows.. .vd-table-responsive — Wrapper class that enables horizontal scrolling on small screens.. .vd-data-table — Interactive grid chrome wrapping .vd-table (toolbar, sticky header, footer).. .vd-empty — Reusable empty-state stack (icon, title, description, action).. :columns — Array of { key, label }. Optional variant is typed but not applied — VdTable is presentational markup.. :rows — Array of plain row objects keyed by each column's key.. :striped — Zebra row striping.. :bordered — Cell borders.. :hover — Row hover highlight.. :caption — Accessible table caption.. :columns — { key, label, sortable?, align?, width?, variant? }. variant adds vd-table-{variant} on the header cell.. :rows — Row objects. Apps own fetch; pass already-sliced rows with :manual.. :row-key — String key or (row, index) => id (default 'id').. :selectable — 'none' | 'single' | 'multiple'. Row + select-all checkboxes are labelled.. v-model:sort / v-model:selected / v-model:page — Controlled sort, selection, page.. :searchable / :search-keys / :search-placeholder — Toolbar VdInput filters client-side unless :manual.. :page-size / :manual / :loading — Paging; skip client pipeline; skeleton rows.. :empty-title / :empty-description / :max-height — Empty ; sticky-header scrollport.. :striped / :bordered / :hover / :sm / :caption — Same visual language as VdTable.",
+      "bodyText": "Presentational VdTable ( table) plus VdDataTable — client search, sort, selection, and paging via useTableState . Apps own fetch. Cell slots compose VdAvatar / VdBadge ; a dashboard recipe can sit a cbun VdChart above the grid.. Sortable headers expose aria-sort . columns.variant tints headers here (not on VdTable ). Search is client-side unless :manual .. No teammates yet. Invite someone to populate this grid.. Composition only — cbun charts stay in @vanduo-oss/vd3-cbun ; the table stays in vd3.. Select row 1 — AL Ada Lovelace. Select row 2 — GH Grace Hopper. Select row 3 — AT Alan Turing. Select row 4 — KJ Katherine Johnson. Select row 5 — DV Dorothy Vaughan. Ada Lovelace — Admin. Grace Hopper — Editor. Alan Turing — Viewer. Katherine Johnson — Editor. John Doe — john@example.com. Jane Smith — jane@example.com. Mike Johnson — mike@example.com. Product A — $29.99. Product B — $39.99. Product C — $49.99. #001 — Active. #002 — Pending. #003 — Failed. .vd-table — Base component class required for all vd3 tables.. .vd-table-bordered — Modifier class that adds borders to all outer boundaries and internal cells.. .vd-table-striped — Modifier class that adds alternating background colors to body rows (zebra striping).. .vd-table-hover — Modifier class that enables a hover background color effect on body rows.. .vd-table-responsive — Wrapper class that enables horizontal scrolling on small screens.. .vd-data-table — Interactive grid chrome wrapping .vd-table (toolbar, sticky header, footer).. .vd-empty — Reusable empty-state stack (icon, title, description, action).. :columns — Array of { key, label }. Optional variant is typed but not applied — VdTable is presentational markup.. :rows — Array of plain row objects keyed by each column's key.. :striped — Zebra row striping.. :bordered — Cell borders.. :hover — Row hover highlight.. :caption — Accessible table caption.. :columns — { key, label, sortable?, align?, width?, variant? }. variant adds vd-table-{variant} on the header cell.. :rows — Row objects. Apps own fetch; pass already-sliced rows with :manual.. :row-key — String key or (row, index) => id (default 'id').. :selectable — 'none' | 'single' | 'multiple'. Row + select-all checkboxes are labelled.. v-model:sort / v-model:selected / v-model:page — Controlled sort, selection, page.. :searchable / :search-keys / :search-placeholder — Toolbar VdInput filters client-side unless :manual.. :page-size / :manual / :loading — Paging; skip client pipeline; skeleton rows.. :empty-title / :empty-description / :max-height — Empty ; sticky-header scrollport.. :striped / :bordered / :hover / :sm / :caption — Same visual language as VdTable.",
       "classes": [
         ".vd-table",
         ".vd-table-bordered",
@@ -10169,17 +10340,17 @@
         },
         {
           "type": "class",
-          "text": "John Doe — [email&#160;protected]",
+          "text": "John Doe — john@example.com",
           "heading": "Bordered Table"
         },
         {
           "type": "class",
-          "text": "Jane Smith — [email&#160;protected]",
+          "text": "Jane Smith — jane@example.com",
           "heading": "Bordered Table"
         },
         {
           "type": "class",
-          "text": "Mike Johnson — [email&#160;protected]",
+          "text": "Mike Johnson — mike@example.com",
           "heading": "Bordered Table"
         },
         {
@@ -13702,7 +13873,7 @@
         "Hex grid",
         "Music player"
       ],
-      "bodyText": "Auxiliary optional widgets from @vanduo-oss/vd3-cbun — install only when a page needs charts, editors, or canvas tools.. CBUN is the optional companion to @vanduo-oss/vd3 . Each family lives on its own tree-shakeable subpath, so importing one never pulls in another. Scroll the showcase below for a live preview of every widget, then open the full docs demo or expand the frame.. SVG bar, line, and donut charts that read the same --vd-* tokens as the core kit. Import only @vanduo-oss/vd3-cbun/charts when a page needs data viz.. A lightweight syntax-highlighted editor for docs, playgrounds, and inline snippets — JavaScript, TypeScript, Python, JSON, Markdown, and more.. An SVG whiteboard with pressure-aware brushes, shapes, sticky notes, and export. Use it when a page needs freehand sketching without a heavy canvas stack.. Node-and-edge diagram editing with auto-fit, routing, and theme-aware chrome. Ideal for workflows, architecture sketches, and interactive docs.. Axial hex canvases with terrain helpers and pathfinding math. Canvas-based, no bundle — it picks up --vd-* colors from the page.. An HTML5 audio player with playlist, progress, shuffle, and detachable floating modes — styled to match the rest of the vd3 surface.",
+      "bodyText": "Auxiliary optional widgets from @vanduo-oss/vd3-cbun — install only when a page needs charts, editors, or canvas tools.. CBUN is the optional companion to @vanduo-oss/vd3 . Each family lives on its own tree-shakeable subpath, so importing one never pulls in another. Scroll the showcase below for a live preview of every widget, then open the full docs demo.. SVG-first charts with WAI-ARIA Graphics 1.0 semantics, keyboard arrow navigation, and WCAG 1.1.1 data table fallback. Reads the same --vd-* theme tokens.. A lightweight syntax-highlighted editor for docs, playgrounds, and inline snippets — JavaScript, TypeScript, Python, JSON, Markdown, and more.. An SVG whiteboard with pressure-aware brushes, shapes, sticky notes, and export. Use it when a page needs freehand sketching without a heavy canvas stack.. Node-and-edge diagram editing with auto-fit, routing, and theme-aware chrome. Ideal for workflows, architecture sketches, and interactive docs.. Axial hex canvases with terrain helpers and pathfinding math. Canvas-based, no bundle — it picks up --vd-* colors from the page.. An HTML5 audio player with playlist, progress, shuffle, and detachable floating modes — styled to match the rest of the vd3 surface.",
       "classes": [],
       "chunks": [
         {
@@ -13712,12 +13883,12 @@
         },
         {
           "type": "paragraph",
-          "text": "CBUN is the optional companion to @vanduo-oss/vd3 . Each family lives on its own tree-shakeable subpath, so importing one never pulls in another. Scroll the showcase below for a live preview of every widget, then open the full docs demo or expand the frame.",
+          "text": "CBUN is the optional companion to @vanduo-oss/vd3 . Each family lives on its own tree-shakeable subpath, so importing one never pulls in another. Scroll the showcase below for a live preview of every widget, then open the full docs demo.",
           "heading": "vd3 Components Bundle"
         },
         {
           "type": "paragraph",
-          "text": "SVG bar, line, and donut charts that read the same --vd-* tokens as the core kit. Import only @vanduo-oss/vd3-cbun/charts when a page needs data viz.",
+          "text": "SVG-first charts with WAI-ARIA Graphics 1.0 semantics, keyboard arrow navigation, and WCAG 1.1.1 data table fallback. Reads the same --vd-* theme tokens.",
           "heading": "Charts"
         },
         {
@@ -14043,8 +14214,33 @@
         },
         {
           "type": "paragraph",
-          "text": "A code-editor minor: snippet-safe first-party highlighter and a tokenizer-only subpath. Takes VD_CODE_EDITOR_VERSION 1.0.1 → 1.1.0 .",
+          "text": "Patch release: hex-grid adaptive rendering, draw vector polish, charts accessibility, and a code-editor wrap-mode caret fix. Additive and backward-compatible; only VD_HEX_VERSION takes a minor ( 1.0.1 → 1.1.0 ). VD_CHARTS_VERSION , VD_CODE_EDITOR_VERSION , and VD_DRAW_VERSION stay 1.1.0 .",
           "heading": "@vanduo-oss/vd3-cbun"
+        },
+        {
+          "type": "paragraph",
+          "text": "New pixelRatio ( number | 'auto' , default 'auto' ) and cull (default true ) keep sharp grids without redrawing every cell. Gesture frames coalesce; large views blit then re-render when idle. Adds getVisibleHexes() , getRenderStats() , setPixelRatio() , setCull() . See /canvas/hex .",
+          "heading": "Changed"
+        },
+        {
+          "type": "paragraph",
+          "text": "Freehand strokes are EMA-smoothed and Ramer–Douglas–Peucker simplified. Two-finger pinch-to-zoom and pan land for touch; text wraps to the shape width and is inline-editable on double-click. readonly / snap / history / historyLimit update through surgical setters instead of remounting the editor. fitView(padding?) takes optional padding (default 40 ). See /canvas/draw .",
+          "heading": "Changed"
+        },
+        {
+          "type": "paragraph",
+          "text": "WAI-ARIA Graphics Module 1.0 on the SVG shell, arrow keys move focus between marks, and an accessible data table ships by default as sr-only . dataTable: false suppresses it; dataTable: 'visible' shows it. ariaRoleDescription overrides the SVG role description. See /canvas/charts .",
+          "heading": "Changed"
+        },
+        {
+          "type": "paragraph",
+          "text": "Wrap mode reserves a shared scrollbar-gutter: stable on the textarea and highlight layer so a visible scrollbar no longer shrinks only the editable layer and misaligns the caret. See /editors/code-editor .",
+          "heading": "Changed"
+        },
+        {
+          "type": "paragraph",
+          "text": "A code-editor minor: snippet-safe first-party highlighter and a tokenizer-only subpath. Takes VD_CODE_EDITOR_VERSION 1.0.1 → 1.1.0 .",
+          "heading": "Changed"
         },
         {
           "type": "paragraph",
@@ -14149,31 +14345,6 @@
         {
           "type": "paragraph",
           "text": "Flowchart on @vanduo-oss/vd3-cbun/flowchart (+ /flowchart/ ), exposing VdFlowchartCore alongside the component. Component 1.2.0 .",
-          "heading": "New"
-        },
-        {
-          "type": "paragraph",
-          "text": "Hex grid on @vanduo-oss/vd3-cbun/hex-grid with the /hex-grid/hex-math helpers — canvas-rendered, reading --vd-* tokens (no ). Component 1.0.0 .",
-          "heading": "New"
-        },
-        {
-          "type": "paragraph",
-          "text": "Music player on @vanduo-oss/vd3-cbun/music-player (+ /music-player/ ). Component 1.0.0 .",
-          "heading": "New"
-        },
-        {
-          "type": "paragraph",
-          "text": "Each subpath re-exports both the component and its framework-agnostic core; a build-time guard bundles every entry separately with external and fails if inputs cross a component boundary. Versions surface via VD3_CBUN_VERSIONS , with 261 tests across 15 vitest files plus a Playwright real-canvas smoke.",
-          "heading": "New"
-        },
-        {
-          "type": "paragraph",
-          "text": "Package metadata with the full subpath-exports contract ( /charts , /flowchart , /hex-grid , /music-player ), a hardened pnpm install policy, and the Phase-0 esbuild harness.",
-          "heading": "New"
-        },
-        {
-          "type": "paragraph",
-          "text": "component-versions.json pins charts 1.0.0 , flowchart 1.2.0 , hex-grid 1.0.0 , and music-player 1.0.0 , asserted against the exported VD3_CBUN_VERSIONS map by a version-consistency test.",
           "heading": "New"
         }
       ]
@@ -14421,62 +14592,6 @@
           "type": "paragraph",
           "text": "Explore all components, utilities, and code examples.",
           "heading": "Browse Documentation"
-        }
-      ]
-    },
-    {
-      "id": "showcase",
-      "title": "Showcase",
-      "category": "Page",
-      "tab": "pages",
-      "tabTitle": "Pages",
-      "route": "/showcase",
-      "icon": "projector-screen",
-      "keywords": [
-        "showcase",
-        "demo",
-        "chess",
-        "spindrift",
-        "ikigai",
-        "scriptman",
-        "fighters",
-        "apps",
-        "examples",
-        "github pages"
-      ],
-      "headings": [
-        "Showcase",
-        "Spindrift Chess",
-        "Ikigai",
-        "Scriptman Fighters"
-      ],
-      "bodyText": "Real apps built with @vanduo-oss/vd3 — live demos, source on GitHub.. These projects dogfood the design system in the wild: chess runs on core vd3 alone; Ikigai and Scriptman Fighters also pull in optional CBUN packages (flowchart and code editor). Open a live demo or jump straight to the repo.. Browser chess on vd3 — human vs the Spindrift Engine in a Web Worker, with themes, strength levels, and move history. Fully static-hosted; no server required.. An interactive Ikigai purpose map using vd3 plus the CBUN flowchart canvas — rearrange tiles, export PNG/SVG/ , read the philosophy, and take the Ikigai-9 quiz. Map data stays in this browser only.. A fighting game where you write JavaScript to control AI fighters — vd3 UI plus the vd3-cbun code editor for custom scripts. Fully static-hosted.",
-      "classes": [],
-      "chunks": [
-        {
-          "type": "paragraph",
-          "text": "Real apps built with @vanduo-oss/vd3 — live demos, source on GitHub.",
-          "heading": "Showcase"
-        },
-        {
-          "type": "paragraph",
-          "text": "These projects dogfood the design system in the wild: chess runs on core vd3 alone; Ikigai and Scriptman Fighters also pull in optional CBUN packages (flowchart and code editor). Open a live demo or jump straight to the repo.",
-          "heading": "Showcase"
-        },
-        {
-          "type": "paragraph",
-          "text": "Browser chess on vd3 — human vs the Spindrift Engine in a Web Worker, with themes, strength levels, and move history. Fully static-hosted; no server required.",
-          "heading": "Spindrift Chess"
-        },
-        {
-          "type": "paragraph",
-          "text": "An interactive Ikigai purpose map using vd3 plus the CBUN flowchart canvas — rearrange tiles, export PNG/SVG/ , read the philosophy, and take the Ikigai-9 quiz. Map data stays in this browser only.",
-          "heading": "Ikigai"
-        },
-        {
-          "type": "paragraph",
-          "text": "A fighting game where you write JavaScript to control AI fighters — vd3 UI plus the vd3-cbun code editor for custom scripts. Fully static-hosted.",
-          "heading": "Scriptman Fighters"
         }
       ]
     }

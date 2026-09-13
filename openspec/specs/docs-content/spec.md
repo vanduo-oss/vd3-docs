@@ -602,7 +602,7 @@ The docs site shell SHALL render a fixed `VdDock` via `VdSiteDock` on every
 route (`App.vue`) instead of a top site `VdNavbar` or site `VdFooter`. The
 dock MUST use `cycle="edges"`, a docs-owned persist storage key, and
 `Vd3BrandMark` in `#brand`. Nav items SHALL include Home (`/`), Docs
-(`/docs-landing`), CBUN (`/cbun`), and Showcase (`/showcase`). The `#actions`
+(`/docs-landing`), and CBUN (`/cbun`). The `#actions`
 slot SHALL host Search (opens global search), ThemeSwitcher, then
 ThemeCustomizer. Library demo pages for Navbar/Footer MAY remain.
 

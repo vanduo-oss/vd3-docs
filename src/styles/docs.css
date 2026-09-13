@@ -2699,10 +2699,9 @@ a:hover .vd-card-interactive.vd-card-glow {
     justify-content: center;
   }
 
-  /* Marketing pages: CBUN + Showcase need a wider mobile gutter than the
+  /* Marketing pages: CBUN needs a wider mobile gutter than the
      base vd-container-responsive 13px padding (matches About's ~1.5rem feel). */
-  #cbun .vd-container-responsive,
-  #showcase .vd-container-responsive {
+  #cbun .vd-container-responsive {
     padding-inline: max(
       var(--vd-space-fib-21, 1.3125rem),
       env(safe-area-inset-left, 0px),

@@ -103,7 +103,7 @@ test.describe("Site Oola dock chrome", () => {
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     await expect(dock).toBeVisible();
 
-    for (const label of ["Home", "Docs", "CBUN", "Showcase"] as const) {
+    for (const label of ["Home", "Docs", "CBUN"] as const) {
       const item = dock.getByRole("button", { name: label, exact: true });
       await expect(item).toBeVisible();
       await expect(item.locator(".vd-dock-label")).toHaveText(label);
@@ -162,7 +162,7 @@ test.describe("Site Oola dock chrome", () => {
     expect(topMetrics.rightGap).toBeLessThanOrEqual(
       topMetrics.expectedInset + 5,
     );
-    await expect(dock.locator(".vd-dock-item .vd-dock-label")).toHaveCount(4);
+    await expect(dock.locator(".vd-dock-item .vd-dock-label")).toHaveCount(3);
   });
 
   test("Docs item navigates to docs landing", async ({ page }) => {

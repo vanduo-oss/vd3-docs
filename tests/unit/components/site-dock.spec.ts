@@ -32,7 +32,6 @@ const mountDock = async (options?: {
       { path: "/", component: { template: "<div>home</div>" } },
       { path: "/docs-landing", component: { template: "<div>docs</div>" } },
       { path: "/cbun", component: { template: "<div>cbun</div>" } },
-      { path: "/showcase", component: { template: "<div>showcase</div>" } },
     ],
   });
   await router.push("/");
@@ -71,7 +70,7 @@ describe("VdSiteDock", () => {
     await flushPromises();
     expect(wrapper.find(".vd-brand-mark").exists()).toBe(true);
 
-    for (const label of ["Home", "Docs", "CBUN", "Showcase"] as const) {
+    for (const label of ["Home", "Docs", "CBUN"] as const) {
       const item = wrapper.get(`button.vd-dock-item[aria-label="${label}"]`);
       expect(item.attributes("data-tooltip")).toBeUndefined();
       expect(item.find(".vd-dock-label").text()).toBe(label);

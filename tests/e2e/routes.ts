@@ -33,7 +33,6 @@ export const ROUTES: readonly Route[] = [
   { path: '/', label: 'home' },
   { path: '/docs-landing', label: 'docs-landing' },
   { path: '/cbun', label: 'cbun' },
-  { path: '/showcase', label: 'showcase' },
   { path: '/about', label: 'about' },
   { path: '/changelog', label: 'changelog' },
   { path: '/core/color-palette', label: 'core-color-palette' },

@@ -1,9 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const MARKETING_ROUTES = [
-  { path: "/cbun", root: "#cbun" },
-  { path: "/showcase", root: "#showcase" },
-] as const;
+const MARKETING_ROUTES = [{ path: "/cbun", root: "#cbun" }] as const;
 
 test.describe("Mobile marketing page gutters", () => {
   test.beforeEach(async ({ page }) => {
