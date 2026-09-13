@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import Vd3Mark from "@/components/Vd3Mark.vue";
+import {
+  VD3_COMPONENT_EXPORTS,
+  VD3_COMPOSABLE_MODULES,
+} from "@/constants/vd3Catalog";
 import "@/styles/logo-fx.css";
 import "@/styles/hero-display-font.css";
 </script>
@@ -89,13 +93,13 @@ import "@/styles/hero-display-font.css";
           <h3>What you get</h3>
           <ul>
             <li>
-              More than 50 <code>&lt;Vd*&gt;</code> components — forms, data
-              display, navigation, feedback, layout primitives, and theme
-              controls.
+              {{ VD3_COMPONENT_EXPORTS }} <code>&lt;Vd*&gt;</code> components —
+              forms, data display, navigation, feedback, layout primitives, and
+              theme controls.
             </li>
             <li>
-              Around 35 composables for things like dropdowns, toasts,
-              validation, scrolling, and drag-and-drop.
+              {{ VD3_COMPOSABLE_MODULES }} composables for things like
+              dropdowns, toasts, validation, scrolling, and drag-and-drop.
             </li>
             <li>
               A separate <code>@vanduo-oss/vd3-cbun</code> bundle adding charts,

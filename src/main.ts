@@ -2,6 +2,10 @@ import { ViteSSG } from "vite-ssg";
 import { createPinia } from "pinia";
 import { VanduoVue } from "@vanduo-oss/vd3";
 import App from "./App.vue";
+import {
+  DOCS_DEFAULT_PRIMARY_DARK,
+  DOCS_DEFAULT_PRIMARY_LIGHT,
+} from "./constants/docsPrimary";
 import { buildRoutes } from "./router";
 import "@vanduo-oss/vd3/css";
 import "@vanduo-oss/vd3-cbun/charts/css";
@@ -37,14 +41,14 @@ export const createApp = ViteSSG(
   },
   async ({ app, initialState }) => {
     app.use(createPinia());
-    // Docs first-paint / package defaults: Ink in light, green in dark.
+    // Docs first-paint defaults: published `blue` in light and dark.
     // (Per-mode neutral — stone in light, charcoal in dark — is handled in the
-    // theme store; the engine has no NEUTRAL_DARK default. Dark + green gets
-    // logo-green accent pins in docs.css.)
+    // theme store; the engine has no NEUTRAL_DARK default. Dark + green still
+    // gets logo-green accent pins in docs.css when the user picks green.)
     app.use(VanduoVue, {
       themeDefaults: {
-        PRIMARY_LIGHT: "black",
-        PRIMARY_DARK: "green",
+        PRIMARY_LIGHT: DOCS_DEFAULT_PRIMARY_LIGHT,
+        PRIMARY_DARK: DOCS_DEFAULT_PRIMARY_DARK,
         FONT: "nunito",
       },
     });

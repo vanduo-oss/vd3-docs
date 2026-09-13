@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdDraw } from "@vanduo-oss/vd3-cbun/draw";
+import {
+  VdDraw,
+  type BrushName,
+  type DrawChangeEvent,
+  type DrawSelectEvent,
+  type DrawViewportEvent,
+  type VdDrawCore,
+  type VdDrawExposed,
+} from "@vanduo-oss/vd3-cbun/draw";
 import { drawSeedDoc, fitDrawDemoView } from "@/constants/drawSeed";
 
-const drawRef = ref<any>(null);
+const drawRef = ref<VdDrawExposed | null>(null);
 
 /* Full-screen sketch mode — canvas fills the viewport inset from the fixed
    site dock, which deliberately stays visible above the stage. */
@@ -36,8 +44,8 @@ onBeforeUnmount(exitFullscreen);
 
 // ── Sketchpad Stage Actions ────────────────────────────────────────────────
 function resetToSeed() {
+  drawRef.value?.load(drawSeedDoc as Record<string, unknown>);
   const inst = drawRef.value?.getInstance();
-  inst?.load(drawSeedDoc);
   fitDrawDemoView(inst);
   shapeCount.value = drawSeedDoc.shapes.length;
   lastAction.value = "reset (seed loaded)";
@@ -54,7 +62,7 @@ function toggleGrid() {
   lastAction.value = "grid toggled";
 }
 
-function selectBrush(brushName: string) {
+function selectBrush(brushName: BrushName) {
   const inst = drawRef.value?.getInstance();
   if (!inst) return;
   inst.setBrush(brushName);
@@ -99,8 +107,8 @@ function redoDraw() {
   lastAction.value = "redo";
 }
 
-function onChange(payload: { reason?: string } | undefined) {
-  lastAction.value = payload?.reason || "change";
+function onChange(payload: DrawChangeEvent) {
+  lastAction.value = payload.reason || "change";
   const inst = drawRef.value?.getInstance();
   if (inst) {
     shapeCount.value = inst.getShapes().length;
@@ -108,28 +116,24 @@ function onChange(payload: { reason?: string } | undefined) {
   refreshHistoryFlags();
 }
 
-function onSelect(payload: { ids?: string[] } | undefined) {
-  const count = payload?.ids?.length ?? 0;
+function onSelect(payload: DrawSelectEvent) {
+  const count = payload.ids.length;
   selectionCount.value = count;
   lastAction.value = count
     ? `select (${count} item${count > 1 ? "s" : ""})`
     : "deselect";
 }
 
-function onViewport(payload: any) {
-  const vp = payload?.viewport;
-  if (vp) {
-    zoomPercent.value = Math.round((vp.scale || 1) * 100);
-    panPos.value = { x: Math.round(vp.x || 0), y: Math.round(vp.y || 0) };
-  }
+function onViewport(payload: DrawViewportEvent) {
+  const vp = payload.viewport;
+  zoomPercent.value = Math.round((vp.scale || 1) * 100);
+  panPos.value = { x: Math.round(vp.x || 0), y: Math.round(vp.y || 0) };
 }
 
-function onReady(instance: any) {
-  if (instance) {
-    fitDrawDemoView(instance);
-    shapeCount.value = instance.getShapes().length;
-    refreshHistoryFlags();
-  }
+function onReady(instance: VdDrawCore) {
+  fitDrawDemoView(instance);
+  shapeCount.value = instance.getShapes().length;
+  refreshHistoryFlags();
 }
 
 // ── Live Export Studio ─────────────────────────────────────────────────────
@@ -207,7 +211,15 @@ function downloadExport() {
 }
 
 // ── Multi-Brush Showcase Data ──────────────────────────────────────────────
-const brushDetails = [
+const brushDetails: Array<{
+  name: BrushName;
+  label: string;
+  icon: string;
+  feel: string;
+  badge: string;
+  color: string;
+  specs: string;
+}> = [
   {
     name: "pen",
     label: "Pen",
@@ -314,6 +326,19 @@ const vue3Api: [string, string][] = [
 
 const methods: [string, string][] = [
   [
+    "setReadonly / setSnap / setHistoryEnabled / setHistoryLimit",
+    "Update option props through surgical setters (no editor remount).",
+  ],
+  [
+    "addShape / updateShape / removeShape / getShape / getShapes",
+    "Template-ref CRUD for shapes.",
+  ],
+  ["clear / load / toJSON", "Replace, wipe, or serialize the document."],
+  [
+    "fitView(padding?)",
+    "Fit the viewport to content on the core instance (default padding 40).",
+  ],
+  [
     "setColor / setBrush",
     "Set the current color / brush preset for the next mark.",
   ],
@@ -409,9 +434,7 @@ const methods: [string, string][] = [
             :aria-pressed="fullscreen"
             @click="toggleFullscreen"
           >
-            <i
-              :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"
-            ></i>
+            <i :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"></i>
             {{ fullscreen ? "Exit full screen" : "Full screen" }}
           </button>
         </div>

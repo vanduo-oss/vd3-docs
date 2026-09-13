@@ -385,29 +385,30 @@ the mark remains visible on dark theme backgrounds.
 - **WHEN** the user views the navbar or home hero mark
 - **THEN** the green fills are clearly visible (not near-black)
 
-### Requirement: dark-mode default primary matches logo green
+### Requirement: first-visit default primary is blue
 
-The docs site SHALL default dark-mode primary to the green hue
-(`data-primary="green"`) via `themeDefaults.PRIMARY_DARK` at bootstrap. When dark
-mode is active and primary is green, the docs shell CSS SHALL pin semantic primary
-tokens to the logo stop (`--vd-green-8` = `#2f9e44`) and its ramp companions.
-Light-mode primary SHALL remain package `PRIMARY_LIGHT` (`black`). The theme store
-SHALL treat legacy stored `"blue"` as a docs auto-primary and migrate it to the
-current default primary on init, theme change, and OS scheme flip (same pattern as
-docs neutral auto-defaults).
+The docs site SHALL default first-visit (unset) primary to the published vd3
+primary token `blue` (theme customizer “Blue”) in both light and dark via
+`themeDefaults.PRIMARY_LIGHT` / `PRIMARY_DARK` at bootstrap and the matching
+`DOCS_DEFAULT_PRIMARY_*` constants. A persisted `vanduo-primary-color` SHALL
+be kept, including former auto-defaults `black` and `green`. Stored `blue`
+MUST NOT be migrated to another hue.
 
-#### Scenario: dark default primary is green with logo accent
+When dark mode is active and primary is `green` (an explicit user choice), the
+docs shell CSS SHALL still pin semantic primary tokens to the logo stop
+(`--vd-green-8` = `#2f9e44`) and its ramp companions.
 
-- **GIVEN** a fresh visit with dark theme (explicit or system dark)
-- **WHEN** the user views primary buttons, links, or nav accents
-- **THEN** `data-primary` is `green` and `--vd-color-primary` resolves to the
-  logo green stop (`--vd-green-8`)
+#### Scenario: fresh visit uses blue in both schemes
 
-#### Scenario: legacy blue primary migrates to green in dark
+- **GIVEN** a fresh visit with empty theme localStorage
+- **WHEN** the theme store initializes in light or dark
+- **THEN** `data-primary` is `blue`
 
-- **GIVEN** `localStorage` holds `vanduo-primary-color` = `blue` from a prior visit
-- **WHEN** the theme store initializes in dark mode
-- **THEN** primary becomes `green` and `data-primary` is `green`
+#### Scenario: persisted non-blue primary is kept
+
+- **GIVEN** `localStorage` holds `vanduo-primary-color` = `green` or `black`
+- **WHEN** the theme store initializes
+- **THEN** that stored primary remains and is not replaced with `blue`
 
 #### Scenario: explicit non-default primary is preserved
 
@@ -417,17 +418,33 @@ docs neutral auto-defaults).
 
 ### Requirement: integration snippets show docs bootstrap primary
 
-Pages that document site bootstrap with `themeDefaults` SHALL show the docs site's
-real dark primary override as `PRIMARY_DARK: "green"` in
+Pages that document site bootstrap with `themeDefaults` SHALL show the docs
+site's real primary override as `"blue"` in
 `guides/FrameworkIntegration.vue` and `components/ThemeSwitcher.vue`. Generic
-teaching samples that demonstrate other hues (e.g. violet via `setThemeDefaults`)
-SHALL remain unchanged.
+teaching samples that demonstrate other hues (e.g. violet via
+`setThemeDefaults`) SHALL remain unchanged.
 
 #### Scenario: FrameworkIntegration mirrors site bootstrap
 
 - **GIVEN** `guides/FrameworkIntegration.vue` after this change
 - **WHEN** its bootstrap code snippets are read
-- **THEN** `PRIMARY_DARK` is `"green"`, not `"blue"`
+- **THEN** `PRIMARY_DARK` is `"blue"`, not `"green"`
+
+### Requirement: marketing catalog counts match the published barrel
+
+Landing `#docs-component-count`, the home “One Complete System” teaser, and
+about “What you get” SHALL use one definition of “components”: the count of
+`Vd*` component exports from `@vanduo-oss/vd3`. Composable copy on those
+surfaces SHALL use the count of composable modules in that barrel. Landing
+meta that counts docs pages SHALL be labeled as reference pages or guided
+walkthroughs (not as “components”) and SHALL match `src/nav.ts`.
+
+#### Scenario: marketing surfaces agree on package export counts
+
+- **GIVEN** `/docs-landing`, `/`, and `/about` after this change
+- **WHEN** their catalog copy is read
+- **THEN** each names 63 components and (where composables are stated) 39
+  composables, and `#docs-component-count` does not say “47+”
 
 ### Requirement: the Modal page renders the real VdModal
 

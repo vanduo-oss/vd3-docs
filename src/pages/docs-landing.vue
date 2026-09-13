@@ -1,8 +1,19 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
+import { VD3_COMPONENT_EXPORTS } from "@/constants/vd3Catalog";
+import { nav } from "@/nav";
 
 // Injected at build time from package.json (see vite.config.ts).
 const docsVersion = __APP_VERSION__;
+
+const componentsTab = nav.tabs.find((t) => t.id === "components");
+const guideCount =
+  componentsTab?.categories.find((c) => c.id === "guides")?.sections.length ??
+  0;
+const componentReferenceCount =
+  componentsTab?.categories
+    .filter((c) => c.id !== "guides")
+    .reduce((n, c) => n + c.sections.length, 0) ?? 0;
 
 interface Highlight {
   icon: string;
@@ -47,7 +58,10 @@ const cards: DocsCard[] = [
       { title: "Canvas", icon: "ph-chart-line" },
     ],
     tags: ["Core", "Input", "Effects"],
-    meta: { icon: "ph-files", text: "47+ reference pages" },
+    meta: {
+      icon: "ph-files",
+      text: `${componentReferenceCount} reference pages`,
+    },
   },
   {
     to: "/guides/getting-started",
@@ -66,7 +80,10 @@ const cards: DocsCard[] = [
       { title: "Integrations", icon: "ph-plugs-connected" },
     ],
     tags: ["Setup", "Theming", "Integrations"],
-    meta: { icon: "ph-book-bookmark", text: "14 guided walkthroughs" },
+    meta: {
+      icon: "ph-book-bookmark",
+      text: `${guideCount} guided walkthroughs`,
+    },
   },
   {
     to: "/changelog",
@@ -78,7 +95,7 @@ const cards: DocsCard[] = [
     highlights: [
       {
         icon: "ph-sparkle",
-        text: "vd3 1.7.1 — snippet Copy stays on one mobile header row",
+        text: "vd3 1.7.2 and vd3-cbun 1.4.1 — published pins",
       },
       { icon: "ph-git-branch", text: "Release notes for @vanduo-oss/vd3" },
     ],
@@ -88,7 +105,7 @@ const cards: DocsCard[] = [
       { title: "Roadmap", icon: "ph-map-trifold" },
     ],
     tags: ["Releases", "Tokens", "Lifecycle"],
-    meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.7.1" },
+    meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.7.2 · cbun 1.4.1" },
   },
 ];
 
@@ -128,7 +145,8 @@ const resources = [
         id="docs-component-count"
         class="vd-badge vd-badge-outlined docs-landing-meta-badge"
       >
-        <i class="ph ph-cube"></i> <span>47+</span> components
+        <i class="ph ph-cube"></i> <span>{{ VD3_COMPONENT_EXPORTS }}</span>
+        components
       </span>
       <span class="docs-landing-version">Documentation v{{ docsVersion }}</span>
     </div>

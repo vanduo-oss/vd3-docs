@@ -8,11 +8,11 @@ export type DocsPrimarySwatch = {
   color: string;
 };
 
-/** Light-mode docs default — Ink (black); dock accent stays grayscale. */
-export const DOCS_DEFAULT_PRIMARY_LIGHT = "black";
+/** Light-mode docs first-visit default — published primary token `blue`. */
+export const DOCS_DEFAULT_PRIMARY_LIGHT = "blue";
 
-/** Dark-mode docs default — green (dock tint follows when primary is a DOCK_TINT). */
-export const DOCS_DEFAULT_PRIMARY_DARK = "green";
+/** Dark-mode docs first-visit default — same published `blue` token. */
+export const DOCS_DEFAULT_PRIMARY_DARK = "blue";
 
 /**
  * Shared docs default primary. Prefer `docsDefaultPrimary(scheme)` when scheme

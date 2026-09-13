@@ -95,8 +95,8 @@ describe("useThemeStore", () => {
     window.localStorage.clear();
     clearThemeAttrs();
     setThemeDefaults({
-      PRIMARY_LIGHT: "black",
-      PRIMARY_DARK: "green",
+      PRIMARY_LIGHT: "blue",
+      PRIMARY_DARK: "blue",
       FONT: "nunito",
     });
   });
@@ -134,14 +134,14 @@ describe("useThemeStore", () => {
     expect(theme.palette).toBe("open-color");
     expect(theme.font).toBe("nunito");
     expect(["stone", "charcoal"]).toContain(theme.neutral);
-    // system + jsdom matchMedia(false) → light → docs default Ink
-    expect(theme.primary).toBe("black");
+    // system + jsdom matchMedia(false) → light → docs default blue
+    expect(theme.primary).toBe("blue");
   });
 
   it("init overwrites stored non-primary prefs but keeps an explicit dock primary", () => {
     setThemeDefaults({
-      PRIMARY_LIGHT: "black",
-      PRIMARY_DARK: "green",
+      PRIMARY_LIGHT: "blue",
+      PRIMARY_DARK: "blue",
       FONT: "nunito",
     });
     window.localStorage.setItem("vanduo-theme-preference", "dark");
@@ -165,8 +165,8 @@ describe("useThemeStore", () => {
     expect(window.localStorage.getItem("vanduo-primary-color")).toBe("violet");
   });
 
-  it("keeps stored blue as the docs auto default (no migrate-to-green)", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "blue" });
+  it("keeps stored blue as the docs auto default (no migrate-away)", () => {
+    setThemeDefaults({ PRIMARY_LIGHT: "blue", PRIMARY_DARK: "blue" });
     window.localStorage.setItem("vanduo-theme-preference", "dark");
     window.localStorage.setItem("vanduo-primary-color", "blue");
     const theme = useThemeStore();
@@ -175,8 +175,24 @@ describe("useThemeStore", () => {
     expect(document.documentElement.getAttribute("data-primary")).toBe("blue");
   });
 
+  it("keeps a persisted green or Ink primary (does not force-reset to blue)", () => {
+    setThemeDefaults({ PRIMARY_LIGHT: "blue", PRIMARY_DARK: "blue" });
+    window.localStorage.setItem("vanduo-theme-preference", "dark");
+    window.localStorage.setItem("vanduo-primary-color", "green");
+    const darkTheme = useThemeStore();
+    darkTheme.init();
+    expect(darkTheme.primary).toBe("green");
+
+    window.localStorage.setItem("vanduo-theme-preference", "light");
+    window.localStorage.setItem("vanduo-primary-color", "black");
+    setActivePinia(createPinia());
+    const lightTheme = useThemeStore();
+    lightTheme.init();
+    expect(lightTheme.primary).toBe("black");
+  });
+
   it("keeps Ink (black) in light and dark; coerces amber/lime; allows rose", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "green" });
+    setThemeDefaults({ PRIMARY_LIGHT: "blue", PRIMARY_DARK: "blue" });
     window.localStorage.setItem("vanduo-theme-preference", "light");
     window.localStorage.setItem("vanduo-primary-color", "black");
     const theme = useThemeStore();
@@ -184,17 +200,17 @@ describe("useThemeStore", () => {
     expect(theme.primary).toBe("black");
 
     theme.setPrimary("amber");
-    expect(theme.primary).toBe("black");
+    expect(theme.primary).toBe("blue");
     theme.setPrimary("lime");
-    expect(theme.primary).toBe("black");
+    expect(theme.primary).toBe("blue");
     theme.setPrimary("rose");
     expect(theme.primary).toBe("rose");
 
     theme.setTheme("dark");
     theme.setPrimary("amber");
-    expect(theme.primary).toBe("green");
+    expect(theme.primary).toBe("blue");
     theme.setPrimary("lime");
-    expect(theme.primary).toBe("green");
+    expect(theme.primary).toBe("blue");
     theme.setPrimary("rose");
     expect(theme.primary).toBe("rose");
 
@@ -204,14 +220,14 @@ describe("useThemeStore", () => {
     expect(theme.primary).toBe("black");
   });
 
-  it("defaults light primary to Ink and dark primary to green", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "green" });
+  it("defaults first-visit primary to blue in light and dark", () => {
+    setThemeDefaults({ PRIMARY_LIGHT: "blue", PRIMARY_DARK: "blue" });
     const theme = useThemeStore();
     theme.init();
     theme.setTheme("light");
-    expect(theme.primary).toBe("black");
+    expect(theme.primary).toBe("blue");
     theme.setTheme("dark");
-    expect(theme.primary).toBe("green");
+    expect(theme.primary).toBe("blue");
   });
 
   it("docs primary swatches include Ink + twelve accretion hues in both schemes", () => {
@@ -258,7 +274,7 @@ describe("useThemeStore", () => {
   });
 
   it("preserves explicit Ink picked in dark across theme flips", () => {
-    setThemeDefaults({ PRIMARY_LIGHT: "black", PRIMARY_DARK: "green" });
+    setThemeDefaults({ PRIMARY_LIGHT: "blue", PRIMARY_DARK: "blue" });
     const theme = useThemeStore();
     theme.init();
     theme.setTheme("dark");

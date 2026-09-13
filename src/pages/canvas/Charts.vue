@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { VdSwitch } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdChart, type ClickEvent } from "@vanduo-oss/vd3-cbun/charts";
 
@@ -15,7 +14,6 @@ const quarterlyRevenue = [
   { quarter: "Q3", revenue: 185 },
   { quarter: "Q4", revenue: 290 },
 ];
-const showDataTable = ref(false);
 const lastBarClick = ref<string | null>(null);
 const onBarClick = (e: ClickEvent<(typeof quarterlyRevenue)[number]>): void => {
   lastBarClick.value = `${e.datum.quarter}: $${e.datum.revenue}k (bar #${e.index + 1})`;
@@ -116,7 +114,6 @@ const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
 
 const a11yUsage = `<!-- WAI-ARIA Graphics, keyboard navigation, and data table fallback -->
 <script setup lang="ts">
-import { ref } from 'vue';
 import { VdChart, type ClickEvent } from '@vanduo-oss/vd3-cbun/charts';
 
 const data = [
@@ -126,18 +123,19 @@ const data = [
   { quarter: 'Q4', revenue: 290 },
 ];
 
-const showTable = ref(false);
 const onClick = (e: ClickEvent) => console.log('Clicked:', e.datum);
 <\/script>
 
 <template>
+  <!-- data-table default is true (sr-only). Use "visible" to show the
+       WCAG 1.1.1 table in layout, or false to suppress it. -->
   <VdChart
     type="bar"
     :data="data"
     x="quarter"
     y="revenue"
     title="Quarterly Revenue"
-    :data-table="showTable ? 'visible' : true"
+    data-table="visible"
     @bar-click="onClick"
   />
 </template>`;
@@ -176,7 +174,10 @@ const chartTypes: [string, string][] = [
     'type="donut"',
     "Arc slices with inner-radius ratio (default 0.62), percentage tooltips, center total summary, and legend.",
   ],
-  ['type="pie"', "Full pie polar renderer with inner-radius ratio 0."],
+  [
+    'type="pie"',
+    "Solid pie wedges (inner-radius ratio 0). Pass :inner-radius-ratio=\"0\" on VdChart — an unset ratio falls through to the donut hole (0.62).",
+  ],
 ];
 
 const vue3Api: [string, string][] = [
@@ -197,6 +198,10 @@ const vue3Api: [string, string][] = [
   [
     ":data-table",
     "true (sr-only, default) | 'visible' | false. Auto-generates an accessible HTML <table> fulfilling WCAG 1.1.1 Level A.",
+  ],
+  [
+    ":inner-radius-ratio",
+    "Donut / pie hole size (0–0.9). Donut defaults to 0.62. Pie is 0; pass 0 explicitly on VdChart type=\"pie\".",
   ],
   [
     ":aria-role-description",
@@ -256,21 +261,19 @@ const keyboardShortcuts: [string, string][] = [
 
 <template>
   <section id="vd-charts">
-    <div class="vd-d-flex vd-justify-between vd-align-center vd-mb-2">
-      <h5 class="demo-title" style="margin: 0">
-        <i class="ph ph-chart-donut"></i>Charts
-      </h5>
-      <div class="vd-badge-group">
-        <span class="a11y-pill"
-          ><i class="ph ph-shield-check"></i> WAI-ARIA Graphics 1.0</span
-        >
-        <span class="a11y-pill"
-          ><i class="ph ph-keyboard"></i> Arrow Key Navigation</span
-        >
-        <span class="a11y-pill"
-          ><i class="ph ph-table"></i> WCAG 1.1.1 Table</span
-        >
-      </div>
+    <h5 class="demo-title charts-page-title">
+      <i class="ph ph-chart-donut"></i>Charts
+    </h5>
+    <div class="vd-badge-group vd-mt-8 vd-mb-8">
+      <span class="a11y-pill"
+        ><i class="ph ph-shield-check"></i> WAI-ARIA Graphics 1.0</span
+      >
+      <span class="a11y-pill"
+        ><i class="ph ph-keyboard"></i> Arrow Key Navigation</span
+      >
+      <span class="a11y-pill"
+        ><i class="ph ph-table"></i> WCAG 1.1.1 Table</span
+      >
     </div>
 
     <p class="vd-mb-6">
@@ -289,9 +292,7 @@ const keyboardShortcuts: [string, string][] = [
     <div class="vd-row vd-mb-8">
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card">
-          <div
-            class="vd-card-header vd-d-flex vd-justify-between vd-align-center"
-          >
+          <div class="vd-card-header">
             <h6>
               <i
                 class="ph ph-keyboard"
@@ -300,12 +301,6 @@ const keyboardShortcuts: [string, string][] = [
               Accessibility & Keyboard Navigation (WCAG 2.1 AA & WAI-ARIA
               Graphics 1.0)
             </h6>
-            <div class="vd-d-flex vd-align-center vd-gap-3">
-              <VdSwitch
-                v-model="showDataTable"
-                label="Inspect Data Table (WCAG 1.1.1)"
-              />
-            </div>
           </div>
           <div class="vd-card-body">
             <div class="a11y-instructions vd-mb-4">
@@ -334,13 +329,20 @@ const keyboardShortcuts: [string, string][] = [
               </div>
             </div>
 
+            <p class="vd-text-sm vd-text-muted vd-mb-4">
+              The table under this chart is the WCAG 1.1.1 fallback with
+              <code>data-table="visible"</code>. Production default is
+              <code>true</code> (sr-only, for assistive tech only);
+              <code>false</code> suppresses it.
+            </p>
+
             <VdChart
               type="bar"
               :data="quarterlyRevenue"
               x="quarter"
               y="revenue"
               title="Quarterly Revenue ($k)"
-              :data-table="showDataTable ? 'visible' : true"
+              data-table="visible"
               :height="260"
               @bar-click="onBarClick"
             />
@@ -355,10 +357,6 @@ const keyboardShortcuts: [string, string][] = [
                   >No bar selected yet — press <kbd>Enter</kbd> on a focused
                   bar.</template
                 >
-              </span>
-              <span v-if="showDataTable" class="status-chip is-active">
-                <i class="ph ph-table"></i> Data table rendered visibly below
-                chart (default is sr-only).
               </span>
             </div>
           </div>
@@ -469,6 +467,7 @@ const keyboardShortcuts: [string, string][] = [
               label="channel"
               value="revenue"
               title="Revenue mix (pie)"
+              :inner-radius-ratio="0"
               :height="280"
               @slice-click="onSliceClick"
             />
@@ -775,6 +774,10 @@ const keyboardShortcuts: [string, string][] = [
 </template>
 
 <style scoped>
+.charts-page-title {
+  margin-bottom: 0;
+}
+
 .a11y-pill {
   display: inline-flex;
   align-items: center;

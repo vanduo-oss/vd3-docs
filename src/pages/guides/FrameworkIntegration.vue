@@ -20,7 +20,7 @@ createApp(App).use(VanduoVue).mount('#app');`;
 const optionsJs = `// Plugin options apply synchronously on install, before the first storage read.
 app.use(VanduoVue, {
   storagePrefix: 'my-app-',           // default 'vanduo-'
-  themeDefaults: { PRIMARY_DARK: 'green' },
+  themeDefaults: { PRIMARY_DARK: 'blue' },
 });`;
 
 const usageJs = `<script setup lang="ts">
@@ -64,7 +64,7 @@ import { routes } from './routes';
 export const createApp = ViteSSG(App, { routes }, ({ app }) => {
   app.use(VanduoVue, {
     storagePrefix: 'my-app-',
-    themeDefaults: { PRIMARY_DARK: 'green' },
+    themeDefaults: { PRIMARY_DARK: 'blue' },
   });
 });`;
 
@@ -79,7 +79,7 @@ import { VanduoVue } from '@vanduo-oss/vd3';
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(VanduoVue, {
     storagePrefix: 'my-app-',
-    themeDefaults: { PRIMARY_DARK: 'green' },
+    themeDefaults: { PRIMARY_DARK: 'blue' },
   });
 });`;
 
@@ -95,7 +95,7 @@ const pluginOptions: [string, string, string][] = [
   [
     "themeDefaults",
     "Partial<ThemeDefaults>",
-    "Site-specific overrides shallow-merged over the generated theme baseline (e.g. { PRIMARY_DARK: 'green' }). Applied synchronously on install, before the theme model first reads its defaults. Optional.",
+    "Site-specific overrides shallow-merged over the generated theme baseline (e.g. { PRIMARY_DARK: 'blue' }). Applied synchronously on install, before the theme model first reads its defaults. Optional.",
   ],
   [
     "storagePrefix",

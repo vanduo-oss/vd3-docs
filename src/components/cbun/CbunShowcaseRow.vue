@@ -40,7 +40,7 @@ defineProps<{
       <div class="cbun-row-actions">
         <RouterLink :to="docsTo" class="vd-btn vd-btn-primary">
           <i class="ph ph-book-open-text"></i>
-          Docs demo
+          Component Documentation
         </RouterLink>
       </div>
     </div>

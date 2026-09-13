@@ -1321,10 +1321,14 @@ useAffix(root);
             <div class="vd-row">
               <div class="vd-col-12">
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  A hex-grid patch: DPR-aware backing store, viewport culling,
-                  and pan/zoom frame coalescing. Takes
-                  <code>VD_HEX_VERSION</code>
-                  <code>1.0.1 → 1.1.0</code>.
+                  Patch release: hex-grid adaptive rendering, draw vector
+                  polish, charts accessibility, and a code-editor wrap-mode
+                  caret fix. Additive and backward-compatible; only
+                  <code>VD_HEX_VERSION</code> takes a minor (<code
+                    >1.0.1 → 1.1.0</code
+                  >). <code>VD_CHARTS_VERSION</code>,
+                  <code>VD_CODE_EDITOR_VERSION</code>, and
+                  <code>VD_DRAW_VERSION</code> stay <code>1.1.0</code>.
                 </p>
 
                 <div class="change-group">
@@ -1338,16 +1342,16 @@ useAffix(root);
                       <div>
                         <strong>Adaptive hex rendering</strong>
                         <p>
-                          New <code>pixelRatio</code>
-                          (<code>number | 'auto'</code>, default
-                          <code>'auto'</code>) and <code>cull</code> (default
-                          <code>true</code>) keep sharp grids without redrawing
-                          every cell. Gesture frames coalesce; large views blit
-                          then re-render when idle. Adds
-                          <code>getVisibleHexes()</code>,
+                          New <code>pixelRatio</code> (<code
+                            >number | 'auto'</code
+                          >, default <code>'auto'</code>) and
+                          <code>cull</code> (default <code>true</code>) keep
+                          sharp grids without redrawing every cell. Gesture
+                          frames coalesce; large views blit then re-render when
+                          idle. Adds <code>getVisibleHexes()</code>,
                           <code>getRenderStats()</code>,
-                          <code>setPixelRatio()</code>,
-                          <code>setCull()</code>. See
+                          <code>setPixelRatio()</code>, <code>setCull()</code>.
+                          See
                           <RouterLink to="/canvas/hex"
                             ><code>/canvas/hex</code></RouterLink
                           >.
@@ -1356,19 +1360,67 @@ useAffix(root);
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph ph-notebook"
+                        class="ph ph-paint-brush"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
-                        <strong>OpenSpec hygiene</strong>
+                        <strong>Draw vector polish</strong>
                         <p>
-                          Archived <code>sync-shipped-cbun-specs</code> —
-                          Catmull-Rom <code>line.smooth</code>,
-                          <code>VdDraw</code> template-ref CRUD, flowchart
-                          <code>--vd-bg-*</code> chrome, corrected CI
-                          <code>test:types</code>-after-build order, and real
-                          Purpose lines. No component API or serialization
-                          change.
+                          Freehand strokes are EMA-smoothed and
+                          Ramer–Douglas–Peucker simplified. Two-finger
+                          pinch-to-zoom and pan land for touch; text wraps to
+                          the shape width and is inline-editable on
+                          double-click. Vue
+                          <code>readonly</code> / <code>snap</code> /
+                          <code>history</code> / <code>historyLimit</code>
+                          update through surgical setters instead of remounting
+                          the editor.
+                          <code>fitView(padding?)</code> takes optional padding
+                          (default <code>40</code>). See
+                          <RouterLink to="/canvas/draw"
+                            ><code>/canvas/draw</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-chart-bar"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Charts accessibility</strong>
+                        <p>
+                          WAI-ARIA Graphics Module 1.0 on the SVG shell, arrow
+                          keys move focus between marks, and an accessible HTML
+                          data table ships by default as
+                          <code>sr-only</code>.
+                          <code>dataTable: false</code> suppresses it;
+                          <code>dataTable: 'visible'</code> shows it.
+                          <code>ariaRoleDescription</code> overrides the SVG
+                          role description. See
+                          <RouterLink to="/canvas/charts"
+                            ><code>/canvas/charts</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-code"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Code-editor wrap caret</strong>
+                        <p>
+                          Wrap mode reserves a shared
+                          <code>scrollbar-gutter: stable</code> on the textarea
+                          and highlight layer so a visible scrollbar no longer
+                          shrinks only the editable layer and misaligns the
+                          caret. See
+                          <RouterLink to="/editors/code-editor"
+                            ><code>/editors/code-editor</code></RouterLink
+                          >.
                         </p>
                       </div>
                     </li>

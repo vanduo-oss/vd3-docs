@@ -16,7 +16,7 @@ import App from './App.vue';
 createApp(App)
   .use(VanduoVue, {
     storagePrefix: 'my-app-',
-    themeDefaults: { PRIMARY_DARK: 'green' },
+    themeDefaults: { PRIMARY_DARK: 'blue' },
   })
   .mount('#app');`;
 

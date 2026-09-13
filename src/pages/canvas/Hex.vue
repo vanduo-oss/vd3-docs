@@ -3,7 +3,12 @@ import { computed, nextTick, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { useThemeStore } from "@/stores/theme";
-import { VdHexGrid } from "@vanduo-oss/vd3-cbun/hex-grid";
+import {
+  VdHexGrid,
+  VdHexGridCore,
+  type HexCell,
+  type HexRenderStats,
+} from "@vanduo-oss/vd3-cbun/hex-grid";
 import {
   TerrainType,
   getAdjacentHexes,
@@ -14,66 +19,6 @@ const DEFAULT_SIZE = 30;
 const DEFAULT_WIDTH = 15;
 const DEFAULT_HEIGHT = 10;
 
-interface HexCell {
-  q: number;
-  r: number;
-  x: number;
-  y: number;
-  fill: string;
-  stroke?: string;
-  terrain?: string | null;
-  adjacent?: Array<{ q: number; r: number }>;
-}
-
-interface GridInstance {
-  width: number;
-  height: number;
-  resetView: () => void;
-  zoomIn: () => void;
-  zoomOut: () => void;
-  fillRandom: () => void;
-  generateRandomTerrain: () => void;
-  setHexTerrain: (q: number, r: number, type: string) => void;
-  getHexTerrain: (q: number, r: number) => string | null;
-  getHexYields: (
-    q: number,
-    r: number,
-  ) => { food: number; production: number; gold: number };
-  getHexMovementCost: (q: number, r: number) => number;
-  isHexPassable: (q: number, r: number) => boolean;
-  hasHex: (q: number, r: number) => boolean;
-  getHex: (q: number, r: number) => HexCell | undefined;
-  getPath: (
-    startQ: number,
-    startR: number,
-    endQ: number,
-    endR: number,
-  ) => Array<{ q: number; r: number }>;
-  setHexFill: (q: number, r: number, color: string) => void;
-  getAllHexes: () => HexCell[];
-  getVisibleHexes: () => HexCell[];
-  getRenderStats: () => {
-    total: number;
-    visible: number;
-    drawn: number;
-    mode: string;
-    lastRenderMs: number;
-    pixelRatio: number;
-    scale: number;
-  };
-  setCustomRender: (
-    callback: (
-      ctx: CanvasRenderingContext2D,
-      hex: HexCell,
-      size: number,
-    ) => void,
-  ) => void;
-  clearCustomRender: () => void;
-  _getThemeColors?: () => Record<string, string>;
-  _render?: () => void;
-  themeColors?: Record<string, string>;
-}
-
 const size = ref(DEFAULT_SIZE);
 const width = ref(DEFAULT_WIDTH);
 const height = ref(DEFAULT_HEIGHT);
@@ -81,18 +26,18 @@ const rotationDeg = ref(0);
 const rotationRad = computed(() => (rotationDeg.value * Math.PI) / 180);
 const pixelRatio = ref<number | "auto">("auto");
 const cull = ref(true);
-const renderStats = ref({
+const renderStats = ref<HexRenderStats>({
   total: 0,
   visible: 0,
   drawn: 0,
-  mode: "—",
+  mode: "sharp",
   lastRenderMs: 0,
   pixelRatio: 1,
   scale: 1,
 });
 
 const refreshRenderStats = (): void => {
-  if (!gridInstance?.getRenderStats) return;
+  if (!gridInstance) return;
   renderStats.value = { ...gridInstance.getRenderStats() };
 };
 
@@ -126,31 +71,15 @@ const terrainYields = ref<{
 const terrainMovement = ref<number | null>(null);
 const terrainPassable = ref<boolean | null>(null);
 
-let gridInstance: GridInstance | null = null;
+let gridInstance: VdHexGridCore | null = null;
+let pathFillBackup = new Map<string, string>();
 
 const themeStore = useThemeStore();
 const { theme, primary } = storeToRefs(themeStore);
+const hexThemeKey = computed(
+  () => `${theme.value}:${primary.value}:${themeStore.ready ? "1" : "0"}`,
+);
 
-const lightFills = [
-  "#f0f0f0",
-  "#d4e5d4",
-  "#e5d4d4",
-  "#d4d4e5",
-  "#e5e5d4",
-  "#d4e5e5",
-  "#e8e8e8",
-  "#d0d0d0",
-];
-const darkFills = [
-  "#37474f",
-  "#2e3b2e",
-  "#3b2e2e",
-  "#2e2e3b",
-  "#3b3b2e",
-  "#2e3b3b",
-  "#3a3a3a",
-  "#455a64",
-];
 const PATH_FILL = "rgba(255, 159, 28, 0.5)";
 const PATH_ACCENT = "#ff9f1c";
 
@@ -162,59 +91,9 @@ const readToken = (token: string, fallback: string): string => {
   );
 };
 
-const isDarkTheme = (): boolean => {
-  if (typeof document === "undefined") return false;
-  const attr = document.documentElement.getAttribute("data-theme");
-  if (attr === "dark") return true;
-  if (attr === "light") return false;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+const requestRender = (): void => {
+  gridInstance?.setCustomRender(overlayRender);
 };
-
-const hexPalette = () => {
-  const dark = isDarkTheme();
-  const outline = readToken("--vd-color-primary", dark ? "#3bc9db" : "#000000");
-  return {
-    outline,
-    canvasBg: readToken("--vd-bg-primary", dark ? "#111418" : "#ffffff"),
-    hexFill: "transparent",
-    textColor: readToken("--vd-text-primary", dark ? "#e9ecef" : "#1f2937"),
-    textMuted: readToken("--vd-text-muted", "#868e96"),
-  };
-};
-
-const applyHexTheme = (): void => {
-  if (!gridInstance?._getThemeColors || !gridInstance._render) return;
-  const p = hexPalette();
-  gridInstance._getThemeColors = () => ({
-    bgPrimary: p.canvasBg,
-    bgSecondary: p.hexFill,
-    borderColor: p.outline,
-    colorPrimary: p.outline,
-    textColor: p.textColor,
-    textMuted: p.textMuted,
-  });
-  const colors = gridInstance._getThemeColors();
-  gridInstance.themeColors = colors;
-  gridInstance.getAllHexes().forEach((h) => {
-    if (!h.terrain) {
-      h.fill = colors.bgSecondary;
-      if (h.stroke !== undefined) h.stroke = colors.borderColor;
-    }
-  });
-  gridInstance._render();
-};
-
-const themeAwareFillRandom = (): void => {
-  if (!gridInstance) return;
-  const palette = isDarkTheme() ? darkFills : lightFills;
-  gridInstance.getAllHexes().forEach((h) => {
-    if (!h.terrain)
-      h.fill = palette[Math.floor(Math.random() * palette.length)];
-  });
-  gridInstance._render?.();
-};
-
-const requestRender = (): void => gridInstance?._render?.();
 
 /**
  * Single custom-render hook driving both the coordinate-label toggle and the
@@ -262,7 +141,7 @@ const overlayRender = (
   }
 
   if (showCoords.value) {
-    const muted = gridInstance?.themeColors?.textMuted ?? "#868e96";
+    const muted = readToken("--vd-text-muted", "#868e96");
     ctx.save();
     ctx.fillStyle = muted;
     ctx.font = `${Math.max(8, hexSize * 0.32)}px sans-serif`;
@@ -274,9 +153,15 @@ const overlayRender = (
 };
 
 const clearPathHighlight = (): void => {
+  if (gridInstance) {
+    for (const [key, fill] of pathFillBackup) {
+      const [q, r] = key.split(",").map(Number);
+      gridInstance.setHexFill(q, r, fill);
+    }
+  }
+  pathFillBackup = new Map();
   pathHexes.value = [];
   pathKeyIndex = new Map();
-  applyHexTheme();
 };
 
 const highlightPath = (path: Array<{ q: number; r: number }>): void => {
@@ -284,9 +169,11 @@ const highlightPath = (path: Array<{ q: number; r: number }>): void => {
   clearPathHighlight();
   pathHexes.value = path;
   pathKeyIndex = new Map(path.map((p, i) => [`${p.q},${p.r}`, i]));
-  // Solid body fill for non-terrain hexes; terrain tiles keep their color but
-  // still get the connector/markers from overlayRender.
-  path.forEach(({ q, r }) => gridInstance!.setHexFill(q, r, PATH_FILL));
+  path.forEach(({ q, r }) => {
+    const hex = gridInstance!.getHex(q, r);
+    if (hex) pathFillBackup.set(`${q},${r}`, hex.fill);
+    gridInstance!.setHexFill(q, r, PATH_FILL);
+  });
   requestRender();
 };
 
@@ -361,20 +248,15 @@ const updateTerrainInfo = (q: number, r: number): void => {
   }
 };
 
-const onReady = (instance: GridInstance): void => {
+const onReady = (instance: VdHexGridCore): void => {
   gridInstance = instance;
   zoomPercent.value = 100;
-  instance.fillRandom = themeAwareFillRandom;
+  pathHexes.value = [];
+  pathKeyIndex = new Map();
+  pathFillBackup = new Map();
   instance.setCustomRender(overlayRender);
-  applyHexTheme();
   refreshRenderStats();
-  // App.vue applies the theme/primary attributes in its onMounted, which runs
-  // after this child mounts — re-read the resolved primary once that settles so
-  // the outline tracks the global primary color instead of the SSR default.
-  nextTick(() => {
-    applyHexTheme();
-    refreshRenderStats();
-  });
+  nextTick(() => refreshRenderStats());
 };
 
 const onZoom = (data: { scale: number }): void => {
@@ -393,7 +275,7 @@ const onSelect = (hex: HexCell): void => {
   pixelY.value = Math.round(hex.y);
   selectedQ.value = hex.q;
   selectedR.value = hex.r;
-  adjacentCount.value = (hex.adjacent ?? []).filter((a) =>
+  adjacentCount.value = hex.adjacent.filter((a) =>
     gridInstance?.hasHex(a.q, a.r),
   ).length;
   updateTerrainInfo(hex.q, hex.r);
@@ -449,10 +331,16 @@ const zoomIn = (): void => gridInstance?.zoomIn();
 const zoomOut = (): void => gridInstance?.zoomOut();
 const resetView = (): void => gridInstance?.resetView();
 
-const fillRandom = (): void => gridInstance?.fillRandom();
+const fillRandom = (): void => {
+  clearPathHighlight();
+  gridInstance?.fillRandom();
+  refreshRenderStats();
+};
 
 const generateTerrain = (): void => {
+  clearPathHighlight();
   gridInstance?.generateRandomTerrain();
+  refreshRenderStats();
   if (selectedQ.value !== null && selectedR.value !== null) {
     updateTerrainInfo(selectedQ.value, selectedR.value);
   }
@@ -468,13 +356,6 @@ const applyTerrainToSelected = (): void => {
   );
   updateTerrainInfo(selectedQ.value, selectedR.value);
 };
-
-// Re-bake the grid palette whenever theme/primary change, and once the theme
-// store finishes hydrating (which sets data-theme/data-primary on <html>).
-watch([theme, primary, () => themeStore.ready], () => {
-  applyHexTheme();
-  refreshRenderStats();
-});
 
 watch([cull, pixelRatio, size, width, height], () => {
   nextTick(() => refreshRenderStats());
@@ -595,6 +476,7 @@ const events: [string, string][] = [
             "
           >
             <VdHexGrid
+              :key="hexThemeKey"
               :size="size"
               :width="width"
               :height="height"
@@ -663,7 +545,7 @@ const events: [string, string][] = [
       <div class="vd-col-12 vd-col-lg-4 vd-mb-6">
         <div class="vd-card demo-card" style="height: 100%">
           <div class="vd-card-body">
-            <h4 class="vd-mb-4">Grid Controls</h4>
+            <h4 class="vd-mb-6">Grid Controls</h4>
 
             <div class="vd-mb-4">
               <label class="vd-form-label" for="hex-size-slider"
@@ -781,9 +663,9 @@ const events: [string, string][] = [
               </button>
             </div>
 
-            <hr class="vd-my-5" />
+            <hr class="vd-separator" />
 
-            <h5 class="vd-mb-3">Terrain &amp; pathfinding</h5>
+            <h5 class="vd-mb-8">Terrain &amp; pathfinding</h5>
 
             <div class="vd-mb-4">
               <button

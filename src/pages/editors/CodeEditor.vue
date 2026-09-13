@@ -215,7 +215,7 @@ const props: [string, string, string][] = [
   [
     "wrap",
     "boolean",
-    "Soft-wrap long lines (disables the gutter + active-line highlight).",
+    "Soft-wrap long lines (disables the gutter + active-line highlight). Shares scrollbar-gutter: stable on the textarea and highlight layer so a visible scrollbar does not misalign the caret.",
   ],
   ["autoClose", "boolean", "Auto-close brackets/quotes (default true)."],
   ["placeholder", "string", "Empty-state placeholder text."],
@@ -467,7 +467,9 @@ const cssVars = `:root {
         <h6>Soft wrap</h6>
         <p class="vd-text-sm vd-text-muted vd-mb-0">
           <code>wrap</code> soft-wraps long lines (the gutter and active-line
-          highlight turn off while wrapping).
+          highlight turn off while wrapping). Wrap mode shares
+          <code>scrollbar-gutter: stable</code> on the textarea and highlight
+          layer so a visible scrollbar no longer misaligns the caret.
         </p>
       </div>
       <div class="vd-card-body">
