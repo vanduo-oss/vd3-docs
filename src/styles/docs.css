@@ -3182,6 +3182,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 .vd-site-dock {
   --vd-dock-height: 5.15rem;
   --vd-dock-brand-size: 3.375rem;
+
   /* Keep 90% of the previous full-span bar (cut 10%) on the long axis. */
   --vd-site-dock-length-ratio: 0.9;
 }
