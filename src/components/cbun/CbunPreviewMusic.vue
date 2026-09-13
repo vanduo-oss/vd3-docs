@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { VdMusicPlayer } from "@vanduo-oss/vd3-cbun/music-player";
 
-defineProps<{ fullscreen?: boolean }>();
-
 const base = import.meta.env.BASE_URL;
 
 const tracks = [
@@ -22,7 +20,7 @@ const tracks = [
 </script>
 
 <template>
-  <div class="cbun-music-wrap" :class="{ 'is-fullscreen': fullscreen }">
+  <div class="cbun-music-wrap">
     <VdMusicPlayer
       :tracks="tracks"
       :options="{ showProgress: true, showPlaylist: true }"
@@ -35,12 +33,8 @@ const tracks = [
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 220px;
+  min-height: 420px;
+  height: 420px;
   padding: 0.5rem;
-}
-
-.cbun-music-wrap.is-fullscreen {
-  min-height: 100%;
-  height: 100%;
 }
 </style>

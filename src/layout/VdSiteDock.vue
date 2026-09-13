@@ -3,7 +3,6 @@ import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import {
   VdDock,
-  VdDockItem,
   dockOrientationOf,
   useTooltips,
   type DockItemLayout,
@@ -119,12 +118,6 @@ const links = [
   { id: "home", label: "Home", icon: "house", to: "/" },
   { id: "docs", label: "Docs", icon: "book-open-text", to: "/docs-landing" },
   { id: "cbun", label: "CBUN", icon: "package", to: "/cbun" },
-  {
-    id: "showcase",
-    label: "Showcase",
-    icon: "projector-screen",
-    to: "/showcase",
-  },
 ] as const;
 
 const isActive = (to: string): boolean => {
@@ -142,7 +135,7 @@ const go = (to: string): void => {
   void router.push(to);
 };
 
-/** Event delegation — VdDockItem does not declare a click emit. */
+/** Event delegation — dock items are plain buttons without a click emit. */
 const onDockClick = (event: Event): void => {
   const target = event.target;
   if (!(target instanceof Element)) return;
@@ -333,15 +326,27 @@ onUnmounted(() => {
       />
     </template>
 
-    <VdDockItem
+    <button
       v-for="link in links"
       :key="link.id"
-      :icon="link.icon"
-      :label="link.label"
-      :active="activeId === link.id"
+      type="button"
+      class="vd-dock-item"
+      :class="{ 'is-active': activeId === link.id }"
+      :aria-current="activeId === link.id ? 'page' : undefined"
+      :aria-label="link.label"
       :data-tooltip="showDockTooltips ? link.label : undefined"
       v-bind="dockTooltipBind"
-    />
+    >
+      <i
+        :class="
+          activeId === link.id
+            ? `ph-fill ph-${link.icon}`
+            : `ph ph-${link.icon}`
+        "
+        aria-hidden="true"
+      ></i>
+      <span class="vd-dock-label">{{ link.label }}</span>
+    </button>
 
     <template v-if="isNarrow">
       <span class="vd-site-dock-strip-divider" aria-hidden="true"></span>

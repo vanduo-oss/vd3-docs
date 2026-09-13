@@ -12,9 +12,11 @@ import {
 } from "@vanduo-oss/vd3";
 import {
   coerceDocsPrimary,
-  docsDefaultPrimary,
-  isDocsAllowedPrimary,
+  defaultDocsSchemePrimaries,
+  hydrateDocsSchemePrimaries,
+  persistDocsSchemePrimaries,
   type DocsColorScheme,
+  type DocsSchemePrimaries,
 } from "@/constants/docsPrimary";
 
 /** Docs chrome locks — only primary (and theme mode via switcher) stay user-editable. */
@@ -25,6 +27,9 @@ const DOCS_LOCKED_RADIUS = "0.5" as RadiusOption;
 export const useThemeStore = defineStore("theme", () => {
   const prefs = reactive<ThemePreference>(defaultPreference());
   const ready = ref(false);
+  const schemePrimaries = reactive<DocsSchemePrimaries>(
+    defaultDocsSchemePrimaries(),
+  );
 
   // Per-mode default neutral. The engine has a single NEUTRAL default (no
   // NEUTRAL_DARK), so we mirror the package's per-mode default-primary
@@ -41,14 +46,11 @@ export const useThemeStore = defineStore("theme", () => {
       : (theme as DocsColorScheme);
   const docsDefaultNeutral = (theme: ThemeMode): string =>
     DOCS_NEUTRAL[resolveScheme(theme)];
-  // Auto-primary follows docs defaults (Ink in light, green in dark). An
-  // explicit hue or Ink sticks across reloads and theme flips.
-  const isDocsDefaultPrimary = (
-    primary: string,
-    scheme: DocsColorScheme,
-  ): boolean =>
-    primary === docsDefaultPrimary(scheme) ||
-    !isDocsAllowedPrimary(primary, scheme);
+
+  const applyStoredPrimary = (theme: ThemeMode = prefs.theme): void => {
+    const scheme = resolveScheme(theme);
+    prefs.primary = coerceDocsPrimary(schemePrimaries[scheme], scheme);
+  };
 
   /** Force palette / font / radius / neutral to docs defaults (primary untouched). */
   const applyDocsLockedPrefs = (): void => {
@@ -61,6 +63,7 @@ export const useThemeStore = defineStore("theme", () => {
   const commit = (): void => {
     const scheme = resolveScheme(prefs.theme);
     const intended = coerceDocsPrimary(prefs.primary, scheme);
+    schemePrimaries[scheme] = intended;
     applyPreference(prefs);
     // Package `applyPreference` remaps PRIMARY_LIGHT/DARK values to the
     // scheme default. Re-assert the docs-allowed primary for the docs shell.
@@ -69,15 +72,7 @@ export const useThemeStore = defineStore("theme", () => {
       document.documentElement.setAttribute("data-primary", prefs.primary);
     }
     persistPreference(prefs);
-  };
-
-  const syncDocsPrimary = (): void => {
-    const scheme = resolveScheme(prefs.theme);
-    if (isDocsDefaultPrimary(prefs.primary, scheme)) {
-      prefs.primary = docsDefaultPrimary(scheme);
-    } else {
-      prefs.primary = coerceDocsPrimary(prefs.primary, scheme);
-    }
+    persistDocsSchemePrimaries(schemePrimaries);
   };
 
   /** Hydrate from localStorage; call once on the client after mount. */
@@ -85,7 +80,11 @@ export const useThemeStore = defineStore("theme", () => {
     if (ready.value) return;
     Object.assign(prefs, loadPreference());
     applyDocsLockedPrefs();
-    syncDocsPrimary();
+    Object.assign(
+      schemePrimaries,
+      hydrateDocsSchemePrimaries(resolveScheme(prefs.theme)),
+    );
+    applyStoredPrimary();
     commit();
     ready.value = true;
 
@@ -96,18 +95,10 @@ export const useThemeStore = defineStore("theme", () => {
       const mq = window.matchMedia("(prefers-color-scheme: dark)");
       if (!mq || typeof mq.addEventListener !== "function") return;
       mq.addEventListener("change", () => {
-        // Re-evaluate the auto-default primary/neutral when the OS scheme flips.
-        let dirty = false;
-        if (prefs.theme === "system") {
-          const scheme = resolveScheme("system");
-          if (isDocsDefaultPrimary(prefs.primary, scheme)) {
-            prefs.primary = docsDefaultPrimary(scheme);
-            dirty = true;
-          }
-          prefs.neutral = docsDefaultNeutral("system");
-          dirty = true;
-        }
-        if (dirty) commit();
+        if (prefs.theme !== "system") return;
+        applyStoredPrimary("system");
+        prefs.neutral = docsDefaultNeutral("system");
+        commit();
       });
     }
   };
@@ -117,17 +108,14 @@ export const useThemeStore = defineStore("theme", () => {
     commit();
   };
   const setTheme = (theme: ThemeMode): void => {
-    // Keep the auto-default primary/neutral in step with the chosen scheme.
-    const nextScheme = resolveScheme(theme);
-    if (isDocsDefaultPrimary(prefs.primary, resolveScheme(prefs.theme))) {
-      prefs.primary = docsDefaultPrimary(nextScheme);
-    }
     prefs.theme = theme;
     prefs.neutral = docsDefaultNeutral(theme);
+    applyStoredPrimary(theme);
     commit();
   };
   const setPrimary = (primary: string): void => {
-    prefs.primary = coerceDocsPrimary(primary, resolveScheme(prefs.theme));
+    const scheme = resolveScheme(prefs.theme);
+    prefs.primary = coerceDocsPrimary(primary, scheme);
     commit();
   };
   const setNeutral = (neutral: string): void => {
@@ -145,7 +133,8 @@ export const useThemeStore = defineStore("theme", () => {
   const reset = (): void => {
     Object.assign(prefs, defaultPreference());
     applyDocsLockedPrefs();
-    prefs.primary = docsDefaultPrimary(resolveScheme(prefs.theme));
+    Object.assign(schemePrimaries, defaultDocsSchemePrimaries());
+    applyStoredPrimary();
     commit();
   };
 

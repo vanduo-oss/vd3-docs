@@ -1,7 +1,8 @@
 # single-engine-docs Specification
 
 ## Purpose
-TBD - created by archiving change docs-clone-and-strip. Update Purpose after archive.
+Ensure the docs codebase and chrome document Vue 3 only — no dual-engine
+stores, switches, or framing.
 ## Requirements
 ### Requirement: no dual-engine machinery in the codebase
 

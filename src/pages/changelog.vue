@@ -1092,6 +1092,9 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>July 2026
             </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Initial</span
+            >
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -1308,14 +1311,240 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.4.2</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>September 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  Review-fix patch for draw, charts, and hex-grid correctness.
+                  The bundle moves to <code>1.4.2</code>; all six component
+                  version constants remain unchanged.
+                </p>
+
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-paint-brush"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Draw paint order and gesture cancellation</strong
+                        >
+                        <p>
+                          SVG paint order now follows document order after
+                          reorder, undo/redo, and load. A second pointer
+                          coherently cancels erase, pan, move, or resize;
+                          readonly controls re-sync when restored. See
+                          <RouterLink to="/canvas/draw"
+                            ><code>/canvas/draw</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-chart-bar"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Charts sizing, tables, and SVG roles</strong>
+                        <p>
+                          Responsive sizing excludes visible data-table layout,
+                          including first render and constrained containers.
+                          Multi-series Date/object x values match by normalized
+                          scale key. Core <code>role</code> and Vue
+                          <code>svgRole</code> override the inner SVG without
+                          consuming the wrapper's standard <code>role</code>
+                          attribute. See
+                          <RouterLink to="/canvas/charts"
+                            ><code>/canvas/charts</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-hexagon"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Hex-grid fast-frame observability</strong>
+                        <p>
+                          Fast blit frames now report current
+                          <code>total</code>, <code>visible</code>, and
+                          <code>drawn: 0</code> values through
+                          <code>getRenderStats()</code>. See
+                          <RouterLink to="/canvas/hex"
+                            ><code>/canvas/hex</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-checks"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Regression coverage</strong>
+                        <p>
+                          Expanded runtime, Vue, type, accessibility, DPR, and
+                          interaction tests pin every corrected path. No
+                          serialization format or component version changes.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.4.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>September 2026
+            </span>
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  Patch release: hex-grid adaptive rendering, draw vector
+                  polish, charts accessibility, and a code-editor wrap-mode
+                  caret fix. Additive and backward-compatible; only
+                  <code>VD_HEX_VERSION</code> takes a minor (<code
+                    >1.0.1 → 1.1.0</code
+                  >). <code>VD_CHARTS_VERSION</code>,
+                  <code>VD_CODE_EDITOR_VERSION</code>, and
+                  <code>VD_DRAW_VERSION</code> stay <code>1.1.0</code>.
+                </p>
+
+                <div class="change-group">
+                  <h5>Changed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-hexagon"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Adaptive hex rendering</strong>
+                        <p>
+                          New <code>pixelRatio</code> (<code
+                            >number | 'auto'</code
+                          >, default <code>'auto'</code>) and
+                          <code>cull</code> (default <code>true</code>) keep
+                          sharp grids without redrawing every cell. Gesture
+                          frames coalesce; large views blit then re-render when
+                          idle. Adds <code>getVisibleHexes()</code>,
+                          <code>getRenderStats()</code>,
+                          <code>setPixelRatio()</code>, <code>setCull()</code>.
+                          See
+                          <RouterLink to="/canvas/hex"
+                            ><code>/canvas/hex</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-paint-brush"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Draw vector polish</strong>
+                        <p>
+                          Freehand strokes are EMA-smoothed and
+                          Ramer–Douglas–Peucker simplified. Two-finger
+                          pinch-to-zoom and pan land for touch; text wraps to
+                          the shape width and is inline-editable on
+                          double-click. Vue
+                          <code>readonly</code> / <code>snap</code> /
+                          <code>history</code> / <code>historyLimit</code>
+                          update through surgical setters instead of remounting
+                          the editor.
+                          <code>fitView(padding?)</code> takes optional padding
+                          (default <code>40</code>). See
+                          <RouterLink to="/canvas/draw"
+                            ><code>/canvas/draw</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-chart-bar"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Charts accessibility</strong>
+                        <p>
+                          WAI-ARIA Graphics Module 1.0 on the SVG shell, arrow
+                          keys move focus between marks, and an accessible HTML
+                          data table ships by default as
+                          <code>sr-only</code>.
+                          <code>dataTable: false</code> suppresses it;
+                          <code>dataTable: 'visible'</code> shows it.
+                          <code>ariaRoleDescription</code> overrides the SVG
+                          role description. See
+                          <RouterLink to="/canvas/charts"
+                            ><code>/canvas/charts</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-code"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Code-editor wrap caret</strong>
+                        <p>
+                          Wrap mode reserves a shared
+                          <code>scrollbar-gutter: stable</code> on the textarea
+                          and highlight layer so a visible scrollbar no longer
+                          shrinks only the editable layer and misaligns the
+                          caret. See
+                          <RouterLink to="/editors/code-editor"
+                            ><code>/editors/code-editor</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
               >v1.4.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>August 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">

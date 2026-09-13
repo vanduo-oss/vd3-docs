@@ -46,7 +46,7 @@ type Id = User["id"];
 `,
   json: `{
   "name": "vd3-cbun",
-  "version": "1.1.0",
+  "version": "1.4.2",
   "private": false,
   "keywords": ["vue", "code-editor"],
   "nested": { "ok": true, "n": -3.14e2 }
@@ -89,6 +89,27 @@ class Point:
 
 print(Point(0, 0).dist(Point(3, 4)))  # 5.0
 `,
+  vue: `<script setup lang="ts">
+import { ref } from "vue";
+
+const count = ref(0);
+const increment = (): void => {
+  count.value++;
+};
+<\/script>
+
+<template>
+  <button type="button" @click="increment" :class="{ active: count > 0 }">
+    Count is: {{ count }}
+  </button>
+</template>
+
+<style scoped>
+button {
+  color: var(--vd-color-primary, #3b82f6);
+}
+</style>
+`,
   plaintext: `Plain text — no highlighting.
 Typing, indentation, and the gutter still work.
 `,
@@ -97,6 +118,7 @@ Typing, indentation, and the gutter still work.
 const languageOptions = [
   { id: "javascript", label: "JavaScript" },
   { id: "typescript", label: "TypeScript" },
+  { id: "vue", label: "Vue" },
   { id: "html", label: "HTML" },
   { id: "css", label: "CSS" },
   { id: "json", label: "JSON" },
@@ -112,6 +134,10 @@ const code = ref(SAMPLES.javascript);
 const readOnly = ref(false);
 const lineNumbers = ref(true);
 const wrap = ref(false);
+const autoClose = ref(true);
+const tabSize = ref(2);
+const highlightActiveLine = ref(true);
+const showCopy = ref(true);
 
 const onLanguageChange = (): void => {
   code.value = SAMPLES[language.value] ?? "";
@@ -142,7 +168,8 @@ const code = ref('const hello = "world";');
   <VdCodeEditor v-model="code" language="javascript" />
 </template>`;
 
-const languagesSnippet = `<VdCodeEditor v-model="code" language="python" />
+const languagesSnippet = `<VdCodeEditor v-model="code" language="vue" />
+<VdCodeEditor v-model="code" language="python" />
 <VdCodeEditor v-model="code" language="json" />
 <VdCodeEditor v-model="code" language="markdown" />
 <!-- aliases work too: js, ts, py, sh, md -->`;
@@ -155,15 +182,24 @@ const helpersSnippet = `import { tokenize, highlight, LANGUAGES } from '@vanduo-
 
 // Pure, framework-agnostic helpers (no DOM):
 const tokens = tokenize('const x = 1;', 'javascript'); // [{ type, value }, …]
-const html = highlight('const x = 1;', 'javascript');  // escaped HTML string
-LANGUAGES; // ['plaintext','javascript','typescript','html','css','json','markdown','shell','python']`;
+const html = highlight('const x = 1;', 'javascript');  // escaped HTML string (snippet-safe)
+LANGUAGES; // ['plaintext','javascript','typescript','html','vue','css','json','markdown','shell','python']`;
+
+const highlightSubpathSnippet = `// Tree-shakeable, tokenizer-only subpath (zero DOM, no Vue or editor core):
+import { highlight, tokenize, renderTokensToHtml, LANGUAGES } from '@vanduo-oss/vd3-cbun/code-editor/highlight';
+
+// Default is snippet-safe (no extra trailing newline inside <pre>):
+const snippetHtml = highlight('const x = 1;\\n', 'javascript');
+
+// For textarea overlay parity, enable trailingNewline:
+const overlayHtml = highlight('const x = 1;\\n', 'javascript', { trailingNewline: true });`;
 
 const props: [string, string, string][] = [
   ["v-model / modelValue", "string", "Editor contents (two-way)."],
   [
     "language",
     "string",
-    "Language id or alias (javascript, ts, py, json, markdown, shell, …); plaintext = no highlighting.",
+    "Language id or alias (javascript, ts, vue, py, json, markdown, shell, …); plaintext = no highlighting.",
   ],
   [
     "readOnly",
@@ -179,7 +215,7 @@ const props: [string, string, string][] = [
   [
     "wrap",
     "boolean",
-    "Soft-wrap long lines (disables the gutter + active-line highlight).",
+    "Soft-wrap long lines (disables the gutter + active-line highlight). Shares scrollbar-gutter: stable on the textarea and highlight layer so a visible scrollbar does not misalign the caret.",
   ],
   ["autoClose", "boolean", "Auto-close brackets/quotes (default true)."],
   ["placeholder", "string", "Empty-state placeholder text."],
@@ -189,6 +225,11 @@ const props: [string, string, string][] = [
     "highlightActiveLine",
     "boolean",
     "Highlight the caret's line (default true; ignored in wrap mode).",
+  ],
+  [
+    "maxHighlightLength",
+    "number",
+    "Skip highlighting above this character count (perf guard; default 100000).",
   ],
   [
     "spellcheck",
@@ -249,10 +290,11 @@ const cssVars = `:root {
     <p class="vd-text-sm vd-text-muted vd-mb-8">
       Ships in the components bundle at
       <code>@vanduo-oss/vd3-cbun/code-editor</code>. v1 highlights
-      JavaScript/TypeScript, HTML, CSS, JSON, Markdown, Shell, and Python, with
-      a line-number gutter, auto-indent + bracket/quote auto-close, read-only
-      mode, a copy button, a placeholder, and a large-input performance guard.
-      It adapts to the active vd3 theme via <code>--vd-*</code> tokens.
+      JavaScript/TypeScript, HTML, Vue SFC, CSS, JSON, Markdown, Shell, and
+      Python, with a line-number gutter, auto-indent + bracket/quote auto-close,
+      read-only mode, a copy button, a placeholder, and a large-input
+      performance guard. It adapts to the active vd3 theme via
+      <code>--vd-*</code> tokens.
     </p>
 
     <!-- Interactive playground -->
@@ -287,6 +329,22 @@ const cssVars = `:root {
           <label class="ce-control ce-check">
             <input v-model="readOnly" type="checkbox" /> read-only
           </label>
+          <label class="ce-control ce-check">
+            <input v-model="autoClose" type="checkbox" /> auto-close
+          </label>
+          <label class="ce-control ce-check">
+            <input v-model="highlightActiveLine" type="checkbox" /> active line
+          </label>
+          <label class="ce-control ce-check">
+            <input v-model="showCopy" type="checkbox" /> copy button
+          </label>
+          <label class="ce-control">
+            <span>Tab size</span>
+            <select v-model.number="tabSize" class="ce-select">
+              <option :value="2">2</option>
+              <option :value="4">4</option>
+            </select>
+          </label>
         </div>
 
         <VdCodeEditor
@@ -295,6 +353,10 @@ const cssVars = `:root {
           :read-only="readOnly"
           :line-numbers="lineNumbers"
           :wrap="wrap"
+          :auto-close="autoClose"
+          :tab-size="tabSize"
+          :highlight-active-line="highlightActiveLine"
+          :copy="showCopy"
           style="height: 340px"
         />
 
@@ -405,7 +467,9 @@ const cssVars = `:root {
         <h6>Soft wrap</h6>
         <p class="vd-text-sm vd-text-muted vd-mb-0">
           <code>wrap</code> soft-wraps long lines (the gutter and active-line
-          highlight turn off while wrapping).
+          highlight turn off while wrapping). Wrap mode shares
+          <code>scrollbar-gutter: stable</code> on the textarea and highlight
+          layer so a visible scrollbar no longer misaligns the caret.
         </p>
       </div>
       <div class="vd-card-body">
@@ -508,6 +572,15 @@ const cssVars = `:root {
           the core class as <code>VdCodeEditorCore</code>.
         </p>
         <DocCodeSnippet :js="helpersSnippet" />
+
+        <h4 class="vd-mt-6">Tokenizer-only highlight subpath</h4>
+        <p class="vd-text-sm vd-text-muted">
+          For static code snippets or SSR where the editor UI is not needed,
+          <code>@vanduo-oss/vd3-cbun/code-editor/highlight</code> provides a
+          tree-shakeable tokenizer and HTML highlighter without loading Vue or
+          the editor core.
+        </p>
+        <DocCodeSnippet :js="highlightSubpathSnippet" />
 
         <h4 class="vd-mt-6">CSS variables</h4>
         <DocCodeSnippet :css="cssVars" />

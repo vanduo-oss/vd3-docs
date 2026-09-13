@@ -4,6 +4,10 @@ import { RouterLink } from "vue-router";
 import { useMorph } from "@vanduo-oss/vd3";
 import HomeOolaSection from "@/components/HomeOolaSection.vue";
 import Vd3Mark from "@/components/Vd3Mark.vue";
+import {
+  VD3_COMPONENT_EXPORTS,
+  VD3_COMPOSABLE_MODULES,
+} from "@/constants/vd3Catalog";
 import { HERO_LOGO_FX, vd3MarkSize } from "@/utils/logoFx";
 import "@/styles/logo-fx.css";
 import "@/styles/hero-display-font.css";
@@ -25,7 +29,7 @@ const features: Feature[] = [
   {
     icon: "ph-package",
     title: "One Complete System",
-    teaser: "63 components, 39 composables, one install.",
+    teaser: `${VD3_COMPONENT_EXPORTS} components, ${VD3_COMPOSABLE_MODULES} composables, one install.`,
     body: "Typed components, a composable behind every interaction, design tokens, and the full CSS layer — all in @vanduo-oss/vd3. Nothing to wire up first, no configuration ceremony.",
     guide: { to: "/guides/vd3-ecosystem", label: "The vd3 Ecosystem" },
   },

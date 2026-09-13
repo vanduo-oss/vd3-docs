@@ -34,7 +34,7 @@ describe("VdThemeCustomizer swatches fan", () => {
 
     const fan = document.body.querySelector(".vd-theme-customizer-fan");
     expect(fan).toBeTruthy();
-    expect(fan?.querySelectorAll(".tc-fan-item").length).toBe(9);
+    expect(fan?.querySelectorAll(".tc-fan-item").length).toBe(13);
     wrapper.unmount();
   });
 
@@ -105,7 +105,7 @@ describe("VdThemeCustomizer swatches fan", () => {
     await flushPromises();
 
     const items = document.body.querySelectorAll(".tc-fan-item");
-    expect(items.length).toBe(9);
+    expect(items.length).toBe(13);
 
     const first = items[0] as HTMLElement;
     const openTransform = first.style.getPropertyValue("--fan-transform-open");
@@ -119,8 +119,8 @@ describe("VdThemeCustomizer swatches fan", () => {
 
     // Center blade sits on top of the overlapped fan. The package drives this
     // through --fan-z so the hover rule can out-specify it without !important.
-    const center = items[4] as HTMLElement;
-    expect(center.style.getPropertyValue("--fan-z")).toBe("9");
+    const center = items[6] as HTMLElement;
+    expect(center.style.getPropertyValue("--fan-z")).toBe("13");
     wrapper.unmount();
   });
 
@@ -135,12 +135,12 @@ describe("VdThemeCustomizer swatches fan", () => {
       await flushPromises();
 
       const items = fan()?.querySelectorAll(".tc-fan-item");
-      expect(items?.length).toBe(9);
+      expect(items?.length).toBe(13);
       const first = items?.[0] as HTMLElement;
-      const last = items?.[8] as HTMLElement;
+      const last = items?.[12] as HTMLElement;
       const a0 = first.style.getPropertyValue("--fan-transform-open");
-      const a8 = last.style.getPropertyValue("--fan-transform-open");
-      expect(a0).not.toBe(a8);
+      const aLast = last.style.getPropertyValue("--fan-transform-open");
+      expect(a0).not.toBe(aLast);
 
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
       await flushPromises();

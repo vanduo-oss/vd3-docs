@@ -11,10 +11,6 @@ const DocCodeSnippetStub = {
   name: "DocCodeSnippet",
   template: '<div class="doc-code-snippet-stub"></div>',
 };
-const EngineSwitchStub = {
-  name: "EngineSwitch",
-  template: '<div class="engine-switch-stub"><slot name="vue3" /><slot name="vanilla" /></div>',
-};
 
 beforeAll(() => {
   type G = Record<string, unknown>;
@@ -27,7 +23,7 @@ beforeAll(() => {
   }
 });
 
-describe("VdMusicPlayer (@vanduo-oss/music-player/vue integration)", () => {
+describe("VdMusicPlayer (@vanduo-oss/vd3-cbun/music-player)", () => {
   it("mounts and initializes the player into the container", async () => {
     const wrapper = mount(VdMusicPlayer, {
       props: {
@@ -55,7 +51,6 @@ describe("Music player page (parity-plus)", () => {
         stubs: {
           DocsLayout: DocsLayoutStub,
           DocCodeSnippet: DocCodeSnippetStub,
-          EngineSwitch: EngineSwitchStub,
         },
       },
       attachTo: document.body,
@@ -79,7 +74,6 @@ describe("Music player page (parity-plus)", () => {
         stubs: {
           DocsLayout: DocsLayoutStub,
           DocCodeSnippet: DocCodeSnippetStub,
-          EngineSwitch: EngineSwitchStub,
         },
       },
       attachTo: document.body,
@@ -109,7 +103,6 @@ describe("Music player page (parity-plus)", () => {
         stubs: {
           DocsLayout: DocsLayoutStub,
           DocCodeSnippet: DocCodeSnippetStub,
-          EngineSwitch: EngineSwitchStub,
         },
       },
       attachTo: document.body,

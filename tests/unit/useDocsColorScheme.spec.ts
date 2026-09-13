@@ -38,10 +38,21 @@ describe("docs dock theme defaults", () => {
     expect(docsDockAccent("light", "black")).toBe("");
   });
 
+  it("aliases accretion-only fan hues to the nearest DOCK_TINT", () => {
+    expect(docsDockAccent("light", "cyan")).toBe("teal");
+    expect(docsDockAccent("dark", "cyan")).toBe("teal");
+    expect(docsDockAccent("light", "sky")).toBe("blue");
+    expect(docsDockAccent("dark", "sky")).toBe("blue");
+    expect(docsDockAccent("light", "purple")).toBe("violet");
+    expect(docsDockAccent("dark", "purple")).toBe("violet");
+    expect(docsDockAccent("light", "rose")).toBe("pink");
+    expect(docsDockAccent("dark", "rose")).toBe("pink");
+  });
+
   it("falls back to scheme default accent for unknown primaries", () => {
-    expect(docsDockAccent("dark", "amber")).toBe("green");
+    expect(docsDockAccent("dark", "amber")).toBe("blue");
     expect(docsDockAccent("light", "amber")).toBe("");
-    expect(docsDockAccent("dark", "")).toBe("green");
+    expect(docsDockAccent("dark", "")).toBe("blue");
     expect(docsDockAccent("light", "")).toBe("");
   });
 

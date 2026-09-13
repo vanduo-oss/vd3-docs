@@ -1,82 +1,90 @@
 <script setup lang="ts">
 import { VdFlowchart } from "@vanduo-oss/vd3-cbun/flowchart";
 
-defineProps<{ fullscreen?: boolean }>();
-
 const seedDoc = {
   version: "1.2.0",
   viewport: { x: 0, y: 0, scale: 1 },
   nodes: [
     {
-      id: "start",
+      id: "idea",
       type: "circle",
-      x: 80,
-      y: 120,
-      width: 88,
-      height: 88,
-      text: "Start",
+      x: 16,
+      y: 40,
+      width: 156,
+      height: 156,
+      text: "Your great idea",
     },
     {
       id: "build",
       type: "rounded-rect",
-      x: 220,
-      y: 130,
-      width: 140,
-      height: 64,
-      text: "Build",
+      x: 240,
+      y: 8,
+      width: 148,
+      height: 56,
+      text: "Build it",
     },
     {
-      id: "ship",
-      type: "diamond",
-      x: 420,
-      y: 110,
-      width: 120,
-      height: 100,
-      text: "Ready?",
-    },
-    {
-      id: "done",
-      type: "circle",
-      x: 600,
-      y: 120,
-      width: 88,
-      height: 88,
-      text: "Ship",
+      id: "share",
+      type: "rounded-rect",
+      x: 240,
+      y: 172,
+      width: 148,
+      height: 56,
+      text: "Tell someone",
     },
   ],
   edges: [
     {
-      id: "e1",
-      from: { nodeId: "start", port: "right" },
+      id: "e-build",
+      from: { nodeId: "idea", port: "right" },
       to: { nodeId: "build", port: "left" },
       kind: "arrow",
-      route: "orthogonal",
+      route: "curve",
     },
     {
-      id: "e2",
-      from: { nodeId: "build", port: "right" },
-      to: { nodeId: "ship", port: "left" },
+      id: "e-share",
+      from: { nodeId: "idea", port: "right" },
+      to: { nodeId: "share", port: "left" },
       kind: "arrow",
-      route: "orthogonal",
-    },
-    {
-      id: "e3",
-      from: { nodeId: "ship", port: "right" },
-      to: { nodeId: "done", port: "left" },
-      kind: "arrow",
-      route: "orthogonal",
-      label: "yes",
+      route: "curve",
     },
   ],
 };
+
+function onReady(instance: { fitView?: (padding?: number) => void } | null) {
+  instance?.fitView?.(28);
+}
 </script>
 
 <template>
-  <VdFlowchart
-    :data="seedDoc"
-    auto-fit
-    :style="
-      fullscreen ? { height: '100%' } : { minHeight: '280px', height: '280px' }
-    "
-  />
+  <div class="cbun-flowchart-wrap">
+    <VdFlowchart
+      :data="seedDoc"
+      auto-fit
+      :style="{ minHeight: '420px', height: '420px' }"
+      @ready="onReady"
+    />
+  </div>
 </template>
+
+<style scoped>
+.cbun-flowchart-wrap {
+  height: 420px;
+  min-height: 420px;
+}
+
+.cbun-flowchart-wrap :deep(.vd-flowchart-host),
+.cbun-flowchart-wrap :deep(.vd-flowchart-shell) {
+  height: 100%;
+  min-height: 0;
+}
+
+/* Showcase only: drop the JSON inspector so the fork can fill the canvas. */
+.cbun-flowchart-wrap :deep(.vd-flowchart-panel--inspector) {
+  display: none;
+}
+
+.cbun-flowchart-wrap :deep(.vd-flowchart-body) {
+  grid-template-columns: 88px minmax(0, 1fr);
+}
+</style>

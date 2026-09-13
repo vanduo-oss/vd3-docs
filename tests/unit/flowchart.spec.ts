@@ -4,7 +4,10 @@ import { VdFlowchart } from "@vanduo-oss/vd3-cbun/flowchart";
 
 beforeAll(() => {
   // jsdom lacks ResizeObserver, which the editor observes its host with.
-  if (typeof (globalThis as { ResizeObserver?: unknown }).ResizeObserver === "undefined") {
+  if (
+    typeof (globalThis as { ResizeObserver?: unknown }).ResizeObserver ===
+    "undefined"
+  ) {
     (globalThis as { ResizeObserver?: unknown }).ResizeObserver = class {
       observe(): void {}
       unobserve(): void {}
@@ -13,13 +16,21 @@ beforeAll(() => {
   }
 });
 
-describe("VdFlowchart (@vanduo-oss/flowchart/vue integration)", () => {
+describe("VdFlowchart (@vanduo-oss/vd3-cbun/flowchart)", () => {
   it("mounts and builds the editor shell into the container", async () => {
     const wrapper = mount(VdFlowchart, {
       props: {
         data: {
           nodes: [
-            { id: "a", type: "rounded-rect", x: 80, y: 80, width: 160, height: 90, text: "Step" },
+            {
+              id: "a",
+              type: "rounded-rect",
+              x: 80,
+              y: 80,
+              width: 160,
+              height: 90,
+              text: "Step",
+            },
           ],
           edges: [],
         },
@@ -38,7 +49,15 @@ describe("VdFlowchart (@vanduo-oss/flowchart/vue integration)", () => {
       props: {
         data: {
           nodes: [
-            { id: "a", type: "rounded-rect", x: 80, y: 80, width: 160, height: 90, text: "Step" },
+            {
+              id: "a",
+              type: "rounded-rect",
+              x: 80,
+              y: 80,
+              width: 160,
+              height: 90,
+              text: "Step",
+            },
           ],
           edges: [],
         },
@@ -50,7 +69,11 @@ describe("VdFlowchart (@vanduo-oss/flowchart/vue integration)", () => {
     expect(arrange.exists()).toBe(true);
     const options = arrange.findAll("option");
     expect(options).toHaveLength(3);
-    expect(options.map((o) => o.element.value)).toEqual(["tree", "radial", "grid"]);
+    expect(options.map((o) => o.element.value)).toEqual([
+      "tree",
+      "radial",
+      "grid",
+    ]);
     expect(options.every((o) => !o.element.disabled)).toBe(true);
     expect((arrange.element as HTMLSelectElement).value).toBe("tree");
     wrapper.unmount();

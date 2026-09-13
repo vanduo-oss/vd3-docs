@@ -3,9 +3,9 @@ import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const pinShell = `# Pin exact versions so visual output is reproducible
-pnpm add @vanduo-oss/vd3@1.3.0
+pnpm add @vanduo-oss/vd3@1.7.2
 # Optional canvas widgets
-pnpm add @vanduo-oss/vd3-cbun@1.3.1`;
+pnpm add @vanduo-oss/vd3-cbun@1.4.2`;
 
 const entryJs = `// main.ts — CSS once, plugin once, named JS imports elsewhere
 import { createApp } from 'vue';
@@ -16,7 +16,7 @@ import App from './App.vue';
 createApp(App)
   .use(VanduoVue, {
     storagePrefix: 'my-app-',
-    themeDefaults: { PRIMARY_DARK: 'green' },
+    themeDefaults: { PRIMARY_DARK: 'blue' },
   })
   .mount('#app');`;
 

@@ -13,8 +13,9 @@ type DockEdge = "bottom" | "top" | "left" | "right";
  * Docs-site lock-in around the package swatches fan: only Primary Color is
  * user-editable here. Palette / Neutral / Radius / Font stay forced to docs
  * defaults, so the fan runs controlled — `primary` in, `update:primary` out
- * through the store, which clamps to the docs-allowed hues (Ink + eight dock
- * tints) instead of writing the package's `useThemePreference()` singleton.
+ * through the store, which clamps to the docs-allowed hues (Ink + twelve
+ * accretion fan hues) instead of writing the package's `useThemePreference()`
+ * singleton.
  */
 const props = withDefaults(
   defineProps<{

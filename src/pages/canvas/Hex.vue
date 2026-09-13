@@ -3,71 +3,43 @@ import { computed, nextTick, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { useThemeStore } from "@/stores/theme";
-import { VdHexGrid } from "@vanduo-oss/vd3-cbun/hex-grid";
+import {
+  VdHexGrid,
+  VdHexGridCore,
+  type HexCell,
+  type HexRenderStats,
+} from "@vanduo-oss/vd3-cbun/hex-grid";
 import {
   TerrainType,
   getAdjacentHexes,
+  hexDistance,
 } from "@vanduo-oss/vd3-cbun/hex-grid/hex-math";
 
 const DEFAULT_SIZE = 30;
 const DEFAULT_WIDTH = 15;
 const DEFAULT_HEIGHT = 10;
 
-interface HexCell {
-  q: number;
-  r: number;
-  x: number;
-  y: number;
-  fill: string;
-  stroke?: string;
-  terrain?: string | null;
-  adjacent?: Array<{ q: number; r: number }>;
-}
-
-interface GridInstance {
-  width: number;
-  height: number;
-  resetView: () => void;
-  zoomIn: () => void;
-  zoomOut: () => void;
-  fillRandom: () => void;
-  generateRandomTerrain: () => void;
-  setHexTerrain: (q: number, r: number, type: string) => void;
-  getHexTerrain: (q: number, r: number) => string | null;
-  getHexYields: (
-    q: number,
-    r: number,
-  ) => { food: number; production: number; gold: number };
-  getHexMovementCost: (q: number, r: number) => number;
-  isHexPassable: (q: number, r: number) => boolean;
-  hasHex: (q: number, r: number) => boolean;
-  getHex: (q: number, r: number) => HexCell | undefined;
-  getPath: (
-    startQ: number,
-    startR: number,
-    endQ: number,
-    endR: number,
-  ) => Array<{ q: number; r: number }>;
-  setHexFill: (q: number, r: number, color: string) => void;
-  getAllHexes: () => HexCell[];
-  setCustomRender: (
-    callback: (
-      ctx: CanvasRenderingContext2D,
-      hex: HexCell,
-      size: number,
-    ) => void,
-  ) => void;
-  clearCustomRender: () => void;
-  _getThemeColors?: () => Record<string, string>;
-  _render?: () => void;
-  themeColors?: Record<string, string>;
-}
-
 const size = ref(DEFAULT_SIZE);
 const width = ref(DEFAULT_WIDTH);
 const height = ref(DEFAULT_HEIGHT);
 const rotationDeg = ref(0);
 const rotationRad = computed(() => (rotationDeg.value * Math.PI) / 180);
+const pixelRatio = ref<number | "auto">("auto");
+const cull = ref(true);
+const renderStats = ref<HexRenderStats>({
+  total: 0,
+  visible: 0,
+  drawn: 0,
+  mode: "sharp",
+  lastRenderMs: 0,
+  pixelRatio: 1,
+  scale: 1,
+});
+
+const refreshRenderStats = (): void => {
+  if (!gridInstance) return;
+  renderStats.value = { ...gridInstance.getRenderStats() };
+};
 
 const zoomPercent = ref(100);
 const showInfo = ref(false);
@@ -99,33 +71,19 @@ const terrainYields = ref<{
 const terrainMovement = ref<number | null>(null);
 const terrainPassable = ref<boolean | null>(null);
 
-let gridInstance: GridInstance | null = null;
+let gridInstance: VdHexGridCore | null = null;
+let pathFillBackup = new Map<string, string>();
 
 const themeStore = useThemeStore();
 const { theme, primary } = storeToRefs(themeStore);
+const hexThemeKey = computed(
+  () => `${theme.value}:${primary.value}:${themeStore.ready ? "1" : "0"}`,
+);
 
-const lightFills = [
-  "#f0f0f0",
-  "#d4e5d4",
-  "#e5d4d4",
-  "#d4d4e5",
-  "#e5e5d4",
-  "#d4e5e5",
-  "#e8e8e8",
-  "#d0d0d0",
-];
-const darkFills = [
-  "#37474f",
-  "#2e3b2e",
-  "#3b2e2e",
-  "#2e2e3b",
-  "#3b3b2e",
-  "#2e3b3b",
-  "#3a3a3a",
-  "#455a64",
-];
 const PATH_FILL = "rgba(255, 159, 28, 0.5)";
 const PATH_ACCENT = "#ff9f1c";
+/** Docs demo empty-cell fill — outline only; package default remains bg-secondary. */
+const DEMO_CELL_FILL = "transparent";
 
 const readToken = (token: string, fallback: string): string => {
   if (typeof document === "undefined") return fallback;
@@ -135,59 +93,27 @@ const readToken = (token: string, fallback: string): string => {
   );
 };
 
-const isDarkTheme = (): boolean => {
-  if (typeof document === "undefined") return false;
-  const attr = document.documentElement.getAttribute("data-theme");
-  if (attr === "dark") return true;
-  if (attr === "light") return false;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+const demoCellStroke = (): string => readToken("--vd-color-primary", "#3b82f6");
+
+const requestRender = (): void => {
+  gridInstance?.setCustomRender(overlayRender);
 };
 
-const hexPalette = () => {
-  const dark = isDarkTheme();
-  const outline = readToken("--vd-color-primary", dark ? "#3bc9db" : "#000000");
-  return {
-    outline,
-    canvasBg: readToken("--vd-bg-primary", dark ? "#111418" : "#ffffff"),
-    hexFill: "transparent",
-    textColor: readToken("--vd-text-primary", dark ? "#e9ecef" : "#1f2937"),
-    textMuted: readToken("--vd-text-muted", "#868e96"),
-  };
-};
-
-const applyHexTheme = (): void => {
-  if (!gridInstance?._getThemeColors || !gridInstance._render) return;
-  const p = hexPalette();
-  gridInstance._getThemeColors = () => ({
-    bgPrimary: p.canvasBg,
-    bgSecondary: p.hexFill,
-    borderColor: p.outline,
-    colorPrimary: p.outline,
-    textColor: p.textColor,
-    textMuted: p.textMuted,
-  });
-  const colors = gridInstance._getThemeColors();
-  gridInstance.themeColors = colors;
-  gridInstance.getAllHexes().forEach((h) => {
-    if (!h.terrain) {
-      h.fill = colors.bgSecondary;
-      if (h.stroke !== undefined) h.stroke = colors.borderColor;
-    }
-  });
-  gridInstance._render();
-};
-
-const themeAwareFillRandom = (): void => {
+/**
+ * First-load / reset look for the docs canvas: no cell fill, stroke follows
+ * the current primary (light ink / dark blue by default, and any later pick).
+ * Terrain, Fill Random, and path highlights keep their own fills.
+ */
+const applyDemoOutlineStyle = (): void => {
   if (!gridInstance) return;
-  const palette = isDarkTheme() ? darkFills : lightFills;
-  gridInstance.getAllHexes().forEach((h) => {
-    if (!h.terrain)
-      h.fill = palette[Math.floor(Math.random() * palette.length)];
-  });
-  gridInstance._render?.();
+  const stroke = demoCellStroke();
+  for (const hex of gridInstance.getAllHexes()) {
+    if (hex.terrain) continue;
+    hex.fill = DEMO_CELL_FILL;
+    hex.stroke = stroke;
+  }
+  requestRender();
 };
-
-const requestRender = (): void => gridInstance?._render?.();
 
 /**
  * Single custom-render hook driving both the coordinate-label toggle and the
@@ -235,7 +161,7 @@ const overlayRender = (
   }
 
   if (showCoords.value) {
-    const muted = gridInstance?.themeColors?.textMuted ?? "#868e96";
+    const muted = readToken("--vd-text-muted", "#868e96");
     ctx.save();
     ctx.fillStyle = muted;
     ctx.font = `${Math.max(8, hexSize * 0.32)}px sans-serif`;
@@ -247,9 +173,15 @@ const overlayRender = (
 };
 
 const clearPathHighlight = (): void => {
+  if (gridInstance) {
+    for (const [key, fill] of pathFillBackup) {
+      const [q, r] = key.split(",").map(Number);
+      gridInstance.setHexFill(q, r, fill);
+    }
+  }
+  pathFillBackup = new Map();
   pathHexes.value = [];
   pathKeyIndex = new Map();
-  applyHexTheme();
 };
 
 const highlightPath = (path: Array<{ q: number; r: number }>): void => {
@@ -257,22 +189,32 @@ const highlightPath = (path: Array<{ q: number; r: number }>): void => {
   clearPathHighlight();
   pathHexes.value = path;
   pathKeyIndex = new Map(path.map((p, i) => [`${p.q},${p.r}`, i]));
-  // Solid body fill for non-terrain hexes; terrain tiles keep their color but
-  // still get the connector/markers from overlayRender.
-  path.forEach(({ q, r }) => gridInstance!.setHexFill(q, r, PATH_FILL));
+  path.forEach(({ q, r }) => {
+    const hex = gridInstance!.getHex(q, r);
+    if (hex) pathFillBackup.set(`${q},${r}`, hex.fill);
+    gridInstance!.setHexFill(q, r, PATH_FILL);
+  });
   requestRender();
 };
 
 /**
- * BFS over existing hexes. Unlike the core's getPath (which treats a hex with no
- * terrain as impassable), terrainless hexes are passable here so the demo grid
- * routes out of the box; assigned terrain still blocks impassable tiles.
+ * Prefer core getPath when both ends have terrain (core treats empty terrain as
+ * impassable). Fall back to a demo BFS that treats terrainless hexes as passable
+ * so the empty-grid showcase still routes.
  */
 const computePath = (
   start: { q: number; r: number },
   end: { q: number; r: number },
 ): Array<{ q: number; r: number }> => {
   if (!gridInstance) return [];
+
+  const startTerrain = gridInstance.getHexTerrain(start.q, start.r);
+  const endTerrain = gridInstance.getHexTerrain(end.q, end.r);
+  if (startTerrain && endTerrain) {
+    const corePath = gridInstance.getPath(start.q, start.r, end.q, end.r);
+    if (corePath.length) return corePath;
+  }
+
   const passable = (q: number, r: number): boolean => {
     if (!gridInstance!.hasHex(q, r)) return false;
     const terrain = gridInstance!.getHexTerrain(q, r);
@@ -326,20 +268,25 @@ const updateTerrainInfo = (q: number, r: number): void => {
   }
 };
 
-const onReady = (instance: GridInstance): void => {
+const onReady = (instance: VdHexGridCore): void => {
   gridInstance = instance;
   zoomPercent.value = 100;
-  instance.fillRandom = themeAwareFillRandom;
+  pathHexes.value = [];
+  pathKeyIndex = new Map();
+  pathFillBackup = new Map();
   instance.setCustomRender(overlayRender);
-  applyHexTheme();
-  // App.vue applies the theme/primary attributes in its onMounted, which runs
-  // after this child mounts — re-read the resolved primary once that settles so
-  // the outline tracks the global primary color instead of the SSR default.
-  nextTick(() => applyHexTheme());
+  applyDemoOutlineStyle();
+  refreshRenderStats();
+  nextTick(() => refreshRenderStats());
 };
 
 const onZoom = (data: { scale: number }): void => {
   zoomPercent.value = Math.round(data.scale * 100);
+  refreshRenderStats();
+};
+
+const onPan = (): void => {
+  refreshRenderStats();
 };
 
 const onSelect = (hex: HexCell): void => {
@@ -349,7 +296,7 @@ const onSelect = (hex: HexCell): void => {
   pixelY.value = Math.round(hex.y);
   selectedQ.value = hex.q;
   selectedR.value = hex.r;
-  adjacentCount.value = (hex.adjacent ?? []).filter((a) =>
+  adjacentCount.value = hex.adjacent.filter((a) =>
     gridInstance?.hasHex(a.q, a.r),
   ).length;
   updateTerrainInfo(hex.q, hex.r);
@@ -395,6 +342,7 @@ const resetGrid = (): void => {
   pathLength.value = null;
   pathNoRoute.value = false;
   clearPathHighlight();
+  applyDemoOutlineStyle();
   terrainName.value = null;
   terrainYields.value = null;
   terrainMovement.value = null;
@@ -405,10 +353,16 @@ const zoomIn = (): void => gridInstance?.zoomIn();
 const zoomOut = (): void => gridInstance?.zoomOut();
 const resetView = (): void => gridInstance?.resetView();
 
-const fillRandom = (): void => gridInstance?.fillRandom();
+const fillRandom = (): void => {
+  clearPathHighlight();
+  gridInstance?.fillRandom();
+  refreshRenderStats();
+};
 
 const generateTerrain = (): void => {
+  clearPathHighlight();
   gridInstance?.generateRandomTerrain();
+  refreshRenderStats();
   if (selectedQ.value !== null && selectedR.value !== null) {
     updateTerrainInfo(selectedQ.value, selectedR.value);
   }
@@ -425,9 +379,16 @@ const applyTerrainToSelected = (): void => {
   updateTerrainInfo(selectedQ.value, selectedR.value);
 };
 
-// Re-bake the grid palette whenever theme/primary change, and once the theme
-// store finishes hydrating (which sets data-theme/data-primary on <html>).
-watch([theme, primary, () => themeStore.ready], () => applyHexTheme());
+watch([size, width, height, rotationDeg], () => {
+  nextTick(() => {
+    applyDemoOutlineStyle();
+    refreshRenderStats();
+  });
+});
+
+watch([cull, pixelRatio], () => {
+  nextTick(() => refreshRenderStats());
+});
 
 watch(showCoords, () => requestRender());
 
@@ -478,12 +439,36 @@ import { hexDistance, getAdjacentHexes, TerrainType } from '@vanduo-oss/vd3-cbun
 hexDistance(0, 0, 2, -1); // → 2
 getAdjacentHexes(0, 0);   // → 6 neighbors`;
 
+const mathOrigin = { q: 0, r: 0 };
+const mathTargetQ = ref(2);
+const mathTargetR = ref(-1);
+const mathDistance = computed(() =>
+  hexDistance(mathOrigin.q, mathOrigin.r, mathTargetQ.value, mathTargetR.value),
+);
+const mathNeighbors = computed(() =>
+  getAdjacentHexes(mathOrigin.q, mathOrigin.r)
+    .map((n) => `(${n.q},${n.r})`)
+    .join(", "),
+);
+
 const vue3Api: [string, string][] = [
   [":size", "Hexagon size in px (default 30)."],
   [":width / :height", "Grid columns / rows in hexes (default 10)."],
   [":rotation", "Grid rotation in radians (default 0)."],
+  [
+    ":pixel-ratio",
+    "`'auto'` (default, clamped to 2) or an explicit DPR for HiDPI canvas buffers.",
+  ],
+  [
+    ":cull",
+    "Viewport culling (default true) — only visible hexes are drawn; false draws the full grid.",
+  ],
   ["@select / @zoom / @pan", "Forwarded interaction events."],
   ["@ready", "Emitted once with the underlying VdHexGrid instance."],
+  [
+    "getVisibleHexes / getRenderStats",
+    "Imperative observability on the ready instance (culled set + last-frame metrics).",
+  ],
   ["getInstance()", "Template ref expose — call imperative API methods."],
 ];
 
@@ -498,12 +483,13 @@ const events: [string, string][] = [
   <section id="vd-hex">
     <h5 class="demo-title"><i class="ph ph-hexagon"></i>Hex Grid</h5>
     <p class="vd-mb-8">
-      <strong>vd3 Hex Grid</strong> is a standalone, canvas-rendered axial hex
-      grid, installed separately from the framework. Pan, zoom, select hexes,
-      and attach terrain or custom data. It reads vd3 theme tokens, ships a pure
-      <code>@vanduo-oss/vd3-cbun/hex-grid/hex-math</code>
-      subexport, and an optional Vue 3 binding
-      (<code>@vanduo-oss/vd3-cbun/hex-grid</code>) used here.
+      <strong>vd3 Hex Grid</strong> is a canvas-rendered axial hex grid from
+      <code>@vanduo-oss/vd3-cbun</code>. Pan, zoom, select hexes, and attach
+      terrain or custom data. HiDPI <code>pixelRatio</code>, viewport
+      <code>cull</code>, and <code>getRenderStats()</code> keep large grids
+      sharp and observable. It reads vd3 theme tokens, ships a pure
+      <code>@vanduo-oss/vd3-cbun/hex-grid/hex-math</code> subexport, and the Vue
+      component (<code>@vanduo-oss/vd3-cbun/hex-grid</code>) used here.
     </p>
 
     <div class="vd-row vd-mb-6">
@@ -519,13 +505,17 @@ const events: [string, string][] = [
             "
           >
             <VdHexGrid
+              :key="hexThemeKey"
               :size="size"
               :width="width"
               :height="height"
               :rotation="rotationRad"
+              :pixel-ratio="pixelRatio"
+              :cull="cull"
               @ready="onReady"
               @select="onSelect"
               @zoom="onZoom"
+              @pan="onPan"
             />
             <div
               class="canvas-toolbar"
@@ -584,7 +574,7 @@ const events: [string, string][] = [
       <div class="vd-col-12 vd-col-lg-4 vd-mb-6">
         <div class="vd-card demo-card" style="height: 100%">
           <div class="vd-card-body">
-            <h4 class="vd-mb-4">Grid Controls</h4>
+            <h4 class="vd-mb-6">Grid Controls</h4>
 
             <div class="vd-mb-4">
               <label class="vd-form-label" for="hex-size-slider"
@@ -651,6 +641,40 @@ const events: [string, string][] = [
               <span class="vd-text-sm vd-text-muted">{{ rotationDeg }}°</span>
             </div>
 
+            <div class="vd-mb-4">
+              <label class="vd-form-label" for="hex-dpr-select"
+                >Pixel ratio (DPR)</label
+              >
+              <select
+                id="hex-dpr-select"
+                class="vd-form-select"
+                :value="String(pixelRatio)"
+                @change="
+                  pixelRatio =
+                    ($event.target as HTMLSelectElement).value === 'auto'
+                      ? 'auto'
+                      : Number(($event.target as HTMLSelectElement).value)
+                "
+              >
+                <option value="auto">auto (≤2)</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+
+            <div class="vd-mb-4">
+              <label class="vd-form-label">
+                <input v-model="cull" type="checkbox" class="vd-me-2" />
+                Viewport culling
+              </label>
+              <p class="vd-text-sm vd-text-muted vd-mb-0">
+                Visible {{ renderStats.visible }} / {{ renderStats.total }} ·
+                mode <code>{{ renderStats.mode }}</code> ·
+                {{ renderStats.lastRenderMs.toFixed(1) }}ms · DPR
+                {{ renderStats.pixelRatio }}
+              </p>
+            </div>
+
             <div class="vd-inline vd-mt-2" data-gap="fib-5">
               <button
                 type="button"
@@ -668,9 +692,9 @@ const events: [string, string][] = [
               </button>
             </div>
 
-            <hr class="vd-my-5" />
+            <hr class="vd-separator" />
 
-            <h5 class="vd-mb-3">Terrain &amp; pathfinding</h5>
+            <h5 class="vd-mb-8">Terrain &amp; pathfinding</h5>
 
             <div class="vd-mb-4">
               <button
@@ -864,6 +888,38 @@ const events: [string, string][] = [
           Axial coordinate math and terrain tables, importable without a canvas
           or the DOM — handy for game logic, tests, or Node.
         </p>
+        <div class="vd-row vd-mb-4">
+          <div class="vd-col-6 vd-col-md-3 vd-mb-3">
+            <label class="vd-form-label" for="math-tq">Target q</label>
+            <input
+              id="math-tq"
+              v-model.number="mathTargetQ"
+              type="number"
+              class="vd-form-control"
+              step="1"
+            />
+          </div>
+          <div class="vd-col-6 vd-col-md-3 vd-mb-3">
+            <label class="vd-form-label" for="math-tr">Target r</label>
+            <input
+              id="math-tr"
+              v-model.number="mathTargetR"
+              type="number"
+              class="vd-form-control"
+              step="1"
+            />
+          </div>
+          <div class="vd-col-12 vd-col-md-6 vd-mb-3">
+            <p class="vd-mb-1">
+              Distance from (0,0) →
+              <strong>({{ mathTargetQ }}, {{ mathTargetR }})</strong>:
+              <code>{{ mathDistance }}</code>
+            </p>
+            <p class="vd-text-sm vd-text-muted vd-mb-0">
+              Neighbors of (0,0): {{ mathNeighbors }}
+            </p>
+          </div>
+        </div>
         <DocCodeSnippet :js="mathUsage" />
       </div>
     </div>

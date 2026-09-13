@@ -1,8 +1,11 @@
 # docs-content Specification
 
 ## Purpose
-TBD - created by archiving change docs-content. Update Purpose after archive.
+Document and dogfood the shipped Vue 3 vd3 line — live demos, guides, and
+routes with no dual-engine or invented APIs.
+
 ## Requirements
+
 ### Requirement: displayed package strings name the vd3 line
 
 Every **displayed** package specifier in the docs — the string literals inside
@@ -134,12 +137,15 @@ intro copy MUST NOT contain "both engines", "Vanilla + Vue", "two engines",
 
 The changelog SHALL document **package** releases for the vd3 line only. Both the
 inline release cards in `pages/changelog.vue` and the history partial
-`pages/changelog-vue-content.html` SHALL name only `@vanduo-oss/vd3` (`0.1.0`)
-and `@vanduo-oss/vd3-cbun` (`0.2.0`); they MUST NOT name `@vanduo-oss/core`,
+`pages/changelog-vue-content.html` SHALL name only `@vanduo-oss/vd3` and
+`@vanduo-oss/vd3-cbun`; they MUST NOT name `@vanduo-oss/core`,
 `@vanduo-oss/framework`, `@vanduo-oss/vue`, or any of the four old ecosystem
 packages, and MUST NOT carry any `data-engine` attribute. The header copy SHALL
-name the two vd3 packages. Per the changelog-content policy the page tracks
-package releases only, never docs-site content.
+name the two vd3 packages. The latest inline cards SHALL identify
+`@vanduo-oss/vd3` `1.7.2` and `@vanduo-oss/vd3-cbun` `1.4.2`; the latest cbun
+card MUST summarize the published draw, charts, hex-grid, and regression fixes.
+Per the changelog-content policy the page tracks package releases only, never
+docs-site content.
 
 #### Scenario: the changelog names the vd3 packages and drops the old line
 
@@ -151,6 +157,27 @@ package releases only, never docs-site content.
   `@vanduo-oss/framework`, `@vanduo-oss/vue`, `@vanduo-oss/charts`,
   `@vanduo-oss/flowchart`, `@vanduo-oss/hex-grid`, or `@vanduo-oss/music-player`
   reference
+
+#### Scenario: the latest cbun card documents 1.4.2
+
+- **GIVEN** the `@vanduo-oss/vd3-cbun` column on `/changelog`
+- **WHEN** its latest release card is read
+- **THEN** `v1.4.2` is marked Latest and documents draw paint-order / gesture
+  fixes, charts responsive tables plus core `role` / Vue `svgRole`, and
+  hex-grid fast-frame render stats
+
+### Requirement: Charts component page documents SVG role overrides
+
+The Charts page SHALL document the published `1.4.2` accessibility role API:
+core factories accept `role`, while Vue accepts `svgRole` so normal `role`
+continues to fall through to the wrapper root.
+
+#### Scenario: Charts API distinguishes wrapper and SVG roles
+
+- **GIVEN** the Charts Vue API table and WAI-ARIA explainer
+- **WHEN** a reader looks for role overrides
+- **THEN** the page names Vue `svgRole`, core `role`, and explains that standard
+  Vue `role` remains on the wrapper root
 
 ### Requirement: six component pages dogfood the real vd3 components
 
@@ -275,7 +302,7 @@ features, and MUST document the component's props, events, and exposed methods.
 
 ### Requirement: Draw component page
 
-The docs site SHALL provide a live Draw page at `/canvas/draw`, under the existing **Canvas** category in the Components tab, rendering the real `VdDraw` from `@vanduo-oss/vd3-cbun/draw` (importing `@vanduo-oss/vd3-cbun/draw/css`) with no invented API. The page MUST demonstrate the interactive editor (drawing shapes, freehand, selection / move, and pan / zoom) and MUST document the component's props, events, and exposed methods. The page MUST be registered in BOTH `src/nav.ts` (a Canvas-category `NavSection` with a unique `id`, `route`, and search `keywords`) and `src/router.ts` (`componentPages`), and MUST NOT introduce any vanilla-engine reference or component-specific rule in `app.css`.
+The docs site SHALL provide a live Draw page at `/canvas/draw`, under the existing **Canvas** category in the Components tab, rendering the real `VdDraw` from `@vanduo-oss/vd3-cbun/draw` (importing `@vanduo-oss/vd3-cbun/draw/css`) with no invented API. The page MUST demonstrate the interactive editor seeded with a rich vector illustration (`drawSeedDoc`), stage action controls (Reset Demo, Clear, Toggle Grid, Fullscreen), a live event/state inspector ribbon, an interactive multi-brush showcase grid, and an SVG/PNG Export Studio. It MUST document the component's props, events, and exposed methods. The page MUST be registered in BOTH `src/nav.ts` (a Canvas-category `NavSection` with a unique `id`, `route`, and search `keywords`) and `src/router.ts` (`componentPages`), and MUST NOT introduce any vanilla-engine reference or component-specific rule in `app.css`.
 
 #### Scenario: page renders the live editor
 
@@ -300,6 +327,30 @@ The docs site SHALL provide a live Draw page at `/canvas/draw`, under the existi
 - **GIVEN** the Playwright visual-parity suite after this change
 - **WHEN** its `ROUTES` list is enumerated
 - **THEN** `/canvas/draw` is **present** (alongside `/canvas/{charts,flowchart,hex}`), so a `vd3-canvas-draw` baseline is committed — the earlier canvas-exclusion precedent is retired because the initial page-load render is deterministic (the non-deterministic behaviors — e.g. Hex's random terrain, MusicPlayer's wall-clock log — only fire on user interaction, which the suite does not perform)
+
+#### Scenario: page loads with rich seed document and stage controls
+
+- **GIVEN** the Draw page mounted in a browser
+- **WHEN** the editor initializes
+- **THEN** it renders the shared `drawSeedDoc` containing diagrams, sticky notes, colored arrows, and brush samples, and provides functional stage buttons for Reset Demo, Clear, Toggle Grid, and Fullscreen
+
+#### Scenario: live state ribbon reflects tool, selection, and viewport events
+
+- **GIVEN** the Draw page editor
+- **WHEN** the user selects shapes, changes tools, or pans the canvas
+- **THEN** the ribbon updates reactive badges showing the active tool, selected shape count, last event reason, and current viewport coordinates
+
+#### Scenario: brush showcase cards allow one-click preset activation
+
+- **GIVEN** the Multi-Brush Showcase section on the Draw page
+- **WHEN** the user clicks "Select Brush" on any of the five preset cards
+- **THEN** the editor's active tool switches to `draw` and the respective brush preset is activated on the core instance
+
+#### Scenario: export studio produces SVG and PNG previews with download actions
+
+- **GIVEN** the Export Studio section on the Draw page
+- **WHEN** the user clicks "Export SVG" or "Export PNG"
+- **THEN** a preview modal/card displays the generated asset, shows byte size and dimensions, and enables Copy SVG and file download
 
 ### Requirement: the About page is a vd3 overview, not vd2 founder copy
 
@@ -358,49 +409,90 @@ the mark remains visible on dark theme backgrounds.
 - **WHEN** the user views the navbar or home hero mark
 - **THEN** the green fills are clearly visible (not near-black)
 
-### Requirement: dark-mode default primary matches logo green
+### Requirement: first-visit default primary is blue
 
-The docs site SHALL default dark-mode primary to the green hue
-(`data-primary="green"`) via `themeDefaults.PRIMARY_DARK` at bootstrap. When dark
-mode is active and primary is green, the docs shell CSS SHALL pin semantic primary
-tokens to the logo stop (`--vd-green-8` = `#2f9e44`) and its ramp companions.
-Light-mode primary SHALL remain package `PRIMARY_LIGHT` (`black`). The theme store
-SHALL treat legacy stored `"blue"` as a docs auto-primary and migrate it to the
-current default primary on init, theme change, and OS scheme flip (same pattern as
-docs neutral auto-defaults).
+The docs site SHALL default first-visit (unset) primary to Ink (`black`) in
+light and the published vd3 primary token `blue` in dark via
+`themeDefaults.PRIMARY_LIGHT` / `PRIMARY_DARK` at bootstrap and the matching
+`DOCS_DEFAULT_PRIMARY_*` constants. First visit SHALL persist both scheme
+defaults to `vanduo-primary-color-light` and `vanduo-primary-color-dark`, then
+apply the value for the resolved scheme.
 
-#### Scenario: dark default primary is green with logo accent
+A lone legacy `vanduo-primary-color` SHALL be migrated: stored `blue` (the
+former shared docs default) remaps like a first visit; any other stored hue
+SHALL be kept as the current/last scheme's preference, and the other scheme
+SHALL receive its first-visit default. Per-scheme keys, once present, SHALL
+win over the legacy key.
 
-- **GIVEN** a fresh visit with dark theme (explicit or system dark)
-- **WHEN** the user views primary buttons, links, or nav accents
-- **THEN** `data-primary` is `green` and `--vd-color-primary` resolves to the
-  logo green stop (`--vd-green-8`)
+When dark mode is active and primary is `green` (an explicit user choice), the
+docs shell CSS SHALL still pin semantic primary tokens to the logo stop
+(`--vd-green-8` = `#2f9e44`) and its ramp companions.
 
-#### Scenario: legacy blue primary migrates to green in dark
+#### Scenario: fresh light visit uses black and persists both scheme defaults
 
-- **GIVEN** `localStorage` holds `vanduo-primary-color` = `blue` from a prior visit
-- **WHEN** the theme store initializes in dark mode
-- **THEN** primary becomes `green` and `data-primary` is `green`
+- **GIVEN** a fresh visit with empty theme localStorage
+- **WHEN** the theme store initializes in light
+- **THEN** `data-primary` is `black` and both per-scheme keys are written
+  (`light` = `black`, `dark` = `blue`)
 
-#### Scenario: explicit non-default primary is preserved
+#### Scenario: fresh dark visit uses blue and persists both scheme defaults
 
-- **GIVEN** the user picks violet (or any non-auto primary) in the customizer
-- **WHEN** they switch between light and dark
-- **THEN** the chosen primary hue persists
+- **GIVEN** a fresh visit with empty theme localStorage
+- **WHEN** the theme store initializes in dark
+- **THEN** `data-primary` is `blue` and both per-scheme keys are written
+  (`light` = `black`, `dark` = `blue`)
+
+#### Scenario: legacy explicit primary stays on the current scheme
+
+- **GIVEN** `localStorage` holds only `vanduo-primary-color` = `green` or
+  `black` and a current scheme
+- **WHEN** the theme store initializes
+- **THEN** that stored primary remains on the current scheme and the other
+  scheme uses its first-visit default
+
+#### Scenario: primaries are independent per scheme
+
+- **GIVEN** the user picks violet in light, then switches to dark
+- **WHEN** they view dark, optionally pick green, then switch back
+- **THEN** dark uses its stored primary (`blue` until they pick otherwise)
+  and light remains violet
 
 ### Requirement: integration snippets show docs bootstrap primary
 
-Pages that document site bootstrap with `themeDefaults` SHALL show the docs site's
-real dark primary override as `PRIMARY_DARK: "green"` in
-`guides/FrameworkIntegration.vue` and `components/ThemeSwitcher.vue`. Generic
-teaching samples that demonstrate other hues (e.g. violet via `setThemeDefaults`)
+Pages that document site bootstrap with `themeDefaults` SHALL show the docs
+site's real primary override: `PRIMARY_DARK` `"blue"` in
+`guides/FrameworkIntegration.vue`, and `PRIMARY_LIGHT` `"black"` /
+`PRIMARY_DARK` `"blue"` in `components/ThemeSwitcher.vue`. Generic teaching
+samples that demonstrate other hues (e.g. violet via `setThemeDefaults`)
 SHALL remain unchanged.
 
 #### Scenario: FrameworkIntegration mirrors site bootstrap
 
 - **GIVEN** `guides/FrameworkIntegration.vue` after this change
 - **WHEN** its bootstrap code snippets are read
-- **THEN** `PRIMARY_DARK` is `"green"`, not `"blue"`
+- **THEN** `PRIMARY_DARK` is `"blue"`, not `"green"`
+
+#### Scenario: ThemeSwitcher mirrors site bootstrap
+
+- **GIVEN** `components/ThemeSwitcher.vue` after this change
+- **WHEN** its bootstrap code snippet is read
+- **THEN** `PRIMARY_LIGHT` is `"black"` and `PRIMARY_DARK` is `"blue"`
+
+### Requirement: marketing catalog counts match the published barrel
+
+Landing `#docs-component-count`, the home “One Complete System” teaser, and
+about “What you get” SHALL use one definition of “components”: the count of
+`Vd*` component exports from `@vanduo-oss/vd3`. Composable copy on those
+surfaces SHALL use the count of composable modules in that barrel. Landing
+meta that counts docs pages SHALL be labeled as reference pages or guided
+walkthroughs (not as “components”) and SHALL match `src/nav.ts`.
+
+#### Scenario: marketing surfaces agree on package export counts
+
+- **GIVEN** `/docs-landing`, `/`, and `/about` after this change
+- **WHEN** their catalog copy is read
+- **THEN** each names 63 components and (where composables are stated) 39
+  composables, and `#docs-component-count` does not say “47+”
 
 ### Requirement: the Modal page renders the real VdModal
 
@@ -569,3 +661,145 @@ pages (their own `vd-mb-6` lead convention) are out of scope.
 - **THEN** `Toast` names the real `useToast` composable and `Scrollspy` names the
   real `useWaypoint` composable, with no invented component or composable
 
+### Requirement: site shell uses VdSiteDock chrome
+
+The docs site shell SHALL render a fixed `VdDock` via `VdSiteDock` on every
+route (`App.vue`) instead of a top site `VdNavbar` or site `VdFooter`. The
+dock MUST use `cycle="edges"`, a docs-owned persist storage key, and
+`Vd3BrandMark` in `#brand`. Nav items SHALL include Home (`/`), Docs
+(`/docs-landing`), and CBUN (`/cbun`). The `#actions`
+slot SHALL host Search (opens global search), ThemeSwitcher, then
+ThemeCustomizer. Library demo pages for Navbar/Footer MAY remain.
+
+#### Scenario: site dock replaces navbar and footer
+
+- **GIVEN** any docs route
+- **WHEN** the shell is inspected
+- **THEN** a fixed site `VdDock` is present and neither a site navbar nor a
+  site footer chrome component is mounted
+
+### Requirement: docs-landing resource strip
+
+`/docs-landing` SHALL expose a Resources strip with About (`/about`), GitHub,
+NPM, and License. External links MUST use `target="_blank"` and
+`rel="noopener"`.
+
+#### Scenario: resource strip is present
+
+- **GIVEN** `/docs-landing`
+- **WHEN** the page is rendered
+- **THEN** About, GitHub, NPM, and License are reachable and externals carry
+  `rel=noopener`
+
+### Requirement: global search component page
+
+The docs site SHALL expose `/components/global-search` documenting
+`VdGlobalSearch` and `useGlobalSearch` with a live in-memory adapter demo,
+and SHALL register the route in `nav.ts`.
+
+#### Scenario: reader finds palette API
+
+- **GIVEN** `/components/global-search`
+- **WHEN** the page is read
+- **THEN** it shows live demo plus props/emits/composable surfaces that exist
+  on `@vanduo-oss/vd3`, and links toward Doc Search and/or the hybrid search
+  guide
+
+### Requirement: hybrid search guide
+
+The docs site SHALL expose `/guides/hybrid-search` documenting
+`vdl-hybrid-search` indexing, presets, tuning, eval, and troubleshooting.
+
+#### Scenario: reader learns indexing
+
+- **GIVEN** `/guides/hybrid-search`
+- **WHEN** the page is read
+- **THEN** it describes corpus indexing / JSON assets and how maintainers
+  regenerate them (`pnpm index` / `pnpm index:eval`)
+
+### Requirement: Oola chrome dogfoods package swatches, tint, and tooltip delay
+
+Site chrome SHALL consume package APIs rather than local forks:
+`VdSiteDock` MUST wire tooltips with `useTooltips` and a `showDelay`, and MUST
+tint through `:tint` + `tint-mode="accent"`. The docs theme customizer overlay
+MUST wrap the package `variant="swatches"` fan in controlled mode against the
+docs theme store. No local reimplementation of dock tooltips, the swatches
+fan, or accent tinting MAY remain as the primary chrome path.
+
+#### Scenario: package APIs drive chrome
+
+- **GIVEN** `VdSiteDock` and the docs theme customizer overlay
+- **WHEN** their wiring is inspected
+- **THEN** tooltips use `useTooltips` with a show delay, dock tint uses
+  `:tint` + `tint-mode="accent"`, and the customizer runs controlled
+  `variant="swatches"`
+
+### Requirement: Seemore glass and surfaces effects pages
+
+`/effects/glass` MUST document Seemore Glass Fibonacci strength steps and
+demos staged on package `.vd-surface-*` backdrops. `/effects/surfaces` MUST
+document `.vd-surface` variants and intensity modifiers and MUST be registered
+under Effects in `nav.ts`. The homepage MUST include a Seemore Glass story
+section with a CTA to `/effects/glass`.
+
+#### Scenario: glass and surfaces routes exist
+
+- **GIVEN** `src/nav.ts` and the effects pages
+- **WHEN** Effects sections and demos are inspected
+- **THEN** `/effects/glass` shows Fibonacci glass steps on surfaces and
+  `/effects/surfaces` is registered and documented
+
+### Requirement: login and table auth demos
+
+`/components/login` MUST live-render `VdLogin` (and related auth pieces from
+`@vanduo-oss/vd3`) with docs demos using `framed` false. `/components/table`
+MUST live-render `VdDataTable` (sort/search/selection) and document real
+package APIs only.
+
+#### Scenario: login demo is live Vue
+
+- **GIVEN** `/components/login`
+- **WHEN** it is rendered
+- **THEN** a `VdLogin` instance is in the document (not CSS-only markup)
+
+#### Scenario: data table is live
+
+- **GIVEN** `/components/table`
+- **WHEN** it is rendered
+- **THEN** a `.vd-data-table` is present
+
+### Requirement: the button page documents the ring modifier
+
+`/components/button` SHALL live-render `.vd-btn-ring` / `VdButton` `:ring` and
+document the modifier in its reference tables. Nav keywords SHALL include
+`ring`.
+
+#### Scenario: live ring demo and tables
+
+- **GIVEN** `/components/button`
+- **WHEN** demos and API tables are read
+- **THEN** real ring-marked buttons are shown and both class and Vue tables
+  list the ring modifier/prop without inventing a `ring` variant
+
+### Requirement: ecosystem guide states legacy retirement without a migration page
+
+`/guides/vd3-ecosystem` (`Vd3Ecosystem.vue`) SHALL describe the three-repo
+vd3 line and MAY carry a short note that vanduo v2 was retired and vd3 is the
+only maintained line. It MUST NOT use "maintenance mode" / "critical fixes"
+wording, MUST NOT name individual retired package slugs, and MUST NOT link to
+`/guides/migration`. The docs MUST NOT ship a migration page (existing
+no-migration requirement remains).
+
+#### Scenario: retirement without migration
+
+- **GIVEN** `/guides/vd3-ecosystem`
+- **WHEN** retirement-related copy is read (if present)
+- **THEN** it does not link to `/guides/migration` and does not revive
+  dual-engine install framing
+
+#### Scenario: migration route stays gone
+
+- **GIVEN** the repository
+- **WHEN** `src/` is grepped for `/guides/migration` and `MigrationComparison`
+- **THEN** there is no migration page module and no user-facing nav entry for
+  it

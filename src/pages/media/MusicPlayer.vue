@@ -490,10 +490,11 @@ function detachAndMinimize() {
       native Audio API, and it automatically adapts to the active vd3 theme.
     </p>
     <p class="vd-text-sm vd-text-muted vd-mb-8">
-      Install the player separately from the core framework. All live demos
-      below use a bundled sample playlist from <em>Invent the Universe</em>,
-      with <em>Pale Blue Dot</em> as the default first track. Ships an optional
-      Vue 3 binding (<code>@vanduo-oss/vd3-cbun/music-player</code>) used here.
+      Part of
+      <code>@vanduo-oss/vd3-cbun</code>
+      (<code>@vanduo-oss/vd3-cbun/music-player</code>). All live demos below use
+      a bundled sample playlist from <em>Invent the Universe</em>, with
+      <em>Pale Blue Dot</em> as the default first track.
     </p>
 
     <!-- Minimal + progress -->

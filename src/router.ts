@@ -4,7 +4,6 @@ import AboutPage from "@/pages/about.vue";
 import ChangelogPage from "@/pages/changelog.vue";
 import DocsLandingPage from "@/pages/docs-landing.vue";
 import CbunPage from "@/pages/cbun.vue";
-import ShowcasePage from "@/pages/showcase.vue";
 import NotFoundPage from "@/pages/not-found.vue";
 
 import ButtonPage from "@/pages/components/Button.vue";
@@ -207,7 +206,6 @@ const pageComponents: Record<string, ReturnType<typeof definePage>> = {
   changelog: ChangelogPage,
   "docs-landing": DocsLandingPage,
   cbun: CbunPage,
-  showcase: ShowcasePage,
 };
 
 export const buildRoutes = (): RouteRecordRaw[] => {
