@@ -16,11 +16,12 @@ and MUST NOT declare any of `@vanduo-oss/core`, `@vanduo-oss/framework`,
 `@vanduo-oss/hex-grid`, or `@vanduo-oss/music-player`. The two vd3
 dependencies SHALL be the PUBLISHED packages resolved from the npm registry —
 `@vanduo-oss/vd3` at exact `1.7.2` and `@vanduo-oss/vd3-cbun` at exact
-`1.4.1` (dogfooding). `.npmrc` SHALL set `save-exact=true` so newly added
-deps do not reintroduce caret ranges. A contributor MAY temporarily
-`pnpm link` (or `link:../`) the sibling working trees to render unreleased
-library work locally, but the committed manifest SHALL keep the exact
-published versions.
+`1.4.2` (dogfooding). `.npmrc` SHALL set `save-exact=true` so newly added
+deps do not reintroduce caret ranges. The committed `pnpm-workspace.yaml` and
+`pnpm-lock.yaml` MUST NOT override either package with a `link:` specifier. A
+contributor MAY temporarily `pnpm link` (or `link:../`) the sibling working
+trees to render unreleased library work locally, but the committed manifest,
+workspace, and lockfile SHALL keep the exact published versions.
 
 #### Scenario: manifest names the vd3 line and drops the old line
 
@@ -28,13 +29,13 @@ published versions.
 - **WHEN** its `name`, `private`, and `dependencies` are inspected
 - **THEN** `name` is `@vanduo-oss/vd3-docs`, `private` is `true`, the only
   `@vanduo-oss/*` runtime kit deps required by this requirement are
-  `@vanduo-oss/vd3` (`1.7.2`) and `@vanduo-oss/vd3-cbun` (`1.4.1`), and none
+  `@vanduo-oss/vd3` (`1.7.2`) and `@vanduo-oss/vd3-cbun` (`1.4.2`), and none
   of `core`, `framework`, `vue`, `charts`, `flowchart`, `hex-grid`, or
   `music-player` appear
 
 #### Scenario: published vd3 packages resolve from the registry
 
-- **GIVEN** the committed `package.json` pinning exact `1.7.2` / `1.4.1`
+- **GIVEN** the committed `package.json` pinning exact `1.7.2` / `1.4.2`
   vd3 deps and `save-exact=true`
 - **WHEN** `pnpm install` runs from the docs repo
 - **THEN** `@vanduo-oss/vd3` and `@vanduo-oss/vd3-cbun` resolve to those
@@ -48,7 +49,7 @@ published versions.
   / `../vd3-cbun` working trees
 - **THEN** those linked builds resolve in place of the published versions for
   the local session, while the committed manifest still pins exact `1.7.2` /
-  `1.4.1`
+  `1.4.2`
 
 ### Requirement: single stylesheet and plugin entry with no vanilla runtime
 

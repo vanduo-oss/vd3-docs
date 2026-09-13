@@ -5,7 +5,7 @@ import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 const pinShell = `# Pin exact versions so visual output is reproducible
 pnpm add @vanduo-oss/vd3@1.7.2
 # Optional canvas widgets
-pnpm add @vanduo-oss/vd3-cbun@1.4.1`;
+pnpm add @vanduo-oss/vd3-cbun@1.4.2`;
 
 const entryJs = `// main.ts — CSS once, plugin once, named JS imports elsewhere
 import { createApp } from 'vue';

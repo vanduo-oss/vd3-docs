@@ -8,7 +8,7 @@ Vue 3 design system) and the charts, code-editor, draw, flowchart, hex-grid, and
 music-player components of
 [`@vanduo-oss/vd3-cbun`](https://www.npmjs.com/package/@vanduo-oss/vd3-cbun) (the
 components bundle), consumed as published npm dependencies with exact pins
-(`@vanduo-oss/vd3@1.7.2`, `@vanduo-oss/vd3-cbun@1.4.1`), not vendored source.
+(`@vanduo-oss/vd3@1.7.2`, `@vanduo-oss/vd3-cbun@1.4.2`), not vendored source.
 Local worktrees may temporarily `link:` the sibling `../vd3` /
 `../vd3-cbun` checkouts for unreleased library work; the committed manifest
 keeps the exact published versions. Unlike the previous docs site (which

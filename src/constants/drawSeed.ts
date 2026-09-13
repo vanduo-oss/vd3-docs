@@ -16,9 +16,10 @@ export function fitDrawDemoView(
 ) {
   if (!instance?.fitView) return;
   const rect = instance.canvasEl?.getBoundingClientRect?.();
-  const pad = rect?.width && rect?.height
-    ? Math.round(Math.min(rect.width, rect.height) * DRAW_DEMO_FIT_INSET)
-    : 96;
+  const pad =
+    rect?.width && rect?.height
+      ? Math.round(Math.min(rect.width, rect.height) * DRAW_DEMO_FIT_INSET)
+      : 96;
   instance.fitView(pad);
 }
 

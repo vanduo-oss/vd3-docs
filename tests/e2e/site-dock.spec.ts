@@ -370,9 +370,24 @@ test.describe("Site Oola dock chrome", () => {
     await expect(dock).toHaveClass(/vd-dock-edge-top/);
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
 
+    await dock.evaluate((element) => {
+      const recordMorphState = () => {
+        if (element.classList.contains("is-morphing")) {
+          element.setAttribute("data-test-saw-morphing", "true");
+        }
+        if (element.classList.contains("is-square")) {
+          element.setAttribute("data-test-saw-square", "true");
+        }
+      };
+      new MutationObserver(recordMorphState).observe(element, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+    });
+
     await brand.click({ force: true });
-    await expect(dock).toHaveClass(/is-morphing/, { timeout: 2000 });
-    await expect(dock).toHaveClass(/is-square/, { timeout: 2000 });
+    await expect(dock).toHaveAttribute("data-test-saw-morphing", "true");
+    await expect(dock).toHaveAttribute("data-test-saw-square", "true");
 
     await expect(dock).toHaveClass(/vd-dock-edge-bottom/, { timeout: 5000 });
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
@@ -397,8 +412,7 @@ test.describe("Site Oola dock chrome", () => {
 
     await fan
       .getByRole("option", { name: "Yellow" })
-      .locator(".tc-fan-swatch")
-      .click();
+      .evaluate((option: HTMLElement) => option.click());
     await expect(fan).not.toHaveClass(/is-open/);
     await expect(page.locator("html")).toHaveAttribute("data-primary", "yellow");
   });

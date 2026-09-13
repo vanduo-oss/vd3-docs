@@ -56,6 +56,26 @@ describe("VdChart (@vanduo-oss/vd3-cbun/charts integration)", () => {
     wrapper.unmount();
   });
 
+  it("keeps root role fallthrough separate from the SVG role override", async () => {
+    const wrapper = mount(VdChart, {
+      props: {
+        type: "bar",
+        data: [{ month: "Jan", sales: 10 }],
+        x: "month",
+        y: "sales",
+        svgRole: "graphics-object",
+      },
+      attrs: { role: "region" },
+      attachTo: document.body,
+    });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.attributes("role")).toBe("region");
+    expect(wrapper.find("svg").attributes("role")).toBe("graphics-object");
+
+    wrapper.unmount();
+  });
+
   it("renders a donut chart via label/value accessors", async () => {
     const wrapper = mount(VdChart, {
       props: {

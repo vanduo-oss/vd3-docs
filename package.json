@@ -40,7 +40,7 @@
     "@huggingface/transformers": "4.2.0",
     "@unhead/vue": "2.1.15",
     "@vanduo-oss/vd3": "1.7.2",
-    "@vanduo-oss/vd3-cbun": "1.4.1",
+    "@vanduo-oss/vd3-cbun": "1.4.2",
     "@vanduo-oss/vdl-hybrid-search": "0.2.0",
     "animejs": "4.5.0",
     "fuse.js": "7.5.0",

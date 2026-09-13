@@ -46,7 +46,7 @@ type Id = User["id"];
 `,
   json: `{
   "name": "vd3-cbun",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "private": false,
   "keywords": ["vue", "code-editor"],
   "nested": { "ok": true, "n": -3.14e2 }

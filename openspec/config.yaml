@@ -8,7 +8,7 @@ context: |
   routes (buildRoutes + pageComponents maps). Single engine: NO EngineSwitch/EngineBadge/
   useEngineStore — pages document Vue3 usage only.
   Dogfoods the PUBLISHED packages (exact pins; .npmrc save-exact):
-  "@vanduo-oss/vd3": "1.7.2" and "@vanduo-oss/vd3-cbun": "1.4.1". Vite
+  "@vanduo-oss/vd3": "1.7.2" and "@vanduo-oss/vd3-cbun": "1.4.2". Vite
   resolve.dedupe ['vue','pinia','@vanduo-oss/vd3'] + optimizeDeps.exclude for
   both so a nested cbun copy cannot shadow the published kit.
   main.ts imports @vanduo-oss/vd3/css + per-component cbun css; NO framework IIFE, no

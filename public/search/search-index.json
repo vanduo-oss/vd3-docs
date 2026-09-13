@@ -1508,13 +1508,18 @@
         "Chart Types",
         "Component API (Props & Events)"
       ],
-      "bodyText": "vd3 Charts is the SVG-first data visualization widget from @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/charts ). It features full WAI-ARIA Graphics Module 1.0 semantics, roving keyboard arrow navigation with live focus rings, an auto-generated accessible data table fallback (WCAG 1.1.1), and native dark/light theme integration.. Bar, line, area, scatter, donut, and pie — automatic dimension measurement and responsive resize. Click a donut or pie slice to see @slice-click .. Handles mixed positive and negative values from zero baseline, multi-series grouped bars with legends, reference line annotations, and 2D scatter plots.. Most web chart libraries apply role=\"img\" to the entire SVG, which instructs screen readers to treat the chart as a static flattened image and ignore all internal data marks. vd3 Charts implements the official W3C WAI-ARIA Graphics Module 1.0 specification:. Applied to the root <svg> with aria-roledescription=\"[type] chart\" so screen readers recognize it as a structured graphical document containing interactive objects.. Applied to mark containers, series groups, and annotations with contextual aria-roledescription (e.g. \"data points\" , \"grouped bars\" ).. Applied to individual marks (bars, points, slices) with descriptive aria-roledescription and accessible value labels (e.g. \"Jan: $120k\" ).. Applied to decorative Cartesian axes, tick marks, and background grid lines to prevent screen reader clutter.. In addition to SVG graphics roles, every chart generates a semantic <table> (with <caption> , <th scope=\"col\"> , and <th scope=\"row\"> ) matching WCAG 1.1.1 Technique G73/G74 . Assistive technology users can navigate the full dataset with native table reading shortcuts.. Tab / Shift+Tab — Enter or leave the interactive chart mark group.. ArrowRight / ArrowDown — Move focus to the next data mark (cycles with wraparound) and displays its tooltip.. ArrowLeft / ArrowUp — Move focus to the previous data mark (cycles with wraparound) and displays its tooltip.. Home — Jump keyboard focus directly to the first data mark.. End — Jump keyboard focus directly to the last data mark.. Enter / Space — Trigger the mark's click callback (e.g. @bar-click, @point-click, @slice-click).. Escape — Blur the focused mark and dismiss the active tooltip.. type=\"bar\" — Category bars with band scale, axes, grid lines, negative y handling, keyboard arrow navigation, and data table fallback.. type=\"line\" — Line path with interactive circle marks over category, numeric, or date-like x values.. type=\"area\" — Filled area path closing to zero baseline plus line path, sharing the cartesian scale engine.. type=\"scatter\" — Circle marks over 2D numeric, date-like, or categorical scales with point click handling.. type=\"donut\" — Arc slices with inner-radius ratio (default 0.62), percentage tooltips, center total summary, and legend.. type=\"pie\" — Full pie polar renderer with inner-radius ratio 0.. :type — 'bar' | 'line' | 'area' | 'scatter' | 'donut' | 'pie' (default 'bar').. :data — Array of row objects.. x / y — Cartesian accessors — field key string or (datum) => value function.. label / value — Pie / donut accessors.. title / description — Rendered into SVG accessibility metadata (<title> and <desc> tags).. :data-table — true (sr-only, default) | 'visible' | false. Auto-generates an accessible <table> fulfilling WCAG 1.1.1 Level A.. :aria-role-description — Custom ARIA role description override for the SVG shell (defaults to `${type} chart`).. :height — Container min-height in px (default 300).. :theme / :tooltip / :responsive — Theme overrides, custom/disabled tooltip, responsive resize observer.. :series — Multiple series — grouped bars, or one line/area path each (Series[]).. :color — A color string, category-field name, or per-datum (row) => color callback.. :data-labels — true or { format, color } — draw value labels on each mark.. :annotations — Reference lines: [{ y?, x?, label?, color?, dash? }].. :y-min / :y-max / :y-tick-count — Pin axis bounds and tick density (supports negative floors and clamped baselines).. :legend — true or { position: 'top' | 'right' } — shown by default for multi-series charts.. @bar-click / @point-click / @slice-click — Mark-click events — each carries ClickEvent { event, datum, index }.",
+      "bodyText": "vd3 Charts is the SVG-first data visualization widget from @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/charts ). It features full WAI-ARIA Graphics Module 1.0 semantics, roving keyboard arrow navigation with live focus rings, an auto-generated accessible data table fallback (WCAG 1.1.1), and native dark/light theme integration.. The table under this chart is the WCAG 1.1.1 fallback with data-table=\"visible\" . Production default is true (sr-only, for assistive tech only); false suppresses it.. Bar, line, area, scatter, donut, and pie — automatic dimension measurement and responsive resize. Click a donut or pie slice to see @slice-click .. Handles mixed positive and negative values from zero baseline, multi-series grouped bars with legends, reference line annotations, and 2D scatter plots.. Most web chart libraries apply role=\"img\" to the entire SVG, which instructs screen readers to treat the chart as a static flattened image and ignore all internal data marks. vd3 Charts implements the official W3C WAI-ARIA Graphics Module 1.0 specification:. Applied to the root <svg> with aria-roledescription=\"[type] chart\" so screen readers recognize it as a structured graphical document containing interactive objects. Core factories can override this with role ; uses svgRole so a standard role attribute remains on the wrapper root.. Applied to mark containers, series groups, and annotations with contextual aria-roledescription (e.g. \"data points\" , \"grouped bars\" ).. Applied to individual marks (bars, points, slices) with descriptive aria-roledescription and accessible value labels (e.g. \"Jan: $120k\" ).. Applied to decorative Cartesian axes, tick marks, and background grid lines to prevent screen reader clutter.. In addition to SVG graphics roles, every chart generates a semantic <table> (with <caption> , <th scope=\"col\"> , and <th scope=\"row\"> ) matching WCAG 1.1.1 Technique G73/G74 . Assistive technology users can navigate the full dataset with native table reading shortcuts.. Tab / Shift+Tab — Enter or leave the interactive chart mark group.. ArrowRight / ArrowDown — Move focus to the next data mark (cycles with wraparound) and displays its tooltip.. ArrowLeft / ArrowUp — Move focus to the previous data mark (cycles with wraparound) and displays its tooltip.. Home — Jump keyboard focus directly to the first data mark.. End — Jump keyboard focus directly to the last data mark.. Enter / Space — Trigger the mark's click callback (e.g. @bar-click, @point-click, @slice-click).. Escape — Blur the focused mark and dismiss the active tooltip.. type=\"bar\" — Category bars with band scale, axes, grid lines, negative y handling, keyboard arrow navigation, and data table fallback.. type=\"line\" — Line path with interactive circle marks over category, numeric, or date-like x values.. type=\"area\" — Filled area path closing to zero baseline plus line path, sharing the cartesian scale engine.. type=\"scatter\" — Circle marks over 2D numeric, date-like, or categorical scales with point click handling.. type=\"donut\" — Arc slices with inner-radius ratio (default 0.62), percentage tooltips, center total summary, and legend.. type=\"pie\" — Solid pie wedges (inner-radius ratio 0). Pass :inner-radius-ratio=\"0\" on VdChart — an unset ratio falls through to the donut hole (0.62).. :type — 'bar' | 'line' | 'area' | 'scatter' | 'donut' | 'pie' (default 'bar').. :data — Array of row objects.. x / y — Cartesian accessors — field key string or (datum) => value function.. label / value — Pie / donut accessors.. title / description — Rendered into SVG accessibility metadata (<title> and <desc> tags).. :data-table — true (sr-only, default) | 'visible' | false. Auto-generates an accessible <table> fulfilling WCAG 1.1.1 Level A.. :inner-radius-ratio — Donut / pie hole size (0–0.9). Donut defaults to 0.62. Pie is 0; pass 0 explicitly on VdChart type=\"pie\".. :aria-role-description — Custom ARIA role description override for the SVG shell (defaults to `${type} chart`).. :svg-role — Override the inner SVG graphics role. The standard role attribute still falls through to the wrapper root; core factories use the role option directly.. :height — Container min-height in px (default 300).. :theme / :tooltip / :responsive — Theme overrides, custom/disabled tooltip, responsive resize observer.. :series — Multiple series — grouped bars, or one line/area path each (Series[]).. :color — A color string, category-field name, or per-datum (row) => color callback.. :data-labels — true or { format, color } — draw value labels on each mark.. :annotations — Reference lines: [{ y?, x?, label?, color?, dash? }].. :y-min / :y-max / :y-tick-count — Pin axis bounds and tick density (supports negative floors and clamped baselines).. :legend — true or { position: 'top' | 'right' } — shown by default for multi-series charts.. @bar-click / @point-click / @slice-click — Mark-click events — each carries ClickEvent { event, datum, index }.",
       "classes": [],
       "chunks": [
         {
           "type": "paragraph",
           "text": "vd3 Charts is the SVG-first data visualization widget from @vanduo-oss/vd3-cbun ( @vanduo-oss/vd3-cbun/charts ). It features full WAI-ARIA Graphics Module 1.0 semantics, roving keyboard arrow navigation with live focus rings, an auto-generated accessible data table fallback (WCAG 1.1.1), and native dark/light theme integration.",
           "heading": "Charts"
+        },
+        {
+          "type": "paragraph",
+          "text": "The table under this chart is the WCAG 1.1.1 fallback with data-table=\"visible\" . Production default is true (sr-only, for assistive tech only); false suppresses it.",
+          "heading": "Accessibility & Keyboard Navigation (WCAG 2.1 AA & WAI-ARIA Graphics 1.0)"
         },
         {
           "type": "paragraph",
@@ -1533,7 +1538,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Applied to the root <svg> with aria-roledescription=\"[type] chart\" so screen readers recognize it as a structured graphical document containing interactive objects.",
+          "text": "Applied to the root <svg> with aria-roledescription=\"[type] chart\" so screen readers recognize it as a structured graphical document containing interactive objects. Core factories can override this with role ; uses svgRole so a standard role attribute remains on the wrapper root.",
           "heading": "WAI-ARIA Graphics Module 1.0 Architecture"
         },
         {
@@ -1618,7 +1623,7 @@
         },
         {
           "type": "class",
-          "text": "type=\"pie\" — Full pie polar renderer with inner-radius ratio 0.",
+          "text": "type=\"pie\" — Solid pie wedges (inner-radius ratio 0). Pass :inner-radius-ratio=\"0\" on VdChart — an unset ratio falls through to the donut hole (0.62).",
           "heading": "Chart Types"
         },
         {
@@ -1653,7 +1658,17 @@
         },
         {
           "type": "class",
+          "text": ":inner-radius-ratio — Donut / pie hole size (0–0.9). Donut defaults to 0.62. Pie is 0; pass 0 explicitly on VdChart type=\"pie\".",
+          "heading": "Component API (Props & Events)"
+        },
+        {
+          "type": "class",
           "text": ":aria-role-description — Custom ARIA role description override for the SVG shell (defaults to `${type} chart`).",
+          "heading": "Component API (Props & Events)"
+        },
+        {
+          "type": "class",
+          "text": ":svg-role — Override the inner SVG graphics role. The standard role attribute still falls through to the wrapper root; core factories use the role option directly.",
           "heading": "Component API (Props & Events)"
         },
         {
@@ -10896,7 +10911,7 @@
         "localStorage Keys",
         "Coordination with VdThemeSwitcher"
       ],
-      "bodyText": "VdThemeCustomizer lets users personalize the theme in real time — palette, primary color, neutral scale, border radius, and font family — all on top of the default Open Color palette. Every control writes through the shared useThemePreference() singleton, so it stays in sync with the Theme Switcher and persists to localStorage . Color mode itself lives in the switcher; see the Theme Customizer walkthrough for the full story. Two presentations ship: variant=\"panel\" (the default editor below) and variant=\"swatches\" , a primary-only fan for dock and toolbar chrome.. This is a real <VdThemeCustomizer> . It renders its own paint-roller trigger (click it) and teleports the panel under it — every change applies to this page immediately:. The buttons dogfood the exposed open() / close() / toggle() methods.. show-palette — When enabled, the panel adds a Palette section so users can switch between Open Color and Fibonacci. Off by default in this demo (open the panel and flip the switch to see it).. variant=\"swatches\" drops the 320px panel for a primary-only fan hinged at the trigger — the presentation this site's own dock uses. swatches curates which hues appear, direction sets the axis, and preview (on by default) applies a hue on hover and puts the old one back if you leave without picking.. Blades always render in PRIMARY_COLORS order rather than the order you list them, and that order is not alphabetical — teal comes before blue . direction=\"auto\" aims the fan away from the nearest viewport edge , which is not the same as aiming it where there is the most room; chrome that migrates between edges (a dock, say) should pass an explicit direction.. This fan runs controlled , so it writes the local ref beside it and leaves the site theme alone — the page colors do not change when you pick.. Unbound, the component both reads and writes useThemePreference() . Bind :primary and it switches to controlled mode: it renders from your value and reports every change — hover previews included — through @update:primary , touching the singleton never.. Reach for this when the app already owns the hue and needs to clamp or transform it. This site does exactly that: its store narrows primary to Ink plus the eight dock tints and forces palette, font, radius, and neutral to docs defaults, so an uncontrolled customizer writing the singleton would slip past both rules.. Drop the component anywhere — it brings its own trigger and panel:. Mount it once (typically in your navbar). Any other button can open it by dispatching the vd:open-customizer window event.. Color mode (light / dark / system) is owned by VdThemeSwitcher ; both share the same singleton.. Neutral colors affect backgrounds, borders, and text throughout the framework.. Open/close a specific instance, or any mounted one:. The customizer is a thin UI over useThemePreference() — you can read or drive the same state directly:. Both components read and write the same useThemePreference() singleton, so they never clobber each other:. showPalette — boolean. variant — \"panel\" | \"swatches\". swatches — readonly string[]. direction — \"auto\" | \"up\" | \"down\" | \"left\" | \"right\". preview — boolean. primary — string. update:primary — (value: string). open() — Open the customizer panel.. close() — Close the customizer panel.. toggle() — Toggle the customizer panel.. vd:open-customizer — A mounted VdThemeCustomizer opens its panel when this window event is dispatched — wire it to a navbar trigger.. .vd-theme-customizer — Root wrapper; gains .is-open while the panel is open.. .vd-theme-customizer-trigger — The built-in paint-roller trigger button (also carries data-theme-customizer-trigger).. .vd-theme-customizer-overlay — Teleported backdrop; .is-active while open.. .vd-theme-customizer-panel — Teleported panel <aside role=\"dialog\">; .is-open while open.. .vd-theme-customizer-fan — Teleported swatches fan <div role=\"listbox\">; .is-open while open, plus a fan-up / fan-down / fan-left / fan-right direction class.. .tc-fan-item — One blade <button role=\"option\">; .is-active for the current hue, .is-hovered while previewing. Carries data-color with the hue key.. --vd-customizer-fan-blade-width / -dot-size / -label-size — Blade geometry: 6.25rem, 1.2rem, 0.68rem by default.. --vd-customizer-fan-stagger / -z-index / -blade-radius — Per-blade transition delay (30ms), stacking context (1100), and blade rounding (999px).. data-primary / data-neutral — Applied to < >. Remap the --vd-primary-* / --vd-gray-* variables.. data-radius / data-font — Applied to < >. Set --vd-radius-scale and the font stack (data-font removed for system).. data-palette — Applied to < >. Selects the Open Color or Fibonacci palette.. vanduo-palette — open-color. vanduo-primary-color — black / amber. vanduo-neutral-color — stone / charcoal. vanduo-radius — 0.5. vanduo-font-preference — nunito. vanduo-theme-preference — system",
+      "bodyText": "VdThemeCustomizer lets users personalize the theme in real time — palette, primary color, neutral scale, border radius, and font family — all on top of the default Open Color palette. Every control writes through the shared useThemePreference() singleton, so it stays in sync with the Theme Switcher and persists to localStorage . Color mode itself lives in the switcher; see the Theme Customizer walkthrough for the full story. Two presentations ship: variant=\"panel\" (the default editor below) and variant=\"swatches\" , a primary-only fan for dock and toolbar chrome.. This is a real <VdThemeCustomizer> . It renders its own paint-roller trigger (click it) and teleports the panel under it — every change applies to this page immediately:. The buttons dogfood the exposed open() / close() / toggle() methods.. show-palette — When enabled, the panel adds a Palette section so users can switch between Open Color and Fibonacci. Off by default in this demo (open the panel and flip the switch to see it).. variant=\"swatches\" drops the 320px panel for a primary-only fan hinged at the trigger — the presentation this site's own dock uses. swatches curates which hues appear, direction sets the axis, and preview (on by default) applies a hue on hover and puts the old one back if you leave without picking.. Blades always render in PRIMARY_COLORS order rather than the order you list them, and that order is not alphabetical — teal comes before blue . direction=\"auto\" aims the fan away from the nearest viewport edge , which is not the same as aiming it where there is the most room; chrome that migrates between edges (a dock, say) should pass an explicit direction.. This fan runs controlled , so it writes the local ref beside it and leaves the site theme alone — the page colors do not change when you pick.. Unbound, the component both reads and writes useThemePreference() . Bind :primary and it switches to controlled mode: it renders from your value and reports every change — hover previews included — through @update:primary , touching the singleton never.. Reach for this when the app already owns the hue and needs to clamp or transform it. This site does exactly that: its store narrows primary to Ink plus the twelve accretion fan hues and forces palette, font, radius, and neutral to docs defaults, so an uncontrolled customizer writing the singleton would slip past both rules.. Drop the component anywhere — it brings its own trigger and panel:. Mount it once (typically in your navbar). Any other button can open it by dispatching the vd:open-customizer window event.. Color mode (light / dark / system) is owned by VdThemeSwitcher ; both share the same singleton.. Neutral colors affect backgrounds, borders, and text throughout the framework.. Open/close a specific instance, or any mounted one:. The customizer is a thin UI over useThemePreference() — you can read or drive the same state directly:. Both components read and write the same useThemePreference() singleton, so they never clobber each other:. showPalette — boolean. variant — \"panel\" | \"swatches\". swatches — readonly string[]. direction — \"auto\" | \"up\" | \"down\" | \"left\" | \"right\". preview — boolean. primary — string. update:primary — (value: string). open() — Open the customizer panel.. close() — Close the customizer panel.. toggle() — Toggle the customizer panel.. vd:open-customizer — A mounted VdThemeCustomizer opens its panel when this window event is dispatched — wire it to a navbar trigger.. .vd-theme-customizer — Root wrapper; gains .is-open while the panel is open.. .vd-theme-customizer-trigger — The built-in paint-roller trigger button (also carries data-theme-customizer-trigger).. .vd-theme-customizer-overlay — Teleported backdrop; .is-active while open.. .vd-theme-customizer-panel — Teleported panel <aside role=\"dialog\">; .is-open while open.. .vd-theme-customizer-fan — Teleported swatches fan <div role=\"listbox\">; .is-open while open, plus a fan-up / fan-down / fan-left / fan-right direction class.. .tc-fan-item — One blade <button role=\"option\">; .is-active for the current hue, .is-hovered while previewing. Carries data-color with the hue key.. --vd-customizer-fan-blade-width / -dot-size / -label-size — Blade geometry: 6.25rem, 1.2rem, 0.68rem by default.. --vd-customizer-fan-stagger / -z-index / -blade-radius — Per-blade transition delay (30ms), stacking context (1100), and blade rounding (999px).. data-primary / data-neutral — Applied to < >. Remap the --vd-primary-* / --vd-gray-* variables.. data-radius / data-font — Applied to < >. Set --vd-radius-scale and the font stack (data-font removed for system).. data-palette — Applied to < >. Selects the Open Color or Fibonacci palette.. vanduo-palette — open-color. vanduo-primary-color — black / amber. vanduo-neutral-color — stone / charcoal. vanduo-radius — 0.5. vanduo-font-preference — nunito. vanduo-theme-preference — system",
       "classes": [],
       "chunks": [
         {
@@ -10941,7 +10956,7 @@
         },
         {
           "type": "paragraph",
-          "text": "Reach for this when the app already owns the hue and needs to clamp or transform it. This site does exactly that: its store narrows primary to Ink plus the eight dock tints and forces palette, font, radius, and neutral to docs defaults, so an uncontrolled customizer writing the singleton would slip past both rules.",
+          "text": "Reach for this when the app already owns the hue and needs to clamp or transform it. This site does exactly that: its store narrows primary to Ink plus the twelve accretion fan hues and forces palette, font, radius, and neutral to docs defaults, so an uncontrolled customizer writing the singleton would slip past both rules.",
           "heading": "Controlled primary"
         },
         {
@@ -14214,8 +14229,33 @@
         },
         {
           "type": "paragraph",
-          "text": "Patch release: hex-grid adaptive rendering, draw vector polish, charts accessibility, and a code-editor wrap-mode caret fix. Additive and backward-compatible; only VD_HEX_VERSION takes a minor ( 1.0.1 → 1.1.0 ). VD_CHARTS_VERSION , VD_CODE_EDITOR_VERSION , and VD_DRAW_VERSION stay 1.1.0 .",
+          "text": "Review-fix patch for draw, charts, and hex-grid correctness. The bundle moves to 1.4.2 ; all six component version constants remain unchanged.",
           "heading": "@vanduo-oss/vd3-cbun"
+        },
+        {
+          "type": "paragraph",
+          "text": "SVG paint order now follows document order after reorder, undo/redo, and load. A second pointer coherently cancels erase, pan, move, or resize; readonly controls re-sync when restored. See /canvas/draw .",
+          "heading": "Fixed"
+        },
+        {
+          "type": "paragraph",
+          "text": "Responsive sizing excludes visible data-table layout, including first render and constrained containers. Multi-series Date/object x values match by normalized scale key. Core role and svgRole override the inner SVG without consuming the wrapper's standard role attribute. See /canvas/charts .",
+          "heading": "Fixed"
+        },
+        {
+          "type": "paragraph",
+          "text": "Fast blit frames now report current total , visible , and drawn: 0 values through getRenderStats() . See /canvas/hex .",
+          "heading": "Fixed"
+        },
+        {
+          "type": "paragraph",
+          "text": "Expanded runtime, , type, accessibility, DPR, and interaction tests pin every corrected path. No serialization format or component version changes.",
+          "heading": "Fixed"
+        },
+        {
+          "type": "paragraph",
+          "text": "Patch release: hex-grid adaptive rendering, draw vector polish, charts accessibility, and a code-editor wrap-mode caret fix. Additive and backward-compatible; only VD_HEX_VERSION takes a minor ( 1.0.1 → 1.1.0 ). VD_CHARTS_VERSION , VD_CODE_EDITOR_VERSION , and VD_DRAW_VERSION stay 1.1.0 .",
+          "heading": "Fixed"
         },
         {
           "type": "paragraph",
@@ -14320,31 +14360,6 @@
         {
           "type": "paragraph",
           "text": "Saved documents carry VD_DRAW_VERSION ; older constant-width freehand strokes migrate to the brush model on load, so earlier drawings keep rendering unchanged.",
-          "heading": "New"
-        },
-        {
-          "type": "paragraph",
-          "text": "Adds a fifth component — Code editor — to the bundle. Additive minor release; the four existing components are unchanged. Sole runtime peer: >= 3.3 .",
-          "heading": "New"
-        },
-        {
-          "type": "paragraph",
-          "text": "Code editor on @vanduo-oss/vd3-cbun/code-editor (+ /code-editor/ ) — a lightweight, secure textarea-overlay editor: a native <textarea> over a syntax-highlight layer painted by first-party, ReDoS-safe tokenizers for JavaScript/TypeScript, , , JSON, Markdown, Shell, and Python. Line-number gutter, auto-indent, bracket/quote auto-close, read-only mode, button, placeholder, and a large-input guard. Escaping-safe (no innerHTML ), SSR-safe, and no new runtime dependency. Component 1.0.0 .",
-          "heading": "New"
-        },
-        {
-          "type": "paragraph",
-          "text": "The canvas components bundle for the vd3 line — charts, flowchart, hex-grid, and music-player consolidated into one package with tree-shakeable subpath exports. Sole runtime peer: >= 3.3 .",
-          "heading": "New"
-        },
-        {
-          "type": "paragraph",
-          "text": "Charts on @vanduo-oss/vd3-cbun/charts (+ /charts/ ). Component 1.0.0 .",
-          "heading": "New"
-        },
-        {
-          "type": "paragraph",
-          "text": "Flowchart on @vanduo-oss/vd3-cbun/flowchart (+ /flowchart/ ), exposing VdFlowchartCore alongside the component. Component 1.2.0 .",
           "heading": "New"
         }
       ]

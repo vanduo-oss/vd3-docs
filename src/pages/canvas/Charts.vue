@@ -176,7 +176,7 @@ const chartTypes: [string, string][] = [
   ],
   [
     'type="pie"',
-    "Solid pie wedges (inner-radius ratio 0). Pass :inner-radius-ratio=\"0\" on VdChart — an unset ratio falls through to the donut hole (0.62).",
+    'Solid pie wedges (inner-radius ratio 0). Pass :inner-radius-ratio="0" on VdChart — an unset ratio falls through to the donut hole (0.62).',
   ],
 ];
 
@@ -201,11 +201,15 @@ const vue3Api: [string, string][] = [
   ],
   [
     ":inner-radius-ratio",
-    "Donut / pie hole size (0–0.9). Donut defaults to 0.62. Pie is 0; pass 0 explicitly on VdChart type=\"pie\".",
+    'Donut / pie hole size (0–0.9). Donut defaults to 0.62. Pie is 0; pass 0 explicitly on VdChart type="pie".',
   ],
   [
     ":aria-role-description",
     "Custom ARIA role description override for the SVG shell (defaults to `${type} chart`).",
+  ],
+  [
+    ":svg-role",
+    "Override the inner SVG graphics role. The standard role attribute still falls through to the wrapper root; core factories use the role option directly.",
   ],
   [":height", "Container min-height in px (default 300)."],
   [
@@ -638,7 +642,9 @@ const keyboardShortcuts: [string, string][] = [
               Applied to the root <code>&lt;svg&gt;</code> with
               <code>aria-roledescription="[type] chart"</code> so screen readers
               recognize it as a structured graphical document containing
-              interactive objects.
+              interactive objects. Core factories can override this with
+              <code>role</code>; Vue uses <code>svgRole</code> so a standard
+              <code>role</code> attribute remains on the wrapper root.
             </p>
           </div>
           <div class="a11y-card">
