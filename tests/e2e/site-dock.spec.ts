@@ -297,7 +297,9 @@ test.describe("Site Oola dock chrome", () => {
     expect(customizerBox!.x).toBeGreaterThan(searchBox!.x + 4);
   });
 
-  test("horizontal leftover matches vertical dock inset", async ({ page }) => {
+  test("site dock keeps 90% of the previous span and the long-edge inset", async ({
+    page,
+  }) => {
     await page.goto("/", { waitUntil: "networkidle" });
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     const brand = dock.locator("button.vd-dock-brand").first();
@@ -314,12 +316,29 @@ test.describe("Site Oola dock chrome", () => {
         const inset = token.endsWith("rem")
           ? Number.parseFloat(token) * rem
           : Number.parseFloat(token);
+        const ratioToken = getComputedStyle(el)
+          .getPropertyValue("--vd-site-dock-length-ratio")
+          .trim();
+        const ratio = Number.parseFloat(ratioToken) || 0.9;
+        const prevH = window.innerWidth - 2 * inset;
+        const prevV = window.innerHeight - 2 * inset;
         return {
           left: box.left,
-          rightGap: window.innerWidth - box.right,
+          rightGap: document.documentElement.clientWidth - box.right,
           top: box.top,
           bottomGap: window.innerHeight - box.bottom,
+          width: box.width,
+          height: box.height,
+          centerX: box.left + box.width / 2,
+          centerY: box.top + box.height / 2,
+          viewW: document.documentElement.clientWidth,
+          viewH: window.innerHeight,
           inset,
+          ratio,
+          prevH,
+          prevV,
+          expectedH: ratio * prevH,
+          expectedV: ratio * prevV,
         };
       });
 
@@ -332,27 +351,46 @@ test.describe("Site Oola dock chrome", () => {
       expect(value, label).toBeLessThanOrEqual(inset + 2);
     };
 
+    const assertCentered = (
+      center: number,
+      view: number,
+      label: string,
+    ): void => {
+      expect(Math.abs(center - view / 2), label).toBeLessThan(8);
+    };
+
+    const assertNinetyPercent = (
+      length: number,
+      expected: number,
+      label: string,
+    ): void => {
+      expect(length, label).toBeGreaterThan(expected - 4);
+      expect(length, label).toBeLessThan(expected + 4);
+    };
+
     await expect(dock).toHaveClass(/vd-dock-edge-top/);
     const top = await measure();
-    assertNearInset(top.left, top.inset, "top dock left");
-    assertNearInset(top.rightGap, top.inset, "top dock right");
+    assertNearInset(top.top, top.inset, "top dock top inset");
+    assertCentered(top.centerX, top.viewW, "top dock centered");
+    assertNinetyPercent(top.width, top.expectedH, "top dock width");
 
     await cycleDockTo(dock, brand, "right");
     const right = await measure();
-    assertNearInset(right.top, right.inset, "right dock top");
-    assertNearInset(right.bottomGap, right.inset, "right dock bottom");
-    expect(Math.abs(top.left - right.top)).toBeLessThan(3);
-    expect(Math.abs(top.rightGap - right.bottomGap)).toBeLessThan(3);
+    assertNearInset(right.rightGap, right.inset, "right dock right inset");
+    assertCentered(right.centerY, right.viewH, "right dock centered");
+    assertNinetyPercent(right.height, right.expectedV, "right dock height");
 
     await cycleDockTo(dock, brand, "bottom");
     const bottom = await measure();
-    assertNearInset(bottom.left, bottom.inset, "bottom dock left");
-    assertNearInset(bottom.rightGap, bottom.inset, "bottom dock right");
+    assertNearInset(bottom.bottomGap, bottom.inset, "bottom dock bottom inset");
+    assertCentered(bottom.centerX, bottom.viewW, "bottom dock centered");
+    assertNinetyPercent(bottom.width, bottom.expectedH, "bottom dock width");
 
     await cycleDockTo(dock, brand, "left");
     const left = await measure();
-    assertNearInset(left.top, left.inset, "left dock top");
-    assertNearInset(left.bottomGap, left.inset, "left dock bottom");
+    assertNearInset(left.left, left.inset, "left dock left inset");
+    assertCentered(left.centerY, left.viewH, "left dock centered");
+    assertNinetyPercent(left.height, left.expectedV, "left dock height");
   });
 
   test("search action opens the global search modal", async ({ page }) => {
