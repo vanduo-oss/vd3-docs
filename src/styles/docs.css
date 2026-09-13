@@ -3394,8 +3394,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     left: 50%;
     right: auto;
     width: calc(
-      var(--vd-site-dock-length-ratio) *
-        (100vw - 2 * var(--vd-dock-inset))
+      var(--vd-site-dock-length-ratio) * (100vw - 2 * var(--vd-dock-inset))
     );
     max-width: none;
     transform: translateX(-50%);
@@ -3406,8 +3405,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     top: 50%;
     bottom: auto;
     height: calc(
-      var(--vd-site-dock-length-ratio) *
-        (100vh - 2 * var(--vd-dock-inset))
+      var(--vd-site-dock-length-ratio) * (100vh - 2 * var(--vd-dock-inset))
     );
     min-height: 0;
     max-height: none;
