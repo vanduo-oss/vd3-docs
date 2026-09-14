@@ -225,7 +225,7 @@ theme.setTheme('dark');`;
           to: '/guides/vd3-ecosystem',
           icon: 'ph-stack',
           title: 'vd3 ecosystem',
-          desc: 'How vd3-docs, vd3, charts, flowchart, and vd3-cbun fit together.',
+          desc: 'How vd3-docs, vd3, charts, flowchart, and vdl-cbun fit together.',
           badge: 'Guide',
         },
         {

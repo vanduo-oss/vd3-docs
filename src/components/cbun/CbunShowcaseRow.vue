@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { RouterLink } from "vue-router";
 
-defineProps<{
+const props = defineProps<{
   title: string;
   icon: string;
   blurb: string;
@@ -10,6 +11,8 @@ defineProps<{
   /** When true: context left, demo right. Default (false): demo left, context right. */
   reversed?: boolean;
 }>();
+
+const isExternalDocs = computed(() => /^https?:\/\//i.test(props.docsTo));
 </script>
 
 <template>
@@ -38,7 +41,17 @@ defineProps<{
         <li v-for="item in strengths" :key="item">{{ item }}</li>
       </ul>
       <div class="cbun-row-actions">
-        <RouterLink :to="docsTo" class="vd-btn vd-btn-primary">
+        <a
+          v-if="isExternalDocs"
+          :href="docsTo"
+          class="vd-btn vd-btn-primary"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <i class="ph ph-book-open-text"></i>
+          Component Documentation
+        </a>
+        <RouterLink v-else :to="docsTo" class="vd-btn vd-btn-primary">
           <i class="ph ph-book-open-text"></i>
           Component Documentation
         </RouterLink>

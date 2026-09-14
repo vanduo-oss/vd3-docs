@@ -44,7 +44,7 @@ const features: Feature[] = [
     icon: "ph-database",
     title: "One Source of Truth",
     teaser: "Change one token; the whole system re-skins.",
-    body: "Tokens ship as DTCG JSON and compile to the CSS variables every component reads — the same variables the vd3-cbun widgets read. Retune a value once and nothing drifts out of sync.",
+    body: "Tokens ship as DTCG JSON and compile to the CSS variables every component reads — the same variables the vdl-cbun widgets read. Retune a value once and nothing drifts out of sync.",
     guide: { to: "/guides/css-variables", label: "CSS Variables & Theming" },
   },
   {
@@ -86,9 +86,9 @@ const features: Feature[] = [
     icon: "ph-squares-four",
     title: "Canvas widgets",
     teaser:
-      "Dedicated charts and flowchart packages, plus a remaining canvas bundle.",
-    body: "@vanduo-oss/vd3-charts and @vanduo-oss/vd3-flowchart are the dedicated chart and flowchart packages these docs dogfood. @vanduo-oss/vd3-cbun still ships hex-grid, code-editor, draw, and music-player — and still contains charts and flowchart. Same tokens, same zero-dependency rule — no d3, no Three.js.",
-    guide: { to: "/cbun", label: "vd3 Components Bundle" },
+      "Dedicated charts and flowchart packages, plus the labs canvas bundle.",
+    body: "@vanduo-oss/vd3-charts and @vanduo-oss/vd3-flowchart are the dedicated chart and flowchart packages these docs dogfood. @vanduo-oss/vdl-cbun ships hex-grid, code-editor, draw, and music-player — live previews on /cbun, full docs on labs.vanduo.dev. Same tokens, same zero-dependency rule — no d3, no Three.js.",
+    guide: { to: "/cbun", label: "Canvas & media widgets" },
   },
   {
     icon: "ph-code",

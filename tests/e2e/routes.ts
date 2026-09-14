@@ -7,10 +7,9 @@
  *
  * `ROUTES` is a representative **superset**: it enumerates every content route
  * `src/nav.ts` registers — the top-level pages, every component/foundation/
- * guide/effect section, AND every cbun-rendering canvas/media/editor route. The
- * cbun pages are safe to baseline because their only non-deterministic bits
- * (Hex's random terrain fill, MusicPlayer's wall-clock event log) fire on user
- * interaction, so the initial page-load render the suite captures is stable.
+ * guide/effect section, and the remaining in-site canvas/media routes. Draw,
+ * hex, code-editor, and music-player docs moved to labs; only charts/flowchart
+ * (and image-box) stay as screenshot targets here.
  */
 
 export interface Route {
@@ -76,11 +75,7 @@ export const ROUTES: readonly Route[] = [
   { path: '/interactive/search', label: 'interactive-search' },
   { path: '/canvas/charts', label: 'canvas-charts' },
   { path: '/canvas/flowchart', label: 'canvas-flowchart' },
-  { path: '/canvas/hex', label: 'canvas-hex' },
-  { path: '/canvas/draw', label: 'canvas-draw' },
-  { path: '/media/music-player', label: 'media-music-player' },
   { path: '/media/image-box', label: 'media-image-box' },
-  { path: '/editors/code-editor', label: 'editors-code-editor' },
   { path: '/guides/getting-started', label: 'guides-getting-started' },
   { path: '/guides/first-layout', label: 'guides-first-layout' },
   { path: '/guides/framework-integration', label: 'guides-framework-integration' },

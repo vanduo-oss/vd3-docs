@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { mount } from "@vue/test-utils";
-import { VdDraw } from "@vanduo-oss/vd3-cbun/draw";
+import { VdDraw } from "@vanduo-oss/vdl-cbun/draw";
 import { drawSeedDoc } from "../../src/constants/drawSeed";
 
 beforeAll(() => {
@@ -13,7 +13,7 @@ beforeAll(() => {
   }
 });
 
-describe("VdDraw (@vanduo-oss/vd3-cbun/draw integration in docs)", () => {
+describe("VdDraw (@vanduo-oss/vdl-cbun/draw integration in docs)", () => {
   it("mounts and builds the draw editor shell with drawSeedDoc", async () => {
     const wrapper = mount(VdDraw, {
       props: {

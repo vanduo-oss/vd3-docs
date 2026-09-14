@@ -19,7 +19,7 @@ Reference `<img src>` attributes are exempt: the Vue SFC compiler rewrites those
 for `base` automatically, so they MAY remain root-absolute.
 
 #### Scenario: music player track URLs load under the project-page base
-- **WHEN** the site is built with `VITE_BASE=/vd3-docs/` and the Music Player page is served
+- **WHEN** the site is built with `VITE_BASE=/vd3-docs/` and the `/cbun` music-player preview is served
 - **THEN** every audio track URL begins with `/vd3-docs/music/` and the built JS contains no root-absolute `/music/` track path
 
 #### Scenario: expanding-cards backgrounds load under the project-page base

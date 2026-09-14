@@ -7,16 +7,16 @@ a live demo built from the real, typed `Vd*` components and composables of
 Vue 3 design system),
 [`@vanduo-oss/vd3-charts`](https://www.npmjs.com/package/@vanduo-oss/vd3-charts),
 [`@vanduo-oss/vd3-flowchart`](https://www.npmjs.com/package/@vanduo-oss/vd3-flowchart),
-and the remaining canvas widgets of
-[`@vanduo-oss/vd3-cbun`](https://www.npmjs.com/package/@vanduo-oss/vd3-cbun) (the
-components bundle), consumed as published npm dependencies with exact pins
+and `/cbun` previews of the remaining canvas widgets from
+`@vanduo-oss/vdl-cbun` (linked locally via `link:../../vdl-cbun` until
+published; full widget docs live on [labs.vanduo.dev](https://labs.vanduo.dev/)),
+consumed alongside published npm pins
 (`@vanduo-oss/vd3@1.7.2`, `@vanduo-oss/vd3-charts@1.1.0`,
-`@vanduo-oss/vd3-flowchart@1.2.0`, `@vanduo-oss/vd3-cbun@1.4.2`), not vendored
-source.
+`@vanduo-oss/vd3-flowchart@1.2.0`), not vendored source.
 Local worktrees may temporarily `link:` the sibling `../vd3` /
-`../vd3-charts` / `../vd3-flowchart` / `../vd3-cbun` checkouts for unreleased
-library work; the committed manifest
-keeps the exact published versions. Unlike the previous docs site (which
+`../vd3-charts` / `../vd3-flowchart` / `../../vdl-cbun` checkouts for unreleased
+library work; the committed manifest keeps the exact published vd3 pins.
+Unlike the previous docs site (which
 consumed `@vanduo-oss/framework` CSS classes only), vd3-docs renders the
 actual Vue 3 components a consumer installs.
 
@@ -50,7 +50,7 @@ pnpm install
 > `block-exotic-subdeps=true`, `strict-peer-dependencies=true`). The
 > `@vanduo-oss/*` scope is excluded from the 24-hour release-age gate, so the
 > `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
-> `@vanduo-oss/vd3-cbun` publishes are consumed immediately.
+> `@vanduo-oss/vdl-cbun` publishes are consumed immediately.
 
 ## Scripts
 

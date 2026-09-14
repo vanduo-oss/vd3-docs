@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
-import { VdHexGrid, VdHexGridCore } from "@vanduo-oss/vd3-cbun/hex-grid";
+import { VdHexGrid, VdHexGridCore } from "@vanduo-oss/vdl-cbun/hex-grid";
 import { useThemeStore } from "@/stores/theme";
 
 const themeStore = useThemeStore();

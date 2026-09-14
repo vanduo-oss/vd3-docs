@@ -19,8 +19,8 @@ interface CbunEntry {
   preview: Component;
 }
 
-/** /cbun showcase order for the optional @vanduo-oss/vd3-cbun widgets. */
-const entries: CbunEntry[] = [
+/** vd3 line — docs stay on this site. */
+const vd3Entries: CbunEntry[] = [
   {
     id: "charts",
     title: "Charts",
@@ -51,6 +51,10 @@ const entries: CbunEntry[] = [
     docsTo: "/canvas/flowchart",
     preview: CbunPreviewFlowchart,
   },
+];
+
+/** vdl line — live previews here; full docs on labs.vanduo.dev. */
+const vdlEntries: CbunEntry[] = [
   {
     id: "draw",
     title: "Draw",
@@ -63,7 +67,7 @@ const entries: CbunEntry[] = [
       "SVG whiteboard — no heavy canvas stack",
       "Theme-aware chrome that matches vd3 surfaces",
     ],
-    docsTo: "/canvas/draw",
+    docsTo: "https://labs.vanduo.dev/#widgets/draw",
     preview: CbunPreviewDraw,
   },
   {
@@ -78,7 +82,7 @@ const entries: CbunEntry[] = [
       "Multi-language support including real Vue SFC tokenization",
       "Lightweight embed for playgrounds and inline examples",
     ],
-    docsTo: "/editors/code-editor",
+    docsTo: "https://labs.vanduo.dev/#widgets/code-editor",
     preview: CbunPreviewCodeEditor,
   },
   {
@@ -93,7 +97,7 @@ const entries: CbunEntry[] = [
       "HTML5 audio — no third-party player dependency",
       "Chrome styled to match the rest of the vd3 surface",
     ],
-    docsTo: "/media/music-player",
+    docsTo: "https://labs.vanduo.dev/#widgets/music-player",
     preview: CbunPreviewMusic,
   },
   {
@@ -108,12 +112,12 @@ const entries: CbunEntry[] = [
       "Canvas-based with no CSS bundle to ship",
       "Picks up --vd-* colors from the page theme",
     ],
-    docsTo: "/canvas/hex",
+    docsTo: "https://labs.vanduo.dev/#widgets/hex",
     preview: CbunPreviewHex,
   },
 ];
 
-const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart @vanduo-oss/vd3-cbun`;
+const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart @vanduo-oss/vdl-cbun`;
 </script>
 
 <template>
@@ -121,24 +125,27 @@ const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart 
     <div class="about-header">
       <div class="vd-container-responsive">
         <h2 style="color: var(--vd-color-primary)">
-          <i class="ph ph-package"></i> vd3 Components Bundle
+          <i class="ph ph-package"></i> Canvas &amp; media widgets
         </h2>
         <p class="vd-text-lg vd-text-muted">
-          Auxiliary optional widgets. Charts and flowchart also ship as
+          Charts and flowchart stay on the vd3 line —
           <code>@vanduo-oss/vd3-charts</code> and
-          <code>@vanduo-oss/vd3-flowchart</code> — these docs dogfood those
-          dedicated packages. Code-editor, draw, hex-grid, and music-player
-          still install from <code>@vanduo-oss/vd3-cbun</code>.
+          <code>@vanduo-oss/vd3-flowchart</code> — with full docs on this site.
+          Draw, code-editor, hex-grid, and music-player live in
+          <code>@vanduo-oss/vdl-cbun</code>; live previews stay here, full
+          documentation is on
+          <a href="https://labs.vanduo.dev/" rel="noopener noreferrer"
+            >labs.vanduo.dev</a
+          >.
         </p>
       </div>
     </div>
 
     <div class="vd-container-responsive cbun-intro">
       <p>
-        <strong>CBUN</strong> is the optional companion to
-        <code>@vanduo-oss/vd3</code>. The live charts and flowchart previews
-        below render the dedicated packages; the remaining widgets still come
-        from bundle subpaths. Scroll the showcase, then open the full docs demo.
+        <strong>CBUN</strong> is the optional companion layer beside
+        <code>@vanduo-oss/vd3</code>. Scroll the showcase below — vd3 widgets
+        first, then the vdl line — and open Documentation for the full demo.
       </p>
       <DocCodeSnippet
         :shell="installShell"
@@ -148,8 +155,33 @@ const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart 
     </div>
 
     <div class="vd-container-responsive cbun-showcase">
+      <p class="cbun-line-label">vd3</p>
       <CbunShowcaseRow
-        v-for="(entry, index) in entries"
+        v-for="(entry, index) in vd3Entries"
+        :key="entry.id"
+        :title="entry.title"
+        :icon="entry.icon"
+        :blurb="entry.blurb"
+        :strengths="entry.strengths"
+        :docs-to="entry.docsTo"
+        :reversed="index % 2 === 1"
+      >
+        <component :is="entry.preview" />
+      </CbunShowcaseRow>
+
+      <div class="cbun-separator" role="separator" aria-label="vd3 and vdl">
+        <span class="cbun-separator-line" />
+        <span class="cbun-separator-label">
+          <span>vd3</span>
+          <span class="cbun-separator-pipe" aria-hidden="true">|</span>
+          <span>vdl</span>
+        </span>
+        <span class="cbun-separator-line" />
+      </div>
+
+      <p class="cbun-line-label">vdl</p>
+      <CbunShowcaseRow
+        v-for="(entry, index) in vdlEntries"
         :key="entry.id"
         :title="entry.title"
         :icon="entry.icon"
@@ -174,5 +206,44 @@ const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart 
 .cbun-showcase {
   padding-top: 1rem;
   padding-bottom: 4rem;
+}
+
+.cbun-line-label {
+  margin: 0 0 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vd-text-muted);
+}
+
+.cbun-separator {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.5rem 0 2rem;
+}
+
+.cbun-separator-line {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--vd-border-color);
+}
+
+.cbun-separator-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--vd-text-secondary);
+}
+
+.cbun-separator-pipe {
+  color: var(--vd-color-primary);
+  font-weight: 700;
 }
 </style>

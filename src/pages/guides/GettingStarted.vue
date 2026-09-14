@@ -148,8 +148,11 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
               Optional:
               <code>@vanduo-oss/vd3-charts</code> and
               <code>@vanduo-oss/vd3-flowchart</code> for those widgets;
-              <code>@vanduo-oss/vd3-cbun</code> for code-editor, draw, hex-grid,
-              and music-player. See Installation for the full list.
+              <code>@vanduo-oss/vdl-cbun</code> for code-editor, draw, hex-grid,
+              and music-player (documented on
+              <a href="https://labs.vanduo.dev/" rel="noopener noreferrer"
+                >labs</a
+              >). See Installation for the full list.
             </p>
           </div>
         </div>

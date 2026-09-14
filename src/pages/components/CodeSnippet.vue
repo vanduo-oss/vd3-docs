@@ -7,7 +7,7 @@ const simpleDemo = `const greet = (name: string) => \`hello, \${name}\`;`;
 
 const vue3Usage = `<script setup lang="ts">
 import { VdCodeSnippet } from "@vanduo-oss/vd3";
-import { highlight } from "@vanduo-oss/vd3-cbun/code-editor/highlight";
+import { highlight } from "@vanduo-oss/vdl-cbun/code-editor/highlight";
 
 const code = "const x = 1;";
 const highlightCode = (src: string, language: string) =>

@@ -6,8 +6,8 @@ Thanks for your interest in `vd3-docs`.
 
 `vd3-docs` is the documentation and demo site for the **vd3 line** of Vanduo UI
 (`private: true`). It dogfoods the published `@vanduo-oss/vd3`,
-`@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
-`@vanduo-oss/vd3-cbun` packages. Work ships via **feature branch → pull request
+`@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart` packages and
+`@vanduo-oss/vdl-cbun` for remaining canvas previews. Work ships via **feature branch → pull request
 → merge to `main`**. CI runs on the PR; GitHub Pages deploys from `main` after
 merge. Do not push commits directly to `main`.
 
@@ -78,7 +78,7 @@ Archived changes in the tree:
 - `docs-clone-and-strip` — cloned the prior docs site and stripped it to a
   Vue3-only surface for the vd3 line.
 - `docs-content` — Vue3-only content that dogfoods the real `@vanduo-oss/vd3` /
-  `@vanduo-oss/vd3-cbun` components.
+  `@vanduo-oss/vdl-cbun` (and dedicated charts/flowchart) components.
 - `docs-hardening` — visual-parity baselines, axe a11y smoke, and the size
   budget.
 
@@ -121,7 +121,7 @@ changes may not force a baseline rewrite.)
 - **Dogfood the published packages** — render the real `Vd*` components,
   composables, and theme layer from `@vanduo-oss/vd3` (and the canvas widgets
   from `@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
-  `@vanduo-oss/vd3-cbun`) rather than reimplementing them. The site
+  `@vanduo-oss/vdl-cbun`) rather than reimplementing them. The site
   registers the `VanduoVue` plugin and imports `@vanduo-oss/vd3/css`.
 - **Component naming** — doc-site SFCs are PascalCase files under `src/`
   (`layout/`, `overlays/`, `pages/`, …); the `Vd*` component names come from the
@@ -155,4 +155,4 @@ Internal coordination happens in OpenSpec change folders and in
 [`@vanduo-oss/vd3`](https://github.com/vanduo-oss/vd3),
 [`@vanduo-oss/vd3-charts`](https://github.com/vanduo-oss/vd3-charts),
 [`@vanduo-oss/vd3-flowchart`](https://github.com/vanduo-oss/vd3-flowchart), and
-[`@vanduo-oss/vd3-cbun`](https://github.com/vanduo-oss/vd3-cbun).
+[`@vanduo-oss/vdl-cbun`](https://github.com/vanduo-oss/vdl-cbun).

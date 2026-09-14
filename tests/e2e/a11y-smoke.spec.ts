@@ -50,7 +50,7 @@ const ROUTES: readonly Route[] = [
   { path: '/components/forms', label: 'components-forms' },
   { path: '/guides/getting-started', label: 'guides-getting-started' },
   { path: '/canvas/charts', label: 'canvas-charts' },
-  { path: '/media/music-player', label: 'media-music-player' },
+  { path: '/media/image-box', label: 'media-image-box' },
   { path: '/changelog', label: 'changelog' },
   { path: '/components/theme-customizer', label: 'components-theme-customizer' },
   { path: '/components/theme-switcher', label: 'components-theme-switcher' },

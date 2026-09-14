@@ -1,6 +1,6 @@
-import { highlight } from "@vanduo-oss/vd3-cbun/code-editor/highlight";
+import { highlight } from "@vanduo-oss/vdl-cbun/code-editor/highlight";
 
-// DocCodeSnippet / VdCodeSnippet tab keys → cbun tokenizer ids.
+// DocCodeSnippet / VdCodeSnippet tab keys → vdl-cbun tokenizer ids.
 // `js` uses typescript so today's JS+TS snippets stay a single superset.
 const LANGUAGE: Record<string, string> = {
   html: "html",
@@ -16,7 +16,7 @@ const escapeHtml = (value: string): string =>
 
 /**
  * Syntax-highlight a code string for one of DocCodeSnippet's tabs. Returns
- * HTML-escaped markup with `vd-tk-*` token spans — safe for `v-html` (cbun
+ * HTML-escaped markup with `vd-tk-*` token spans — safe for `v-html` (vdl-cbun
  * escapes the source). Default `trailingNewline` is false (snippet-safe).
  * Unknown languages fall back to escaped plaintext.
  */

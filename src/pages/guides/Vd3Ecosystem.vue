@@ -59,9 +59,9 @@ const repos: [string, string, string][] = [
     "Dedicated SVG flowchart editor. Same tokens as vd3. These docs dogfood 1.2.0.",
   ],
   [
-    "vd3-cbun",
-    "@vanduo-oss/vd3-cbun",
-    "The remaining canvas bundle: code-editor, draw, hex-grid, and music-player, each on its own subpath (hex-grid ships no CSS). Still also contains charts and flowchart. Install it when a page needs those remaining widgets.",
+    "vdl-cbun",
+    "@vanduo-oss/vdl-cbun",
+    "Labs canvas bundle: code-editor, draw, hex-grid, and music-player, each on its own subpath (hex-grid ships no CSS). Documented on labs.vanduo.dev; this site keeps live /cbun previews.",
   ],
   [
     "vd3-docs",
@@ -77,7 +77,7 @@ const installCbun = `# Dedicated charts and flowchart packages
 pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart
 
 # Remaining canvas widgets (code-editor / draw / hex-grid / music-player)
-pnpm add @vanduo-oss/vd3-cbun`;
+pnpm add @vanduo-oss/vdl-cbun`;
 
 const usageJs = `// Components, composables, tokens and CSS all come from one package:
 import { VdButton } from '@vanduo-oss/vd3';
@@ -87,11 +87,11 @@ import '@vanduo-oss/vd3/css';
 import { VdChart } from '@vanduo-oss/vd3-charts';
 import { VdFlowchart } from '@vanduo-oss/vd3-flowchart';
 
-// Remaining canvas widgets come from the bundle's per-widget subpaths:
-import { VdCodeEditor } from '@vanduo-oss/vd3-cbun/code-editor';
-import { VdDraw } from '@vanduo-oss/vd3-cbun/draw';
-import { VdHexGrid } from '@vanduo-oss/vd3-cbun/hex-grid';
-import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';`;
+// Remaining canvas widgets come from the labs bundle's per-widget subpaths:
+import { VdCodeEditor } from '@vanduo-oss/vdl-cbun/code-editor';
+import { VdDraw } from '@vanduo-oss/vdl-cbun/draw';
+import { VdHexGrid } from '@vanduo-oss/vdl-cbun/hex-grid';
+import { VdMusicPlayer } from '@vanduo-oss/vdl-cbun/music-player';`;
 </script>
 
 <template>
@@ -145,8 +145,11 @@ import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';`;
               against both — all inside <code>@vanduo-oss/vd3</code>. Dedicated
               <code>@vanduo-oss/vd3-charts</code> and
               <code>@vanduo-oss/vd3-flowchart</code> packages sit alongside it
-              for those widgets; <code>@vanduo-oss/vd3-cbun</code> covers the
-              remaining canvas tools.
+              for those widgets; <code>@vanduo-oss/vdl-cbun</code> covers the
+              remaining canvas tools (docs on
+              <a href="https://labs.vanduo.dev/" rel="noopener noreferrer"
+                >labs</a
+              >).
               <RouterLink to="/cbun">Browse the CBUN showcase</RouterLink>.
             </p>
           </div>

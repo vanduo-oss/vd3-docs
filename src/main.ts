@@ -9,10 +9,10 @@ import {
 import { buildRoutes } from "./router";
 import "@vanduo-oss/vd3/css";
 import "@vanduo-oss/vd3-charts/css";
-import "@vanduo-oss/vd3-cbun/code-editor/css";
-import "@vanduo-oss/vd3-cbun/draw/css";
 import "@vanduo-oss/vd3-flowchart/css";
-import "@vanduo-oss/vd3-cbun/music-player/css";
+import "@vanduo-oss/vdl-cbun/code-editor/css";
+import "@vanduo-oss/vdl-cbun/draw/css";
+import "@vanduo-oss/vdl-cbun/music-player/css";
 import "./styles/docs.css";
 import "./styles/app.css";
 

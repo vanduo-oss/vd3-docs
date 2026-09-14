@@ -104,8 +104,8 @@ import "@/styles/hero-display-font.css";
             <li>
               Dedicated <code>@vanduo-oss/vd3-charts</code> and
               <code>@vanduo-oss/vd3-flowchart</code> packages, plus
-              <code>@vanduo-oss/vd3-cbun</code> for a code editor, draw, hex
-              grids, and a music player.
+              <code>@vanduo-oss/vdl-cbun</code> for a code editor, draw, hex
+              grids, and a music player (documented on labs).
             </li>
           </ul>
 

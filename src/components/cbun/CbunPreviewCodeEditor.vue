@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { VdCodeEditor } from "@vanduo-oss/vd3-cbun/code-editor";
+import { VdCodeEditor } from "@vanduo-oss/vdl-cbun/code-editor";
 
 const code = ref(`<script setup lang="ts">
 import { ref } from "vue";

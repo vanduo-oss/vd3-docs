@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VdDraw } from "@vanduo-oss/vd3-cbun/draw";
+import { VdDraw } from "@vanduo-oss/vdl-cbun/draw";
 import { drawSeedDoc, fitDrawDemoView } from "@/constants/drawSeed";
 
 function onReady(instance: Parameters<typeof fitDrawDemoView>[0]): void {

@@ -46,10 +46,6 @@ import SeparatorPage from "@/pages/components/Separator.vue";
 import MenuPage from "@/pages/components/Menu.vue";
 import ChartsPage from "@/pages/canvas/Charts.vue";
 import FlowchartPage from "@/pages/canvas/Flowchart.vue";
-import HexPage from "@/pages/canvas/Hex.vue";
-import DrawPage from "@/pages/canvas/Draw.vue";
-import MusicPlayerPage from "@/pages/media/MusicPlayer.vue";
-import CodeEditorPage from "@/pages/editors/CodeEditor.vue";
 import StepperPage from "@/pages/components/Stepper.vue";
 import AutocompletePage from "@/pages/components/Autocomplete.vue";
 import TransferPage from "@/pages/components/Transfer.vue";
@@ -141,10 +137,6 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   menu: MenuPage,
   charts: ChartsPage,
   flowchart: FlowchartPage,
-  hex: HexPage,
-  draw: DrawPage,
-  "music-player": MusicPlayerPage,
-  "code-editor": CodeEditorPage,
   stepper: StepperPage,
   autocomplete: AutocompletePage,
   transfer: TransferPage,

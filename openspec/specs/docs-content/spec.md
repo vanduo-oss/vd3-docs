@@ -13,11 +13,13 @@ Every **displayed** package specifier in the docs — the string literals inside
 copies — SHALL name the vd3 line. `@vanduo-oss/vue` SHALL be shown as
 `@vanduo-oss/vd3`. Charts and flowchart install/import strings SHALL name
 `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart` (plus `/css`).
-Hex-grid, music-player, code-editor, and draw SHALL continue to show
-`@vanduo-oss/vd3-cbun/{hex-grid,music-player,code-editor,draw}` (and
-`.../css` / `.../hex-math`). Displayed strings MUST NOT name the retired
-packages `@vanduo-oss/charts`, `@vanduo-oss/flowchart`,
+Hex-grid, music-player, code-editor, and draw SHALL show
+`@vanduo-oss/vdl-cbun/{hex-grid,music-player,code-editor,draw}` (and
+`.../css` / `.../hex-math`) on guides and `/cbun`. Displayed strings MUST NOT
+name the retired packages `@vanduo-oss/charts`, `@vanduo-oss/flowchart`,
 `@vanduo-oss/hex-grid`, `@vanduo-oss/music-player`, or `@vanduo-oss/vue`.
+Historical changelog cards MAY still mention `@vanduo-oss/vd3-cbun/*` as the
+published path for those past releases.
 
 #### Scenario: no old-line package name survives in any displayed string
 
@@ -35,12 +37,13 @@ packages `@vanduo-oss/charts`, `@vanduo-oss/flowchart`,
   `@vanduo-oss/vd3-flowchart`, with no `@vanduo-oss/vd3-cbun/{charts,flowchart}`
   and no retired `@vanduo-oss/{charts,flowchart}` string
 
-#### Scenario: canvas install strings name the cbun bundle
+#### Scenario: remaining canvas widgets name vdl-cbun
 
-- **GIVEN** `canvas/Hex.vue` and `media/MusicPlayer.vue` after this change
-- **WHEN** each page's displayed `installShell` / usage snippet is read
-- **THEN** it shows `@vanduo-oss/vd3-cbun/<name>` and no `@vanduo-oss/<name>/vue`
-  or bare-old-package string
+- **GIVEN** `/cbun`, Getting started, Installation, and the ecosystem guide
+- **WHEN** install/import strings for draw, hex-grid, code-editor, and
+  music-player are read
+- **THEN** they show `@vanduo-oss/vdl-cbun/<name>` (not `@vanduo-oss/vd3-cbun`)
+  and no `@vanduo-oss/<name>/vue` or bare-old-package string
 
 ### Requirement: the vanilla-only guides are removed
 
@@ -96,10 +99,11 @@ current guide. Visiting `/guides/migration` SHALL 404 via the existing catch-all
 `guides/FrameworkIntegration.vue` SHALL be rewritten as **"Installation &
 Integration"** and SHALL document installing `@vanduo-oss/vd3`, the dedicated
 `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart` packages when those
-widgets are needed, and `@vanduo-oss/vd3-cbun` for the remaining canvas
-widgets, importing `@vanduo-oss/vd3/css`, installing the `VanduoVue` plugin
-(`app.use(VanduoVue, { themeDefaults })`), and vite-ssg / SSR usage. It MUST
-NOT tell readers to run `Vanduo.init` after mount or load an IIFE bundle.
+widgets are needed, and `@vanduo-oss/vdl-cbun` for the remaining canvas
+widgets (documented on labs), importing `@vanduo-oss/vd3/css`, installing the
+`VanduoVue` plugin (`app.use(VanduoVue, { themeDefaults })`), and vite-ssg /
+SSR usage. It MUST NOT tell readers to run `Vanduo.init` after mount or load
+an IIFE bundle.
 
 #### Scenario: the integration guide installs the plugin, not a runtime
 
@@ -114,7 +118,7 @@ NOT tell readers to run `Vanduo.init` after mount or load an IIFE bundle.
 - **GIVEN** `guides/FrameworkIntegration.vue` after this change
 - **WHEN** its canvas install and import snippets are read
 - **THEN** they name `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`
-  separately from `@vanduo-oss/vd3-cbun`
+  separately from `@vanduo-oss/vdl-cbun`
 
 ### Requirement: the home page drops dual-engine marketing
 
@@ -273,94 +277,49 @@ replace them).
   `@vanduo-oss/vd3`, and the previous page-local `mode` ref + `toggleMode()` +
   the scoped Fibonacci `flex`/`max-width` reimplementation are gone
 
-### Requirement: Code Editor component page
+### Requirement: moved widget pages MUST NOT remain as in-site routes
 
-The docs site SHALL provide a live Code Editor page at `/editors/code-editor`,
-under a new **Editors** category in the Components tab, rendering the real
-`VdCodeEditor` from `@vanduo-oss/vd3-cbun/code-editor` (no invented API). The
-page MUST demonstrate `v-model` editing, language selection across the supported
-languages, and the read-only, wrap, line-number-gutter, placeholder, and copy
-features, and MUST document the component's props, events, and exposed methods.
+The four widget doc pages that moved to labs — Draw, Hex Grid, Code Editor, and
+Music Player — MUST NOT remain as in-site routes. The SFCs
+`src/pages/canvas/Draw.vue`, `src/pages/canvas/Hex.vue`,
+`src/pages/editors/CodeEditor.vue`, and `src/pages/media/MusicPlayer.vue` MUST
+NOT exist. `src/nav.ts` and `src/router.ts` MUST NOT register
+`/canvas/draw`, `/canvas/hex`, `/editors/code-editor`, or
+`/media/music-player`. The search index MUST NOT surface those four routes.
+Full documentation lives on labs:
+`https://labs.vanduo.dev/#widgets/{draw,hex,code-editor,music-player}`.
 
-#### Scenario: page renders the live editor
+#### Scenario: the four page modules and routes are gone
 
-- **GIVEN** the docs site after this change
-- **WHEN** a user navigates to `/editors/code-editor`
-- **THEN** the page renders a live `VdCodeEditor` with syntax-highlighted content
-  under the Editors nav category, without console errors
+- **GIVEN** the repository after this change
+- **WHEN** `src/pages/` is listed and `src/nav.ts` / `src/router.ts` are read
+- **THEN** the four SFCs do not exist and those four paths are not registered
 
-#### Scenario: typing updates the bound value
+#### Scenario: search does not surface the moved pages
 
-- **GIVEN** the `v-model` demo on the page
-- **WHEN** the user types in the editor
-- **THEN** the bound value displayed on the page updates to match the editor
-  contents
+- **GIVEN** a rebuilt `public/search/search-index.json`
+- **WHEN** it is grepped for `/canvas/draw`, `/canvas/hex`,
+  `/editors/code-editor`, and `/media/music-player`
+- **THEN** there are zero route hits for those paths
 
-#### Scenario: read-only demo blocks input
+### Requirement: /cbun showcase splits vd3 and vdl lines
 
-- **GIVEN** the read-only demo on the page
-- **WHEN** the user attempts to type into it
-- **THEN** the editor contents do not change
+`/cbun` (`src/pages/cbun.vue`) SHALL keep live showcase cards for both lines
+with a visual **vd3 | vdl** separator between them. The **vd3** line SHALL
+include charts and flowchart cards whose Documentation links stay on this site
+(`/canvas/charts`, `/canvas/flowchart`). The **vdl** line SHALL include draw,
+code-editor, music-player, and hex-grid with live previews importing from
+`@vanduo-oss/vdl-cbun/*`, and Documentation links SHALL be absolute labs URLs
+(`https://labs.vanduo.dev/#widgets/{draw,code-editor,music-player,hex}`).
+`CbunShowcaseRow` MUST support external Documentation hrefs (not only
+`RouterLink`).
 
-#### Scenario: page is registered in nav, router, and search
+#### Scenario: separator and labs docs links
 
-- **GIVEN** `src/nav.ts` and `src/router.ts`
-- **WHEN** the app builds routes
-- **THEN** `/editors/code-editor` resolves to the CodeEditor page under the
-  Editors category, the section appears in the sidebar, and its `keywords` feed
-  the search index
-
-### Requirement: Draw component page
-
-The docs site SHALL provide a live Draw page at `/canvas/draw`, under the existing **Canvas** category in the Components tab, rendering the real `VdDraw` from `@vanduo-oss/vd3-cbun/draw` (importing `@vanduo-oss/vd3-cbun/draw/css`) with no invented API. The page MUST demonstrate the interactive editor seeded with a rich vector illustration (`drawSeedDoc`), stage action controls (Reset Demo, Clear, Toggle Grid, Fullscreen), a live event/state inspector ribbon, an interactive multi-brush showcase grid, and an SVG/PNG Export Studio. It MUST document the component's props, events, and exposed methods. The page MUST be registered in BOTH `src/nav.ts` (a Canvas-category `NavSection` with a unique `id`, `route`, and search `keywords`) and `src/router.ts` (`componentPages`), and MUST NOT introduce any vanilla-engine reference or component-specific rule in `app.css`.
-
-#### Scenario: page renders the live editor
-
-- **GIVEN** the docs site after this change
-- **WHEN** a user navigates to `/canvas/draw`
-- **THEN** the page renders a live `VdDraw` editor under the Canvas nav category, themed by the active `--vd-*` palette, without console errors
-
-#### Scenario: page is registered, routed, and searchable
-
-- **GIVEN** the built route table and the search index
-- **WHEN** `buildRoutes()` runs and a user searches the page's keywords
-- **THEN** `/canvas/draw` resolves to the `Draw.vue` component (its `nav.ts` `id` matches its `router.ts` `componentPages` key), the route count stays consistent (`nav.pages` + sections + 2), and the page surfaces in search results
-
-#### Scenario: page documents the real published API
-
-- **GIVEN** the Draw page's API-reference card
-- **WHEN** its props / events / methods tables are read
-- **THEN** every entry corresponds to an actual member of the published `@vanduo-oss/vd3-cbun/draw` surface (`VdDraw` props/emits and exposed `undo`/`redo`/`toSVG`/`toPNG`/`getInstance`), with no invented API
-
-#### Scenario: the canvas pages are visual-baselined at their deterministic initial render
-
-- **GIVEN** the Playwright visual-parity suite after this change
-- **WHEN** its `ROUTES` list is enumerated
-- **THEN** `/canvas/draw` is **present** (alongside `/canvas/{charts,flowchart,hex}`), so a `vd3-canvas-draw` baseline is committed — the earlier canvas-exclusion precedent is retired because the initial page-load render is deterministic (the non-deterministic behaviors — e.g. Hex's random terrain, MusicPlayer's wall-clock log — only fire on user interaction, which the suite does not perform)
-
-#### Scenario: page loads with rich seed document and stage controls
-
-- **GIVEN** the Draw page mounted in a browser
-- **WHEN** the editor initializes
-- **THEN** it renders the shared `drawSeedDoc` containing diagrams, sticky notes, colored arrows, and brush samples, and provides functional stage buttons for Reset Demo, Clear, Toggle Grid, and Fullscreen
-
-#### Scenario: live state ribbon reflects tool, selection, and viewport events
-
-- **GIVEN** the Draw page editor
-- **WHEN** the user selects shapes, changes tools, or pans the canvas
-- **THEN** the ribbon updates reactive badges showing the active tool, selected shape count, last event reason, and current viewport coordinates
-
-#### Scenario: brush showcase cards allow one-click preset activation
-
-- **GIVEN** the Multi-Brush Showcase section on the Draw page
-- **WHEN** the user clicks "Select Brush" on any of the five preset cards
-- **THEN** the editor's active tool switches to `draw` and the respective brush preset is activated on the core instance
-
-#### Scenario: export studio produces SVG and PNG previews with download actions
-
-- **GIVEN** the Export Studio section on the Draw page
-- **WHEN** the user clicks "Export SVG" or "Export PNG"
-- **THEN** a preview modal/card displays the generated asset, shows byte size and dimensions, and enables Copy SVG and file download
+- **GIVEN** `/cbun` after this change
+- **WHEN** the page is rendered
+- **THEN** vd3 cards appear above a visual vd3|vdl separator, vdl cards appear
+  below it, and each vdl Documentation control points at the matching labs URL
 
 ### Requirement: the About page is a vd3 overview, not vd2 founder copy
 
@@ -369,7 +328,7 @@ plain-language overview of the standalone vd3 line and MUST NOT carry the pre-st
 vd2 clone's founder's-message content (e.g. "The Shape of the Water") or any
 dual-engine / vanilla-engine framing. Its prose SHALL describe only real facts about
 `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
-`@vanduo-oss/vd3-cbun` and MUST NOT invent component or composable APIs. All
+`@vanduo-oss/vdl-cbun` and MUST NOT invent component or composable APIs. All
 page styling SHALL remain scoped to `about.vue`; the change MUST NOT modify
 `app.css` or other shell/layout stylesheets.
 
@@ -647,8 +606,7 @@ CSS. `app.css` SHALL remain shell/layout-only.
 ### Requirement: component demo pages open with a one-line intro
 
 Every component **demo** page under `src/pages/components/` that renders a
-`demo-title` — plus the cbun demo pages `editors/CodeEditor.vue` and
-`media/MusicPlayer.vue` — SHALL render exactly one one-line intro `<p>` directly
+`demo-title` — SHALL render exactly one one-line intro `<p>` directly
 under its `demo-title` (or the `lcc-demo-head` block that wraps it), describing
 the component in plain language with no invented component or composable API. The
 intro `<p>` SHALL carry the spacing token `vd-mb-8` and SHALL NOT be muted
@@ -796,12 +754,12 @@ document the modifier in its reference tables. Nav keywords SHALL include
 
 `/guides/vd3-ecosystem` (`Vd3Ecosystem.vue`) SHALL describe the vd3 line
 packages (docs, `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`,
-`@vanduo-oss/vd3-flowchart`, `@vanduo-oss/vd3-cbun`) and MAY carry a short
-note that vanduo v2 was retired and vd3 is the only maintained line. It MUST
-NOT use "maintenance mode" / "critical fixes" wording, MUST NOT name
-individual retired package slugs, and MUST NOT link to `/guides/migration`.
-The docs MUST NOT ship a migration page (existing no-migration requirement
-remains).
+`@vanduo-oss/vd3-flowchart`) plus `@vanduo-oss/vdl-cbun` for the remaining
+canvas widgets (documented on labs) and MAY carry a short note that vanduo v2
+was retired and vd3 is the only maintained line. It MUST NOT use "maintenance
+mode" / "critical fixes" wording, MUST NOT name individual retired package
+slugs, and MUST NOT link to `/guides/migration`. The docs MUST NOT ship a
+migration page (existing no-migration requirement remains).
 
 #### Scenario: retirement without migration
 
@@ -821,17 +779,17 @@ remains).
 
 `guides/Vd3Ecosystem.vue` SHALL describe the vd3 line — `vd3-docs` (the docs
 site), `vd3` (the Vue 3 component library with tokens and CSS),
-`vd3-charts` and `vd3-flowchart` (dedicated canvas widgets), and `vd3-cbun`
-(the remaining canvas bundle: code-editor / draw / hex-grid / music-player,
-which still also contains charts and flowchart). It MUST NOT present "pick an
-engine (Vanilla or Vue)" framing, the old four-separate-add-on-package
-install grid, or vanduo v2 / legacy-line migration teaching.
+`vd3-charts` and `vd3-flowchart` (dedicated canvas widgets), and `vdl-cbun`
+(the labs canvas bundle: code-editor / draw / hex-grid / music-player,
+documented on labs). It MUST NOT present "pick an engine (Vanilla or Vue)"
+framing, the old four-separate-add-on-package install grid, or vanduo v2 /
+legacy-line migration teaching.
 
 #### Scenario: the ecosystem guide names the vd3 line packages
 
 - **GIVEN** `guides/Vd3Ecosystem.vue` after this change
 - **WHEN** it is read
 - **THEN** it names `vd3-docs`, `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`,
-  `@vanduo-oss/vd3-flowchart`, and `@vanduo-oss/vd3-cbun`, and contains no
+  `@vanduo-oss/vd3-flowchart`, and `@vanduo-oss/vdl-cbun`, and contains no
   "when to use the Vanilla engine" / "when to use the Vue 3 engine" choice
   section and no vanduo v2 migration teaching

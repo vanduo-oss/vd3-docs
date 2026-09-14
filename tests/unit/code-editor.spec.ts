@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { mount } from "@vue/test-utils";
-import { VdCodeEditor } from "@vanduo-oss/vd3-cbun/code-editor";
+import { VdCodeEditor } from "@vanduo-oss/vdl-cbun/code-editor";
 
 beforeAll(() => {
   if (typeof (globalThis as { ResizeObserver?: unknown }).ResizeObserver === "undefined") {
@@ -12,7 +12,7 @@ beforeAll(() => {
   }
 });
 
-describe("VdCodeEditor (@vanduo-oss/vd3-cbun/code-editor integration in docs)", () => {
+describe("VdCodeEditor (@vanduo-oss/vdl-cbun/code-editor integration in docs)", () => {
   it("mounts with Vue language and renders the editor shell", async () => {
     const wrapper = mount(VdCodeEditor, {
       props: {
