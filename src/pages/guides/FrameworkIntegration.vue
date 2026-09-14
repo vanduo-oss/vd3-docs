@@ -6,7 +6,11 @@ import { RouterLink } from "vue-router";
 const installShell = `# The Vue 3 component library (tokens + CSS + components)
 pnpm add @vanduo-oss/vd3
 
-# Optional — canvas widgets (charts, code-editor, draw, flowchart, hex-grid, music-player)
+# Charts and flowchart ship as dedicated packages
+pnpm add @vanduo-oss/vd3-charts
+pnpm add @vanduo-oss/vd3-flowchart
+
+# Optional — remaining canvas widgets (code-editor, draw, hex-grid, music-player)
 pnpm add @vanduo-oss/vd3-cbun`;
 
 const mainJs = `// main.ts — register the plugin and the stylesheet once
@@ -35,18 +39,18 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
   </VdCard>
 </template>`;
 
-const cbunJs = `// Each widget lives on its own subpath. Most ship a matching /css entry.
-import { VdChart } from '@vanduo-oss/vd3-cbun/charts';
-import '@vanduo-oss/vd3-cbun/charts/css';
+const cbunJs = `// Dedicated packages for charts and flowchart; remaining widgets stay on cbun.
+import { VdChart } from '@vanduo-oss/vd3-charts';
+import '@vanduo-oss/vd3-charts/css';
+
+import { VdFlowchart } from '@vanduo-oss/vd3-flowchart';
+import '@vanduo-oss/vd3-flowchart/css';
 
 import { VdCodeEditor } from '@vanduo-oss/vd3-cbun/code-editor';
 import '@vanduo-oss/vd3-cbun/code-editor/css';
 
 import { VdDraw } from '@vanduo-oss/vd3-cbun/draw';
 import '@vanduo-oss/vd3-cbun/draw/css';
-
-import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';
-import '@vanduo-oss/vd3-cbun/flowchart/css';
 
 import { VdHexGrid } from '@vanduo-oss/vd3-cbun/hex-grid';
 // hex-grid is canvas-rendered — it ships no stylesheet.
@@ -139,9 +143,10 @@ const pluginOptions: [string, string, string][] = [
           <div class="vd-card-body">
             <p>
               Add the core package. Reach for
-              <code>@vanduo-oss/vd3-cbun</code> only when you need a canvas
-              widget (charts, code-editor, draw, flowchart, hex-grid,
-              music-player).
+              <code>@vanduo-oss/vd3-charts</code> and
+              <code>@vanduo-oss/vd3-flowchart</code> for those widgets, and
+              <code>@vanduo-oss/vd3-cbun</code> for the remaining canvas widgets
+              (code-editor, draw, hex-grid, music-player).
             </p>
             <DocCodeSnippet :shell="installShell" :default-open="true" />
           </div>
@@ -212,9 +217,10 @@ const pluginOptions: [string, string, string][] = [
             </p>
             <DocCodeSnippet :js="usageJs" :default-open="true" />
             <p class="vd-text-sm vd-text-muted vd-mt-3">
-              Canvas components come from the
-              <code>@vanduo-oss/vd3-cbun</code> subpaths. Five of six ship a
-              matching <code>/css</code> file; hex-grid does not:
+              Charts and flowchart come from dedicated packages. The remaining
+              canvas widgets come from
+              <code>@vanduo-oss/vd3-cbun</code> subpaths. Hex-grid ships no
+              matching <code>/css</code> file:
             </p>
             <DocCodeSnippet :js="cbunJs" />
           </div>

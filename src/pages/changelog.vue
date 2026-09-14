@@ -1,8 +1,8 @@
 <script setup lang="ts">
 // The changelog documents PACKAGE releases for the vd3 line only —
-// @vanduo-oss/vd3 (the Vue 3 design system + component library) and
-// @vanduo-oss/vd3-cbun (the components bundle). It NEVER tracks docs-site
-// changes (see the changelog-content policy).
+// @vanduo-oss/vd3, @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart, and
+// @vanduo-oss/vd3-cbun. It NEVER tracks docs-site changes (see the
+// changelog-content policy).
 //
 // The package-release cards are rendered by Vue (so their RouterLinks work);
 // the earlier scaffold history is imported verbatim and rendered via v-html
@@ -48,8 +48,9 @@ useAffix(root);
         <p class="vd-text-lg vd-text-muted">
           Release notes for the <strong>vd3 line packages</strong> —
           <code>@vanduo-oss/vd3</code> (the Vue 3 design system and component
-          library) and <code>@vanduo-oss/vd3-cbun</code> (the components bundle:
-          charts, code-editor, draw, flowchart, hex-grid, music-player).
+          library), <code>@vanduo-oss/vd3-charts</code>,
+          <code>@vanduo-oss/vd3-flowchart</code>, and
+          <code>@vanduo-oss/vd3-cbun</code> (the components bundle).
         </p>
       </div>
     </div>
@@ -2108,6 +2109,144 @@ useAffix(root);
           </div>
         </article>
         <div v-html="vueContent"></div>
+      </div>
+      <div class="changelog-col">
+        <div class="changelog-col-head vd-affix vd-affix-no-shadow">
+          <h3 class="changelog-col-title">
+            <i
+              class="ph ph-chart-bar"
+              style="color: var(--vd-color-primary)"
+            ></i
+            ><code>@vanduo-oss/vd3-charts</code>
+          </h3>
+          <p class="changelog-col-sub">
+            Dedicated SVG charts package — bar, line, area, scatter, donut, pie.
+          </p>
+        </div>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.1.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>September 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  Extracted from <code>@vanduo-oss/vd3-cbun@1.4.2</code> as a
+                  standalone package. Component API and
+                  <code>VD_CHARTS_VERSION</code> remain <code>1.1.0</code>.
+                </p>
+
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-package"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Standalone
+                          <code>@vanduo-oss/vd3-charts</code></strong
+                        >
+                        <p>
+                          Vue wrappers and core factories, WAI-ARIA Graphics
+                          roles, keyboard mark navigation, data table fallback,
+                          and additive core <code>role</code> / Vue
+                          <code>svgRole</code>. Install with
+                          <code>pnpm add @vanduo-oss/vd3-charts</code> and
+                          import <code>@vanduo-oss/vd3-charts/css</code>. See
+                          <RouterLink to="/canvas/charts"
+                            ><code>/canvas/charts</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="changelog-col">
+        <div class="changelog-col-head vd-affix vd-affix-no-shadow">
+          <h3 class="changelog-col-title">
+            <i
+              class="ph ph-flow-arrow"
+              style="color: var(--vd-color-primary)"
+            ></i
+            ><code>@vanduo-oss/vd3-flowchart</code>
+          </h3>
+          <p class="changelog-col-sub">
+            Dedicated SVG flowchart editor — nodes, edges, layout, undo/redo.
+          </p>
+        </div>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.2.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>September 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  Extracted from <code>@vanduo-oss/vd3-cbun@1.4.2</code> as a
+                  standalone package. Component API and
+                  <code>VD_FLOWCHART_VERSION</code> remain <code>1.2.0</code>.
+                </p>
+
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-package"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Standalone
+                          <code>@vanduo-oss/vd3-flowchart</code></strong
+                        >
+                        <p>
+                          Vue wrapper plus <code>VdFlowchartCore</code>,
+                          <code>computeLayout</code>, and
+                          <code>{ version, viewport, nodes, edges }</code>
+                          serialization. Install with
+                          <code>pnpm add @vanduo-oss/vd3-flowchart</code> and
+                          import <code>@vanduo-oss/vd3-flowchart/css</code>. See
+                          <RouterLink to="/canvas/flowchart"
+                            ><code>/canvas/flowchart</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>

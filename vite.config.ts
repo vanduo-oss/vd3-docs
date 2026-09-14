@@ -38,7 +38,12 @@ export default defineConfig({
   optimizeDeps: {
     // Keep the published packages out of the pre-bundle so a contributor can
     // still `pnpm link` sibling trees without a stale dep optimizer cache.
-    exclude: ["@vanduo-oss/vd3", "@vanduo-oss/vd3-cbun"],
+    exclude: [
+      "@vanduo-oss/vd3",
+      "@vanduo-oss/vd3-cbun",
+      "@vanduo-oss/vd3-charts",
+      "@vanduo-oss/vd3-flowchart",
+    ],
     include: [
       "fuse.js",
       "@huggingface/transformers",
@@ -54,6 +59,8 @@ export default defineConfig({
         fileURLToPath(new URL(".", import.meta.url)),
         fileURLToPath(new URL("../vd3", import.meta.url)),
         fileURLToPath(new URL("../vd3-cbun", import.meta.url)),
+        fileURLToPath(new URL("../vd3-charts", import.meta.url)),
+        fileURLToPath(new URL("../vd3-flowchart", import.meta.url)),
       ],
     },
   },
@@ -61,7 +68,12 @@ export default defineConfig({
     // SSG must transform the packages' .vue components (not require them as
     // CJS) during prerender. Hybrid search peers stay client-only via dynamic
     // import from the search store (not imported at SSG entry).
-    noExternal: ["@vanduo-oss/vd3", "@vanduo-oss/vd3-cbun"],
+    noExternal: [
+      "@vanduo-oss/vd3",
+      "@vanduo-oss/vd3-cbun",
+      "@vanduo-oss/vd3-charts",
+      "@vanduo-oss/vd3-flowchart",
+    ],
   },
   build: {
     target: "es2020",

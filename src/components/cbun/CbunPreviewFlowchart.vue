@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VdFlowchart } from "@vanduo-oss/vd3-cbun/flowchart";
+import { VdFlowchart } from "@vanduo-oss/vd3-flowchart";
 
 const seedDoc = {
   version: "1.2.0",

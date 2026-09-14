@@ -41,7 +41,7 @@ const nextLinks = [
   },
 ];
 
-// The three repositories that make up the vd3 line.
+// The repositories that make up the vd3 line.
 const repos: [string, string, string][] = [
   [
     "vd3",
@@ -49,32 +49,47 @@ const repos: [string, string, string][] = [
     "The design system and Vue 3 component library. Ships its own DTCG design tokens, the full CSS tree (@vanduo-oss/vd3/css), and typed Vd* components + composables. Standalone — its sole peer dependency is vue >=3.3.",
   ],
   [
+    "vd3-charts",
+    "@vanduo-oss/vd3-charts",
+    "Dedicated SVG charts package (bar, line, area, scatter, donut, pie). Same tokens as vd3. These docs dogfood 1.1.0.",
+  ],
+  [
+    "vd3-flowchart",
+    "@vanduo-oss/vd3-flowchart",
+    "Dedicated SVG flowchart editor. Same tokens as vd3. These docs dogfood 1.2.0.",
+  ],
+  [
     "vd3-cbun",
     "@vanduo-oss/vd3-cbun",
-    "The canvas bundle: charts, code-editor, draw, flowchart, hex-grid, and music-player, each on its own subpath (hex-grid ships no CSS). Install it only when a page needs a canvas widget; it shares the same tokens and theme as vd3.",
+    "The remaining canvas bundle: code-editor, draw, hex-grid, and music-player, each on its own subpath (hex-grid ships no CSS). Still also contains charts and flowchart. Install it when a page needs those remaining widgets.",
   ],
   [
     "vd3-docs",
     "— (not published to npm)",
-    "This documentation site. It dogfoods both packages — every live demo on these pages renders the real shipped component.",
+    "This documentation site. It dogfoods the published packages — every live demo on these pages renders the real shipped component.",
   ],
 ];
 
 const installVd3 = `# The design system + components (tokens & CSS included)
 pnpm add @vanduo-oss/vd3`;
 
-const installCbun = `# Optional — canvas widgets (charts / code-editor / draw / flowchart / hex-grid / music-player)
+const installCbun = `# Dedicated charts and flowchart packages
+pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart
+
+# Remaining canvas widgets (code-editor / draw / hex-grid / music-player)
 pnpm add @vanduo-oss/vd3-cbun`;
 
 const usageJs = `// Components, composables, tokens and CSS all come from one package:
 import { VdButton } from '@vanduo-oss/vd3';
 import '@vanduo-oss/vd3/css';
 
-// Canvas widgets come from the bundle's per-widget subpaths:
-import { VdChart } from '@vanduo-oss/vd3-cbun/charts';
+// Charts and flowchart ship as dedicated packages:
+import { VdChart } from '@vanduo-oss/vd3-charts';
+import { VdFlowchart } from '@vanduo-oss/vd3-flowchart';
+
+// Remaining canvas widgets come from the bundle's per-widget subpaths:
 import { VdCodeEditor } from '@vanduo-oss/vd3-cbun/code-editor';
 import { VdDraw } from '@vanduo-oss/vd3-cbun/draw';
-import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';
 import { VdHexGrid } from '@vanduo-oss/vd3-cbun/hex-grid';
 import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';`;
 </script>
@@ -89,16 +104,17 @@ import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';`;
       <strong>vd3</strong> is the Vue 3 design system from
       <code>vanduo-oss</code>, shipped as a small, standalone set of packages
       under the <code>@vanduo-oss</code> scope. There is no separate token / CSS
-      / JS split to wire together — one component library, plus one optional
-      canvas bundle, documented by this site.
+      / JS split to wire together — one component library, dedicated charts and
+      flowchart packages, plus an optional canvas bundle, documented by this
+      site.
     </p>
 
-    <!-- The three repos -->
+    <!-- The vd3 line repos -->
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
-            <h6><i class="ph ph-git-branch"></i> Three repositories</h6>
+            <h6><i class="ph ph-git-branch"></i> The vd3 line</h6>
           </div>
           <div class="vd-card-body">
             <div class="vd-table-responsive">
@@ -126,9 +142,11 @@ import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';`;
             <p class="vd-text-sm vd-text-muted vd-mt-3">
               Design tokens generate the CSS, the CSS is themed by the same
               tokens, and the <code>Vd*</code> components and composables render
-              against both — all inside <code>@vanduo-oss/vd3</code>.
-              <code>@vanduo-oss/vd3-cbun</code> sits alongside it for the
-              heavier canvas widgets.
+              against both — all inside <code>@vanduo-oss/vd3</code>. Dedicated
+              <code>@vanduo-oss/vd3-charts</code> and
+              <code>@vanduo-oss/vd3-flowchart</code> packages sit alongside it
+              for those widgets; <code>@vanduo-oss/vd3-cbun</code> covers the
+              remaining canvas tools.
               <RouterLink to="/cbun">Browse the CBUN showcase</RouterLink>.
             </p>
           </div>
@@ -145,8 +163,8 @@ import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';`;
           </div>
           <div class="vd-card-body">
             <p class="vd-mb-3">
-              Start with the design system; add the canvas bundle only if you
-              need it:
+              Start with the design system; add charts, flowchart, or the
+              remaining canvas bundle only if you need them:
             </p>
             <DocCodeSnippet :shell="installVd3" :default-open="true" />
             <DocCodeSnippet
@@ -154,7 +172,9 @@ import { VdMusicPlayer } from '@vanduo-oss/vd3-cbun/music-player';`;
               :shell="installCbun"
               :default-open="true"
             />
-            <p class="vd-mt-5 vd-mb-3">Then import from the two packages:</p>
+            <p class="vd-mt-5 vd-mb-3">
+              Then import from the packages you need:
+            </p>
             <DocCodeSnippet :js="usageJs" :default-open="true" />
           </div>
         </div>

@@ -8,10 +8,10 @@ import {
 } from "./constants/docsPrimary";
 import { buildRoutes } from "./router";
 import "@vanduo-oss/vd3/css";
-import "@vanduo-oss/vd3-cbun/charts/css";
+import "@vanduo-oss/vd3-charts/css";
 import "@vanduo-oss/vd3-cbun/code-editor/css";
 import "@vanduo-oss/vd3-cbun/draw/css";
-import "@vanduo-oss/vd3-cbun/flowchart/css";
+import "@vanduo-oss/vd3-flowchart/css";
 import "@vanduo-oss/vd3-cbun/music-player/css";
 import "./styles/docs.css";
 import "./styles/app.css";

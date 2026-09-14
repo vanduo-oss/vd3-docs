@@ -5,7 +5,8 @@ Thanks for your interest in `vd3-docs`.
 ## Current Status
 
 `vd3-docs` is the documentation and demo site for the **vd3 line** of Vanduo UI
-(`private: true`). It dogfoods the published `@vanduo-oss/vd3` and
+(`private: true`). It dogfoods the published `@vanduo-oss/vd3`,
+`@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
 `@vanduo-oss/vd3-cbun` packages. Work ships via **feature branch → pull request
 → merge to `main`**. CI runs on the PR; GitHub Pages deploys from `main` after
 merge. Do not push commits directly to `main`.
@@ -118,8 +119,9 @@ changes may not force a baseline rewrite.)
 - **Prettier** formatting. `pnpm run format:check` must pass; run
   `pnpm run format` to fix locally.
 - **Dogfood the published packages** — render the real `Vd*` components,
-  composables, and theme layer from `@vanduo-oss/vd3` (and the component bundle
-  from `@vanduo-oss/vd3-cbun`) rather than reimplementing them. The site
+  composables, and theme layer from `@vanduo-oss/vd3` (and the canvas widgets
+  from `@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
+  `@vanduo-oss/vd3-cbun`) rather than reimplementing them. The site
   registers the `VanduoVue` plugin and imports `@vanduo-oss/vd3/css`.
 - **Component naming** — doc-site SFCs are PascalCase files under `src/`
   (`layout/`, `overlays/`, `pages/`, …); the `Vd*` component names come from the
@@ -150,5 +152,7 @@ deploys as a static site to GitHub Pages. There is no `npm publish` step. Treat
 
 Internal coordination happens in OpenSpec change folders and in
 `openspec/specs/`. For the packages this site consumes, see
-[`@vanduo-oss/vd3`](https://github.com/vanduo-oss/vd3) and
+[`@vanduo-oss/vd3`](https://github.com/vanduo-oss/vd3),
+[`@vanduo-oss/vd3-charts`](https://github.com/vanduo-oss/vd3-charts),
+[`@vanduo-oss/vd3-flowchart`](https://github.com/vanduo-oss/vd3-flowchart), and
 [`@vanduo-oss/vd3-cbun`](https://github.com/vanduo-oss/vd3-cbun).

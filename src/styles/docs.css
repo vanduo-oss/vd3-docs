@@ -2942,7 +2942,7 @@ a:hover .vd-card-interactive.vd-card-glow {
   );
 }
 
-/* ── Changelog: two columns (vd3 | cbun) ─────────── */
+/* ── Changelog: 2×2 (vd3 | cbun, then charts | flowchart) ── */
 .changelog-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

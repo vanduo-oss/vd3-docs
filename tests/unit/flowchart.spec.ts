@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { mount } from "@vue/test-utils";
-import { VdFlowchart } from "@vanduo-oss/vd3-cbun/flowchart";
+import { VdFlowchart } from "@vanduo-oss/vd3-flowchart";
 
 beforeAll(() => {
   // jsdom lacks ResizeObserver, which the editor observes its host with.
@@ -16,7 +16,7 @@ beforeAll(() => {
   }
 });
 
-describe("VdFlowchart (@vanduo-oss/vd3-cbun/flowchart)", () => {
+describe("VdFlowchart (@vanduo-oss/vd3-flowchart)", () => {
   it("mounts and builds the editor shell into the container", async () => {
     const wrapper = mount(VdFlowchart, {
       props: {

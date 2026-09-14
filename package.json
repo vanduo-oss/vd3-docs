@@ -1,7 +1,7 @@
 {
   "name": "@vanduo-oss/vd3-docs",
   "version": "1.7.4",
-  "description": "Vue 3 + vite-ssg documentation site for the vd3 line (@vanduo-oss/vd3 + @vanduo-oss/vd3-cbun)",
+  "description": "Vue 3 + vite-ssg documentation site for the vd3 line (@vanduo-oss/vd3, @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart, @vanduo-oss/vd3-cbun)",
   "private": true,
   "type": "module",
   "homepage": "https://vd3.vanduo.dev/",
@@ -41,6 +41,8 @@
     "@unhead/vue": "2.1.15",
     "@vanduo-oss/vd3": "1.7.2",
     "@vanduo-oss/vd3-cbun": "1.4.2",
+    "@vanduo-oss/vd3-charts": "1.1.0",
+    "@vanduo-oss/vd3-flowchart": "1.2.0",
     "@vanduo-oss/vdl-hybrid-search": "0.2.0",
     "animejs": "4.5.0",
     "fuse.js": "7.5.0",

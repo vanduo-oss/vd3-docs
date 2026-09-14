@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdFlowchart } from "@vanduo-oss/vd3-cbun/flowchart";
+import { VdFlowchart } from "@vanduo-oss/vd3-flowchart";
 
 const seedDoc = {
   version: "1.2.0",
@@ -359,11 +359,11 @@ function onFlowchartReady(editor: { layout?: (mode?: string) => unknown }) {
   editor.layout?.("radial");
 }
 
-const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
+const installShell = `pnpm add @vanduo-oss/vd3-flowchart`;
 
 const vue3Usage = `<script setup lang="ts">
-import { VdFlowchart } from '@vanduo-oss/vd3-cbun/flowchart';
-import '@vanduo-oss/vd3-cbun/flowchart/css';
+import { VdFlowchart } from '@vanduo-oss/vd3-flowchart';
+import '@vanduo-oss/vd3-flowchart/css';
 <\/script>
 
 <template>
@@ -438,11 +438,10 @@ const methods: [string, string][] = [
     <h5 class="demo-title"><i class="ph ph-flow-arrow"></i>Flowchart</h5>
     <p class="vd-mb-8">
       <strong>vd3 Flowchart</strong> is an SVG flowchart editor from
-      <code>@vanduo-oss/vd3-cbun</code>
-      (<code>@vanduo-oss/vd3-cbun/flowchart</code>). Drag from the palette,
-      connect ports, edit text inline, auto-arrange layouts, and export/import
-      JSON. The demo below loads a radial mind map with branches and sub-topics.
-      The toolbar <strong>Arrange</strong> control is a single
+      <code>@vanduo-oss/vd3-flowchart</code>. Drag from the palette, connect
+      ports, edit text inline, auto-arrange layouts, and export/import JSON. The
+      demo below loads a radial mind map with branches and sub-topics. The
+      toolbar <strong>Arrange</strong> control is a single
       <code>&lt;select&gt;</code> with three layout modes —
       <strong>Tree</strong>, <strong>Radial</strong>, and
       <strong>Grid</strong> — and always shows the active mode (no placeholder

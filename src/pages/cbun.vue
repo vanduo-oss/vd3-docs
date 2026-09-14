@@ -26,7 +26,7 @@ const entries: CbunEntry[] = [
     title: "Charts",
     icon: "chart-donut",
     blurb:
-      "SVG-first charts with WAI-ARIA Graphics 1.0 semantics, keyboard arrow navigation, and WCAG 1.1.1 data table fallback. Reads the same --vd-* theme tokens.",
+      "SVG-first charts with WAI-ARIA Graphics 1.0 semantics, keyboard arrow navigation, and WCAG 1.1.1 data table fallback. Also published as @vanduo-oss/vd3-charts — the package these docs dogfood.",
     strengths: [
       "SVG-first rendering — no canvas, no d3 dependency",
       "WAI-ARIA Graphics 1.0 roles plus keyboard arrow navigation",
@@ -41,7 +41,7 @@ const entries: CbunEntry[] = [
     title: "Flowchart",
     icon: "flow-arrow",
     blurb:
-      "Node-and-edge diagram editing with auto-fit, routing, and theme-aware chrome. Ideal for workflows, architecture sketches, and interactive docs.",
+      "Node-and-edge diagram editing with auto-fit, routing, and theme-aware chrome. Also published as @vanduo-oss/vd3-flowchart — the package these docs dogfood.",
     strengths: [
       "Auto-fit viewport so diagrams stay readable",
       "Orthogonal and curved edge routing",
@@ -113,7 +113,7 @@ const entries: CbunEntry[] = [
   },
 ];
 
-const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
+const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart @vanduo-oss/vd3-cbun`;
 </script>
 
 <template>
@@ -124,9 +124,11 @@ const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
           <i class="ph ph-package"></i> vd3 Components Bundle
         </h2>
         <p class="vd-text-lg vd-text-muted">
-          Auxiliary optional widgets from
-          <code>@vanduo-oss/vd3-cbun</code> — install only when a page needs
-          charts, editors, or canvas tools.
+          Auxiliary optional widgets. Charts and flowchart also ship as
+          <code>@vanduo-oss/vd3-charts</code> and
+          <code>@vanduo-oss/vd3-flowchart</code> — these docs dogfood those
+          dedicated packages. Code-editor, draw, hex-grid, and music-player
+          still install from <code>@vanduo-oss/vd3-cbun</code>.
         </p>
       </div>
     </div>
@@ -134,10 +136,9 @@ const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
     <div class="vd-container-responsive cbun-intro">
       <p>
         <strong>CBUN</strong> is the optional companion to
-        <code>@vanduo-oss/vd3</code>. Each family lives on its own
-        tree-shakeable subpath, so importing one never pulls in another. Scroll
-        the showcase below for a live preview of every widget, then open the
-        full docs demo.
+        <code>@vanduo-oss/vd3</code>. The live charts and flowchart previews
+        below render the dedicated packages; the remaining widgets still come
+        from bundle subpaths. Scroll the showcase, then open the full docs demo.
       </p>
       <DocCodeSnippet
         :shell="installShell"

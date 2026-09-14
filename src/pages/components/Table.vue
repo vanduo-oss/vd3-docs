@@ -3,7 +3,7 @@ import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdAvatar, VdBadge, VdDataTable } from "@vanduo-oss/vd3";
 import type { DataTableColumn } from "@vanduo-oss/vd3";
-import { VdChart } from "@vanduo-oss/vd3-cbun/charts";
+import { VdChart } from "@vanduo-oss/vd3-charts";
 
 interface MemberRow {
   [key: string]: unknown;
@@ -353,8 +353,8 @@ const apiRows: [string, string, string][] = [
           <div class="vd-card-header"><h6>Dashboard recipe</h6></div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-3">
-              Composition only — cbun charts stay in
-              <code>@vanduo-oss/vd3-cbun</code>; the table stays in vd3.
+              Composition only — charts come from
+              <code>@vanduo-oss/vd3-charts</code>; the table stays in vd3.
             </p>
             <VdChart
               type="bar"

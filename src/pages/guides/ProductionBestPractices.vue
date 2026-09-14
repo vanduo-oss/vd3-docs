@@ -4,7 +4,9 @@ import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const pinShell = `# Pin exact versions so visual output is reproducible
 pnpm add @vanduo-oss/vd3@1.7.2
-# Optional canvas widgets
+pnpm add @vanduo-oss/vd3-charts@1.1.0
+pnpm add @vanduo-oss/vd3-flowchart@1.2.0
+# Remaining canvas widgets
 pnpm add @vanduo-oss/vd3-cbun@1.4.2`;
 
 const entryJs = `// main.ts — CSS once, plugin once, named JS imports elsewhere
@@ -23,7 +25,7 @@ createApp(App)
 const practices: [string, string][] = [
   [
     "Pin package versions",
-    "Lock @vanduo-oss/vd3 and @vanduo-oss/vd3-cbun so visual output is reproducible.",
+    "Lock @vanduo-oss/vd3, @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart, and @vanduo-oss/vd3-cbun so visual output is reproducible.",
   ],
   [
     "Import CSS once",
@@ -43,7 +45,7 @@ const practices: [string, string][] = [
   ],
   [
     "Code-split heavy widgets",
-    "Dynamic import() for routes and defineAsyncComponent for CBUN widgets. See Lazy loading.",
+    "Dynamic import() for routes and defineAsyncComponent for heavy canvas widgets. See Lazy loading.",
   ],
 ];
 </script>

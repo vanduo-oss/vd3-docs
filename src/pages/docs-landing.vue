@@ -95,7 +95,7 @@ const cards: DocsCard[] = [
     highlights: [
       {
         icon: "ph-sparkle",
-        text: "vd3 1.7.2 and vd3-cbun 1.4.2 — published pins",
+        text: "vd3 1.7.2, charts 1.1.0, flowchart 1.2.0, cbun 1.4.2 — published pins",
       },
       { icon: "ph-git-branch", text: "Release notes for @vanduo-oss/vd3" },
     ],
@@ -105,7 +105,10 @@ const cards: DocsCard[] = [
       { title: "Roadmap", icon: "ph-map-trifold" },
     ],
     tags: ["Releases", "Tokens", "Lifecycle"],
-    meta: { icon: "ph-calendar-blank", text: "Latest: vd3 1.7.2 · cbun 1.4.2" },
+    meta: {
+      icon: "ph-calendar-blank",
+      text: "Latest: vd3 1.7.2 · charts 1.1.0 · flowchart 1.2.0 · cbun 1.4.2",
+    },
   },
 ];
 

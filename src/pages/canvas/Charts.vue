@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdChart, type ClickEvent } from "@vanduo-oss/vd3-cbun/charts";
+import { VdChart, type ClickEvent } from "@vanduo-oss/vd3-charts";
 
 // ---------------------------------------------------------------------------
 // Demo Datasets
@@ -110,11 +110,12 @@ const barColor = (row: Record<string, unknown>): string =>
 // Documentation Snippets & Reference
 // ---------------------------------------------------------------------------
 
-const installShell = `pnpm add @vanduo-oss/vd3-cbun`;
+const installShell = `pnpm add @vanduo-oss/vd3-charts`;
 
 const a11yUsage = `<!-- WAI-ARIA Graphics, keyboard navigation, and data table fallback -->
 <script setup lang="ts">
-import { VdChart, type ClickEvent } from '@vanduo-oss/vd3-cbun/charts';
+import { VdChart, type ClickEvent } from '@vanduo-oss/vd3-charts';
+import '@vanduo-oss/vd3-charts/css';
 
 const data = [
   { quarter: 'Q1', revenue: 145 },
@@ -282,8 +283,7 @@ const keyboardShortcuts: [string, string][] = [
 
     <p class="vd-mb-6">
       <strong>vd3 Charts</strong> is the SVG-first data visualization widget
-      from <code>@vanduo-oss/vd3-cbun</code>
-      (<code>@vanduo-oss/vd3-cbun/charts</code>). It features full
+      from <code>@vanduo-oss/vd3-charts</code>. It features full
       <strong>WAI-ARIA Graphics Module 1.0</strong> semantics, roving
       <strong>keyboard arrow navigation</strong> with live focus rings, an
       auto-generated <strong>accessible HTML data table fallback</strong> (WCAG

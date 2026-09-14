@@ -84,9 +84,10 @@ const features: Feature[] = [
   },
   {
     icon: "ph-squares-four",
-    title: "The vd3-cbun Bundle",
-    teaser: "Charts, flowcharts, hex grids, a code editor, a draw canvas.",
-    body: "@vanduo-oss/vd3-cbun adds six chart types, an interactive flowchart editor, a canvas hex grid, a code editor, a drawing surface, and a music player. Same tokens, same zero-dependency rule — no d3, no Three.js.",
+    title: "Canvas widgets",
+    teaser:
+      "Dedicated charts and flowchart packages, plus a remaining canvas bundle.",
+    body: "@vanduo-oss/vd3-charts and @vanduo-oss/vd3-flowchart are the dedicated chart and flowchart packages these docs dogfood. @vanduo-oss/vd3-cbun still ships hex-grid, code-editor, draw, and music-player — and still contains charts and flowchart. Same tokens, same zero-dependency rule — no d3, no Three.js.",
     guide: { to: "/cbun", label: "vd3 Components Bundle" },
   },
   {

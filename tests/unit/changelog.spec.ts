@@ -13,7 +13,7 @@ describe("package changelog", () => {
       global: { stubs: { RouterLink: RouterLinkStub } },
     });
     const columns = wrapper.findAll(".changelog-col");
-    expect(columns).toHaveLength(2);
+    expect(columns).toHaveLength(4);
 
     const vd3Cards = columns[0].findAll(".version-card");
     expect(headerText(vd3Cards[0])).toContain("v1.7.2");
@@ -34,5 +34,15 @@ describe("package changelog", () => {
     expect(
       cbunCards.filter((card) => headerText(card).includes("Latest")),
     ).toHaveLength(1);
+
+    const chartsCards = columns[2].findAll(".version-card");
+    expect(headerText(chartsCards[0])).toContain("v1.1.0");
+    expect(headerText(chartsCards[0])).toContain("Latest");
+    expect(columns[2].text()).toContain("@vanduo-oss/vd3-charts");
+
+    const flowchartCards = columns[3].findAll(".version-card");
+    expect(headerText(flowchartCards[0])).toContain("v1.2.0");
+    expect(headerText(flowchartCards[0])).toContain("Latest");
+    expect(columns[3].text()).toContain("@vanduo-oss/vd3-flowchart");
   });
 });

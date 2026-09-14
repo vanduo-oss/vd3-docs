@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VdChart } from "@vanduo-oss/vd3-cbun/charts";
+import { VdChart } from "@vanduo-oss/vd3-charts";
 
 const donutData = [
   { channel: "Direct", revenue: 4200 },

@@ -57,6 +57,8 @@ export const nav: NavTree = {
       keywords: [
         "cbun",
         "vd3-cbun",
+        "vd3-charts",
+        "vd3-flowchart",
         "components bundle",
         "charts",
         "code editor",
@@ -79,7 +81,13 @@ export const nav: NavTree = {
       title: "Changelog",
       route: "/changelog",
       icon: "clock",
-      keywords: ["changelog", "releases", "versions"],
+      keywords: [
+        "changelog",
+        "releases",
+        "versions",
+        "vd3-charts",
+        "vd3-flowchart",
+      ],
     },
   ],
   tabs: [
@@ -467,6 +475,7 @@ export const nav: NavTree = {
               icon: "chart-donut",
               keywords: [
                 "charts",
+                "vd3-charts",
                 "chart",
                 "bar",
                 "line",
@@ -483,6 +492,7 @@ export const nav: NavTree = {
               icon: "flow-arrow",
               keywords: [
                 "flowchart",
+                "vd3-flowchart",
                 "diagram",
                 "editor",
                 "workflow",

@@ -31,6 +31,12 @@ importers:
       '@vanduo-oss/vd3-cbun':
         specifier: 1.4.2
         version: 1.4.2(vue@3.5.42(typescript@6.0.3))
+      '@vanduo-oss/vd3-charts':
+        specifier: 1.1.0
+        version: 1.1.0(vue@3.5.42(typescript@6.0.3))
+      '@vanduo-oss/vd3-flowchart':
+        specifier: 1.2.0
+        version: 1.2.0(vue@3.5.42(typescript@6.0.3))
       '@vanduo-oss/vdl-hybrid-search':
         specifier: 0.2.0
         version: 0.2.0
@@ -896,6 +902,18 @@ packages:
 
   '@vanduo-oss/vd3-cbun@1.4.2':
     resolution: {integrity: sha512-buj4UCXyEpXGfj+IHdcJiHyJfxuSzB4BfnwIAlgTB6ylWijAEwsU3fMavBI5J7CR8OFu09w/FP8aKJC6E/5qYA==}
+    engines: {node: '>=20.19.0', pnpm: '>=10'}
+    peerDependencies:
+      vue: '>=3.3.0'
+
+  '@vanduo-oss/vd3-charts@1.1.0':
+    resolution: {integrity: sha512-Usa2GyFyAXH9AKYyTCDq62i9hruZMZZwtXmXwwIe6XHxvEEsArKEJWnEkyr1Xha/vl75xxU0YyyqeH5h1m3ZnQ==}
+    engines: {node: '>=20.19.0', pnpm: '>=10'}
+    peerDependencies:
+      vue: '>=3.3.0'
+
+  '@vanduo-oss/vd3-flowchart@1.2.0':
+    resolution: {integrity: sha512-Sl4jCb4/DzRf3HedmEqjNqnmISJspvt+KC5U3PhuBvTJfC0aF5bc26TUqY2F5Ht+L2EgsAdEh4Q2Ltlk4jZvpw==}
     engines: {node: '>=20.19.0', pnpm: '>=10'}
     peerDependencies:
       vue: '>=3.3.0'
@@ -3112,6 +3130,14 @@ snapshots:
       vue: 3.5.42(typescript@6.0.3)
 
   '@vanduo-oss/vd3-cbun@1.4.2(vue@3.5.42(typescript@6.0.3))':
+    dependencies:
+      vue: 3.5.42(typescript@6.0.3)
+
+  '@vanduo-oss/vd3-charts@1.1.0(vue@3.5.42(typescript@6.0.3))':
+    dependencies:
+      vue: 3.5.42(typescript@6.0.3)
+
+  '@vanduo-oss/vd3-flowchart@1.2.0(vue@3.5.42(typescript@6.0.3))':
     dependencies:
       vue: 3.5.42(typescript@6.0.3)
 

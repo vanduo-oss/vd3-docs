@@ -103,14 +103,14 @@ const routes = [
     component: () => import('./pages/Changelog.vue') },
 ];`;
 
-const componentJs = `// Defer a heavy CBUN widget until it is actually rendered.
+const componentJs = `// Defer a heavy canvas widget until it is actually rendered.
 import { defineAsyncComponent } from 'vue';
 
 const VdChart = defineAsyncComponent(() =>
-  import('@vanduo-oss/vd3-cbun/charts').then((m) => m.VdChart),
+  import('@vanduo-oss/vd3-charts').then((m) => m.VdChart),
 );
 // Import the widget CSS once (eager is fine — it is a stylesheet, not JS).
-import '@vanduo-oss/vd3-cbun/charts/css';`;
+import '@vanduo-oss/vd3-charts/css';`;
 
 const imgHtml = `<!-- Native lazy images need no JS at all -->
 <img src="hero.jpg" loading="lazy" decoding="async" alt="…">`;
