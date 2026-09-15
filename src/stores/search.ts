@@ -1,19 +1,24 @@
-import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import {
-  HybridSearch,
-  type MergedHit,
-  type SearchDocument,
-} from "@vanduo-oss/vdl-hybrid-search";
 import type { GlobalSearchAdapter, GlobalSearchHit } from "@vanduo-oss/vd3";
 import Fuse from "fuse.js";
 import {
   DOCS_FUSE_THRESHOLD,
   DOCS_FUZZY_MIN_SCORE,
-  DOCS_SEARCH_STORAGE_KEY,
-  DOCS_SEMANTIC_THRESHOLD,
   DOCS_TITLE_EXACT_BOOST,
 } from "@/search/docsSearchTuning";
+
+export interface SearchDocument {
+  id: string;
+  title: string;
+  route: string;
+  icon?: string;
+  category?: string;
+  tab?: string;
+  tabTitle?: string;
+  keywords?: string[];
+  headings?: string[];
+  bodyText?: string;
+}
 
 export interface SearchEntry {
   id: string;
@@ -28,7 +33,7 @@ export interface SearchEntry {
 export interface SearchResult {
   entry: SearchEntry;
   score: number;
-  source?: "fuzzy" | "semantic";
+  source?: "fuzzy";
 }
 
 export interface SearchGroup {
@@ -38,30 +43,8 @@ export interface SearchGroup {
 }
 
 const INDEX_URL = "/search/search-index.json";
-const VECTORS_URL = "/search/vectors.json";
 
-function loadAiEnabled(): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    const raw = window.localStorage.getItem(DOCS_SEARCH_STORAGE_KEY);
-    const parsed = raw ? (JSON.parse(raw) as { aiEnabled?: boolean }) : null;
-    return parsed?.aiEnabled === true;
-  } catch {
-    return false;
-  }
-}
-
-function persistAiEnabled(aiEnabled: boolean): void {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(
-      DOCS_SEARCH_STORAGE_KEY,
-      JSON.stringify({ aiEnabled }),
-    );
-  } catch {
-    /* storage may be unavailable */
-  }
-}
+type IndexPayload = { documents?: SearchDocument[] } | SearchDocument[];
 
 function docToEntry(doc: SearchDocument): SearchEntry {
   const tabTitle = String(doc.tabTitle ?? "");
@@ -89,7 +72,7 @@ function docToEntry(doc: SearchDocument): SearchEntry {
   };
 }
 
-function entryToHit(entry: SearchEntry, hit: MergedHit): GlobalSearchHit {
+function entryToHit(entry: SearchEntry, score: number): GlobalSearchHit {
   return {
     id: entry.id,
     title: entry.title,
@@ -97,17 +80,9 @@ function entryToHit(entry: SearchEntry, hit: MergedHit): GlobalSearchHit {
     icon: entry.icon,
     category: entry.category,
     categoryPath: entry.categoryPath,
-    score: hit.score,
-    source: hit.source,
+    score,
+    source: "fuzzy",
   };
-}
-
-function hitsToResults(hits: MergedHit[]): SearchResult[] {
-  return hits.map((hit) => ({
-    entry: docToEntry(hit.doc),
-    score: hit.score,
-    source: hit.source,
-  }));
 }
 
 function groupResults(list: SearchResult[]): SearchGroup[] {
@@ -128,126 +103,111 @@ function groupResults(list: SearchResult[]): SearchGroup[] {
   return [...map.values()];
 }
 
-/** Optional test injectors — unit tests set these instead of real HybridSearch. */
-let testEngineFactory: (() => HybridSearch) | null = null;
+interface FuseDoc {
+  entry: SearchEntry;
+  title: string;
+  keywords: string;
+  headings: string;
+  bodyText: string;
+}
 
-export function __setSearchEngineFactoryForTests(
-  factory: (() => HybridSearch) | null,
+let fuse: Fuse<FuseDoc> | null = null;
+let fuseInit: Promise<Fuse<FuseDoc>> | null = null;
+/** Optional test injector — unit tests set this instead of fetching the index. */
+let testDocuments: SearchDocument[] | null = null;
+
+export function __setSearchDocumentsForTests(
+  docs: SearchDocument[] | null,
 ): void {
-  testEngineFactory = factory;
+  testDocuments = docs;
+  fuse = null;
+  fuseInit = null;
+}
+
+async function ensureFuse(): Promise<Fuse<FuseDoc>> {
+  if (fuse) return fuse;
+  if (fuseInit) return fuseInit;
+
+  fuseInit = (async () => {
+    let documents: SearchDocument[];
+    if (testDocuments) {
+      documents = testDocuments;
+    } else {
+      const res = await fetch(INDEX_URL);
+      if (!res.ok)
+        throw new Error(`Failed to load search index: ${res.status}`);
+      const payload = (await res.json()) as IndexPayload;
+      documents = Array.isArray(payload)
+        ? payload
+        : Array.isArray(payload.documents)
+          ? payload.documents
+          : [];
+    }
+
+    const rows: FuseDoc[] = documents.map((doc) => {
+      const entry = docToEntry(doc);
+      return {
+        entry,
+        title: entry.title,
+        keywords: entry.keywords.join(" "),
+        headings: Array.isArray(doc.headings) ? doc.headings.join(" ") : "",
+        bodyText: String(doc.bodyText ?? ""),
+      };
+    });
+
+    const next = new Fuse(rows, {
+      includeScore: true,
+      threshold: DOCS_FUSE_THRESHOLD,
+      ignoreLocation: true,
+      keys: [
+        { name: "title", weight: 0.45 },
+        { name: "keywords", weight: 0.25 },
+        { name: "headings", weight: 0.15 },
+        { name: "bodyText", weight: 0.15 },
+      ],
+    });
+    fuse = next;
+    return next;
+  })();
+
+  try {
+    return await fuseInit;
+  } catch (err) {
+    fuseInit = null;
+    fuse = null;
+    throw err;
+  }
 }
 
 export const useSearchStore = defineStore("search", () => {
-  const aiEnabled = ref(false);
-  const prefsReady = ref(false);
-  const modelLoading = ref(false);
-  const modelProgressMessage = ref("");
-  const fuzzyReady = ref(false);
-  const semanticReady = ref(false);
-
-  let engine: HybridSearch | null = null;
-  let engineInit: Promise<HybridSearch> | null = null;
-  let semanticInit: Promise<void> | null = null;
-  let unsubscribeSemantic: (() => void) | null = null;
-
   const init = (): void => {
-    if (prefsReady.value) return;
-    aiEnabled.value = loadAiEnabled();
-    prefsReady.value = true;
+    /* prefs no longer needed without AI toggle */
   };
-
-  async function ensureEngine(): Promise<HybridSearch> {
-    if (engine) return engine;
-    if (engineInit) return engineInit;
-
-    engineInit = (async () => {
-      const next = testEngineFactory
-        ? testEngineFactory()
-        : new HybridSearch({
-            indexUrl: INDEX_URL,
-            vectorsUrl: VECTORS_URL,
-            embeddingPreset: "embeddinggemma",
-            fuseThreshold: DOCS_FUSE_THRESHOLD,
-            semanticThreshold: DOCS_SEMANTIC_THRESHOLD,
-            fuzzyMinScore: DOCS_FUZZY_MIN_SCORE,
-            titleExactBoost: DOCS_TITLE_EXACT_BOOST,
-            loadFuse: async () => ({ default: Fuse }),
-            loadTransformers: async () => import("@huggingface/transformers"),
-          });
-
-      unsubscribeSemantic?.();
-      unsubscribeSemantic = next.onSemanticProgress((ev) => {
-        if (!aiEnabled.value) return;
-        const stage = ev?.stage;
-        if (stage === "ready") {
-          modelLoading.value = false;
-          modelProgressMessage.value = "";
-          semanticReady.value = true;
-          return;
-        }
-        if (stage === "error") {
-          modelLoading.value = false;
-          modelProgressMessage.value = "";
-          return;
-        }
-        modelLoading.value = true;
-        modelProgressMessage.value = ev?.message || "Loading semantic model…";
-      });
-
-      await next.initFuzzy();
-      fuzzyReady.value = true;
-      engine = next;
-      return next;
-    })();
-
-    try {
-      return await engineInit;
-    } catch (err) {
-      engineInit = null;
-      engine = null;
-      fuzzyReady.value = false;
-      throw err;
-    }
-  }
-
-  async function ensureSemantic(): Promise<void> {
-    if (!aiEnabled.value) return;
-    const eng = await ensureEngine();
-    if (eng.isSemanticReady()) {
-      semanticReady.value = true;
-      return;
-    }
-    if (semanticInit) return semanticInit;
-
-    semanticInit = eng.initSemantic().catch((err: unknown) => {
-      semanticInit = null;
-      const message = err instanceof Error ? err.message : String(err);
-      console.warn("[search] Semantic preload failed:", message);
-      modelLoading.value = false;
-      modelProgressMessage.value = "";
-    });
-
-    await semanticInit;
-  }
 
   async function runSearch(raw: string): Promise<GlobalSearchHit[]> {
     const q = raw.trim();
     if (q.length < 2) return [];
 
-    const eng = await ensureEngine();
-    const mode = aiEnabled.value && eng.isSemanticReady() ? "hybrid" : "fuzzy";
-    const { merged } = await eng.search(q, { mode });
-    semanticReady.value = eng.isSemanticReady();
-    return merged.map((hit) => entryToHit(docToEntry(hit.doc), hit));
+    const engine = await ensureFuse();
+    const hits = engine.search(q);
+    const qLower = q.toLowerCase();
+    const out: GlobalSearchHit[] = [];
+
+    for (const hit of hits) {
+      const fuseScore = hit.score ?? 1;
+      let score = 1 - fuseScore;
+      if (hit.item.title.toLowerCase() === qLower) {
+        score = Math.min(1, score + DOCS_TITLE_EXACT_BOOST);
+      }
+      if (score < DOCS_FUZZY_MIN_SCORE) continue;
+      out.push(entryToHit(hit.item.entry, score));
+    }
+
+    return out;
   }
 
   const searchAdapter: GlobalSearchAdapter = {
-    search: async (query, ctx) => {
-      const prev = aiEnabled.value;
-      if (ctx.ai !== prev) {
-        aiEnabled.value = ctx.ai;
-        persistAiEnabled(ctx.ai);
-      }
+    search: async (query) => {
       try {
         return await runSearch(query);
       } catch (err) {
@@ -255,43 +215,12 @@ export const useSearchStore = defineStore("search", () => {
         return [];
       }
     },
-    warmup: async (ai) => {
-      if (!ai) return;
-      aiEnabled.value = true;
-      await ensureSemantic();
-    },
   };
 
-  function setAiEnabled(enabled: boolean): void {
-    aiEnabled.value = enabled;
-    persistAiEnabled(enabled);
-    if (!enabled) {
-      modelLoading.value = false;
-      modelProgressMessage.value = "";
-    } else {
-      void ensureSemantic();
-    }
-  }
-
-  const progressMessage = computed(
-    () =>
-      modelProgressMessage.value ||
-      (modelLoading.value ? "Loading semantic…" : ""),
-  );
-
   return {
-    aiEnabled,
     init,
-    setAiEnabled,
     searchAdapter,
-    progressMessage,
-    fuzzyReady,
-    semanticReady,
-    modelLoading,
-    modelProgressMessage,
-    /** Legacy helpers for unit tests */
     runSearchNow: runSearch,
-    hitsToResults,
     groupResults,
   };
 });

@@ -137,48 +137,43 @@ intro copy MUST NOT contain "both engines", "Vanilla + Vue", "two engines",
 
 ### Requirement: the changelog documents the vd3 line packages only
 
-The changelog SHALL document **package** releases for the vd3 line only. Both the
-inline release cards in `pages/changelog.vue` and the history partial
-`pages/changelog-vue-content.html` SHALL name only `@vanduo-oss/vd3`,
-`@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
-`@vanduo-oss/vd3-cbun`; they MUST NOT name `@vanduo-oss/core`,
-`@vanduo-oss/framework`, `@vanduo-oss/vue`, or any of the four old ecosystem
-packages, and MUST NOT carry any `data-engine` attribute. The header copy SHALL
-name those vd3-line packages. The latest inline cards SHALL identify
-`@vanduo-oss/vd3` `1.7.2`, `@vanduo-oss/vd3-charts` `1.1.0`,
-`@vanduo-oss/vd3-flowchart` `1.2.0`, and `@vanduo-oss/vd3-cbun` `1.4.2`.
-Historical cbun cards MAY continue to mention `@vanduo-oss/vd3-cbun/charts`
-and `@vanduo-oss/vd3-cbun/flowchart` as the published paths for those
-releases. Per the changelog-content policy the page tracks package releases
-only, never docs-site content.
+The changelog SHALL document **package** releases for the vd3 line only.
+`pages/changelog.vue` SHALL use three columns naming only `@vanduo-oss/vd3`,
+`@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`; it MUST NOT name
+`@vanduo-oss/core`, `@vanduo-oss/framework`, `@vanduo-oss/vue`, or any of the
+four old ecosystem packages as package columns, MUST NOT carry a cbun column,
+and MUST NOT carry any `data-engine` attribute. The header copy SHALL name
+those three vd3-line packages. The latest inline cards SHALL identify
+`@vanduo-oss/vd3` `1.7.3`, `@vanduo-oss/vd3-charts` `1.1.0`, and
+`@vanduo-oss/vd3-flowchart` `1.2.0`. Historical charts/flowchart cards MAY
+mention `@vanduo-oss/vd3-cbun/charts` and `@vanduo-oss/vd3-cbun/flowchart` as
+prior published paths. Per the changelog-content policy the page tracks
+package releases only, never docs-site content.
 
 #### Scenario: the changelog names the vd3 packages and drops the old line
 
-- **GIVEN** `pages/changelog.vue` and `pages/changelog-vue-content.html` after
-  this change
-- **WHEN** they are read and grepped
-- **THEN** every release card names `@vanduo-oss/vd3`,
-  `@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, or
-  `@vanduo-oss/vd3-cbun`, there is no `data-engine` attribute, and there is no
+- **GIVEN** `pages/changelog.vue` after this change
+- **WHEN** it is read and grepped
+- **THEN** the three column titles are `@vanduo-oss/vd3`,
+  `@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`, there is no
+  cbun column title, there is no `data-engine` attribute, and there is no
   `@vanduo-oss/core`, `@vanduo-oss/framework`, `@vanduo-oss/vue`,
   `@vanduo-oss/charts`, `@vanduo-oss/flowchart`, `@vanduo-oss/hex-grid`, or
-  `@vanduo-oss/music-player` reference
-
-#### Scenario: the latest cbun card documents 1.4.2
-
-- **GIVEN** the `@vanduo-oss/vd3-cbun` column on `/changelog`
-- **WHEN** its latest release card is read
-- **THEN** `v1.4.2` is marked Latest and documents draw paint-order / gesture
-  fixes, charts responsive tables plus core `role` / Vue `svgRole`, and
-  hex-grid fast-frame render stats
+  `@vanduo-oss/music-player` reference as a package identity
 
 #### Scenario: standalone charts and flowchart have Latest cards
 
 - **GIVEN** the changelog grid after this change
 - **WHEN** the `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`
   columns are read
-- **THEN** charts `v1.1.0` and flowchart `v1.2.0` are each marked Latest and
-  document the extract from `@vanduo-oss/vd3-cbun@1.4.2`
+- **THEN** charts `v1.1.0` and flowchart `v1.2.0` are each marked Latest
+
+#### Scenario: vd3 Latest is 1.7.3
+
+- **GIVEN** the `@vanduo-oss/vd3` column on `/changelog`
+- **WHEN** its latest release card is read
+- **THEN** `v1.7.3` is marked Latest and documents
+  `@vanduo-oss/vd3/highlight` plus on-fill contrast for color utilities
 
 ### Requirement: Charts component page documents SVG role overrides
 
@@ -690,20 +685,7 @@ and SHALL register the route in `nav.ts`.
 - **GIVEN** `/components/global-search`
 - **WHEN** the page is read
 - **THEN** it shows live demo plus props/emits/composable surfaces that exist
-  on `@vanduo-oss/vd3`, and links toward Doc Search and/or the hybrid search
-  guide
-
-### Requirement: hybrid search guide
-
-The docs site SHALL expose `/guides/hybrid-search` documenting
-`vdl-hybrid-search` indexing, presets, tuning, eval, and troubleshooting.
-
-#### Scenario: reader learns indexing
-
-- **GIVEN** `/guides/hybrid-search`
-- **WHEN** the page is read
-- **THEN** it describes corpus indexing / JSON assets and how maintainers
-  regenerate them (`pnpm index` / `pnpm index:eval`)
+  on `@vanduo-oss/vd3`, and links toward Doc Search
 
 ### Requirement: Oola chrome dogfoods package swatches, tint, and tooltip delay
 

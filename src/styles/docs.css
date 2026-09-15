@@ -2942,13 +2942,13 @@ a:hover .vd-card-interactive.vd-card-glow {
   );
 }
 
-/* ── Changelog: 2×2 (vd3 | cbun, then charts | flowchart) ── */
+/* ── Changelog: 3 columns (vd3 | charts | flowchart) ── */
 .changelog-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2.5rem;
   align-items: start;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 3rem 1rem;
 }
@@ -4133,22 +4133,10 @@ a:hover .vd-card-interactive.vd-card-glow {
   margin: 0 0.1rem;
 }
 
-/* Match changelog-col-head: 2px solid var(--vd-color-primary) (black/ink). */
-.vd-global-search-modal {
-  border: 2px solid var(--vd-color-primary);
-}
-
-input.vd-global-search-input[type="search"],
-input.vd-global-search-input[type="search"]:focus {
-  -webkit-appearance: none;
-  appearance: none;
-  border: 2px solid var(--vd-color-primary);
-  border-radius: calc(var(--vd-card-border-radius) * 0.65);
-  padding: 0.4rem 0.65rem;
-  outline: none;
-  box-shadow: none;
-  background: color-mix(in srgb, var(--vd-bg-primary) 70%, transparent);
-}
+/* Modal/input primary outlines live in @vanduo-oss/vd3 global-search.css
+   (--vd-global-search-modal-border / --vd-global-search-input-border):
+   light keeps the stronger 2px ring; dark drops the outer modal border and
+   keeps a thin 1px input border. */
 
 /* Theme fan flaps: 1px ink outline on light only (thinner than changelog/search). */
 html[data-theme="light"] .tc-fan-item {

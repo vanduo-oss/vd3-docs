@@ -757,12 +757,6 @@ const resultFields: [string, string][] = [
             <RouterLink to="/interactive/search">useSearch</RouterLink>
             — headless async source registry without UI.
           </li>
-          <li>
-            <RouterLink to="/guides/hybrid-search"
-              >Hybrid search guide</RouterLink
-            >
-            — build the Fuse + semantic index with vdl-hybrid-search.
-          </li>
         </ul>
       </div>
     </div>

@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 import { highlightCode } from "@/utils/highlight";
 
 describe("highlightCode", () => {
-  it("maps html to cbun html tokens", () => {
+  it("maps html to vd3 highlight tokens", () => {
     const html = highlightCode('<div class="x">hi</div>', "html");
     expect(html).toContain("vd-tk-tag");
     expect(html).not.toContain("hljs-");
   });
 
-  it("maps css to cbun css tokens", () => {
+  it("maps css to vd3 highlight tokens", () => {
     const html = highlightCode(".x { color: red; }", "css");
     expect(html).toMatch(/vd-tk-/);
   });

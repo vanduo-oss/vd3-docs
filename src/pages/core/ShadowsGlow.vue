@@ -250,22 +250,16 @@ const varsCss = `:root {
           <div class="vd-card-body">
             <p class="vd-mb-3">Semantic color shadows for emphasis:</p>
             <div class="vd-d-flex vd-flex-col vd-gap-3">
-              <div
-                class="vd-p-3 vd-rounded-md vd-shadow-primary vd-text-white vd-bg-primary"
-              >
+              <div class="vd-p-3 vd-rounded-md vd-shadow-primary vd-bg-primary">
                 <code>.shadow-primary</code>
               </div>
-              <div
-                class="vd-p-3 vd-rounded-md vd-shadow-success vd-text-white vd-bg-success"
-              >
+              <div class="vd-p-3 vd-rounded-md vd-shadow-success vd-bg-success">
                 <code>.shadow-success</code>
               </div>
               <div class="vd-p-3 vd-rounded-md vd-shadow-warning vd-bg-warning">
                 <code>.shadow-warning</code>
               </div>
-              <div
-                class="vd-p-3 vd-rounded-md vd-shadow-error vd-text-white vd-bg-error"
-              >
+              <div class="vd-p-3 vd-rounded-md vd-shadow-error vd-bg-error">
                 <code>.shadow-error</code>
               </div>
             </div>

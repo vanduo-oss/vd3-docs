@@ -2,13 +2,8 @@ import { gzipSync } from "node:zlib";
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve, basename } from "node:path";
 
-// Gzip size budget for the app bundle. Re-baselined 2026-08-30 after the vd3
-// 1.7.0 site release: app-* ≈ 591.5 KB gz. The growth over the previous 575 KB
-// cap (the 2026-08-15 vd3 1.5.0 baseline) is the published @vanduo-oss/vd3@1.7.0
-// kit plus the hybrid search feature (fuse.js + @vanduo-oss/vdl-hybrid-search,
-// statically imported by the app-wide search store; @huggingface/transformers
-// stays lazy-loaded) — not a surprise dep. Bump by a small honest buffer so the
-// gate still trips on a real regression.
+// Gzip size budget for the app bundle. Re-baselined after dropping hybrid /
+// semantic search (fuse.js only). Keep a small buffer for honest regressions.
 const MAX_GZIP_KB = 600;
 
 const ASSETS = resolve("dist/assets");

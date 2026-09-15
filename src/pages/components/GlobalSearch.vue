@@ -79,6 +79,16 @@ const composableApi: [string, string][] = [
 const cssVars: [string, string, string][] = [
   ["--vd-global-search-modal-max-width", "640px", "Palette width cap."],
   ["--vd-global-search-modal-top", "15vh", "Vertical offset on desktop."],
+  [
+    "--vd-global-search-modal-border",
+    "2px solid primary (none in dark)",
+    "Outer modal outline.",
+  ],
+  [
+    "--vd-global-search-input-border",
+    "2px solid primary (1px in dark)",
+    "Search field outline.",
+  ],
   ["--vd-global-search-glass-opacity", "0.9", "Modal glass fill."],
   ["--vd-global-search-glass-blur", "20px", "Backdrop blur strength."],
 ];
@@ -89,12 +99,6 @@ const guideLinks = [
     icon: "ph-magnifying-glass",
     title: "Doc Search",
     desc: "Inline combobox over caller-supplied docs — not site-wide.",
-  },
-  {
-    to: "/guides/hybrid-search",
-    icon: "ph-brain",
-    title: "Hybrid search",
-    desc: "Build the index and wire EmbeddingGemma with vdl-hybrid-search.",
   },
   {
     to: "/interactive/search",
@@ -112,10 +116,10 @@ const guideLinks = [
     </h5>
     <p class="vd-mb-8">
       <strong>VdGlobalSearch</strong> is a site-wide command palette: glass
-      overlay, grouped results, keyboard navigation, and an optional
-      <strong>AI search</strong> toggle (off by default) with an informational
-      disclaimer. Pass a <code>GlobalSearchAdapter</code> — the component stays
-      engine-agnostic (HybridSearch, REST, or in-memory).
+      overlay, grouped results, and keyboard navigation. Pass a
+      <code>GlobalSearchAdapter</code> — the component stays engine-agnostic
+      (Fuse.js, REST, or in-memory). These docs use Fuse over
+      <code>search-index.json</code> (no semantic model).
     </p>
 
     <div class="vd-row vd-mb-8">

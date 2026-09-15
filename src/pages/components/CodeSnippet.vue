@@ -7,11 +7,9 @@ const simpleDemo = `const greet = (name: string) => \`hello, \${name}\`;`;
 
 const vue3Usage = `<script setup lang="ts">
 import { VdCodeSnippet } from "@vanduo-oss/vd3";
-import { highlight } from "@vanduo-oss/vdl-cbun/code-editor/highlight";
+import { highlightCode } from "@vanduo-oss/vd3/highlight";
 
 const code = "const x = 1;";
-const highlightCode = (src: string, language: string) =>
-  highlight(src, language);
 <\/script>
 
 <template>
@@ -37,7 +35,7 @@ const vue3Api: [string, string][] = [
   ],
   [
     ":highlight",
-    "Optional `(code, language) => escaped HTML`. These docs pass the cbun tokenizer; without it the snippet is plain text. Copy always uses the raw source.",
+    "Optional `(code, language) => escaped HTML`. These docs pass `@vanduo-oss/vd3/highlight`; without it the snippet is plain text. Copy always uses the raw source.",
   ],
 ];
 

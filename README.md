@@ -9,14 +9,14 @@ Vue 3 design system),
 [`@vanduo-oss/vd3-flowchart`](https://www.npmjs.com/package/@vanduo-oss/vd3-flowchart),
 and `/cbun` previews of the remaining canvas widgets from
 [`@vanduo-oss/vdl-cbun`](https://github.com/vanduo-oss/vdl-cbun) (Labs sibling via
-`link:../../vdl-cbun`; full widget docs live on
+`link:../../vdl/vdl-cbun`; full widget docs live on
 [labs.vanduo.dev](https://labs.vanduo.dev/)), consumed alongside published npm pins
-(`@vanduo-oss/vd3@1.7.2`, `@vanduo-oss/vd3-charts@1.1.0`,
+(`@vanduo-oss/vd3@1.7.3`, `@vanduo-oss/vd3-charts@1.1.0`,
 `@vanduo-oss/vd3-flowchart@1.2.0`), not vendored source.
 Local worktrees may temporarily `link:` the sibling `../vd3` /
 `../vd3-charts` / `../vd3-flowchart` checkouts for unreleased library work; the
-committed manifest keeps the exact published vd3 pins and permanent `link:` deps
-for Labs siblings `vdl-cbun` and `vdl-hybrid-search`.
+committed manifest may keep a `link:../vd3` dogfood while 1.7.3 is unreleased,
+plus a permanent `link:` for Labs sibling `vdl-cbun`.
 Unlike the previous docs site (which
 consumed `@vanduo-oss/framework` CSS classes only), vd3-docs renders the
 actual Vue 3 components a consumer installs.
@@ -33,6 +33,8 @@ route) and is `private` — it is **not** published to npm.
 - TypeScript 6 (strict) + `vue-tsc`
 - Vitest 4 + `@vue/test-utils` for composables/logic
 - Playwright 1.61 (+ `@axe-core/playwright`) for e2e, visual-parity, and a11y
+- Fuse.js for Cmd+K / Doc Search over `public/search/search-index.json`
+- `@vanduo-oss/vd3/highlight` for `DocCodeSnippet` / `VdCodeSnippet` tokens
 
 ## Requirements
 
@@ -51,8 +53,8 @@ pnpm install
 > `block-exotic-subdeps=true`, `strict-peer-dependencies=true`). The
 > `@vanduo-oss/*` scope is excluded from the 24-hour release-age gate, so the
 > `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`
-> publishes are consumed immediately. Labs siblings (`vdl-cbun`,
-> `vdl-hybrid-search`) resolve via `link:` and are not published to npm.
+> publishes are consumed immediately. Labs sibling `vdl-cbun` resolves via
+> `link:` and is not published to npm.
 
 ## Scripts
 
@@ -60,8 +62,6 @@ pnpm install
 pnpm run dev          # Vite dev server at http://localhost:5173
 pnpm run build        # vite-ssg -> dist/ + sitemap.xml
 pnpm run preview      # static preview at http://localhost:8787
-pnpm run index        # rebuild public/search/ hybrid corpus (index + vectors)
-pnpm run index:eval   # labeled-query semantic quality gate (EmbeddingGemma)
 pnpm run typecheck    # vue-tsc --noEmit
 pnpm run lint         # ESLint (flat config)   (lint:fix to autofix)
 pnpm run stylelint    # Stylelint
@@ -73,30 +73,16 @@ pnpm run test:e2e:full# Playwright, all projects
 pnpm run test:a11y    # axe accessibility smoke, Chromium Desktop
 ```
 
-### Hybrid search index
+### Site search (Fuse)
 
-Cmd+K uses [`@vanduo-oss/vdl-hybrid-search`](https://github.com/vanduo-oss/vdl-hybrid-search)
-(Labs sibling via `link:../../vdl-hybrid-search`)
-over committed assets in `public/search/` (`search-index.json`, `vectors.json`).
-Semantic retrieval uses **EmbeddingGemma-300M**
-(`onnx-community/embeddinggemma-300m-ONNX`) with task prefixes
-(`task: search result | query: …` / `title: … | text: …`).
+Cmd+K uses Fuse.js over the committed corpus at
+`public/search/search-index.json` (no semantic model, no `vectors.json`).
+`GlobalSearchModal` mounts `VdGlobalSearch` with AI toggle off.
 
-After changing `nav.ts` or page body copy that should be searchable, regenerate
-and sanity-check:
+After changing `nav.ts` or page body copy that should be searchable, update
+`public/search/search-index.json` to match (keep document `id` / `route` /
+`title` / optional keywords, headings, and bodyText).
 
-```bash
-pnpm index
-pnpm index:eval
-# or crawl a local preview instead of production:
-pnpm build && pnpm preview   # in another terminal
-VD3_DOCS_SITE=http://127.0.0.1:8787 pnpm index
-```
-
-Default crawl target is `https://vd3.vanduo.dev`. Indexing downloads EmbeddingGemma
-once (cached locally) and is **not** part of every CI/`vite-ssg` build. First
-browser warm-up of the semantic model is larger than MiniLM; fuzzy search still
-works immediately while it loads.
 CI (`.github/workflows/ci.yml`) runs typecheck, lint, stylelint, format:check,
 and build on Node 24. The unit/e2e/size suites are run locally (they are omitted
 from CI to conserve Actions minutes). `deploy.yml` builds and publishes `dist/`
@@ -122,7 +108,7 @@ src/
   utils/
 
 public/
-  search/             # hybrid search-index.json + vectors.json (pnpm index)
+  search/             # Fuse search-index.json
 
 tests/
   e2e/                # Playwright specs (visual-parity, a11y-smoke)

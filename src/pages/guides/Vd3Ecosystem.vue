@@ -26,13 +26,6 @@ const nextLinks = [
     badge: "Guide",
   },
   {
-    to: "/guides/hybrid-search",
-    icon: "ph-brain",
-    title: "Hybrid search",
-    desc: "Fuse + in-browser semantic search with vdl-hybrid-search.",
-    badge: "Guide",
-  },
-  {
     to: "/components/global-search",
     icon: "ph-magnifying-glass-plus",
     title: "Global search",

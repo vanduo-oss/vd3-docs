@@ -1,16 +1,9 @@
 <script setup lang="ts">
 // The changelog documents PACKAGE releases for the vd3 line only —
-// @vanduo-oss/vd3, @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart, and
-// @vanduo-oss/vd3-cbun. It NEVER tracks docs-site changes (see the
-// changelog-content policy).
-//
-// The package-release cards are rendered by Vue (so their RouterLinks work);
-// the earlier scaffold history is imported verbatim and rendered via v-html
-// (its styles live in src/styles/docs.css). Trusted first-party content →
-// v-html is safe here.
+// @vanduo-oss/vd3, @vanduo-oss/vd3-charts, and @vanduo-oss/vd3-flowchart.
+// It NEVER tracks docs-site changes (see the changelog-content policy).
 import { onMounted, ref } from "vue";
 import { useAffix } from "@vanduo-oss/vd3";
-import vueContent from "./changelog-vue-content.html?raw";
 
 // Sticky column headers via vd3's own affix composable (dogfooding): useAffix
 // wires every `.vd-affix` inside `root` — position: sticky + an `.is-stuck`
@@ -48,9 +41,8 @@ useAffix(root);
         <p class="vd-text-lg vd-text-muted">
           Release notes for the <strong>vd3 line packages</strong> —
           <code>@vanduo-oss/vd3</code> (the Vue 3 design system and component
-          library), <code>@vanduo-oss/vd3-charts</code>,
-          <code>@vanduo-oss/vd3-flowchart</code>, and
-          <code>@vanduo-oss/vd3-cbun</code> (the components bundle).
+          library), <code>@vanduo-oss/vd3-charts</code>, and
+          <code>@vanduo-oss/vd3-flowchart</code>.
         </p>
       </div>
     </div>
@@ -71,7 +63,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.7.2</span
+              >v1.7.3</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>September 2026
@@ -79,6 +71,82 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Snippet highlighter + on-fill utilities</strong> —
+                  tree-shakeable <code>@vanduo-oss/vd3/highlight</code> for
+                  <code>VdCodeSnippet</code>, and color-utility surfaces that
+                  complete the <code>1.7.2</code> button/badge on-fill work.
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-code"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong><code>@vanduo-oss/vd3/highlight</code></strong>
+                        <p>
+                          Tree-shakeable minimal syntax highlighter for
+                          <RouterLink to="/components/code-snippet"
+                            ><code>VdCodeSnippet</code></RouterLink
+                          >
+                          (<code>html</code> / <code>css</code> /
+                          <code>js</code>+TS / <code>shell</code> /
+                          <code>vue</code> / <code>json</code> →
+                          <code>vd-tk-*</code> spans). Opt-in via the existing
+                          <code>highlight</code> prop; importing
+                          <code>VdCodeSnippet</code> alone does not pull the
+                          tokenizer.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-circle-half"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>On-fill contrast for color utilities</strong>
+                        <p>
+                          <code>.vd-bg-primary</code> /
+                          <code>.vd-bg-accent</code> and status fills
+                          (<code>.vd-bg-success|warning|error|info</code>) set
+                          <code>--vd-text-on-primary</code> /
+                          <code>--vd-text-on-status</code> so bright hues no
+                          longer need hardcoded white ink. Adds
+                          <code>.vd-text-on-primary</code> /
+                          <code>.vd-text-on-status</code> utilities. Completes
+                          the <code>1.7.2</code> button/badge on-fill work.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.7.2</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>September 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -1299,858 +1367,6 @@ useAffix(root);
       <div class="changelog-col">
         <div class="changelog-col-head vd-affix vd-affix-no-shadow">
           <h3 class="changelog-col-title">
-            <i class="ph ph-package" style="color: var(--vd-color-primary)"></i
-            ><code>@vanduo-oss/vd3-cbun</code>
-          </h3>
-          <p class="changelog-col-sub">
-            The components bundle — charts, code-editor, draw, flowchart,
-            hex-grid, music-player.
-          </p>
-        </div>
-        <article class="version-card">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.4.2</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>September 2026
-            </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <div class="vd-col-12">
-                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  Review-fix patch for draw, charts, and hex-grid correctness.
-                  The bundle moves to <code>1.4.2</code>; all six component
-                  version constants remain unchanged.
-                </p>
-
-                <div class="change-group">
-                  <h5>Fixed</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-paint-brush"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong
-                          >Draw paint order and gesture cancellation</strong
-                        >
-                        <p>
-                          SVG paint order now follows document order after
-                          reorder, undo/redo, and load. A second pointer
-                          coherently cancels erase, pan, move, or resize;
-                          readonly controls re-sync when restored. See
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/draw"
-                            rel="noopener noreferrer"
-                            ><code>labs …/draw</code></a
-                          >.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-chart-bar"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Charts sizing, tables, and SVG roles</strong>
-                        <p>
-                          Responsive sizing excludes visible data-table layout,
-                          including first render and constrained containers.
-                          Multi-series Date/object x values match by normalized
-                          scale key. Core <code>role</code> and Vue
-                          <code>svgRole</code> override the inner SVG without
-                          consuming the wrapper's standard <code>role</code>
-                          attribute. See
-                          <RouterLink to="/canvas/charts"
-                            ><code>/canvas/charts</code></RouterLink
-                          >.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-hexagon"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Hex-grid fast-frame observability</strong>
-                        <p>
-                          Fast blit frames now report current
-                          <code>total</code>, <code>visible</code>, and
-                          <code>drawn: 0</code> values through
-                          <code>getRenderStats()</code>. See
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/hex"
-                            rel="noopener noreferrer"
-                            ><code>labs …/hex</code></a
-                          >.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-checks"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Regression coverage</strong>
-                        <p>
-                          Expanded runtime, Vue, type, accessibility, DPR, and
-                          interaction tests pin every corrected path. No
-                          serialization format or component version changes.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-        <article class="version-card">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.4.1</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>September 2026
-            </span>
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <div class="vd-col-12">
-                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  Patch release: hex-grid adaptive rendering, draw vector
-                  polish, charts accessibility, and a code-editor wrap-mode
-                  caret fix. Additive and backward-compatible; only
-                  <code>VD_HEX_VERSION</code> takes a minor (<code
-                    >1.0.1 → 1.1.0</code
-                  >). <code>VD_CHARTS_VERSION</code>,
-                  <code>VD_CODE_EDITOR_VERSION</code>, and
-                  <code>VD_DRAW_VERSION</code> stay <code>1.1.0</code>.
-                </p>
-
-                <div class="change-group">
-                  <h5>Changed</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-hexagon"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Adaptive hex rendering</strong>
-                        <p>
-                          New <code>pixelRatio</code> (<code
-                            >number | 'auto'</code
-                          >, default <code>'auto'</code>) and
-                          <code>cull</code> (default <code>true</code>) keep
-                          sharp grids without redrawing every cell. Gesture
-                          frames coalesce; large views blit then re-render when
-                          idle. Adds <code>getVisibleHexes()</code>,
-                          <code>getRenderStats()</code>,
-                          <code>setPixelRatio()</code>, <code>setCull()</code>.
-                          See
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/hex"
-                            rel="noopener noreferrer"
-                            ><code>labs …/hex</code></a
-                          >.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-paint-brush"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Draw vector polish</strong>
-                        <p>
-                          Freehand strokes are EMA-smoothed and
-                          Ramer–Douglas–Peucker simplified. Two-finger
-                          pinch-to-zoom and pan land for touch; text wraps to
-                          the shape width and is inline-editable on
-                          double-click. Vue
-                          <code>readonly</code> / <code>snap</code> /
-                          <code>history</code> / <code>historyLimit</code>
-                          update through surgical setters instead of remounting
-                          the editor.
-                          <code>fitView(padding?)</code> takes optional padding
-                          (default <code>40</code>). See
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/draw"
-                            rel="noopener noreferrer"
-                            ><code>labs …/draw</code></a
-                          >.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-chart-bar"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Charts accessibility</strong>
-                        <p>
-                          WAI-ARIA Graphics Module 1.0 on the SVG shell, arrow
-                          keys move focus between marks, and an accessible HTML
-                          data table ships by default as
-                          <code>sr-only</code>.
-                          <code>dataTable: false</code> suppresses it;
-                          <code>dataTable: 'visible'</code> shows it.
-                          <code>ariaRoleDescription</code> overrides the SVG
-                          role description. See
-                          <RouterLink to="/canvas/charts"
-                            ><code>/canvas/charts</code></RouterLink
-                          >.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-code"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Code-editor wrap caret</strong>
-                        <p>
-                          Wrap mode reserves a shared
-                          <code>scrollbar-gutter: stable</code> on the textarea
-                          and highlight layer so a visible scrollbar no longer
-                          shrinks only the editable layer and misaligns the
-                          caret. See
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/code-editor"
-                            rel="noopener noreferrer"
-                            ><code>labs …/code-editor</code></a
-                          >.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-        <article class="version-card">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.4.0</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>August 2026
-            </span>
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <div class="vd-col-12">
-                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  A code-editor minor: snippet-safe first-party highlighter and
-                  a tokenizer-only subpath. Takes
-                  <code>VD_CODE_EDITOR_VERSION</code>
-                  <code>1.0.1 → 1.1.0</code>.
-                </p>
-
-                <div class="change-group">
-                  <h5>New</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-code"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Tokenizer-only highlight</strong>
-                        <p>
-                          <code
-                            >highlight(source, lang, { trailingNewline? })</code
-                          >
-                          defaults <code>trailingNewline</code> to
-                          <code>false</code> (no extra <code>\n</code> inside
-                          <code>&lt;pre&gt;</code>).
-                          <code
-                            >@vanduo-oss/vd3-cbun/code-editor/highlight</code
-                          >
-                          exports <code>highlight</code>, <code>tokenize</code>,
-                          <code>renderTokensToHtml</code>, and
-                          <code>LANGUAGES</code> without the editor core.
-                          <code>vue</code> is a real SFC tokenizer. See
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/code-editor"
-                            rel="noopener noreferrer"
-                            ><code>labs …/code-editor</code></a
-                          >.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-        <article class="version-card">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.3.2</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>August 2026
-            </span>
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <div class="vd-col-12">
-                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  A Draw patch: optional smooth line paths and Vue shape CRUD.
-                  Additive and backward-compatible —
-                  <code>smooth</code> is opt-in, existing documents stay
-                  polylines, and <code>VD_DRAW_VERSION</code> remains
-                  <code>1.1.0</code>.
-                </p>
-
-                <div class="change-group">
-                  <h5>New</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-wave-sine"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Smooth lines</strong>
-                        <p>
-                          Line shapes accept optional <code>smooth</code>;
-                          <code>pointsToPath(points, { smooth })</code> then
-                          emits Catmull-Rom cubics (tension 1) so dense
-                          polylines read as curves. Two-point lines stay sharp;
-                          omit the flag and paths stay polylines — the second
-                          argument is optional.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-shapes"
-                        style="color: var(--vd-color-info)"
-                      ></i>
-                      <div>
-                        <strong>Vue shape CRUD</strong>
-                        <p>
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/draw"
-                            rel="noopener noreferrer"
-                            >VdDraw</a
-                          >
-                          now exposes <code>addShape</code>,
-                          <code>updateShape</code>, <code>removeShape</code>,
-                          <code>getShape</code>, <code>getShapes</code>,
-                          <code>clear</code>, <code>load</code>, and
-                          <code>toJSON</code>. <code>getShapes()</code> returns
-                          deep clones so callers cannot mutate the live
-                          document.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-        <article class="version-card">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.3.1</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>August 2026
-            </span>
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <div class="vd-col-12">
-                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  A flowchart chrome patch: dark-aware panels, icon toolbar,
-                  Arrange select that keeps the active layout, and short-parent
-                  sizing. Styling + chrome UX only —
-                  <code>VD_FLOWCHART_VERSION</code> remains
-                  <code>1.2.0</code> (serialization unchanged).
-                </p>
-
-                <div class="change-group">
-                  <h5>Fixed</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-moon-stars"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Dark-aware flowchart chrome</strong>
-                        <p>
-                          <RouterLink to="/canvas/flowchart"
-                            >Flowchart</RouterLink
-                          >
-                          CSS token mixes no longer blend toward fixed light
-                          cream/white; panels, nodes, handles, and inspector
-                          chrome follow
-                          <code>--vd-bg-primary</code> /
-                          <code>--vd-bg-secondary</code> so dark mode stays
-                          coherent with the site palette.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-toolbox"
-                        style="color: var(--vd-color-info)"
-                      ></i>
-                      <div>
-                        <strong>Icon toolbar &amp; shapes rail</strong>
-                        <p>
-                          Toolbar actions use Draw-style Phosphor icons (zoom /
-                          reset / fit / undo / redo / clear) instead of faint
-                          text glyphs; the left shapes rail is a compact icon
-                          panel with stronger stroke contrast and pressed
-                          states.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-tree-structure"
-                        style="color: var(--vd-color-success)"
-                      ></i>
-                      <div>
-                        <strong>Arrange select (Tree / Radial / Grid)</strong>
-                        <p>
-                          The layout <code>&lt;select&gt;</code> always shows
-                          the active mode instead of resetting to a disabled
-                          “Arrange” placeholder (which looked like a fourth
-                          option that was not a real layout). Single no-repeat
-                          caret.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-arrows-in-simple"
-                        style="color: var(--vd-color-warning)"
-                      ></i>
-                      <div>
-                        <strong>Short-parent shell sizing</strong>
-                        <p>
-                          Shell <code>min-height</code> no longer forces 560px,
-                          so short parents (docs fullscreen) keep the bottom
-                          border visible.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-        <article class="version-card">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.3.0</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>July 2026
-            </span>
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <div class="vd-col-12">
-                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  A minor release: chart mark-click events, hardened document
-                  loading, and core bug fixes. Additive and backward-compatible;
-                  the saved-document format is unchanged.
-                </p>
-
-                <div class="change-group">
-                  <h5>New</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-cursor-click"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Chart mark clicks</strong>
-                        <p>
-                          <RouterLink to="/canvas/charts"
-                            ><code>VdChart</code></RouterLink
-                          >
-                          now forwards mark clicks as Vue events —
-                          <code>@bar-click</code>, <code>@point-click</code>,
-                          and <code>@slice-click</code>, each carrying the typed
-                          <code>ClickEvent</code>. Charts component
-                          <code>1.1.0</code>.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="change-group">
-                  <h5>Hardened</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-shield-check"
-                        style="color: var(--vd-color-success)"
-                      ></i>
-                      <div>
-                        <strong>Bounded document loading</strong>
-                        <p>
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/draw"
-                            rel="noopener noreferrer"
-                            >VdDraw</a
-                          >
-                          and
-                          <RouterLink to="/canvas/flowchart"
-                            ><code>VdFlowchart</code></RouterLink
-                          >
-                          now cap an untrusted or corrupt document on load
-                          (truncating, never throwing), so a hostile document
-                          cannot freeze the tab. The saved-document format is
-                          unchanged.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="change-group">
-                  <h5>Fixed</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-bug-beetle"
-                        style="color: var(--vd-color-warning)"
-                      ></i>
-                      <div>
-                        <strong>Core bug fixes</strong>
-                        <p>
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/draw"
-                            rel="noopener noreferrer"
-                            >Draw</a
-                          >
-                          undo no longer corrupts history after an undo;
-                          <RouterLink to="/canvas/charts"
-                            >bar charts</RouterLink
-                          >
-                          anchor correctly when <code>yMin &gt; 0</code>; the
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/music-player"
-                            rel="noopener noreferrer"
-                            >music player</a
-                          >
-                          stops at the end of a playlist instead of looping
-                          forever;
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/hex"
-                            rel="noopener noreferrer"
-                            >hex grid</a
-                          >
-                          removes its canvas listeners on destroy; and the
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/code-editor"
-                            rel="noopener noreferrer"
-                            >code editor</a
-                          >
-                          highlights an unterminated block comment correctly.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-        <article class="version-card">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.2.0</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>July 2026
-            </span>
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <div class="vd-col-12">
-                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  Adds a sixth component — <strong>Drawing tool</strong> — to
-                  the bundle. Additive minor release; the five existing
-                  components are unchanged. Sole runtime peer:
-                  <code>vue &gt;= 3.3</code>.
-                </p>
-
-                <div class="change-group">
-                  <h5>New</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-pencil-simple"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Drawing tool</strong>
-                        <p>
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/draw"
-                            rel="noopener noreferrer"
-                            >Drawing tool</a
-                          >
-                          on <code>@vanduo-oss/vd3-cbun/draw</code> (+
-                          <code>/draw/css</code>), exposing
-                          <code>VdDrawCore</code> alongside the component — a
-                          vector drawing / painting surface with a
-                          variable-width <em>brush engine</em> (pen, pencil,
-                          marker, highlighter), a color palette with recents, an
-                          eraser, selection / move / resize, a toggleable
-                          background grid with adjustable cell size, undo / redo
-                          history, self-contained SVG &amp; PNG export, and a
-                          Phosphor-icon toolbar. Pure-Vue and SSR-safe with no
-                          new runtime dependency. Component <code>1.1.0</code>.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-clock-counter-clockwise"
-                        style="color: var(--vd-color-info)"
-                      ></i>
-                      <div>
-                        <strong>Forward-compatible documents</strong>
-                        <p>
-                          Saved documents carry <code>VD_DRAW_VERSION</code>;
-                          older constant-width freehand strokes migrate to the
-                          brush model on load, so earlier drawings keep
-                          rendering unchanged.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-        <article class="version-card">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.1.0</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>July 2026
-            </span>
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <div class="vd-col-12">
-                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  Adds a fifth component — <strong>Code editor</strong> — to the
-                  bundle. Additive minor release; the four existing components
-                  are unchanged. Sole runtime peer: <code>vue &gt;= 3.3</code>.
-                </p>
-
-                <div class="change-group">
-                  <h5>New</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-code"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Code editor</strong>
-                        <p>
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/code-editor"
-                            rel="noopener noreferrer"
-                            >Code editor</a
-                          >
-                          on <code>@vanduo-oss/vd3-cbun/code-editor</code> (+
-                          <code>/code-editor/css</code>) — a lightweight, secure
-                          <em>textarea-overlay</em> editor: a native
-                          <code>&lt;textarea&gt;</code> over a syntax-highlight
-                          layer painted by first-party, ReDoS-safe tokenizers
-                          for JavaScript/TypeScript, HTML, CSS, JSON, Markdown,
-                          Shell, and Python. Line-number gutter, auto-indent,
-                          bracket/quote auto-close, read-only mode, copy button,
-                          placeholder, and a large-input guard. Escaping-safe
-                          (no <code>innerHTML</code>), SSR-safe, and no new
-                          runtime dependency. Component <code>1.0.0</code>.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-        <article class="version-card">
-          <header class="version-header">
-            <span
-              class="vd-badge vd-badge-primary"
-              style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.0.0</span
-            >
-            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph ph-calendar mr-1"></i>July 2026
-            </span>
-          </header>
-          <div class="version-body">
-            <div class="vd-row">
-              <div class="vd-col-12">
-                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  The canvas components bundle for the vd3 line — charts,
-                  flowchart, hex-grid, and music-player consolidated into one
-                  package with tree-shakeable subpath exports. Sole runtime
-                  peer:
-                  <code>vue &gt;= 3.3</code>.
-                </p>
-
-                <div class="change-group">
-                  <h5>New</h5>
-                  <ul class="change-list">
-                    <li class="change-item">
-                      <i
-                        class="ph ph-chart-line"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Charts</strong>
-                        <p>
-                          <RouterLink to="/canvas/charts">Charts</RouterLink> on
-                          <code>@vanduo-oss/vd3-cbun/charts</code> (+
-                          <code>/charts/css</code>). Component
-                          <code>1.0.0</code>.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-flow-arrow"
-                        style="color: var(--vd-color-info)"
-                      ></i>
-                      <div>
-                        <strong>Flowchart</strong>
-                        <p>
-                          <RouterLink to="/canvas/flowchart"
-                            >Flowchart</RouterLink
-                          >
-                          on <code>@vanduo-oss/vd3-cbun/flowchart</code> (+
-                          <code>/flowchart/css</code>), exposing
-                          <code>VdFlowchartCore</code> alongside the component.
-                          Component <code>1.2.0</code>.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-hexagon"
-                        style="color: var(--vd-color-success)"
-                      ></i>
-                      <div>
-                        <strong>Hex grid</strong>
-                        <p>
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/hex"
-                            rel="noopener noreferrer"
-                            >Hex grid</a
-                          >
-                          on <code>@vanduo-oss/vd3-cbun/hex-grid</code> with the
-                          <code>/hex-grid/hex-math</code> helpers —
-                          canvas-rendered, reading <code>--vd-*</code> tokens
-                          (no CSS). Component <code>1.0.0</code>.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-music-notes"
-                        style="color: var(--vd-color-info)"
-                      ></i>
-                      <div>
-                        <strong>Music player</strong>
-                        <p>
-                          <a
-                            href="https://labs.vanduo.dev/#widgets/music-player"
-                            rel="noopener noreferrer"
-                            >Music player</a
-                          >
-                          on <code>@vanduo-oss/vd3-cbun/music-player</code> (+
-                          <code>/music-player/css</code>). Component
-                          <code>1.0.0</code>.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="change-item">
-                      <i
-                        class="ph ph-shield-check"
-                        style="color: var(--vd-color-primary)"
-                      ></i>
-                      <div>
-                        <strong>Subpath isolation &amp; tests</strong>
-                        <p>
-                          Each subpath re-exports both the Vue component and its
-                          framework-agnostic core; a build-time guard bundles
-                          every entry separately with <code>vue</code> external
-                          and fails if inputs cross a component boundary.
-                          Versions surface via <code>VD3_CBUN_VERSIONS</code>,
-                          with 261 tests across 15 vitest files plus a
-                          Playwright real-canvas smoke.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-        <div v-html="vueContent"></div>
-      </div>
-      <div class="changelog-col">
-        <div class="changelog-col-head vd-affix vd-affix-no-shadow">
-          <h3 class="changelog-col-title">
             <i
               class="ph ph-chart-bar"
               style="color: var(--vd-color-primary)"
@@ -2179,9 +1395,11 @@ useAffix(root);
             <div class="vd-row">
               <div class="vd-col-12">
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  Extracted from <code>@vanduo-oss/vd3-cbun@1.4.2</code> as a
-                  standalone package. Component API and
-                  <code>VD_CHARTS_VERSION</code> remain <code>1.1.0</code>.
+                  Standalone extract from the former
+                  <code>@vanduo-oss/vd3-cbun</code> charts subpath, carrying
+                  mark-click emits plus folded-in accessibility, sizing, and
+                  <code>svgRole</code> fixes.
+                  <code>VD_CHARTS_VERSION</code> remains <code>1.1.0</code>.
                 </p>
 
                 <div class="change-group">
@@ -2198,15 +1416,145 @@ useAffix(root);
                           <code>@vanduo-oss/vd3-charts</code></strong
                         >
                         <p>
-                          Vue wrappers and core factories, WAI-ARIA Graphics
-                          roles, keyboard mark navigation, data table fallback,
-                          and additive core <code>role</code> / Vue
-                          <code>svgRole</code>. Install with
+                          Vue wrappers and core factories extracted as their own
+                          package. Install with
                           <code>pnpm add @vanduo-oss/vd3-charts</code> and
                           import <code>@vanduo-oss/vd3-charts/css</code>. See
                           <RouterLink to="/canvas/charts"
                             ><code>/canvas/charts</code></RouterLink
                           >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-cursor-click"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Chart mark clicks</strong>
+                        <p>
+                          <RouterLink to="/canvas/charts"
+                            ><code>VdChart</code></RouterLink
+                          >
+                          forwards mark clicks as Vue events —
+                          <code>@bar-click</code>, <code>@point-click</code>,
+                          and <code>@slice-click</code>, each carrying the typed
+                          <code>ClickEvent</code>.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-wheelchair"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Accessibility, sizing, and SVG roles</strong>
+                        <p>
+                          WAI-ARIA Graphics roles, keyboard mark navigation, and
+                          an accessible data table; responsive height ignores
+                          visible table growth; additive core
+                          <code>role</code> / Vue <code>svgRole</code> override
+                          the inner SVG without consuming the wrapper's standard
+                          <code>role</code> attribute.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.0.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>July 2026
+            </span>
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  Patch: bar baselines clamp into the rendered y-domain.
+                </p>
+
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-chart-bar"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Bar baseline clamp</strong>
+                        <p>
+                          <RouterLink to="/canvas/charts"
+                            >Bar charts</RouterLink
+                          >
+                          anchor to a baseline clamped into the rendered
+                          y-domain, so an explicit <code>yMin &gt; 0</code> (or
+                          <code>yMax &lt; 0</code>) no longer extrapolates bars
+                          past the axis floor.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header version-initial">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.0.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>July 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Initial</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  First charts ship — historically on
+                  <code>@vanduo-oss/vd3-cbun/charts</code> (+
+                  <code>/charts/css</code>).
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-chart-line"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Charts</strong>
+                        <p>
+                          <RouterLink to="/canvas/charts">Charts</RouterLink>
+                          — bar, line, area, scatter, donut, and pie factories
+                          with Vue wrappers. Component <code>1.0.0</code>.
                         </p>
                       </div>
                     </li>
@@ -2248,9 +1596,12 @@ useAffix(root);
             <div class="vd-row">
               <div class="vd-col-12">
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
-                  Extracted from <code>@vanduo-oss/vd3-cbun@1.4.2</code> as a
-                  standalone package. Component API and
-                  <code>VD_FLOWCHART_VERSION</code> remain <code>1.2.0</code>.
+                  Standalone extract from the former
+                  <code>@vanduo-oss/vd3-cbun</code> flowchart subpath, folding
+                  in dark-aware chrome, icon toolbar, Arrange select, and
+                  bounded load — all under the same
+                  <code>VD_FLOWCHART_VERSION</code> <code>1.2.0</code>
+                  serialization.
                 </p>
 
                 <div class="change-group">
@@ -2276,6 +1627,110 @@ useAffix(root);
                           <RouterLink to="/canvas/flowchart"
                             ><code>/canvas/flowchart</code></RouterLink
                           >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-moon-stars"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Dark-aware flowchart chrome</strong>
+                        <p>
+                          Panels, nodes, handles, and inspector chrome follow
+                          <code>--vd-bg-primary</code> /
+                          <code>--vd-bg-secondary</code> so dark mode stays
+                          coherent with the site palette.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-toolbox"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Icon toolbar &amp; Arrange select</strong>
+                        <p>
+                          Toolbar actions use Phosphor icons; the layout
+                          <code>&lt;select&gt;</code> always shows the active
+                          Tree / Radial / Grid mode instead of a placeholder
+                          “Arrange” option.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-shield-check"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Bounded document loading</strong>
+                        <p>
+                          <RouterLink to="/canvas/flowchart"
+                            ><code>VdFlowchart</code></RouterLink
+                          >
+                          caps an untrusted or corrupt document on load
+                          (truncating, never throwing). The saved-document
+                          format is unchanged.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header version-initial">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.2.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>July 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Initial</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  First flowchart ship — historically on
+                  <code>@vanduo-oss/vd3-cbun/flowchart</code> (+
+                  <code>/flowchart/css</code>), exposing
+                  <code>VdFlowchartCore</code> alongside the component.
+                  Serialization version <code>1.2.0</code> from day one.
+                </p>
+
+                <div class="change-group">
+                  <h5>New</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-flow-arrow"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Flowchart</strong>
+                        <p>
+                          <RouterLink to="/canvas/flowchart"
+                            >Flowchart</RouterLink
+                          >
+                          — nodes, edges, layout, and undo/redo with
+                          <code>VdFlowchartCore</code>. Component
+                          <code>1.2.0</code>.
                         </p>
                       </div>
                     </li>

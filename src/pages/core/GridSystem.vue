@@ -91,7 +91,7 @@ const breakpointCols = [
 const containers = [
   {
     cls: "vd-container-sm",
-    bg: "vd-bg-primary vd-text-white",
+    bg: "vd-bg-primary",
     desc: "fixed from 576px (540px, scales up)",
   },
   {
@@ -101,12 +101,12 @@ const containers = [
   },
   {
     cls: "vd-container-lg",
-    bg: "vd-bg-info vd-text-white",
+    bg: "vd-bg-info",
     desc: "fixed from 992px (960px, scales up)",
   },
   {
     cls: "vd-container-xl",
-    bg: "vd-bg-success vd-text-white",
+    bg: "vd-bg-success",
     desc: "fixed from 1200px (1140px, scales up)",
   },
   {
@@ -214,7 +214,7 @@ const containers = [
                 class="vd-col-12 vd-col-sm-6 vd-col-md-4 vd-col-lg-3 vd-col-xl-2 vd-col-2xl-1"
               >
                 <div
-                  :class="`vd-bg-${bg} ${bg !== 'secondary' ? 'vd-text-white' : ''} vd-p-3 vd-mb-3 vd-rounded-md vd-text-center vd-text-sm`"
+                  :class="`vd-bg-${bg} vd-p-3 vd-mb-3 vd-rounded-md vd-text-center vd-text-sm`"
                 >
                   2xl-1
                 </div>
@@ -264,21 +264,21 @@ const containers = [
             <div class="vd-row">
               <div class="vd-col-4 vd-order-3">
                 <div
-                  class="vd-bg-primary vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-mb-3"
+                  class="vd-bg-primary vd-p-5 vd-rounded-md vd-text-center vd-mb-3"
                 >
                   <strong>1st in HTML</strong><br /><code>.vd-order-3</code>
                 </div>
               </div>
               <div class="vd-col-4 vd-order-1">
                 <div
-                  class="vd-bg-success vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-mb-3"
+                  class="vd-bg-success vd-p-5 vd-rounded-md vd-text-center vd-mb-3"
                 >
                   <strong>2nd in HTML</strong><br /><code>.vd-order-1</code>
                 </div>
               </div>
               <div class="vd-col-4 vd-order-2">
                 <div
-                  class="vd-bg-info vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-mb-3"
+                  class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center vd-mb-3"
                 >
                   <strong>3rd in HTML</strong><br /><code>.vd-order-2</code>
                 </div>
@@ -316,28 +316,28 @@ const containers = [
             <div class="vd-row-fib-4">
               <div class="vd-col-fib-1">
                 <div
-                  class="vd-bg-error vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-error vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   1
                 </div>
               </div>
               <div class="vd-col-fib-2">
                 <div
-                  class="vd-bg-info vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   2
                 </div>
               </div>
               <div class="vd-col-fib-3">
                 <div
-                  class="vd-bg-success vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-success vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   3
                 </div>
               </div>
               <div class="vd-col-fib-5">
                 <div
-                  class="vd-bg-primary vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-primary vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   5
                 </div>
@@ -361,21 +361,21 @@ const containers = [
             <div class="vd-row-fib-3-alt">
               <div class="vd-col-fib-3">
                 <div
-                  class="vd-bg-info vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   3
                 </div>
               </div>
               <div class="vd-col-fib-5">
                 <div
-                  class="vd-bg-success vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-success vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   5
                 </div>
               </div>
               <div class="vd-col-fib-8">
                 <div
-                  class="vd-bg-primary vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-primary vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   8
                 </div>
@@ -401,22 +401,22 @@ const containers = [
           <div class="vd-card-body">
             <div class="vd-grid-fib-4">
               <div
-                class="vd-bg-error vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                class="vd-bg-error vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
               >
                 1fr
               </div>
               <div
-                class="vd-bg-info vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
               >
                 2fr
               </div>
               <div
-                class="vd-bg-success vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                class="vd-bg-success vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
               >
                 3fr
               </div>
               <div
-                class="vd-bg-primary vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                class="vd-bg-primary vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
               >
                 5fr
               </div>
@@ -430,17 +430,17 @@ const containers = [
           <div class="vd-card-body">
             <div class="vd-grid-fib-3-alt">
               <div
-                class="vd-bg-info vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
               >
                 3fr
               </div>
               <div
-                class="vd-bg-success vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                class="vd-bg-success vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
               >
                 5fr
               </div>
               <div
-                class="vd-bg-primary vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                class="vd-bg-primary vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
               >
                 8fr
               </div>
@@ -465,17 +465,17 @@ const containers = [
                 <code class="vd-text-sm">.vd-gap-fib-3</code> (3px)
                 <div class="vd-grid-fib-3 vd-gap-fib-3 vd-mt-2">
                   <div
-                    class="vd-bg-primary vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                    class="vd-bg-primary vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                   >
                     A
                   </div>
                   <div
-                    class="vd-bg-primary vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                    class="vd-bg-primary vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                   >
                     B
                   </div>
                   <div
-                    class="vd-bg-primary vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                    class="vd-bg-primary vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                   >
                     C
                   </div>
@@ -485,17 +485,17 @@ const containers = [
                 <code class="vd-text-sm">.vd-gap-fib-8</code> (8px)
                 <div class="vd-grid-fib-3 vd-gap-fib-8 vd-mt-2">
                   <div
-                    class="vd-bg-success vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                    class="vd-bg-success vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                   >
                     A
                   </div>
                   <div
-                    class="vd-bg-success vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                    class="vd-bg-success vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                   >
                     B
                   </div>
                   <div
-                    class="vd-bg-success vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                    class="vd-bg-success vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                   >
                     C
                   </div>
@@ -505,17 +505,17 @@ const containers = [
                 <code class="vd-text-sm">.vd-gap-fib-21</code> (21px)
                 <div class="vd-grid-fib-3 vd-gap-fib-21 vd-mt-2">
                   <div
-                    class="vd-bg-info vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                    class="vd-bg-info vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                   >
                     A
                   </div>
                   <div
-                    class="vd-bg-info vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                    class="vd-bg-info vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                   >
                     B
                   </div>
                   <div
-                    class="vd-bg-info vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                    class="vd-bg-info vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                   >
                     C
                   </div>
@@ -574,22 +574,20 @@ const containers = [
               <p class="vd-mb-3 vd-text-sm"><strong>3-column row:</strong></p>
               <div class="vd-row vd-mb-5">
                 <div class="vd-col-4">
-                  <div
-                    class="vd-bg-info vd-text-white vd-p-5 vd-rounded-md vd-text-center"
-                  >
+                  <div class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center">
                     Col 1
                   </div>
                 </div>
                 <div class="vd-col-4">
                   <div
-                    class="vd-bg-success vd-text-white vd-p-5 vd-rounded-md vd-text-center"
+                    class="vd-bg-success vd-p-5 vd-rounded-md vd-text-center"
                   >
                     Col 2
                   </div>
                 </div>
                 <div class="vd-col-4">
                   <div
-                    class="vd-bg-primary vd-text-white vd-p-5 vd-rounded-md vd-text-center"
+                    class="vd-bg-primary vd-p-5 vd-rounded-md vd-text-center"
                   >
                     Col 3
                   </div>
@@ -621,29 +619,25 @@ const containers = [
               </p>
               <div class="vd-row">
                 <div class="vd-col-3">
-                  <div
-                    class="vd-bg-error vd-text-white vd-p-5 vd-rounded-md vd-text-center"
-                  >
+                  <div class="vd-bg-error vd-p-5 vd-rounded-md vd-text-center">
                     1
                   </div>
                 </div>
                 <div class="vd-col-3">
-                  <div
-                    class="vd-bg-info vd-text-white vd-p-5 vd-rounded-md vd-text-center"
-                  >
+                  <div class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center">
                     2
                   </div>
                 </div>
                 <div class="vd-col-3">
                   <div
-                    class="vd-bg-success vd-text-white vd-p-5 vd-rounded-md vd-text-center"
+                    class="vd-bg-success vd-p-5 vd-rounded-md vd-text-center"
                   >
                     3
                   </div>
                 </div>
                 <div class="vd-col-3">
                   <div
-                    class="vd-bg-primary vd-text-white vd-p-5 vd-rounded-md vd-text-center"
+                    class="vd-bg-primary vd-p-5 vd-rounded-md vd-text-center"
                   >
                     5
                   </div>
@@ -705,7 +699,7 @@ const containers = [
             <div class="vd-row vd-mb-2">
               <div class="vd-col-4 vd-offset-0">
                 <div
-                  class="vd-bg-primary vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-primary vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   .vd-offset-0 .vd-col-4
                 </div>
@@ -714,7 +708,7 @@ const containers = [
             <div class="vd-row vd-mb-2">
               <div class="vd-col-4 vd-offset-2">
                 <div
-                  class="vd-bg-success vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-success vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   .vd-offset-2 .vd-col-4
                 </div>
@@ -723,7 +717,7 @@ const containers = [
             <div class="vd-row vd-mb-2">
               <div class="vd-col-3 vd-offset-4">
                 <div
-                  class="vd-bg-info vd-text-white vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-info vd-p-3 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   .vd-offset-4 .vd-col-3
                 </div>

@@ -22,7 +22,7 @@ const goldenHtml = `<!-- Golden Split Layout (38.2% / 61.8%) -->
     </div>
   </div>
   <div class="vd-col-golden-major">
-    <div class="vd-bg-primary vd-text-white vd-p-6 vd-rounded-md vd-text-center">
+    <div class="vd-bg-primary vd-p-6 vd-rounded-md vd-text-center">
       <strong>Major</strong><br>61.8% (1 - 1/phi)
     </div>
   </div>
@@ -120,9 +120,7 @@ const aspectBadge = (v: "success" | "secondary"): string =>
                 </div>
               </div>
               <div class="vd-col-golden-major">
-                <div
-                  class="vd-bg-primary vd-text-white vd-p-6 vd-rounded-md vd-text-center"
-                >
+                <div class="vd-bg-primary vd-p-6 vd-rounded-md vd-text-center">
                   <strong>Major</strong><br />61.8% (1 - 1/phi)
                 </div>
               </div>
@@ -144,21 +142,21 @@ const aspectBadge = (v: "success" | "secondary"): string =>
             <div class="vd-row-fib-3">
               <div class="vd-col-fib-2">
                 <div
-                  class="vd-bg-info vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   2
                 </div>
               </div>
               <div class="vd-col-fib-3">
                 <div
-                  class="vd-bg-success vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-success vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   3
                 </div>
               </div>
               <div class="vd-col-fib-5">
                 <div
-                  class="vd-bg-primary vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                  class="vd-bg-primary vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
                 >
                   5
                 </div>
@@ -179,7 +177,7 @@ const aspectBadge = (v: "success" | "secondary"): string =>
                 1fr
               </div>
               <div
-                class="vd-bg-primary vd-text-white vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
+                class="vd-bg-primary vd-p-5 vd-rounded-md vd-text-center vd-text-sm"
               >
                 1.618fr
               </div>

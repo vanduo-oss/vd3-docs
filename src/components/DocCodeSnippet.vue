@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { VdCodeSnippet } from "@vanduo-oss/vd3";
-import { highlightCode } from "@/utils/highlight";
+import { highlightCode } from "@vanduo-oss/vd3/highlight";
 
 interface Props {
   /** The demo markup shown in the HTML tab (mirrors the Vanilla data-extract). */
