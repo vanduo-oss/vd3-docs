@@ -54,7 +54,7 @@ jobs:
             perspective/vd3/pnpm-lock.yaml
             vdl/vdl-cbun/pnpm-lock.yaml
 
-      - name: Install and build link: siblings
+      - name: "Install and build link: siblings"
         working-directory: ${{ github.workspace }}
         run: |
           for pkg in perspective/vd3 vdl/vdl-cbun; do
