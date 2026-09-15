@@ -25,11 +25,9 @@ jobs:
         with:
           path: perspective/vd3-docs
 
-      # Dogfood @vanduo-oss/vd3/highlight (1.7.3) before it lands on vd3 main/npm.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: vanduo-oss/vd3
-          ref: dev-v173
           path: perspective/vd3
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
