@@ -79,6 +79,16 @@ const composableApi: [string, string][] = [
 const cssVars: [string, string, string][] = [
   ["--vd-global-search-modal-max-width", "640px", "Palette width cap."],
   ["--vd-global-search-modal-top", "15vh", "Vertical offset on desktop."],
+  [
+    "--vd-global-search-modal-border",
+    "2px solid primary (none in dark)",
+    "Outer modal outline.",
+  ],
+  [
+    "--vd-global-search-input-border",
+    "2px solid primary (1px in dark)",
+    "Search field outline.",
+  ],
   ["--vd-global-search-glass-opacity", "0.9", "Modal glass fill."],
   ["--vd-global-search-glass-blur", "20px", "Backdrop blur strength."],
 ];
