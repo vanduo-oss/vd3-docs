@@ -1347,7 +1347,11 @@ useAffix(root);
                           reorder, undo/redo, and load. A second pointer
                           coherently cancels erase, pan, move, or resize;
                           readonly controls re-sync when restored. See
-                          <a href="https://labs.vanduo.dev/#widgets/draw" rel="noopener noreferrer"><code>labs …/draw</code></a>.
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/draw"
+                            rel="noopener noreferrer"
+                            ><code>labs …/draw</code></a
+                          >.
                         </p>
                       </div>
                     </li>
@@ -1384,7 +1388,11 @@ useAffix(root);
                           <code>total</code>, <code>visible</code>, and
                           <code>drawn: 0</code> values through
                           <code>getRenderStats()</code>. See
-                          <a href="https://labs.vanduo.dev/#widgets/hex" rel="noopener noreferrer"><code>labs …/hex</code></a>.
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/hex"
+                            rel="noopener noreferrer"
+                            ><code>labs …/hex</code></a
+                          >.
                         </p>
                       </div>
                     </li>
@@ -1454,7 +1462,11 @@ useAffix(root);
                           <code>getRenderStats()</code>,
                           <code>setPixelRatio()</code>, <code>setCull()</code>.
                           See
-                          <a href="https://labs.vanduo.dev/#widgets/hex" rel="noopener noreferrer"><code>labs …/hex</code></a>.
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/hex"
+                            rel="noopener noreferrer"
+                            ><code>labs …/hex</code></a
+                          >.
                         </p>
                       </div>
                     </li>
@@ -1477,7 +1489,11 @@ useAffix(root);
                           the editor.
                           <code>fitView(padding?)</code> takes optional padding
                           (default <code>40</code>). See
-                          <a href="https://labs.vanduo.dev/#widgets/draw" rel="noopener noreferrer"><code>labs …/draw</code></a>.
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/draw"
+                            rel="noopener noreferrer"
+                            ><code>labs …/draw</code></a
+                          >.
                         </p>
                       </div>
                     </li>
@@ -1516,7 +1532,11 @@ useAffix(root);
                           and highlight layer so a visible scrollbar no longer
                           shrinks only the editable layer and misaligns the
                           caret. See
-                          <a href="https://labs.vanduo.dev/#widgets/code-editor" rel="noopener noreferrer"><code>labs …/code-editor</code></a>.
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/code-editor"
+                            rel="noopener noreferrer"
+                            ><code>labs …/code-editor</code></a
+                          >.
                         </p>
                       </div>
                     </li>
@@ -1571,7 +1591,11 @@ useAffix(root);
                           <code>renderTokensToHtml</code>, and
                           <code>LANGUAGES</code> without the editor core.
                           <code>vue</code> is a real SFC tokenizer. See
-                          <a href="https://labs.vanduo.dev/#widgets/code-editor" rel="noopener noreferrer"><code>labs …/code-editor</code></a>.
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/code-editor"
+                            rel="noopener noreferrer"
+                            ><code>labs …/code-editor</code></a
+                          >.
                         </p>
                       </div>
                     </li>
@@ -1631,7 +1655,11 @@ useAffix(root);
                       <div>
                         <strong>Vue shape CRUD</strong>
                         <p>
-                          <a href="https://labs.vanduo.dev/#widgets/draw" rel="noopener noreferrer">VdDraw</a>
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/draw"
+                            rel="noopener noreferrer"
+                            >VdDraw</a
+                          >
                           now exposes <code>addShape</code>,
                           <code>updateShape</code>, <code>removeShape</code>,
                           <code>getShape</code>, <code>getShapes</code>,
@@ -1801,7 +1829,11 @@ useAffix(root);
                       <div>
                         <strong>Bounded document loading</strong>
                         <p>
-                          <a href="https://labs.vanduo.dev/#widgets/draw" rel="noopener noreferrer">VdDraw</a>
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/draw"
+                            rel="noopener noreferrer"
+                            >VdDraw</a
+                          >
                           and
                           <RouterLink to="/canvas/flowchart"
                             ><code>VdFlowchart</code></RouterLink
@@ -1827,18 +1859,34 @@ useAffix(root);
                       <div>
                         <strong>Core bug fixes</strong>
                         <p>
-                          <a href="https://labs.vanduo.dev/#widgets/draw" rel="noopener noreferrer">Draw</a> undo
-                          no longer corrupts history after an undo;
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/draw"
+                            rel="noopener noreferrer"
+                            >Draw</a
+                          >
+                          undo no longer corrupts history after an undo;
                           <RouterLink to="/canvas/charts"
                             >bar charts</RouterLink
                           >
                           anchor correctly when <code>yMin &gt; 0</code>; the
-                          <a href="https://labs.vanduo.dev/#widgets/music-player" rel="noopener noreferrer">music player</a>
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/music-player"
+                            rel="noopener noreferrer"
+                            >music player</a
+                          >
                           stops at the end of a playlist instead of looping
                           forever;
-                          <a href="https://labs.vanduo.dev/#widgets/hex" rel="noopener noreferrer">hex grid</a>
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/hex"
+                            rel="noopener noreferrer"
+                            >hex grid</a
+                          >
                           removes its canvas listeners on destroy; and the
-                          <a href="https://labs.vanduo.dev/#widgets/code-editor" rel="noopener noreferrer">code editor</a>
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/code-editor"
+                            rel="noopener noreferrer"
+                            >code editor</a
+                          >
                           highlights an unterminated block comment correctly.
                         </p>
                       </div>
@@ -1881,7 +1929,11 @@ useAffix(root);
                       <div>
                         <strong>Drawing tool</strong>
                         <p>
-                          <a href="https://labs.vanduo.dev/#widgets/draw" rel="noopener noreferrer">Drawing tool</a>
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/draw"
+                            rel="noopener noreferrer"
+                            >Drawing tool</a
+                          >
                           on <code>@vanduo-oss/vd3-cbun/draw</code> (+
                           <code>/draw/css</code>), exposing
                           <code>VdDrawCore</code> alongside the component — a
@@ -1948,7 +2000,11 @@ useAffix(root);
                       <div>
                         <strong>Code editor</strong>
                         <p>
-                          <a href="https://labs.vanduo.dev/#widgets/code-editor" rel="noopener noreferrer">Code editor</a>
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/code-editor"
+                            rel="noopener noreferrer"
+                            >Code editor</a
+                          >
                           on <code>@vanduo-oss/vd3-cbun/code-editor</code> (+
                           <code>/code-editor/css</code>) — a lightweight, secure
                           <em>textarea-overlay</em> editor: a native
@@ -2035,8 +2091,12 @@ useAffix(root);
                       <div>
                         <strong>Hex grid</strong>
                         <p>
-                          <a href="https://labs.vanduo.dev/#widgets/hex" rel="noopener noreferrer">Hex grid</a> on
-                          <code>@vanduo-oss/vd3-cbun/hex-grid</code> with the
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/hex"
+                            rel="noopener noreferrer"
+                            >Hex grid</a
+                          >
+                          on <code>@vanduo-oss/vd3-cbun/hex-grid</code> with the
                           <code>/hex-grid/hex-math</code> helpers —
                           canvas-rendered, reading <code>--vd-*</code> tokens
                           (no CSS). Component <code>1.0.0</code>.
@@ -2051,7 +2111,11 @@ useAffix(root);
                       <div>
                         <strong>Music player</strong>
                         <p>
-                          <a href="https://labs.vanduo.dev/#widgets/music-player" rel="noopener noreferrer">Music player</a>
+                          <a
+                            href="https://labs.vanduo.dev/#widgets/music-player"
+                            rel="noopener noreferrer"
+                            >Music player</a
+                          >
                           on <code>@vanduo-oss/vd3-cbun/music-player</code> (+
                           <code>/music-player/css</code>). Component
                           <code>1.0.0</code>.

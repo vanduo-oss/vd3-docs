@@ -150,8 +150,7 @@ import { VdMusicPlayer } from '@vanduo-oss/vdl-cbun/music-player';`;
               remaining canvas tools (docs on
               <a href="https://labs.vanduo.dev/" rel="noopener noreferrer"
                 >labs</a
-              >).
-              <RouterLink to="/cbun">Browse the CBUN showcase</RouterLink>.
+              >). <RouterLink to="/cbun">Browse the CBUN showcase</RouterLink>.
             </p>
           </div>
         </div>

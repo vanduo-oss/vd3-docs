@@ -225,8 +225,7 @@ const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart
       </div>
       <p>
         Attention is limited. Charts and flowchart stay on the
-        <strong>vd3</strong> line —
-        <code>@vanduo-oss/vd3-charts</code> and
+        <strong>vd3</strong> line — <code>@vanduo-oss/vd3-charts</code> and
         <code>@vanduo-oss/vd3-flowchart</code> — because that is the set we can
         keep in proper focus: reviewed, documented on this site, and published
         on npm.
