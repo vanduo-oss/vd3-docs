@@ -2,10 +2,9 @@
 
 ## Purpose
 Keep the private vd3-docs site building, testing, and deploying against
-`@vanduo-oss/vd3` (published pin or temporary `link:../vd3` dogfood),
-exact published `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`
-pins, plus `@vanduo-oss/vdl-cbun` for /cbun previews. Syntax highlighting
-comes from `@vanduo-oss/vd3/highlight`.
+exact published `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, and
+`@vanduo-oss/vd3-flowchart` pins, plus `@vanduo-oss/vdl-cbun` for /cbun
+previews. Syntax highlighting comes from `@vanduo-oss/vd3/highlight`.
 
 ## Requirements
 
@@ -19,9 +18,8 @@ The site's `package.json` SHALL be named `@vanduo-oss/vd3-docs` and remain
 `@vanduo-oss/core`, `@vanduo-oss/framework`, `@vanduo-oss/vue`,
 `@vanduo-oss/charts`, `@vanduo-oss/flowchart`, `@vanduo-oss/hex-grid`, or
 `@vanduo-oss/music-player`. Charts and flowchart SHALL be the PUBLISHED
-packages at exact `1.1.0` and `1.2.0`. `@vanduo-oss/vd3` SHALL target `1.7.3`
-(exact published pin, or temporary `link:../vd3` while that release is
-unreleased). Labs sibling `@vanduo-oss/vdl-cbun` MUST use
+packages at exact `1.1.0` and `1.2.0`. `@vanduo-oss/vd3` SHALL be the
+exact published pin `1.7.3`. Labs sibling `@vanduo-oss/vdl-cbun` MUST use
 `link:../../vdl/vdl-cbun` — it is not an npm family. `.npmrc` SHALL set
 `save-exact=true`. The committed
 manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
@@ -31,7 +29,7 @@ manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 - **GIVEN** the site's `package.json` after this change
 - **WHEN** its `name`, `private`, and `dependencies` are inspected
 - **THEN** `name` is `@vanduo-oss/vd3-docs`, `private` is `true`, runtime
-  deps include `@vanduo-oss/vd3` (`1.7.3` or `link:../vd3`), `@vanduo-oss/vd3-charts`
+  deps include `@vanduo-oss/vd3` (`1.7.3`), `@vanduo-oss/vd3-charts`
   (`1.1.0`), `@vanduo-oss/vd3-flowchart` (`1.2.0`), and `@vanduo-oss/vdl-cbun`
   (`link:../../vdl/vdl-cbun`), there is no `@vanduo-oss/vd3-cbun` or
   `@vanduo-oss/vdl-hybrid-search`, and none of
@@ -41,13 +39,12 @@ manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 
 #### Scenario: kit packages resolve for install
 
-- **GIVEN** the committed `package.json` targeting vd3 `1.7.3` (pin or
-  `link:../vd3`), exact `1.1.0` / `1.2.0` charts/flowchart, and
-  `save-exact=true`
-- **WHEN** `pnpm install` runs from the docs repo with linked siblings
+- **GIVEN** the committed `package.json` targeting exact vd3 `1.7.3`,
+  exact `1.1.0` / `1.2.0` charts/flowchart, and `save-exact=true`
+- **WHEN** `pnpm install` runs from the docs repo with the Labs sibling
   checked out
-- **THEN** those packages resolve, `@vanduo-oss/vdl-cbun` resolves via
-  `link:../../vdl/vdl-cbun`,
+- **THEN** those packages resolve from the registry, `@vanduo-oss/vdl-cbun`
+  resolves via `link:../../vdl/vdl-cbun`,
   and the install succeeds with no `@vanduo-oss/vd3-cbun` or
   `@vanduo-oss/vdl-hybrid-search` entry
 

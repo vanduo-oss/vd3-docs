@@ -23,8 +23,8 @@ importers:
         specifier: 2.1.15
         version: 2.1.15(vue@3.5.42(typescript@6.0.3))
       '@vanduo-oss/vd3':
-        specifier: link:../vd3
-        version: link:../vd3
+        specifier: 1.7.3
+        version: 1.7.3(vue@3.5.42(typescript@6.0.3))
       '@vanduo-oss/vd3-charts':
         specifier: 1.1.0
         version: 1.1.0(vue@3.5.42(typescript@6.0.3))
@@ -700,6 +700,12 @@ packages:
 
   '@vanduo-oss/vd3-flowchart@1.2.0':
     resolution: {integrity: sha512-Sl4jCb4/DzRf3HedmEqjNqnmISJspvt+KC5U3PhuBvTJfC0aF5bc26TUqY2F5Ht+L2EgsAdEh4Q2Ltlk4jZvpw==}
+    engines: {node: '>=20.19.0', pnpm: '>=10'}
+    peerDependencies:
+      vue: '>=3.3.0'
+
+  '@vanduo-oss/vd3@1.7.3':
+    resolution: {integrity: sha512-6SUwlqlWwhYoi1KTbNGtM/AuMUcsoVWhWmwzdbBLLZVF30Z1QfG1sgK7GiWDpYof0/AMIIbUI61KvZK3vNzX4g==}
     engines: {node: '>=20.19.0', pnpm: '>=10'}
     peerDependencies:
       vue: '>=3.3.0'
@@ -2652,6 +2658,10 @@ snapshots:
       vue: 3.5.42(typescript@6.0.3)
 
   '@vanduo-oss/vd3-flowchart@1.2.0(vue@3.5.42(typescript@6.0.3))':
+    dependencies:
+      vue: 3.5.42(typescript@6.0.3)
+
+  '@vanduo-oss/vd3@1.7.3(vue@3.5.42(typescript@6.0.3))':
     dependencies:
       vue: 3.5.42(typescript@6.0.3)
 

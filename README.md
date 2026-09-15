@@ -13,10 +13,10 @@ and `/cbun` previews of the remaining canvas widgets from
 [labs.vanduo.dev](https://labs.vanduo.dev/)), consumed alongside published npm pins
 (`@vanduo-oss/vd3@1.7.3`, `@vanduo-oss/vd3-charts@1.1.0`,
 `@vanduo-oss/vd3-flowchart@1.2.0`), not vendored source.
-Local worktrees may temporarily `link:` the sibling `../vd3` /
+Local worktrees may temporarily `link:` sibling `../vd3` /
 `../vd3-charts` / `../vd3-flowchart` checkouts for unreleased library work; the
-committed manifest may keep a `link:../vd3` dogfood while 1.7.3 is unreleased,
-plus a permanent `link:` for Labs sibling `vdl-cbun`.
+committed manifest pins published registry versions, plus a permanent `link:`
+for Labs sibling `vdl-cbun`.
 Unlike the previous docs site (which
 consumed `@vanduo-oss/framework` CSS classes only), vd3-docs renders the
 actual Vue 3 components a consumer installs.

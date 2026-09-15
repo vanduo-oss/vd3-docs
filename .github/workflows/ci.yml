@@ -6,8 +6,9 @@ on:
   pull_request:
     branches: [main]
 
-# Dogfoods link:../vd3 and Labs sibling link:../../vdl/vdl-cbun — CI checks
-# those trees out beside perspective/vd3-docs to match the committed paths.
+# Dogfoods published @vanduo-oss/vd3 from npm plus Labs sibling
+# link:../../vdl/vdl-cbun — CI checks that tree out beside
+# perspective/vd3-docs to match the committed path.
 
 # Least-privilege default token: this workflow only reads the repo (+ public siblings).
 permissions:
@@ -27,11 +28,6 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: vanduo-oss/vd3
-          path: perspective/vd3
-
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
           repository: vanduo-oss/vdl-cbun
           path: vdl/vdl-cbun
 
@@ -45,18 +41,15 @@ jobs:
           cache: pnpm
           cache-dependency-path: |
             perspective/vd3-docs/pnpm-lock.yaml
-            perspective/vd3/pnpm-lock.yaml
             vdl/vdl-cbun/pnpm-lock.yaml
 
-      - name: "Install and build link: siblings"
+      - name: "Install and build link: sibling (vdl-cbun)"
         working-directory: ${{ github.workspace }}
         run: |
-          for pkg in perspective/vd3 vdl/vdl-cbun; do
-            echo "::group::Build $pkg"
-            pnpm install --frozen-lockfile --dir "$pkg"
-            pnpm run --dir "$pkg" build
-            echo "::endgroup::"
-          done
+          echo "::group::Build vdl/vdl-cbun"
+          pnpm install --frozen-lockfile --dir vdl/vdl-cbun
+          pnpm run --dir vdl/vdl-cbun build
+          echo "::endgroup::"
 
       - run: pnpm install --frozen-lockfile
 
