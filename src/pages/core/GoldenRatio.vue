@@ -120,9 +120,7 @@ const aspectBadge = (v: "success" | "secondary"): string =>
                 </div>
               </div>
               <div class="vd-col-golden-major">
-                <div
-                  class="vd-bg-primary vd-p-6 vd-rounded-md vd-text-center"
-                >
+                <div class="vd-bg-primary vd-p-6 vd-rounded-md vd-text-center">
                   <strong>Major</strong><br />61.8% (1 - 1/phi)
                 </div>
               </div>

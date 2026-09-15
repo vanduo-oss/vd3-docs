@@ -90,9 +90,7 @@ useAffix(root);
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
-                        <strong
-                          ><code>@vanduo-oss/vd3/highlight</code></strong
-                        >
+                        <strong><code>@vanduo-oss/vd3/highlight</code></strong>
                         <p>
                           Tree-shakeable minimal syntax highlighter for
                           <RouterLink to="/components/code-snippet"
@@ -1464,8 +1462,8 @@ useAffix(root);
                           an accessible data table; responsive height ignores
                           visible table growth; additive core
                           <code>role</code> / Vue <code>svgRole</code> override
-                          the inner SVG without consuming the wrapper's
-                          standard <code>role</code> attribute.
+                          the inner SVG without consuming the wrapper's standard
+                          <code>role</code> attribute.
                         </p>
                       </div>
                     </li>
@@ -1504,7 +1502,9 @@ useAffix(root);
                       <div>
                         <strong>Bar baseline clamp</strong>
                         <p>
-                          <RouterLink to="/canvas/charts">Bar charts</RouterLink>
+                          <RouterLink to="/canvas/charts"
+                            >Bar charts</RouterLink
+                          >
                           anchor to a baseline clamped into the rendered
                           y-domain, so an explicit <code>yMin &gt; 0</code> (or
                           <code>yMax &lt; 0</code>) no longer extrapolates bars

@@ -154,8 +154,8 @@ const labsInstallShell = `# Labs sibling — in package.json:
       <p>
         <strong>CBUN</strong> is the optional companion layer beside
         <code>@vanduo-oss/vd3</code>. Scroll the showcase below — vd3 widgets
-        first (live demos), then the vdl line (theme-aware screenshots).
-        Install each package under its canvas block.
+        first (live demos), then the vdl line (theme-aware screenshots). Install
+        each package under its canvas block.
       </p>
     </div>
 

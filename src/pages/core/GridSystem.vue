@@ -574,9 +574,7 @@ const containers = [
               <p class="vd-mb-3 vd-text-sm"><strong>3-column row:</strong></p>
               <div class="vd-row vd-mb-5">
                 <div class="vd-col-4">
-                  <div
-                    class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center"
-                  >
+                  <div class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center">
                     Col 1
                   </div>
                 </div>
@@ -621,16 +619,12 @@ const containers = [
               </p>
               <div class="vd-row">
                 <div class="vd-col-3">
-                  <div
-                    class="vd-bg-error vd-p-5 vd-rounded-md vd-text-center"
-                  >
+                  <div class="vd-bg-error vd-p-5 vd-rounded-md vd-text-center">
                     1
                   </div>
                 </div>
                 <div class="vd-col-3">
-                  <div
-                    class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center"
-                  >
+                  <div class="vd-bg-info vd-p-5 vd-rounded-md vd-text-center">
                     2
                   </div>
                 </div>

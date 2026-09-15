@@ -134,7 +134,8 @@ async function ensureFuse(): Promise<Fuse<FuseDoc>> {
       documents = testDocuments;
     } else {
       const res = await fetch(INDEX_URL);
-      if (!res.ok) throw new Error(`Failed to load search index: ${res.status}`);
+      if (!res.ok)
+        throw new Error(`Failed to load search index: ${res.status}`);
       const payload = (await res.json()) as IndexPayload;
       documents = Array.isArray(payload)
         ? payload
