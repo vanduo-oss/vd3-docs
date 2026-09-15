@@ -60,7 +60,7 @@ const repos: [string, string, string][] = [
   ],
   [
     "vdl-cbun",
-    "@vanduo-oss/vdl-cbun",
+    "@vanduo-oss/vdl-cbun (link: — not on npm)",
     "Labs canvas bundle: code-editor, draw, hex-grid, and music-player, each on its own subpath (hex-grid ships no CSS). Documented on labs.vanduo.dev; this site keeps theme-aware /cbun screenshots.",
   ],
   [
