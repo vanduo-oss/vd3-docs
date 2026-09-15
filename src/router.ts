@@ -85,7 +85,6 @@ import ProductionPage from "@/pages/guides/ProductionBestPractices.vue";
 import TroubleshootingPage from "@/pages/guides/Troubleshooting.vue";
 import UtilitiesCheatSheetPage from "@/pages/guides/UtilitiesCheatSheet.vue";
 import Vd3EcosystemPage from "@/pages/guides/Vd3Ecosystem.vue";
-import HybridSearchGuidePage from "@/pages/guides/HybridSearch.vue";
 import MorphPage from "@/pages/effects/Morph.vue";
 import ParallaxPage from "@/pages/effects/Parallax.vue";
 import LiquidGradientPage from "@/pages/effects/LiquidGradient.vue";
@@ -185,7 +184,6 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   troubleshooting: TroubleshootingPage,
   "utilities-cheat-sheet": UtilitiesCheatSheetPage,
   "vd3-ecosystem": Vd3EcosystemPage,
-  "guide-hybrid-search": HybridSearchGuidePage,
 };
 
 function definePage<T>(component: T): T {

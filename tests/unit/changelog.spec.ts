@@ -13,36 +13,50 @@ describe("package changelog", () => {
       global: { stubs: { RouterLink: RouterLinkStub } },
     });
     const columns = wrapper.findAll(".changelog-col");
-    expect(columns).toHaveLength(4);
+    expect(columns).toHaveLength(3);
 
     const vd3Cards = columns[0].findAll(".version-card");
-    expect(headerText(vd3Cards[0])).toContain("v1.7.2");
+    expect(headerText(vd3Cards[0])).toContain("v1.7.3");
     expect(headerText(vd3Cards[0])).toContain("Latest");
+    expect(headerText(vd3Cards[1])).toContain("v1.7.2");
+    expect(headerText(vd3Cards[1])).not.toContain("Latest");
     expect(headerText(vd3Cards.at(-1)!)).toContain("v1.0.0");
     expect(headerText(vd3Cards.at(-1)!)).toContain("Initial");
     expect(
       vd3Cards.filter((card) => headerText(card).includes("Latest")),
     ).toHaveLength(1);
 
-    expect(columns[0].text()).not.toContain("v1.4.2");
+    expect(columns[0].text()).not.toContain("@vanduo-oss/vd3-cbun");
 
-    const cbunCards = columns[1].findAll(".version-card");
-    expect(headerText(cbunCards[0])).toContain("v1.4.2");
-    expect(headerText(cbunCards[0])).toContain("Latest");
-    expect(headerText(cbunCards[1])).toContain("v1.4.1");
-    expect(headerText(cbunCards[1])).not.toContain("Latest");
-    expect(
-      cbunCards.filter((card) => headerText(card).includes("Latest")),
-    ).toHaveLength(1);
-
-    const chartsCards = columns[2].findAll(".version-card");
+    const chartsCards = columns[1].findAll(".version-card");
     expect(headerText(chartsCards[0])).toContain("v1.1.0");
     expect(headerText(chartsCards[0])).toContain("Latest");
-    expect(columns[2].text()).toContain("@vanduo-oss/vd3-charts");
+    expect(headerText(chartsCards[1])).toContain("v1.0.1");
+    expect(headerText(chartsCards[1])).not.toContain("Latest");
+    expect(headerText(chartsCards[2])).toContain("v1.0.0");
+    expect(headerText(chartsCards[2])).toContain("Initial");
+    expect(
+      chartsCards.filter((card) => headerText(card).includes("Latest")),
+    ).toHaveLength(1);
+    expect(columns[1].text()).toContain("@vanduo-oss/vd3-charts");
 
-    const flowchartCards = columns[3].findAll(".version-card");
+    const flowchartCards = columns[2].findAll(".version-card");
     expect(headerText(flowchartCards[0])).toContain("v1.2.0");
     expect(headerText(flowchartCards[0])).toContain("Latest");
-    expect(columns[3].text()).toContain("@vanduo-oss/vd3-flowchart");
+    expect(headerText(flowchartCards[1])).toContain("v1.2.0");
+    expect(headerText(flowchartCards[1])).toContain("Initial");
+    expect(headerText(flowchartCards[1])).not.toContain("Latest");
+    expect(
+      flowchartCards.filter((card) => headerText(card).includes("Latest")),
+    ).toHaveLength(1);
+    expect(columns[2].text()).toContain("@vanduo-oss/vd3-flowchart");
+
+    expect(wrapper.findAll(".changelog-col-title").map((t) => t.text())).toEqual(
+      [
+        "@vanduo-oss/vd3",
+        "@vanduo-oss/vd3-charts",
+        "@vanduo-oss/vd3-flowchart",
+      ],
+    );
   });
 });

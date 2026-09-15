@@ -91,29 +91,30 @@ scope), and removing them keeps the single-engine nav model honest.
 
 ### Requirement: the changelog is single-engine and packages-only
 
-The changelog SHALL render only the Vue package history plus the shared inline
-release cards; it MUST NOT import or render the Vanilla framework-history partial
-and MUST NOT run any `data-engine` filtering. The Vanilla partial file
-(`src/pages/changelog-content.html`) SHALL be deleted; the Vue partial
-(`src/pages/changelog-vue-content.html`) SHALL be kept. The header engine toggle
-SHALL be removed. Per the changelog-content policy the page tracks package
-releases only, never docs-site content.
+The changelog SHALL render only the vd3-line package history as inline release
+cards; it MUST NOT import or render Vanilla framework-history partials and MUST
+NOT run any `data-engine` filtering. The Vanilla partial file
+(`src/pages/changelog-content.html`) and the older Vue history partial
+(`src/pages/changelog-vue-content.html`) SHALL be deleted — history lives
+inline in `changelog.vue`. The header engine toggle SHALL be removed. Per the
+changelog-content policy the page tracks package releases only, never
+docs-site content.
 
 #### Scenario: changelog drops the vanilla partial and filter
 
 - **GIVEN** `src/pages/changelog.vue` after this change
 - **WHEN** its script and template are read
-- **THEN** it does not import `changelog-content.html`, does not render a
-  `data-engine="vanilla"` block, contains no `applyEngineFilter` routine and no
-  `useEngineStore` import, has no header engine toggle, and still renders the
-  `changelog-vue-content.html` partial
+- **THEN** it does not import `changelog-content.html` or
+  `changelog-vue-content.html`, does not render a `data-engine="vanilla"`
+  block, contains no `applyEngineFilter` routine and no `useEngineStore`
+  import, and has no header engine toggle
 
-#### Scenario: the vanilla history partial is gone
+#### Scenario: the history partials are gone
 
 - **GIVEN** the repository after this change
 - **WHEN** `src/pages/` is listed
-- **THEN** `changelog-content.html` does not exist and
-  `changelog-vue-content.html` does
+- **THEN** `changelog-content.html` and `changelog-vue-content.html` do not
+  exist
 
 ### Requirement: customizer codegen emits Vue only
 

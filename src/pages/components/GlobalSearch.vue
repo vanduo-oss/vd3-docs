@@ -91,12 +91,6 @@ const guideLinks = [
     desc: "Inline combobox over caller-supplied docs — not site-wide.",
   },
   {
-    to: "/guides/hybrid-search",
-    icon: "ph-brain",
-    title: "Hybrid search",
-    desc: "Build the index and wire EmbeddingGemma with vdl-hybrid-search.",
-  },
-  {
     to: "/interactive/search",
     icon: "ph-plugs",
     title: "useSearch registry",
@@ -112,10 +106,10 @@ const guideLinks = [
     </h5>
     <p class="vd-mb-8">
       <strong>VdGlobalSearch</strong> is a site-wide command palette: glass
-      overlay, grouped results, keyboard navigation, and an optional
-      <strong>AI search</strong> toggle (off by default) with an informational
-      disclaimer. Pass a <code>GlobalSearchAdapter</code> — the component stays
-      engine-agnostic (HybridSearch, REST, or in-memory).
+      overlay, grouped results, and keyboard navigation. Pass a
+      <code>GlobalSearchAdapter</code> — the component stays engine-agnostic
+      (Fuse.js, REST, or in-memory). These docs use Fuse over
+      <code>search-index.json</code> (no semantic model).
     </p>
 
     <div class="vd-row vd-mb-8">

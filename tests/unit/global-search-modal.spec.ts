@@ -3,43 +3,7 @@ import { mount } from "@vue/test-utils";
 import { createPinia } from "pinia";
 import { createRouter, createMemoryHistory } from "vue-router";
 import GlobalSearchModal from "@/overlays/GlobalSearchModal.vue";
-import { AI_SEARCH_DISCLAIMER_ACK_KEY } from "@/composables/useAiSearchDisclaimerAck";
-import { __setSearchEngineFactoryForTests } from "@/stores/search";
-import type { HybridSearch, MergedHit } from "@vanduo-oss/vdl-hybrid-search";
-
-const makeHit = (title: string, id: string): MergedHit => ({
-  score: 0.9,
-  source: "fuzzy",
-  doc: {
-    id,
-    title,
-    route: `/${id}`,
-    icon: "cube",
-    category: "Actions",
-    tab: "components",
-    tabTitle: "Components",
-    keywords: [],
-  },
-});
-
-const createMockEngine = (): HybridSearch =>
-  ({
-    queryMinLength: 2,
-    queryMaxLength: 240,
-    onSemanticProgress: vi.fn(() => () => {}),
-    initFuzzy: vi.fn(async () => {}),
-    initSemantic: vi.fn(async () => {}),
-    isSemanticReady: vi.fn(() => false),
-    search: vi.fn(async (query: string) => {
-      const q = query.toLowerCase();
-      const all = [
-        makeHit("Button", "button"),
-        makeHit("Button Groups", "button-groups"),
-      ];
-      const merged = all.filter((h) => h.doc.title.toLowerCase().includes(q));
-      return { query, mode: "fuzzy" as const, fuzzy: [], semantic: [], merged };
-    }),
-  }) as unknown as HybridSearch;
+import { __setSearchDocumentsForTests } from "@/stores/search";
 
 const makeRouter = () =>
   createRouter({
@@ -56,14 +20,33 @@ const pressKey = (init: KeyboardEventInit): void => {
 describe("GlobalSearchModal", () => {
   beforeEach(() => {
     vi.useFakeTimers();
-    localStorage.removeItem(AI_SEARCH_DISCLAIMER_ACK_KEY);
-    __setSearchEngineFactoryForTests(() => createMockEngine());
+    __setSearchDocumentsForTests([
+      {
+        id: "button",
+        title: "Button",
+        route: "/button",
+        icon: "cube",
+        category: "Actions",
+        tab: "components",
+        tabTitle: "Components",
+        keywords: ["click"],
+      },
+      {
+        id: "button-groups",
+        title: "Button Groups",
+        route: "/button-groups",
+        icon: "cube",
+        category: "Actions",
+        tab: "components",
+        tabTitle: "Components",
+        keywords: ["group"],
+      },
+    ]);
   });
 
   afterEach(() => {
-    __setSearchEngineFactoryForTests(null);
+    __setSearchDocumentsForTests(null);
     vi.useRealTimers();
-    localStorage.removeItem(AI_SEARCH_DISCLAIMER_ACK_KEY);
     document.body.innerHTML = "";
   });
 
@@ -115,7 +98,7 @@ describe("GlobalSearchModal", () => {
     wrapper.unmount();
   });
 
-  it("shows AI toggle off by default and disclaimer when enabled", async () => {
+  it("does not show an AI toggle when semantic search is disabled", async () => {
     const pinia = createPinia();
     const wrapper = mount(GlobalSearchModal, {
       global: {
@@ -128,62 +111,12 @@ describe("GlobalSearchModal", () => {
     pressKey({ key: "k", metaKey: true });
     await wrapper.vm.$nextTick();
 
-    const toggle = document.body.querySelector(
-      '.vd-form-switch input[role="switch"]',
-    ) as HTMLInputElement;
-    expect(toggle.checked).toBe(false);
     expect(
-      document.body.querySelector(".vd-form-switch-label")?.textContent,
-    ).toContain("Semantic Search (BETA)");
+      document.body.querySelector('.vd-form-switch input[role="switch"]'),
+    ).toBeNull();
     expect(
       document.body.querySelector(".vd-global-search-ai-notice"),
     ).toBeNull();
-
-    toggle.click();
-    await wrapper.vm.$nextTick();
-    expect(
-      document.body.querySelector(".vd-global-search-ai-notice"),
-    ).toBeTruthy();
-    expect(
-      document.body.querySelector(".vd-global-search-ai-notice")?.textContent,
-    ).toContain("EU AI Act");
-
-    wrapper.unmount();
-  });
-
-  it("hides disclaimer after acknowledge without disabling AI", async () => {
-    const pinia = createPinia();
-    const wrapper = mount(GlobalSearchModal, {
-      global: {
-        plugins: [pinia, makeRouter()],
-        stubs: { Teleport: false },
-      },
-      attachTo: document.body,
-    });
-
-    pressKey({ key: "k", metaKey: true });
-    await wrapper.vm.$nextTick();
-
-    const toggle = document.body.querySelector(
-      '.vd-form-switch input[role="switch"]',
-    ) as HTMLInputElement;
-    toggle.click();
-    await wrapper.vm.$nextTick();
-
-    const notice = document.body.querySelector(".vd-global-search-ai-notice");
-    expect(notice).toBeTruthy();
-    expect(getComputedStyle(notice!).display).not.toBe("none");
-
-    const ack = document.body.querySelector(
-      ".global-search-ai-notice-ack",
-    ) as HTMLButtonElement;
-    ack.click();
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();
-
-    expect(localStorage.getItem(AI_SEARCH_DISCLAIMER_ACK_KEY)).toBe("1");
-    expect(toggle.checked).toBe(true);
-    expect(getComputedStyle(notice!).display).toBe("none");
 
     wrapper.unmount();
   });

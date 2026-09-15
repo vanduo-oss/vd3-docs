@@ -2,9 +2,10 @@
 
 ## Purpose
 Keep the private vd3-docs site building, testing, and deploying against
-exact published `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, and
-`@vanduo-oss/vd3-flowchart` pins, plus `@vanduo-oss/vdl-cbun` for /cbun
-previews and docs syntax highlighting.
+`@vanduo-oss/vd3` (published pin or temporary `link:../vd3` dogfood),
+exact published `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`
+pins, plus `@vanduo-oss/vdl-cbun` for /cbun previews. Syntax highlighting
+comes from `@vanduo-oss/vd3/highlight`.
 
 ## Requirements
 
@@ -13,15 +14,15 @@ previews and docs syntax highlighting.
 The site's `package.json` SHALL be named `@vanduo-oss/vd3-docs` and remain
 `private: true` (never published). Its runtime dependencies SHALL declare
 `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
-`@vanduo-oss/vdl-cbun`, and MUST NOT declare `@vanduo-oss/vd3-cbun` or any of
+`@vanduo-oss/vdl-cbun`, and MUST NOT declare `@vanduo-oss/vd3-cbun`,
+`@vanduo-oss/vdl-hybrid-search`, or any of
 `@vanduo-oss/core`, `@vanduo-oss/framework`, `@vanduo-oss/vue`,
 `@vanduo-oss/charts`, `@vanduo-oss/flowchart`, `@vanduo-oss/hex-grid`, or
-`@vanduo-oss/music-player`. The three vd3 kit dependencies SHALL be the
-PUBLISHED packages resolved from the npm registry — `@vanduo-oss/vd3` at
-exact `1.7.2`, `@vanduo-oss/vd3-charts` at exact `1.1.0`, and
-`@vanduo-oss/vd3-flowchart` at exact `1.2.0`. Labs siblings `@vanduo-oss/vdl-cbun`
-and `@vanduo-oss/vdl-hybrid-search` MUST use `link:../../vdl-*` (sibling repos
-outside `perspective/`) — they are not an npm family. `.npmrc` SHALL set
+`@vanduo-oss/music-player`. Charts and flowchart SHALL be the PUBLISHED
+packages at exact `1.1.0` and `1.2.0`. `@vanduo-oss/vd3` SHALL target `1.7.3`
+(exact published pin, or temporary `link:../vd3` while that release is
+unreleased). Labs sibling `@vanduo-oss/vdl-cbun` MUST use
+`link:../../vdl/vdl-cbun` — it is not an npm family. `.npmrc` SHALL set
 `save-exact=true`. The committed
 manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 
@@ -30,29 +31,31 @@ manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 - **GIVEN** the site's `package.json` after this change
 - **WHEN** its `name`, `private`, and `dependencies` are inspected
 - **THEN** `name` is `@vanduo-oss/vd3-docs`, `private` is `true`, runtime
-  deps include `@vanduo-oss/vd3` (`1.7.2`), `@vanduo-oss/vd3-charts`
-  (`1.1.0`), `@vanduo-oss/vd3-flowchart` (`1.2.0`), `@vanduo-oss/vdl-cbun`
-  (`link:../../vdl-cbun`), and `@vanduo-oss/vdl-hybrid-search`
-  (`link:../../vdl-hybrid-search`), there is no `@vanduo-oss/vd3-cbun`, and none of
+  deps include `@vanduo-oss/vd3` (`1.7.3` or `link:../vd3`), `@vanduo-oss/vd3-charts`
+  (`1.1.0`), `@vanduo-oss/vd3-flowchart` (`1.2.0`), and `@vanduo-oss/vdl-cbun`
+  (`link:../../vdl/vdl-cbun`), there is no `@vanduo-oss/vd3-cbun` or
+  `@vanduo-oss/vdl-hybrid-search`, and none of
   `core`, `framework`, `vue`, the retired `@vanduo-oss/charts`,
   `@vanduo-oss/flowchart`, `hex-grid`, or `music-player` appear as dependency
   names
 
-#### Scenario: published vd3 packages resolve from the registry
+#### Scenario: kit packages resolve for install
 
-- **GIVEN** the committed `package.json` pinning exact `1.7.2` / `1.1.0` /
-  `1.2.0` vd3 kit deps and `save-exact=true`
-- **WHEN** `pnpm install` runs from the docs repo with Labs siblings checked out
-- **THEN** those three packages resolve to the published registry versions,
-  `@vanduo-oss/vdl-cbun` and `@vanduo-oss/vdl-hybrid-search` resolve via
-  `link:../../vdl-*`,
-  and the install succeeds with no `@vanduo-oss/vd3-cbun` entry
+- **GIVEN** the committed `package.json` targeting vd3 `1.7.3` (pin or
+  `link:../vd3`), exact `1.1.0` / `1.2.0` charts/flowchart, and
+  `save-exact=true`
+- **WHEN** `pnpm install` runs from the docs repo with linked siblings
+  checked out
+- **THEN** those packages resolve, `@vanduo-oss/vdl-cbun` resolves via
+  `link:../../vdl/vdl-cbun`,
+  and the install succeeds with no `@vanduo-oss/vd3-cbun` or
+  `@vanduo-oss/vdl-hybrid-search` entry
 
 #### Scenario: unpublished library trees resolve via link
 
 - **GIVEN** a contributor rendering unreleased library work locally
 - **WHEN** they `pnpm link` (or `link:`) sibling `../vd3` / `../vd3-charts` /
-  `../vd3-flowchart` or `../../vdl-cbun` working trees
+  `../vd3-flowchart` or `../../vdl/vdl-cbun` working trees
 - **THEN** those linked builds resolve for the local session
 
 ### Requirement: single stylesheet and plugin entry with no vanilla runtime
@@ -357,17 +360,17 @@ class-emission test.
   `--vd-*` override declaration block, and the script→template→style ordering of
   the emitted SFC
 
-### Requirement: hybrid search indexer and eval scripts
+### Requirement: Fuse-only search corpus
 
-The repository SHALL provide `scripts/hybrid-search-indexer.mjs` and
-`scripts/hybrid-search-eval.mjs`, exposed as `package.json` scripts
-`index` and `index:eval`. Maintainers MUST be able to regenerate committed
-`public/search/search-index.json` and `public/search/vectors.json` without
-embedding that work in every deploy build.
+The repository SHALL commit `public/search/search-index.json` as the Fuse.js
+corpus for Cmd+K / Doc Search. It MUST NOT depend on
+`@vanduo-oss/vdl-hybrid-search`, `@huggingface/transformers`,
+`public/search/vectors.json`, or `pnpm index` / `pnpm index:eval` hybrid
+scripts.
 
-#### Scenario: scripts are wired
+#### Scenario: Fuse corpus without hybrid tooling
 
-- **GIVEN** the committed `package.json` and `scripts/` tree
-- **WHEN** the hybrid-search tooling is inspected
-- **THEN** `index` runs `node scripts/hybrid-search-indexer.mjs` and
-  `index:eval` runs `node scripts/hybrid-search-eval.mjs`
+- **GIVEN** the committed `package.json`, `scripts/`, and `public/search/`
+- **WHEN** search tooling is inspected
+- **THEN** Fuse.js is a runtime dependency, `search-index.json` is present,
+  and hybrid indexer/eval scripts plus `vectors.json` are absent

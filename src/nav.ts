@@ -623,21 +623,6 @@ export const nav: NavTree = {
               icon: "globe",
               keywords: ["ecosystem", "tools", "projects", "vd3"],
             },
-            {
-              id: "guide-hybrid-search",
-              title: "Hybrid search",
-              route: "/guides/hybrid-search",
-              icon: "brain",
-              keywords: [
-                "search",
-                "hybrid",
-                "semantic",
-                "embedding",
-                "fuse",
-                "ai",
-                "transformers",
-              ],
-            },
           ],
         },
         {
