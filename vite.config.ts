@@ -69,12 +69,12 @@ const vdlCbunAlias = useLocalVdlCbun
 const docsAppVue = fileURLToPath(new URL("./src/App.vue", import.meta.url));
 
 /**
- * Vite's dep scanner (`extractImportPaths`) regex-lifts bare `import '…'`
- * lines out of `<script lang="ts">` — including ones that only live inside
- * template-literal code snippets on guide pages. Relative `.vue` paths then
- * hit `htmlTypesRE`, fail to resolve next to the guide SFC, and abort the
- * whole scan with UNRESOLVED_IMPORT. During `options.scan` only, map the
- * known false-positive `./App.vue` snippet import to the real app shell.
+ * Vite's dep scanner (`extractImportPaths`) regex-lifts `import '…'` lines
+ * out of `<script lang="ts">`, including ones that only live inside
+ * template-literal guide snippets. Relative `.vue` paths then hit
+ * `htmlTypesRE`, fail next to the guide SFC, and abort the scan with
+ * UNRESOLVED_IMPORT. During `options.scan` only, map the known
+ * `./App.vue` snippet false-positive to the real app shell.
  */
 function stubSnippetAppVueDuringDepScan(): Plugin {
   return {
@@ -113,15 +113,18 @@ export default defineConfig({
   },
   optimizeDeps: {
     // Default crawl is `**/*.html`, which also picks up Playwright HTML
-    // reports under the project root. Pin the SPA entry explicitly.
+    // reports (and similar) under the project root. Pin the SPA entry.
     entries: ["index.html"],
     // Keep the published packages out of the pre-bundle so a contributor can
     // still `pnpm link` sibling trees without a stale dep optimizer cache.
+    // `@nuxtjs/color-mode` is snippet-only (CssVariables guide) — exclude so
+    // extractImportPaths false positives do not abort the dep scan.
     exclude: [
       "@vanduo-oss/vd3",
       "@vanduo-oss/vd3-charts",
       "@vanduo-oss/vd3-flowchart",
       "@vanduo-oss/vdl-cbun",
+      "@nuxtjs/color-mode",
     ],
     include: ["fuse.js"],
   },
