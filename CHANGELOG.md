@@ -4,8 +4,11 @@
 It is not published to npm and keeps no package release history of its own.
 
 The user-facing release history of the packages this site documents —
-[`@vanduo-oss/vd3`](https://www.npmjs.com/package/@vanduo-oss/vd3) and
-[`@vanduo-oss/vd3-cbun`](https://www.npmjs.com/package/@vanduo-oss/vd3-cbun) — is
-rendered on the site's [`/changelog`](src/pages/changelog.vue) page (packages
-only, single-engine). Each package's authoritative changelog lives in its own
+[`@vanduo-oss/vd3`](https://www.npmjs.com/package/@vanduo-oss/vd3),
+[`@vanduo-oss/vd3-charts`](https://www.npmjs.com/package/@vanduo-oss/vd3-charts),
+and
+[`@vanduo-oss/vd3-flowchart`](https://www.npmjs.com/package/@vanduo-oss/vd3-flowchart)
+— is rendered on the site's [`/changelog`](src/pages/changelog.vue) page.
+Canvas widgets come from Labs [`vdl-cbun`](https://github.com/vanduo-oss/vdl-cbun)
+via `link:` (not npm). Each package's authoritative changelog lives in its own
 repository.

@@ -43,7 +43,7 @@
     "@vanduo-oss/vd3-charts": "1.1.0",
     "@vanduo-oss/vd3-flowchart": "1.2.0",
     "@vanduo-oss/vdl-cbun": "link:../../vdl-cbun",
-    "@vanduo-oss/vdl-hybrid-search": "0.2.0",
+    "@vanduo-oss/vdl-hybrid-search": "link:../../vdl-hybrid-search",
     "animejs": "4.5.0",
     "fuse.js": "7.5.0",
     "pinia": "^3.0.4",

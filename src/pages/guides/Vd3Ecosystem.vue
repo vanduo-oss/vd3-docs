@@ -61,7 +61,7 @@ const repos: [string, string, string][] = [
   [
     "vdl-cbun",
     "@vanduo-oss/vdl-cbun",
-    "Labs canvas bundle: code-editor, draw, hex-grid, and music-player, each on its own subpath (hex-grid ships no CSS). Documented on labs.vanduo.dev; this site keeps live /cbun previews.",
+    "Labs canvas bundle: code-editor, draw, hex-grid, and music-player, each on its own subpath (hex-grid ships no CSS). Documented on labs.vanduo.dev; this site keeps theme-aware /cbun screenshots.",
   ],
   [
     "vd3-docs",
@@ -77,7 +77,8 @@ const installCbun = `# Dedicated charts and flowchart packages
 pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart
 
 # Remaining canvas widgets (code-editor / draw / hex-grid / music-player)
-pnpm add @vanduo-oss/vdl-cbun`;
+# Labs sibling — in package.json:
+# "@vanduo-oss/vdl-cbun": "link:../vdl-cbun"`;
 
 const usageJs = `// Components, composables, tokens and CSS all come from one package:
 import { VdButton } from '@vanduo-oss/vd3';

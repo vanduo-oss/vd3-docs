@@ -18,10 +18,6 @@ layout via `VITE_BASE=/vd3-docs/`; production deploy uses `/`).
 Reference `<img src>` attributes are exempt: the Vue SFC compiler rewrites those
 for `base` automatically, so they MAY remain root-absolute.
 
-#### Scenario: music player track URLs load under the project-page base
-- **WHEN** the site is built with `VITE_BASE=/vd3-docs/` and the `/cbun` music-player preview is served
-- **THEN** every audio track URL begins with `/vd3-docs/music/` and the built JS contains no root-absolute `/music/` track path
-
 #### Scenario: expanding-cards backgrounds load under the project-page base
 - **WHEN** the site is built with `VITE_BASE=/vd3-docs/` and the Expanding Cards page is prerendered
 - **THEN** each card image path and the inline `--vd-expanding-card-bg` `url()` begin with `/vd3-docs/images/expanding/`, and neither the prerendered HTML nor the built JS contains a root-absolute `/images/expanding/` path
@@ -32,5 +28,5 @@ for `base` automatically, so they MAY remain root-absolute.
 
 #### Scenario: the same references still work at the root base
 - **WHEN** the site is built or served with the default base `/` (dev, `pnpm preview`, Playwright, unit tests)
-- **THEN** all of the above references resolve to `/music/…` and `/images/…` unchanged, because `import.meta.env.BASE_URL` is `/`
+- **THEN** all of the above references resolve to `/images/…` unchanged, because `import.meta.env.BASE_URL` is `/`
 

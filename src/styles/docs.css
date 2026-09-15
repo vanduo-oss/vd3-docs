@@ -3221,15 +3221,20 @@ a:hover .vd-card-interactive.vd-card-glow {
   padding: 0.3rem 0.45rem;
   min-width: 2.75rem;
   min-height: 2.75rem;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    color 0.18s ease;
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-item :is(.ph, .ph-fill) {
   font-size: 2.15rem;
 }
 
-/* Idle + active follow --vd-dock-tint (ink text when accent is unset). */
+/* Idle: slightly dimmer + a touch smaller; active stays full. */
 .vd-site-dock .vd-dock-links .vd-dock-item:not(.is-active) {
-  opacity: 1;
+  opacity: 0.68;
+  transform: scale(0.92);
   color: color-mix(
     in srgb,
     var(--vd-dock-tint, var(--vd-text-primary)) 88%,
@@ -3238,11 +3243,12 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-item:not(.is-active) .ph {
-  opacity: 0.92;
+  opacity: 0.9;
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-item.is-active {
   opacity: 1;
+  transform: scale(1);
   color: var(--vd-dock-tint, var(--vd-text-primary));
 }
 
@@ -3253,12 +3259,19 @@ a:hover .vd-card-interactive.vd-card-glow {
 .vd-site-dock .vd-dock-links .vd-dock-item:hover:not(.is-active),
 .vd-site-dock .vd-dock-links .vd-dock-item:focus-visible:not(.is-active) {
   opacity: 1;
+  transform: scale(1);
   color: var(--vd-dock-tint, var(--vd-text-primary));
 }
 
 .vd-site-dock .vd-dock-links .vd-dock-item:hover:not(.is-active) .ph,
 .vd-site-dock .vd-dock-links .vd-dock-item:focus-visible:not(.is-active) .ph {
   opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vd-site-dock .vd-dock-links .vd-dock-item {
+    transition: none;
+  }
 }
 
 /* Vertical edges: icon-only nav (labels via tooltip). */

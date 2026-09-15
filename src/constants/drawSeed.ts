@@ -1,6 +1,6 @@
 // Shared showcase seed for vd3 Draw demos.
 // Exported from the interactive Draw demo (hell + yellow smiley); green on dark.
-// Used by Draw.vue and CbunPreviewDraw.vue.
+// Shared draw seed document for demos / tooling.
 
 /** Target inset as a fraction of the shorter canvas edge (~50% artwork fill). */
 export const DRAW_DEMO_FIT_INSET = 0.25;

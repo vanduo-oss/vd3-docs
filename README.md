@@ -8,14 +8,15 @@ Vue 3 design system),
 [`@vanduo-oss/vd3-charts`](https://www.npmjs.com/package/@vanduo-oss/vd3-charts),
 [`@vanduo-oss/vd3-flowchart`](https://www.npmjs.com/package/@vanduo-oss/vd3-flowchart),
 and `/cbun` previews of the remaining canvas widgets from
-`@vanduo-oss/vdl-cbun` (linked locally via `link:../../vdl-cbun` until
-published; full widget docs live on [labs.vanduo.dev](https://labs.vanduo.dev/)),
-consumed alongside published npm pins
+[`@vanduo-oss/vdl-cbun`](https://github.com/vanduo-oss/vdl-cbun) (Labs sibling via
+`link:../../vdl-cbun`; full widget docs live on
+[labs.vanduo.dev](https://labs.vanduo.dev/)), consumed alongside published npm pins
 (`@vanduo-oss/vd3@1.7.2`, `@vanduo-oss/vd3-charts@1.1.0`,
 `@vanduo-oss/vd3-flowchart@1.2.0`), not vendored source.
 Local worktrees may temporarily `link:` the sibling `../vd3` /
-`../vd3-charts` / `../vd3-flowchart` / `../../vdl-cbun` checkouts for unreleased
-library work; the committed manifest keeps the exact published vd3 pins.
+`../vd3-charts` / `../vd3-flowchart` checkouts for unreleased library work; the
+committed manifest keeps the exact published vd3 pins and permanent `link:` deps
+for Labs siblings `vdl-cbun` and `vdl-hybrid-search`.
 Unlike the previous docs site (which
 consumed `@vanduo-oss/framework` CSS classes only), vd3-docs renders the
 actual Vue 3 components a consumer installs.
@@ -49,8 +50,9 @@ pnpm install
 > `ignore-scripts=true`, `minimum-release-age=1440`, `trust-policy=no-downgrade`,
 > `block-exotic-subdeps=true`, `strict-peer-dependencies=true`). The
 > `@vanduo-oss/*` scope is excluded from the 24-hour release-age gate, so the
-> `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
-> `@vanduo-oss/vdl-cbun` publishes are consumed immediately.
+> `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`
+> publishes are consumed immediately. Labs siblings (`vdl-cbun`,
+> `vdl-hybrid-search`) resolve via `link:` and are not published to npm.
 
 ## Scripts
 
@@ -73,7 +75,8 @@ pnpm run test:a11y    # axe accessibility smoke, Chromium Desktop
 
 ### Hybrid search index
 
-Cmd+K uses [`@vanduo-oss/vdl-hybrid-search`](https://www.npmjs.com/package/@vanduo-oss/vdl-hybrid-search)
+Cmd+K uses [`@vanduo-oss/vdl-hybrid-search`](https://github.com/vanduo-oss/vdl-hybrid-search)
+(Labs sibling via `link:../../vdl-hybrid-search`)
 over committed assets in `public/search/` (`search-index.json`, `vectors.json`).
 Semantic retrieval uses **EmbeddingGemma-300M**
 (`onnx-community/embeddinggemma-300m-ONNX`) with task prefixes

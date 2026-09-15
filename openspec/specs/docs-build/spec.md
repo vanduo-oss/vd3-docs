@@ -19,10 +19,10 @@ The site's `package.json` SHALL be named `@vanduo-oss/vd3-docs` and remain
 `@vanduo-oss/music-player`. The three vd3 kit dependencies SHALL be the
 PUBLISHED packages resolved from the npm registry — `@vanduo-oss/vd3` at
 exact `1.7.2`, `@vanduo-oss/vd3-charts` at exact `1.1.0`, and
-`@vanduo-oss/vd3-flowchart` at exact `1.2.0`. Until `@vanduo-oss/vdl-cbun` is
-published, the committed manifest MAY use `link:../../vdl-cbun` (sibling
-outside `perspective/`) so local dogfooding works; once published, prefer an
-exact registry pin. `.npmrc` SHALL set `save-exact=true`. The committed
+`@vanduo-oss/vd3-flowchart` at exact `1.2.0`. Labs siblings `@vanduo-oss/vdl-cbun`
+and `@vanduo-oss/vdl-hybrid-search` MUST use `link:../../vdl-*` (sibling repos
+outside `perspective/`) — they are not an npm family. `.npmrc` SHALL set
+`save-exact=true`. The committed
 manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 
 #### Scenario: manifest names the vd3 line and drops the old line
@@ -31,8 +31,9 @@ manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 - **WHEN** its `name`, `private`, and `dependencies` are inspected
 - **THEN** `name` is `@vanduo-oss/vd3-docs`, `private` is `true`, runtime
   deps include `@vanduo-oss/vd3` (`1.7.2`), `@vanduo-oss/vd3-charts`
-  (`1.1.0`), `@vanduo-oss/vd3-flowchart` (`1.2.0`), and `@vanduo-oss/vdl-cbun`
-  (link or published pin), there is no `@vanduo-oss/vd3-cbun`, and none of
+  (`1.1.0`), `@vanduo-oss/vd3-flowchart` (`1.2.0`), `@vanduo-oss/vdl-cbun`
+  (`link:../../vdl-cbun`), and `@vanduo-oss/vdl-hybrid-search`
+  (`link:../../vdl-hybrid-search`), there is no `@vanduo-oss/vd3-cbun`, and none of
   `core`, `framework`, `vue`, the retired `@vanduo-oss/charts`,
   `@vanduo-oss/flowchart`, `hex-grid`, or `music-player` appear as dependency
   names
@@ -41,9 +42,10 @@ manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 
 - **GIVEN** the committed `package.json` pinning exact `1.7.2` / `1.1.0` /
   `1.2.0` vd3 kit deps and `save-exact=true`
-- **WHEN** `pnpm install` runs from the docs repo
+- **WHEN** `pnpm install` runs from the docs repo with Labs siblings checked out
 - **THEN** those three packages resolve to the published registry versions,
-  `@vanduo-oss/vdl-cbun` resolves (via `link:../../vdl-cbun` or registry),
+  `@vanduo-oss/vdl-cbun` and `@vanduo-oss/vdl-hybrid-search` resolve via
+  `link:../../vdl-*`,
   and the install succeeds with no `@vanduo-oss/vd3-cbun` entry
 
 #### Scenario: unpublished library trees resolve via link
@@ -108,12 +110,14 @@ removed `@vanduo-oss/framework` in `optimizeDeps` or `ssr.noExternal`.
 ### Requirement: remaining widget previews import from vdl-cbun
 
 In-site charts and flowchart pages SHALL import from the dedicated packages.
-`/cbun` preview components and `src/utils/highlight.ts` SHALL import remaining
-widgets from `@vanduo-oss/vdl-cbun` — specifically `VdDraw` from
-`…/draw`, `VdCodeEditor` / highlight from `…/code-editor`, `VdHexGrid` from
-`…/hex-grid`, and `VdMusicPlayer` from `…/music-player`. No
-`@vanduo-oss/vd3-cbun` runtime import SHALL remain in `src/` (historical
-changelog prose MAY still name the old package). No retired
+Unit/integration tests that mount remaining widgets, plus
+`src/utils/highlight.ts`, SHALL import from `@vanduo-oss/vdl-cbun` —
+specifically `VdDraw` from `…/draw`, `VdCodeEditor` / highlight from
+`…/code-editor`, `VdHexGrid` from `…/hex-grid`, and `VdMusicPlayer` from
+`…/music-player`. `/cbun` SHALL NOT mount those four widgets for the vdl
+showcase (theme-aware screenshots instead). No `@vanduo-oss/vd3-cbun` runtime
+import SHALL remain in `src/` (historical changelog prose MAY still name the
+old package). No retired
 `@vanduo-oss/{charts,flowchart,hex-grid,music-player}` specifier SHALL remain
 in `src/` code or install snippets.
 
@@ -124,9 +128,10 @@ in `src/` code or install snippets.
 - **THEN** charts resolve through `@vanduo-oss/vd3-charts` and flowchart
   through `@vanduo-oss/vd3-flowchart`
 
-#### Scenario: /cbun previews and highlight use vdl-cbun
+#### Scenario: highlight and widget tests use vdl-cbun
 
-- **GIVEN** the `CbunPreview*` components and `src/utils/highlight.ts`
+- **GIVEN** `src/utils/highlight.ts` and the unit specs that mount remaining
+  widgets
 - **WHEN** their imports are read
 - **THEN** each resolves through `@vanduo-oss/vdl-cbun/*` and none through
   `@vanduo-oss/vd3-cbun/*`

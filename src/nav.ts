@@ -68,6 +68,8 @@ export const nav: NavTree = {
         "music player",
         "labs",
         "auxiliary",
+        "split",
+        "npm",
       ],
     },
     {

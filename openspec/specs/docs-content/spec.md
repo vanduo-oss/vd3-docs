@@ -304,22 +304,41 @@ Full documentation lives on labs:
 
 ### Requirement: /cbun showcase splits vd3 and vdl lines
 
-`/cbun` (`src/pages/cbun.vue`) SHALL keep live showcase cards for both lines
-with a visual **vd3 | vdl** separator between them. The **vd3** line SHALL
-include charts and flowchart cards whose Documentation links stay on this site
-(`/canvas/charts`, `/canvas/flowchart`). The **vdl** line SHALL include draw,
-code-editor, music-player, and hex-grid with live previews importing from
-`@vanduo-oss/vdl-cbun/*`, and Documentation links SHALL be absolute labs URLs
-(`https://labs.vanduo.dev/#widgets/{draw,code-editor,music-player,hex}`).
-`CbunShowcaseRow` MUST support external Documentation hrefs (not only
-`RouterLink`).
+`/cbun` (`src/pages/cbun.vue`) SHALL keep a visual **vd3 | vdl** separator
+between lines. The **vd3** line SHALL include charts and flowchart cards with
+live previews and Documentation links on this site (`/canvas/charts`,
+`/canvas/flowchart`). The **vdl** line SHALL include draw, hex-grid,
+music-player, and code-editor as **four stacked rows** (image left, short
+explanation right) using theme-aware screenshots (light + dark assets under
+`public/images/cbun/`, swapped via `html[data-theme]` /
+`prefers-color-scheme`) — NOT live `VdDraw` / `VdHexGrid` / `VdMusicPlayer` /
+`VdCodeEditor` mounts on this page. The vdl section SHALL expose exactly three
+outbound links for the whole section: Labs widgets
+(`https://labs.vanduo.dev/#widgets`), Labs GitHub
+(`https://github.com/vanduo-oss/labs`), and vdl-cbun GitHub
+(`https://github.com/vanduo-oss/vdl-cbun`) — not per-widget Documentation
+buttons. `CbunShowcaseRow` MUST still support external Documentation hrefs for
+any remaining external docs use. The page SHALL end with a **Why the split?**
+section that states attention is limited: the vd3 line
+(`@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`) stays reviewed,
+documented on this site, and published on npm; Labs / `@vanduo-oss/vdl-cbun`
+widgets are best-effort with no guarantee of steady updates.
 
-#### Scenario: separator and labs docs links
+#### Scenario: separator and vdl screenshot rows
 
 - **GIVEN** `/cbun` after this change
 - **WHEN** the page is rendered
-- **THEN** vd3 cards appear above a visual vd3|vdl separator, vdl cards appear
-  below it, and each vdl Documentation control points at the matching labs URL
+- **THEN** vd3 cards appear above a visual vd3|vdl separator, four stacked vdl
+  screenshot rows appear below it (draw, hex, music player, code editor), and
+  the vdl section shows exactly the three Labs / GitHub links above
+
+#### Scenario: Why the split explains limited attention
+
+- **GIVEN** `/cbun` after this change
+- **WHEN** the page is rendered
+- **THEN** a heading "Why the split?" appears after the vdl links
+- **AND** the section states that vd3 charts/flowchart are published on npm
+  with focused maintenance, and that Labs / vdl-cbun has no update guarantee
 
 ### Requirement: the About page is a vd3 overview, not vd2 founder copy
 

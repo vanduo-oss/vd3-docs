@@ -11,8 +11,8 @@ const APP_VERSION = JSON.parse(
   ),
 ).version as string;
 
-// Until @vanduo-oss/vdl-cbun is on the registry, package.json uses link: and
-// Vite needs explicit subpath aliases (exports alone fail for linked CSS/JS).
+// @vanduo-oss/vdl-cbun is a Labs sibling (link:); Vite needs explicit subpath
+// aliases (exports alone fail for linked CSS/JS).
 const vdlCbunRoot = fileURLToPath(new URL("../../vdl-cbun", import.meta.url));
 const vdlCbunDist = path.join(vdlCbunRoot, "dist");
 const useLocalVdlCbun = existsSync(path.join(vdlCbunDist, "index.js"));

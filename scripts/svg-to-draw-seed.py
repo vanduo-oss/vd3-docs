@@ -169,7 +169,7 @@ def main() -> None:
     lines = [
         "// Shared showcase seed for vd3 Draw demos.",
         "// Exported from the interactive Draw demo (hell + yellow smiley); green on dark.",
-        "// Used by Draw.vue and CbunPreviewDraw.vue.",
+        "// Shared draw seed document for demos / tooling.",
         "",
         "export const drawSeedDoc = {",
         '  version: "1.1.0",',

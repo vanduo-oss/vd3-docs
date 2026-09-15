@@ -87,7 +87,7 @@ const features: Feature[] = [
     title: "Canvas widgets",
     teaser:
       "Dedicated charts and flowchart packages, plus the labs canvas bundle.",
-    body: "@vanduo-oss/vd3-charts and @vanduo-oss/vd3-flowchart are the dedicated chart and flowchart packages these docs dogfood. @vanduo-oss/vdl-cbun ships hex-grid, code-editor, draw, and music-player — live previews on /cbun, full docs on labs.vanduo.dev. Same tokens, same zero-dependency rule — no d3, no Three.js.",
+    body: "@vanduo-oss/vd3-charts and @vanduo-oss/vd3-flowchart are the dedicated chart and flowchart packages these docs dogfood. @vanduo-oss/vdl-cbun ships hex-grid, code-editor, draw, and music-player — screenshots on /cbun, full docs on labs.vanduo.dev. Same tokens, same zero-dependency rule — no d3, no Three.js.",
     guide: { to: "/cbun", label: "Canvas & media widgets" },
   },
   {

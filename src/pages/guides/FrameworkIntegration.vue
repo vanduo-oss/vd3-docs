@@ -11,7 +11,8 @@ pnpm add @vanduo-oss/vd3-charts
 pnpm add @vanduo-oss/vd3-flowchart
 
 # Optional — remaining canvas widgets (code-editor, draw, hex-grid, music-player)
-pnpm add @vanduo-oss/vdl-cbun`;
+# Labs sibling — in package.json:
+# "@vanduo-oss/vdl-cbun": "link:../vdl-cbun"`;
 
 const mainJs = `// main.ts — register the plugin and the stylesheet once
 import { createApp } from 'vue';

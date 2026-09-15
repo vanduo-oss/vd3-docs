@@ -7,7 +7,8 @@ pnpm add @vanduo-oss/vd3@1.7.2
 pnpm add @vanduo-oss/vd3-charts@1.1.0
 pnpm add @vanduo-oss/vd3-flowchart@1.2.0
 # Remaining canvas widgets (docs on labs.vanduo.dev)
-pnpm add @vanduo-oss/vdl-cbun`;
+# Labs sibling — in package.json:
+# "@vanduo-oss/vdl-cbun": "link:../vdl-cbun"`;
 
 const entryJs = `// main.ts — CSS once, plugin once, named JS imports elsewhere
 import { createApp } from 'vue';
