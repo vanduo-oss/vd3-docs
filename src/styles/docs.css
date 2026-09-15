@@ -2942,13 +2942,13 @@ a:hover .vd-card-interactive.vd-card-glow {
   );
 }
 
-/* ── Changelog: 2×2 (vd3 | cbun, then charts | flowchart) ── */
+/* ── Changelog: 3 columns (vd3 | charts | flowchart) ── */
 .changelog-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2.5rem;
   align-items: start;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 3rem 1rem;
 }
