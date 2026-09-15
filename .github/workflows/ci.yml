@@ -6,19 +6,35 @@ on:
   pull_request:
     branches: [main]
 
-# All @vanduo-oss/* dependencies install from npm (the @vanduo-oss/* scope is
-# excluded from the .npmrc minimum-release-age delay), so this is single-repo.
+# Published @vanduo-oss/vd3* pins install from npm. Labs siblings
+# (@vanduo-oss/vdl-cbun, @vanduo-oss/vdl-hybrid-search) are link:-only — CI
+# checks them out beside perspective/vd3-docs to match link:../../vdl-*.
 
-# Least-privilege default token: this workflow only reads the repo.
+# Least-privilege default token: this workflow only reads the repo (+ public siblings).
 permissions:
   contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: perspective/vd3-docs
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: perspective/vd3-docs
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: vanduo-oss/vdl-cbun
+          path: vdl-cbun
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: vanduo-oss/vdl-hybrid-search
+          path: vdl-hybrid-search
 
       - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
         with:
@@ -28,6 +44,20 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
+          cache-dependency-path: |
+            perspective/vd3-docs/pnpm-lock.yaml
+            vdl-cbun/pnpm-lock.yaml
+            vdl-hybrid-search/pnpm-lock.yaml
+
+      - name: Install and build Labs siblings
+        working-directory: ${{ github.workspace }}
+        run: |
+          for pkg in vdl-cbun vdl-hybrid-search; do
+            echo "::group::Build $pkg"
+            pnpm install --frozen-lockfile --dir "$pkg"
+            pnpm run --dir "$pkg" build
+            echo "::endgroup::"
+          done
 
       - run: pnpm install --frozen-lockfile
 
