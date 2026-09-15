@@ -14,6 +14,9 @@ interface CbunEntry {
   strengths: string[];
   docsTo: string;
   preview: Component;
+  installShell: string;
+  /** Brief CSS import shown beside the shell tab. */
+  installCss: string;
 }
 
 interface VdlShotEntry {
@@ -41,6 +44,8 @@ const vd3Entries: CbunEntry[] = [
     ],
     docsTo: "/canvas/charts",
     preview: CbunPreviewCharts,
+    installShell: `pnpm add @vanduo-oss/vd3-charts`,
+    installCss: `import '@vanduo-oss/vd3-charts/css';`,
   },
   {
     id: "flowchart",
@@ -56,6 +61,8 @@ const vd3Entries: CbunEntry[] = [
     ],
     docsTo: "/canvas/flowchart",
     preview: CbunPreviewFlowchart,
+    installShell: `pnpm add @vanduo-oss/vd3-flowchart`,
+    installCss: `import '@vanduo-oss/vd3-flowchart/css';`,
   },
 ];
 
@@ -117,8 +124,9 @@ const vdlLinks = [
   },
 ] as const;
 
-const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart
-# Labs sibling — "@vanduo-oss/vdl-cbun": "link:../vdl-cbun"`;
+/** Labs sibling — keep near the vdl screenshot section, not mixed into vd3 installs. */
+const labsInstallShell = `# Labs sibling — in package.json:
+# "@vanduo-oss/vdl-cbun": "link:../vdl-cbun"`;
 </script>
 
 <template>
@@ -147,28 +155,31 @@ const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart
         <strong>CBUN</strong> is the optional companion layer beside
         <code>@vanduo-oss/vd3</code>. Scroll the showcase below — vd3 widgets
         first (live demos), then the vdl line (theme-aware screenshots).
+        Install each package under its canvas block.
       </p>
-      <DocCodeSnippet
-        :shell="installShell"
-        toggle-label="Installation"
-        :default-open="true"
-      />
     </div>
 
     <div class="vd-container-responsive cbun-showcase">
       <p class="cbun-line-label">vd3</p>
-      <CbunShowcaseRow
-        v-for="(entry, index) in vd3Entries"
-        :key="entry.id"
-        :title="entry.title"
-        :icon="entry.icon"
-        :blurb="entry.blurb"
-        :strengths="entry.strengths"
-        :docs-to="entry.docsTo"
-        :reversed="index % 2 === 1"
-      >
-        <component :is="entry.preview" />
-      </CbunShowcaseRow>
+      <template v-for="(entry, index) in vd3Entries" :key="entry.id">
+        <CbunShowcaseRow
+          :title="entry.title"
+          :icon="entry.icon"
+          :blurb="entry.blurb"
+          :strengths="entry.strengths"
+          :docs-to="entry.docsTo"
+          :reversed="index % 2 === 1"
+        >
+          <component :is="entry.preview" />
+        </CbunShowcaseRow>
+        <DocCodeSnippet
+          class="cbun-install"
+          :shell="entry.installShell"
+          :js="entry.installCss"
+          toggle-label="Installation"
+          :default-open="true"
+        />
+      </template>
 
       <div class="cbun-separator" role="separator" aria-label="vd3 and vdl">
         <span class="cbun-separator-line" />
@@ -181,6 +192,12 @@ const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart
       </div>
 
       <p class="cbun-line-label">vdl</p>
+      <DocCodeSnippet
+        class="cbun-install cbun-install-labs"
+        :shell="labsInstallShell"
+        toggle-label="Labs sibling"
+        :default-open="true"
+      />
       <div class="cbun-vdl-stack">
         <CbunVdlRow
           v-for="entry in vdlEntries"
@@ -254,6 +271,16 @@ const installShell = `pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart
 .cbun-showcase {
   padding-top: 1rem;
   padding-bottom: 2rem;
+}
+
+.cbun-install {
+  max-width: 48rem;
+  margin: -0.5rem 0 2rem;
+}
+
+.cbun-install-labs {
+  margin-top: 0.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .cbun-why {
