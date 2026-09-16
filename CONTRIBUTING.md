@@ -6,11 +6,7 @@ Thanks for your interest in `vd3-docs`.
 
 `vd3-docs` is the documentation and demo site for the **vd3 line** of Vanduo UI
 (`private: true`). It dogfoods the published `@vanduo-oss/vd3`,
-`@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart` packages and
-`@vanduo-oss/vdl-cbun` for remaining canvas previews. Work ships via **feature branch → pull request
-→ merge to `main`**. CI runs on the PR; GitHub Pages deploys from `main` after
-merge. Do not push commits directly to `main`.
-
+`@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart` packages.
 
 ## Development Setup
 
@@ -78,24 +74,16 @@ Archived changes in the tree:
 - `docs-clone-and-strip` — cloned the prior docs site and stripped it to a
   Vue3-only surface for the vd3 line.
 - `docs-content` — Vue3-only content that dogfoods the real `@vanduo-oss/vd3` /
-  `@vanduo-oss/vdl-cbun` (and dedicated charts/flowchart) components.
+  dedicated charts/flowchart components.
 - `docs-hardening` — visual-parity baselines, axe a11y smoke, and the size
   budget.
 
 ## Branch and Push Policy
 
-- Work on a short-lived **feature branch** (e.g. `docs/…`). Package-style
-  `dev-vXXX` names are **not** required for this docs repo.
-- Open a **pull request into `main`**. Do **not** push commits directly to
-  `main`. Before starting, `git fetch` and fast-forward your local `main` to
-  `origin/main`, then branch from it.
-- CI runs on the PR. After merge, GitHub Pages deploys from `main`
-  automatically.
-- For larger changes, add an OpenSpec folder under `openspec/changes/` to
-  record the spec.
-
-> **CI note:** the workflow pins Node 24 to match `engines.node` in
-> `package.json`.
+Start a `dev-vXXX` branch from freshly fetched `origin/main`. Keep work and commits
+local until the user and agent are satisfied with local QA. Push, PR, merge,
+publish, and deploy each require explicit authorization. Do not edit `main`.
+Record meaningful changes in `openspec/changes/` and retain local QA evidence.
 
 ## Updating Visual Baselines
 
@@ -120,8 +108,7 @@ changes may not force a baseline rewrite.)
   `pnpm run format` to fix locally.
 - **Dogfood the published packages** — render the real `Vd*` components,
   composables, and theme layer from `@vanduo-oss/vd3` (and the canvas widgets
-  from `@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
-  `@vanduo-oss/vdl-cbun`) rather than reimplementing them. The site
+  from `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`) rather than reimplementing them. The site
   registers the `VanduoVue` plugin and imports `@vanduo-oss/vd3/css`.
 - **Component naming** — doc-site SFCs are PascalCase files under `src/`
   (`layout/`, `overlays/`, `pages/`, …); the `Vd*` component names come from the
@@ -154,5 +141,4 @@ Internal coordination happens in OpenSpec change folders and in
 `openspec/specs/`. For the packages this site consumes, see
 [`@vanduo-oss/vd3`](https://github.com/vanduo-oss/vd3),
 [`@vanduo-oss/vd3-charts`](https://github.com/vanduo-oss/vd3-charts),
-[`@vanduo-oss/vd3-flowchart`](https://github.com/vanduo-oss/vd3-flowchart), and
-[`@vanduo-oss/vdl-cbun`](https://github.com/vanduo-oss/vdl-cbun).
+[`@vanduo-oss/vd3-flowchart`](https://github.com/vanduo-oss/vd3-flowchart).

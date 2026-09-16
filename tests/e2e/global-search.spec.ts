@@ -28,6 +28,9 @@ test.describe("Global Fuse search", () => {
     await expect(
       dialog.getByRole("switch", { name: "Semantic Search (BETA)" }),
     ).toHaveCount(0);
+    await listbox.getByRole("option").filter({ hasText: "Modal" }).first().click();
+    await expect(page).toHaveURL(/\/components\/modal$/);
+    await expect(page.locator("#modal .demo-title")).toBeVisible();
   });
 
   test("sits below the top Oola dock on mobile", async ({ page }) => {

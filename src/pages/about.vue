@@ -102,10 +102,8 @@ import "@/styles/hero-display-font.css";
               dropdowns, toasts, validation, scrolling, and drag-and-drop.
             </li>
             <li>
-              Dedicated <code>@vanduo-oss/vd3-charts</code> and
-              <code>@vanduo-oss/vd3-flowchart</code> packages, plus
-              <code>@vanduo-oss/vdl-cbun</code> for a code editor, draw, hex
-              grids, and a music player (documented on labs).
+              Optional <code>@vanduo-oss/vd3-charts</code> and
+              <code>@vanduo-oss/vd3-flowchart</code> packages.
             </li>
           </ul>
 

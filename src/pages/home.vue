@@ -44,13 +44,13 @@ const features: Feature[] = [
     icon: "ph-database",
     title: "One Source of Truth",
     teaser: "Change one token; the whole system re-skins.",
-    body: "Tokens ship as DTCG JSON and compile to the CSS variables every component reads — the same variables the vdl-cbun widgets read. Retune a value once and nothing drifts out of sync.",
+    body: "Shared CSS variables keep components, charts, and flowchart in the same theme. DTCG JSON is available for tooling.",
     guide: { to: "/guides/css-variables", label: "CSS Variables & Theming" },
   },
   {
     icon: "ph-wheelchair",
-    title: "Accessible by Default",
-    teaser: "Focus traps, roving tabindex, reduced motion — already on.",
+    title: "Keyboard and focus support",
+    teaser: "Focus handling, keyboard controls, and reduced motion.",
     body: "ARIA roles, visible focus rings, keyboard paths through every menu, tree, and dialog, and prefers-reduced-motion honoured across roughly two dozen stylesheets. Mostly you just avoid undoing it.",
     guide: { to: "/guides/accessibility", label: "Accessibility Essentials" },
   },
@@ -85,9 +85,8 @@ const features: Feature[] = [
   {
     icon: "ph-squares-four",
     title: "Canvas widgets",
-    teaser:
-      "Dedicated charts and flowchart packages, plus the labs canvas bundle.",
-    body: "@vanduo-oss/vd3-charts and @vanduo-oss/vd3-flowchart are the dedicated chart and flowchart packages these docs dogfood. @vanduo-oss/vdl-cbun ships hex-grid, code-editor, draw, and music-player — screenshots on /cbun, full docs on labs.vanduo.dev. Same tokens, same zero-dependency rule — no d3, no Three.js.",
+    teaser: "Optional packages for charts and diagram editing.",
+    body: "Six SVG chart types and a flowchart editor with layouts, routing, and undo/redo. Install either package when you need it.",
     guide: { to: "/cbun", label: "Canvas & media widgets" },
   },
   {
@@ -190,11 +189,11 @@ const sampleIcons = [
 const swatches = [
   { label: "Red", bg: "var(--vd-oc-red-6)" },
   { label: "Orange", bg: "var(--vd-oc-orange-6)" },
-  { label: "Yellow", bg: "var(--vd-oc-yellow-6)", light: true },
+  { label: "Yellow", bg: "var(--vd-oc-yellow-6)" },
   { label: "Green", bg: "var(--vd-oc-green-6)" },
   { label: "Teal", bg: "var(--vd-oc-teal-6)" },
   { label: "Blue", bg: "var(--vd-oc-blue-6)" },
-  { label: "Violet", bg: "var(--vd-oc-violet-6)" },
+  { label: "Violet", bg: "var(--vd-oc-violet-6)", ink: "#ffffff" },
   { label: "Pink", bg: "var(--vd-oc-pink-6)" },
 ];
 </script>
@@ -285,14 +284,6 @@ const swatches = [
             <div
               class="vd-card vd-card-glow vd-glass vd-glass-floating vd-text-center vd-morph feature-morph-card"
               data-vd-morph
-              role="button"
-              tabindex="0"
-              :aria-expanded="flipped[i]"
-              :aria-label="
-                flipped[i]
-                  ? `${feature.title} — hide details`
-                  : `${feature.title} — reveal details`
-              "
               @click="onFeatureMorph(i, $event)"
               @keydown="onFeatureKeydown(i, $event)"
             >
@@ -306,9 +297,6 @@ const swatches = [
                 ></i>
                 <h4 class="feature-morph-title">{{ feature.title }}</h4>
                 <p class="feature-morph-teaser">{{ feature.teaser }}</p>
-                <span class="feature-morph-hint vd-text-muted">
-                  <i class="ph ph-caret-down" aria-hidden="true"></i> Details
-                </span>
               </span>
               <span class="vd-morph-content feature-morph-face vd-morph-next">
                 <h4 class="feature-morph-title">{{ feature.title }}</h4>
@@ -328,6 +316,18 @@ const swatches = [
                   <i class="ph ph-arrow-right" aria-hidden="true"></i>
                 </RouterLink>
               </span>
+              <button
+                type="button"
+                class="feature-morph-toggle"
+                :aria-expanded="flipped[i]"
+                :aria-label="
+                  flipped[i]
+                    ? `${feature.title} — hide details`
+                    : `${feature.title} — reveal details`
+                "
+              >
+                {{ flipped[i] ? "Less" : "Details" }}
+              </button>
             </div>
           </div>
         </div>
@@ -477,8 +477,7 @@ const swatches = [
                   v-for="s in swatches"
                   :key="s.label"
                   class="open-color-swatch"
-                  :class="{ 'is-light': s.light }"
-                  :style="{ background: s.bg }"
+                  :style="{ background: s.bg, color: s.ink ?? '#000000' }"
                 >
                   {{ s.label }}
                 </div>

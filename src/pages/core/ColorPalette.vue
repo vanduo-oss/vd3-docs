@@ -35,7 +35,7 @@ const contrast = (a: string, b: string): number => {
 };
 /** Pick the more legible foreground (dark vs white) for a background hex. */
 const fgFor = (hex: string): string =>
-  contrast(hex, "#ffffff") >= contrast(hex, "#212529") ? "#ffffff" : "#212529";
+  contrast(hex, "#ffffff") >= contrast(hex, "#000000") ? "#ffffff" : "#000000";
 
 /** WCAG rating for a contrast ratio (against the swatch's chosen text colour). */
 const wcagLabel = (ratio: number): string =>
@@ -591,7 +591,7 @@ const themingCss = `:root {
 }
 
 .color-swatch-hex {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .color-swatch-wcag {
@@ -600,7 +600,7 @@ const themingCss = `:root {
   padding: 0.05rem 0.4rem;
   border-radius: 999px;
   border: 1px solid currentColor;
-  opacity: 0.85;
+  opacity: 1;
   letter-spacing: 0.02em;
 }
 
@@ -623,5 +623,20 @@ const themingCss = `:root {
   background: var(--vd-bg-secondary);
   padding: 0.125rem 0.375rem;
   border-radius: 3px;
+}
+</style>
+
+<style scoped>
+[data-theme] code {
+  color: inherit;
+  background: transparent;
+}
+
+[data-theme] {
+  --vd-text-muted: color-mix(
+    in srgb,
+    var(--vd-text-primary) 75%,
+    var(--vd-bg-primary)
+  );
 }
 </style>

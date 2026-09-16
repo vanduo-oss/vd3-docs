@@ -5,10 +5,7 @@ import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 const pinShell = `# Pin exact versions so visual output is reproducible
 pnpm add @vanduo-oss/vd3@1.7.3
 pnpm add @vanduo-oss/vd3-charts@1.1.0
-pnpm add @vanduo-oss/vd3-flowchart@1.2.0
-# Remaining canvas widgets (docs on labs.vanduo.dev)
-# Labs sibling — in package.json:
-# "@vanduo-oss/vdl-cbun": "link:../vdl-cbun"`;
+pnpm add @vanduo-oss/vd3-flowchart@1.2.0`;
 
 const entryJs = `// main.ts — CSS once, plugin once, named JS imports elsewhere
 import { createApp } from 'vue';
@@ -26,7 +23,7 @@ createApp(App)
 const practices: [string, string][] = [
   [
     "Pin package versions",
-    "Lock @vanduo-oss/vd3, @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart, and @vanduo-oss/vdl-cbun so visual output is reproducible.",
+    "Lock @vanduo-oss/vd3, @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart so visual output is reproducible.",
   ],
   [
     "Import CSS once",

@@ -1,7 +1,7 @@
 {
   "name": "@vanduo-oss/vd3-docs",
   "version": "1.7.5",
-  "description": "Vue 3 + vite-ssg documentation site for the vd3 line (@vanduo-oss/vd3, @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart) plus @vanduo-oss/vdl-cbun previews",
+  "description": "Documentation for the Vanduo Vue 3 design system, charts, and flowchart packages",
   "private": true,
   "type": "module",
   "homepage": "https://vd3.vanduo.dev/",
@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite-ssg build && node scripts/generate-sitemap.mjs",
+    "build": "vite-ssg build && node scripts/generate-sitemap.mjs && node scripts/generate-search.mjs",
     "preview": "vite preview --port 8787 --host",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -32,14 +32,16 @@
     "test:size": "node tests/scripts/size.mjs",
     "test:e2e": "playwright test --project='Chromium Desktop'",
     "test:e2e:full": "playwright test",
-    "test:a11y": "playwright test a11y-smoke --project='Chromium Desktop'"
+    "test:a11y": "playwright test a11y-smoke --project='Chromium Desktop'",
+    "search:refresh": "node scripts/generate-search.mjs --refresh",
+    "test:content": "node scripts/generate-search.mjs --check",
+    "test:smoke": "playwright test global-search --project=\"Chromium Desktop\""
   },
   "dependencies": {
     "@unhead/vue": "2.1.15",
     "@vanduo-oss/vd3": "1.7.3",
     "@vanduo-oss/vd3-charts": "1.1.0",
     "@vanduo-oss/vd3-flowchart": "1.2.0",
-    "@vanduo-oss/vdl-cbun": "link:../../vdl/vdl-cbun",
     "animejs": "4.5.0",
     "fuse.js": "7.5.0",
     "pinia": "^3.0.4",

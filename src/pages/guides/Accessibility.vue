@@ -77,7 +77,7 @@ const checklist: [string, string][] = [
   ],
   [
     "Color contrast",
-    "Default semantic tokens are chosen to support WCAG AA in both themes. Brand overrides of --vd-color-* / --vd-text-* are yours to verify.",
+    "Check text and control contrast in light and dark themes, including your chosen primary color and translucent surfaces.",
   ],
   ["Reduced motion", "Animated effects honour prefers-reduced-motion."],
   [

@@ -6,20 +6,10 @@ a live demo built from the real, typed `Vd*` components and composables of
 [`@vanduo-oss/vd3`](https://www.npmjs.com/package/@vanduo-oss/vd3) (the standalone
 Vue 3 design system),
 [`@vanduo-oss/vd3-charts`](https://www.npmjs.com/package/@vanduo-oss/vd3-charts),
-[`@vanduo-oss/vd3-flowchart`](https://www.npmjs.com/package/@vanduo-oss/vd3-flowchart),
-and `/cbun` previews of the remaining canvas widgets from
-[`@vanduo-oss/vdl-cbun`](https://github.com/vanduo-oss/vdl-cbun) (Labs sibling via
-`link:../../vdl/vdl-cbun`; full widget docs live on
-[labs.vanduo.dev](https://labs.vanduo.dev/)), consumed alongside published npm pins
-(`@vanduo-oss/vd3@1.7.3`, `@vanduo-oss/vd3-charts@1.1.0`,
-`@vanduo-oss/vd3-flowchart@1.2.0`), not vendored source.
-Local worktrees may temporarily `link:` sibling `../vd3` /
-`../vd3-charts` / `../vd3-flowchart` checkouts for unreleased library work; the
-committed manifest pins published registry versions, plus a permanent `link:`
-for Labs sibling `vdl-cbun`.
-Unlike the previous docs site (which
-consumed `@vanduo-oss/framework` CSS classes only), vd3-docs renders the
-actual Vue 3 components a consumer installs.
+[`@vanduo-oss/vd3-flowchart`](https://www.npmjs.com/package/@vanduo-oss/vd3-flowchart).
+
+The manifest pins published versions. For local QA, temporarily link sibling
+package builds; restore registry pins before release.
 
 The site is pre-rendered to static HTML with `vite-ssg` (one page per `nav.ts`
 route) and is `private` — it is **not** published to npm.
@@ -53,8 +43,7 @@ pnpm install
 > `block-exotic-subdeps=true`, `strict-peer-dependencies=true`). The
 > `@vanduo-oss/*` scope is excluded from the 24-hour release-age gate, so the
 > `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`
-> publishes are consumed immediately. Labs sibling `vdl-cbun` resolves via
-> `link:` and is not published to npm.
+> publishes are consumed immediately.
 
 ## Scripts
 
@@ -80,14 +69,12 @@ Cmd+K uses Fuse.js over the committed corpus at
 `GlobalSearchModal` mounts `VdGlobalSearch` with AI toggle off.
 
 After changing `nav.ts` or page body copy that should be searchable, update
-`public/search/search-index.json` to match (keep document `id` / `route` /
-`title` / optional keywords, headings, and bodyText).
+the search corpus by building and running `pnpm search:refresh`.
 
-CI (`.github/workflows/ci.yml`) runs typecheck, lint, stylelint, format:check,
-and build on Node 24. The unit/e2e/size suites are run locally (they are omitted
-from CI to conserve Actions minutes). `deploy.yml` builds and publishes `dist/`
-to GitHub Pages at [https://vd3.vanduo.dev/](https://vd3.vanduo.dev/)
-(`public/CNAME`, Vite base `/`).
+CI runs type, style, unit, content, size, and two browser smoke checks on Node 24.
+The full visual and light/dark accessibility matrix runs locally before release.
+The deployment workflow applies its own gates before publishing the static site.
+Remote actions require explicit approval under the contributor policy.
 
 ## Layout
 
@@ -132,3 +119,14 @@ See [CHANGELOG.md](CHANGELOG.md) for the release history.
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Local cross-package QA
+
+Build sibling `vd3`, `vd3-charts`, and `vd3-flowchart` repositories, then run
+`VD3_LOCAL_PACKAGES=1 pnpm build` to check their unreleased output in this site.
+The default build still uses the committed registry pins. After a content change,
+run `pnpm search:refresh` against the new build; `pnpm test:content` checks the
+committed search corpus. Production search is generated from that build's HTML.
+
+The implementation and outstanding manual checks are tracked in
+[the local QA record](reviews/2026-09-16/implementation.md).

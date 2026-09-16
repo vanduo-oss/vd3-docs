@@ -362,13 +362,21 @@ function onFlowchartReady(editor: { layout?: (mode?: string) => unknown }) {
 const installShell = `pnpm add @vanduo-oss/vd3-flowchart`;
 
 const vue3Usage = `<script setup lang="ts">
-import { VdFlowchart } from '@vanduo-oss/vd3-flowchart';
+import { ref } from 'vue';
+import { VdFlowchart, type VdFlowchartDocument, type VdFlowchartExposed } from '@vanduo-oss/vd3-flowchart';
 import '@vanduo-oss/vd3-flowchart/css';
+const editor = ref<VdFlowchartExposed | null>(null);
+const readonly = ref(false);
+const document = ref<VdFlowchartDocument>({
+  nodes: [{ id: 'start', text: 'Start', x: 40, y: 100 }, { id: 'end', text: 'End', x: 300, y: 100 }],
+  edges: [{ id: 'next', from: { nodeId: 'start', port: 'right' }, to: { nodeId: 'end', port: 'left' } }],
+});
 <\/script>
-
 <template>
-  <!-- Palette, toolbar, inspector, and history are built in. -->
-  <VdFlowchart :data="doc" auto-fit @change="onChange" />
+  <button type="button" @click="readonly = !readonly">Toggle read-only</button>
+  <button type="button" :disabled="readonly" @click="editor?.undo()">Undo</button>
+  <VdFlowchart ref="editor" :data="document" :readonly="readonly" auto-fit
+    style="height: 560px" @change="document = $event.document" />
 </template>`;
 
 const nodeTypes: [string, string][] = [
@@ -384,11 +392,11 @@ const nodeTypes: [string, string][] = [
 const vue3Api: [string, string][] = [
   [
     ":data",
-    "Flowchart document ({ nodes, edges, viewport? }); updates flow through the editor's load().",
+    "External document replacement. Echoing @change back into :data is safe and does not emit again.",
   ],
   [
     ":readonly",
-    "Render as a non-editable viewer (hides palette and inspector).",
+    "Disable editing; preserve the document, view, selection, and history.",
   ],
   [":gridSize", "Background grid size in px."],
   [
@@ -401,7 +409,7 @@ const vue3Api: [string, string][] = [
   ],
   [
     ":history / :historyLimit",
-    "Toggle undo history and cap the snapshot count.",
+    "Limit retained snapshots. Disabling history clears it; reenabling starts from the current document.",
   ],
   [
     "@change / @select / @viewport / @connect",
@@ -437,17 +445,9 @@ const methods: [string, string][] = [
   <section id="vd-flowchart">
     <h5 class="demo-title"><i class="ph ph-flow-arrow"></i>Flowchart</h5>
     <p class="vd-mb-8">
-      <strong>vd3 Flowchart</strong> is an SVG flowchart editor from
-      <code>@vanduo-oss/vd3-flowchart</code>. Drag from the palette, connect
-      ports, edit text inline, auto-arrange layouts, and export/import JSON. The
-      demo below loads a radial mind map with branches and sub-topics. The
-      toolbar <strong>Arrange</strong> control is a single
-      <code>&lt;select&gt;</code> with three layout modes —
-      <strong>Tree</strong>, <strong>Radial</strong>, and
-      <strong>Grid</strong> — and always shows the active mode (no placeholder
-      row). Hit <strong>Full screen</strong> to work across the whole viewport
-      (<kbd>Esc</kbd> to come back). The chrome themes with the active
-      <code>--vd-flowchart-*</code> tokens and the site light / dark mode.
+      <strong>VdFlowchart</strong> edits connected diagrams with layouts, inline
+      labels, and undo/redo. Save and restore documents as JSON. Try the editor
+      below; use Full screen for more space.
     </p>
 
     <div
@@ -475,6 +475,18 @@ const methods: [string, string][] = [
         />
       </div>
     </div>
+
+    <p>
+      Keyboard: Tab to the canvas; arrows select nodes, Enter edits a label, and
+      Delete removes the selection. Use Ctrl/Cmd+Z to undo. Open Graph outline
+      to read connections or connect nodes with the labelled controls.
+    </p>
+    <p class="vd-text-sm vd-text-muted">
+      Saved JSON uses document format 1.2.0 independently of the package
+      version. Malformed or unsupported future documents are rejected without
+      replacing the current diagram. Catch errors when calling
+      <code>load()</code> directly.
+    </p>
 
     <div class="vd-card vd-card-glow demo-card">
       <div class="vd-card-header">

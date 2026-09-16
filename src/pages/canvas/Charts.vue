@@ -129,7 +129,7 @@ const onClick = (e: ClickEvent) => console.log('Clicked:', e.datum);
 
 <template>
   <!-- data-table default is true (sr-only). Use "visible" to show the
-       WCAG 1.1.1 table in layout, or false to suppress it. -->
+       data table in layout, or false to suppress it. -->
   <VdChart
     type="bar"
     :data="data"
@@ -177,7 +177,7 @@ const chartTypes: [string, string][] = [
   ],
   [
     'type="pie"',
-    'Solid pie wedges (inner-radius ratio 0). Pass :inner-radius-ratio="0" on VdChart — an unset ratio falls through to the donut hole (0.62).',
+    'Solid pie wedges. Both VdChart type="pie" and VdPieChart default to an inner-radius ratio of 0.',
   ],
 ];
 
@@ -193,16 +193,20 @@ const vue3Api: [string, string][] = [
   ],
   ["label / value", "Pie / donut accessors."],
   [
+    "refresh() (template ref)",
+    "Redraw after changing CSS theme variables. Data and responsive prop changes update automatically.",
+  ],
+  [
     "title / description",
     "Rendered into SVG accessibility metadata (<title> and <desc> tags).",
   ],
   [
     ":data-table",
-    "true (sr-only, default) | 'visible' | false. Auto-generates an accessible HTML <table> fulfilling WCAG 1.1.1 Level A.",
+    "true (sr-only, default) | 'visible' | false. Generates an HTML data table.",
   ],
   [
     ":inner-radius-ratio",
-    'Donut / pie hole size (0–0.9). Donut defaults to 0.62. Pie is 0; pass 0 explicitly on VdChart type="pie".',
+    "Hole size (0–0.9): donut defaults to 0.62; pie defaults to 0.",
   ],
   [
     ":aria-role-description",
@@ -271,23 +275,18 @@ const keyboardShortcuts: [string, string][] = [
     </h5>
     <div class="vd-badge-group vd-mt-8 vd-mb-8">
       <span class="a11y-pill"
-        ><i class="ph ph-shield-check"></i> WAI-ARIA Graphics 1.0</span
+        ><i class="ph ph-shield-check"></i> Labelled SVG marks</span
       >
       <span class="a11y-pill"
         ><i class="ph ph-keyboard"></i> Arrow Key Navigation</span
       >
-      <span class="a11y-pill"
-        ><i class="ph ph-table"></i> WCAG 1.1.1 Table</span
-      >
+      <span class="a11y-pill"><i class="ph ph-table"></i> Data table</span>
     </div>
 
     <p class="vd-mb-6">
-      <strong>vd3 Charts</strong> is the SVG-first data visualization widget
-      from <code>@vanduo-oss/vd3-charts</code>. It features full
-      <strong>WAI-ARIA Graphics Module 1.0</strong> semantics, roving
-      <strong>keyboard arrow navigation</strong> with live focus rings, an
-      auto-generated <strong>accessible HTML data table fallback</strong> (WCAG
-      1.1.1), and native dark/light theme integration.
+      <strong>VdChart</strong> renders bar, line, area, scatter, donut, and pie
+      charts. Supply data and field names. Each chart includes labelled marks,
+      keyboard navigation, tooltips, and an optional data table.
     </p>
 
     <!-- ===================================================================== -->
@@ -302,8 +301,7 @@ const keyboardShortcuts: [string, string][] = [
                 class="ph ph-keyboard"
                 style="color: var(--vd-color-primary)"
               ></i>
-              Accessibility & Keyboard Navigation (WCAG 2.1 AA & WAI-ARIA
-              Graphics 1.0)
+              Keyboard navigation and data table
             </h6>
           </div>
           <div class="vd-card-body">
@@ -334,7 +332,7 @@ const keyboardShortcuts: [string, string][] = [
             </div>
 
             <p class="vd-text-sm vd-text-muted vd-mb-4">
-              The table under this chart is the WCAG 1.1.1 fallback with
+              Show the data table with
               <code>data-table="visible"</code>. Production default is
               <code>true</code> (sr-only, for assistive tech only);
               <code>false</code> suppresses it.
@@ -613,73 +611,18 @@ const keyboardShortcuts: [string, string][] = [
       </div>
     </div>
 
-    <!-- ===================================================================== -->
-    <!-- WAI-ARIA Graphics & WCAG Explainer                                   -->
-    <!-- ===================================================================== -->
-    <div class="vd-card vd-card-glow demo-card vd-mb-8">
-      <div class="vd-card-header">
-        <h6>
-          <i
-            class="ph ph-shield-check"
-            style="color: var(--vd-color-primary)"
-          ></i>
-          WAI-ARIA Graphics Module 1.0 Architecture
-        </h6>
-      </div>
+    <div class="vd-card demo-card vd-mb-8">
+      <div class="vd-card-header"><h6>Accessibility</h6></div>
       <div class="vd-card-body">
-        <p class="vd-mb-4">
-          Most web chart libraries apply <code>role="img"</code> to the entire
-          SVG, which instructs screen readers to treat the chart as a static
-          flattened image and ignore all internal data marks.
-          <strong>vd3 Charts</strong> implements the official W3C
-          <strong>WAI-ARIA Graphics Module 1.0</strong> specification:
+        <p>
+          Give the chart a title and a description of the takeaway. Marks expose
+          value labels; the generated table exposes the data through standard
+          table navigation. Test your labels, colors, and interactions with your
+          users’ assistive technology.
         </p>
-
-        <div class="a11y-grid vd-mb-4">
-          <div class="a11y-card">
-            <code>role="graphics-document document"</code>
-            <p>
-              Applied to the root <code>&lt;svg&gt;</code> with
-              <code>aria-roledescription="[type] chart"</code> so screen readers
-              recognize it as a structured graphical document containing
-              interactive objects. Core factories can override this with
-              <code>role</code>; Vue uses <code>svgRole</code> so a standard
-              <code>role</code> attribute remains on the wrapper root.
-            </p>
-          </div>
-          <div class="a11y-card">
-            <code>role="graphics-object"</code>
-            <p>
-              Applied to mark containers, series groups, and annotations with
-              contextual <code>aria-roledescription</code> (e.g.
-              <code>"data points"</code>, <code>"grouped bars"</code>).
-            </p>
-          </div>
-          <div class="a11y-card">
-            <code>role="graphics-symbol"</code>
-            <p>
-              Applied to individual marks (bars, points, slices) with
-              descriptive <code>aria-roledescription</code> and accessible value
-              labels (e.g. <code>"Jan: $120k"</code>).
-            </p>
-          </div>
-          <div class="a11y-card">
-            <code>aria-hidden="true"</code>
-            <p>
-              Applied to decorative Cartesian axes, tick marks, and background
-              grid lines to prevent screen reader clutter.
-            </p>
-          </div>
-        </div>
-
-        <p class="vd-text-sm vd-text-muted">
-          <i class="ph ph-info"></i> In addition to SVG graphics roles, every
-          chart generates a semantic HTML <code>&lt;table&gt;</code> (with
-          <code>&lt;caption&gt;</code>, <code>&lt;th scope="col"&gt;</code>, and
-          <code>&lt;th scope="row"&gt;</code>) matching
-          <strong>WCAG 1.1.1 Technique G73/G74</strong>. Assistive technology
-          users can navigate the full dataset with native table reading
-          shortcuts.
+        <p>
+          Graphics roles and a data table are features, not a claim of WCAG
+          conformance for the finished page.
         </p>
       </div>
     </div>

@@ -145,14 +145,9 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
             </VdCard>
             <DocCodeSnippet :js="pageJs" :default-open="true" />
             <p class="vd-text-sm vd-text-muted vd-mt-3">
-              Optional:
-              <code>@vanduo-oss/vd3-charts</code> and
-              <code>@vanduo-oss/vd3-flowchart</code> for those widgets;
-              <code>@vanduo-oss/vdl-cbun</code> for code-editor, draw, hex-grid,
-              and music-player (documented on
-              <a href="https://labs.vanduo.dev/" rel="noopener noreferrer"
-                >labs</a
-              >). See Installation for the full list.
+              Add <code>@vanduo-oss/vd3-charts</code> or
+              <code>@vanduo-oss/vd3-flowchart</code> for data visualization or
+              diagram editing.
             </p>
           </div>
         </div>
