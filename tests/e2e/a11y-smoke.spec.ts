@@ -14,6 +14,7 @@ const ROUTES: readonly Route[] = [
   { path: "/components/forms", label: "components-forms" },
   { path: "/guides/getting-started", label: "guides-getting-started" },
   { path: "/canvas/charts", label: "canvas-charts" },
+  { path: "/canvas/flowchart", label: "canvas-flowchart" },
   { path: "/media/image-box", label: "media-image-box" },
   { path: "/changelog", label: "changelog" },
   {

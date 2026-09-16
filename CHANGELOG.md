@@ -9,6 +9,6 @@ The user-facing release history of the packages this site documents —
 and
 [`@vanduo-oss/vd3-flowchart`](https://www.npmjs.com/package/@vanduo-oss/vd3-flowchart)
 — is rendered on the site's [`/changelog`](src/pages/changelog.vue) page.
-Canvas widgets come from Labs [`vdl-cbun`](https://github.com/vanduo-oss/vdl-cbun)
-via `link:` (not npm). Each package's authoritative changelog lives in its own
+Canvas widgets come from the published charts and flowchart packages, not a
+Labs sibling. Each package's authoritative changelog lives in its own
 repository.

@@ -41,7 +41,18 @@ pnpm run build
 pnpm run test:size       # Reports gzipped dist/assets/app-* sizes vs budget
 ```
 
-### Security Rules
+## CI cost
+
+`ci.yml` is one job, `timeout-minutes: 20`: typecheck, lint, stylelint,
+format, build, unit tests, search corpus check, size budget, and Chromium
+`test:smoke` (global-search). The full visual-parity suite and the broader
+accessibility matrix stay local (`pnpm run test:e2e` / `test:a11y`).
+
+`deploy.yml` build job is `timeout-minutes: 25` and also runs `test:a11y`.
+GitHub bills minutes used. Neither workflow has been run remotely for
+`dev-v176`.
+
+## Security Rules
 
 The `.npmrc` mirrors the vd3 line's hardened install policy. Honor it:
 
