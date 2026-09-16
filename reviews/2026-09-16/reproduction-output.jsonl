@@ -1,0 +1,8 @@
+{"check":"anchor sanitizer","sanitized":"<a href=\"/safe\" onclick=\"window.auditMarker=1\" style=\"position:fixed;inset:0\">Example</a>","retainsHandler":true,"retainsStyleByDefault":true}
+{"check":"flowchart readonly toggle","before":["a","b"],"after":["a"]}
+{"check":"pie default","component":"VdChart","arcsPerSlice":[2,2]}
+{"check":"pie default","component":"VdPieChart","arcsPerSlice":[2,2]}
+{"check":"responsive false to true","observed":0}
+{"check":"chart redraw focus","wasFocused":true,"oldMarkConnected":false,"focusAfter":"BODY"}
+{"check":"tooltip trigger wrapper","opacity":"0","pointerEvents":"none","visibleTooltips":0,"positionAttribute":"bottom"}
+{"check":"flowchart controlled data echo","reasons":["node:add","load","load","load"],"stoppedByHarnessAt":4}
