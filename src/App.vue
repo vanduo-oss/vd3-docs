@@ -55,6 +55,7 @@ onMounted(() => {
   theme.init();
   customizer.init();
   search.init();
+  document.documentElement.dataset.vdHydrated = "true";
 });
 </script>
 

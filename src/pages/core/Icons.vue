@@ -47,23 +47,17 @@ const sampleIcons: { cls: string; tip: string; color?: string }[] = [
   { cls: "ph ph-info", tip: "ph-info", color: "var(--vd-color-info)" },
 ];
 
-const quickStartHtml = `<!-- Include default weights (regular + fill) -->
-<link rel="stylesheet" href="css/icons/icons.css">
+const quickStartHtml = `import '@vanduo-oss/vd3/css';
 
-<!-- Use icons -->
 <i class="ph ph-heart"></i>
 <i class="ph-fill ph-star"></i>
 <i class="ph ph-house"></i>`;
 
-const importHtml = `<!-- Default (regular + fill) - Recommended -->
-<link rel="stylesheet" href="css/icons/icons.css">
+const importHtml = `// Full stylesheet with regular + fill icon fonts
+import '@vanduo-oss/vd3/css';
 
-<!-- All 6 weights (~3MB) -->
-<link rel="stylesheet" href="css/icons/icons-all.css">
-
-<!-- Individual weights -->
-<link rel="stylesheet" href="icons/phosphor/bold/style.css">
-<link rel="stylesheet" href="icons/phosphor/light/style.css">`;
+// Same component CSS without bundled icon fonts
+import '@vanduo-oss/vd3/css/core';`;
 
 const stylingHtml = `<!-- Size with font-size -->
 <i class="ph ph-heart" style="font-size: 48px;"></i>
@@ -134,13 +128,11 @@ const vue3Api: [string, string][] = [
               </div>
             </div>
             <p class="vd-text-sm vd-text-muted vd-mt-5">
-              <strong>Note:</strong> The default
-              <code>css/vanduo.css</code> bundle (and
-              <code>css/icons/icons.css</code>) load only the
-              <strong>regular</strong> and <strong>fill</strong> weights. The
-              bold, light, thin, and duotone weights above require
-              <code>css/icons/icons-all.css</code> — this documentation site
-              loads it to preview every weight. See
+              <strong>Note:</strong>
+              <code>@vanduo-oss/vd3/css</code> loads the
+              <strong>regular</strong> and <strong>fill</strong> weights. Bold,
+              light, thin, and duotone glyphs are not in the published package.
+              Prefer regular and fill in apps. See
               <strong>Import Options</strong> below.
             </p>
           </div>
