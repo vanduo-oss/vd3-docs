@@ -96,6 +96,7 @@ export default [
   {
     ignores: [
       'dist/**',
+      '.local-packages/**',
       'node_modules/**',
       'playwright-report/**',
       'test-results/**',

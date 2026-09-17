@@ -1,7 +1,8 @@
 import { defineConfig, type Plugin } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { readFileSync } from "node:fs";
-import { fileURLToPath, URL } from "node:url";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL, URL } from "node:url";
 
 const APP_VERSION = JSON.parse(
   readFileSync(
@@ -12,11 +13,27 @@ const APP_VERSION = JSON.parse(
 
 const docsAppVue = fileURLToPath(new URL("./src/App.vue", import.meta.url));
 
+const LOCAL_PACKAGE_DIRS = ["vd3", "vd3-charts", "vd3-flowchart"] as const;
+
+/** Directory that contains the three sibling package checkouts. */
+function packagesRootUrl(): URL {
+  const override = process.env.VD3_PACKAGES_ROOT;
+  if (!override) {
+    return new URL("../", import.meta.url);
+  }
+  const resolved = path.resolve(override);
+  return pathToFileURL(
+    resolved.endsWith(path.sep) ? resolved : `${resolved}${path.sep}`,
+  );
+}
+
+const packagesRoot = packagesRootUrl();
+
 // Local cross-package QA only. Committed dependencies remain registry pins.
 const localPackageAliases =
   process.env.VD3_LOCAL_PACKAGES === "1"
-    ? ["vd3", "vd3-charts", "vd3-flowchart"].flatMap((name) => {
-        const root = new URL(`../${name}/`, import.meta.url);
+    ? LOCAL_PACKAGE_DIRS.flatMap((name) => {
+        const root = new URL(`${name}/`, packagesRoot);
         const manifest = JSON.parse(
           readFileSync(new URL("package.json", root), "utf8"),
         );
@@ -103,9 +120,9 @@ export default defineConfig({
       // serve assets from local package builds.
       allow: [
         fileURLToPath(new URL(".", import.meta.url)),
-        fileURLToPath(new URL("../vd3", import.meta.url)),
-        fileURLToPath(new URL("../vd3-charts", import.meta.url)),
-        fileURLToPath(new URL("../vd3-flowchart", import.meta.url)),
+        ...LOCAL_PACKAGE_DIRS.map((name) =>
+          fileURLToPath(new URL(`${name}/`, packagesRoot)),
+        ),
       ],
     },
   },
