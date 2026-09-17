@@ -18,8 +18,8 @@ The site's `package.json` SHALL be named `@vanduo-oss/vd3-docs` and remain
 `@vanduo-oss/core`, `@vanduo-oss/framework`, `@vanduo-oss/vue`,
 `@vanduo-oss/charts`, `@vanduo-oss/flowchart`, `@vanduo-oss/hex-grid`, or
 `@vanduo-oss/music-player`. Charts and flowchart SHALL be the PUBLISHED
-packages at exact `1.1.0` and `1.2.0`. `@vanduo-oss/vd3` SHALL be the
-exact published pin `1.7.3`. Labs sibling `@vanduo-oss/vdl-cbun` MUST use
+packages at exact `1.1.1` and `1.3.0`. `@vanduo-oss/vd3` SHALL be the
+exact published pin `1.7.4`. Labs sibling `@vanduo-oss/vdl-cbun` MUST use
 `link:../../vdl/vdl-cbun` — it is not an npm family. `.npmrc` SHALL set
 `save-exact=true`. The committed
 manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
@@ -29,8 +29,8 @@ manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 - **GIVEN** the site's `package.json` after this change
 - **WHEN** its `name`, `private`, and `dependencies` are inspected
 - **THEN** `name` is `@vanduo-oss/vd3-docs`, `private` is `true`, runtime
-  deps include `@vanduo-oss/vd3` (`1.7.3`), `@vanduo-oss/vd3-charts`
-  (`1.1.0`), `@vanduo-oss/vd3-flowchart` (`1.2.0`), and `@vanduo-oss/vdl-cbun`
+  deps include `@vanduo-oss/vd3` (`1.7.4`), `@vanduo-oss/vd3-charts`
+  (`1.1.1`), `@vanduo-oss/vd3-flowchart` (`1.3.0`), and `@vanduo-oss/vdl-cbun`
   (`link:../../vdl/vdl-cbun`), there is no `@vanduo-oss/vd3-cbun` or
   `@vanduo-oss/vdl-hybrid-search`, and none of
   `core`, `framework`, `vue`, the retired `@vanduo-oss/charts`,
@@ -39,8 +39,8 @@ manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 
 #### Scenario: kit packages resolve for install
 
-- **GIVEN** the committed `package.json` targeting exact vd3 `1.7.3`,
-  exact `1.1.0` / `1.2.0` charts/flowchart, and `save-exact=true`
+- **GIVEN** the committed `package.json` targeting exact vd3 `1.7.4`,
+  exact `1.1.1` / `1.3.0` charts/flowchart, and `save-exact=true`
 - **WHEN** `pnpm install` runs from the docs repo with the Labs sibling
   checked out
 - **THEN** those packages resolve from the registry, `@vanduo-oss/vdl-cbun`

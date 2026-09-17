@@ -177,7 +177,7 @@ package releases only, never docs-site content.
 
 ### Requirement: Charts component page documents SVG role overrides
 
-The Charts page SHALL document the published `@vanduo-oss/vd3-charts@1.1.0`
+The Charts page SHALL document the published `@vanduo-oss/vd3-charts@1.1.1`
 accessibility role API: core factories accept `role`, while Vue accepts
 `svgRole` so normal `role` continues to fall through to the wrapper root.
 
