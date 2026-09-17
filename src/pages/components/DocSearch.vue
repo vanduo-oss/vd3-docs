@@ -356,14 +356,9 @@ const resultFields: [string, string][] = [
   <section id="doc-search">
     <h5 class="demo-title"><i class="ph ph-magnifying-glass"></i>Doc Search</h5>
     <p class="vd-mb-8">
-      <strong>VdDocSearch</strong> is a combobox/listbox search over a
-      collection of documents you supply. Feed it a
-      <code>DocSearchDoc[]</code> and the <code>useDocSearch</code> composable
-      ranks matches (title &gt; category &gt; keywords &gt; content), debounces
-      typing, highlights the matched terms, and wires full keyboard navigation
-      plus a global <kbd>⌘</kbd><kbd>K</kbd> / <kbd>Ctrl</kbd
-      ><kbd>K</kbd> shortcut. The component is a thin, accessible shell — reach
-      for the composable directly when you want to render results your own way.
+      <strong>VdDocSearch</strong> searches a document list you provide. It
+      includes ranked matches, highlighting, keyboard navigation, and a ⌘K /
+      Ctrl+K shortcut. Use <code>useDocSearch</code> for a custom result layout.
     </p>
 
     <!-- Basic live search -->

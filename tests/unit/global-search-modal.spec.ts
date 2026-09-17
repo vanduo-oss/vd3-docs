@@ -59,6 +59,7 @@ describe("GlobalSearchModal", () => {
       },
       attachTo: document.body,
     });
+    await wrapper.vm.$nextTick();
 
     expect(
       document.body.querySelector(".vd-global-search-modal.is-open"),
@@ -107,6 +108,7 @@ describe("GlobalSearchModal", () => {
       },
       attachTo: document.body,
     });
+    await wrapper.vm.$nextTick();
 
     pressKey({ key: "k", metaKey: true });
     await wrapper.vm.$nextTick();

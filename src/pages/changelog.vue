@@ -63,7 +63,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.7.3</span
+              >v1.7.4</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>September 2026
@@ -71,6 +71,90 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Sanitizer, tooltip, search hydration, tokens</strong>
+                  — allowed <code>&lt;a&gt;</code> attributes share the tag
+                  whitelist; tooltips leave the trigger in flow; global search
+                  mounts on the client; muted and syntax ink stay readable.
+                </p>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-shield-check"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Anchor sanitizer</strong>
+                        <p>
+                          Allowed <code>&lt;a&gt;</code> attributes now use the
+                          same whitelist as other tags. Event handler and
+                          <code>style</code> attributes are stripped by default.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-chat-teardrop-text"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Tooltip</strong>
+                        <p>
+                          The trigger stays in normal flow; the tooltip is a
+                          separate surface with one placement contract,
+                          hover/focus/Escape behavior, and
+                          <code>aria-describedby</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-magnifying-glass"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Global search overlay</strong>
+                        <p>
+                          The palette is client-mounted so SSG hydration cannot
+                          wipe a query typed into the server-rendered input.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph-bold ph-circle-half"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Shared foreground tokens</strong>
+                        <p>
+                          Muted text, syntax colors, and swatch ink stay
+                          distinguishable in default light/dark themes.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.7.3</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>September 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -1382,7 +1466,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.1.0</span
+              >v1.1.1</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>September 2026
@@ -1390,6 +1474,64 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Pie defaults and live updates</strong> — omitting
+                  <code>innerRadiusRatio</code> keeps a filled pie; resize,
+                  focus, theme refresh, and touch follow the live chart.
+                </p>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-chart-pie"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Pie defaults</strong>
+                        <p>
+                          Omitting <code>innerRadiusRatio</code> (or removing
+                          the Vue prop) keeps a filled pie. Donut still opens a
+                          hole.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-arrows-clockwise"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Updates</strong>
+                        <p>
+                          The resize observer follows
+                          <code>responsive</code> false→true→false. Data redraws
+                          keep logical keyboard focus when the mark still
+                          exists. Vue <code>refresh()</code> redraws after
+                          CSS-only theme changes. Touch can reveal details.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.1.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>September 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -1583,7 +1725,7 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
-              >v1.2.0</span
+              >v1.3.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>September 2026
@@ -1591,6 +1733,118 @@ useAffix(root);
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Keyboard, outline, and live-editor fixes</strong> —
+                  arrows and Graph outline for navigation; saved JSON stays on
+                  document format <code>1.2.0</code>; option updates, load
+                  errors, self-connect, and node drag stay on the live editor.
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-keyboard"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Keyboard canvas navigation</strong>
+                        <p>
+                          Arrows, Home/End, and Enter to edit, plus a native
+                          <strong>Graph outline</strong> with labelled
+                          Edit/Connect controls.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-file-code"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong><code>FLOWCHART_DOCUMENT_VERSION</code></strong>
+                        <p>
+                          Owns saved <code>version</code>. Package release stays
+                          on <code>VD_FLOWCHART_VERSION</code>.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-arrows-clockwise"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Option updates</strong>
+                        <p>
+                          Read-only, grid, and history keep the live editor,
+                          camera, selection, and applicable history. Parent
+                          echoes of emitted documents do not loop.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-warning-circle"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Malformed JSON</strong>
+                        <p>
+                          Malformed JSON and unsupported future documents throw
+                          before the active document, selection, or history
+                          change.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-prohibit"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Self-connection</strong>
+                        <p>Graph outline refuses self-connection.</p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-arrows-out-cardinal"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Node drag</strong>
+                        <p>
+                          Node drag translates the moved SVG node and rebuilds
+                          only incident edges; pointer-up still records history.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.2.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>September 2026
+            </span>
           </header>
           <div class="version-body">
             <div class="vd-row">

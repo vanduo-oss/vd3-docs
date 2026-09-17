@@ -14,25 +14,25 @@ const layers: {
     n: "1",
     icon: "ph-palette",
     title: "Design tokens (DTCG)",
-    desc: "The source of truth lives as DTCG-format JSON under tokens/ (primitive scales, semantic colors, customizer metadata). Nothing above this layer hard-codes a hex value.",
+    desc: "DTCG JSON defines color scales and theme metadata.",
   },
   {
     n: "2",
     icon: "ph-swatches",
     title: "Generated color CSS",
-    desc: "The token build turns that JSON into --vd-* custom-property layers — raw scales plus an active palette with a [data-palette] switch — and a flat tokens.json for design tooling.",
+    desc: "The token build generates color variables and tokens.json for tooling.",
   },
   {
     n: "3",
     icon: "ph-file-css",
-    title: "Absorbed component CSS",
-    desc: "The CSS build inlines the generated token layers together with the core, primitive, component, utility and effect stylesheets into one bundle — the whole design system in a single import.",
+    title: "Component CSS",
+    desc: "Authored layout, component, utility, and effect styles share the generated colors.",
   },
   {
     n: "4",
     icon: "ph-atom",
     title: "Vue components & composables",
-    desc: "Typed Vd* single-file components and useX composables read those same tokens/classes at runtime. They ship as a tree-shakeable ESM/CJS barrel with .d.ts types.",
+    desc: "Typed Vue components and composables use the shared styles and manage their own listeners.",
   },
 ];
 
@@ -40,19 +40,16 @@ const layers: {
 const entryPoints: [string, string][] = [
   [
     "@vanduo-oss/vd3",
-    "The typed, tree-shakeable barrel: every Vd* component, every useX composable, the VanduoVue plugin, and shared types.",
+    "Named components, composables, the optional configuration plugin, and types.",
   ],
-  [
-    "@vanduo-oss/vd3/css",
-    "The full absorbed stylesheet — tokens, layout, every component, utilities, effects, and the bundled icon font. Import once.",
-  ],
+  ["@vanduo-oss/vd3/css", "Full CSS, including icons. Import once."],
   [
     "@vanduo-oss/vd3/css/core",
-    "The same stylesheet without the bundled Phosphor icon fonts, for apps that supply their own icons. This is a no-icons variant of the full tree — not a tokens-only sheet.",
+    "Full CSS without bundled icons. Supply your own icons.",
   ],
   [
     "@vanduo-oss/vd3/tokens.json",
-    'The flat { "--vd-name": value } token map (Figma-ready), for design tooling and codegen.',
+    'Flat { "--vd-name": value } map for tooling.',
   ],
 ];
 
@@ -64,15 +61,15 @@ vite build         # SFCs  ->  ESM/CJS barrel
 vue-tsc            # emit .d.ts types
 check-class-coverage.mjs   # verify every documented class ships`;
 
-const consumerJs = `// main.ts — the entire vd3 wiring, no runtime to bootstrap
+const consumerJs = `// main.ts — optional theme defaults; import components in your .vue files
 import { createApp } from 'vue';
 import { VanduoVue } from '@vanduo-oss/vd3';
-import '@vanduo-oss/vd3/css';          // absorbed component CSS, one import
+import '@vanduo-oss/vd3/css';          // choose one stylesheet
 import App from './App.vue';
 
 createApp(App).use(VanduoVue).mount('#app');`;
 
-const behaviourJs = `// Behaviour ships as plain Vue — components own their own lifecycle
+const behaviourJs = `// Theme and toast state is currently shared within the loaded module.
 import { VdToastContainer, useToast, useThemePreference } from '@vanduo-oss/vd3';
 
 // Mount <VdToastContainer /> once (e.g. in App.vue) so toasts have somewhere to go.
@@ -90,15 +87,9 @@ theme.setTheme('dark');`;
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      vd3 is a single, standalone Vue 3 package. Everything is generated in one
-      direction —
-      <strong
-        >design tokens → generated color CSS → absorbed component CSS → typed
-        components &amp; composables</strong
-      >
-      — so the styling and the behaviour always agree on the same
-      <code>--vd-*</code> tokens and <code>vd-*</code> classes. There is no
-      separate runtime to boot: the components <em>are</em> the runtime.
+      vd3 combines design tokens, CSS, and typed Vue components. Import the
+      components you use and one stylesheet. The layers below explain how they
+      fit together.
     </p>
 
     <div class="vd-row vd-mb-6">
@@ -131,8 +122,8 @@ theme.setTheme('dark');`;
           </div>
           <div class="vd-card-body">
             <p>
-              Each layer above surfaces as a stable published entry point. A Vue
-              app only ever touches two of them; the rest are there for tooling.
+              Start with named component imports and either the full or
+              icon-free stylesheet.
             </p>
             <div class="vd-table-responsive">
               <table class="vd-table vd-table-striped">
@@ -165,9 +156,8 @@ theme.setTheme('dark');`;
           </div>
           <div class="vd-card-body">
             <p>
-              How the package is built — you do not run this. You install the
-              prebuilt <code>dist/</code>. It shows how one source of tokens
-              becomes CSS and components:
+              Maintainers run this pipeline. Applications install its prebuilt
+              output.
             </p>
             <DocCodeSnippet :shell="buildChain" :default-open="true" />
           </div>
@@ -180,9 +170,9 @@ theme.setTheme('dark');`;
           </div>
           <div class="vd-card-body">
             <p>
-              Consuming it is two imports: the stylesheet once, and the
-              <code>VanduoVue</code> plugin for theme defaults. That is the
-              whole setup.
+              <code>VanduoVue</code> sets optional theme defaults. Import each
+              component where you use it; the plugin does not register
+              components.
             </p>
             <DocCodeSnippet :js="consumerJs" :default-open="true" />
           </div>
@@ -192,20 +182,17 @@ theme.setTheme('dark');`;
 
     <div class="vd-card demo-card">
       <div class="vd-card-header">
-        <h6><i class="ph ph-atom"></i> No global runtime</h6>
+        <h6><i class="ph ph-atom"></i> Lifecycle and shared state</h6>
       </div>
       <div class="vd-card-body">
         <p>
-          Behaviour is not injected by a global object that scans the DOM. Every
-          interactive piece is a Vue component or composable that wires its own
-          listeners on mount and cleans them up on unmount — reactive,
-          tree-shakeable, and tied to the component lifecycle.
+          Components attach listeners on mount and clean them up on unmount.
+          Theme preferences and toast queues use module-wide state.
         </p>
         <DocCodeSnippet :js="behaviourJs" :default-open="true" />
         <p class="vd-text-sm vd-text-muted vd-mt-3">
-          There is no standalone script to load and no global object to
-          initialise — the package is pure Vue, so it tree-shakes with your app
-          and cleans up with your components.
+          A storage prefix changes persistence keys; it does not isolate apps.
+          Avoid writing request-specific theme or toast state during SSR.
         </p>
       </div>
     </div>
@@ -218,14 +205,14 @@ theme.setTheme('dark');`;
           to: '/guides/framework-integration',
           icon: 'ph-plug',
           title: 'Installation & Integration',
-          desc: 'Install the package, import the CSS, register the plugin.',
+          desc: 'Install, choose CSS, and import components.',
           badge: 'Guide',
         },
         {
           to: '/guides/vd3-ecosystem',
           icon: 'ph-stack',
           title: 'vd3 ecosystem',
-          desc: 'How vd3-docs, vd3, charts, flowchart, and vdl-cbun fit together.',
+          desc: 'How the design system, charts, flowchart, and docs fit together.',
           badge: 'Guide',
         },
         {

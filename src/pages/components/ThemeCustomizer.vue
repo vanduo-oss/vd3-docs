@@ -41,12 +41,18 @@ const primaryColors = PRIMARY_COLORS;
 const neutralColors = NEUTRAL_COLORS;
 
 const chipText = (hex: string): string => {
-  const h = hex.replace("#", "");
-  const r = parseInt(h.slice(0, 2), 16);
-  const g = parseInt(h.slice(2, 4), 16);
-  const b = parseInt(h.slice(4, 6), 16);
-  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return lum > 0.6 ? "#212529" : "white";
+  const channels = hex
+    .replace("#", "")
+    .match(/.{2}/g)!
+    .map((part) => {
+      const value = parseInt(part, 16) / 255;
+      return value <= 0.04045
+        ? value / 12.92
+        : ((value + 0.055) / 1.055) ** 2.4;
+    });
+  const lum =
+    channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  return lum > 0.179 ? "#000000" : "#ffffff";
 };
 
 const usageVue = `<script setup lang="ts">
@@ -251,21 +257,10 @@ const storageRows: [string, string, string][] = [
       <i class="ph ph-paint-roller"></i>Theme Customizer
     </h5>
     <p class="vd-mb-8">
-      <strong>VdThemeCustomizer</strong> lets users personalize the theme in
-      real time — palette, primary color, neutral scale, border radius, and font
-      family — all on top of the default <strong>Open Color</strong> palette.
-      Every control writes through the shared
-      <code>useThemePreference()</code> singleton, so it stays in sync with the
-      <RouterLink to="/components/theme-switcher">Theme Switcher</RouterLink>
-      and persists to <code>localStorage</code>. Color mode itself lives in the
-      switcher; see the
-      <RouterLink to="/guides/theme-customizer"
-        >Theme Customizer walkthrough</RouterLink
-      >
-      for the full story. Two presentations ship:
-      <code>variant="panel"</code> (the default editor below) and
-      <code>variant="swatches"</code>, a primary-only fan for dock and toolbar
-      chrome.
+      <strong>VdThemeCustomizer</strong> changes the palette, primary color,
+      neutral scale, radius, and font. Preferences are shared across the app and
+      saved locally. Choose <code>panel</code> for all controls or
+      <code>swatches</code> for primary colors.
     </p>
 
     <!-- Live Demo: real component -->

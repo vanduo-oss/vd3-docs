@@ -121,8 +121,7 @@ const flexRow =
       Canonical reference for vd3 loading spinners: border spinner, dot bounce,
       growing pulse, sizes and color modifiers, plus the signature quad-grid
       loader (<code>.vd-dynamic-loader*</code>). Styles ship in
-      <code>framework/css/components/spinner.css</code>, imported by the main
-      <code>vanduo.css</code> bundle — copy HTML only; no extra layout CSS is
+      <code>@vanduo-oss/vd3/css</code> — copy HTML only; no extra layout CSS is
       required. For loading UX patterns (progress handoff, placeholders), see
       <RouterLink to="/components/preloader">Preloader</RouterLink>.
     </p>

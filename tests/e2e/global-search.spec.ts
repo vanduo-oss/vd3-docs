@@ -10,9 +10,14 @@ test.describe("Global Fuse search", () => {
     expect(indexRes.ok()).toBeTruthy();
 
     await page.goto("/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("html[data-vd-hydrated='true']")).toBeVisible();
     await page.keyboard.press("Meta+k");
     const dialog = page.getByRole("dialog", { name: "Search entire site" });
     await expect(dialog).toBeVisible();
+    // 1.7.4+ sets data-vd-search-ready on the client overlay; older registry
+    // pins still open the dialog and search the committed corpus.
+    const ready = await dialog.getAttribute("data-vd-search-ready");
+    if (ready !== null) expect(ready).toBe("true");
 
     const input = dialog.getByRole("searchbox", { name: "Search" });
     await input.fill("modal");
@@ -28,6 +33,13 @@ test.describe("Global Fuse search", () => {
     await expect(
       dialog.getByRole("switch", { name: "Semantic Search (BETA)" }),
     ).toHaveCount(0);
+    await listbox
+      .getByRole("option")
+      .filter({ hasText: "Modal" })
+      .first()
+      .click();
+    await expect(page).toHaveURL(/\/components\/modal$/);
+    await expect(page.locator("#modals .demo-title")).toBeVisible();
   });
 
   test("sits below the top Oola dock on mobile", async ({ page }) => {
@@ -36,6 +48,7 @@ test.describe("Global Fuse search", () => {
       window.localStorage.removeItem("vd3-docs-site-dock");
     });
     await page.goto("/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("html[data-vd-hydrated='true']")).toBeVisible();
 
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     await expect(dock).toHaveClass(/vd-dock-edge-top/);

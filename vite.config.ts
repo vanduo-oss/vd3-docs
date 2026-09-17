@@ -1,8 +1,7 @@
 import { defineConfig, type Plugin } from "vite";
 import vue from "@vitejs/plugin-vue";
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { fileURLToPath, URL } from "node:url";
-import path from "node:path";
 
 const APP_VERSION = JSON.parse(
   readFileSync(
@@ -11,62 +10,32 @@ const APP_VERSION = JSON.parse(
   ),
 ).version as string;
 
-// @vanduo-oss/vdl-cbun is a Labs sibling (link:); Vite needs explicit subpath
-// aliases (exports alone fail for linked CSS/JS).
-const vdlCbunRoot = fileURLToPath(
-  new URL("../../vdl/vdl-cbun", import.meta.url),
-);
-const vdlCbunDist = path.join(vdlCbunRoot, "dist");
-const useLocalVdlCbun = existsSync(path.join(vdlCbunDist, "index.js"));
-const vdlCbunAlias = useLocalVdlCbun
-  ? [
-      {
-        find: "@vanduo-oss/vdl-cbun/code-editor/css",
-        replacement: path.join(vdlCbunDist, "code-editor/vd3-code-editor.css"),
-      },
-      {
-        find: "@vanduo-oss/vdl-cbun/code-editor/highlight",
-        replacement: path.join(vdlCbunDist, "code-editor/highlight.js"),
-      },
-      {
-        find: "@vanduo-oss/vdl-cbun/code-editor",
-        replacement: path.join(vdlCbunDist, "code-editor"),
-      },
-      {
-        find: "@vanduo-oss/vdl-cbun/draw/css",
-        replacement: path.join(vdlCbunDist, "draw/vd3-draw.css"),
-      },
-      {
-        find: "@vanduo-oss/vdl-cbun/draw",
-        replacement: path.join(vdlCbunDist, "draw"),
-      },
-      {
-        find: "@vanduo-oss/vdl-cbun/hex-grid/hex-math",
-        replacement: path.join(vdlCbunDist, "hex-grid/hex-math.js"),
-      },
-      {
-        find: "@vanduo-oss/vdl-cbun/hex-grid",
-        replacement: path.join(vdlCbunDist, "hex-grid"),
-      },
-      {
-        find: "@vanduo-oss/vdl-cbun/music-player/css",
-        replacement: path.join(
-          vdlCbunDist,
-          "music-player/vd3-music-player.css",
-        ),
-      },
-      {
-        find: "@vanduo-oss/vdl-cbun/music-player",
-        replacement: path.join(vdlCbunDist, "music-player"),
-      },
-      {
-        find: "@vanduo-oss/vdl-cbun",
-        replacement: vdlCbunDist,
-      },
-    ]
-  : [];
-
 const docsAppVue = fileURLToPath(new URL("./src/App.vue", import.meta.url));
+
+// Local cross-package QA only. Committed dependencies remain registry pins.
+const localPackageAliases =
+  process.env.VD3_LOCAL_PACKAGES === "1"
+    ? ["vd3", "vd3-charts", "vd3-flowchart"].flatMap((name) => {
+        const root = new URL(`../${name}/`, import.meta.url);
+        const manifest = JSON.parse(
+          readFileSync(new URL("package.json", root), "utf8"),
+        );
+        return Object.entries(manifest.exports).map(([subpath, entry]) => ({
+          find: new RegExp(
+            `^${manifest.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}${subpath === "." ? "" : subpath.slice(1).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`,
+          ),
+          replacement: fileURLToPath(
+            new URL(
+              typeof entry === "string"
+                ? entry
+                : ((entry as { import?: string; default?: string }).import ??
+                  (entry as { default: string }).default),
+              root,
+            ),
+          ),
+        }));
+      })
+    : [];
 
 /**
  * Vite's dep scanner (`extractImportPaths`) regex-lifts `import '…'` lines
@@ -100,11 +69,11 @@ export default defineConfig({
   },
   resolve: {
     alias: [
+      ...localPackageAliases,
       {
         find: "@",
         replacement: fileURLToPath(new URL("./src", import.meta.url)),
       },
-      ...vdlCbunAlias,
     ],
     // One Vue/Pinia/@vanduo-oss/vd3 copy so a nested cbun install cannot
     // shadow the published kit (and so a temporary `pnpm link` still shares
@@ -123,7 +92,6 @@ export default defineConfig({
       "@vanduo-oss/vd3",
       "@vanduo-oss/vd3-charts",
       "@vanduo-oss/vd3-flowchart",
-      "@vanduo-oss/vdl-cbun",
       "@nuxtjs/color-mode",
     ],
     include: ["fuse.js"],
@@ -132,13 +100,12 @@ export default defineConfig({
     fs: {
       // Default allow is the project root (where published packages live under
       // node_modules). Sibling entries let a temporary `pnpm link` / `link:`
-      // serve out-of-tree CSS url() assets (vdl-cbun lives under vdl/).
+      // serve assets from local package builds.
       allow: [
         fileURLToPath(new URL(".", import.meta.url)),
         fileURLToPath(new URL("../vd3", import.meta.url)),
         fileURLToPath(new URL("../vd3-charts", import.meta.url)),
         fileURLToPath(new URL("../vd3-flowchart", import.meta.url)),
-        fileURLToPath(new URL("../../vdl/vdl-cbun", import.meta.url)),
       ],
     },
   },
@@ -149,7 +116,6 @@ export default defineConfig({
       "@vanduo-oss/vd3",
       "@vanduo-oss/vd3-charts",
       "@vanduo-oss/vd3-flowchart",
-      "@vanduo-oss/vdl-cbun",
     ],
   },
   build: {

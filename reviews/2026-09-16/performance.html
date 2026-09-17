@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>VD3 performance fixture</title><style>body{margin:20px;font:16px system-ui}#chart{width:1100px;height:360px}#graph{width:1200px;height:640px}</style><div id="chart"></div><div id="graph"></div>
+<script type="module">
+import {BarChart} from '../../../vd3-charts/dist/index.js';
+import '../../../vd3-charts/dist/vd3-charts.css';
+import {VdFlowchartCore} from '../../../vd3-flowchart/dist/index.js';
+import '../../../vd3-flowchart/dist/vd3-flowchart.css';
+let chart,graph;let moveStart=0;const drag=[];
+document.addEventListener('pointermove',()=>{moveStart=performance.now()},true);
+function flush(){document.querySelector('#graph').getBoundingClientRect(); document.querySelector('#chart').getBoundingClientRect()}
+function sample(fn){const out=[];for(let i=0;i<12;i++){const t=performance.now();fn(i);flush();const ms=performance.now()-t;if(i>1)out.push(ms)}return out}
+function data(n){return {nodes:Array.from({length:n},(_,i)=>({id:`n${i}`,text:`Node ${i}`,type:'rect',x:40+(i%8)*220,y:40+Math.floor(i/8)*120})),edges:Array.from({length:n-1},(_,i)=>({id:`e${i}`,from:{nodeId:`n${Math.floor(i/2)}`,port:'right'},to:{nodeId:`n${i+1}`,port:'left'}}))}}
+window.bench={
+ charts(n){chart?.destroy();const rows=Array.from({length:n},(_,i)=>({id:`r${i}`,x:`Item ${i}`,y:20+(i%71)}));chart=BarChart({target:'#chart',data:rows,width:1100,height:360,responsive:false,dataTable:true});return sample(t=>chart.update({data:rows.map((r,i)=>({...r,y:r.y+((i+t)%7)}))}))},
+ graph(n){graph?.destroy();const t=performance.now();graph=new VdFlowchartCore({element:document.querySelector('#graph'),data:data(n),autoFit:false,historyLimit:30});flush();const mount=performance.now()-t;
+ const edit=sample(i=>graph.updateNode('n0',{text:`Edited ${i}`}));
+ const undo=sample(()=>{graph.undo();graph.redo()});
+ const layout=sample(i=>graph.layout(i%2?'tree':'grid'));
+ graph.load(data(n));graph.setViewport({x:0,y:0,scale:1});
+ graph.canvasEl.addEventListener('pointermove',()=>{if(graph.interaction){flush();drag.push(performance.now()-moveStart)}});
+ drag.length=0;return {mount,edit,undoRedo:undo,layout}},
+ drag(){return {samples:drag.slice(),node:graph.toJSON().nodes[0]}},
+};
+</script></html>

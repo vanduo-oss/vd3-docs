@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Local package regression checks</title>
+    <link rel="icon" href="data:," />
+    <style>
+      body {
+        font-family: system-ui;
+        padding: 32px;
+      }
+      .chart {
+        width: 480px;
+      }
+      .flow {
+        height: 540px;
+        width: 1000px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module">
+      import { createApp, h, reactive, ref } from "vue";
+      import { VdTooltip, VdButton } from "../../../vd3/dist/index.js";
+      import "../../../vd3/dist/vd3.min.css";
+      import {
+        VdChart,
+        VdPieChart,
+        VdBarChart,
+      } from "../../../vd3-charts/dist/index.js";
+      import "../../../vd3-charts/dist/vd3-charts.css";
+      import { VdFlowchart } from "../../../vd3-flowchart/dist/index.js";
+      import "../../../vd3-flowchart/dist/vd3-flowchart.css";
+      const state = reactive({
+        readonly: false,
+        gridSize: 24,
+        changes: 0,
+        radius: undefined,
+        data: { nodes: [{ id: "a", text: "Initial" }] },
+      });
+      const flow = ref(null);
+      const bar = ref(null);
+      const barState = reactive({
+        responsive: false,
+        width: 480,
+        rows: [
+          { id: "a", x: "A", y: 2 },
+          { id: "b", x: "B", y: 3 },
+        ],
+        color: "#364fc7",
+      });
+      window.packageQA = {
+        state: barState,
+        refresh: () => bar.value.refresh(),
+      };
+      createApp({
+        setup: () => () =>
+          h("main", [
+            h(VdTooltip, { text: "Copy value", position: "bottom" }, () =>
+              h(VdButton, { "aria-describedby": "existing" }, () => "Copy"),
+            ),
+            h("p", { id: "existing" }, "Existing description"),
+            h(
+              "button",
+              { onClick: () => (state.readonly = !state.readonly) },
+              "Toggle read-only",
+            ),
+            h(
+              "button",
+              { onClick: () => (state.gridSize = 32) },
+              "Change grid",
+            ),
+            h(
+              "button",
+              {
+                onClick: () =>
+                  flow.value.getInstance().addNode({ id: "b", text: "Added" }),
+              },
+              "Add test node",
+            ),
+            h("button", { onClick: () => flow.value.undo() }, "Undo edit"),
+            h("output", { id: "changes" }, String(state.changes)),
+            h(VdBarChart, {
+              ref: bar,
+              class: "bar-updates",
+              responsive: barState.responsive,
+              data: barState.rows,
+              x: "x",
+              y: "y",
+              style: {
+                width: `${barState.width}px`,
+                "--vd-chart-1": barState.color,
+              },
+            }),
+            h(VdChart, {
+              class: "chart generic-pie",
+              type: "pie",
+              innerRadiusRatio: state.radius,
+              data: [
+                { label: "A", value: 2 },
+                { label: "B", value: 3 },
+              ],
+            }),
+            h(VdPieChart, {
+              class: "chart typed-pie",
+              data: [
+                { label: "A", value: 2 },
+                { label: "B", value: 3 },
+              ],
+            }),
+            h(VdFlowchart, {
+              ref: flow,
+              class: "flow",
+              data: state.data,
+              readonly: state.readonly,
+              gridSize: state.gridSize,
+              onChange: (event) => {
+                state.changes++;
+                if (state.changes < 10) state.data = event.document;
+              },
+            }),
+          ]),
+      }).mount("#app");
+    </script>
+  </body>
+</html>

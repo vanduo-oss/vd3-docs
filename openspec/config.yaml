@@ -8,8 +8,8 @@ context: |
   routes (buildRoutes + pageComponents maps). Single engine: NO EngineSwitch/EngineBadge/
   useEngineStore — pages document Vue3 usage only.
   Dogfoods the PUBLISHED packages (exact pins; .npmrc save-exact):
-  "@vanduo-oss/vd3": "1.7.2", "@vanduo-oss/vd3-charts": "1.1.0",
-  "@vanduo-oss/vd3-flowchart": "1.2.0", and "@vanduo-oss/vd3-cbun": "1.4.2".
+  "@vanduo-oss/vd3": "1.7.3", "@vanduo-oss/vd3-charts": "1.1.0",
+  "@vanduo-oss/vd3-flowchart": "1.2.0".
   Vite resolve.dedupe ['vue','pinia','@vanduo-oss/vd3'] + optimizeDeps.exclude
   for the kit so a nested copy cannot shadow the published packages.
   main.ts imports @vanduo-oss/vd3/css, @vanduo-oss/vd3-charts/css,
@@ -19,7 +19,7 @@ context: |
   Tests: vitest units, Playwright visual parity (all routes, committed baselines),
   layout-navigation interactions, gzip size budget, @axe-core/playwright a11y smoke.
   Changelog policy: documents PACKAGE releases only (@vanduo-oss/vd3,
-  @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart, @vanduo-oss/vd3-cbun),
+  @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart),
   never docs-site content. Deploy workflow is live on push to main (GitHub Pages at
   https://vd3.vanduo.dev/, Vite base `/`, public/CNAME); apex vanduo.dev belongs to
   the home/ repo.
@@ -33,7 +33,7 @@ rules:
     - Use Given/When/Then scenario format under each requirement
     - Use SHALL/MUST for normative requirements
   design:
-    - Docs pages render real vd3 / vd3-charts / vd3-flowchart / vd3-cbun components (dogfooding) — no invented APIs; verify against package source
+    - Docs pages render real vd3 / vd3-charts / vd3-flowchart components (dogfooding) — no invented APIs; verify against package source
     - No vanilla-engine references in prose, snippets, or runtime
     - app.css stays shell/layout-only; component styling belongs to the vd3 package
   tasks:
@@ -41,4 +41,4 @@ rules:
     - Include Playwright visual-baseline update step when page markup changes
     - Include search-index/nav keywords update when adding pages
   changelog:
-    - Track packages only (@vanduo-oss/vd3, @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart, @vanduo-oss/vd3-cbun); never docs-site content
+    - Track packages only (@vanduo-oss/vd3, @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart); never docs-site content

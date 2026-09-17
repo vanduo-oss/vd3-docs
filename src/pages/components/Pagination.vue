@@ -3,8 +3,7 @@ import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdPagination } from "@vanduo-oss/vd3";
 
-// Authored page — there is no original `pagination.html`; demos are built from the
-// real framework component (framework/js/components/pagination.js + CSS).
+// Authored page — demos use VdPagination from @vanduo-oss/vd3.
 const basicPage = ref(1);
 const sizeSmPage = ref(2);
 const sizeMdPage = ref(2);

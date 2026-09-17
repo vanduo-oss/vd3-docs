@@ -32,7 +32,7 @@ const markupHtml = `<!-- Contained demo -->
   <canvas class="vd-liquid-gradient-canvas"></canvas>
 </div>
 
-<!-- Full-viewport atmosphere (Labs home style) -->
+<!-- Full-viewport atmosphere -->
 <div class="vd-liquid-gradient vd-liquid-gradient-fixed vd-liquid-gradient-active"
      aria-hidden="true">
   <canvas class="vd-liquid-gradient-canvas"></canvas>

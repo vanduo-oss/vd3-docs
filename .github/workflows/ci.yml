@@ -6,11 +6,9 @@ on:
   pull_request:
     branches: [main]
 
-# Dogfoods published @vanduo-oss/vd3 from npm plus Labs sibling
-# link:../../vdl/vdl-cbun — CI checks that tree out beside
-# perspective/vd3-docs to match the committed path.
+# Uses the exact published package versions in pnpm-lock.yaml.
 
-# Least-privilege default token: this workflow only reads the repo (+ public siblings).
+# Least-privilege default token: this workflow only reads the repo.
 permissions:
   contents: read
 
@@ -18,18 +16,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: perspective/vd3-docs
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          path: perspective/vd3-docs
-
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: vanduo-oss/vdl-cbun
-          path: vdl/vdl-cbun
 
       - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
         with:
@@ -39,17 +27,7 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-          cache-dependency-path: |
-            perspective/vd3-docs/pnpm-lock.yaml
-            vdl/vdl-cbun/pnpm-lock.yaml
-
-      - name: "Install and build link: sibling (vdl-cbun)"
-        working-directory: ${{ github.workspace }}
-        run: |
-          echo "::group::Build vdl/vdl-cbun"
-          pnpm install --frozen-lockfile --dir vdl/vdl-cbun
-          pnpm run --dir vdl/vdl-cbun build
-          echo "::endgroup::"
+          cache-dependency-path: pnpm-lock.yaml
 
       - run: pnpm install --frozen-lockfile
 
@@ -60,8 +38,12 @@ jobs:
 
       - run: pnpm run build
 
-      # Automated test suites (unit `pnpm test`, `pnpm run test:size`, and the
-      # Playwright e2e suites) are intentionally NOT run in CI to conserve
-      # GitHub Actions minutes — this is a docs site, and those suites (which
-      # otherwise download a browser on every run) are run locally instead.
-      # Run them with: pnpm test / pnpm run test:size / pnpm run test:e2e.
+      - run: pnpm test
+      - run: pnpm run test:content
+      - run: pnpm run test:size
+      - name: Install Chromium for the focused browser smoke
+        run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm run test:smoke
+
+      # The full visual and accessibility matrix remains a required local QA
+      # step; this job adds two focused search/navigation browser cases.

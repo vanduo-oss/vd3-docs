@@ -241,22 +241,16 @@ const itemApi: [string, string][] = [
   <section id="dock">
     <h5 class="demo-title"><i class="ph ph-rows"></i>Oola Dock</h5>
     <p class="vd-mb-8">
-      <strong>VdDock</strong> is a fat Seemore glass pill that morphs
-      <code>horizontal</code> ↔ <code>vertical</code> through a square waypoint.
-      Package defaults stay <code>placement="bottom"</code>, no tint, radius
-      <code>1.25</code>, glass <code>34</code>. This playground starts at
-      <strong
-        >bottom / theme ink (light black, dark green) / radius 1.5 / glass 34 /
-        ū / stack</strong
-      >. Brand click here cycles <code>bottom</code> → <code>left</code> →
-      <code>top</code> → <code>right</code> → <code>bottom</code>. The package
-      still morphs the paired edge (<code>bottom</code> ↔ <code>left</code>,
-      <code>top</code> ↔ <code>right</code>). Fixed docks force a horizontal
-      edge when the viewport is ≤520px; this playground opts out of that JS lock
-      so Place and ū work in a narrow pane, and shows only the brand, centered.
-      The <code>#brand</code> slot sits on the morph-origin corner — these demos
-      use the oola <strong>ū</strong> mark. Replace it with your logo. Radius is
-      dock-own and goes past the theme 0.5rem cap.
+      <strong>VdDock</strong> places navigation on any screen edge and animates
+      between horizontal and vertical layouts. Use the customizer to try
+      placement, tint, radius, and glass strength.
+    </p>
+
+    <p class="vd-text-sm vd-text-muted vd-mb-6">
+      This demo cycles all four edges and allows vertical placement on narrow
+      screens. The package pairs bottom/left and top/right, and uses a
+      horizontal edge at 520px or below. Replace the <code>#brand</code> slot
+      with your logo.
     </p>
 
     <div class="vd-row vd-mb-6">

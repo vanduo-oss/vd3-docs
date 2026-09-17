@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-09-16T19:44:40.132Z",
+  "tasks": 5,
+  "typecheck": "passed",
+  "build": "passed",
+  "browser": "5 passed",
+  "archives": [
+    {
+      "package": "@vanduo-oss/vd3",
+      "version": "1.7.3",
+      "sha256": "310ae75f421ea721185ab788a6d89db91479d4ee1d8ceadf5bfe7776770010e4"
+    },
+    {
+      "package": "@vanduo-oss/vd3-charts",
+      "version": "1.1.0",
+      "sha256": "45e4fac1e1ca551586d07c6f2140681a758fd25d68dda298188d475434e222db"
+    },
+    {
+      "package": "@vanduo-oss/vd3-flowchart",
+      "version": "1.2.0",
+      "sha256": "5f200856d59a3120f4fc15876fd4de0e8c0cfd10359bc2a6631564ed38d51885"
+    }
+  ]
+}

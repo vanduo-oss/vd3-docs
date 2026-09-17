@@ -88,19 +88,6 @@ html {
   --vd-font-weight-bold: 800;
   --vd-font-weight-extrabold: 800;
 
-  /* Stronger muted/secondary contrast (still gray, less washed-out) */
-  --vd-text-secondary: color-mix(
-    in srgb,
-    var(--vd-text-primary) 72%,
-    var(--vd-bg-primary)
-  );
-  --vd-text-muted: color-mix(
-    in srgb,
-    var(--vd-text-primary) 58%,
-    var(--vd-bg-primary)
-  );
-  --vd-color-muted: var(--vd-text-muted);
-
   /* Docs shell chrome — rem at 16px baseline, scales with font-size above.
      Offsets clear the fixed site dock (data-docs-dock) instead of a top navbar.
      Mobile default; desktop compact tokens apply from 521px up. */
@@ -120,6 +107,21 @@ html {
   --docs-sidebar-tablet-max-offset: 9.375rem; /* was 150px */
   --docs-main-min-height-offset: 12.5rem; /* was 200px */
   --docs-mobile-nav-extra: 3.75rem; /* was 60px */
+}
+
+/* Override package theme text tokens without overriding font preferences. */
+html:root {
+  --vd-text-secondary: color-mix(
+    in srgb,
+    var(--vd-text-primary) 90%,
+    var(--vd-bg-primary)
+  );
+  --vd-text-muted: color-mix(
+    in srgb,
+    var(--vd-text-primary) 82%,
+    var(--vd-bg-primary)
+  );
+  --vd-color-muted: var(--vd-text-muted);
 }
 
 html[data-docs-dock="bottom"],
@@ -2357,10 +2359,9 @@ footer.vd-glass::before {
 
 /* ── About page styles ──────────────────────────── */
 
-/* Top banners: About, Changelog, Labs (and docs-landing via .about-header) */
+/* Top banners: About and Changelog (and docs-landing via .about-header) */
 .about-header,
-.changelog-header,
-.labs-header {
+.changelog-header {
   padding: 144px 0 55px;
   text-align: center;
   background: linear-gradient(
@@ -2373,8 +2374,7 @@ footer.vd-glass::before {
 .about-header h1,
 .changelog-header h1,
 .about-header h2,
-.changelog-header h2,
-.labs-header h2 {
+.changelog-header h2 {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2790,74 +2790,6 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 .about-split > * {
   min-width: 0;
-}
-
-/* ── Labs page main column (extra bottom padding before footer) ── */
-.labs-main {
-  padding: 3rem 0 6rem;
-  min-width: 0;
-
-  /* Do not use overflow-x: auto on the whole column — it becomes a wide touch
-               scroller (~600px+) and iOS can show content clipped on one edge while the
-               user pans horizontally. Wide tables/snippets belong in card-local scroll. */
-  overflow-x: hidden;
-}
-
-/* API tables & code blocks: scroll here only, not across the full Labs column */
-#labs .vd-card-body {
-  min-width: 0;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-#labs .vd-table th,
-#labs .vd-table td {
-  text-align: center;
-  vertical-align: middle;
-}
-
-/* Labs: breathing room next to heading icons; file titles; snippet control “icons” (SVG via CSS) */
-#labs .vd-card-body h4:has(.ph) {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-#labs .vd-card-body h4:has(.ph) .ph {
-  flex-shrink: 0;
-}
-
-#labs .vd-card-body h5:has(> code) {
-  margin-bottom: 0.75rem;
-}
-
-/* Extra space above the first filename after an icon h4 (avoids margin-collapse eating a lone margin-top) */
-#labs .vd-card-body h4 + h5:has(> code) {
-  padding-top: 1rem;
-}
-
-/*
-         * vd-hex long-form cards: vd3 utilities vd-mb-3 / vd-mb-4 use --vd-spacing-3 / --vd-spacing-4
-         * (~3px / ~5px), which reads as “no gap” under headings. Use normal document rhythm here only.
-         */
-#labs #vd-hex-demo .vd-card-body h4.vd-mb-4 {
-  margin-bottom: 1.5rem;
-}
-
-#labs #vd-hex-demo .vd-card-body h5.vd-mb-3 {
-  margin-bottom: 1.125rem;
-}
-
-#labs .vd-code-snippet-header {
-  gap: 0.75rem;
-}
-
-#labs .vd-code-snippet-toggle {
-  gap: 0.625rem;
-}
-
-#labs .vd-code-snippet-copy {
-  gap: 0.5rem;
 }
 
 .version-card {
@@ -5014,4 +4946,29 @@ body.lcc-open .vd-offcanvas {
   .vd-surface-grid.seemore-surface-motion {
     animation: none;
   }
+}
+
+/* Underline prose links without overriding navigation or component styling. */
+:where(#main-content p, #main-content li) a:where(:not(.vd-btn)) {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+#home-features .feature-morph-toggle {
+  position: absolute;
+  bottom: 0.65rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  border: 0;
+  background: transparent;
+  color: var(--vd-text-primary);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+#home-features .feature-morph-toggle:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 3px;
 }

@@ -51,7 +51,9 @@ test.describe("Site Oola dock chrome", () => {
     await expect(home).toHaveAttribute("data-tooltip-variant", "dock");
 
     await home.hover();
-    const tooltip = page.locator(".vd-tooltip.vd-tooltip-right.vd-tooltip-dock").first();
+    const tooltip = page
+      .locator(".vd-tooltip.vd-tooltip-right.vd-tooltip-dock")
+      .first();
     await expect(tooltip).toBeVisible();
     await expect(tooltip).toHaveText("Home");
     // Right placement must clear the trigger's right edge, not overlap the dock.
@@ -234,7 +236,10 @@ test.describe("Site Oola dock chrome", () => {
       const cleared = await page.evaluate((edge) => {
         const dockEl = document.querySelector("nav.vd-site-dock");
         const mainEl = document.querySelector("#main-content");
-        if (!(dockEl instanceof HTMLElement) || !(mainEl instanceof HTMLElement)) {
+        if (
+          !(dockEl instanceof HTMLElement) ||
+          !(mainEl instanceof HTMLElement)
+        ) {
           return false;
         }
         const dockRect = dockEl.getBoundingClientRect();
@@ -322,16 +327,20 @@ test.describe("Site Oola dock chrome", () => {
         const ratio = Number.parseFloat(ratioToken) || 0.9;
         const prevH = window.innerWidth - 2 * inset;
         const prevV = window.innerHeight - 2 * inset;
+        // With scrollbar-gutter: stable, macOS Chromium clientWidth includes
+        // the reserved gutter. Fixed right positioning uses the root layout box.
+        const layoutWidth =
+          document.documentElement.getBoundingClientRect().width;
         return {
           left: box.left,
-          rightGap: document.documentElement.clientWidth - box.right,
+          rightGap: layoutWidth - box.right,
           top: box.top,
           bottomGap: window.innerHeight - box.bottom,
           width: box.width,
           height: box.height,
           centerX: box.left + box.width / 2,
           centerY: box.top + box.height / 2,
-          viewW: document.documentElement.clientWidth,
+          viewW: layoutWidth,
           viewH: window.innerHeight,
           inset,
           ratio,
@@ -510,7 +519,10 @@ test.describe("Site Oola dock chrome", () => {
       .getByRole("option", { name: "Yellow" })
       .evaluate((option: HTMLElement) => option.click());
     await expect(fan).not.toHaveClass(/is-open/);
-    await expect(page.locator("html")).toHaveAttribute("data-primary", "yellow");
+    await expect(page.locator("html")).toHaveAttribute(
+      "data-primary",
+      "yellow",
+    );
   });
 
   test("swatches fan direction follows dock edge", async ({ page }) => {

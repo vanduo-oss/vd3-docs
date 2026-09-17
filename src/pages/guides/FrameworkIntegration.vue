@@ -8,11 +8,7 @@ pnpm add @vanduo-oss/vd3
 
 # Charts and flowchart ship as dedicated packages
 pnpm add @vanduo-oss/vd3-charts
-pnpm add @vanduo-oss/vd3-flowchart
-
-# Optional — remaining canvas widgets (code-editor, draw, hex-grid, music-player)
-# Labs sibling — in package.json:
-# "@vanduo-oss/vdl-cbun": "link:../vdl-cbun"`;
+pnpm add @vanduo-oss/vd3-flowchart`;
 
 const mainJs = `// main.ts — register the plugin and the stylesheet once
 import { createApp } from 'vue';
@@ -40,24 +36,12 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
   </VdCard>
 </template>`;
 
-const cbunJs = `// Dedicated packages for charts and flowchart; remaining widgets live in vdl-cbun.
+const cbunJs = `// Optional charts and flowchart packages.
 import { VdChart } from '@vanduo-oss/vd3-charts';
 import '@vanduo-oss/vd3-charts/css';
 
 import { VdFlowchart } from '@vanduo-oss/vd3-flowchart';
-import '@vanduo-oss/vd3-flowchart/css';
-
-import { VdCodeEditor } from '@vanduo-oss/vdl-cbun/code-editor';
-import '@vanduo-oss/vdl-cbun/code-editor/css';
-
-import { VdDraw } from '@vanduo-oss/vdl-cbun/draw';
-import '@vanduo-oss/vdl-cbun/draw/css';
-
-import { VdHexGrid } from '@vanduo-oss/vdl-cbun/hex-grid';
-// hex-grid is canvas-rendered — it ships no stylesheet.
-
-import { VdMusicPlayer } from '@vanduo-oss/vdl-cbun/music-player';
-import '@vanduo-oss/vdl-cbun/music-player/css';`;
+import '@vanduo-oss/vd3-flowchart/css';`;
 
 const ssgJs = `// main.ts — SSR / SSG entry with vite-ssg
 import { ViteSSG } from 'vite-ssg';
@@ -105,7 +89,7 @@ const pluginOptions: [string, string, string][] = [
   [
     "storagePrefix",
     "string",
-    'localStorage key prefix for theme preferences (default "vanduo-"). Applied synchronously on install, before the first storage read. Use a unique prefix when two apps share an origin so keys do not collide. Example: "labs-" → labs-theme-preference, labs-palette, …',
+    'localStorage key prefix for theme preferences (default "vanduo-"). Applied synchronously on install, before the first storage read. Use a unique prefix when two apps share an origin so keys do not collide. Example: "my-app-" → my-app-theme-preference, my-app-palette, …',
   ],
 ];
 </script>
@@ -143,15 +127,8 @@ const pluginOptions: [string, string, string][] = [
           </div>
           <div class="vd-card-body">
             <p>
-              Add the core package. Reach for
-              <code>@vanduo-oss/vd3-charts</code> and
-              <code>@vanduo-oss/vd3-flowchart</code> for those widgets, and
-              <code>@vanduo-oss/vdl-cbun</code> for the remaining canvas widgets
-              (code-editor, draw, hex-grid, music-player). Full widget docs for
-              the vdl line live on
-              <a href="https://labs.vanduo.dev/" rel="noopener noreferrer"
-                >labs.vanduo.dev</a
-              >.
+              Install the design system. Add charts or flowchart if your app
+              needs them.
             </p>
             <DocCodeSnippet :shell="installShell" :default-open="true" />
           </div>
@@ -222,10 +199,7 @@ const pluginOptions: [string, string, string][] = [
             </p>
             <DocCodeSnippet :js="usageJs" :default-open="true" />
             <p class="vd-text-sm vd-text-muted vd-mt-3">
-              Charts and flowchart come from dedicated packages. The remaining
-              canvas widgets come from
-              <code>@vanduo-oss/vdl-cbun</code> subpaths. Hex-grid ships no
-              matching <code>/css</code> file:
+              Import each optional package and its stylesheet:
             </p>
             <DocCodeSnippet :js="cbunJs" />
           </div>

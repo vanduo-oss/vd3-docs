@@ -52,11 +52,6 @@ const repos: [string, string, string][] = [
     "Dedicated SVG flowchart editor. Same tokens as vd3. These docs dogfood 1.2.0.",
   ],
   [
-    "vdl-cbun",
-    "@vanduo-oss/vdl-cbun (link: — not on npm)",
-    "Labs canvas bundle: code-editor, draw, hex-grid, and music-player, each on its own subpath (hex-grid ships no CSS). Documented on labs.vanduo.dev; this site keeps theme-aware /cbun screenshots.",
-  ],
-  [
     "vd3-docs",
     "— (not published to npm)",
     "This documentation site. It dogfoods the published packages — every live demo on these pages renders the real shipped component.",
@@ -67,11 +62,7 @@ const installVd3 = `# The design system + components (tokens & CSS included)
 pnpm add @vanduo-oss/vd3`;
 
 const installCbun = `# Dedicated charts and flowchart packages
-pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart
-
-# Remaining canvas widgets (code-editor / draw / hex-grid / music-player)
-# Labs sibling — in package.json:
-# "@vanduo-oss/vdl-cbun": "link:../vdl-cbun"`;
+pnpm add @vanduo-oss/vd3-charts @vanduo-oss/vd3-flowchart`;
 
 const usageJs = `// Components, composables, tokens and CSS all come from one package:
 import { VdButton } from '@vanduo-oss/vd3';
@@ -79,13 +70,7 @@ import '@vanduo-oss/vd3/css';
 
 // Charts and flowchart ship as dedicated packages:
 import { VdChart } from '@vanduo-oss/vd3-charts';
-import { VdFlowchart } from '@vanduo-oss/vd3-flowchart';
-
-// Remaining canvas widgets come from the labs bundle's per-widget subpaths:
-import { VdCodeEditor } from '@vanduo-oss/vdl-cbun/code-editor';
-import { VdDraw } from '@vanduo-oss/vdl-cbun/draw';
-import { VdHexGrid } from '@vanduo-oss/vdl-cbun/hex-grid';
-import { VdMusicPlayer } from '@vanduo-oss/vdl-cbun/music-player';`;
+import { VdFlowchart } from '@vanduo-oss/vd3-flowchart';`;
 </script>
 
 <template>
@@ -95,12 +80,8 @@ import { VdMusicPlayer } from '@vanduo-oss/vdl-cbun/music-player';`;
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      <strong>vd3</strong> is the Vue 3 design system from
-      <code>vanduo-oss</code>, shipped as a small, standalone set of packages
-      under the <code>@vanduo-oss</code> scope. There is no separate token / CSS
-      / JS split to wire together — one component library, dedicated charts and
-      flowchart packages, plus an optional canvas bundle, documented by this
-      site.
+      Start with <code>@vanduo-oss/vd3</code> for components, CSS, and theme
+      tokens. Add the charts or flowchart package when you need it.
     </p>
 
     <!-- The vd3 line repos -->
@@ -134,16 +115,10 @@ import { VdMusicPlayer } from '@vanduo-oss/vdl-cbun/music-player';`;
               </table>
             </div>
             <p class="vd-text-sm vd-text-muted vd-mt-3">
-              Design tokens generate the CSS, the CSS is themed by the same
-              tokens, and the <code>Vd*</code> components and composables render
-              against both — all inside <code>@vanduo-oss/vd3</code>. Dedicated
-              <code>@vanduo-oss/vd3-charts</code> and
-              <code>@vanduo-oss/vd3-flowchart</code> packages sit alongside it
-              for those widgets; <code>@vanduo-oss/vdl-cbun</code> covers the
-              remaining canvas tools (docs on
-              <a href="https://labs.vanduo.dev/" rel="noopener noreferrer"
-                >labs</a
-              >). <RouterLink to="/cbun">Browse the CBUN showcase</RouterLink>.
+              All three packages share theme tokens.
+              <RouterLink to="/cbun"
+                >See charts and flowchart examples</RouterLink
+              >.
             </p>
           </div>
         </div>
@@ -159,8 +134,8 @@ import { VdMusicPlayer } from '@vanduo-oss/vdl-cbun/music-player';`;
           </div>
           <div class="vd-card-body">
             <p class="vd-mb-3">
-              Start with the design system; add charts, flowchart, or the
-              remaining canvas bundle only if you need them:
+              Start with the design system; add charts, or flowchart only if you
+              need them:
             </p>
             <DocCodeSnippet :shell="installVd3" :default-open="true" />
             <DocCodeSnippet

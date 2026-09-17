@@ -234,3 +234,48 @@ test.describe("Home CTA contrast", () => {
     }
   });
 });
+
+for (const theme of ["light", "dark"] as const) {
+  for (const primary of ["yellow", "orange", "cyan"]) {
+    test(`${theme} + ${primary}: filled, hover and selected controls meet 4.5:1`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ colorScheme: theme });
+      await page.addInitScript(
+        ({ theme, primary }) => {
+          localStorage.setItem("vanduo-theme-preference", theme);
+          localStorage.setItem("vanduo-primary-color", primary);
+        },
+        { theme, primary },
+      );
+      await page.goto("/components/button", { waitUntil: "networkidle" });
+      await expect(page.locator("html")).toHaveAttribute(
+        "data-primary",
+        primary,
+      );
+      const filled = page.locator('[data-demo="variants"] .vd-btn-primary');
+      const ratio = async (el: ReturnType<Page["locator"]>) =>
+        el
+          .evaluate((node) => {
+            const s = getComputedStyle(node);
+            return { fg: s.color, bg: s.backgroundColor };
+          })
+          .then(({ fg, bg }) => contrastRatio(fg, bg));
+      await expect.poll(() => ratio(filled)).toBeGreaterThanOrEqual(4.5);
+      for (const button of [
+        filled,
+        page.locator('[data-demo="variants"] .vd-btn-outline').first(),
+        page.locator('[data-demo="ink-sizes"] .vd-btn-ink').nth(1),
+      ]) {
+        await button.hover();
+        await expect.poll(() => ratio(button)).toBeGreaterThanOrEqual(4.5);
+      }
+      await page.getByRole("button", { name: "Customize live" }).click();
+      const selected = page.locator(".lcc-seg-btn.active");
+      await expect(selected.first()).toBeVisible();
+      expect(await selected.count()).toBeGreaterThanOrEqual(4);
+      for (const chip of await selected.all())
+        await expect.poll(() => ratio(chip)).toBeGreaterThanOrEqual(4.5);
+    });
+  }
+}
