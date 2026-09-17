@@ -2,7 +2,11 @@ name: Deploy to GitHub Pages
 
 # Builds the vite-ssg site and publishes dist/ to GitHub Pages at
 # https://vd3.vanduo.dev/ (custom domain; Vite base `/`).
-# Uses the exact published package versions in pnpm-lock.yaml.
+# pnpm install still uses the exact published versions in pnpm-lock.yaml.
+# Until @vanduo-oss/vd3@1.7.4 (and charts 1.1.1 / flowchart 1.3.0) exist on
+# npm, the SSG/a11y build aliases the merged GitHub SHAs so Pages ships the
+# contrast-token CSS that axe requires. Revert the extra checkouts and
+# VD3_LOCAL_PACKAGES env after those versions are published and pinned.
 
 on:
   push:
@@ -25,6 +29,26 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      # Merged library SHAs (not yet on npm). Drop these checkouts after publish.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: vanduo-oss/vd3
+          ref: c4722f67e2da17f518390b8c53589a538b915284
+          path: .local-packages/vd3
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: vanduo-oss/vd3-charts
+          ref: 8db54afa926e2bef3638ce99bed4f4f3644b0901
+          path: .local-packages/vd3-charts
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: vanduo-oss/vd3-flowchart
+          ref: 18992f655a571d4c5b2f3ba96f43c5516b841da7
+          path: .local-packages/vd3-flowchart
+          persist-credentials: false
+
       - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
         with:
           version: 10.28.2
@@ -33,9 +57,25 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            .local-packages/vd3/pnpm-lock.yaml
+            .local-packages/vd3-charts/pnpm-lock.yaml
+            .local-packages/vd3-flowchart/pnpm-lock.yaml
 
       - run: pnpm install --frozen-lockfile
+
+      - name: Build library packages for local-package aliases
+        run: |
+          set -euo pipefail
+          for pkg in vd3 vd3-charts vd3-flowchart; do
+            echo "::group::build ${pkg}"
+            cd "${{ github.workspace }}/.local-packages/${pkg}"
+            pnpm install --frozen-lockfile
+            pnpm run build
+            cd "${{ github.workspace }}"
+            echo "::endgroup::"
+          done
 
       # ── Quality gates ──────────────────────────────────────────────────────
       # deploy.yml runs on push to main INDEPENDENTLY of ci.yml, so a type /
@@ -50,6 +90,9 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Build for GitHub Pages (base '/')
+        env:
+          VD3_LOCAL_PACKAGES: "1"
+          VD3_PACKAGES_ROOT: ${{ github.workspace }}/.local-packages
         run: pnpm run build
       - run: pnpm test
       - run: pnpm run test:content
