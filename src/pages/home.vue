@@ -344,7 +344,7 @@ const swatches = [
         <div class="vd-row" style="align-items: center">
           <div class="vd-col-12 vd-col-lg-5">
             <h2 id="seemore-home-title" class="seemore-home-title">
-              See more glass.
+              Seemore Glass
             </h2>
             <p class="seemore-home-lead">
               <strong>Seemore Glass</strong>: every strength step follows the
@@ -392,10 +392,7 @@ const swatches = [
 
     <div class="vd-container-responsive">
       <!-- Icons Overview -->
-      <div
-        id="home-icons"
-        style="padding: 4rem 0; scroll-margin-top: var(--docs-main-offset)"
-      >
+      <div id="home-icons">
         <h3
           class="icons-section-title vd-mb-3"
           style="color: var(--vd-color-primary)"
@@ -538,6 +535,18 @@ const swatches = [
 </template>
 
 <style scoped>
+#home-icons {
+  padding: 4rem 0;
+  scroll-margin-top: var(--docs-main-offset);
+}
+
+@media (min-width: 992px) {
+  #home-icons {
+    /* The rotated dock fan extends below its sticky presentation frame. */
+    padding-top: 10rem;
+  }
+}
+
 .seemore-home {
   padding: 4.5rem 0 3.5rem;
   background:
@@ -553,6 +562,7 @@ const swatches = [
     );
 }
 .seemore-home-title {
+  font-weight: 400;
   margin: 0 0 1rem;
   font-size: clamp(1.85rem, 3.2vw, 2.75rem);
   line-height: 1.15;
