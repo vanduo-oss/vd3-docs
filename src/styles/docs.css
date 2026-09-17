@@ -4948,9 +4948,8 @@ body.lcc-open .vd-offcanvas {
   }
 }
 
-/* Inline links remain distinguishable across primary colors and themes. */
-#main-content p a:not(.vd-btn),
-#main-content li a:not(.vd-btn) {
+/* Underline prose links without overriding navigation or component styling. */
+:where(#main-content p, #main-content li) a:where(:not(.vd-btn)) {
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }

@@ -49,3 +49,13 @@ Every documentation route SHALL be a lazy page import. Optional demo deferral SH
 - **Given** the current router and homepage
 - **When** initial JS/CSS is measured
 - **Then** charts and flowchart SHALL load with their own routes, and reference demos on those routes SHALL remain complete
+
+### Requirement: Prose link styling preserves navigation appearance
+
+DocSite prose-link defaults SHALL preserve component-specific link styling.
+
+#### Scenario: Sidebar links remain visually distinct navigation
+
+- **Given** the documentation sidebar in either theme
+- **When** prose links are underlined for recognition
+- **Then** sidebar links MUST retain their un-underlined rest, hover, and focus styling while ordinary prose links remain underlined
