@@ -16,9 +16,9 @@ describe("package changelog", () => {
     expect(columns).toHaveLength(3);
 
     const vd3Cards = columns[0].findAll(".version-card");
-    expect(headerText(vd3Cards[0])).toContain("v1.7.3");
+    expect(headerText(vd3Cards[0])).toContain("v1.7.4");
     expect(headerText(vd3Cards[0])).toContain("Latest");
-    expect(headerText(vd3Cards[1])).toContain("v1.7.2");
+    expect(headerText(vd3Cards[1])).toContain("v1.7.3");
     expect(headerText(vd3Cards[1])).not.toContain("Latest");
     expect(headerText(vd3Cards.at(-1)!)).toContain("v1.0.0");
     expect(headerText(vd3Cards.at(-1)!)).toContain("Initial");
@@ -29,23 +29,26 @@ describe("package changelog", () => {
     expect(columns[0].text()).not.toContain("@vanduo-oss/vd3-cbun");
 
     const chartsCards = columns[1].findAll(".version-card");
-    expect(headerText(chartsCards[0])).toContain("v1.1.0");
+    expect(headerText(chartsCards[0])).toContain("v1.1.1");
     expect(headerText(chartsCards[0])).toContain("Latest");
-    expect(headerText(chartsCards[1])).toContain("v1.0.1");
+    expect(headerText(chartsCards[1])).toContain("v1.1.0");
     expect(headerText(chartsCards[1])).not.toContain("Latest");
-    expect(headerText(chartsCards[2])).toContain("v1.0.0");
-    expect(headerText(chartsCards[2])).toContain("Initial");
+    expect(headerText(chartsCards[2])).toContain("v1.0.1");
+    expect(headerText(chartsCards[2])).not.toContain("Latest");
+    expect(headerText(chartsCards.at(-1)!)).toContain("v1.0.0");
+    expect(headerText(chartsCards.at(-1)!)).toContain("Initial");
     expect(
       chartsCards.filter((card) => headerText(card).includes("Latest")),
     ).toHaveLength(1);
     expect(columns[1].text()).toContain("@vanduo-oss/vd3-charts");
 
     const flowchartCards = columns[2].findAll(".version-card");
-    expect(headerText(flowchartCards[0])).toContain("v1.2.0");
+    expect(headerText(flowchartCards[0])).toContain("v1.3.0");
     expect(headerText(flowchartCards[0])).toContain("Latest");
     expect(headerText(flowchartCards[1])).toContain("v1.2.0");
-    expect(headerText(flowchartCards[1])).toContain("Initial");
     expect(headerText(flowchartCards[1])).not.toContain("Latest");
+    expect(headerText(flowchartCards.at(-1)!)).toContain("v1.2.0");
+    expect(headerText(flowchartCards.at(-1)!)).toContain("Initial");
     expect(
       flowchartCards.filter((card) => headerText(card).includes("Latest")),
     ).toHaveLength(1);

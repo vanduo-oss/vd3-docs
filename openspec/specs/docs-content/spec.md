@@ -144,8 +144,8 @@ The changelog SHALL document **package** releases for the vd3 line only.
 four old ecosystem packages as package columns, MUST NOT carry a cbun column,
 and MUST NOT carry any `data-engine` attribute. The header copy SHALL name
 those three vd3-line packages. The latest inline cards SHALL identify
-`@vanduo-oss/vd3` `1.7.3`, `@vanduo-oss/vd3-charts` `1.1.0`, and
-`@vanduo-oss/vd3-flowchart` `1.2.0`. Historical charts/flowchart cards MAY
+`@vanduo-oss/vd3` `1.7.4`, `@vanduo-oss/vd3-charts` `1.1.1`, and
+`@vanduo-oss/vd3-flowchart` `1.3.0`. Historical charts/flowchart cards MAY
 mention `@vanduo-oss/vd3-cbun/charts` and `@vanduo-oss/vd3-cbun/flowchart` as
 prior published paths. Per the changelog-content policy the page tracks
 package releases only, never docs-site content.
@@ -166,14 +166,14 @@ package releases only, never docs-site content.
 - **GIVEN** the changelog grid after this change
 - **WHEN** the `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`
   columns are read
-- **THEN** charts `v1.1.0` and flowchart `v1.2.0` are each marked Latest
+- **THEN** charts `v1.1.1` and flowchart `v1.3.0` are each marked Latest
 
-#### Scenario: vd3 Latest is 1.7.3
+#### Scenario: vd3 Latest is 1.7.4
 
 - **GIVEN** the `@vanduo-oss/vd3` column on `/changelog`
 - **WHEN** its latest release card is read
-- **THEN** `v1.7.3` is marked Latest and documents
-  `@vanduo-oss/vd3/highlight` plus on-fill contrast for color utilities
+- **THEN** `v1.7.4` is marked Latest and documents the anchor sanitizer,
+  tooltip surface, global-search client mount, and shared foreground tokens
 
 ### Requirement: Charts component page documents SVG role overrides
 
