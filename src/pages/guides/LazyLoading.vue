@@ -95,7 +95,7 @@ useLazyLoad(root);
   </div>
 </template>`;
 
-const routeJs = `// Example: Vite splits each route into its own chunk (this docs site does this).
+const routeJs = `// Defer optional pages. Small, frequently visited references can use static imports.
 const routes = [
   { path: '/components/datepicker',
     component: () => import('./pages/Datepicker.vue') },
@@ -313,8 +313,10 @@ const tactics: [string, string][] = [
           <div class="vd-card-body">
             <DocCodeSnippet :js="routeJs" :default-open="true" />
             <p class="vd-text-sm vd-text-muted vd-mt-3">
-              The ~4,000-line changelog, for example, lives in its own chunk and
-              never loads on other pages.
+              This site loads a small set of frequently browsed component pages
+              upfront. Other pages, including the changelog and canvas demos,
+              load on demand. Sidebar hover or keyboard focus can fetch a lazy
+              page early; pending navigation shows feedback while it loads.
             </p>
           </div>
         </div>

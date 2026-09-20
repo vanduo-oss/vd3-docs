@@ -1,0 +1,13 @@
+
+> @vanduo-oss/vd3-docs@1.7.7 test:size /Users/misteruser/Documents/GitHub/0_vanduo/vd3/vd3-docs
+> node tests/scripts/size.mjs
+
+index.html: JS 173.0 KiB, CSS 201.4 KiB, total 374.4 KiB gzip (13 files)
+  External styles/scripts excluded: https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+components/button.html: JS 165.8 KiB, CSS 197.6 KiB, total 363.4 KiB gzip (9 files)
+  External styles/scripts excluded: https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+canvas/charts.html: JS 181.1 KiB, CSS 198.2 KiB, total 379.3 KiB gzip (12 files)
+  External styles/scripts excluded: https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+canvas/flowchart.html: JS 189.9 KiB, CSS 197.8 KiB, total 387.7 KiB gzip (12 files)
+  External styles/scripts excluded: https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+Search index: 281656 bytes (budget 350000); homepage 375, docs 390 KiB gzip budgets.

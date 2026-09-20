@@ -15,6 +15,67 @@
   color-scheme: light dark;
 }
 
+/* Route feedback belongs to the docs shell, outside the busy article. */
+.doc-navigation-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 3px;
+  z-index: 10000;
+  overflow: hidden;
+  background: var(--vd-border-color);
+}
+
+.doc-navigation-progress::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 35%;
+  background: var(--vd-color-primary);
+  animation: doc-navigation-progress 1s ease-in-out infinite alternate;
+}
+
+@keyframes doc-navigation-progress {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(190%);
+  }
+}
+
+.doc-navigation-error {
+  position: fixed;
+  inset: auto 1rem 1rem;
+  z-index: 10000;
+  padding: 1rem;
+  border: 1px solid var(--vd-border-color);
+  border-radius: var(--vd-radius-md);
+  background: var(--vd-bg-primary);
+  color: var(--vd-text-primary);
+}
+
+.doc-navigation-error a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.doc-nav-pending {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doc-navigation-progress::after {
+    animation: none;
+    width: 100%;
+  }
+
+  .doc-nav-pending {
+    animation: none;
+  }
+}
+
 html,
 body {
   margin: 0;

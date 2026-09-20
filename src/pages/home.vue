@@ -83,11 +83,11 @@ const features: Feature[] = [
     },
   },
   {
-    icon: "ph-squares-four",
-    title: "Canvas widgets",
+    icon: "ph-tree-structure",
+    title: "Canvas Components Bundle",
     teaser: "Optional packages for charts and diagram editing.",
     body: "Six SVG chart types and a flowchart editor with layouts, routing, and undo/redo. Install either package when you need it.",
-    guide: { to: "/cbun", label: "Canvas & media widgets" },
+    guide: { to: "/cbun", label: "Canvas Components Bundle" },
   },
   {
     icon: "ph-code",

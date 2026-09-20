@@ -116,8 +116,18 @@ const hideVisibleDockTooltips = (): void => {
 
 const links = [
   { id: "home", label: "Home", icon: "house", to: "/" },
-  { id: "docs", label: "Docs", icon: "book-open-text", to: "/docs-landing" },
-  { id: "cbun", label: "CBUN", icon: "package", to: "/cbun" },
+  {
+    id: "docs",
+    label: "Documentation",
+    icon: "book-open-text",
+    to: "/docs-landing",
+  },
+  {
+    id: "cbun",
+    label: "Canvas Components",
+    icon: "tree-structure",
+    to: "/cbun",
+  },
 ] as const;
 
 const isActive = (to: string): boolean => {

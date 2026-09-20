@@ -42,7 +42,7 @@ DocSite CI SHALL run unit, content, size, and a focused Chromium search smoke. F
 
 ### Requirement: Route splitting without gutting reference demos
 
-Every documentation route SHALL be a lazy page import. Optional demo deferral SHALL be applied only when the size budget measurement justifies it.
+A measured set of lightweight documentation routes MAY use eager imports to avoid first-click download waits. Other routes SHALL retain lazy imports with navigation feedback. Optional demo deferral SHALL be applied only when measurements justify it. The hybrid contract is specified by the `hybrid-docs-navigation` change.
 
 #### Scenario: Homepage does not load canvas packages
 

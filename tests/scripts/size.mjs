@@ -7,7 +7,11 @@ import { JSDOM } from "jsdom";
 // Covers local initial JS/CSS, including static imports and modulepreloads.
 // Lazy imports, font binaries, images and third-party requests are reported separately.
 const ROOT = resolve("dist");
-const MAX_INITIAL_GZIP_KIB = 375;
+// v1.7.7 hybrid: homepage retains its 375 KiB gate; docs may load 15 small
+// references upfront. Measured trade-off and all-eager comparison live in
+// reviews/2026-09-20-navigation/. Canvas stays lazy (not a blanket rollback).
+const MAX_INITIAL_GZIP_KIB = 390;
+const MAX_HOME_GZIP_KIB = 375;
 const MAX_SEARCH_BYTES = 350_000;
 const ROUTES = [
   "index.html",
@@ -64,12 +68,10 @@ function routeAssets(route) {
     }
   }
   urls.forEach((url) => visit(url));
-  const assets = [...seen]
-    .sort()
-    .map((file) => ({
-      file: file.slice(ROOT.length),
-      gzip: gzipSync(readFileSync(file)).length,
-    }));
+  const assets = [...seen].sort().map((file) => ({
+    file: file.slice(ROOT.length),
+    gzip: gzipSync(readFileSync(file)).length,
+  }));
   const js = assets
     .filter((x) => x.file.endsWith(".js"))
     .reduce((n, x) => n + x.gzip, 0);
@@ -90,13 +92,15 @@ for (const route of ROUTES) {
     process.stdout.write(
       `  External styles/scripts excluded: ${result.external.join(", ")}\n`,
     );
-  if (result.total > MAX_INITIAL_GZIP_KIB * 1024) failed = true;
+  const budget =
+    route === "index.html" ? MAX_HOME_GZIP_KIB : MAX_INITIAL_GZIP_KIB;
+  if (result.total > budget * 1024) failed = true;
 }
 const searchBytes = readFileSync(
   resolve(ROOT, "search/search-index.json"),
 ).length;
 process.stdout.write(
-  `Search index: ${searchBytes} bytes (budget ${MAX_SEARCH_BYTES}); route budget ${MAX_INITIAL_GZIP_KIB} KiB gzip.\n`,
+  `Search index: ${searchBytes} bytes (budget ${MAX_SEARCH_BYTES}); homepage ${MAX_HOME_GZIP_KIB}, docs ${MAX_INITIAL_GZIP_KIB} KiB gzip budgets.\n`,
 );
 if (searchBytes > MAX_SEARCH_BYTES) failed = true;
 if (failed) {

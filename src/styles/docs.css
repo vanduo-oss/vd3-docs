@@ -3617,11 +3617,15 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   .vd-site-dock .vd-dock-links .vd-dock-item .vd-dock-label {
     display: block;
+    max-width: min-content;
+    min-height: 2.2em;
+    white-space: normal;
+    text-align: center;
     font-size: 0.575rem;
     font-weight: 500;
     letter-spacing: 0.02em;
     text-transform: none;
-    line-height: 1;
+    line-height: 1.1;
     opacity: 0.88;
   }
 

@@ -49,8 +49,7 @@ const mountDock = async (options?: {
           template: '<button type="button" aria-label="Theme switcher" />',
         },
         VdThemeCustomizer: {
-          template:
-            '<button type="button" aria-label="Choose theme color" />',
+          template: '<button type="button" aria-label="Choose theme color" />',
         },
         VdIcon: true,
       },
@@ -70,7 +69,11 @@ describe("VdSiteDock", () => {
     await flushPromises();
     expect(wrapper.find(".vd-brand-mark").exists()).toBe(true);
 
-    for (const label of ["Home", "Docs", "CBUN"] as const) {
+    for (const label of [
+      "Home",
+      "Documentation",
+      "Canvas Components",
+    ] as const) {
       const item = wrapper.get(`button.vd-dock-item[aria-label="${label}"]`);
       expect(item.attributes("data-tooltip")).toBeUndefined();
       expect(item.find(".vd-dock-label").text()).toBe(label);
@@ -96,8 +99,10 @@ describe("VdSiteDock", () => {
     expect(wrapper.find(".vd-dock").classes()).toContain("vd-dock-fixed");
 
     const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
-    const docs = wrapper.get('button.vd-dock-item[aria-label="Docs"]');
-    const cbun = wrapper.get('button.vd-dock-item[aria-label="CBUN"]');
+    const docs = wrapper.get('button.vd-dock-item[aria-label="Documentation"]');
+    const cbun = wrapper.get(
+      'button.vd-dock-item[aria-label="Canvas Components"]',
+    );
     expect(home.findAll("i")).toHaveLength(1);
     expect(docs.findAll("i")).toHaveLength(1);
     expect(cbun.findAll("i")).toHaveLength(1);
@@ -112,7 +117,7 @@ describe("VdSiteDock", () => {
 
   it("navigates when a dock item is clicked", async () => {
     const { wrapper, router } = await mountDock();
-    const docs = wrapper.get('button.vd-dock-item[aria-label="Docs"]');
+    const docs = wrapper.get('button.vd-dock-item[aria-label="Documentation"]');
     await docs.trigger("click");
     await flushPromises();
     expect(router.currentRoute.value.path).toBe("/docs-landing");
@@ -129,9 +134,7 @@ describe("VdSiteDock", () => {
 
   it("sets data-docs-dock on html for edge padding", async () => {
     const { wrapper } = await mountDock();
-    expect(document.documentElement.getAttribute("data-docs-dock")).toBe(
-      "top",
-    );
+    expect(document.documentElement.getAttribute("data-docs-dock")).toBe("top");
     wrapper.unmount();
     expect(document.documentElement.getAttribute("data-docs-dock")).toBeNull();
   });
@@ -199,10 +202,14 @@ describe("VdSiteDock", () => {
 
     expect(wrapper.find(".vd-site-dock-strip-divider").exists()).toBe(true);
     expect(
-      wrapper.find('.vd-dock-links button[aria-label="Theme switcher"]').exists(),
+      wrapper
+        .find('.vd-dock-links button[aria-label="Theme switcher"]')
+        .exists(),
     ).toBe(true);
     expect(
-      wrapper.find('.vd-dock-actions button[aria-label="Theme switcher"]').exists(),
+      wrapper
+        .find('.vd-dock-actions button[aria-label="Theme switcher"]')
+        .exists(),
     ).toBe(false);
 
     wrapper.unmount();
@@ -211,8 +218,7 @@ describe("VdSiteDock", () => {
   it("maps tooltip placement away from vertical dock edges", async () => {
     const { wrapper } = await mountDock();
     const vm = wrapper.vm as unknown as { placement: string };
-    const home = () =>
-      wrapper.get('button.vd-dock-item[aria-label="Home"]');
+    const home = () => wrapper.get('button.vd-dock-item[aria-label="Home"]');
 
     const cases: Array<[string, string]> = [
       ["left", "right"],

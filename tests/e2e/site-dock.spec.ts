@@ -30,7 +30,7 @@ test.describe("Site Oola dock chrome", () => {
     await expect(dock).toHaveClass(/vd-dock-items-inline/);
     await expect(dock).toHaveCSS("--vd-dock-radius", "1.5rem");
     const home = dock.getByRole("button", { name: "Home" });
-    const docs = dock.getByRole("button", { name: "Docs" });
+    const docs = dock.getByRole("button", { name: "Documentation" });
     await expect(home).toBeVisible();
     await expect(docs).toBeVisible();
     await expect(home).not.toHaveAttribute("data-tooltip");
@@ -105,11 +105,24 @@ test.describe("Site Oola dock chrome", () => {
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     await expect(dock).toBeVisible();
 
-    for (const label of ["Home", "Docs", "CBUN"] as const) {
+    for (const label of [
+      "Home",
+      "Documentation",
+      "Canvas Components",
+    ] as const) {
       const item = dock.getByRole("button", { name: label, exact: true });
       await expect(item).toBeVisible();
       await expect(item.locator(".vd-dock-label")).toHaveText(label);
       await expect(item).not.toHaveAttribute("data-tooltip");
+      // Visibility alone does not catch text clipped by the scrollable strip.
+      const labelFits = await item.evaluate((el) => {
+        const strip = el.closest(".vd-dock-nav")!.getBoundingClientRect();
+        const label = el
+          .querySelector(".vd-dock-label")!
+          .getBoundingClientRect();
+        return label.left >= strip.left - 1 && label.right <= strip.right + 1;
+      });
+      expect(labelFits).toBe(true);
     }
 
     const home = dock.getByRole("button", { name: "Home", exact: true });
@@ -167,11 +180,11 @@ test.describe("Site Oola dock chrome", () => {
     await expect(dock.locator(".vd-dock-item .vd-dock-label")).toHaveCount(3);
   });
 
-  test("Docs item navigates to docs landing", async ({ page }) => {
+  test("Documentation item navigates to docs landing", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
     await page
       .locator("nav.vd-site-dock")
-      .getByRole("button", { name: "Docs" })
+      .getByRole("button", { name: "Documentation" })
       .click();
     await expect(page).toHaveURL(/\/docs-landing/);
     await expect(

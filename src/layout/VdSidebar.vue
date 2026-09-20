@@ -2,8 +2,11 @@
 import { computed, ref, watch } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import { nav, type NavSection } from "@/nav";
+import { VdSpinner } from "@vanduo-oss/vd3";
+import { useNavigation } from "@/navigation";
 
 const route = useRoute();
+const { pending, prefetch } = useNavigation();
 
 interface Group {
   title: string;
@@ -132,10 +135,19 @@ const tocOpen = ref(false);
             class="doc-nav-link"
             :class="{ active: route.path === section.route }"
             :data-section="section.id"
+            :data-pending="pending?.path === section.route || undefined"
+            @mouseenter="prefetch(section.route)"
+            @focus="prefetch(section.route)"
             @click="tocOpen = false"
           >
             <i :class="`ph-bold ph-${section.icon ?? 'circle'} mr-2`"></i>
             <span class="doc-nav-link-text">{{ section.title }}</span>
+            <VdSpinner
+              v-if="pending?.path === section.route"
+              size="sm"
+              class="doc-nav-pending"
+              aria-hidden="true"
+            />
           </RouterLink>
         </li>
       </template>

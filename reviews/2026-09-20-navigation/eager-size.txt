@@ -1,0 +1,9 @@
+index.html: JS 385.5 KiB, CSS 206.6 KiB, total 592.1 KiB gzip (9 files)
+  External styles/scripts excluded: https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+components/button.html: JS 385.5 KiB, CSS 206.6 KiB, total 592.1 KiB gzip (9 files)
+  External styles/scripts excluded: https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+canvas/charts.html: JS 385.5 KiB, CSS 206.6 KiB, total 592.1 KiB gzip (9 files)
+  External styles/scripts excluded: https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+canvas/flowchart.html: JS 385.5 KiB, CSS 206.6 KiB, total 592.1 KiB gzip (9 files)
+  External styles/scripts excluded: https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+Search index: 281494 bytes (budget 350000); route budget 375 KiB gzip.

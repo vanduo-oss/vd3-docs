@@ -1,0 +1,461 @@
+{
+  "browser": "153.0.8010.12",
+  "system": "darwin arm64",
+  "cpu": "Apple M4",
+  "profiles": [
+    {
+      "name": "local unthrottled",
+      "samples": [
+        {
+          "initial": {
+            "readyMs": 114.60000000009313,
+            "lcpMs": 104,
+            "longTaskMs": 0
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 47.200000000186265,
+              "resources": []
+            },
+            {
+              "path": "/components/alert",
+              "ms": 29.299999999813735,
+              "resources": []
+            },
+            {
+              "path": "/components/card",
+              "ms": 29.600000000093132,
+              "resources": []
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 30.100000000093132,
+              "resources": []
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 29.800000000279397,
+              "resources": []
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 29.59999999962747,
+              "resources": []
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 29.299999999813735,
+              "resources": []
+            },
+            {
+              "path": "/components/modal",
+              "ms": 46.89999999990687,
+              "resources": []
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 30.399999999906868,
+              "resources": []
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 46.5,
+              "resources": []
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 47.5,
+              "resources": []
+            },
+            {
+              "path": "/components/button",
+              "ms": 29.899999999906868,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 30.800000000279397,
+              "resources": []
+            }
+          ]
+        },
+        {
+          "initial": {
+            "readyMs": 106.79999999981374,
+            "lcpMs": 100,
+            "longTaskMs": 0
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 47.39999999990687,
+              "resources": []
+            },
+            {
+              "path": "/components/alert",
+              "ms": 30.200000000186265,
+              "resources": []
+            },
+            {
+              "path": "/components/card",
+              "ms": 30.399999999906868,
+              "resources": []
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 31.40000000037253,
+              "resources": []
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 30.799999999813735,
+              "resources": []
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 31.100000000093132,
+              "resources": []
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 31.699999999720603,
+              "resources": []
+            },
+            {
+              "path": "/components/modal",
+              "ms": 47.60000000009313,
+              "resources": []
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 30.5,
+              "resources": []
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 46.700000000186265,
+              "resources": []
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 47.5,
+              "resources": []
+            },
+            {
+              "path": "/components/button",
+              "ms": 31.600000000093132,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 31.5,
+              "resources": []
+            }
+          ]
+        },
+        {
+          "initial": {
+            "readyMs": 105.39999999990687,
+            "lcpMs": 96,
+            "longTaskMs": 0
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 47.10000000009313,
+              "resources": []
+            },
+            {
+              "path": "/components/alert",
+              "ms": 29.700000000186265,
+              "resources": []
+            },
+            {
+              "path": "/components/card",
+              "ms": 30.399999999906868,
+              "resources": []
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 31,
+              "resources": []
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 30,
+              "resources": []
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 30,
+              "resources": []
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 30.799999999813735,
+              "resources": []
+            },
+            {
+              "path": "/components/modal",
+              "ms": 47.3000000002794,
+              "resources": []
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 30.40000000037253,
+              "resources": []
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 46.700000000186265,
+              "resources": []
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 47.40000000037253,
+              "resources": []
+            },
+            {
+              "path": "/components/button",
+              "ms": 29.300000000279397,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 31.40000000037253,
+              "resources": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "100ms latency, 1.6Mbps, CPU 4x",
+      "samples": [
+        {
+          "initial": {
+            "readyMs": 3784.3000000002794,
+            "lcpMs": 1956,
+            "longTaskMs": 124
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 62.5,
+              "resources": []
+            },
+            {
+              "path": "/components/alert",
+              "ms": 37.5,
+              "resources": []
+            },
+            {
+              "path": "/components/card",
+              "ms": 40.60000000009313,
+              "resources": []
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 32.8000000002794,
+              "resources": []
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 49,
+              "resources": []
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 61.1999999997206,
+              "resources": []
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 28.299999999813735,
+              "resources": []
+            },
+            {
+              "path": "/components/modal",
+              "ms": 234.6999999997206,
+              "resources": []
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 36.1999999997206,
+              "resources": []
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 295.39999999990687,
+              "resources": []
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 417.29999999981374,
+              "resources": []
+            },
+            {
+              "path": "/components/button",
+              "ms": 38.799999999813735,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 29.300000000279397,
+              "resources": []
+            }
+          ]
+        },
+        {
+          "initial": {
+            "readyMs": 3783,
+            "lcpMs": 1956,
+            "longTaskMs": 125
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 66.79999999981374,
+              "resources": []
+            },
+            {
+              "path": "/components/alert",
+              "ms": 36.700000000186265,
+              "resources": []
+            },
+            {
+              "path": "/components/card",
+              "ms": 43,
+              "resources": []
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 32.09999999962747,
+              "resources": []
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 50.1999999997206,
+              "resources": []
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 62.60000000009313,
+              "resources": []
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 29,
+              "resources": []
+            },
+            {
+              "path": "/components/modal",
+              "ms": 233.60000000009313,
+              "resources": []
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 36.200000000186265,
+              "resources": []
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 296.70000000018626,
+              "resources": []
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 418.70000000018626,
+              "resources": []
+            },
+            {
+              "path": "/components/button",
+              "ms": 41.09999999962747,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 28.800000000279397,
+              "resources": []
+            }
+          ]
+        },
+        {
+          "initial": {
+            "readyMs": 3782.600000000093,
+            "lcpMs": 1956,
+            "longTaskMs": 127
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 65.20000000018626,
+              "resources": []
+            },
+            {
+              "path": "/components/alert",
+              "ms": 38.60000000009313,
+              "resources": []
+            },
+            {
+              "path": "/components/card",
+              "ms": 41.6999999997206,
+              "resources": []
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 31.399999999906868,
+              "resources": []
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 50.700000000186265,
+              "resources": []
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 63,
+              "resources": []
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 29.600000000093132,
+              "resources": []
+            },
+            {
+              "path": "/components/modal",
+              "ms": 231.29999999981374,
+              "resources": []
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 35.89999999990687,
+              "resources": []
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 293.5,
+              "resources": []
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 420.5,
+              "resources": []
+            },
+            {
+              "path": "/components/button",
+              "ms": 42.89999999990687,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 30.100000000093132,
+              "resources": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

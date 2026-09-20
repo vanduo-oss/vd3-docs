@@ -1,6 +1,6 @@
 {
   "name": "@vanduo-oss/vd3-docs",
-  "version": "1.7.6",
+  "version": "1.7.7",
   "description": "Documentation for the Vanduo Vue 3 design system, charts, and flowchart packages",
   "private": true,
   "type": "module",
@@ -35,7 +35,7 @@
     "test:a11y": "playwright test a11y-smoke --project='Chromium Desktop'",
     "search:refresh": "node scripts/generate-search.mjs --refresh",
     "test:content": "node scripts/generate-search.mjs --check",
-    "test:smoke": "playwright test global-search --project=\"Chromium Desktop\""
+    "test:smoke": "playwright test global-search docs-navigation cbun-flowchart-responsive --project=\"Chromium Desktop\""
   },
   "dependencies": {
     "@unhead/vue": "2.1.15",

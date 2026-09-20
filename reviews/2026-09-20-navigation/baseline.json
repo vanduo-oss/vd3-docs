@@ -1,0 +1,977 @@
+{
+  "browser": "153.0.8010.12",
+  "system": "darwin arm64",
+  "cpu": "Apple M4",
+  "profiles": [
+    {
+      "name": "local unthrottled",
+      "samples": [
+        {
+          "initial": {
+            "readyMs": 198,
+            "lcpMs": 184,
+            "longTaskMs": 0
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 41.299999999813735,
+              "resources": [
+                {
+                  "name": "/assets/Badge-BVYBMFq-.js",
+                  "duration": 0.8999999999068677,
+                  "transferSize": 3055
+                }
+              ]
+            },
+            {
+              "path": "/components/alert",
+              "ms": 46.89999999990687,
+              "resources": [
+                {
+                  "name": "/assets/Alert-YtXED0br.js",
+                  "duration": 1.400000000372529,
+                  "transferSize": 3318
+                }
+              ]
+            },
+            {
+              "path": "/components/card",
+              "ms": 46.6999999997206,
+              "resources": [
+                {
+                  "name": "/assets/Card-DdLO-IL0.css",
+                  "duration": 1.5,
+                  "transferSize": 647
+                },
+                {
+                  "name": "/assets/Card-Bev2ZTNk.js",
+                  "duration": 2,
+                  "transferSize": 4600
+                }
+              ]
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 46.6999999997206,
+              "resources": [
+                {
+                  "name": "/assets/Dropdown-C43QKMCB.js",
+                  "duration": 1.2000000001862645,
+                  "transferSize": 3526
+                }
+              ]
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 47.6999999997206,
+              "resources": [
+                {
+                  "name": "/assets/Tabs-DxgsQu50.js",
+                  "duration": 1.8999999999068677,
+                  "transferSize": 4055
+                }
+              ]
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 46.89999999990687,
+              "resources": [
+                {
+                  "name": "/assets/Accordion-V5940ieO.js",
+                  "duration": 1.3999999999068677,
+                  "transferSize": 2045
+                }
+              ]
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 47.799999999813735,
+              "resources": [
+                {
+                  "name": "/assets/Avatar-CnvtLSqY.js",
+                  "duration": 1.7000000001862645,
+                  "transferSize": 1941
+                }
+              ]
+            },
+            {
+              "path": "/components/modal",
+              "ms": 47.799999999813735,
+              "resources": [
+                {
+                  "name": "/assets/Modal-BOVXct9W.js",
+                  "duration": 1.8000000002793968,
+                  "transferSize": 7640
+                }
+              ]
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 46.89999999990687,
+              "resources": [
+                {
+                  "name": "/assets/Tooltip-DXAxWFZc.js",
+                  "duration": 1.7000000001862645,
+                  "transferSize": 4648
+                }
+              ]
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 47.89999999990687,
+              "resources": [
+                {
+                  "name": "/assets/ColorPalette-D9ipBRn-.js",
+                  "duration": 2.3000000002793968,
+                  "transferSize": 10381
+                },
+                {
+                  "name": "/assets/ColorPalette-xEfVH9I2.css",
+                  "duration": 1.5,
+                  "transferSize": 721
+                }
+              ]
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 49.10000000009313,
+              "resources": [
+                {
+                  "name": "/assets/Charts-CvO7fB4B.js",
+                  "duration": 1.900000000372529,
+                  "transferSize": 5926
+                },
+                {
+                  "name": "/assets/dist-Ba2nWcLd.js",
+                  "duration": 2.6000000000931323,
+                  "transferSize": 10272
+                },
+                {
+                  "name": "/assets/Charts-Dk0H_2NK.css",
+                  "duration": 1.3000000002793968,
+                  "transferSize": 996
+                }
+              ]
+            },
+            {
+              "path": "/components/button",
+              "ms": 30.300000000279397,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 28.899999999906868,
+              "resources": []
+            }
+          ]
+        },
+        {
+          "initial": {
+            "readyMs": 109,
+            "lcpMs": 100,
+            "longTaskMs": 0
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 51.3000000002794,
+              "resources": [
+                {
+                  "name": "/assets/Badge-BVYBMFq-.js",
+                  "duration": 0.8999999999068677,
+                  "transferSize": 3055
+                }
+              ]
+            },
+            {
+              "path": "/components/alert",
+              "ms": 46.89999999990687,
+              "resources": [
+                {
+                  "name": "/assets/Alert-YtXED0br.js",
+                  "duration": 0.7000000001862645,
+                  "transferSize": 3318
+                }
+              ]
+            },
+            {
+              "path": "/components/card",
+              "ms": 47.299999999813735,
+              "resources": [
+                {
+                  "name": "/assets/Card-Bev2ZTNk.js",
+                  "duration": 1,
+                  "transferSize": 4600
+                },
+                {
+                  "name": "/assets/Card-DdLO-IL0.css",
+                  "duration": 0.7999999998137355,
+                  "transferSize": 647
+                }
+              ]
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 46.90000000037253,
+              "resources": [
+                {
+                  "name": "/assets/Dropdown-C43QKMCB.js",
+                  "duration": 0.6999999997206032,
+                  "transferSize": 3526
+                }
+              ]
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 47.799999999813735,
+              "resources": [
+                {
+                  "name": "/assets/Tabs-DxgsQu50.js",
+                  "duration": 0.6000000000931323,
+                  "transferSize": 4055
+                }
+              ]
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 47.60000000009313,
+              "resources": [
+                {
+                  "name": "/assets/Accordion-V5940ieO.js",
+                  "duration": 0.8999999999068677,
+                  "transferSize": 2045
+                }
+              ]
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 47.3000000002794,
+              "resources": [
+                {
+                  "name": "/assets/Avatar-CnvtLSqY.js",
+                  "duration": 0.7000000001862645,
+                  "transferSize": 1941
+                }
+              ]
+            },
+            {
+              "path": "/components/modal",
+              "ms": 47.10000000009313,
+              "resources": [
+                {
+                  "name": "/assets/Modal-BOVXct9W.js",
+                  "duration": 0.6999999997206032,
+                  "transferSize": 7640
+                }
+              ]
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 47.89999999990687,
+              "resources": [
+                {
+                  "name": "/assets/Tooltip-DXAxWFZc.js",
+                  "duration": 0.8000000002793968,
+                  "transferSize": 4648
+                }
+              ]
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 47.200000000186265,
+              "resources": [
+                {
+                  "name": "/assets/ColorPalette-D9ipBRn-.js",
+                  "duration": 1,
+                  "transferSize": 10381
+                },
+                {
+                  "name": "/assets/ColorPalette-xEfVH9I2.css",
+                  "duration": 0.8000000002793968,
+                  "transferSize": 721
+                }
+              ]
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 47.10000000009313,
+              "resources": [
+                {
+                  "name": "/assets/Charts-Dk0H_2NK.css",
+                  "duration": 0.8999999999068677,
+                  "transferSize": 996
+                },
+                {
+                  "name": "/assets/Charts-CvO7fB4B.js",
+                  "duration": 0.8999999999068677,
+                  "transferSize": 5926
+                },
+                {
+                  "name": "/assets/dist-Ba2nWcLd.js",
+                  "duration": 1.1000000000931323,
+                  "transferSize": 10272
+                }
+              ]
+            },
+            {
+              "path": "/components/button",
+              "ms": 31.600000000093132,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 30.600000000093132,
+              "resources": []
+            }
+          ]
+        },
+        {
+          "initial": {
+            "readyMs": 122.79999999981374,
+            "lcpMs": 0,
+            "longTaskMs": 0
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 55.5,
+              "resources": [
+                {
+                  "name": "/assets/Badge-BVYBMFq-.js",
+                  "duration": 0.6999999997206032,
+                  "transferSize": 3055
+                }
+              ]
+            },
+            {
+              "path": "/components/alert",
+              "ms": 46.700000000186265,
+              "resources": [
+                {
+                  "name": "/assets/Alert-YtXED0br.js",
+                  "duration": 1,
+                  "transferSize": 3318
+                }
+              ]
+            },
+            {
+              "path": "/components/card",
+              "ms": 47,
+              "resources": [
+                {
+                  "name": "/assets/Card-Bev2ZTNk.js",
+                  "duration": 1,
+                  "transferSize": 4600
+                },
+                {
+                  "name": "/assets/Card-DdLO-IL0.css",
+                  "duration": 0.7999999998137355,
+                  "transferSize": 647
+                }
+              ]
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 47.09999999962747,
+              "resources": [
+                {
+                  "name": "/assets/Dropdown-C43QKMCB.js",
+                  "duration": 0.8000000002793968,
+                  "transferSize": 3526
+                }
+              ]
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 46.89999999990687,
+              "resources": [
+                {
+                  "name": "/assets/Tabs-DxgsQu50.js",
+                  "duration": 1.1999999997206032,
+                  "transferSize": 4055
+                }
+              ]
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 47.3000000002794,
+              "resources": [
+                {
+                  "name": "/assets/Accordion-V5940ieO.js",
+                  "duration": 0.6999999997206032,
+                  "transferSize": 2045
+                }
+              ]
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 47.8000000002794,
+              "resources": [
+                {
+                  "name": "/assets/Avatar-CnvtLSqY.js",
+                  "duration": 0.7000000001862645,
+                  "transferSize": 1941
+                }
+              ]
+            },
+            {
+              "path": "/components/modal",
+              "ms": 47.700000000186265,
+              "resources": [
+                {
+                  "name": "/assets/Modal-BOVXct9W.js",
+                  "duration": 0.7999999998137355,
+                  "transferSize": 7640
+                }
+              ]
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 47.40000000037253,
+              "resources": [
+                {
+                  "name": "/assets/Tooltip-DXAxWFZc.js",
+                  "duration": 0.7999999998137355,
+                  "transferSize": 4648
+                }
+              ]
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 47.40000000037253,
+              "resources": [
+                {
+                  "name": "/assets/ColorPalette-xEfVH9I2.css",
+                  "duration": 0.6999999997206032,
+                  "transferSize": 721
+                },
+                {
+                  "name": "/assets/ColorPalette-D9ipBRn-.js",
+                  "duration": 0.7999999998137355,
+                  "transferSize": 10381
+                }
+              ]
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 47.5,
+              "resources": [
+                {
+                  "name": "/assets/Charts-Dk0H_2NK.css",
+                  "duration": 0.900000000372529,
+                  "transferSize": 996
+                },
+                {
+                  "name": "/assets/Charts-CvO7fB4B.js",
+                  "duration": 1,
+                  "transferSize": 5926
+                },
+                {
+                  "name": "/assets/dist-Ba2nWcLd.js",
+                  "duration": 1.400000000372529,
+                  "transferSize": 10272
+                }
+              ]
+            },
+            {
+              "path": "/components/button",
+              "ms": 30.600000000093132,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 30.100000000093132,
+              "resources": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "100ms latency, 1.6Mbps, CPU 4x",
+      "samples": [
+        {
+          "initial": {
+            "readyMs": 3766.899999999907,
+            "lcpMs": 2016,
+            "longTaskMs": 109
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 172.6999999997206,
+              "resources": [
+                {
+                  "name": "/assets/Badge-BVYBMFq-.js",
+                  "duration": 111.5,
+                  "transferSize": 3055
+                }
+              ]
+            },
+            {
+              "path": "/components/alert",
+              "ms": 154.29999999981374,
+              "resources": [
+                {
+                  "name": "/assets/Alert-YtXED0br.js",
+                  "duration": 117.20000000018626,
+                  "transferSize": 3318
+                }
+              ]
+            },
+            {
+              "path": "/components/card",
+              "ms": 179.5,
+              "resources": [
+                {
+                  "name": "/assets/Card-Bev2ZTNk.js",
+                  "duration": 141.39999999990687,
+                  "transferSize": 4600
+                },
+                {
+                  "name": "/assets/Card-DdLO-IL0.css",
+                  "duration": 109.59999999962747,
+                  "transferSize": 647
+                }
+              ]
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 172.10000000009313,
+              "resources": [
+                {
+                  "name": "/assets/Dropdown-C43QKMCB.js",
+                  "duration": 140.5,
+                  "transferSize": 3526
+                }
+              ]
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 200.79999999981374,
+              "resources": [
+                {
+                  "name": "/assets/Tabs-DxgsQu50.js",
+                  "duration": 145.70000000018626,
+                  "transferSize": 4055
+                }
+              ]
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 186.60000000009313,
+              "resources": [
+                {
+                  "name": "/assets/Accordion-V5940ieO.js",
+                  "duration": 122.79999999981374,
+                  "transferSize": 2045
+                }
+              ]
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 157.70000000018626,
+              "resources": [
+                {
+                  "name": "/assets/Avatar-CnvtLSqY.js",
+                  "duration": 129.10000000009313,
+                  "transferSize": 1941
+                }
+              ]
+            },
+            {
+              "path": "/components/modal",
+              "ms": 228.09999999962747,
+              "resources": [
+                {
+                  "name": "/assets/Modal-BOVXct9W.js",
+                  "duration": 187.60000000009313,
+                  "transferSize": 7640
+                }
+              ]
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 165.5,
+              "resources": [
+                {
+                  "name": "/assets/Tooltip-DXAxWFZc.js",
+                  "duration": 132,
+                  "transferSize": 4648
+                }
+              ]
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 213.6999999997206,
+              "resources": [
+                {
+                  "name": "/assets/ColorPalette-D9ipBRn-.js",
+                  "duration": 157.39999999990687,
+                  "transferSize": 10381
+                },
+                {
+                  "name": "/assets/ColorPalette-xEfVH9I2.css",
+                  "duration": 113.60000000009313,
+                  "transferSize": 721
+                }
+              ]
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 307.10000000009313,
+              "resources": [
+                {
+                  "name": "/assets/Charts-CvO7fB4B.js",
+                  "duration": 156,
+                  "transferSize": 5926
+                },
+                {
+                  "name": "/assets/dist-Ba2nWcLd.js",
+                  "duration": 185.5,
+                  "transferSize": 10272
+                },
+                {
+                  "name": "/assets/Charts-Dk0H_2NK.css",
+                  "duration": 118.70000000018626,
+                  "transferSize": 996
+                }
+              ]
+            },
+            {
+              "path": "/components/button",
+              "ms": 34.200000000186265,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 26.40000000037253,
+              "resources": []
+            }
+          ]
+        },
+        {
+          "initial": {
+            "readyMs": 3765.6999999997206,
+            "lcpMs": 2016,
+            "longTaskMs": 111
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 179.29999999981374,
+              "resources": [
+                {
+                  "name": "/assets/Badge-BVYBMFq-.js",
+                  "duration": 120.5,
+                  "transferSize": 3055
+                }
+              ]
+            },
+            {
+              "path": "/components/alert",
+              "ms": 153.70000000018626,
+              "resources": [
+                {
+                  "name": "/assets/Alert-YtXED0br.js",
+                  "duration": 118.89999999990687,
+                  "transferSize": 3318
+                }
+              ]
+            },
+            {
+              "path": "/components/card",
+              "ms": 177.09999999962747,
+              "resources": [
+                {
+                  "name": "/assets/Card-Bev2ZTNk.js",
+                  "duration": 140.10000000009313,
+                  "transferSize": 4600
+                },
+                {
+                  "name": "/assets/Card-DdLO-IL0.css",
+                  "duration": 109.09999999962747,
+                  "transferSize": 647
+                }
+              ]
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 174.29999999981374,
+              "resources": [
+                {
+                  "name": "/assets/Dropdown-C43QKMCB.js",
+                  "duration": 139.10000000009313,
+                  "transferSize": 3526
+                }
+              ]
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 192.29999999981374,
+              "resources": [
+                {
+                  "name": "/assets/Tabs-DxgsQu50.js",
+                  "duration": 142.60000000009313,
+                  "transferSize": 4055
+                }
+              ]
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 189.5,
+              "resources": [
+                {
+                  "name": "/assets/Accordion-V5940ieO.js",
+                  "duration": 125.1999999997206,
+                  "transferSize": 2045
+                }
+              ]
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 160.09999999962747,
+              "resources": [
+                {
+                  "name": "/assets/Avatar-CnvtLSqY.js",
+                  "duration": 129.29999999981374,
+                  "transferSize": 1941
+                }
+              ]
+            },
+            {
+              "path": "/components/modal",
+              "ms": 226.10000000009313,
+              "resources": [
+                {
+                  "name": "/assets/Modal-BOVXct9W.js",
+                  "duration": 186.89999999990687,
+                  "transferSize": 7640
+                }
+              ]
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 166.8000000002794,
+              "resources": [
+                {
+                  "name": "/assets/Tooltip-DXAxWFZc.js",
+                  "duration": 130.60000000009313,
+                  "transferSize": 4648
+                }
+              ]
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 217.3000000002794,
+              "resources": [
+                {
+                  "name": "/assets/ColorPalette-D9ipBRn-.js",
+                  "duration": 161.3000000002794,
+                  "transferSize": 10381
+                },
+                {
+                  "name": "/assets/ColorPalette-xEfVH9I2.css",
+                  "duration": 116.89999999990687,
+                  "transferSize": 721
+                }
+              ]
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 307.6999999997206,
+              "resources": [
+                {
+                  "name": "/assets/Charts-CvO7fB4B.js",
+                  "duration": 163.79999999981374,
+                  "transferSize": 5926
+                },
+                {
+                  "name": "/assets/Charts-Dk0H_2NK.css",
+                  "duration": 118.90000000037253,
+                  "transferSize": 996
+                },
+                {
+                  "name": "/assets/dist-Ba2nWcLd.js",
+                  "duration": 193.10000000009313,
+                  "transferSize": 10272
+                }
+              ]
+            },
+            {
+              "path": "/components/button",
+              "ms": 40.3000000002794,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 37.200000000186265,
+              "resources": []
+            }
+          ]
+        },
+        {
+          "initial": {
+            "readyMs": 3767,
+            "lcpMs": 2004,
+            "longTaskMs": 110
+          },
+          "navigation": [
+            {
+              "path": "/components/badge",
+              "ms": 171.10000000009313,
+              "resources": [
+                {
+                  "name": "/assets/Badge-BVYBMFq-.js",
+                  "duration": 110.89999999990687,
+                  "transferSize": 3055
+                }
+              ]
+            },
+            {
+              "path": "/components/alert",
+              "ms": 153.59999999962747,
+              "resources": [
+                {
+                  "name": "/assets/Alert-YtXED0br.js",
+                  "duration": 119.10000000009313,
+                  "transferSize": 3318
+                }
+              ]
+            },
+            {
+              "path": "/components/card",
+              "ms": 177.89999999990687,
+              "resources": [
+                {
+                  "name": "/assets/Card-Bev2ZTNk.js",
+                  "duration": 141.89999999990687,
+                  "transferSize": 4600
+                },
+                {
+                  "name": "/assets/Card-DdLO-IL0.css",
+                  "duration": 119.39999999990687,
+                  "transferSize": 647
+                }
+              ]
+            },
+            {
+              "path": "/components/dropdown",
+              "ms": 174.20000000018626,
+              "resources": [
+                {
+                  "name": "/assets/Dropdown-C43QKMCB.js",
+                  "duration": 143.39999999990687,
+                  "transferSize": 3526
+                }
+              ]
+            },
+            {
+              "path": "/components/tabs",
+              "ms": 189.20000000018626,
+              "resources": [
+                {
+                  "name": "/assets/Tabs-DxgsQu50.js",
+                  "duration": 140.60000000009313,
+                  "transferSize": 4055
+                }
+              ]
+            },
+            {
+              "path": "/components/accordion",
+              "ms": 189.20000000018626,
+              "resources": [
+                {
+                  "name": "/assets/Accordion-V5940ieO.js",
+                  "duration": 127.89999999990687,
+                  "transferSize": 2045
+                }
+              ]
+            },
+            {
+              "path": "/components/avatar",
+              "ms": 159.10000000009313,
+              "resources": [
+                {
+                  "name": "/assets/Avatar-CnvtLSqY.js",
+                  "duration": 125.20000000018626,
+                  "transferSize": 1941
+                }
+              ]
+            },
+            {
+              "path": "/components/modal",
+              "ms": 241.39999999990687,
+              "resources": [
+                {
+                  "name": "/assets/Modal-BOVXct9W.js",
+                  "duration": 189.29999999981374,
+                  "transferSize": 7640
+                }
+              ]
+            },
+            {
+              "path": "/components/tooltip",
+              "ms": 165.5,
+              "resources": [
+                {
+                  "name": "/assets/Tooltip-DXAxWFZc.js",
+                  "duration": 134.39999999990687,
+                  "transferSize": 4648
+                }
+              ]
+            },
+            {
+              "path": "/core/color-palette",
+              "ms": 214.79999999981374,
+              "resources": [
+                {
+                  "name": "/assets/ColorPalette-xEfVH9I2.css",
+                  "duration": 109.10000000009313,
+                  "transferSize": 721
+                },
+                {
+                  "name": "/assets/ColorPalette-D9ipBRn-.js",
+                  "duration": 162.5,
+                  "transferSize": 10381
+                }
+              ]
+            },
+            {
+              "path": "/canvas/charts",
+              "ms": 325.5,
+              "resources": [
+                {
+                  "name": "/assets/Charts-CvO7fB4B.js",
+                  "duration": 176.39999999990687,
+                  "transferSize": 5926
+                },
+                {
+                  "name": "/assets/Charts-Dk0H_2NK.css",
+                  "duration": 108.10000000009313,
+                  "transferSize": 996
+                },
+                {
+                  "name": "/assets/dist-Ba2nWcLd.js",
+                  "duration": 206.20000000018626,
+                  "transferSize": 10272
+                }
+              ]
+            },
+            {
+              "path": "/components/button",
+              "ms": 35.299999999813735,
+              "resources": []
+            },
+            {
+              "path": "/components/badge",
+              "ms": 26,
+              "resources": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -46,4 +46,4 @@ jobs:
       - run: pnpm run test:smoke
 
       # The full visual and accessibility matrix remains a required local QA
-      # step; this job adds two focused search/navigation browser cases.
+      # step; this job runs focused search/navigation/responsive browser cases.

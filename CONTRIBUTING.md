@@ -38,14 +38,14 @@ pnpm run format:check
 pnpm run typecheck
 pnpm test
 pnpm run build
-pnpm run test:size       # Reports gzipped dist/assets/app-* sizes vs budget
+pnpm run test:size       # Initial JS/CSS dependency graph: home 375, docs 390 KiB gzip
 ```
 
 ## CI cost
 
 `ci.yml` is one job, `timeout-minutes: 20`: typecheck, lint, stylelint,
 format, build, unit tests, search corpus check, size budget, and Chromium
-`test:smoke` (global-search). The full visual-parity suite and the broader
+`test:smoke` (global search, docs navigation, and CBUN flowchart breakpoints). The full visual-parity suite and the broader
 accessibility matrix stay local (`pnpm run test:e2e` / `test:a11y`).
 
 `deploy.yml` build job is `timeout-minutes: 25` and also runs `test:a11y`.

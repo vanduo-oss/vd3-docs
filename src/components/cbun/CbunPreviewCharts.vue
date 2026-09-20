@@ -10,12 +10,21 @@ const donutData = [
 </script>
 
 <template>
-  <VdChart
-    type="donut"
-    :data="donutData"
-    label="channel"
-    value="revenue"
-    title="Revenue mix"
-    :height="380"
-  />
+  <div class="cbun-charts-wrap">
+    <VdChart
+      type="donut"
+      :data="donutData"
+      label="channel"
+      value="revenue"
+      title="Revenue mix"
+      :height="380"
+    />
+  </div>
 </template>
+
+<style scoped>
+.cbun-charts-wrap {
+  border: 1px solid var(--vd-border-color);
+  border-radius: 8px;
+}
+</style>

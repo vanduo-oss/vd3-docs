@@ -62,7 +62,7 @@ const vd3Entries: CbunEntry[] = [
     <div class="about-header">
       <div class="vd-container-responsive">
         <h2 style="color: var(--vd-color-primary)">
-          <i class="ph ph-package"></i> Charts &amp; flowchart
+          <i class="ph ph-tree-structure"></i> Canvas Components Bundle
         </h2>
         <p class="vd-text-lg vd-text-muted">
           Add data visualization and diagram editing to your Vue app. Both

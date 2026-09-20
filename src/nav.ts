@@ -51,11 +51,12 @@ export const nav: NavTree = {
     },
     {
       id: "cbun",
-      title: "CBUN",
+      title: "Canvas Components Bundle",
       route: "/cbun",
-      icon: "package",
+      icon: "tree-structure",
       keywords: [
         "cbun",
+        "canvas components",
         "vd3-charts",
         "vd3-flowchart",
         "components bundle",

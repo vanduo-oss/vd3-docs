@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onBeforeUnmount } from "vue";
 import { VdFlowchart } from "@vanduo-oss/vd3-flowchart";
 
 const seedDoc = {
@@ -60,8 +61,18 @@ interface FlowchartShowcaseInstance {
   toJSON?: () => {
     nodes?: Array<{ x: number; y: number; width: number; height: number }>;
   };
-  canvasEl?: { clientWidth: number; clientHeight: number };
+  canvasEl?: HTMLElement;
 }
+
+let canvasObserver: ResizeObserver | undefined;
+let fitFrame: number | undefined;
+
+function stopObserving(): void {
+  canvasObserver?.disconnect();
+  if (fitFrame !== undefined) cancelAnimationFrame(fitFrame);
+}
+
+onBeforeUnmount(stopObserving);
 
 function isMobileShowcase(): boolean {
   return (
@@ -117,6 +128,12 @@ function applyShowcaseFit(
 
 function onReady(instance: FlowchartShowcaseInstance | null): void {
   if (!instance) return;
+  stopObserving();
+  // This compact preview omits the outline referenced by the editor's label.
+  instance.canvasEl?.setAttribute(
+    "aria-label",
+    "Diagram canvas. Arrow keys select nodes; Enter edits a label.",
+  );
   const coreFit = instance.fitView?.bind(instance);
   if (coreFit) {
     instance.fitView = () => {
@@ -124,9 +141,20 @@ function onReady(instance: FlowchartShowcaseInstance | null): void {
     };
   }
   applyShowcaseFit(instance, coreFit);
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => applyShowcaseFit(instance, coreFit));
-  });
+  const scheduleFit = () => {
+    if (fitFrame !== undefined) cancelAnimationFrame(fitFrame);
+    fitFrame = requestAnimationFrame(() => {
+      fitFrame = undefined;
+      applyShowcaseFit(instance, coreFit);
+    });
+  };
+  // The showcase changes width when its outer row stacks/un-stacks. Observe
+  // the canvas itself so toolbar wrapping and parent-only resizes also refit.
+  if (instance.canvasEl && typeof ResizeObserver !== "undefined") {
+    canvasObserver = new ResizeObserver(scheduleFit);
+    canvasObserver.observe(instance.canvasEl);
+  }
+  scheduleFit();
 }
 </script>
 
@@ -153,13 +181,32 @@ function onReady(instance: FlowchartShowcaseInstance | null): void {
   min-height: 0;
 }
 
-/* Showcase only: drop the JSON inspector so the fork can fill the canvas. */
-.cbun-flowchart-wrap :deep(.vd-flowchart-panel--inspector) {
+.cbun-flowchart-wrap :deep(.vd-flowchart-shell) {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+/* Keep the showcase focused on the diagram and its editing toolbar. */
+.cbun-flowchart-wrap :deep(.vd-flowchart-panel--inspector),
+.cbun-flowchart-wrap :deep(.vd-flowchart-outline) {
   display: none;
 }
 
 .cbun-flowchart-wrap :deep(.vd-flowchart-body) {
   grid-template-columns: 88px minmax(0, 1fr);
+  /* The full editor stacks its inspector below 1180px. This preview hides it,
+     so its reserved rows must also go at every width, not just on phones. */
+  grid-template-rows: minmax(0, 1fr);
+}
+
+/* Keep the retained desktop-style side palette vertical even when the full
+   editor's <=840px stylesheet expects a horizontal palette above the canvas. */
+.cbun-flowchart-wrap :deep(.vd-flowchart-palette) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.cbun-flowchart-wrap :deep(.vd-flowchart-panel--palette) {
+  border-right: 1px solid var(--vd-flowchart-border);
+  border-bottom: 0;
 }
 
 @media (max-width: 768px) {

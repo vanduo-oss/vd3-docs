@@ -18,17 +18,7 @@ const isExternalDocs = computed(() => /^https?:\/\//i.test(props.docsTo));
 <template>
   <section class="cbun-row" :class="{ 'is-reversed': reversed }">
     <div class="cbun-row-demo">
-      <div class="vd-card demo-card cbun-stage">
-        <div class="vd-card-header cbun-stage-header">
-          <h6>
-            <i :class="`ph ph-${icon}`"></i>
-            {{ title }}
-          </h6>
-        </div>
-        <div class="vd-card-body cbun-stage-body">
-          <slot />
-        </div>
-      </div>
+      <slot />
     </div>
 
     <div class="cbun-row-context">
@@ -112,19 +102,9 @@ const isExternalDocs = computed(() => /^https?:\/\//i.test(props.docsTo));
   gap: 0.75rem;
 }
 
-.cbun-stage-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.cbun-stage-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 420px;
-  overflow: hidden;
+.cbun-row-demo {
+  min-width: 0;
+  max-width: 100%;
 }
 
 @media (max-width: 900px) {
@@ -146,16 +126,10 @@ const isExternalDocs = computed(() => /^https?:\/\//i.test(props.docsTo));
 
   .cbun-row-demo {
     order: 2;
-    min-width: 0;
-    max-width: 100%;
   }
 
   .cbun-row-context {
     min-width: 0;
-  }
-
-  .cbun-stage {
-    max-width: 100%;
   }
 }
 </style>

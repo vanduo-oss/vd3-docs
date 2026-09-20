@@ -1,4 +1,7 @@
 import type { RouteRecordRaw } from "vue-router";
+// Small, frequently browsed component references are available immediately.
+// Optional demos and the rest of the catalog retain independent lazy imports.
+// Measurements and the explicit eager set: reviews/2026-09-20-navigation/.
 const HomePage = () => import("@/pages/home.vue");
 const AboutPage = () => import("@/pages/about.vue");
 const ChangelogPage = () => import("@/pages/changelog.vue");
@@ -6,19 +9,19 @@ const DocsLandingPage = () => import("@/pages/docs-landing.vue");
 const CbunPage = () => import("@/pages/cbun.vue");
 const NotFoundPage = () => import("@/pages/not-found.vue");
 
-const ButtonPage = () => import("@/pages/components/Button.vue");
-const BadgePage = () => import("@/pages/components/Badge.vue");
-const AlertPage = () => import("@/pages/components/Alert.vue");
-const CardPage = () => import("@/pages/components/Card.vue");
+import ButtonPage from "@/pages/components/Button.vue";
+import BadgePage from "@/pages/components/Badge.vue";
+import AlertPage from "@/pages/components/Alert.vue";
+import CardPage from "@/pages/components/Card.vue";
 const ModalPage = () => import("@/pages/components/Modal.vue");
 const ToastPage = () => import("@/pages/components/Toast.vue");
-const TooltipPage = () => import("@/pages/components/Tooltip.vue");
-const TabsPage = () => import("@/pages/components/Tabs.vue");
-const AccordionPage = () => import("@/pages/components/Accordion.vue");
+import TooltipPage from "@/pages/components/Tooltip.vue";
+import TabsPage from "@/pages/components/Tabs.vue";
+import AccordionPage from "@/pages/components/Accordion.vue";
 const FlowPage = () => import("@/pages/components/Flow.vue");
-const ProgressPage = () => import("@/pages/components/Progress.vue");
+import ProgressPage from "@/pages/components/Progress.vue";
 const PrimitivesPage = () => import("@/pages/components/Primitives.vue");
-const SpinnerPage = () => import("@/pages/components/Spinner.vue");
+import SpinnerPage from "@/pages/components/Spinner.vue";
 const CodeSnippetPage = () => import("@/pages/components/CodeSnippet.vue");
 const SidenavPage = () => import("@/pages/components/Sidenav.vue");
 const StickyPage = () => import("@/pages/components/Sticky.vue");
@@ -27,11 +30,11 @@ const OffcanvasPage = () => import("@/pages/components/Offcanvas.vue");
 const NavbarPage = () => import("@/pages/components/Navbar.vue");
 const DockPage = () => import("@/pages/components/Dock.vue");
 const FooterPage = () => import("@/pages/components/Footer.vue");
-const AvatarPage = () => import("@/pages/components/Avatar.vue");
+import AvatarPage from "@/pages/components/Avatar.vue";
 const TablePage = () => import("@/pages/components/Table.vue");
 const CollectionPage = () => import("@/pages/components/Collection.vue");
-const BreadcrumbPage = () => import("@/pages/components/Breadcrumb.vue");
-const ChipPage = () => import("@/pages/components/Chip.vue");
+import BreadcrumbPage from "@/pages/components/Breadcrumb.vue";
+import ChipPage from "@/pages/components/Chip.vue";
 const SkeletonPage = () => import("@/pages/components/Skeleton.vue");
 const PreloaderPage = () => import("@/pages/components/Preloader.vue");
 const FormsPage = () => import("@/pages/components/Forms.vue");
@@ -41,9 +44,9 @@ const FormValidationPage = () =>
 const DatepickerPage = () => import("@/pages/components/Datepicker.vue");
 const TimepickerPage = () => import("@/pages/components/Timepicker.vue");
 const RatingPage = () => import("@/pages/components/Rating.vue");
-const SwitchPage = () => import("@/pages/components/Switch.vue");
+import SwitchPage from "@/pages/components/Switch.vue";
 const SliderPage = () => import("@/pages/components/Slider.vue");
-const SeparatorPage = () => import("@/pages/components/Separator.vue");
+import SeparatorPage from "@/pages/components/Separator.vue";
 const MenuPage = () => import("@/pages/components/Menu.vue");
 const ChartsPage = () => import("@/pages/canvas/Charts.vue");
 const FlowchartPage = () => import("@/pages/canvas/Flowchart.vue");
@@ -53,7 +56,7 @@ const TransferPage = () => import("@/pages/components/Transfer.vue");
 const TreePage = () => import("@/pages/components/Tree.vue");
 const PaginationPage = () => import("@/pages/components/Pagination.vue");
 const ButtonGroupsPage = () => import("@/pages/components/ButtonGroups.vue");
-const DropdownPage = () => import("@/pages/components/Dropdown.vue");
+import DropdownPage from "@/pages/components/Dropdown.vue";
 const RipplePage = () => import("@/pages/components/Ripple.vue");
 const FabPage = () => import("@/pages/components/Fab.vue");
 const ExpandingCardsPage = () =>

@@ -10,11 +10,14 @@ import { VdToastContainer } from "@vanduo-oss/vd3";
 import { useThemeStore } from "@/stores/theme";
 import { useCustomizerStore } from "@/stores/customizer";
 import { useSearchStore } from "@/stores/search";
+import NavigationStatus from "@/layout/NavigationStatus.vue";
+import { useNavigation } from "@/navigation";
 
 const route = useRoute();
 const theme = useThemeStore();
 const customizer = useCustomizerStore();
 const search = useSearchStore();
+const { pending } = useNavigation();
 
 // ── Per-route SEO (baked into the SSG HTML via @unhead) ──────────────
 const BASE_URL = "https://vd3.vanduo.dev";
@@ -63,8 +66,9 @@ onMounted(() => {
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <VdSiteDock />
+  <NavigationStatus />
 
-  <main id="main-content">
+  <main id="main-content" :aria-busy="pending ? 'true' : undefined">
     <DocsLayout v-if="route.meta.layout === 'docs'">
       <RouterView />
     </DocsLayout>

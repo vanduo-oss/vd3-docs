@@ -7,6 +7,7 @@ import {
   DOCS_DEFAULT_PRIMARY_LIGHT,
 } from "./constants/docsPrimary";
 import { buildRoutes } from "./router";
+import { createNavigation, navigationKey } from "./navigation";
 import "@vanduo-oss/vd3/css";
 import "@vanduo-oss/vd3-charts/css";
 import "@vanduo-oss/vd3-flowchart/css";
@@ -36,8 +37,11 @@ export const createApp = ViteSSG(
       return { top: 0, behavior: "instant" };
     },
   },
-  async ({ app, initialState }) => {
+  async ({ app, router, isClient, initialState }) => {
     app.use(createPinia());
+    const navigation = createNavigation(router, isClient);
+    app.provide(navigationKey, navigation);
+    app.onUnmount(navigation.dispose);
     // Docs first-paint defaults: Ink in light, published `blue` in dark.
     // Per-scheme primaries are persisted in the theme store. Per-mode neutral
     // (stone in light, charcoal in dark) is also handled there; the engine has

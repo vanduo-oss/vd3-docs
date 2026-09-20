@@ -1,0 +1,57 @@
+{
+  "results": [
+    {
+      "width": 390,
+      "headings": [
+        "Charts",
+        "Flowchart"
+      ],
+      "outerCards": 0,
+      "outlineVisible": false,
+      "canvasHeight": 373,
+      "previewWidth": 345,
+      "canvasLabel": "Diagram canvas. Arrow keys select nodes; Enter edits a label.",
+      "pageFits": true
+    },
+    {
+      "width": 800,
+      "headings": [
+        "Charts",
+        "Flowchart"
+      ],
+      "outerCards": 0,
+      "outlineVisible": false,
+      "canvasHeight": 350,
+      "previewWidth": 772,
+      "canvasLabel": "Diagram canvas. Arrow keys select nodes; Enter edits a label.",
+      "pageFits": true
+    },
+    {
+      "width": 1024,
+      "headings": [
+        "Charts",
+        "Flowchart"
+      ],
+      "outerCards": 0,
+      "outlineVisible": false,
+      "canvasHeight": 350,
+      "previewWidth": 699,
+      "canvasLabel": "Diagram canvas. Arrow keys select nodes; Enter edits a label.",
+      "pageFits": true
+    },
+    {
+      "width": 1440,
+      "headings": [
+        "Charts",
+        "Flowchart"
+      ],
+      "outerCards": 0,
+      "outlineVisible": false,
+      "canvasHeight": 350,
+      "previewWidth": 1041,
+      "canvasLabel": "Diagram canvas. Arrow keys select nodes; Enter edits a label.",
+      "pageFits": true
+    }
+  ],
+  "fullEditorOutlineVisible": true
+}
