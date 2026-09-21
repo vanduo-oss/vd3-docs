@@ -316,18 +316,6 @@ const swatches = [
                   <i class="ph ph-arrow-right" aria-hidden="true"></i>
                 </RouterLink>
               </span>
-              <button
-                type="button"
-                class="vd-visually-hidden"
-                :aria-expanded="flipped[i]"
-                :aria-label="
-                  flipped[i]
-                    ? `${feature.title} — hide details`
-                    : `${feature.title} — reveal details`
-                "
-              >
-                {{ flipped[i] ? "Less" : "Details" }}
-              </button>
             </div>
           </div>
         </div>
