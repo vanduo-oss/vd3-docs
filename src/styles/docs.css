@@ -3415,46 +3415,21 @@ a:hover .vd-card-interactive.vd-card-glow {
   transform: translateY(calc(var(--vd-dock-brand-size) * 0.075));
 }
 
-/* Brand mark: idle still; hover ramps slow→medium; morph spins fast. */
-@property --vd-site-dock-brand-spin {
-  syntax: "<time>";
-  inherits: true;
-  initial-value: 12s;
-}
-
+/* Brand mark: WAAPI drives --vd-site-dock-brand-angle (spin + settle). */
 @property --vd-site-dock-brand-angle {
   syntax: "<angle>";
   inherits: false;
   initial-value: 0deg;
 }
 
-@keyframes vd-site-dock-brand-spin {
-  to {
-    --vd-site-dock-brand-angle: 360deg;
-  }
-}
-
 .vd-site-dock .vd-dock-brand .vd3-mark-spin {
   transform: rotate(var(--vd-site-dock-brand-angle));
   transform-origin: 361px 361px;
-  animation: vd-site-dock-brand-spin var(--vd-site-dock-brand-spin) linear
-    infinite;
-  animation-play-state: paused;
-}
-
-.vd-site-dock .vd-dock-brand:hover .vd3-mark-spin,
-.vd-site-dock .vd-dock-brand:focus-visible .vd3-mark-spin {
-  animation-play-state: running;
-}
-
-.vd-site-dock.is-morphing .vd-dock-brand .vd3-mark-spin {
-  animation-play-state: running;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .vd-site-dock .vd-dock-brand .vd3-mark-spin {
-    animation: none;
-    transition: none;
+    --vd-site-dock-brand-angle: 0deg !important;
   }
 }
 
@@ -3538,7 +3513,9 @@ a:hover .vd-card-interactive.vd-card-glow {
   }
 
   .vd-site-dock.vd-dock.is-horizontal {
-    padding-block: 0.35rem;
+    /* Thin block inset — fat padding + a short overflow-hidden nav was
+       clipping the downward-translated icon+label stacks. */
+    padding-block: 0.1rem;
   }
 
   .vd-site-dock.vd-dock-edge-bottom:not(.is-square) {
@@ -3569,8 +3546,10 @@ a:hover .vd-card-interactive.vd-card-glow {
      the first item (Home) is not clipped off the scrollport's left edge. */
   .vd-site-dock.vd-dock.is-horizontal .vd-dock-nav {
     flex: 1 1 auto;
+    align-self: stretch;
     min-width: 0;
     overflow: auto hidden;
+    align-items: center;
     justify-content: flex-start;
     scrollbar-width: none;
     overscroll-behavior-x: contain;
@@ -3590,25 +3569,32 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   .vd-site-dock .vd-dock-links {
     flex-wrap: nowrap;
+    align-items: center;
     width: max-content;
     min-width: min-content;
   }
 
-  /* Mobile: icon above label — beat inline itemLayout on the narrow strip. */
+  /* Mobile: icon above label — beat inline itemLayout on the narrow strip.
+     Size to the icon+label so the stack centers on the dock midline. */
   .vd-site-dock.vd-dock-items-inline .vd-dock-links .vd-dock-item,
   .vd-site-dock.vd-dock-items-stack .vd-dock-links .vd-dock-item {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    align-self: center;
+    height: auto;
   }
 
-  /* Mobile: show compact labels under the four primary nav icons. */
+  /* Mobile: one uppercase line under each primary nav icon.
+     Nudge stacks slightly below the dock midline; use `translate` so it
+     composes with idle/hover/active `transform: scale(...)`. */
   .vd-site-dock .vd-dock-links .vd-dock-item {
     gap: 0.1rem;
     min-width: 3.1rem;
     min-height: auto;
     padding: 0.1rem 0.3rem;
     flex-shrink: 0;
+    translate: 0 0.4rem;
   }
 
   .vd-site-dock .vd-dock-links .vd-dock-item :is(.ph, .ph-fill) {
@@ -3616,16 +3602,15 @@ a:hover .vd-card-interactive.vd-card-glow {
   }
 
   .vd-site-dock .vd-dock-links .vd-dock-item .vd-dock-label {
+    position: static;
     display: block;
-    max-width: min-content;
-    min-height: 2.2em;
-    white-space: normal;
+    white-space: nowrap;
     text-align: center;
     font-size: 0.575rem;
     font-weight: 500;
-    letter-spacing: 0.02em;
-    text-transform: none;
-    line-height: 1.1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1;
     opacity: 0.88;
   }
 

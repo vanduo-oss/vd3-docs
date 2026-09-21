@@ -67,9 +67,10 @@ corners, without restoring an outer card heading or padding.
 ### Requirement: Canvas showcase has an expanded public name
 The /cbun page title, home feature tile, and navigation/search entry SHALL use
 Canvas Components Bundle. The page title, home feature tile, and dock item
-SHALL use the tree-structure icon. The dock label, tooltip, and accessible
-name SHALL use Canvas Components. The /cbun route and CBUN search keyword
-SHALL remain available.
+SHALL use the tree-structure icon. On wide viewports the dock label, tooltip,
+and accessible name SHALL use Canvas Components; on narrow viewports the
+visible dock label and accessible name SHALL use Canvas. The /cbun route and
+CBUN search keyword SHALL remain available.
 
 #### Scenario: Find the canvas showcase
 - **WHEN** the user views its home feature tile or page heading

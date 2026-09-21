@@ -35,6 +35,12 @@ test.describe("Site Oola dock chrome", () => {
     await expect(docs).toBeVisible();
     await expect(home).not.toHaveAttribute("data-tooltip");
     await expect(home.locator(".vd-dock-label")).toHaveText("Home");
+    await expect(docs.locator(".vd-dock-label")).toHaveText("Documentation");
+    await expect(
+      dock.getByRole("button", { name: "Canvas Components" }).locator(
+        ".vd-dock-label",
+      ),
+    ).toHaveText("Canvas Components");
     await expect(
       dock.getByRole("button", { name: "Open global search" }),
     ).toBeVisible();
@@ -105,11 +111,7 @@ test.describe("Site Oola dock chrome", () => {
     const dock = page.locator("nav.vd-site-dock.vd-dock-fixed").first();
     await expect(dock).toBeVisible();
 
-    for (const label of [
-      "Home",
-      "Documentation",
-      "Canvas Components",
-    ] as const) {
+    for (const label of ["Home", "Docs", "Canvas"] as const) {
       const item = dock.getByRole("button", { name: label, exact: true });
       await expect(item).toBeVisible();
       await expect(item.locator(".vd-dock-label")).toHaveText(label);
@@ -123,6 +125,30 @@ test.describe("Site Oola dock chrome", () => {
         return label.left >= strip.left - 1 && label.right <= strip.right + 1;
       });
       expect(labelFits).toBe(true);
+
+      const placement = await item.evaluate((el) => {
+        const dock = el.closest("nav.vd-site-dock");
+        const label = el.querySelector(".vd-dock-label");
+        if (!(dock instanceof HTMLElement) || !(label instanceof HTMLElement)) {
+          return { belowMidline: false, uppercase: false, delta: 0 };
+        }
+        const rem = Number.parseFloat(
+          getComputedStyle(document.documentElement).fontSize,
+        );
+        const expectedOffset = 0.4 * rem;
+        const dockBox = dock.getBoundingClientRect();
+        const itemBox = el.getBoundingClientRect();
+        const dockCy = dockBox.top + dockBox.height / 2;
+        const itemCy = itemBox.top + itemBox.height / 2;
+        const delta = itemCy - dockCy;
+        return {
+          belowMidline: Math.abs(delta - expectedOffset) < 4,
+          uppercase: getComputedStyle(label).textTransform === "uppercase",
+          delta,
+        };
+      });
+      expect(placement.uppercase).toBe(true);
+      expect(placement.belowMidline).toBe(true);
     }
 
     const home = dock.getByRole("button", { name: "Home", exact: true });
@@ -180,7 +206,7 @@ test.describe("Site Oola dock chrome", () => {
     await expect(dock.locator(".vd-dock-item .vd-dock-label")).toHaveCount(3);
   });
 
-  test("Documentation item navigates to docs landing", async ({ page }) => {
+  test("Docs item navigates to docs landing", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
     await page
       .locator("nav.vd-site-dock")
@@ -432,48 +458,56 @@ test.describe("Site Oola dock chrome", () => {
     const brand = dock.locator("button.vd-dock-brand").first();
     const spin = brand.locator(".vd3-mark-spin").first();
 
-    await expect(spin).toHaveCSS("animation-play-state", "paused");
+    const brandAnimId = async () =>
+      spin.evaluate((el) => {
+        const anim = el
+          .getAnimations()
+          .find(
+            (a) =>
+              a.id === "vd-site-dock-brand-spin" ||
+              a.id === "vd-site-dock-brand-settle",
+          );
+        const timing = anim?.effect?.getTiming();
+        return {
+          id: anim?.id ?? "",
+          playState: anim?.playState ?? "idle",
+          durationMs: Number.parseFloat(String(timing?.duration ?? "")),
+        };
+      });
+
+    expect((await brandAnimId()).id).toBe("");
 
     await brand.hover();
-    await expect(spin).toHaveCSS("animation-play-state", "running");
-    const hoverName = await spin.evaluate(
-      (el) => getComputedStyle(el).animationName,
-    );
-    expect(hoverName).toContain("vd-site-dock-brand-spin");
+    await expect
+      .poll(async () => (await brandAnimId()).id)
+      .toBe("vd-site-dock-brand-spin");
+    // Accumulate some rotation so leave must coast instead of already-upright snap.
+    await page.waitForTimeout(500);
 
-    // Leave hover so morph fast-spin is not conflated with :hover.
+    // Leave hover: settle continues forward instead of freezing mid-angle.
     await page.mouse.move(0, 0);
-    await expect(spin).toHaveCSS("animation-play-state", "paused");
+    await expect
+      .poll(async () => (await brandAnimId()).id)
+      .toBe("vd-site-dock-brand-settle");
+    await expect
+      .poll(async () => (await brandAnimId()).id, { timeout: 3000 })
+      .toBe("");
 
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
     await brand.click({ force: true });
     await expect(dock).toHaveClass(/is-morphing/, { timeout: 2000 });
 
-    // The composable retimes through the Web Animations API so the mark never
-    // snaps back to 0deg, which leaves computed `animation-duration` at the CSS
-    // idle value. Read the live effect timing instead.
-    const morphSpin = await spin.evaluate((el) => {
-      const anim = el
-        .getAnimations()
-        .find((a) =>
-          (a as Animation & { animationName?: string }).animationName?.includes(
-            "vd-site-dock-brand-spin",
-          ),
-        );
-      const timing = anim?.effect?.getTiming();
-      return {
-        playState: getComputedStyle(el).animationPlayState,
-        durationMs: Number.parseFloat(String(timing?.duration ?? "")),
-        name: getComputedStyle(el).animationName,
-      };
-    });
+    const morphSpin = await brandAnimId();
+    expect(morphSpin.id).toBe("vd-site-dock-brand-spin");
     expect(morphSpin.playState).toBe("running");
-    expect(morphSpin.name).toContain("vd-site-dock-brand-spin");
     // Fast morph target is 0.9s; allow a little tolerance while transitioning.
     expect(morphSpin.durationMs).toBeLessThan(2000);
     expect(morphSpin.durationMs).toBeGreaterThan(400);
 
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
+    await expect
+      .poll(async () => (await brandAnimId()).id, { timeout: 3000 })
+      .toBe("vd-site-dock-brand-settle");
   });
 
   test("narrow brand click morphs top to bottom with square waypoint", async ({

@@ -67,18 +67,22 @@ initial JS/CSS SHALL remain below 375 KiB gzip and sampled docs routes below
 - **THEN** the evidence SHALL include initial readiness, first visits, cached
   visits, and the measurement limitations
 
-### Requirement: Documentation dock entry uses its full name
-The site dock SHALL label its documentation destination Documentation,
-including its accessible name and tooltip where shown. It SHALL retain the
-book icon and navigate to /docs-landing.
+### Requirement: Documentation dock entry uses a short name
+The site dock SHALL label its documentation destination Docs on narrow
+viewports and Documentation on wide viewports, including the accessible name
+and tooltip where shown. On a horizontal dock the visible label SHALL be
+uppercase. It SHALL retain the book icon and navigate to /docs-landing.
 
 #### Scenario: Horizontal dock
-- **WHEN** the user views a horizontal dock on desktop or phone
-- **THEN** the visible documentation label SHALL read Documentation
+- **WHEN** the user views a horizontal dock on a phone
+- **THEN** the visible documentation label SHALL read DOCS
+- **WHEN** the user views a horizontal dock on desktop
+- **THEN** the visible documentation label SHALL read DOCUMENTATION
 - **WHEN** the user activates it
 - **THEN** the documentation landing page SHALL open
 
-#### Scenario: Longer names on a phone
+#### Scenario: Short names on a phone
 - **WHEN** the viewport is 390px wide
-- **THEN** all three primary navigation labels SHALL fit in the visible strip
-- **AND** multiword labels MAY wrap with icons aligned above them
+- **THEN** Home, Docs, and Canvas SHALL each be one uppercase line in the
+  visible strip
+- **AND** each icon-and-label stack SHALL sit slightly below the dock midline

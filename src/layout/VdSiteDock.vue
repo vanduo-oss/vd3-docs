@@ -114,21 +114,21 @@ const hideVisibleDockTooltips = (): void => {
     .forEach((tip) => tip.remove());
 };
 
-const links = [
+const links = computed(() => [
   { id: "home", label: "Home", icon: "house", to: "/" },
   {
     id: "docs",
-    label: "Documentation",
+    label: isNarrow.value ? "Docs" : "Documentation",
     icon: "book-open-text",
     to: "/docs-landing",
   },
   {
     id: "cbun",
-    label: "Canvas Components",
+    label: isNarrow.value ? "Canvas" : "Canvas Components",
     icon: "tree-structure",
     to: "/cbun",
   },
-] as const;
+]);
 
 const isActive = (to: string): boolean => {
   if (to === "/") return route.path === "/";
@@ -136,7 +136,7 @@ const isActive = (to: string): boolean => {
 };
 
 const activeId = computed(() => {
-  const match = links.find((link) => isActive(link.to));
+  const match = links.value.find((link) => isActive(link.to));
   return match?.id ?? "";
 });
 
@@ -152,7 +152,7 @@ const onDockClick = (event: Event): void => {
   const item = target.closest(".vd-dock-item");
   if (!item || !(item instanceof HTMLElement)) return;
   const label = item.getAttribute("aria-label");
-  const link = links.find((entry) => entry.label === label);
+  const link = links.value.find((entry) => entry.label === label);
   if (link) go(link.to);
 };
 

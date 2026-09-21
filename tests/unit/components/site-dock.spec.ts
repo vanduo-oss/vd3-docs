@@ -99,7 +99,9 @@ describe("VdSiteDock", () => {
     expect(wrapper.find(".vd-dock").classes()).toContain("vd-dock-fixed");
 
     const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
-    const docs = wrapper.get('button.vd-dock-item[aria-label="Documentation"]');
+    const docs = wrapper.get(
+      'button.vd-dock-item[aria-label="Documentation"]',
+    );
     const cbun = wrapper.get(
       'button.vd-dock-item[aria-label="Canvas Components"]',
     );
@@ -117,7 +119,9 @@ describe("VdSiteDock", () => {
 
   it("navigates when a dock item is clicked", async () => {
     const { wrapper, router } = await mountDock();
-    const docs = wrapper.get('button.vd-dock-item[aria-label="Documentation"]');
+    const docs = wrapper.get(
+      'button.vd-dock-item[aria-label="Documentation"]',
+    );
     await docs.trigger("click");
     await flushPromises();
     expect(router.currentRoute.value.path).toBe("/docs-landing");
@@ -192,6 +196,12 @@ describe("VdSiteDock", () => {
     expect(home.attributes("data-tooltip-variant")).toBeUndefined();
     expect(home.classes()).toContain("is-active");
     expect(home.find(".vd-dock-label").text()).toBe("Home");
+
+    for (const label of ["Docs", "Canvas"] as const) {
+      const item = wrapper.get(`button.vd-dock-item[aria-label="${label}"]`);
+      expect(item.find(".vd-dock-label").text()).toBe(label);
+      expect(item.attributes("data-tooltip")).toBeUndefined();
+    }
 
     const search = wrapper.get('button[aria-label="Open global search"]');
     expect(search.attributes("data-tooltip")).toBeUndefined();
