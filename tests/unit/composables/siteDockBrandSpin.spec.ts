@@ -177,12 +177,8 @@ describe("useSiteDockBrandSpin touch settle", () => {
   let dock: HTMLElement;
   let brand: HTMLButtonElement;
   let spin: HTMLElement;
-  let settleSpy: ReturnType<
-    typeof vi.spyOn<typeof siteDockBrandSpin, "settleSiteDockBrandSpin">
-  >;
-  let ensureSpy: ReturnType<
-    typeof vi.spyOn<typeof siteDockBrandSpin, "ensureSiteDockBrandSpin">
-  >;
+  let settleSpy: ReturnType<typeof vi.spyOn>;
+  let ensureSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(async () => {
     vi.stubGlobal("matchMedia", (query: string) => ({
@@ -203,7 +199,7 @@ describe("useSiteDockBrandSpin touch settle", () => {
     document.body.appendChild(dock);
 
     const animStore: Animation[] = [];
-    spin.animate = vi.fn((keyframes, options) => {
+    spin.animate = vi.fn((_keyframes, options) => {
       const anim = {
         id: "",
         playState: "running",

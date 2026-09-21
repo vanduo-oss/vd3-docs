@@ -37,7 +37,7 @@ const defaultsVue = `import { VanduoVue, setThemeDefaults } from "@vanduo-oss/vd
 app.use(VanduoVue, {
   themeDefaults: {
     PRIMARY_LIGHT: "black",
-    PRIMARY_DARK: "blue",
+    PRIMARY_DARK: "green",
   },
 });
 

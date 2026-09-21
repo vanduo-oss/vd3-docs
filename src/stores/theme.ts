@@ -60,6 +60,23 @@ export const useThemeStore = defineStore("theme", () => {
     prefs.neutral = docsDefaultNeutral(prefs.theme);
   };
 
+  /**
+   * Package applyPreference removes data-theme for system and lets a second
+   * prefers-color-scheme stylesheet paint. Stamp the resolved light|dark set
+   * so System is only autodetect, never a third palette.
+   */
+  const stampResolvedScheme = (): void => {
+    if (typeof document === "undefined") return;
+    const scheme = resolveScheme(prefs.theme);
+    const root = document.documentElement;
+    if (root.getAttribute("data-theme") !== scheme) {
+      root.setAttribute("data-theme", scheme);
+    }
+    if (root.style.colorScheme !== scheme) {
+      root.style.colorScheme = scheme;
+    }
+  };
+
   const commit = (): void => {
     const scheme = resolveScheme(prefs.theme);
     const intended = coerceDocsPrimary(prefs.primary, scheme);
@@ -71,6 +88,7 @@ export const useThemeStore = defineStore("theme", () => {
     if (typeof document !== "undefined") {
       document.documentElement.setAttribute("data-primary", prefs.primary);
     }
+    stampResolvedScheme();
     persistPreference(prefs);
     persistDocsSchemePrimaries(schemePrimaries);
   };
@@ -93,12 +111,27 @@ export const useThemeStore = defineStore("theme", () => {
       typeof window.matchMedia === "function"
     ) {
       const mq = window.matchMedia("(prefers-color-scheme: dark)");
-      if (!mq || typeof mq.addEventListener !== "function") return;
-      mq.addEventListener("change", () => {
+      if (mq && typeof mq.addEventListener === "function") {
+        mq.addEventListener("change", () => {
+          if (prefs.theme !== "system") return;
+          applyStoredPrimary("system");
+          prefs.neutral = docsDefaultNeutral("system");
+          commit();
+        });
+      }
+    }
+
+    if (
+      typeof MutationObserver !== "undefined" &&
+      typeof document !== "undefined"
+    ) {
+      const themeAttr = new MutationObserver(() => {
         if (prefs.theme !== "system") return;
-        applyStoredPrimary("system");
-        prefs.neutral = docsDefaultNeutral("system");
-        commit();
+        stampResolvedScheme();
+      });
+      themeAttr.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
       });
     }
   };

@@ -55,6 +55,20 @@ test.describe("Site Oola dock chrome", () => {
     await expect(home).toHaveAttribute("data-tooltip", "Home");
     await expect(home).toHaveAttribute("data-tooltip-placement", "right");
     await expect(home).toHaveAttribute("data-tooltip-variant", "dock");
+    await expect(docs).toHaveAttribute("data-tooltip", "Documentation");
+    await expect(
+      dock.getByRole("button", { name: "Canvas Components" }),
+    ).toHaveAttribute("data-tooltip", "Canvas Components");
+    await expect(brand).not.toHaveAttribute("data-tooltip");
+    await expect(
+      dock.getByRole("button", { name: "Open global search" }),
+    ).not.toHaveAttribute("data-tooltip");
+    await expect(
+      dock.getByRole("button", { name: "Choose theme color" }),
+    ).not.toHaveAttribute("data-tooltip");
+    await expect(
+      dock.locator("button.vd-theme-switcher-toggle").first(),
+    ).not.toHaveAttribute("data-tooltip");
 
     await home.hover();
     const tooltip = page

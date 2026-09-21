@@ -47,10 +47,7 @@ export function nextUprightAngleDeg(currentDeg: number): number {
   return Math.ceil(currentDeg / 360) * 360;
 }
 
-export function settleDurationMs(
-  currentDeg: number,
-  periodMs: number,
-): number {
+export function settleDurationMs(currentDeg: number, periodMs: number): number {
   const remaining = nextUprightAngleDeg(currentDeg) - currentDeg;
   if (remaining < UPRIGHT_EPS_DEG) return 0;
   const period = periodMs > 0 ? periodMs : SITE_DOCK_SPIN_HOVER_MS;
@@ -91,7 +88,9 @@ export function findSiteDockBrandSpinAnimation(
 export function findSiteDockBrandSettleAnimation(
   spin: Element,
 ): Animation | undefined {
-  return spin.getAnimations().find((anim) => anim.id === SITE_DOCK_BRAND_SETTLE_NAME);
+  return spin
+    .getAnimations()
+    .find((anim) => anim.id === SITE_DOCK_BRAND_SETTLE_NAME);
 }
 
 function isKeyframeEffect(

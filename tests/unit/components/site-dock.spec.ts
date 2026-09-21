@@ -239,6 +239,27 @@ describe("VdSiteDock", () => {
       await flushPromises();
       expect(home().attributes("data-tooltip")).toBe("Home");
       expect(home().attributes("data-tooltip-placement")).toBe(tip);
+      expect(
+        wrapper
+          .get('button.vd-dock-item[aria-label="Documentation"]')
+          .attributes("data-tooltip"),
+      ).toBe("Documentation");
+      expect(
+        wrapper
+          .get('button.vd-dock-item[aria-label="Canvas Components"]')
+          .attributes("data-tooltip"),
+      ).toBe("Canvas Components");
+      expect(
+        wrapper.get('button[aria-label="Open global search"]').attributes("data-tooltip"),
+      ).toBeUndefined();
+      expect(
+        wrapper.find(".vd-dock-brand").attributes("data-tooltip"),
+      ).toBeUndefined();
+      expect(
+        wrapper
+          .get('button[aria-label="Choose theme color"]')
+          .attributes("data-tooltip"),
+      ).toBeUndefined();
     }
     wrapper.unmount();
   });

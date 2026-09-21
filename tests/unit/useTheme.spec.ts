@@ -158,7 +158,7 @@ describe("useThemeStore", () => {
     // system + jsdom matchMedia(false) → light → docs default black
     expect(theme.primary).toBe("black");
     expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("blue");
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
   });
 
   it("init overwrites stored non-primary prefs but keeps an explicit dock primary", () => {
@@ -194,10 +194,10 @@ describe("useThemeStore", () => {
     window.localStorage.setItem("vanduo-primary-color", "blue");
     const theme = useThemeStore();
     theme.init();
-    expect(theme.primary).toBe("blue");
-    expect(document.documentElement.getAttribute("data-primary")).toBe("blue");
+    expect(theme.primary).toBe("green");
+    expect(document.documentElement.getAttribute("data-primary")).toBe("green");
     expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("blue");
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
   });
 
   it("migrates a legacy explicit primary onto the current scheme only", () => {
@@ -217,7 +217,7 @@ describe("useThemeStore", () => {
     lightTheme.init();
     expect(lightTheme.primary).toBe("black");
     expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("blue");
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
   });
 
   it("keeps Ink (black) in light and dark; coerces amber/lime; allows rose", () => {
@@ -235,11 +235,11 @@ describe("useThemeStore", () => {
     expect(theme.primary).toBe("rose");
 
     theme.setTheme("dark");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("green");
     theme.setPrimary("amber");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("green");
     theme.setPrimary("lime");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("green");
     theme.setPrimary("rose");
     expect(theme.primary).toBe("rose");
 
@@ -249,27 +249,27 @@ describe("useThemeStore", () => {
     expect(theme.primary).toBe("rose");
   });
 
-  it("defaults first-visit primary to black in light and blue in dark", () => {
+  it("defaults first-visit primary to black in light and green in dark", () => {
     const theme = useThemeStore();
     theme.init();
     expect(theme.primary).toBe("black");
     expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("blue");
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
     theme.setTheme("light");
     expect(theme.primary).toBe("black");
     theme.setTheme("dark");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("green");
     expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
   });
 
-  it("defaults first-visit dark (system) primary to blue and still persists light black", () => {
+  it("defaults first-visit dark (system) primary to green and still persists light black", () => {
     stubColorScheme(true);
     const theme = useThemeStore();
     theme.init();
-    expect(theme.primary).toBe("blue");
-    expect(document.documentElement.getAttribute("data-primary")).toBe("blue");
+    expect(theme.primary).toBe("green");
+    expect(document.documentElement.getAttribute("data-primary")).toBe("green");
     expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("blue");
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
   });
 
   it("docs primary swatches include Ink + twelve accretion hues in both schemes", () => {
@@ -311,7 +311,7 @@ describe("useThemeStore", () => {
     theme.setTheme("light");
     theme.setPrimary("violet");
     theme.setTheme("dark");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("green");
     theme.setPrimary("green");
     theme.setTheme("light");
     expect(theme.primary).toBe("violet");
@@ -336,6 +336,36 @@ describe("useThemeStore", () => {
     expect(reloaded.primary).toBe("green");
     reloaded.setTheme("light");
     expect(reloaded.primary).toBe("violet");
+  });
+
+  it("stamps system as the OS scheme, never a third data-theme", async () => {
+    stubColorScheme(true);
+    const theme = useThemeStore();
+    theme.init();
+    expect(theme.theme).toBe("system");
+    expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+    expect(document.documentElement.style.colorScheme).toBe("dark");
+
+    document.documentElement.removeAttribute("data-theme");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+  });
+
+  it("stamps system as light when the OS scheme is light", () => {
+    const theme = useThemeStore();
+    theme.init();
+    expect(theme.theme).toBe("system");
+    expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+    expect(document.documentElement.style.colorScheme).toBe("light");
+  });
+
+  it("keeps explicit dark when the OS scheme is light", () => {
+    const theme = useThemeStore();
+    theme.init();
+    theme.setTheme("dark");
+    expect(theme.theme).toBe("dark");
+    expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+    expect(document.documentElement.style.colorScheme).toBe("dark");
   });
 
   it("keeps an explicit Ink pick in dark without overwriting light", () => {

@@ -33,13 +33,6 @@ const persistSiteDockPlacement = (edge: DockPlacement): void => {
   }
 };
 
-const BRAND_EDGE_TIP: Record<DockPlacement, string> = {
-  bottom: "Move dock to left",
-  left: "Move dock to top",
-  top: "Move dock to right",
-  right: "Move dock to bottom",
-};
-
 type DockExposed = {
   $el?: unknown;
   snapToPlacement?: (target: DockPlacement) => void;
@@ -92,8 +85,6 @@ const tooltipPlacement = computed(() => {
   }
 });
 
-const brandTooltip = computed(() => BRAND_EDGE_TIP[placement.value]);
-
 const dockTooltipBind = computed(() =>
   showDockTooltips.value
     ? {
@@ -101,10 +92,6 @@ const dockTooltipBind = computed(() =>
         "data-tooltip-variant": "dock",
       }
     : {},
-);
-
-const themeTooltipPlacement = computed(() =>
-  showDockTooltips.value ? tooltipPlacement.value : undefined,
 );
 
 const hideVisibleDockTooltips = (): void => {
@@ -210,17 +197,11 @@ const syncDockTooltips = (): void => {
   const brand = el.querySelector(".vd-dock-brand");
   if (!(brand instanceof HTMLElement)) return;
 
+  brand.removeAttribute("data-tooltip");
+  brand.removeAttribute("data-tooltip-placement");
+  brand.removeAttribute("data-tooltip-variant");
   if (isNarrow.value || isHorizontalEdge.value) {
-    brand.removeAttribute("data-tooltip");
-    brand.removeAttribute("data-tooltip-placement");
-    brand.removeAttribute("data-tooltip-variant");
     hideVisibleDockTooltips();
-    return;
-  }
-
-  brand.setAttribute("data-tooltip", brandTooltip.value);
-  for (const [key, value] of Object.entries(dockTooltipBind.value)) {
-    brand.setAttribute(key, value);
   }
 };
 
@@ -266,10 +247,6 @@ watch(isNarrow, (narrow) => {
     patchBrandA11y();
     syncDockTooltips();
   });
-});
-
-watch(brandTooltip, () => {
-  void nextTick(() => syncDockTooltips());
 });
 
 onMounted(() => {
@@ -360,8 +337,8 @@ onUnmounted(() => {
 
     <template v-if="isNarrow">
       <span class="vd-site-dock-strip-divider" aria-hidden="true"></span>
-      <VdThemeSwitcher :tooltip-placement="themeTooltipPlacement" />
-      <VdThemeCustomizer :tooltip-placement="themeTooltipPlacement" />
+      <VdThemeSwitcher />
+      <VdThemeCustomizer />
     </template>
 
     <template #actions>
@@ -369,15 +346,13 @@ onUnmounted(() => {
         type="button"
         class="global-search-trigger vd-site-dock-search"
         aria-label="Open global search"
-        :data-tooltip="showDockTooltips ? 'Search' : undefined"
-        v-bind="dockTooltipBind"
         @click="onSearchClick"
       >
         <i class="ph-bold ph-magnifying-glass" aria-hidden="true"></i>
       </button>
       <template v-if="!isNarrow">
-        <VdThemeSwitcher :tooltip-placement="themeTooltipPlacement" />
-        <VdThemeCustomizer :tooltip-placement="themeTooltipPlacement" />
+        <VdThemeSwitcher />
+        <VdThemeCustomizer />
       </template>
     </template>
   </VdDock>

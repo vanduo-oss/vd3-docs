@@ -4942,22 +4942,3 @@ body.lcc-open .vd-offcanvas {
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
-
-#home-features .feature-morph-toggle {
-  position: absolute;
-  bottom: 0.65rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  border: 0;
-  background: transparent;
-  color: var(--vd-text-primary);
-  font: inherit;
-  font-size: 0.8rem;
-  cursor: pointer;
-}
-
-#home-features .feature-morph-toggle:focus-visible {
-  outline: 2px solid currentcolor;
-  outline-offset: 3px;
-}

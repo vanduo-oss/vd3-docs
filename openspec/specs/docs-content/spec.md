@@ -393,14 +393,40 @@ the mark remains visible on dark theme backgrounds.
 - **WHEN** the user views the navbar or home hero mark
 - **THEN** the green fills are clearly visible (not near-black)
 
-### Requirement: first-visit default primary is blue
+### Requirement: docs color appearance has two sets
+
+The docs shell SHALL paint with exactly two color sets, light and dark.
+System SHALL be autodetect only: the stored preference may be `system`, and
+while it is selected `html[data-theme]` and `color-scheme` SHALL match the
+OS scheme's explicit mode. `data-theme` SHALL never be `system` or absent
+after the theme store commits.
+
+#### Scenario: system follows a dark OS
+
+- **GIVEN** the stored theme preference is system
+- **WHEN** the OS `prefers-color-scheme` is dark
+- **THEN** `html[data-theme]` is `dark` and muted text matches explicit Dark
+
+#### Scenario: system follows a light OS
+
+- **GIVEN** the stored theme preference is system
+- **WHEN** the OS `prefers-color-scheme` is light
+- **THEN** `html[data-theme]` is `light` and muted text matches explicit Light
+
+#### Scenario: explicit dark ignores a light OS
+
+- **GIVEN** the stored theme preference is dark
+- **WHEN** the OS `prefers-color-scheme` is light
+- **THEN** `html[data-theme]` remains `dark`
+
+### Requirement: first-visit default primary is green in dark
 
 The docs site SHALL default first-visit (unset) primary to Ink (`black`) in
-light and the published vd3 primary token `blue` in dark via
-`themeDefaults.PRIMARY_LIGHT` / `PRIMARY_DARK` at bootstrap and the matching
-`DOCS_DEFAULT_PRIMARY_*` constants. First visit SHALL persist both scheme
-defaults to `vanduo-primary-color-light` and `vanduo-primary-color-dark`, then
-apply the value for the resolved scheme.
+light and `green` in dark via `themeDefaults.PRIMARY_LIGHT` /
+`PRIMARY_DARK` at bootstrap and the matching `DOCS_DEFAULT_PRIMARY_*`
+constants. First visit SHALL persist both scheme defaults to
+`vanduo-primary-color-light` and `vanduo-primary-color-dark`, then apply the
+value for the resolved scheme.
 
 A lone legacy `vanduo-primary-color` SHALL be migrated: stored `blue` (the
 former shared docs default) remaps like a first visit; any other stored hue
@@ -417,14 +443,14 @@ docs shell CSS SHALL still pin semantic primary tokens to the logo stop
 - **GIVEN** a fresh visit with empty theme localStorage
 - **WHEN** the theme store initializes in light
 - **THEN** `data-primary` is `black` and both per-scheme keys are written
-  (`light` = `black`, `dark` = `blue`)
+  (`light` = `black`, `dark` = `green`)
 
-#### Scenario: fresh dark visit uses blue and persists both scheme defaults
+#### Scenario: fresh dark visit uses green and persists both scheme defaults
 
 - **GIVEN** a fresh visit with empty theme localStorage
 - **WHEN** the theme store initializes in dark
-- **THEN** `data-primary` is `blue` and both per-scheme keys are written
-  (`light` = `black`, `dark` = `blue`)
+- **THEN** `data-primary` is `green` and both per-scheme keys are written
+  (`light` = `black`, `dark` = `green`)
 
 #### Scenario: legacy explicit primary stays on the current scheme
 
@@ -438,15 +464,15 @@ docs shell CSS SHALL still pin semantic primary tokens to the logo stop
 
 - **GIVEN** the user picks violet in light, then switches to dark
 - **WHEN** they view dark, optionally pick green, then switch back
-- **THEN** dark uses its stored primary (`blue` until they pick otherwise)
+- **THEN** dark uses its stored primary (`green` until they pick otherwise)
   and light remains violet
 
 ### Requirement: integration snippets show docs bootstrap primary
 
 Pages that document site bootstrap with `themeDefaults` SHALL show the docs
-site's real primary override: `PRIMARY_DARK` `"blue"` in
+site's real primary override: `PRIMARY_DARK` `"green"` in
 `guides/FrameworkIntegration.vue`, and `PRIMARY_LIGHT` `"black"` /
-`PRIMARY_DARK` `"blue"` in `components/ThemeSwitcher.vue`. Generic teaching
+`PRIMARY_DARK` `"green"` in `components/ThemeSwitcher.vue`. Generic teaching
 samples that demonstrate other hues (e.g. violet via `setThemeDefaults`)
 SHALL remain unchanged.
 
@@ -454,13 +480,13 @@ SHALL remain unchanged.
 
 - **GIVEN** `guides/FrameworkIntegration.vue` after this change
 - **WHEN** its bootstrap code snippets are read
-- **THEN** `PRIMARY_DARK` is `"blue"`, not `"green"`
+- **THEN** `PRIMARY_DARK` is `"green"`
 
 #### Scenario: ThemeSwitcher mirrors site bootstrap
 
 - **GIVEN** `components/ThemeSwitcher.vue` after this change
 - **WHEN** its bootstrap code snippet is read
-- **THEN** `PRIMARY_LIGHT` is `"black"` and `PRIMARY_DARK` is `"blue"`
+- **THEN** `PRIMARY_LIGHT` is `"black"` and `PRIMARY_DARK` is `"green"`
 
 ### Requirement: marketing catalog counts match the published barrel
 
