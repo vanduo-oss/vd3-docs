@@ -356,13 +356,15 @@ select,
   }
 }
 
-/* Dark + green: pin semantic primary to logo stop (--vd-green-8 = #2f9e44) */
+/* Dark + green: pin text-bearing primary stops to logo green-8 (#2f9e44).
+   Inline code uses --vd-color-primary-dark; green-9 (#2b8a3e) is 4.33:1
+   on the charcoal page and fails WCAG AA. */
 html[data-theme="dark"][data-primary="green"] {
   --vd-color-primary: var(--vd-green-8);
   --vd-color-primary-light: var(--vd-green-6);
-  --vd-color-primary-dark: var(--vd-green-9);
+  --vd-color-primary-dark: var(--vd-green-8);
   --vd-color-primary-hover: var(--vd-green-7);
-  --vd-color-primary-active: var(--vd-green-9);
+  --vd-color-primary-active: var(--vd-green-8);
 }
 
 /* Dark + ink (black): lift accents to mid/light greys so they read on dark bg.
@@ -388,9 +390,9 @@ html[data-theme="dark"][data-primary="black"] {
   :root:not([data-theme])[data-primary="green"] {
     --vd-color-primary: var(--vd-green-8);
     --vd-color-primary-light: var(--vd-green-6);
-    --vd-color-primary-dark: var(--vd-green-9);
+    --vd-color-primary-dark: var(--vd-green-8);
     --vd-color-primary-hover: var(--vd-green-7);
-    --vd-color-primary-active: var(--vd-green-9);
+    --vd-color-primary-active: var(--vd-green-8);
   }
 
   :root:not([data-theme])[data-primary="black"] {

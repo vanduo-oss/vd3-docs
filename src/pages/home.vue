@@ -284,14 +284,6 @@ const swatches = [
             <div
               class="vd-card vd-card-glow vd-glass vd-glass-floating vd-text-center vd-morph feature-morph-card"
               data-vd-morph
-              role="button"
-              tabindex="0"
-              :aria-expanded="flipped[i]"
-              :aria-label="
-                flipped[i]
-                  ? `${feature.title} — hide details`
-                  : `${feature.title} — reveal details`
-              "
               @click="onFeatureMorph(i, $event)"
               @keydown="onFeatureKeydown(i, $event)"
             >
@@ -324,6 +316,18 @@ const swatches = [
                   <i class="ph ph-arrow-right" aria-hidden="true"></i>
                 </RouterLink>
               </span>
+              <button
+                type="button"
+                class="vd-visually-hidden"
+                :aria-expanded="flipped[i]"
+                :aria-label="
+                  flipped[i]
+                    ? `${feature.title} — hide details`
+                    : `${feature.title} — reveal details`
+                "
+              >
+                {{ flipped[i] ? "Less" : "Details" }}
+              </button>
             </div>
           </div>
         </div>
