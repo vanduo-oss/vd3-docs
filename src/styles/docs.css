@@ -64,8 +64,10 @@ html {
   overscroll-behavior-y: none;
   background-color: var(--vd-bg-primary);
 
-  /* ~17px at browser 16px root — was 90% (~14.4px), too thin/small with Nunito */
-  font-size: 106.25%;
+  /* 15.3px at a 16px browser root: the previous 17px (106.25%) seen at 90%
+     browser zoom. Scales rem tokens site-wide. CSS zoom is not used so a
+     visitor's own zoom stays independent. */
+  font-size: 95.625%;
 
   /* Docs preview: force Nunito over package data-font stacks (incl. stored ubuntu) */
   --vd-font-family-sans:

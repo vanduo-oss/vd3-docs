@@ -183,7 +183,7 @@ Chromium Desktop. **Committed** snapshot PNGs SHALL be Chromium Desktop
 darwin only (`vd3-*-Chromium-Desktop-darwin.png`); Chromium Mobile darwin
 PNGs MUST NOT be committed (see repo-scaffold ignore rule). All committed
 snapshots SHALL reflect the docs site's rem-root scale
-(`html { font-size: 90% }`).
+(`html { font-size: 95.625% }`).
 
 #### Scenario: the spec carries no vd2 branding
 
@@ -230,7 +230,7 @@ snapshots SHALL reflect the docs site's rem-root scale
 
 #### Scenario: baselines match the scaled docs site
 
-- **GIVEN** the docs site built with `html { font-size: 90% }`
+- **GIVEN** the docs site built with `html { font-size: 95.625% }`
 - **WHEN** visual-parity snapshots are captured with `--update-snapshots` on
   Chromium Desktop
 - **THEN** every committed `vd3-*-Chromium-Desktop-darwin.png` baseline
