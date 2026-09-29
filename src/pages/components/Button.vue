@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import LaunchCustomizerButton from "@/components/LaunchCustomizerButton.vue";
-
 const vue3Usage = `<script setup lang="ts">
 import { VdButton } from "@vanduo-oss/vd3";
 const saving = ref(false);
@@ -261,10 +259,7 @@ const classRef: ClassRef[] = [
 
 <template>
   <section id="buttons">
-    <div class="lcc-demo-head">
-      <h5 class="demo-title"><i class="ph ph-cursor-click"></i>Buttons</h5>
-      <LaunchCustomizerButton component="button" />
-    </div>
+    <h5 class="demo-title"><i class="ph ph-cursor-click"></i>Buttons</h5>
     <p class="vd-mb-8">
       Clickable actions in contextual color variants, three sizes, and outline,
       ink, ghost, ring, and icon looks, with built-in loading and disabled

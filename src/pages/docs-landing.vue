@@ -112,21 +112,97 @@ const cards: DocsCard[] = [
   },
 ];
 
-const resources = [
-  { label: "About", to: "/about" as const },
+interface ResourceCard {
+  label: string;
+  to?: string;
+  href?: string;
+  linkClass: string;
+  cardClass: string;
+  icon: string;
+  desc: string;
+  highlights: Highlight[];
+  miniIcons: MiniIcon[];
+  tags: string[];
+  meta: { icon: string; text: string };
+}
+
+const resources: ResourceCard[] = [
+  {
+    label: "About",
+    to: "/about",
+    linkClass: "docs-landing-link-about",
+    cardClass: "docs-card-about",
+    icon: "ph-info",
+    desc: "The project and how vd3 is organized.",
+    highlights: [
+      { icon: "ph-users", text: "Who builds the framework" },
+      { icon: "ph-tree-structure", text: "How the project is organized" },
+    ],
+    miniIcons: [
+      { title: "Project", icon: "ph-folder" },
+      { title: "Team", icon: "ph-users" },
+      { title: "Principles", icon: "ph-compass" },
+    ],
+    tags: ["Project", "Team", "Principles"],
+    meta: { icon: "ph-arrow-right", text: "About page" },
+  },
   {
     label: "GitHub",
     href: "https://github.com/vanduo-oss/vd3",
+    linkClass: "docs-landing-link-github",
+    cardClass: "docs-card-github",
+    icon: "ph-github-logo",
+    desc: "Source, issues, and releases.",
+    highlights: [
+      { icon: "ph-code", text: "vanduo-oss/vd3 repository" },
+      { icon: "ph-git-pull-request", text: "Issues and pull requests" },
+    ],
+    miniIcons: [
+      { title: "Source", icon: "ph-code" },
+      { title: "Issues", icon: "ph-bug" },
+      { title: "Releases", icon: "ph-tag" },
+    ],
+    tags: ["Source", "Issues", "Releases"],
+    meta: { icon: "ph-arrow-square-out", text: "Opens GitHub" },
   },
   {
     label: "NPM",
     href: "https://www.npmjs.com/package/@vanduo-oss/vd3",
+    linkClass: "docs-landing-link-npm",
+    cardClass: "docs-card-npm",
+    icon: "ph-package",
+    desc: "The published @vanduo-oss/vd3 package.",
+    highlights: [
+      { icon: "ph-download-simple", text: "Install from the npm registry" },
+      { icon: "ph-package", text: "Charts and flowchart ship separately" },
+    ],
+    miniIcons: [
+      { title: "vd3", icon: "ph-cube" },
+      { title: "Charts", icon: "ph-chart-bar" },
+      { title: "Flowchart", icon: "ph-flow-arrow" },
+    ],
+    tags: ["vd3", "Charts", "Flowchart"],
+    meta: { icon: "ph-arrow-square-out", text: "Opens npm" },
   },
   {
     label: "License",
     href: "https://github.com/vanduo-oss/vd3/blob/main/LICENSE",
+    linkClass: "docs-landing-link-license",
+    cardClass: "docs-card-license",
+    icon: "ph-scales",
+    desc: "MIT license for the framework.",
+    highlights: [
+      { icon: "ph-check-circle", text: "Use, modify, and distribute" },
+      { icon: "ph-file-text", text: "Keep the license notice" },
+    ],
+    miniIcons: [
+      { title: "MIT", icon: "ph-scales" },
+      { title: "Notice", icon: "ph-file-text" },
+    ],
+    tags: ["MIT", "Open source"],
+    meta: { icon: "ph-arrow-square-out", text: "Opens the license file" },
   },
-] as const;
+];
 </script>
 
 <template>
@@ -216,16 +292,68 @@ const resources = [
 
       <nav class="docs-landing-resources" aria-label="Resources">
         <h3 class="docs-landing-resources-title">Resources</h3>
-        <ul class="docs-landing-resources-list">
-          <li v-for="item in resources" :key="item.label">
-            <RouterLink v-if="'to' in item" :to="item.to">{{
-              item.label
-            }}</RouterLink>
-            <a v-else :href="item.href" target="_blank" rel="noopener">{{
-              item.label
-            }}</a>
-          </li>
-        </ul>
+        <div class="docs-landing-resources-grid">
+          <component
+            :is="card.to ? RouterLink : 'a'"
+            v-for="card in resources"
+            :key="card.label"
+            class="docs-landing-link"
+            :class="card.linkClass"
+            v-bind="
+              card.to
+                ? { to: card.to }
+                : { href: card.href, target: '_blank', rel: 'noopener' }
+            "
+          >
+            <div
+              class="vd-card vd-card-glow vd-card-interactive vd-glass about-card docs-landing-card"
+              :class="card.cardClass"
+            >
+              <div class="vd-card-body docs-landing-card-body">
+                <i
+                  :class="`ph ${card.icon} docs-landing-card-icon`"
+                  aria-hidden="true"
+                ></i>
+                <div class="docs-landing-card-copy">
+                  <h4>{{ card.label }}</h4>
+                  <p>{{ card.desc }}</p>
+                  <ul
+                    class="docs-landing-card-highlights"
+                    :aria-label="`${card.label} highlights`"
+                  >
+                    <li v-for="h in card.highlights" :key="h.text">
+                      <i :class="`ph ${h.icon}`" aria-hidden="true"></i>
+                      {{ h.text }}
+                    </li>
+                  </ul>
+                  <div class="docs-landing-card-icons" aria-hidden="true">
+                    <span
+                      v-for="mi in card.miniIcons"
+                      :key="mi.title"
+                      :title="mi.title"
+                    >
+                      <i :class="`ph ${mi.icon}`"></i>
+                    </span>
+                  </div>
+                  <div class="docs-landing-card-tags">
+                    <span
+                      v-for="tag in card.tags"
+                      :key="tag"
+                      class="vd-badge vd-badge-outlined docs-landing-tag"
+                      >{{ tag }}</span
+                    >
+                  </div>
+                  <div class="docs-landing-card-meta vd-text-muted">
+                    <span>
+                      <i :class="`ph ${card.meta.icon}`" aria-hidden="true"></i>
+                      {{ card.meta.text }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </component>
+        </div>
       </nav>
     </div>
   </section>

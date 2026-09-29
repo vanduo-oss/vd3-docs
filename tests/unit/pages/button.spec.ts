@@ -7,7 +7,6 @@ describe("Button docs page", () => {
     mount(ButtonPage, {
       global: {
         stubs: {
-          LaunchCustomizerButton: true,
           DocCodeSnippet: true,
         },
       },

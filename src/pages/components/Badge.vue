@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import LaunchCustomizerButton from "@/components/LaunchCustomizerButton.vue";
-
 const vue3Usage = `<script setup lang="ts">
 import { VdBadge } from "@vanduo-oss/vd3";
 <\/script>
@@ -106,10 +104,7 @@ const varRows: [string, string][] = [
 
 <template>
   <section id="badges">
-    <div class="lcc-demo-head">
-      <h5 class="demo-title"><i class="ph ph-tag"></i>Badges</h5>
-      <LaunchCustomizerButton component="badge" />
-    </div>
+    <h5 class="demo-title"><i class="ph ph-tag"></i>Badges</h5>
     <p class="vd-mb-8">
       Small inline status indicators, counters, and labels. Badges scale with
       their parent font size and support contextual color variants, pill shapes,

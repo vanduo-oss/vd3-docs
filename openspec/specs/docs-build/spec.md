@@ -328,17 +328,11 @@ site root).
 
 ### Requirement: the docs-app interactive surfaces carry regression tests
 
-The docs site's two most logic-heavy in-app surfaces SHALL have automated tests
-beyond their stores. The global command-palette search modal
+The docs site's global command-palette search modal
 (`src/overlays/GlobalSearchModal.vue`) SHALL have a component interaction test —
 distinct from the search-store unit test — that opens the modal via the global
 cmd+k shortcut, filters by typing, navigates with the arrow keys, and asserts the
-results render as an ARIA `role=listbox` with `role=option` children. The theme
-customizer's code generator (`src/customizer/codegen.ts` + `overrides.ts`) SHALL
-have unit coverage of `toVueSfc`, `stageStyle`, and `styleToCss` — asserting the
-emitted `import … from "@vanduo-oss/vd3"` line, the scoped `--vd-*` override
-block, and a coherent script/template/style SFC shape — beyond the per-component
-class-emission test.
+results render as an ARIA `role=listbox` with `role=option` children.
 
 #### Scenario: the search modal is interaction-tested
 
@@ -347,15 +341,6 @@ class-emission test.
   ArrowDown
 - **THEN** the modal opens, the results render as a `role=listbox` with
   `role=option` children, and the active option carries `aria-selected`
-
-#### Scenario: the customizer generator is unit-tested end to end
-
-- **GIVEN** `tests/unit/customizer-codegen.spec.ts`
-- **WHEN** it drives a known `CustomizerState` through `toVueSfc` / `stageStyle` /
-  `styleToCss`
-- **THEN** it asserts the `import … from "@vanduo-oss/vd3"` line, the scoped
-  `--vd-*` override declaration block, and the script→template→style ordering of
-  the emitted SFC
 
 ### Requirement: Fuse-only search corpus
 

@@ -588,36 +588,6 @@ prop / emit / slot documented for these components SHALL exist on the installed
   `inline`/`size`/`disabled`; `VdSelect`: `modelValue`/`options` plus optional
   `name`/`id`/`placeholder`/`disabled`/`required`)
 
-### Requirement: the customizer emits valid, preview-matching Vue code
-
-`src/customizer/registry.ts` and `src/customizer/codegen.ts` SHALL generate a
-copy-ready Vue SFC that typechecks against the real component prop types and
-reproduces the live preview. CSS-only looks (button `outline-*` / `ghost-*`,
-badge `outlined`, card `outlined` / `filled` / `glow`, and the glass
-`vd-card-glass` / `vd-glass-tinted` modifiers) SHALL be emitted as classes on the
-element's `class` attribute, not as component props. Only props that exist on the
-components SHALL be emitted: `VdButton` `variant` (limited to `primary` /
-`secondary`) and `size`; `VdBadge` `variant` (`primary` / `secondary`) and
-`pill`; `VdCard` `elevated`.
-
-#### Scenario: generated SFC contains valid props and the preview classes
-
-- **GIVEN** a customizer state that selects an outlined/ghost/glass look
-- **WHEN** `toVueSfc(entry, state, scope)` runs for the button, badge, and card
-  entries
-- **THEN** the emitted template contains no `variant="outline-primary"` /
-  `variant="ghost-primary"` and no non-existent Card/Badge props, and instead
-  carries the corresponding `vd-btn-outline-primary` / `vd-badge-outlined` /
-  `vd-card-outlined` / `vd-card-glass` classes on the element — matching the
-  preview's `rootClass`
-
-#### Scenario: a unit test guards the codegen output
-
-- **GIVEN** `tests/unit/customizer-codegen.spec.ts`
-- **WHEN** `pnpm test` runs
-- **THEN** the test asserts the generated button/badge/card SFCs contain only
-  valid props and the expected CSS classes, and it passes
-
 ### Requirement: docs prose carries no dual-engine vanilla framing
 
 The Theme Customizer guide (`src/pages/guides/ThemeCustomizerGuide.vue`) SHALL
@@ -647,7 +617,7 @@ CSS. `app.css` SHALL remain shell/layout-only.
 
 Every component **demo** page under `src/pages/components/` that renders a
 `demo-title` — SHALL render exactly one one-line intro `<p>` directly
-under its `demo-title` (or the `lcc-demo-head` block that wraps it), describing
+under its `demo-title`, describing
 the component in plain language with no invented component or composable API. The
 intro `<p>` SHALL carry the spacing token `vd-mb-8` and SHALL NOT be muted
 (`vd-text-muted`), matching the majority convention across the demo family. The

@@ -5,17 +5,14 @@ import { useHead } from "@unhead/vue";
 import VdSiteDock from "@/layout/VdSiteDock.vue";
 import DocsLayout from "@/layout/DocsLayout.vue";
 import GlobalSearchModal from "@/overlays/GlobalSearchModal.vue";
-import LiveCustomizer from "@/overlays/LiveCustomizer.vue";
 import { VdToastContainer } from "@vanduo-oss/vd3";
 import { useThemeStore } from "@/stores/theme";
-import { useCustomizerStore } from "@/stores/customizer";
 import { useSearchStore } from "@/stores/search";
 import NavigationStatus from "@/layout/NavigationStatus.vue";
 import { useNavigation } from "@/navigation";
 
 const route = useRoute();
 const theme = useThemeStore();
-const customizer = useCustomizerStore();
 const search = useSearchStore();
 const { pending } = useNavigation();
 
@@ -56,7 +53,6 @@ useHead({
 
 onMounted(() => {
   theme.init();
-  customizer.init();
   search.init();
   document.documentElement.dataset.vdHydrated = "true";
 });
@@ -76,6 +72,5 @@ onMounted(() => {
   </main>
 
   <GlobalSearchModal />
-  <LiveCustomizer />
   <VdToastContainer />
 </template>

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import LaunchCustomizerButton from "@/components/LaunchCustomizerButton.vue";
-
 const morphFlipped = ref(false);
 
 const vue3Usage = `<script setup lang="ts">
@@ -163,10 +161,7 @@ const classRef: [string, string, string][] = [
 
 <template>
   <section id="cards">
-    <div class="lcc-demo-head">
-      <h5 class="demo-title"><i class="ph ph-rectangle"></i>Cards</h5>
-      <LaunchCustomizerButton component="card" />
-    </div>
+    <h5 class="demo-title"><i class="ph ph-rectangle"></i>Cards</h5>
     <p class="vd-mb-8">
       Cards group content with consistent padding, borders, and elevation.
       Combine variants with <code>.vd-card-glow</code>,

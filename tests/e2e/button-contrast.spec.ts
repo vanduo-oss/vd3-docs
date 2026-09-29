@@ -133,36 +133,6 @@ test.describe("Package-owned button contrast", () => {
     await assertSolidHover(outline, "outline");
   });
 
-  test("live customizer selected chips use dark ink on the primary fill", async ({
-    page,
-  }) => {
-    await page.goto("/components/button", { waitUntil: "networkidle" });
-    await page.getByRole("button", { name: "Customize live" }).click();
-
-    const chips = page.locator(".lcc-seg-btn.active");
-    await expect(chips.first()).toBeVisible();
-
-    const samples = await chips.evaluateAll((els) =>
-      els.map((el) => {
-        const style = getComputedStyle(el);
-        return {
-          text: el.textContent?.trim() || el.getAttribute("aria-label") || "",
-          color: style.color,
-          backgroundColor: style.backgroundColor,
-        };
-      }),
-    );
-
-    expect(samples.length).toBeGreaterThanOrEqual(4);
-    for (const sample of samples) {
-      expect(sample.color, `${sample.text} chip text`).toBe("rgb(0, 0, 0)");
-      expect(
-        contrastRatio(sample.color, sample.backgroundColor),
-        `${sample.text} chip contrast`,
-      ).toBeGreaterThanOrEqual(4.5);
-    }
-  });
-
   test("variant grid is equal-sized and size demos run small to large", async ({
     page,
   }) => {
@@ -270,12 +240,6 @@ for (const theme of ["light", "dark"] as const) {
         await button.hover();
         await expect.poll(() => ratio(button)).toBeGreaterThanOrEqual(4.5);
       }
-      await page.getByRole("button", { name: "Customize live" }).click();
-      const selected = page.locator(".lcc-seg-btn.active");
-      await expect(selected.first()).toBeVisible();
-      expect(await selected.count()).toBeGreaterThanOrEqual(4);
-      for (const chip of await selected.all())
-        await expect.poll(() => ratio(chip)).toBeGreaterThanOrEqual(4.5);
     });
   }
 }
