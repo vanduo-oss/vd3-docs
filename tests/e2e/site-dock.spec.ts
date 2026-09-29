@@ -230,11 +230,12 @@ test.describe("Site Oola dock chrome", () => {
     await expect(
       page.getByRole("navigation", { name: "Resources" }),
     ).toBeVisible();
+    const resources = page.getByRole("navigation", { name: "Resources" });
     await expect(
-      page.getByRole("navigation", { name: "Resources" }).getByText("About"),
+      resources.getByRole("heading", { name: "About", exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByRole("navigation", { name: "Resources" }).getByText("GitHub"),
+      resources.getByRole("heading", { name: "GitHub", exact: true }),
     ).toBeVisible();
   });
 
