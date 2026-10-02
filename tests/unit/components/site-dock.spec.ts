@@ -2,13 +2,13 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import { createMemoryHistory, createRouter, type Router } from "vue-router";
-import { DOCK_NARROW_QUERY } from "@vanduo-oss/vd3";
+import { DOCS_DOCK_NARROW_QUERY } from "@/composables/useDocsDockNarrow";
 import VdSiteDock from "@/layout/VdSiteDock.vue";
 
 function stubMatchMedia(narrow: boolean): typeof window.matchMedia {
   return (query: string) =>
     ({
-      matches: query === DOCK_NARROW_QUERY ? narrow : false,
+      matches: query === DOCS_DOCK_NARROW_QUERY ? narrow : false,
       media: query,
       addEventListener: () => undefined,
       removeEventListener: () => undefined,
@@ -211,14 +211,15 @@ describe("VdSiteDock", () => {
     expect(brand.attributes("data-tooltip")).toBeUndefined();
 
     expect(wrapper.find(".vd-site-dock-strip-divider").exists()).toBe(true);
+    expect(wrapper.find(".vd-site-dock-nav-primary").exists()).toBe(true);
     expect(
       wrapper
-        .find('.vd-dock-links button[aria-label="Theme switcher"]')
+        .find('.vd-dock-actions button[aria-label="Theme switcher"]')
         .exists(),
     ).toBe(true);
     expect(
       wrapper
-        .find('.vd-dock-actions button[aria-label="Theme switcher"]')
+        .find('.vd-dock-links button[aria-label="Theme switcher"]')
         .exists(),
     ).toBe(false);
 

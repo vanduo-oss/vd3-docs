@@ -92,7 +92,7 @@ html {
 
   /* Docs shell chrome — rem at 16px baseline, scales with font-size above.
      Offsets clear the fixed site dock (data-docs-dock) instead of a top navbar.
-     Mobile default; desktop compact tokens apply from 521px up. */
+     Mobile default; desktop compact tokens apply from 768px up. */
   --docs-dock-clearance: 5.5rem;
   --docs-dock-edge-pad-bottom: 0;
   --docs-dock-edge-pad-left: 0;
@@ -163,8 +163,8 @@ html[data-docs-dock="right"] {
   --docs-dock-edge-pad-bottom: 0;
 }
 
-/* Desktop site dock footprint — mobile keeps the live 5.5rem clearance. */
-@media (min-width: 521px) {
+/* Desktop site dock footprint — compact strip keeps the live 5.5rem clearance. */
+@media (min-width: 768px) {
   :root {
     --vd-site-dock-height: 4.375rem;
     --vd-site-dock-inset: 0.75rem;
@@ -3246,7 +3246,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 /* Horizontal edges (desktop): oola inline icon + label, no tooltips. */
-@media (min-width: 521px) {
+@media (min-width: 768px) {
   .vd-site-dock {
     --vd-dock-height: var(--vd-site-dock-height);
     --vd-dock-inset: var(--vd-site-dock-inset);
@@ -3295,6 +3295,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     letter-spacing: 0.04em;
     text-transform: uppercase;
     line-height: 1;
+    white-space: nowrap;
     opacity: 0.92;
   }
 
@@ -3328,6 +3329,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     .vd-dock-links
     .vd-dock-item {
     flex-direction: row;
+    flex-shrink: 0;
     gap: 0.35rem;
     min-width: 0;
     min-height: auto;
@@ -3360,7 +3362,7 @@ a:hover .vd-card-interactive.vd-card-glow {
    width and vertical height share --vd-site-dock-length-ratio. Center so
    the leftover is even; keep --vd-dock-inset on the long screen edge.
    Playground docks are untouched. Brand mark size is unchanged. */
-@media (min-width: 521px) {
+@media (min-width: 768px) {
   .vd-site-dock.vd-dock.vd-dock-edge-bottom:not(.is-square),
   .vd-site-dock.vd-dock.vd-dock-edge-top:not(.is-square) {
     left: 50%;
@@ -3403,6 +3405,26 @@ a:hover .vd-card-interactive.vd-card-glow {
 .vd-site-dock .vd-dock-brand {
   padding: 0;
   align-self: center;
+  gap: 0.3rem;
+}
+
+/* Desktop horizontal: Zen Dots wordmark beside the mark (matches home hero). */
+@media (min-width: 768px) {
+  .vd-site-dock.vd-dock.is-horizontal .vd-site-dock-brand-title {
+    font-family: "Zen Dots", sans-serif;
+    font-weight: 400;
+    font-size: 1.15rem;
+    line-height: 1;
+    color: var(--vd-dock-tint, var(--vd-brand-accent));
+    text-transform: lowercase;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    translate: 0 0.05rem;
+  }
+}
+
+.vd-site-dock:is(.is-morphing, .is-square) .vd-site-dock-brand-title {
+  display: none;
 }
 
 .vd-site-dock.is-vertical .vd-dock-brand {
@@ -3503,8 +3525,8 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 /* Desktop-only: modest (~20%) bump to search / theme / customizer icons.
    Isolated so it can merge with dock-length work; does not touch inset or
-   dock width. Mobile sizes stay in the max-width: 520px block below. */
-@media (min-width: 521px) {
+   dock width. Compact sizes stay in the max-width: 767px block below. */
+@media (min-width: 768px) {
   .vd-site-dock .vd-dock-actions button {
     width: 2.7rem;
     height: 2.7rem;
@@ -3524,8 +3546,9 @@ a:hover .vd-card-interactive.vd-card-glow {
   align-items: center;
 }
 
-/* Narrow phone dock — keep in sync with DOCK_NARROW_QUERY (520px) in @vanduo-oss/vd3. */
-@media (max-width: 520px) {
+/* Compact site dock through tablet portrait — keep in sync with
+   DOCS_DOCK_NARROW_QUERY (767px). */
+@media (max-width: 767px) {
   :root {
     /* Compact icon + label stack + tighter inset (~0.5rem). */
     --docs-dock-clearance: 5.5rem;
@@ -3539,10 +3562,11 @@ a:hover .vd-card-interactive.vd-card-glow {
     padding-inline: 0.5rem;
   }
 
+  /* Thin block inset — fat padding + a short overflow-hidden nav was
+     clipping the downward-translated icon+label stacks. */
   .vd-site-dock.vd-dock.is-horizontal {
-    /* Thin block inset — fat padding + a short overflow-hidden nav was
-       clipping the downward-translated icon+label stacks. */
     padding-block: 0.1rem;
+    padding-inline: 1.25rem;
   }
 
   .vd-site-dock.vd-dock-edge-bottom:not(.is-square) {
@@ -3558,6 +3582,18 @@ a:hover .vd-card-interactive.vd-card-glow {
     flex-shrink: 0;
   }
 
+  /* Trailing cluster: divider + theme + search (tight group, dock gap). */
+  .vd-site-dock.vd-dock.is-horizontal .vd-dock-actions {
+    margin-inline: 0;
+    gap: 0.35rem;
+  }
+
+  /* Glyph right edge lines up with the logo svg's left edge.
+     Logo is nudged -0.2rem; the 2rem hit target is wider than the 1.05rem icon. */
+  .vd-site-dock.vd-dock.is-horizontal .vd-site-dock-search {
+    margin-inline-end: calc(-0.2rem - (2rem - 1.05rem) / 2);
+  }
+
   /* Shrink brand further and nudge toward the left edge of the pill. */
   .vd-site-dock:not(.is-vertical) .vd-site-dock-brand-mark .vd3-mark {
     transform: translateX(-0.2rem)
@@ -3568,43 +3604,44 @@ a:hover .vd-card-interactive.vd-card-glow {
     margin-inline-end: -0.1rem;
   }
 
-  /* Swipeable middle strip: nav links + theme controls scroll horizontally.
-     Beat .vd-dock.is-horizontal .vd-dock-nav { justify-content: center } so
-     the first item (Home) is not clipped off the scrollport's left edge. */
+  /* Center Home / Docs / Canvas as one cluster between brand and actions. */
   .vd-site-dock.vd-dock.is-horizontal .vd-dock-nav {
     flex: 1 1 auto;
     align-self: stretch;
     min-width: 0;
-    overflow: auto hidden;
+    display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    overflow: auto hidden;
     scrollbar-width: none;
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
-    mask-image: linear-gradient(
-      90deg,
-      transparent,
-      #000 0.75rem,
-      #000 calc(100% - 0.75rem),
-      transparent
-    );
   }
 
   .vd-site-dock .vd-dock-nav::-webkit-scrollbar {
     display: none;
   }
 
-  .vd-site-dock .vd-dock-links {
-    flex-wrap: nowrap;
+  .vd-site-dock.vd-dock.is-horizontal .vd-dock-links {
+    display: flex;
     align-items: center;
-    width: max-content;
-    min-width: min-content;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
   }
 
-  /* Mobile: icon above label — beat inline itemLayout on the narrow strip.
-     Size to the icon+label so the stack centers on the dock midline. */
-  .vd-site-dock.vd-dock-items-inline .vd-dock-links .vd-dock-item,
-  .vd-site-dock.vd-dock-items-stack .vd-dock-links .vd-dock-item {
+  .vd-site-dock-nav-primary {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  /* Primary nav cluster: icon above label (compact strip only). */
+  .vd-site-dock.vd-dock-items-inline .vd-site-dock-nav-primary .vd-dock-item,
+  .vd-site-dock.vd-dock-items-stack .vd-site-dock-nav-primary .vd-dock-item {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -3612,28 +3649,27 @@ a:hover .vd-card-interactive.vd-card-glow {
     height: auto;
   }
 
-  /* Mobile: one uppercase line under each primary nav icon.
-     Nudge stacks slightly below the dock midline; use `translate` so it
-     composes with idle/hover/active `transform: scale(...)`. */
-  .vd-site-dock .vd-dock-links .vd-dock-item {
+  .vd-site-dock-nav-primary .vd-dock-item {
     gap: 0.1rem;
-    min-width: 3.1rem;
+    min-width: 3.15rem;
     min-height: auto;
-    padding: 0.1rem 0.3rem;
+    padding: 0.08rem 0.3rem;
     flex-shrink: 0;
-    translate: 0 0.4rem;
+
+    /* Light nudge only — previous 0.4rem left too much headroom above. */
+    translate: 0 0.1rem;
   }
 
-  .vd-site-dock .vd-dock-links .vd-dock-item :is(.ph, .ph-fill) {
-    font-size: 1.55rem;
+  .vd-site-dock-nav-primary .vd-dock-item :is(.ph, .ph-fill) {
+    font-size: 1.6rem;
   }
 
-  .vd-site-dock .vd-dock-links .vd-dock-item .vd-dock-label {
+  .vd-site-dock-nav-primary .vd-dock-item .vd-dock-label {
     position: static;
     display: block;
     white-space: nowrap;
     text-align: center;
-    font-size: 0.575rem;
+    font-size: 0.58rem;
     font-weight: 500;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -3641,7 +3677,7 @@ a:hover .vd-card-interactive.vd-card-glow {
     opacity: 0.88;
   }
 
-  .vd-site-dock .vd-dock-links .vd-dock-item.is-active .vd-dock-label {
+  .vd-site-dock-nav-primary .vd-dock-item.is-active .vd-dock-label {
     opacity: 1;
     font-weight: 700;
   }
@@ -3667,13 +3703,13 @@ a:hover .vd-card-interactive.vd-card-glow {
     font-size: 1.05rem;
   }
 
-  .vd-site-dock .vd-dock-links .vd-theme-switcher,
-  .vd-site-dock .vd-dock-links .vd-theme-customizer {
+  .vd-site-dock .vd-dock-actions .vd-theme-switcher,
+  .vd-site-dock .vd-dock-actions .vd-theme-customizer {
     flex-shrink: 0;
   }
 
-  .vd-site-dock .vd-dock-links .vd-theme-switcher button,
-  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger {
+  .vd-site-dock .vd-dock-actions .vd-theme-switcher button,
+  .vd-site-dock .vd-dock-actions .vd-theme-customizer-trigger {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -3700,22 +3736,28 @@ a:hover .vd-card-interactive.vd-card-glow {
       color 0.2s ease;
   }
 
-  .vd-site-dock .vd-dock-links .vd-theme-switcher button:hover,
-  .vd-site-dock .vd-dock-links .vd-theme-switcher button:focus-visible,
-  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger:hover,
-  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger:focus-visible,
+  .vd-site-dock .vd-dock-actions .vd-theme-switcher button:hover,
+  .vd-site-dock .vd-dock-actions .vd-theme-switcher button:focus-visible,
+  .vd-site-dock .vd-dock-actions .vd-theme-customizer-trigger:hover,
+  .vd-site-dock .vd-dock-actions .vd-theme-customizer-trigger:focus-visible,
   .vd-site-dock
-    .vd-dock-links
+    .vd-dock-actions
     .vd-theme-customizer-trigger[aria-expanded="true"] {
     opacity: 1;
     color: var(--vd-dock-tint, var(--vd-text-primary));
   }
 
-  .vd-site-dock .vd-dock-links .vd-theme-switcher button i,
-  .vd-site-dock .vd-dock-links .vd-theme-customizer-trigger i {
+  .vd-site-dock .vd-dock-actions .vd-theme-switcher button i,
+  .vd-site-dock .vd-dock-actions .vd-theme-customizer-trigger i {
     font-size: 1.15rem;
     line-height: 1;
   }
+}
+
+/* Square morph waypoint: package centers .vd-dock-brand with inset 0.
+   Drop bar-only optical nudges on the mark so the spin reads dead center. */
+.vd-site-dock:is(.is-morphing, .is-square) .vd-site-dock-brand-mark .vd3-mark {
+  transform: none;
 }
 
 /* Navbar trigger button — chess-like borderless chrome (legacy demos) */

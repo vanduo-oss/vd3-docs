@@ -144,7 +144,9 @@ const onDockClick = (event: Event): void => {
 };
 
 /**
- * Docs-side narrow brand toggle: package sets canToggle=false under 520px.
+ * Docs-side narrow brand toggle while the compact strip is showing.
+ * The package still locks edge cycling at 520px; this covers the rest
+ * of the compact range up through tablet portrait.
  * playSiteDockNarrowBrandMorph mirrors desktop shrink→relocate timing.
  */
 const onBrandCapture = (event: Event): void => {
@@ -311,46 +313,83 @@ onUnmounted(() => {
         size="var(--vd-dock-brand-size)"
         class="vd-site-dock-brand-mark"
       />
+      <span
+        v-if="!isNarrow && isHorizontalEdge"
+        class="vd-site-dock-brand-title"
+        aria-hidden="true"
+      >
+        vd3
+      </span>
     </template>
 
-    <button
-      v-for="link in links"
-      :key="link.id"
-      type="button"
-      class="vd-dock-item"
-      :class="{ 'is-active': activeId === link.id }"
-      :aria-current="activeId === link.id ? 'page' : undefined"
-      :aria-label="link.label"
-      :data-tooltip="showDockTooltips ? link.label : undefined"
-      v-bind="dockTooltipBind"
-    >
-      <i
-        :class="
-          activeId === link.id
-            ? `ph-fill ph-${link.icon}`
-            : `ph ph-${link.icon}`
-        "
-        aria-hidden="true"
-      ></i>
-      <span class="vd-dock-label">{{ link.label }}</span>
-    </button>
-
-    <template v-if="isNarrow">
-      <span class="vd-site-dock-strip-divider" aria-hidden="true"></span>
-      <VdThemeSwitcher />
-      <VdThemeCustomizer />
+    <div v-if="isNarrow" class="vd-site-dock-nav-primary">
+      <button
+        v-for="link in links"
+        :key="link.id"
+        type="button"
+        class="vd-dock-item"
+        :class="{ 'is-active': activeId === link.id }"
+        :aria-current="activeId === link.id ? 'page' : undefined"
+        :aria-label="link.label"
+      >
+        <i
+          :class="
+            activeId === link.id
+              ? `ph-fill ph-${link.icon}`
+              : `ph ph-${link.icon}`
+          "
+          aria-hidden="true"
+        ></i>
+        <span class="vd-dock-label">{{ link.label }}</span>
+      </button>
+    </div>
+    <template v-else>
+      <button
+        v-for="link in links"
+        :key="link.id"
+        type="button"
+        class="vd-dock-item"
+        :class="{ 'is-active': activeId === link.id }"
+        :aria-current="activeId === link.id ? 'page' : undefined"
+        :aria-label="link.label"
+        :data-tooltip="showDockTooltips ? link.label : undefined"
+        v-bind="dockTooltipBind"
+      >
+        <i
+          :class="
+            activeId === link.id
+              ? `ph-fill ph-${link.icon}`
+              : `ph ph-${link.icon}`
+          "
+          aria-hidden="true"
+        ></i>
+        <span class="vd-dock-label">{{ link.label }}</span>
+      </button>
     </template>
 
     <template #actions>
-      <button
-        type="button"
-        class="global-search-trigger vd-site-dock-search"
-        aria-label="Open global search"
-        @click="onSearchClick"
-      >
-        <i class="ph-bold ph-magnifying-glass" aria-hidden="true"></i>
-      </button>
-      <template v-if="!isNarrow">
+      <template v-if="isNarrow">
+        <span class="vd-site-dock-strip-divider" aria-hidden="true"></span>
+        <VdThemeSwitcher />
+        <VdThemeCustomizer />
+        <button
+          type="button"
+          class="global-search-trigger vd-site-dock-search"
+          aria-label="Open global search"
+          @click="onSearchClick"
+        >
+          <i class="ph-bold ph-magnifying-glass" aria-hidden="true"></i>
+        </button>
+      </template>
+      <template v-else>
+        <button
+          type="button"
+          class="global-search-trigger vd-site-dock-search"
+          aria-label="Open global search"
+          @click="onSearchClick"
+        >
+          <i class="ph-bold ph-magnifying-glass" aria-hidden="true"></i>
+        </button>
         <VdThemeSwitcher />
         <VdThemeCustomizer />
       </template>

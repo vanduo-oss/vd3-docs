@@ -1,5 +1,11 @@
 import { onUnmounted, ref, type Ref } from "vue";
-import { DOCK_NARROW_QUERY } from "@vanduo-oss/vd3";
+
+/**
+ * Compact site-dock strip (short labels, theme controls in the scroll row).
+ * Wider than the package phone lock so tablet portrait does not switch to
+ * inline desktop labels before they fit. Keep the CSS @media in sync.
+ */
+export const DOCS_DOCK_NARROW_QUERY = "(max-width: 767px)";
 
 type UseDocsDockNarrowOptions = {
   /** Runs synchronously when exiting narrow, before isNarrow updates. */
@@ -7,8 +13,8 @@ type UseDocsDockNarrowOptions = {
 };
 
 /**
- * Tracks whether the viewport matches VdDock's phone lock query (520px).
- * Keep CSS @media for narrow dock in sync with DOCK_NARROW_QUERY.
+ * Tracks the site dock's compact-strip query (through tablet portrait).
+ * Keep CSS @media for the narrow site dock in sync with DOCS_DOCK_NARROW_QUERY.
  *
  * Listener registers during setup (before VdDock onMounted) so optional
  * onExitNarrow can patch storage ahead of the package's restore handler.
@@ -30,7 +36,7 @@ export function useDocsDockNarrow(
     typeof window !== "undefined" &&
     typeof window.matchMedia === "function"
   ) {
-    mq = window.matchMedia(DOCK_NARROW_QUERY);
+    mq = window.matchMedia(DOCS_DOCK_NARROW_QUERY);
     isNarrow.value = mq.matches;
     mq.addEventListener("change", onChange);
   }

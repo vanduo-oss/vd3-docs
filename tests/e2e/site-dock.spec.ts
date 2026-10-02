@@ -101,17 +101,26 @@ test.describe("Site Oola dock chrome", () => {
 
     const aligned = await dock.evaluate((el) => {
       const nav = el.querySelector(".vd-dock-nav");
+      const primary = el.querySelector(".vd-site-dock-nav-primary");
       const item = el.querySelector('.vd-dock-item[aria-label="Home"]');
-      if (!(nav instanceof HTMLElement) || !(item instanceof HTMLElement)) {
+      if (
+        !(nav instanceof HTMLElement) ||
+        !(primary instanceof HTMLElement) ||
+        !(item instanceof HTMLElement)
+      ) {
         return false;
       }
       const navRect = nav.getBoundingClientRect();
+      const primaryRect = primary.getBoundingClientRect();
       const homeRect = item.getBoundingClientRect();
-      return (
-        getComputedStyle(nav).justifyContent === "flex-start" &&
-        homeRect.left >= navRect.left - 1 &&
-        homeRect.right <= navRect.right + 1
-      );
+      const navCentered = getComputedStyle(nav).justifyContent === "center";
+      const homeInPrimary =
+        homeRect.left >= primaryRect.left - 1 &&
+        homeRect.right <= primaryRect.right + 1;
+      const homeInScrollport =
+        homeRect.right > navRect.left + 1 &&
+        homeRect.left < navRect.right - 1;
+      return navCentered && homeInPrimary && homeInScrollport;
     });
     expect(aligned).toBe(true);
   });
@@ -149,7 +158,7 @@ test.describe("Site Oola dock chrome", () => {
         const rem = Number.parseFloat(
           getComputedStyle(document.documentElement).fontSize,
         );
-        const expectedOffset = 0.4 * rem;
+        const expectedOffset = 0.1 * rem;
         const dockBox = dock.getBoundingClientRect();
         const itemBox = el.getBoundingClientRect();
         const dockCy = dockBox.top + dockBox.height / 2;
