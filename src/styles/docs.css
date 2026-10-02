@@ -3415,7 +3415,12 @@ a:hover .vd-card-interactive.vd-card-glow {
     font-weight: 400;
     font-size: 1.15rem;
     line-height: 1;
-    color: var(--vd-dock-tint, var(--vd-brand-accent));
+
+    /* Ink primary: no --vd-dock-tint — match brand mark greys, not page accent. */
+    color: var(
+      --vd-dock-tint,
+      color-mix(in srgb, #8a9199 78%, #000)
+    );
     text-transform: lowercase;
     letter-spacing: 0.04em;
     flex-shrink: 0;
