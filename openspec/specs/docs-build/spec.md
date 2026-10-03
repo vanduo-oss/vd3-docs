@@ -30,7 +30,7 @@ manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 - **WHEN** its `name`, `private`, and `dependencies` are inspected
 - **THEN** `name` is `@vanduo-oss/vd3-docs`, `private` is `true`, runtime
   deps include `@vanduo-oss/vd3` (`1.7.4`), `@vanduo-oss/vd3-charts`
-  (`1.1.1`), `@vanduo-oss/vd3-flowchart` (`1.3.0`), and `@vanduo-oss/vdl-cbun`
+  (`1.1.1`), `@vanduo-oss/vd3-flowchart` (`1.4.0`), and `@vanduo-oss/vdl-cbun`
   (`link:../../vdl/vdl-cbun`), there is no `@vanduo-oss/vd3-cbun` or
   `@vanduo-oss/vdl-hybrid-search`, and none of
   `core`, `framework`, `vue`, the retired `@vanduo-oss/charts`,

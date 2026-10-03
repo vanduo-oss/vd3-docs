@@ -145,7 +145,7 @@ four old ecosystem packages as package columns, MUST NOT carry a cbun column,
 and MUST NOT carry any `data-engine` attribute. The header copy SHALL name
 those three vd3-line packages. The latest inline cards SHALL identify
 `@vanduo-oss/vd3` `1.7.4`, `@vanduo-oss/vd3-charts` `1.1.1`, and
-`@vanduo-oss/vd3-flowchart` `1.3.0`. Historical charts/flowchart cards MAY
+`@vanduo-oss/vd3-flowchart` `1.4.0`. Historical charts/flowchart cards MAY
 mention `@vanduo-oss/vd3-cbun/charts` and `@vanduo-oss/vd3-cbun/flowchart` as
 prior published paths. Per the changelog-content policy the page tracks
 package releases only, never docs-site content.

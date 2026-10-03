@@ -43,10 +43,12 @@ describe("package changelog", () => {
     expect(columns[1].text()).toContain("@vanduo-oss/vd3-charts");
 
     const flowchartCards = columns[2].findAll(".version-card");
-    expect(headerText(flowchartCards[0])).toContain("v1.3.0");
+    expect(headerText(flowchartCards[0])).toContain("v1.4.0");
     expect(headerText(flowchartCards[0])).toContain("Latest");
-    expect(headerText(flowchartCards[1])).toContain("v1.2.0");
+    expect(headerText(flowchartCards[1])).toContain("v1.3.0");
     expect(headerText(flowchartCards[1])).not.toContain("Latest");
+    expect(headerText(flowchartCards[2])).toContain("v1.2.0");
+    expect(headerText(flowchartCards[2])).not.toContain("Latest");
     expect(headerText(flowchartCards.at(-1)!)).toContain("v1.2.0");
     expect(headerText(flowchartCards.at(-1)!)).toContain("Initial");
     expect(
