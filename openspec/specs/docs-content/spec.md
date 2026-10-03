@@ -166,7 +166,7 @@ package releases only, never docs-site content.
 - **GIVEN** the changelog grid after this change
 - **WHEN** the `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`
   columns are read
-- **THEN** charts `v1.1.1` and flowchart `v1.3.0` are each marked Latest
+- **THEN** charts `v1.1.1` and flowchart `v1.4.0` are each marked Latest
 
 #### Scenario: vd3 Latest is 1.7.4
 

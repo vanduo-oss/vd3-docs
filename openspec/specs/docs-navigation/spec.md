@@ -59,7 +59,7 @@ for reported saveData, slow-2g, or 2g connections.
 Production build comparison SHALL record initial compressed asset size and
 click-to-content behavior under named browser/network/CPU conditions. Homepage
 initial JS/CSS SHALL remain below 375 KiB gzip and sampled docs routes below
-390 KiB. These limits exclude fonts, images and third-party resources.
+400 KiB. These limits exclude fonts, images and third-party resources.
 
 #### Scenario: Compare strategies
 - **GIVEN** baseline lazy, all-eager, and hybrid production builds

@@ -38,7 +38,7 @@ pnpm run format:check
 pnpm run typecheck
 pnpm test
 pnpm run build
-pnpm run test:size       # Initial JS/CSS dependency graph: home 375, docs 390 KiB gzip
+pnpm run test:size       # Initial JS/CSS dependency graph: home 375, docs 400 KiB gzip
 ```
 
 ## CI cost

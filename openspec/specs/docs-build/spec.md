@@ -40,7 +40,7 @@ manifest MUST NOT keep `@vanduo-oss/vd3-cbun`.
 #### Scenario: kit packages resolve for install
 
 - **GIVEN** the committed `package.json` targeting exact vd3 `1.7.4`,
-  exact `1.1.1` / `1.3.0` charts/flowchart, and `save-exact=true`
+  exact `1.1.1` / `1.4.0` charts/flowchart, and `save-exact=true`
 - **WHEN** `pnpm install` runs from the docs repo with the Labs sibling
   checked out
 - **THEN** those packages resolve from the registry, `@vanduo-oss/vdl-cbun`
