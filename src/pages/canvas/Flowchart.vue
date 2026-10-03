@@ -331,7 +331,8 @@ const seedDoc = {
 const fullscreen = ref(false);
 
 function onKeydown(event: KeyboardEvent) {
-  if (event.key === "Escape") exitFullscreen();
+  // The editor uses Escape to cancel editing and deselect first.
+  if (event.key === "Escape" && !event.defaultPrevented) exitFullscreen();
 }
 
 function enterFullscreen() {
@@ -355,8 +356,10 @@ function toggleFullscreen() {
 onBeforeUnmount(exitFullscreen);
 
 /** Align Arrange with the mind-map seed (Tree/Radial/Grid — three modes). */
-function onFlowchartReady(editor: { layout?: (mode?: string) => unknown }) {
-  editor.layout?.("radial");
+function onFlowchartReady(editor: {
+  layout?: (mode?: string, options?: { fit?: boolean }) => unknown;
+}) {
+  editor.layout?.("radial", { fit: true });
 }
 
 const installShell = `pnpm add @vanduo-oss/vd3-flowchart`;
@@ -412,6 +415,10 @@ const vue3Api: [string, string][] = [
     "Limit retained snapshots. Disabling history clears it; reenabling starts from the current document.",
   ],
   [
+    ":keyboardShortcuts",
+    "'mindmap' (default): Tab adds a child, Enter adds a sibling, F2/Space/typing edits. 'basic': Enter edits and Tab moves focus.",
+  ],
+  [
     "@change / @select / @viewport / @connect",
     "Forwarded editor events (pan/zoom is not undoable).",
   ],
@@ -436,8 +443,26 @@ const methods: [string, string][] = [
   ],
   [
     "getInstance()",
-    "The underlying VdFlowchartCore — fitView(), toJSON(), addNode(), etc.",
+    "The underlying VdFlowchartCore — fitView(), toJSON(), addNode(), insertBranchNode(), insertSiblingNode(), etc.",
   ],
+];
+
+const shortcuts: [string, string][] = [
+  ["Arrow keys", "Select the nearest node in that direction"],
+  ["Tab", "Add a child node and edit it"],
+  ["Enter / Shift+Enter", "Add a sibling below / above and edit it"],
+  ["F2, Space, or start typing", "Edit the label"],
+  ["Enter while editing", "Save the label (Shift+Enter adds a new line)"],
+  ["Tab while editing", "Save and add a child"],
+  ["Alt+Arrow", "Nudge the node one grid step (add Shift for 1 px)"],
+  ["Delete / Backspace", "Delete the node and select its parent"],
+  ["Cmd/Ctrl+D", "Duplicate the node"],
+  ["Cmd/Ctrl+Z, Shift+Cmd/Ctrl+Z", "Undo, redo"],
+  ["Cmd/Ctrl + = / - / 0", "Zoom in, out, to 100%"],
+  ["Shift+1", "Fit the diagram to the view"],
+  ["Esc", "Cancel editing, then the active tool, then deselect"],
+  ["Shift+Tab, or Esc then Tab", "Leave the canvas"],
+  ["?", "Show every shortcut in the editor"],
 ];
 </script>
 
@@ -477,9 +502,12 @@ const methods: [string, string][] = [
     </div>
 
     <p>
-      Keyboard: Tab to the canvas; arrows select nodes, Enter edits a label, and
-      Delete removes the selection. Use Ctrl/Cmd+Z to undo. Open Graph outline
-      to read connections or connect nodes with the labelled controls.
+      Hover a node to show a handle outside each side: drag a handle to connect,
+      or click it to add a connected node. To build a mind map from the
+      keyboard, select a node, press Tab for a child and Enter for a sibling,
+      type each label, and press Enter to save. Press <kbd>?</kbd> in the editor
+      for every shortcut, or open Graph outline to read and create connections
+      with labelled controls.
     </p>
     <p class="vd-text-sm vd-text-muted">
       Saved JSON uses document format 1.2.0 independently of the package
@@ -524,6 +552,36 @@ const methods: [string, string][] = [
             </tbody>
           </table>
         </div>
+
+        <h4 class="vd-mt-6">Keyboard shortcuts</h4>
+        <p>
+          With the canvas focused and the default
+          <code>keyboard-shortcuts="mindmap"</code>:
+        </p>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Keys</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in shortcuts" :key="row[0]">
+                <td>
+                  <kbd>{{ row[0] }}</kbd>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="vd-text-sm vd-text-muted">
+          A node and its connection undo as one step, and naming a node you just
+          added joins that step. Use
+          <code>keyboard-shortcuts="basic"</code> when Tab must always move
+          focus: Enter or F2 then edits a label and Ctrl/Cmd+Enter saves it.
+        </p>
 
         <h4 class="vd-mt-6">Node Types</h4>
         <div class="vd-table-responsive">
