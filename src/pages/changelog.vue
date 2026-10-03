@@ -1725,14 +1725,110 @@ useAffix(root);
             <span
               class="vd-badge vd-badge-primary"
               style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.4.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>October 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong
+                    >Ports, mind-map keyboard, and canvas productivity</strong
+                  >
+                  — outward connection handles; default
+                  <code>keyboardShortcuts: 'mindmap'</code>; multi-select,
+                  collapsible branches, snap guides, minimap, edge labels, and
+                  optional <code>autoLayout</code>. Saved JSON moves to document
+                  format <code>1.3.0</code> (<code>collapsed</code>).
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-git-branch"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Connection ports and mind-map keys</strong>
+                        <p>
+                          Hover handles outside each side to connect or insert.
+                          Tab / Enter grow a mind map;
+                          <code>keyboardShortcuts: 'basic'</code> keeps the
+                          1.3.0 keys.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-selection-all"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Multi-select and collapse</strong>
+                        <p>
+                          Shift+click / Shift+drag marquee, Cmd/Ctrl+A, group
+                          edit, and collapsible branches with a
+                          <code>+N</code> badge (Cmd/Ctrl+/).
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-map-trifold"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Guides, minimap, labels, autoLayout</strong>
+                        <p>
+                          Alignment snap while dragging (Alt to bypass), corner
+                          minimap, keyboard edge-label editing, and
+                          <code>autoLayout</code> after insertions.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Changed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-file-code"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Document format 1.3.0</strong>
+                        <p>
+                          Collapsed nodes may write
+                          <code>collapsed: true</code>. Every older 1.x document
+                          still loads; packages before 1.4.0 reject 1.3.0 files
+                          as a future version.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
               >v1.3.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>September 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">

@@ -49,7 +49,7 @@ const repos: [string, string, string][] = [
   [
     "vd3-flowchart",
     "@vanduo-oss/vd3-flowchart",
-    "Dedicated SVG flowchart editor. Same tokens as vd3. These docs dogfood 1.3.0.",
+    "Dedicated SVG flowchart editor. Same tokens as vd3. These docs dogfood 1.4.0.",
   ],
   [
     "vd3-docs",
