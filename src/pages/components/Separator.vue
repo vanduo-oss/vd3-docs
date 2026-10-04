@@ -17,6 +17,10 @@ const verticalHtml = `<div style="display: flex; align-items: center; gap: 1rem;
 </div>`;
 
 const cssClasses: [string, string][] = [
+  [
+    ".vd-separator-gradient",
+    "Primary-to-info gradient; follows theme and primary color",
+  ],
   [".vd-separator", "Base divider — a hairline rule using the border token"],
   [
     ".vd-separator-vertical",
@@ -35,11 +39,16 @@ import { VdSeparator } from "@vanduo-oss/vd3";
 
 <template>
   <VdSeparator />
+  <VdSeparator variant="gradient" />
   <VdSeparator label="OR" />
   <VdSeparator vertical />
 </template>`;
 
 const vue3Api: [string, string][] = [
+  [
+    "variant",
+    '"line" (default) | "gradient" — compact semantic primary/info divider.',
+  ],
   [
     ":label",
     "Optional centred text; renders the labeled variant (horizontal only).",
@@ -120,6 +129,41 @@ const vue3Api: [string, string][] = [
       </div>
     </div>
 
+    <div
+      class="vd-card vd-card-glow demo-card vd-mb-6"
+      id="demo-separator-gradient"
+    >
+      <div class="vd-card-header"><h6>Theme-aware gradient</h6></div>
+      <div class="vd-card-body">
+        <p>
+          The compact divider used on About follows your primary color and
+          light/dark theme.
+        </p>
+        <VdSeparator variant="gradient" />
+        <VdSeparator variant="gradient" label="OR" />
+        <div
+          style="
+            display: flex;
+            height: 4rem;
+            align-items: stretch;
+            justify-content: center;
+          "
+        >
+          <span>Before</span><VdSeparator variant="gradient" vertical /><span
+            >After</span
+          >
+        </div>
+        <DocCodeSnippet :vue="`<VdSeparator variant=&quot;gradient&quot; />`" />
+        <p class="vd-text-sm vd-text-muted">
+          Override <code>--vd-separator-gradient-start</code>,
+          <code>--vd-separator-gradient-end</code>,
+          <code>--vd-separator-gradient-length</code> (80px), or
+          <code>--vd-separator-gradient-thickness</code> (3px) on the separator.
+          Labeled gradients use the available width.
+        </p>
+      </div>
+    </div>
+
     <!-- API Reference -->
     <div class="vd-card vd-card-glow demo-card">
       <div class="vd-card-header">
@@ -133,7 +177,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+        <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">

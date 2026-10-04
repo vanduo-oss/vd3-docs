@@ -18,6 +18,12 @@ const ROUTES: readonly Route[] = [
   { path: "/canvas/flowchart", label: "canvas-flowchart" },
   { path: "/media/image-box", label: "media-image-box" },
   { path: "/changelog", label: "changelog" },
+  { path: "/components/dock", label: "components-dock" },
+  { path: "/components/footer", label: "components-footer" },
+  { path: "/components/navbar", label: "components-navbar" },
+  { path: "/components/separator", label: "components-separator" },
+  { path: "/components/popover", label: "components-popover" },
+  { path: "/about", label: "about" },
   {
     path: "/components/theme-customizer",
     label: "components-theme-customizer",

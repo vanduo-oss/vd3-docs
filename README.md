@@ -131,3 +131,7 @@ committed search corpus. Production search is generated from that build's HTML.
 
 The implementation and outstanding manual checks are tracked in
 [the local QA record](reviews/2026-09-16/implementation.md).
+
+### Temporary theme demos
+
+The docs bootstrap uses `themePersistence: false`. Component controls preview the active page without saving preferences. Reload restores Nunito, Open Color, default radius and scheme neutral. Only the actual site dock commits mode, per-scheme primary and placement preferences. Hovering the dock fan never commits a color.

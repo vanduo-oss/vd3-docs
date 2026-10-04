@@ -54,8 +54,7 @@
 [data-font="nunito"] {
   --vd-font-family-sans:
     "Nunito", -apple-system, blinkmacsystemfont, sans-serif;
-  --vd-font-family-base:
-    "Nunito", -apple-system, blinkmacsystemfont, sans-serif;
+  --vd-font-family-base: var(--vd-font-family-sans);
 }
 
 /* ── Global ─────────────────────────────────────── */
@@ -69,18 +68,9 @@ html {
      visitor's own zoom stays independent. */
   font-size: 95.625%;
 
-  /* Docs preview: force Nunito over package data-font stacks (incl. stored ubuntu) */
-  --vd-font-family-sans:
-    "Nunito", -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif !important;
-  --vd-font-family-base:
-    "Nunito", -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif !important;
+  --vd-font-family-base: var(--vd-font-family-sans);
 
-  font-family:
-    Nunito,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+  font-family: var(--vd-font-family-sans);
 
   /* Fatter defaults — map token names up one step so components inherit medium+ */
   --vd-font-weight-light: 400;
@@ -204,26 +194,12 @@ html[data-docs-dock="right"] {
   overflow: hidden;
 }
 
-html[data-font="nunito"],
-html[data-font="ubuntu"],
-html:not([data-font]) {
-  --vd-font-family-sans:
-    "Nunito", -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif !important;
-  --vd-font-family-base:
-    "Nunito", -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif !important;
-}
-
 body,
 #app,
 .vd-app {
   overscroll-behavior-y: none;
   background-color: var(--vd-bg-primary);
-  font-family:
-    Nunito,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif !important;
+  font-family: var(--vd-font-family-sans);
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -831,8 +807,7 @@ section:last-of-type {
 .demo-card .vd-card-header h3,
 .demo-card .vd-card-header h6,
 .demo-card .vd-card-body h3,
-.demo-card .vd-card-body h4,
-.vd-footer h4 {
+.demo-card .vd-card-body h4:not(.vd-footer-heading) {
   color: var(--vd-color-primary);
 }
 
@@ -1642,11 +1617,8 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
 }
 
 /* ── Footer tweaks ──────────────────────────────── */
-.vd-footer {
-  padding: var(--vd-footer-padding-y-sm) var(--vd-footer-padding-x) 0;
-}
-
 .vd-footer.vd-glass {
+  padding: var(--vd-footer-padding-y-sm) var(--vd-footer-padding-x) 0;
   margin-top: 2rem;
   border-top: 1px solid var(--vd-glass-border-light);
   border-radius: 1rem 1rem 0 0;
@@ -4740,4 +4712,21 @@ html[data-theme="light"] .tc-fan-item {
 :where(#main-content p, #main-content li) a:where(:not(.vd-btn)) {
   text-decoration: underline;
   text-underline-offset: 0.15em;
+}
+
+/* Demo cards must sit above a Navbar's teleported mobile backdrop. */
+#navbar .demo-card:has(.vd-navbar-menu.is-open) {
+  z-index: 1100;
+  transform: none;
+  overflow: visible;
+}
+
+#navbar .demo-card:has(.vd-navbar-menu.is-open) .vd-card-body {
+  overflow: visible;
+}
+
+/* System-font previews remove data-font; leave the uninitialized brand default intact. */
+html[data-palette]:not([data-font]) {
+  --vd-font-family-sans:
+    -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
 }

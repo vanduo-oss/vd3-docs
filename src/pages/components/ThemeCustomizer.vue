@@ -13,7 +13,6 @@ import {
 // useThemePreference() singleton — so changes apply to <html> immediately and
 // stay in sync with VdThemeSwitcher.
 const customizerRef = ref<InstanceType<typeof VdThemeCustomizer> | null>(null);
-const showPalette = ref(false);
 
 // Controlled-mode demo: this ref is the source of truth, so the fan never
 // touches the site theme — nothing below writes <html data-primary>.
@@ -33,7 +32,6 @@ const demoSwatchColor = computed(
 
 const openPanel = (): void => customizerRef.value?.open();
 const closePanel = (): void => customizerRef.value?.close();
-const togglePanel = (): void => customizerRef.value?.toggle();
 
 // The color chips below are sourced from the real exported token data, so they
 // can never drift from what the customizer actually offers.
@@ -61,7 +59,7 @@ import { VdThemeCustomizer } from "@vanduo-oss/vd3";
 
 <template>
   <!-- Renders its own trigger button + teleported panel -->
-  <VdThemeCustomizer :show-palette="true" />
+  <VdThemeCustomizer :show-palette="false" />
 <\/template>`;
 
 const controlVue = `import { ref } from "vue";
@@ -85,7 +83,8 @@ const theme = useThemePreference();
 theme.state.palette; theme.state.primary; theme.state.neutral;
 theme.state.radius;  theme.state.font;    theme.state.theme;
 
-// Setters — each persists to localStorage + applies to <html>:
+// Setters apply to <html>; automatic storage is enabled by default.
+// With themePersistence: false, these remain temporary previews:
 theme.setPalette("fibonacci");
 theme.setPrimary("violet");
 theme.setNeutral("slate");
@@ -161,7 +160,12 @@ const emitsRows: [string, string, string][] = [
   [
     "update:primary",
     "(value: string)",
-    "Emitted instead of writing the theme singleton whenever primary is bound — on hover preview, on preview restore, and on commit. Unbound, the component never emits.",
+    "Emitted instead of writing the theme singleton whenever primary is bound — on hover preview, on preview restore, and on commit. Unbound, this update event is not emitted; select:primary still reports fan selections.",
+  ],
+  [
+    "select:primary",
+    "(value: string)",
+    "Emitted when a fan swatch is selected, distinct from hover and cancellation previews.",
   ],
 ];
 
@@ -259,8 +263,9 @@ const storageRows: [string, string, string][] = [
     <p class="vd-mb-8">
       <strong>VdThemeCustomizer</strong> changes the palette, primary color,
       neutral scale, radius, and font. Preferences are shared across the app and
-      saved locally. Choose <code>panel</code> for all controls or
-      <code>swatches</code> for primary colors.
+      normally saved locally; this docs demo keeps changes temporary. Choose
+      <code>panel</code> for all controls or <code>swatches</code> for primary
+      colors.
     </p>
 
     <!-- Live Demo: real component -->
@@ -277,7 +282,7 @@ const storageRows: [string, string, string][] = [
         <div
           class="vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center theme-customizer-demo-row"
         >
-          <VdThemeCustomizer ref="customizerRef" :show-palette="showPalette" />
+          <VdThemeCustomizer ref="customizerRef" :show-palette="false" />
           <div
             class="theme-customizer-demo-actions vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center"
           >
@@ -295,34 +300,16 @@ const storageRows: [string, string, string][] = [
             >
               close()
             </button>
-            <button
-              type="button"
-              class="vd-btn vd-btn-sm vd-btn-secondary"
-              @click="togglePanel"
-            >
-              toggle()
-            </button>
           </div>
-          <label class="vd-form-switch" style="margin-left: auto">
-            <input
-              v-model="showPalette"
-              type="checkbox"
-              class="vd-form-switch-input"
-              role="switch"
-            />
-            <span class="vd-form-switch-label"
-              >show-palette: {{ showPalette }}</span
-            >
-          </label>
         </div>
         <p class="vd-text-sm vd-text-muted vd-mt-4">
-          The buttons dogfood the exposed <code>open()</code> /
-          <code>close()</code> / <code>toggle()</code> methods.
+          The buttons demonstrate <code>open()</code> and <code>close()</code>.
+          The built-in trigger toggles the panel.
         </p>
-        <p class="vd-text-sm vd-text-muted vd-mt-2" style="margin: 0">
-          <strong>show-palette</strong> — When enabled, the panel adds a Palette
-          section so users can switch between Open Color and Fibonacci. Off by
-          default in this demo (open the panel and flip the switch to see it).
+        <p class="vd-text-sm vd-text-muted vd-mt-2">
+          Demo changes are temporary and reset on page reload. Only choices made
+          in the site dock are saved. Palette selection is hidden in this demo
+          to preserve the docs appearance.
         </p>
       </div>
     </div>
@@ -399,9 +386,10 @@ const storageRows: [string, string, string][] = [
         <p class="vd-text-sm vd-text-muted vd-mb-5">
           Reach for this when the app already owns the hue and needs to clamp or
           transform it. This site does exactly that: its store narrows primary
-          to Ink plus the twelve accretion fan hues and forces palette, font,
-          radius, and neutral to docs defaults, so an uncontrolled customizer
-          writing the singleton would slip past both rules.
+          to Ink plus the twelve accretion fan hues. Hover previews use
+          <code>@update:primary</code>; committed selections use
+          <code>@select:primary</code>. Only the latter are saved by the site
+          dock. Full-panel demo changes reset to the docs defaults on reload.
         </p>
         <DocCodeSnippet :vue="controlledVue" />
       </div>
@@ -416,7 +404,7 @@ const storageRows: [string, string, string][] = [
             <p>
               Drop the component anywhere — it brings its own trigger and panel:
             </p>
-            <DocCodeSnippet :html="usageVue" :default-open="true" />
+            <DocCodeSnippet :vue="usageVue" :default-open="true" />
             <p class="vd-mt-5 vd-text-sm vd-text-muted">
               Mount it once (typically in your navbar). Any other button can
               open it by dispatching the <code>vd:open-customizer</code> window
@@ -444,8 +432,8 @@ const storageRows: [string, string, string][] = [
                 0.375, 0.5)
               </li>
               <li>
-                <strong>Font Family:</strong> 5 options (JetBrains Mono, System
-                Default, Ubuntu, Lato, Open Sans)
+                <strong>Font Family:</strong> 6 options (Nunito, JetBrains Mono,
+                System Default, Ubuntu, Lato, Open Sans)
               </li>
               <li><strong>Reset:</strong> restore every field to defaults</li>
             </ul>
@@ -702,7 +690,11 @@ const storageRows: [string, string, string][] = [
                 Switching mode in the <strong>switcher</strong> re-derives the
                 auto-default primary but never overwrites a color you chose
               </li>
-              <li>Every field is shared via <code>localStorage</code></li>
+              <li>
+                Every field is shared through reactive state. Automatic storage
+                is enabled by default; these docs disable it for temporary
+                demos.
+              </li>
             </ul>
           </div>
         </div>

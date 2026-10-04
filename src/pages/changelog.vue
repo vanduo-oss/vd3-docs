@@ -69,6 +69,25 @@ useAffix(root);
             <p>Compatible fixes to the existing design system.</p>
             <ul>
               <li>
+                Opt out of automatic theme storage at bootstrap with
+                <code>themePersistence: false</code>; ordinary library
+                persistence remains the default.
+              </li>
+              <li>
+                Customizer fans report committed selections separately from
+                hover previews with <code>select:primary</code>.
+              </li>
+              <li>
+                Dock accent mode colors the brand and active icon; footer
+                columns lay out inside the wrapper and dark footer text stays
+                readable. Closed mobile Navbar menus stay hidden and within
+                bounds; desktop links remain exposed to assistive technology.
+              </li>
+              <li>
+                <code>VdSeparator</code> adds an optional theme-aware gradient
+                variant.
+              </li>
+              <li>
                 Primary and status RGB helpers follow the active palette; dark
                 alpha accents follow the selected primary.
               </li>
@@ -78,7 +97,8 @@ useAffix(root);
               </li>
               <li>
                 Open target-panel popovers follow scrolling and resizing
-                anchors, including when flipping is disabled.
+                anchors, including when flipping is disabled. Dismissal keeps
+                ARIA closed if a positioning frame is still pending.
               </li>
               <li>
                 Standalone TypeScript linting, full-source coverage, CSS import

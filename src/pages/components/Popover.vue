@@ -37,12 +37,12 @@ const titledHtml = `<button class="vd-btn vd-btn-primary"
   Titled Popover
 </button>`;
 
-const bodyOnlyHtml = `<!-- Works on any element, not just buttons -->
-<span class="vd-btn vd-btn-outline-secondary"
+const bodyOnlyHtml = `<!-- A button supports keyboard activation as well as click/tap -->
+<button type="button" class="vd-btn vd-btn-outline-secondary"
       data-vd-bubble="A compact bubble with no header — just content."
       data-vd-bubble-placement="top">
   No Title
-</span>`;
+</button>`;
 
 const vue3Wiring = `import { ref } from 'vue';
 import { usePopover } from "@vanduo-oss/vd3";
@@ -285,20 +285,22 @@ const eventRows: [string, string][] = [
             class="vd-card-body"
             style="display: flex; gap: 1rem; flex-wrap: wrap; min-height: 6rem"
           >
-            <span
+            <button
+              type="button"
               class="vd-btn vd-btn-outline-secondary"
               data-vd-bubble="A compact bubble with no header — just content."
               data-vd-bubble-placement="top"
             >
               No Title
-            </span>
-            <span
+            </button>
+            <button
+              type="button"
               class="vd-btn vd-btn-outline-secondary"
-              data-vd-bubble="Works on any element, not just buttons."
+              data-vd-bubble="Use a semantic button for an accessible interactive trigger."
               data-vd-bubble-placement="right"
             >
-              Any Element
-            </span>
+              Button trigger
+            </button>
           </div>
         </div>
         <DocCodeSnippet :html="bodyOnlyHtml" />
@@ -408,6 +410,22 @@ const eventRows: [string, string][] = [
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="vd-card vd-card-glow demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>Choosing a trigger</h6></div>
+      <div class="vd-card-body">
+        <p>
+          Use click/tap for popovers that users deliberately open or interact
+          with. Use a real button so Enter and Space activate it. Keep Escape
+          and outside-click dismissal available.
+        </p>
+        <p>
+          Use a tooltip for short, noninteractive hints shown on hover and
+          keyboard focus. Avoid making hover the only way to access a popover:
+          touch users cannot hover.
+        </p>
       </div>
     </div>
 

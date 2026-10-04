@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
-import { computed, reactive, ref } from "vue";
+import { computed, onScopeDispose, reactive, ref, watch } from "vue";
 import {
   applyPreference,
   defaultPreference,
   loadPreference,
   persistPreference,
+  useThemePreference,
   type Palette,
   type RadiusOption,
   type ThemeMode,
@@ -19,156 +20,124 @@ import {
   type DocsSchemePrimaries,
 } from "@/constants/docsPrimary";
 
-/** Docs chrome locks — only primary (and theme mode via switcher) stay user-editable. */
-const DOCS_LOCKED_PALETTE = "open-color" as const;
-const DOCS_LOCKED_FONT = "nunito";
-const DOCS_LOCKED_RADIUS = "0.5" as RadiusOption;
-
+/** Saved site-dock choices and temporary component previews have separate owners.
+ * main.ts disables the package singleton's automatic persistence. Its shared
+ * state is the active preview; only dock setters below write saved preferences.
+ */
 export const useThemeStore = defineStore("theme", () => {
-  const prefs = reactive<ThemePreference>(defaultPreference());
+  const engine = useThemePreference();
+  const prefs = engine.state;
   const ready = ref(false);
+  const savedMode = ref<ThemeMode>("system");
   const schemePrimaries = reactive<DocsSchemePrimaries>(
     defaultDocsSchemePrimaries(),
   );
-
-  // Per-mode default neutral. The engine has a single NEUTRAL default (no
-  // NEUTRAL_DARK), so we mirror the package's per-mode default-primary
-  // behaviour: stone in light, charcoal in dark, auto-following the mode while
-  // the neutral is still one of those two defaults — an explicit pick
-  // (slate / gray / zinc / neutral) sticks across mode changes.
   const DOCS_NEUTRAL = { light: "stone", dark: "charcoal" } as const;
-  const resolveScheme = (theme: ThemeMode): DocsColorScheme =>
-    theme === "system"
+  const resolveScheme = (mode: ThemeMode): DocsColorScheme =>
+    mode === "system"
       ? typeof window !== "undefined" &&
         window.matchMedia?.("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light"
-      : (theme as DocsColorScheme);
-  const docsDefaultNeutral = (theme: ThemeMode): string =>
-    DOCS_NEUTRAL[resolveScheme(theme)];
+      : mode;
+  const docsDefaultNeutral = (mode: ThemeMode): string =>
+    DOCS_NEUTRAL[resolveScheme(mode)];
+  const brandPreference = (mode: ThemeMode): ThemePreference => ({
+    ...defaultPreference(),
+    theme: mode,
+    palette: "open-color",
+    font: "nunito",
+    radius: "0.5",
+    neutral: docsDefaultNeutral(mode),
+    primary: schemePrimaries[resolveScheme(mode)],
+  });
 
-  const applyStoredPrimary = (theme: ThemeMode = prefs.theme): void => {
-    const scheme = resolveScheme(theme);
-    prefs.primary = coerceDocsPrimary(schemePrimaries[scheme], scheme);
-  };
-
-  /** Force palette / font / radius / neutral to docs defaults (primary untouched). */
-  const applyDocsLockedPrefs = (): void => {
-    prefs.palette = DOCS_LOCKED_PALETTE;
-    prefs.font = DOCS_LOCKED_FONT;
-    prefs.radius = DOCS_LOCKED_RADIUS;
-    prefs.neutral = docsDefaultNeutral(prefs.theme);
-  };
-
-  /**
-   * Package applyPreference removes data-theme for system and lets a second
-   * prefers-color-scheme stylesheet paint. Stamp the resolved light|dark set
-   * so System is only autodetect, never a third palette.
-   */
   const stampResolvedScheme = (): void => {
     if (typeof document === "undefined") return;
     const scheme = resolveScheme(prefs.theme);
     const root = document.documentElement;
-    if (root.getAttribute("data-theme") !== scheme) {
+    if (root.getAttribute("data-theme") !== scheme)
       root.setAttribute("data-theme", scheme);
-    }
-    if (root.style.colorScheme !== scheme) {
-      root.style.colorScheme = scheme;
-    }
+    root.style.colorScheme = scheme;
   };
-
-  const commit = (): void => {
-    const scheme = resolveScheme(prefs.theme);
-    const intended = coerceDocsPrimary(prefs.primary, scheme);
-    schemePrimaries[scheme] = intended;
+  const applyPreview = (): void => {
+    // applyPreference auto-remaps generic default primaries. Preserve the active
+    // choice here: dock choices are curated; full customizer previews are not.
+    const primary = prefs.primary;
     applyPreference(prefs);
-    // Package `applyPreference` remaps PRIMARY_LIGHT/DARK values to the
-    // scheme default. Re-assert the docs-allowed primary for the docs shell.
-    prefs.primary = intended;
-    if (typeof document !== "undefined") {
-      document.documentElement.setAttribute("data-primary", prefs.primary);
-    }
+    prefs.primary = primary;
+    if (typeof document !== "undefined")
+      document.documentElement.setAttribute("data-primary", primary);
     stampResolvedScheme();
-    persistPreference(prefs);
+  };
+  const saveDock = (): void => {
+    persistPreference(brandPreference(savedMode.value));
     persistDocsSchemePrimaries(schemePrimaries);
   };
 
-  /** Hydrate from localStorage; call once on the client after mount. */
+  // No broad preference watcher: package controls already apply their fields.
+  // Scheme stamping follows their mode without restoring the saved dock mode.
+  watch(
+    () => prefs.theme,
+    (mode) => {
+      if (!ready.value) return;
+      if (prefs.neutral === "stone" || prefs.neutral === "charcoal")
+        prefs.neutral = docsDefaultNeutral(mode);
+      applyPreview();
+    },
+  );
+
+  let mq: MediaQueryList | null = null;
+  const onSchemeChange = (): void => {
+    if (prefs.theme !== "system") return;
+    if (prefs.neutral === "stone" || prefs.neutral === "charcoal")
+      prefs.neutral = docsDefaultNeutral("system");
+    prefs.primary = schemePrimaries[resolveScheme("system")];
+    applyPreview();
+  };
   const init = (): void => {
     if (ready.value) return;
-    Object.assign(prefs, loadPreference());
-    applyDocsLockedPrefs();
+    const stored = loadPreference();
+    savedMode.value = stored.theme;
     Object.assign(
       schemePrimaries,
-      hydrateDocsSchemePrimaries(resolveScheme(prefs.theme)),
+      hydrateDocsSchemePrimaries(resolveScheme(savedMode.value)),
     );
-    applyStoredPrimary();
-    commit();
+    Object.assign(prefs, brandPreference(savedMode.value));
+    applyPreview();
     ready.value = true;
-
     if (
       typeof window !== "undefined" &&
       typeof window.matchMedia === "function"
     ) {
-      const mq = window.matchMedia("(prefers-color-scheme: dark)");
-      if (mq && typeof mq.addEventListener === "function") {
-        mq.addEventListener("change", () => {
-          if (prefs.theme !== "system") return;
-          applyStoredPrimary("system");
-          prefs.neutral = docsDefaultNeutral("system");
-          commit();
-        });
-      }
-    }
-
-    if (
-      typeof MutationObserver !== "undefined" &&
-      typeof document !== "undefined"
-    ) {
-      const themeAttr = new MutationObserver(() => {
-        if (prefs.theme !== "system") return;
-        stampResolvedScheme();
-      });
-      themeAttr.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["data-theme"],
-      });
+      mq = window.matchMedia("(prefers-color-scheme: dark)");
+      mq.addEventListener?.("change", onSchemeChange);
     }
   };
+  onScopeDispose(() => mq?.removeEventListener?.("change", onSchemeChange));
 
-  const setPalette = (palette: Palette): void => {
-    prefs.palette = palette;
-    commit();
+  const setTheme = (mode: ThemeMode): void => {
+    savedMode.value = mode;
+    prefs.theme = mode;
+    prefs.primary = schemePrimaries[resolveScheme(mode)];
+    if (prefs.neutral === "stone" || prefs.neutral === "charcoal")
+      prefs.neutral = docsDefaultNeutral(mode);
+    applyPreview();
+    saveDock();
   };
-  const setTheme = (theme: ThemeMode): void => {
-    prefs.theme = theme;
-    prefs.neutral = docsDefaultNeutral(theme);
-    applyStoredPrimary(theme);
-    commit();
+  const previewPrimary = (primary: string): void => {
+    prefs.primary = coerceDocsPrimary(primary, resolveScheme(prefs.theme));
+    applyPreview();
   };
   const setPrimary = (primary: string): void => {
-    const scheme = resolveScheme(prefs.theme);
-    prefs.primary = coerceDocsPrimary(primary, scheme);
-    commit();
-  };
-  const setNeutral = (neutral: string): void => {
-    prefs.neutral = neutral;
-    commit();
-  };
-  const setRadius = (radius: RadiusOption): void => {
-    prefs.radius = radius;
-    commit();
-  };
-  const setFont = (font: string): void => {
-    prefs.font = font;
-    commit();
+    previewPrimary(primary);
+    // A hue selected in a temporary demo mode does not persist that mode.
+    schemePrimaries[resolveScheme(prefs.theme)] = prefs.primary;
+    saveDock();
   };
   const reset = (): void => {
-    Object.assign(prefs, defaultPreference());
-    applyDocsLockedPrefs();
-    Object.assign(schemePrimaries, defaultDocsSchemePrimaries());
-    applyStoredPrimary();
-    commit();
+    Object.assign(prefs, brandPreference(savedMode.value));
+    applyPreview();
   };
 
   return {
@@ -181,12 +150,13 @@ export const useThemeStore = defineStore("theme", () => {
     radius: computed(() => prefs.radius),
     font: computed(() => prefs.font),
     init,
-    setPalette,
     setTheme,
     setPrimary,
-    setNeutral,
-    setRadius,
-    setFont,
+    previewPrimary,
     reset,
+    setPalette: (value: Palette): void => engine.setPalette(value),
+    setNeutral: (value: string): void => engine.setNeutral(value),
+    setRadius: (value: RadiusOption): void => engine.setRadius(value),
+    setFont: (value: string): void => engine.setFont(value),
   };
 });

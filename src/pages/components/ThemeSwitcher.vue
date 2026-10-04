@@ -7,7 +7,7 @@ import type { ThemeMode } from "@vanduo-oss/vd3";
 
 // The live demos render the real VdThemeSwitcher, which drives the shared
 // useThemePreference() singleton — so picking a mode here re-themes the whole
-// page (and persists to localStorage), exactly like the navbar switcher.
+// page temporarily; only the site dock saves choices.
 const theme = useThemePreference();
 const current = computed<ThemeMode>(() => theme.state.theme);
 const lastChange = ref<ThemeMode | null>(null);
@@ -111,7 +111,7 @@ const compareRows: [string, boolean | string, boolean | string][] = [
   ["Primary color selection", false, "(18 colors)"],
   ["Neutral scale", false, "(6 options)"],
   ["Border radius", false, "(5 presets)"],
-  ["Font family", false, "(5 options)"],
+  ["Font family", false, "(6 options)"],
   ["Footprint", "Toggle only", "Full panel"],
   ["Use case", "Quick toggle", "Full customization"],
 ];
@@ -127,8 +127,9 @@ const compareRows: [string, boolean | string, boolean | string][] = [
       <RouterLink to="/components/theme-customizer"
         >VdThemeCustomizer</RouterLink
       >
-      and persists to <code>localStorage</code>. Render it as an icon menu
-      (default) or a single cycling button.
+      and normally persists to <code>localStorage</code>. These docs disable
+      automatic storage for temporary demos. Render it as an icon menu (default)
+      or a single cycling button.
     </p>
 
     <!-- Live Demo -->
@@ -139,7 +140,11 @@ const compareRows: [string, boolean | string, boolean | string][] = [
       <div class="vd-card-body">
         <p class="vd-mb-5">
           These are real <code>&lt;VdThemeSwitcher&gt;</code> instances —
-          picking a mode re-themes this whole page:
+          picking a mode re-themes this whole page temporarily:
+        </p>
+        <p class="vd-text-sm vd-text-muted">
+          Demo changes are temporary and reset on page reload. Only choices made
+          in the site dock are saved.
         </p>
         <div class="vd-row vd-mb-5">
           <div class="vd-col-12 vd-col-md-4 vd-text-center">
@@ -389,8 +394,9 @@ const compareRows: [string, boolean | string, boolean | string][] = [
           </table>
         </div>
         <p class="vd-mt-4 vd-text-sm vd-text-muted">
-          The preference is persisted by the theme singleton and restored on the
-          next load.
+          By default, the theme singleton saves the preference for the next
+          load. With <code>themePersistence: false</code>, as on this docs site,
+          demos remain temporary and the site dock owns saved choices.
         </p>
       </div>
     </div>

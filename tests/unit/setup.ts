@@ -1,8 +1,11 @@
-import { vi } from 'vitest';
+import { setThemePersistence } from "@vanduo-oss/vd3";
+// Match the docs bootstrap: saved preferences belong to the site dock.
+setThemePersistence(false);
+import { vi } from "vitest";
 
 class IntersectionObserverStub {
   readonly root: Element | null = null;
-  readonly rootMargin: string = '0px';
+  readonly rootMargin: string = "0px";
   readonly thresholds: ReadonlyArray<number> = [0];
   observe(): void {}
   unobserve(): void {}
@@ -12,11 +15,12 @@ class IntersectionObserverStub {
   }
 }
 
-if (typeof globalThis.IntersectionObserver === 'undefined') {
-  globalThis.IntersectionObserver = IntersectionObserverStub as unknown as typeof IntersectionObserver;
+if (typeof globalThis.IntersectionObserver === "undefined") {
+  globalThis.IntersectionObserver =
+    IntersectionObserverStub as unknown as typeof IntersectionObserver;
 }
 
-if (typeof window !== 'undefined' && !window.matchMedia) {
+if (typeof window !== "undefined" && !window.matchMedia) {
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
     matches: false,
     media: query,
@@ -30,7 +34,10 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
 }
 
 // Vite injects this at build time; unit tests need a stand-in.
-if (typeof (globalThis as unknown as { __APP_VERSION__?: string }).__APP_VERSION__ === "undefined") {
+if (
+  typeof (globalThis as unknown as { __APP_VERSION__?: string })
+    .__APP_VERSION__ === "undefined"
+) {
   (globalThis as unknown as { __APP_VERSION__: string }).__APP_VERSION__ =
     "0.0.0-test";
 }
