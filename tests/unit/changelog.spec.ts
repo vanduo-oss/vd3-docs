@@ -15,16 +15,14 @@ describe("package changelog", () => {
     const columns = wrapper.findAll(".changelog-col");
     expect(columns).toHaveLength(3);
 
-    const preview = columns[0].find("#vd3-1-7-5");
-    expect(preview.text()).toContain("v1.7.5");
-    expect(preview.text()).toContain("not published");
-    expect(headerText(preview)).not.toContain("Latest");
-    const vd3Cards = columns[0]
-      .findAll(".version-card")
-      .filter((card) => card.attributes("id") !== "vd3-1-7-5");
-    expect(headerText(vd3Cards[0])).toContain("v1.7.4");
+    const vd3Cards = columns[0].findAll(".version-card");
+    expect(vd3Cards[0].attributes("id")).toBe("vd3-1-7-5");
+    expect(headerText(vd3Cards[0])).toContain("v1.7.5");
+    expect(headerText(vd3Cards[0])).toContain("October 2026");
+    expect(vd3Cards[0].text()).not.toContain("not published");
+    expect(vd3Cards[0].text()).not.toContain("release candidate");
     expect(headerText(vd3Cards[0])).toContain("Latest");
-    expect(headerText(vd3Cards[1])).toContain("v1.7.3");
+    expect(headerText(vd3Cards[1])).toContain("v1.7.4");
     expect(headerText(vd3Cards[1])).not.toContain("Latest");
     expect(headerText(vd3Cards.at(-1)!)).toContain("v1.0.0");
     expect(headerText(vd3Cards.at(-1)!)).toContain("Initial");

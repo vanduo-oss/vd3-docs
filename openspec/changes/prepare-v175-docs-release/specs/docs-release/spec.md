@@ -10,6 +10,13 @@ an unpublished release candidate from the published latest version.
 - **THEN** it SHALL show 1.7.5 as a release candidate and 1.7.4 as Latest
 - **AND** the vd3 column SHALL exclude documentation-only changes
 
+#### Scenario: Published package adoption
+- **GIVEN** vd3 1.7.5 is published and available from the registry
+- **WHEN** documentation is prepared for release
+- **THEN** the dependency and lockfile SHALL pin registry version 1.7.5
+- **AND** the changelog and landing page SHALL identify 1.7.5 as Latest
+- **AND** the release preview SHALL use the installed registry artifact
+
 ### Requirement: Responsive homepage branding
 The homepage SHALL present the vd3 UI wordmark with its tagline immediately below,
 without Seemore Glass or Oola Dock promotions. Desktop text SHALL share a left

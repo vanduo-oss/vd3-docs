@@ -14,3 +14,8 @@ slightly and enlarge the dock brand while retaining usable button targets.
 No new dependencies, package version bump, docs push or deployment. The committed
 library pin stays at 1.7.4 until 1.7.5 is published. The local preview is built
 against the staged 1.7.5 artifact. A14 and broad B1–B6 remain deferred.
+
+After publication, adopt the exact registry dependency and lockfile for 1.7.5,
+replace the candidate label with Latest, and update the landing page and pinned
+production example. Changelog dates use month and year, matching existing entries.
+Rebuild the local preview from the registry artifact and record its validation.

@@ -639,7 +639,7 @@
         "Guides",
         "Changelog"
       ],
-      "bodyText": "Documentation Explore vd3 Documentation, Guides and Changelog 63 components Documentation v1.7.8ComponentsExplore the building blocks of vd3 UI. Live demos with copy-paste snippets Props, tokens, and accessibility notesCoreInputEffects 67 reference pagesGuidesStep-by-step tutorials to master vd3. Quick start & zero-to-ship setup Security, lifecycle, and productionSetupThemingIntegrations 14 guided walkthroughsChangelogSee what's new in vd3 and track each release update. vd3 1.7.4, charts 1.1.1, flowchart 1.4.0 — latest packages Release notes for @vanduo-oss/vd3ReleasesTokensLifecycle Latest: vd3 1.7.4 · charts 1.1.1 · flowchart 1.4.0"
+      "bodyText": "Documentation Explore vd3 Documentation, Guides and Changelog 63 components Documentation v1.7.8ComponentsExplore the building blocks of vd3 UI. Live demos with copy-paste snippets Props, tokens, and accessibility notesCoreInputEffects 67 reference pagesGuidesStep-by-step tutorials to master vd3. Quick start & zero-to-ship setup Security, lifecycle, and productionSetupThemingIntegrations 14 guided walkthroughsChangelogSee what's new in vd3 and track each release update. vd3 1.7.5, charts 1.1.1, flowchart 1.4.0 — latest packages Release notes for @vanduo-oss/vd3ReleasesTokensLifecycle Latest: vd3 1.7.5 · charts 1.1.1 · flowchart 1.4.0"
     },
     {
       "id": "draggable",

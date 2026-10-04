@@ -60,8 +60,17 @@ useAffix(root);
         </div>
         <article class="version-card" id="vd3-1-7-5">
           <header class="version-header">
-            <span class="vd-badge vd-badge-primary">v1.7.5</span>
-            <span class="vd-text-muted">Release candidate · not published</span>
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.7.5</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>October 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
           </header>
           <div class="version-body">
             <p>Compatible fixes to the existing design system.</p>
@@ -113,10 +122,6 @@ useAffix(root);
                 all other moderate+ audit checks remain enabled.
               </li>
             </ul>
-            <p class="vd-text-muted">
-              Package release candidate. The latest published release remains
-              v1.7.4 until v1.7.5 is published.
-            </p>
           </div>
         </article>
         <article class="version-card">
@@ -129,9 +134,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>September 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">

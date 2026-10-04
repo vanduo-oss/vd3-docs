@@ -31,3 +31,27 @@ dependency pin must be updated after 1.7.5 is published, before docs release.
 Manual review: check centered mobile hero text, logo proportions, smaller mobile
 dock navigation and larger dock brand, desktop left-aligned tagline, removal of
 the two promotions, and package-only candidate notes on /changelog.
+
+## Published package adoption — 2026-10-04
+
+The user completed npm publication. After the registry processing delay, npm
+confirmed version 1.7.5 and `latest: 1.7.5`. The installed registry package now
+resolves through `.pnpm/@vanduo-oss+vd3@1.7.5_…`, with no local staging link.
+Package.json and the lockfile pin 1.7.5 and its registry integrity.
+
+The changelog now marks 1.7.5 Latest and uses October 2026, following its month/year
+date convention. The landing page and production installation example use 1.7.5.
+The earlier candidate status above describes the initial preparation phase only.
+
+- Full unit suite: 58 files / 235 passed; the final date adjustment also passed
+  the affected changelog and landing-page unit tests (two files / three tests).
+- Published-artifact demo checks: 15 passed across desktop/mobile; one hover-only
+  case was skipped on mobile. Includes fonts, dock persistence, tints, footer,
+  Navbar, separator and popover interactions.
+- Landing-page/changelog light/dark accessibility checks and visual baselines:
+  six passed, with no baseline updates.
+- Lint, typecheck, styles, formatting, static build, search refresh/content check
+  and size checks passed. Corpus stays at 286,117 bytes; homepage 368.1 KiB gzip,
+  largest checked docs route 394.7 KiB, within budgets.
+- No docs push, merge or deployment. The rebuilt local preview uses the published
+  package; library main remains unchanged.

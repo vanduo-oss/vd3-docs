@@ -8,3 +8,6 @@
 - [x] Verify rendered desktop/mobile layout and affected accessibility checks.
 - [x] Validate formatting, styles, content, size and OpenSpec; record results.
 - [x] Restore the published dependency and commit the docs changes locally.
+- [x] After publication, pin the installed registry package and lockfile to 1.7.5.
+- [x] Mark 1.7.5 Latest with the standard October 2026 date; update landing copy
+  and the production installation example, rebuild and verify the published artifact.
