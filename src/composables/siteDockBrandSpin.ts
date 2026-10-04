@@ -164,7 +164,7 @@ export function setSiteDockBrandSpinDurationPreservingPhase(
   spin: Element,
   durationMs: number,
 ): void {
-  let anim = findSiteDockBrandSpinAnimation(spin);
+  const anim = findSiteDockBrandSpinAnimation(spin);
   if (!anim) {
     ensureSiteDockBrandSpin(spin, durationMs);
     return;

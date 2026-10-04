@@ -22,6 +22,14 @@ createApp(App)
 
 const practices: [string, string][] = [
   [
+    "Browser and language scope",
+    "Verify your target browsers before release. The browser test projects target Chromium, Firefox and WebKit; check release QA results for the engines actually verified. This is not a guaranteed minimum-version matrix. RTL and locale-aware keyboard behavior are not currently promised.",
+  ],
+  [
+    "Upgrade checks",
+    "Review the package changelog, update exact pins and the lockfile, then test theme contrast, keyboard navigation and overlays in your application. /css/core still includes all component styles.",
+  ],
+  [
     "Pin package versions",
     "Lock @vanduo-oss/vd3, @vanduo-oss/vd3-charts, @vanduo-oss/vd3-flowchart so visual output is reproducible.",
   ],

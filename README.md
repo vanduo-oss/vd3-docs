@@ -60,6 +60,7 @@ pnpm run test:size    # gzipped bundle-size budget
 pnpm run test:e2e     # Playwright visual-parity, Chromium Desktop
 pnpm run test:e2e:full# Playwright, all projects
 pnpm run test:a11y    # axe accessibility smoke, Chromium Desktop
+pnpm run test:theme   # rendered color/contrast and scheme regression checks
 ```
 
 ### Site search (Fuse)
@@ -71,7 +72,7 @@ Cmd+K uses Fuse.js over the committed corpus at
 After changing `nav.ts` or page body copy that should be searchable, update
 the search corpus by building and running `pnpm search:refresh`.
 
-CI runs type, style, unit, content, size, and two browser smoke checks on Node 24.
+CI runs type, style, unit, content, size, and focused browser smoke/theme checks on Node 24.
 The full visual and light/dark accessibility matrix runs locally before release.
 The deployment workflow applies its own gates before publishing the static site.
 Remote actions require explicit approval under the contributor policy.

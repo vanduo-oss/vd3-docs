@@ -219,6 +219,13 @@ const pluginOptions: [string, string, string][] = [
           <code>onMounted</code>. Register the plugin inside the
           <code>vite-ssg</code> setup callback:
         </p>
+        <p>
+          Browser guards support static SSR shells. Theme defaults, preferences
+          and toast queues are shared at module scope; do not write
+          request-specific values during server rendering. A storage prefix
+          separates browser keys, not app state. Independent requests or apps
+          need an app-owned state boundary.
+        </p>
         <DocCodeSnippet :js="ssgJs" :default-open="true" />
         <ul class="vd-mt-4">
           <li>

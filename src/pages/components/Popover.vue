@@ -109,10 +109,77 @@ const eventRows: [string, string][] = [
     <p class="vd-mb-8">
       Attribute-driven popover bubbles. Drop <code>data-vd-bubble="…"</code> on
       any element and the framework builds, positions, and wires the panel for
-      you — with auto-placement flip on viewport overflow, outside-click and
-      <kbd>Escape</kbd> dismissal. <code>data-vd-popover</code> is a drop-in
-      alias.
+      you — with outside-click and <kbd>Escape</kbd> dismissal. Target-panel
+      popovers also support overflow flipping, as shown below.
+      <code>data-vd-popover</code> is a drop-in alias.
     </p>
+
+    <div class="vd-card demo-card vd-mb-6" id="moving-anchor-demo">
+      <div class="vd-card-header"><h6>Following a moving anchor</h6></div>
+      <div class="vd-card-body">
+        <p>
+          Open either panel, then scroll inside the box or resize the window.
+          The panel should follow its button. “No flip” keeps its bottom
+          placement; “Auto flip” may switch sides near the viewport edge. Escape
+          closes it.
+        </p>
+        <div
+          id="popover-scroll-demo"
+          tabindex="0"
+          role="region"
+          aria-label="Scrollable popover example"
+          style="
+            height: 15rem;
+            overflow: auto;
+            border: 1px solid var(--vd-border-color);
+            border-radius: var(--vd-border-radius-md);
+          "
+        >
+          <div style="min-height: 28rem; padding: 5rem 1rem 1rem">
+            <div class="vd-flex vd-flex-wrap vd-gap-3">
+              <button
+                type="button"
+                class="vd-btn vd-btn-primary"
+                data-vd-popover-target="#demo-follow-auto"
+                data-vd-popover-trigger="click"
+                data-vd-popover-placement="bottom"
+              >
+                Auto flip
+              </button>
+              <button
+                type="button"
+                class="vd-btn vd-btn-outline"
+                data-vd-popover-target="#demo-follow-fixed"
+                data-vd-popover-trigger="click"
+                data-vd-popover-placement="bottom"
+                data-vd-popover-flip="false"
+              >
+                No flip
+              </button>
+            </div>
+          </div>
+        </div>
+        <Teleport to="body">
+          <div
+            id="demo-follow-auto"
+            class="vd-popover-panel"
+            hidden
+            aria-label="Auto-flipping panel"
+          >
+            I follow the Auto flip button and can change sides near a viewport
+            edge.
+          </div>
+          <div
+            id="demo-follow-fixed"
+            class="vd-popover-panel"
+            hidden
+            aria-label="Fixed-placement panel"
+          >
+            I follow the No flip button while keeping bottom placement.
+          </div>
+        </Teleport>
+      </div>
+    </div>
 
     <!-- Basic -->
     <div class="vd-row vd-mb-6">

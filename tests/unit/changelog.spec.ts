@@ -15,7 +15,13 @@ describe("package changelog", () => {
     const columns = wrapper.findAll(".changelog-col");
     expect(columns).toHaveLength(3);
 
-    const vd3Cards = columns[0].findAll(".version-card");
+    const preview = columns[0].find("#vd3-unreleased");
+    expect(preview.text()).toContain("Unreleased");
+    expect(preview.text()).toContain("not published");
+    expect(headerText(preview)).not.toContain("Latest");
+    const vd3Cards = columns[0]
+      .findAll(".version-card")
+      .filter((card) => card.attributes("id") !== "vd3-unreleased");
     expect(headerText(vd3Cards[0])).toContain("v1.7.4");
     expect(headerText(vd3Cards[0])).toContain("Latest");
     expect(headerText(vd3Cards[1])).toContain("v1.7.3");
@@ -56,12 +62,12 @@ describe("package changelog", () => {
     ).toHaveLength(1);
     expect(columns[2].text()).toContain("@vanduo-oss/vd3-flowchart");
 
-    expect(wrapper.findAll(".changelog-col-title").map((t) => t.text())).toEqual(
-      [
-        "@vanduo-oss/vd3",
-        "@vanduo-oss/vd3-charts",
-        "@vanduo-oss/vd3-flowchart",
-      ],
-    );
+    expect(
+      wrapper.findAll(".changelog-col-title").map((t) => t.text()),
+    ).toEqual([
+      "@vanduo-oss/vd3",
+      "@vanduo-oss/vd3-charts",
+      "@vanduo-oss/vd3-flowchart",
+    ]);
   });
 });

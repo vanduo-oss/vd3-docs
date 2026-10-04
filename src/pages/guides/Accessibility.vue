@@ -215,8 +215,8 @@ const dontUndo: [string, string][] = [
           </table>
         </div>
         <p class="vd-text-sm vd-text-muted vd-mt-3">
-          Every component page includes an Accessibility card documenting its
-          specific roles and keyboard support.
+          Consult the component-specific guidance where available, and verify
+          the keyboard and screen-reader behavior of your composed interface.
         </p>
       </div>
     </div>

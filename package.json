@@ -21,7 +21,7 @@
     "dev": "vite",
     "build": "vite-ssg build && node scripts/generate-sitemap.mjs && node scripts/generate-search.mjs",
     "preview": "vite preview --port 8787 --host",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "stylelint": "stylelint \"src/**/*.css\"",
     "format": "prettier --write \"src/**/*.{ts,vue,css}\"",
@@ -35,7 +35,8 @@
     "test:a11y": "playwright test a11y-smoke --project='Chromium Desktop'",
     "search:refresh": "node scripts/generate-search.mjs --refresh",
     "test:content": "node scripts/generate-search.mjs --check",
-    "test:smoke": "playwright test global-search docs-navigation cbun-flowchart-responsive --project=\"Chromium Desktop\""
+    "test:smoke": "playwright test global-search docs-navigation cbun-flowchart-responsive --project=\"Chromium Desktop\"",
+    "test:theme": "playwright test button-contrast theme-scheme theme-colors copied-examples --project=\"Chromium Desktop\""
   },
   "dependencies": {
     "@unhead/vue": "2.1.15",

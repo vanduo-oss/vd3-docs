@@ -58,6 +58,44 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
+        <article class="version-card" id="vd3-unreleased">
+          <header class="version-header">
+            <span class="vd-badge vd-badge-primary">Unreleased</span>
+            <span class="vd-text-muted"
+              >Development preview · not published</span
+            >
+          </header>
+          <div class="version-body">
+            <p>Compatible fixes to the existing design system.</p>
+            <ul>
+              <li>
+                Primary and status RGB helpers follow the active palette; dark
+                alpha accents follow the selected primary.
+              </li>
+              <li>
+                Fibonacci light-theme hover fills use readable foreground
+                colors.
+              </li>
+              <li>
+                Open target-panel popovers follow scrolling and resizing
+                anchors, including when flipping is disabled.
+              </li>
+              <li>
+                Standalone TypeScript linting, full-source coverage, CSS import
+                integrity, package size checks and typed recipes strengthen
+                release checks.
+              </li>
+              <li>
+                Public API and SSR guidance clarify shared module state and
+                storage-prefix limits.
+              </li>
+            </ul>
+            <p class="vd-text-muted">
+              The latest published release remains v1.7.4. These changes are
+              awaiting review and release.
+            </p>
+          </div>
+        </article>
         <article class="version-card">
           <header class="version-header">
             <span

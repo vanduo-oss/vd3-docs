@@ -31,7 +31,7 @@ const issues: [string, string, string][] = [
   [
     "Theme doesn't persist on reload",
     "The VanduoVue plugin isn't installed, storage is blocked, or another app on this origin collides on keys.",
-    "Install via app.use(VanduoVue). useThemePreference() re-hydrates from storage on the client — there is no init() to call. Pass storagePrefix if two apps share an origin.",
+    "Install via app.use(VanduoVue). useThemePreference() re-hydrates from storage on the client — there is no init() to call. A storagePrefix separates storage keys, but apps sharing one module still share theme state.",
   ],
   [
     "Popup appears in the wrong place",

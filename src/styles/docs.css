@@ -358,24 +358,8 @@ select,
   }
 }
 
-/* Dark + green: inline code uses primary-dark. green-9 fails AA on charcoal. */
-html[data-theme="dark"][data-primary="green"] {
-  --vd-color-primary: var(--vd-green-8);
-  --vd-color-primary-light: var(--vd-green-6);
-  --vd-color-primary-dark: var(--vd-green-8);
-  --vd-color-primary-hover: var(--vd-green-7);
-  --vd-color-primary-active: var(--vd-green-8);
-}
-
-/* Dark + ink (black): lift accents to mid/light greys so they read on dark bg.
-   Package black ramp is near-black at stops 7–9; semantic primary-4 is usable
-   but brand marks / filled chrome need the lighter grey stops. */
+/* Dark + ink: lift brand marks without overriding the component color contract. */
 html[data-theme="dark"][data-primary="black"] {
-  --vd-color-primary: var(--vd-primary-3);
-  --vd-color-primary-light: var(--vd-primary-2);
-  --vd-color-primary-dark: var(--vd-primary-4);
-  --vd-color-primary-hover: var(--vd-primary-2);
-  --vd-color-primary-active: var(--vd-primary-4);
   --vd-brand-accent: var(--vd-primary-3);
   --vd3-mark-inner-light: var(--vd-primary-2);
   --vd3-mark-inner-dark: var(--vd-primary-4);
@@ -387,20 +371,7 @@ html[data-theme="dark"][data-primary="black"] {
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme])[data-primary="green"] {
-    --vd-color-primary: var(--vd-green-8);
-    --vd-color-primary-light: var(--vd-green-6);
-    --vd-color-primary-dark: var(--vd-green-8);
-    --vd-color-primary-hover: var(--vd-green-7);
-    --vd-color-primary-active: var(--vd-green-8);
-  }
-
   :root:not([data-theme])[data-primary="black"] {
-    --vd-color-primary: var(--vd-primary-3);
-    --vd-color-primary-light: var(--vd-primary-2);
-    --vd-color-primary-dark: var(--vd-primary-4);
-    --vd-color-primary-hover: var(--vd-primary-2);
-    --vd-color-primary-active: var(--vd-primary-4);
     --vd-brand-accent: var(--vd-primary-3);
     --vd3-mark-inner-light: var(--vd-primary-2);
     --vd3-mark-inner-dark: var(--vd-primary-4);
@@ -2470,8 +2441,12 @@ a:hover .vd-card-interactive.vd-card-glow {
   align-items: center;
   gap: 0.35rem;
   color: var(--vd-color-primary);
-  background-color: rgb(var(--vd-color-primary-rgb) / 10%);
-  border-color: rgb(var(--vd-color-primary-rgb) / 30%);
+  background-color: color-mix(
+    in srgb,
+    var(--vd-color-primary) 10%,
+    transparent
+  );
+  border-color: color-mix(in srgb, var(--vd-color-primary) 30%, transparent);
 }
 
 #docs-landing .docs-landing-version {

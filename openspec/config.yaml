@@ -4,12 +4,12 @@ context: |
   Package: @vanduo-oss/vd3-docs (private, not published). Documentation site for the vd3
   line — a Vue3-only clone of the vd2 docs site with all vanilla-engine machinery removed.
   Stack: Vue 3 + vite + vite-ssg (prerenders every route) + vue-router + pinia (docs-site
-  stores only) + @unhead/vue + cbun highlight. nav.ts is the single source of truth for
+  stores only) + @unhead/vue + @vanduo-oss/vd3/highlight. nav.ts is the single source of truth for
   routes (buildRoutes + pageComponents maps). Single engine: NO EngineSwitch/EngineBadge/
   useEngineStore — pages document Vue3 usage only.
   Dogfoods the PUBLISHED packages (exact pins; .npmrc save-exact):
-  "@vanduo-oss/vd3": "1.7.3", "@vanduo-oss/vd3-charts": "1.1.0",
-  "@vanduo-oss/vd3-flowchart": "1.2.0".
+  versions in package.json and pnpm-lock.yaml. Local coordinated QA may temporarily
+  stage a built library using scripts/local-vd3.mjs; restore before release.
   Vite resolve.dedupe ['vue','pinia','@vanduo-oss/vd3'] + optimizeDeps.exclude
   for the kit so a nested copy cannot shadow the published packages.
   main.ts imports @vanduo-oss/vd3/css, @vanduo-oss/vd3-charts/css,

@@ -1,17 +1,7 @@
 <script setup lang="ts">
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-const vue3Usage = `<script setup lang="ts">
-import { VdButton } from "@vanduo-oss/vd3";
-const saving = ref(false);
-<\/script>
-
-<template>
-  <VdButton variant="primary" @click="save">Primary</VdButton>
-  <VdButton variant="danger" size="sm">Delete</VdButton>
-  <VdButton variant="ghost" :loading="saving">Save</VdButton>
-  <VdButton variant="primary" ring>Checkout</VdButton>
-  <VdButton variant="ink">See it live</VdButton>
-</template>`;
+import ButtonExample from "@/examples/ButtonExample.vue";
+import vue3Usage from "@/examples/ButtonExample.vue?raw";
 
 const vue3Api: [string, string][] = [
   [
@@ -57,7 +47,7 @@ const variantsCss = `.vd-btn {
 
 .vd-btn-primary {
   background-color: var(--vd-color-primary);
-  color: var(--vd-color-white);
+  color: var(--vd-text-on-primary);
 }`;
 
 const sizesHtml = `<button class="vd-btn vd-btn-primary vd-btn-sm">Small</button>
@@ -501,6 +491,7 @@ const classRef: ClassRef[] = [
           </div>
           <div class="vd-card-body">
             <h4>Usage</h4>
+            <ButtonExample class="vd-mb-4" />
             <DocCodeSnippet :html="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">Classes</h4>
