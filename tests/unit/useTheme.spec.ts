@@ -130,12 +130,12 @@ describe("useThemeStore", () => {
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
   });
 
-  it("persists setPalette to localStorage and the DOM", () => {
+  it("previews setPalette in the DOM without persisting", () => {
     const theme = useThemeStore();
     theme.init();
     theme.setPalette("open-color");
     expect(theme.palette).toBe("open-color");
-    expect(window.localStorage.getItem("vanduo-palette")).toBe("open-color");
+    expect(window.localStorage.getItem("vanduo-palette")).toBeNull();
     expect(document.documentElement.getAttribute("data-palette")).toBe(
       "open-color",
     );
@@ -155,13 +155,13 @@ describe("useThemeStore", () => {
     expect(theme.palette).toBe("open-color");
     expect(theme.font).toBe("nunito");
     expect(["stone", "charcoal"]).toContain(theme.neutral);
-    // system + jsdom matchMedia(false) → light → docs default black
-    expect(theme.primary).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
+    // Reset restores the brand styling without erasing the saved dock color.
+    expect(theme.primary).toBe("violet");
+    expect(window.localStorage.getItem(primaryKeys().light)).toBe("violet");
     expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
   });
 
-  it("init overwrites stored non-primary prefs but keeps an explicit dock primary", () => {
+  it("init applies brand styles without writing storage and keeps an explicit dock primary", () => {
     window.localStorage.setItem("vanduo-theme-preference", "dark");
     window.localStorage.setItem("vanduo-primary-color", "violet");
     window.localStorage.setItem("vanduo-neutral-color", "slate");
@@ -177,16 +177,12 @@ describe("useThemeStore", () => {
     expect(theme.radius).toBe("0.5");
     expect(theme.neutral).toBe("charcoal");
     expect(theme.palette).toBe("open-color");
-    expect(window.localStorage.getItem("vanduo-font-preference")).toBe(
-      "nunito",
-    );
-    expect(window.localStorage.getItem("vanduo-radius")).toBe("0.5");
-    expect(window.localStorage.getItem("vanduo-neutral-color")).toBe(
-      "charcoal",
-    );
+    expect(window.localStorage.getItem("vanduo-font-preference")).toBe("lato");
+    expect(window.localStorage.getItem("vanduo-radius")).toBe("0.25");
+    expect(window.localStorage.getItem("vanduo-neutral-color")).toBe("slate");
     expect(window.localStorage.getItem("vanduo-primary-color")).toBe("violet");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("violet");
-    expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBeNull();
+    expect(window.localStorage.getItem(primaryKeys().light)).toBeNull();
   });
 
   it("remaps a legacy shared blue default to first-visit per-scheme values", () => {
@@ -196,8 +192,8 @@ describe("useThemeStore", () => {
     theme.init();
     expect(theme.primary).toBe("green");
     expect(document.documentElement.getAttribute("data-primary")).toBe("green");
-    expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
+    expect(window.localStorage.getItem(primaryKeys().light)).toBeNull();
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBeNull();
   });
 
   it("migrates a legacy explicit primary onto the current scheme only", () => {
@@ -206,8 +202,8 @@ describe("useThemeStore", () => {
     const darkTheme = useThemeStore();
     darkTheme.init();
     expect(darkTheme.primary).toBe("green");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
-    expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBeNull();
+    expect(window.localStorage.getItem(primaryKeys().light)).toBeNull();
 
     window.localStorage.clear();
     window.localStorage.setItem("vanduo-theme-preference", "light");
@@ -216,8 +212,8 @@ describe("useThemeStore", () => {
     const lightTheme = useThemeStore();
     lightTheme.init();
     expect(lightTheme.primary).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
+    expect(window.localStorage.getItem(primaryKeys().light)).toBeNull();
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBeNull();
   });
 
   it("keeps Ink (black) in light and dark; coerces amber/lime; allows rose", () => {
@@ -253,8 +249,8 @@ describe("useThemeStore", () => {
     const theme = useThemeStore();
     theme.init();
     expect(theme.primary).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
+    expect(window.localStorage.getItem(primaryKeys().light)).toBeNull();
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBeNull();
     theme.setTheme("light");
     expect(theme.primary).toBe("black");
     theme.setTheme("dark");
@@ -268,8 +264,8 @@ describe("useThemeStore", () => {
     theme.init();
     expect(theme.primary).toBe("green");
     expect(document.documentElement.getAttribute("data-primary")).toBe("green");
-    expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("green");
+    expect(window.localStorage.getItem(primaryKeys().light)).toBeNull();
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBeNull();
   });
 
   it("docs primary swatches include Ink + twelve accretion hues in both schemes", () => {
@@ -346,7 +342,8 @@ describe("useThemeStore", () => {
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
     expect(document.documentElement.style.colorScheme).toBe("dark");
 
-    document.documentElement.removeAttribute("data-theme");
+    theme.setTheme("light");
+    theme.setTheme("system");
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
   });

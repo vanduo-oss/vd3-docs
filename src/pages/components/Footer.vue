@@ -8,39 +8,30 @@ const sections = [
   { title: "Legal", links: ["Privacy", "Terms"] },
 ];
 
-const coreHtml = `<!-- Rendered output of &lt;VdFooter :columns="3"&gt; -->
-<footer class="vd-footer vd-footer-3col">
-  <div class="vd-footer-container">
-    <div class="vd-footer-section">
-      <h4 class="vd-footer-heading">Product</h4>
+const exampleSections = sections
+  .map(
+    ({ title, links }) => `    <div class="vd-footer-section">
+      <h4 class="vd-footer-heading">${title}</h4>
       <ul class="vd-footer-list">
-        <li class="vd-footer-list-item"><a class="vd-footer-link" href="#">Docs</a></li>
-        <li class="vd-footer-list-item"><a class="vd-footer-link" href="#">Components</a></li>
+${links.map((link) => `        <li class="vd-footer-list-item"><a class="vd-footer-link" href="#">${link}</a></li>`).join("\n")}
       </ul>
-    </div>
-    <div class="vd-footer-copyright">© 2026 vd3</div>
+    </div>`,
+  )
+  .join("\n");
+const coreHtml = `<footer class="vd-footer vd-footer-3col">
+  <div class="vd-footer-container">
+${exampleSections}
+    <div class="vd-footer-copyright">© 2026 vd3 — built with vd3.</div>
   </div>
 </footer>`;
-
 const vue3Usage = `<script setup lang="ts">
 import { VdFooter } from "@vanduo-oss/vd3";
 <\/script>
 
 <template>
   <VdFooter :columns="3">
-    <div class="vd-footer-section">
-      <h4 class="vd-footer-heading">Product</h4>
-      <ul class="vd-footer-list">
-        <li class="vd-footer-list-item">
-          <a class="vd-footer-link" href="/docs">Docs</a>
-        </li>
-        <li class="vd-footer-list-item">
-          <a class="vd-footer-link" href="/components">Components</a>
-        </li>
-      </ul>
-    </div>
-
-    <template #copyright>© 2026 vd3</template>
+${exampleSections}
+    <template #copyright>© 2026 vd3 — built with vd3.</template>
   </VdFooter>
 </template>`;
 
@@ -157,7 +148,7 @@ const apiRows: [string, string, string][] = [
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Footer Demo</h6></div>
+          <div class="vd-card-header"><h6>Three-column footer</h6></div>
           <div class="vd-card-body">
             <div
               class="demo-footer-container"
@@ -193,6 +184,11 @@ const apiRows: [string, string, string][] = [
         </div>
       </div>
     </div>
+
+    <p class="vd-text-sm vd-text-muted vd-mb-6">
+      Columns sit side by side from 768px and stack on smaller screens; the
+      copyright row spans the footer.
+    </p>
 
     <!-- Dark Variant Demo -->
     <div class="vd-row vd-mb-6">

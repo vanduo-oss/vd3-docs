@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VdSeparator } from "@vanduo-oss/vd3";
 import Vd3Mark from "@/components/Vd3Mark.vue";
 import {
   VD3_COMPONENT_EXPORTS,
@@ -44,7 +45,7 @@ import "@/styles/hero-display-font.css";
           A Vue 3 design system and component library
         </p>
 
-        <hr class="about-divider" />
+        <VdSeparator variant="gradient" class="about-divider" />
 
         <div class="about-intro-body">
           <h3>What it is</h3>
@@ -61,7 +62,7 @@ import "@/styles/hero-display-font.css";
             build-time runtime, and no global setup to wire up first.
           </p>
 
-          <hr class="about-divider" />
+          <VdSeparator variant="gradient" class="about-divider" />
 
           <h3>How it's built</h3>
           <ul>
@@ -88,7 +89,7 @@ import "@/styles/hero-display-font.css";
             </li>
           </ul>
 
-          <hr class="about-divider" />
+          <VdSeparator variant="gradient" class="about-divider" />
 
           <h3>What you get</h3>
           <ul>
@@ -107,7 +108,7 @@ import "@/styles/hero-display-font.css";
             </li>
           </ul>
 
-          <hr class="about-divider" />
+          <VdSeparator variant="gradient" class="about-divider" />
 
           <h3>Open source</h3>
           <p>
@@ -162,16 +163,7 @@ import "@/styles/hero-display-font.css";
 }
 
 .about-divider {
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--vd-color-primary),
-    var(--vd-color-info)
-  );
-  border: none;
-  margin: 2.5rem auto;
-  border-radius: 2px;
+  --vd-separator-spacing: 2.5rem;
 }
 
 .about-intro-body p {

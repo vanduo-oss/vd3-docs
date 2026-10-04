@@ -29,7 +29,7 @@ import { useUnlockDockNarrowLock } from "@/composables/useUnlockDockNarrowLock";
 
 useUnlockDockNarrowLock();
 
-const { dockTint: themeTint } = useDocsColorScheme();
+const { dockAccent: themeTint } = useDocsColorScheme();
 const tintFollowsTheme = ref(true);
 
 const orientation = ref<DockOrientation>("horizontal");
@@ -136,6 +136,7 @@ const placement = ref("${placement.value}");
     :glass="${glass.value}"
     radius="${radius.value}"
     item-layout="${itemLayout.value}"${tintLine}
+    tint-mode="${tintMode.value}"
   >
     <template #brand>
       <!-- Swap ū for any logo, Phosphor icon, or wordmark -->
@@ -198,7 +199,7 @@ const vue3Api: [string, string][] = [
   ],
   [
     ":tintMode",
-    '"surface" (default) paints the pill with :tint. "accent" holds the pill at constant ink and only publishes --vd-dock-tint, so items and the #brand slot carry the hue. No effect without :tint.',
+    '"surface" (default) paints the pill with :tint. "accent" holds the pill at constant ink and colors the active item icon and the #brand slot through --vd-dock-tint. No effect without :tint.',
   ],
   [":glass", "Seemore step 1 | 2 | 3 | 5 | 8 | 13 | 21 | 34 (default 34)."],
   [
@@ -467,7 +468,7 @@ const itemApi: [string, string][] = [
                 :key="hue"
                 class="dock-stage dock-stage-sm"
               >
-                <VdDock position="contained" :tint="hue">
+                <VdDock position="contained" :tint="hue" :brand-toggles="false">
                   <template #brand>
                     <OolaUMark :size="22" />
                   </template>
@@ -492,15 +493,19 @@ const itemApi: [string, string][] = [
               <code>tintMode</code> decides what <code>:tint</code> paints.
               <code>surface</code> (the default, left) washes the pill itself.
               <code>accent</code> (right) holds the pill at constant ink and
-              only publishes <code>--vd-dock-tint</code>, so the hue lands on
-              the active item and the <code>#brand</code> slot while the glass
-              stays neutral. That is what this site's own dock uses — chrome
-              that sits over changing page content reads better when only the
-              icons move with the theme.
+              uses <code>--vd-dock-tint</code> to color the active item icon and
+              the <code>#brand</code> slot while the glass stays neutral. That
+              is what this site's own dock uses — chrome that sits over changing
+              page content reads better when only the icons move with the theme.
             </p>
             <div class="dock-tint-grid">
               <div class="dock-stage dock-stage-sm">
-                <VdDock position="contained" tint="violet" tint-mode="surface">
+                <VdDock
+                  position="contained"
+                  tint="violet"
+                  tint-mode="surface"
+                  :brand-toggles="false"
+                >
                   <template #brand>
                     <OolaUMark :size="22" />
                   </template>
@@ -509,7 +514,12 @@ const itemApi: [string, string][] = [
                 </VdDock>
               </div>
               <div class="dock-stage dock-stage-sm">
-                <VdDock position="contained" tint="violet" tint-mode="accent">
+                <VdDock
+                  position="contained"
+                  tint="violet"
+                  tint-mode="accent"
+                  :brand-toggles="false"
+                >
                   <template #brand>
                     <OolaUMark :size="22" />
                   </template>

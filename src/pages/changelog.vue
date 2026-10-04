@@ -58,6 +58,72 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
+        <article class="version-card" id="vd3-1-7-5">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.7.5</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>October 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <p>Compatible fixes to the existing design system.</p>
+            <ul>
+              <li>
+                Opt out of automatic theme storage at bootstrap with
+                <code>themePersistence: false</code>; ordinary library
+                persistence remains the default.
+              </li>
+              <li>
+                Customizer fans report committed selections separately from
+                hover previews with <code>select:primary</code>.
+              </li>
+              <li>
+                Dock accent mode colors the brand and active icon; footer
+                columns lay out inside the wrapper and dark footer text stays
+                readable. Closed mobile Navbar menus stay hidden and within
+                bounds; desktop links remain exposed to assistive technology.
+              </li>
+              <li>
+                <code>VdSeparator</code> adds an optional theme-aware gradient
+                variant.
+              </li>
+              <li>
+                Primary and status RGB helpers follow the active palette; dark
+                alpha accents follow the selected primary.
+              </li>
+              <li>
+                Fibonacci light-theme hover fills use readable foreground
+                colors.
+              </li>
+              <li>
+                Open target-panel popovers follow scrolling and resizing
+                anchors, including when flipping is disabled. Dismissal keeps
+                ARIA closed if a positioning frame is still pending.
+              </li>
+              <li>
+                Standalone TypeScript linting, full-source coverage, CSS import
+                integrity, package size checks and typed recipes strengthen
+                release checks.
+              </li>
+              <li>
+                Public API and SSR guidance clarify shared module state and
+                storage-prefix limits.
+              </li>
+              <li>
+                Release tooling documents an exception for one unpatched
+                development dependency advisory, <code>CVE-2026-93687</code>;
+                all other moderate+ audit checks remain enabled.
+              </li>
+            </ul>
+          </div>
+        </article>
         <article class="version-card">
           <header class="version-header">
             <span
@@ -68,9 +134,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>September 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -339,9 +402,8 @@ useAffix(root);
                   <strong>Global search palette</strong> — site-wide Cmd+K modal
                   with grouped results, keyboard navigation, and an
                   engine-agnostic adapter hook for hybrid or REST backends. Plus
-                  the Oola dock chrome this site had been forking locally:
-                  accent tinting, the primary-only swatches fan, and delayed
-                  dock tooltips.
+                  new Oola dock capabilities: accent tinting, the primary-only
+                  swatches fan, and delayed dock tooltips.
                 </p>
                 <div class="change-group">
                   <h5>New</h5>
@@ -383,8 +445,7 @@ useAffix(root);
                           holds the pill at constant ink and leaves
                           <code>--vd-dock-tint</code> for items and the brand
                           slot to consume, so the hue reads on the icons instead
-                          of the glass. This site's dock now uses it in place of
-                          a local inline-style override. See
+                          of the glass. See
                           <RouterLink to="/components/dock"
                             ><code>/components/dock</code></RouterLink
                           >.

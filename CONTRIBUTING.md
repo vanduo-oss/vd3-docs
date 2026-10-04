@@ -45,12 +45,13 @@ pnpm run test:size       # Initial JS/CSS dependency graph: home 375, docs 400 K
 
 `ci.yml` is one job, `timeout-minutes: 20`: typecheck, lint, stylelint,
 format, build, unit tests, search corpus check, size budget, and Chromium
-`test:smoke` (global search, docs navigation, and CBUN flowchart breakpoints). The full visual-parity suite and the broader
+`test:smoke` (global search, docs navigation, and CBUN flowchart breakpoints)
+and `test:theme` (rendered theme colors and contrast). The full visual-parity suite and the broader
 accessibility matrix stay local (`pnpm run test:e2e` / `test:a11y`).
 
 `deploy.yml` build job is `timeout-minutes: 25` and also runs `test:a11y`.
-GitHub bills minutes used. Neither workflow has been run remotely for
-`dev-v176`.
+GitHub bills minutes used. Run remote workflows only as part of an authorized
+merge or release.
 
 ## Security Rules
 
@@ -153,3 +154,24 @@ Internal coordination happens in OpenSpec change folders and in
 [`@vanduo-oss/vd3`](https://github.com/vanduo-oss/vd3),
 [`@vanduo-oss/vd3-charts`](https://github.com/vanduo-oss/vd3-charts),
 [`@vanduo-oss/vd3-flowchart`](https://github.com/vanduo-oss/vd3-flowchart).
+
+## Coordinated library QA
+
+Use a development branch in both repositories. Build the sibling vd3 first, then
+stage its published files so Vite, vue-tsc, Vitest and declaration checks all read
+the same artifact (Vite aliases alone do not cover every checker):
+
+```sh
+node scripts/local-vd3.mjs stage
+pnpm typecheck && pnpm test && pnpm build
+pnpm test:content && pnpm test:size && pnpm test:theme
+# Run affected interactions and visually review any changed screenshots.
+node scripts/local-vd3.mjs restore
+```
+
+The script changes only ignored local files and the installed package symlink.
+Do not install dependencies while staged. Restore before release; keep registry
+pins and the lockfile committed. Set VD3_SOURCE to use another library checkout.
+Button and Accordion examples are real SFCs under src/examples; their displayed
+source is imported with ?raw, so the displayed code is typechecked and rendered.
+After changing searchable page content, run pnpm search:refresh and test:content.

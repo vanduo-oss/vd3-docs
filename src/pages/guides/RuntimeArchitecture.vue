@@ -13,8 +13,8 @@ const layers: {
   {
     n: "1",
     icon: "ph-palette",
-    title: "Design tokens (DTCG)",
-    desc: "DTCG JSON defines color scales and theme metadata.",
+    title: "Design tokens",
+    desc: "DTCG-style JSON defines color scales and theme metadata. The exported JSON is a flat CSS-variable map, not a DTCG interchange document.",
   },
   {
     n: "2",
@@ -42,6 +42,10 @@ const entryPoints: [string, string][] = [
     "@vanduo-oss/vd3",
     "Named components, composables, the optional configuration plugin, and types.",
   ],
+  [
+    "@vanduo-oss/vd3/highlight",
+    "Optional dependency-free highlightCode / highlight helpers.",
+  ],
   ["@vanduo-oss/vd3/css", "Full CSS, including icons. Import once."],
   [
     "@vanduo-oss/vd3/css/core",
@@ -57,7 +61,7 @@ const buildChain = `# How the package is built (you consume the prebuilt dist/)
 clean-dist         # wipe dist/
 build-tokens.mjs   # DTCG JSON  ->  generated color CSS + tokens.json
 build-css.mjs      # inline every layer  ->  vd3.min.css (+ core, icon-free)
-vite build         # SFCs  ->  ESM/CJS barrel
+vite build         # SFCs + optional highlighter -> ESM/CJS entries
 vue-tsc            # emit .d.ts types
 check-class-coverage.mjs   # verify every documented class ships`;
 

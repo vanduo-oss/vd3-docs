@@ -44,6 +44,7 @@ jobs:
       - name: Install Chromium for the focused browser smoke
         run: pnpm exec playwright install --with-deps chromium
       - run: pnpm run test:smoke
+      - run: pnpm run test:theme
 
       # The full visual and accessibility matrix remains a required local QA
       # step; this job runs focused search/navigation/responsive browser cases.

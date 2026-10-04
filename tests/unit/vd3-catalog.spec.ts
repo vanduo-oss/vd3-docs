@@ -21,7 +21,6 @@ describe("vd3 catalog constants", () => {
       global: {
         stubs: {
           RouterLink: true,
-          HomeOolaSection: true,
           Vd3Mark: true,
         },
       },

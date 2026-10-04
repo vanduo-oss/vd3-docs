@@ -16,9 +16,13 @@ describe("package changelog", () => {
     expect(columns).toHaveLength(3);
 
     const vd3Cards = columns[0].findAll(".version-card");
-    expect(headerText(vd3Cards[0])).toContain("v1.7.4");
+    expect(vd3Cards[0].attributes("id")).toBe("vd3-1-7-5");
+    expect(headerText(vd3Cards[0])).toContain("v1.7.5");
+    expect(headerText(vd3Cards[0])).toContain("October 2026");
+    expect(vd3Cards[0].text()).not.toContain("not published");
+    expect(vd3Cards[0].text()).not.toContain("release candidate");
     expect(headerText(vd3Cards[0])).toContain("Latest");
-    expect(headerText(vd3Cards[1])).toContain("v1.7.3");
+    expect(headerText(vd3Cards[1])).toContain("v1.7.4");
     expect(headerText(vd3Cards[1])).not.toContain("Latest");
     expect(headerText(vd3Cards.at(-1)!)).toContain("v1.0.0");
     expect(headerText(vd3Cards.at(-1)!)).toContain("Initial");
@@ -56,12 +60,12 @@ describe("package changelog", () => {
     ).toHaveLength(1);
     expect(columns[2].text()).toContain("@vanduo-oss/vd3-flowchart");
 
-    expect(wrapper.findAll(".changelog-col-title").map((t) => t.text())).toEqual(
-      [
-        "@vanduo-oss/vd3",
-        "@vanduo-oss/vd3-charts",
-        "@vanduo-oss/vd3-flowchart",
-      ],
-    );
+    expect(
+      wrapper.findAll(".changelog-col-title").map((t) => t.text()),
+    ).toEqual([
+      "@vanduo-oss/vd3",
+      "@vanduo-oss/vd3-charts",
+      "@vanduo-oss/vd3-flowchart",
+    ]);
   });
 });

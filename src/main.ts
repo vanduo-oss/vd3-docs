@@ -42,12 +42,13 @@ export const createApp = ViteSSG(
     const navigation = createNavigation(router, isClient);
     app.provide(navigationKey, navigation);
     app.onUnmount(navigation.dispose);
-    // Docs first-paint defaults: Ink in light, published `blue` in dark.
+    // Docs first-paint defaults: Ink in light, logo green in dark.
     // Per-scheme primaries are persisted in the theme store. Per-mode neutral
     // (stone in light, charcoal in dark) is also handled there; the engine has
     // no NEUTRAL_DARK default. Dark + green still gets logo-green accent pins
     // in docs.css when the user picks green.
     app.use(VanduoVue, {
+      themePersistence: false,
       themeDefaults: {
         PRIMARY_LIGHT: DOCS_DEFAULT_PRIMARY_LIGHT,
         PRIMARY_DARK: DOCS_DEFAULT_PRIMARY_DARK,

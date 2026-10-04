@@ -11,8 +11,8 @@ type DockEdge = "bottom" | "top" | "left" | "right";
 
 /**
  * Docs-site lock-in around the package swatches fan: only Primary Color is
- * user-editable here. Palette / Neutral / Radius / Font stay forced to docs
- * defaults, so the fan runs controlled — `primary` in, `update:primary` out
+ * user-editable here. Only committed dock choices are saved; other controls are temporary
+ * previews, so the fan runs controlled — `primary` in, `update:primary` out
  * through the store, which clamps to the docs-allowed hues (Ink + twelve
  * accretion fan hues) instead of writing the package's `useThemePreference()`
  * singleton.
@@ -94,6 +94,7 @@ defineExpose({
     :direction="direction"
     :primary="theme.primary"
     v-bind="dockTooltipBind"
-    @update:primary="theme.setPrimary"
+    @update:primary="theme.previewPrimary"
+    @select:primary="theme.setPrimary"
   />
 </template>
