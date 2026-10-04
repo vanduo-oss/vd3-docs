@@ -2,7 +2,6 @@
 import { reactive, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { useMorph } from "@vanduo-oss/vd3";
-import HomeOolaSection from "@/components/HomeOolaSection.vue";
 import Vd3Mark from "@/components/Vd3Mark.vue";
 import {
   VD3_COMPONENT_EXPORTS,
@@ -12,8 +11,8 @@ import { HERO_LOGO_FX, vd3MarkSize } from "@/utils/logoFx";
 import "@/styles/logo-fx.css";
 import "@/styles/hero-display-font.css";
 
-/** Previous hero mark was 2.5em — scaled up 2.5× for the home hero. */
-const HERO_MARK_EM = 6.25;
+/** Shrink the established home hero mark by 5%. */
+const HERO_MARK_EM = 6.25 * 0.95;
 
 interface Feature {
   icon: string;
@@ -44,7 +43,7 @@ const features: Feature[] = [
     icon: "ph-database",
     title: "One Source of Truth",
     teaser: "Change one token; the whole system re-skins.",
-    body: "Shared CSS variables keep components, charts, and flowchart in the same theme. DTCG JSON is available for tooling.",
+    body: "Shared CSS variables keep components, charts, and flowchart in the same theme. Exported token JSON is available for tooling.",
     guide: { to: "/guides/css-variables", label: "CSS Variables & Theming" },
   },
   {
@@ -228,11 +227,19 @@ const swatches = [
                 class="hero-title-logo-stage logo-fx-tile"
                 :data-fx="HERO_LOGO_FX"
               >
-                <Vd3Mark :size="vd3MarkSize(HERO_MARK_EM)" />
+                <Vd3Mark
+                  :size="`calc(${vd3MarkSize(HERO_MARK_EM)} * var(--hero-mark-scale, 1))`"
+                />
               </span>
             </span>
-            <span class="hero-title-text">
-              <span class="hero-title-brand">vd3</span>
+            <span class="hero-title-copy">
+              <span class="hero-title-text">
+                <span class="hero-title-brand">vd3</span>
+                <span class="hero-title-ui">UI</span>
+              </span>
+              <span class="hero-tagline">
+                A Vue 3 design system and component library
+              </span>
             </span>
           </h2>
           <div class="vd-mt-6 hero-cta-buttons">
@@ -321,62 +328,6 @@ const swatches = [
         </div>
       </div>
     </div>
-
-    <!-- Seemore Glass story -->
-    <section
-      id="home-seemore"
-      class="seemore-home"
-      aria-labelledby="seemore-home-title"
-    >
-      <div class="vd-container-responsive seemore-home-inner">
-        <div class="vd-row" style="align-items: center">
-          <div class="vd-col-12 vd-col-lg-5">
-            <h2 id="seemore-home-title" class="seemore-home-title">
-              Seemore Glass
-            </h2>
-            <p class="seemore-home-lead">
-              <strong>Seemore Glass</strong>: every strength step follows the
-              Fibonacci sequence — the same harmonic spine as vd3’s spacing,
-              radius, and golden-ratio DNA — so blur, tint, edge, and elevation
-              thicken together as one material.
-            </p>
-            <p class="seemore-home-lead vd-text-muted">
-              Pair it with decorative Surfaces (mesh, stripe, noise, aurora,
-              dots, grid) and your frosted UI finally has a stage worthy of the
-              frost.
-            </p>
-            <div class="seemore-home-cta">
-              <RouterLink
-                to="/effects/glass"
-                class="vd-btn vd-btn-outline vd-btn-ring"
-              >
-                Explore Seemore Glass
-              </RouterLink>
-              <RouterLink to="/effects/surfaces" class="vd-btn vd-btn-ink">
-                Browse Surfaces
-              </RouterLink>
-            </div>
-          </div>
-          <div class="vd-col-12 vd-col-lg-7">
-            <div
-              class="vd-surface vd-surface-stripe vd-surface-5 seemore-surface-motion seemore-home-stage"
-            >
-              <div
-                class="vd-glass vd-glass-8 vd-glass-adaptive vd-glass-floating seemore-home-panel"
-              >
-                <span class="seemore-home-kicker">.vd-glass-8</span>
-                <p>
-                  Fibonacci step eight — navigation-grade frost over a live
-                  <code>.vd-surface-stripe</code> backdrop.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <HomeOolaSection />
 
     <div class="vd-container-responsive">
       <!-- Icons Overview -->
@@ -528,99 +479,39 @@ const swatches = [
   scroll-margin-top: var(--docs-main-offset);
 }
 
-@media (min-width: 992px) {
-  #home-icons {
-    /* The rotated dock fan extends below its sticky presentation frame. */
-    padding-top: 10rem;
-  }
-}
-
-.seemore-home {
-  padding: 4.5rem 0 3.5rem;
-  background:
-    radial-gradient(
-      ellipse 70% 60% at 85% 20%,
-      color-mix(in srgb, var(--vd-color-primary) 14%, transparent),
-      transparent 55%
-    ),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--vd-bg-secondary) 55%, transparent),
-      transparent
-    );
-}
-.seemore-home-title {
-  font-weight: 400;
-  margin: 0 0 1rem;
-  font-size: clamp(1.85rem, 3.2vw, 2.75rem);
-  line-height: 1.15;
-  color: var(--vd-color-primary);
-}
-.seemore-home-lead {
-  margin: 0 0 1rem;
-  font-size: 1.05rem;
-  line-height: 1.55;
-  max-width: 36rem;
-}
-.seemore-home-cta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  /* Extra room for 2px ring + 6px gap on the primary CTA */
-  gap: 1.25rem;
-  margin-top: 1.5rem;
-}
-
-.seemore-home-cta .vd-btn + .vd-btn {
-  margin-left: 0;
-}
-
-@media (max-width: 991px) {
-  .seemore-home-cta {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
-    width: 100%;
-  }
-
-  .seemore-home-cta .vd-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    align-self: center;
-    width: 100%;
-    box-sizing: border-box;
-  }
-}
-
-.seemore-home-stage {
-  min-height: 16rem;
-  border-radius: var(--vd-radius-fib-8, 0.75rem);
-  padding: 1.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
-.seemore-home-panel {
-  max-width: 22rem;
-  width: 100%;
-  border-radius: var(--vd-radius-fib-8, 0.75rem);
-  padding: 1.35rem 1.5rem;
-}
-.seemore-home-kicker {
-  display: inline-block;
-  margin-bottom: 0.5rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+.hero-title-ui {
+  color: var(--vd-text-muted);
+  font-size: 1.2em;
+  line-height: 1;
   text-transform: uppercase;
-  color: var(--vd-color-primary);
 }
-@media (min-width: 992px) {
-  .seemore-home-stage {
-    margin-top: 0;
+
+.hero-title-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 100%;
+  text-align: left;
+}
+
+.hero-tagline {
+  margin-top: 0.5rem;
+  font-family: var(--vd-font-family-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-transform: none;
+  color: var(--vd-text-secondary);
+}
+
+@media (max-width: 600px) {
+  .hero-title {
+    --hero-mark-scale: 0.9;
+  }
+
+  .hero-title-copy {
+    align-items: center;
+    text-align: center;
   }
 }
 </style>

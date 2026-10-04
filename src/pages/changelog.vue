@@ -58,12 +58,10 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
-        <article class="version-card" id="vd3-unreleased">
+        <article class="version-card" id="vd3-1-7-5">
           <header class="version-header">
-            <span class="vd-badge vd-badge-primary">Unreleased</span>
-            <span class="vd-text-muted"
-              >Development preview · not published</span
-            >
+            <span class="vd-badge vd-badge-primary">v1.7.5</span>
+            <span class="vd-text-muted">Release candidate · not published</span>
           </header>
           <div class="version-body">
             <p>Compatible fixes to the existing design system.</p>
@@ -109,10 +107,15 @@ useAffix(root);
                 Public API and SSR guidance clarify shared module state and
                 storage-prefix limits.
               </li>
+              <li>
+                Release tooling documents an exception for one unpatched
+                development dependency advisory, <code>CVE-2026-93687</code>;
+                all other moderate+ audit checks remain enabled.
+              </li>
             </ul>
             <p class="vd-text-muted">
-              The latest published release remains v1.7.4. These changes are
-              awaiting review and release.
+              Package release candidate. The latest published release remains
+              v1.7.4 until v1.7.5 is published.
             </p>
           </div>
         </article>
@@ -397,9 +400,8 @@ useAffix(root);
                   <strong>Global search palette</strong> — site-wide Cmd+K modal
                   with grouped results, keyboard navigation, and an
                   engine-agnostic adapter hook for hybrid or REST backends. Plus
-                  the Oola dock chrome this site had been forking locally:
-                  accent tinting, the primary-only swatches fan, and delayed
-                  dock tooltips.
+                  new Oola dock capabilities: accent tinting, the primary-only
+                  swatches fan, and delayed dock tooltips.
                 </p>
                 <div class="change-group">
                   <h5>New</h5>
@@ -441,8 +443,7 @@ useAffix(root);
                           holds the pill at constant ink and leaves
                           <code>--vd-dock-tint</code> for items and the brand
                           slot to consume, so the hue reads on the icons instead
-                          of the glass. This site's dock now uses it in place of
-                          a local inline-style override. See
+                          of the glass. See
                           <RouterLink to="/components/dock"
                             ><code>/components/dock</code></RouterLink
                           >.

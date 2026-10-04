@@ -15,13 +15,13 @@ describe("package changelog", () => {
     const columns = wrapper.findAll(".changelog-col");
     expect(columns).toHaveLength(3);
 
-    const preview = columns[0].find("#vd3-unreleased");
-    expect(preview.text()).toContain("Unreleased");
+    const preview = columns[0].find("#vd3-1-7-5");
+    expect(preview.text()).toContain("v1.7.5");
     expect(preview.text()).toContain("not published");
     expect(headerText(preview)).not.toContain("Latest");
     const vd3Cards = columns[0]
       .findAll(".version-card")
-      .filter((card) => card.attributes("id") !== "vd3-unreleased");
+      .filter((card) => card.attributes("id") !== "vd3-1-7-5");
     expect(headerText(vd3Cards[0])).toContain("v1.7.4");
     expect(headerText(vd3Cards[0])).toContain("Latest");
     expect(headerText(vd3Cards[1])).toContain("v1.7.3");
