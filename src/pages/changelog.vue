@@ -58,6 +58,53 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
+        <article class="version-card" id="vd3-1-7-6">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.7.6</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>October 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <p>
+              Runtime hardening for sanitized HTML installation and lazy-load
+              cleanup.
+            </p>
+            <ul>
+              <li>
+                Lazy-loaded responses and caller-supplied placeholders are
+                sanitized in a detached document, then installed with
+                <code>replaceChildren</code> instead of assigning untrusted
+                markup to <code>innerHTML</code>. Non-DOM environments fail
+                closed to escaped text.
+              </li>
+              <li>
+                Sanitized content follows the element and attribute allowlists:
+                event handlers and <code>style</code> are removed by default,
+                while explicitly allowed styles retain the sanitizer’s
+                dangerous-value scrub.
+              </li>
+              <li>
+                Each <code>useLazyLoad</code> instance owns its observers, fetch
+                abort controllers, and timers; unmount now disconnects
+                observations, aborts in-flight requests, and clears pending
+                timeouts.
+              </li>
+              <li>
+                Development dependencies and audit handling were refreshed while
+                retaining narrow exceptions for reviewed, development-only
+                advisories.
+              </li>
+            </ul>
+          </div>
+        </article>
         <article class="version-card" id="vd3-1-7-5">
           <header class="version-header">
             <span
@@ -68,9 +115,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>October 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <p>Compatible fixes to the existing design system.</p>
