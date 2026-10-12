@@ -1,17 +1,56 @@
 import { chromium } from "@playwright/test";
 import { createServer } from "node:http";
-import { readFileSync, existsSync, writeFileSync } from "node:fs";
-import { resolve, extname } from "node:path";
+import { readFileSync, writeFileSync, statSync, readdirSync } from "node:fs";
+import { resolve, extname, relative, sep, join } from "node:path";
 import { gzipSync } from "node:zlib";
 import { cpus, platform, arch } from "node:os";
 
 // Production files only. Gzip, browser cache, and click-to-next-frame timings;
 // no dev server transformations or Playwright polling time in the measurement.
-const root = resolve(process.argv[2] || "dist");
-const output = process.argv[3];
+//
+// Trust boundary: local CLI only. Serves a caller-selected dist tree over
+// loopback HTTP (required so Chromium can measure navigation). The request
+// handler only looks up URL keys in a prebuilt allowlist of files under that
+// root — request input never flows into filesystem APIs.
+const rootArg = process.argv[2] || "dist";
+if (rootArg !== "dist") {
+  throw new Error(`Unsupported benchmark root: ${rootArg}`);
+}
+const root = resolve("dist");
+
+const outputArg = process.argv[3];
+const reviewFolder = "reviews/2026-09-20-navigation";
+let output;
+switch (outputArg) {
+  case "/tmp/vd3-hybrid.json":
+    output = "/tmp/vd3-hybrid.json";
+    break;
+  case `${reviewFolder}/baseline.json`:
+    output = resolve(reviewFolder, "baseline.json");
+    break;
+  case `${reviewFolder}/baseline-settled.json`:
+    output = resolve(reviewFolder, "baseline-settled.json");
+    break;
+  case `${reviewFolder}/eager.json`:
+    output = resolve(reviewFolder, "eager.json");
+    break;
+  case `${reviewFolder}/hybrid-imports.json`:
+    output = resolve(reviewFolder, "hybrid-imports.json");
+    break;
+  case `${reviewFolder}/hybrid-final.json`:
+    output = resolve(reviewFolder, "hybrid-final.json");
+    break;
+  case `${reviewFolder}/hybrid-settled.json`:
+    output = resolve(reviewFolder, "hybrid-settled.json");
+    break;
+  default:
+    throw new Error(
+      "Usage: node benchmark.mjs dist <approved-output.json> [--settled]",
+    );
+}
 const settled = process.argv.includes("--settled");
-if (!output) throw new Error("Usage: node benchmark.mjs <dist> <output.json>");
-const cache = new Map();
+
+const MAX_ASSET_BYTES = 8 * 1024 * 1024;
 const mime = {
   ".html": "text/html",
   ".js": "text/javascript",
@@ -20,28 +59,98 @@ const mime = {
   ".svg": "image/svg+xml",
   ".woff2": "font/woff2",
 };
+
+/** @type {Map<string, { body: Buffer, type: string, cacheable: boolean }>} */
+const assets = new Map();
+
+function indexDist(dir) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const abs = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      indexDist(abs);
+      continue;
+    }
+    if (!entry.isFile()) continue;
+    const rel = relative(root, abs).split(sep).join("/");
+    if (statSync(abs).size > MAX_ASSET_BYTES) continue;
+    const raw = readFileSync(abs);
+    // Retain the post-read check in case a local build rewrites an asset
+    // between the metadata check and the read.
+    if (raw.byteLength > MAX_ASSET_BYTES) continue;
+    const type = mime[extname(abs)] || "application/octet-stream";
+    const record = {
+      body: gzipSync(raw),
+      type,
+      cacheable: rel.startsWith("assets/"),
+    };
+    assets.set(`/${rel}`, record);
+    if (rel.endsWith(".html")) {
+      assets.set(`/${rel.slice(0, -".html".length)}`, record);
+    }
+  }
+}
+
+if (!statSync(root).isDirectory()) {
+  throw new Error(`Benchmark dist root is not a directory: ${root}`);
+}
+indexDist(root);
+if (assets.has("/index.html")) assets.set("/", assets.get("/index.html"));
+
 const server = createServer((req, res) => {
-  let pathname = decodeURIComponent(
-    new URL(req.url, "http://localhost").pathname,
-  );
-  if (pathname === "/") pathname = "/index.html";
-  if (!extname(pathname)) pathname += ".html";
-  const file = resolve(root, "." + pathname);
-  if (!file.startsWith(root + "/") || !existsSync(file)) {
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    res.writeHead(405, { Allow: "GET, HEAD" }).end();
+    return;
+  }
+
+  let pathname;
+  try {
+    pathname = decodeURIComponent(
+      new URL(req.url, "http://127.0.0.1").pathname,
+    );
+  } catch {
+    res.writeHead(400).end();
+    return;
+  }
+  if (pathname.includes("\0") || pathname.includes("..")) {
+    res.writeHead(400).end();
+    return;
+  }
+
+  // Exact key match against the prebuilt allowlist (no path join from the URL).
+  let asset = null;
+  for (const [key, value] of assets) {
+    if (key === pathname) {
+      asset = value;
+      break;
+    }
+  }
+  if (!asset) {
     res.writeHead(404).end();
     return;
   }
-  if (!cache.has(file)) cache.set(file, gzipSync(readFileSync(file)));
+
+  const { body, type, cacheable } = asset;
   res.writeHead(200, {
-    "Content-Type": mime[extname(file)] || "application/octet-stream",
+    "Content-Type": type,
     "Content-Encoding": "gzip",
-    "Cache-Control": pathname.startsWith("/assets/")
+    "Content-Length": body.byteLength,
+    "Cache-Control": cacheable
       ? "public, max-age=31536000, immutable"
       : "no-cache",
+    "X-Content-Type-Options": "nosniff",
+    "Content-Security-Policy":
+      "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:; connect-src 'self'",
+    "Referrer-Policy": "no-referrer",
   });
-  res.end(cache.get(file));
+  if (req.method === "HEAD") {
+    res.end();
+    return;
+  }
+  res.end(body);
 });
-await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+await new Promise((resolveListen) =>
+  server.listen(0, "127.0.0.1", resolveListen),
+);
 const base = `http://127.0.0.1:${server.address().port}`;
 const browser = await chromium.launch();
 const results = {
@@ -193,5 +302,5 @@ try {
   writeFileSync(output, JSON.stringify(results, null, 2) + "\n");
 } finally {
   await browser.close();
-  await new Promise((resolve) => server.close(resolve));
+  await new Promise((resolveClose) => server.close(resolveClose));
 }

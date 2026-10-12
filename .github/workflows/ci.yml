@@ -31,6 +31,10 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Fail on moderate+ advisories except the approved braces exception.
+      # CVE-2026-93687 scope, rationale and removal: SECURITY-AUDIT.md
+      - run: pnpm audit --audit-level=moderate --ignore GHSA-vfj7-8cjw-p6xm
+
       - run: pnpm run typecheck
       - run: pnpm run lint
       - run: pnpm run stylelint
