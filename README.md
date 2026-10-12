@@ -28,7 +28,9 @@ route) and is `private` — it is **not** published to npm.
 
 ## Requirements
 
-- Node ≥ 24
+- Node ≥ 24. Node 24 LTS is the supported development and CI runtime; run
+  `nvm use 24` to select it with nvm. The tracked `mise.toml` is the equivalent
+  repository version pin for mise.
 - pnpm 10.28.2 (auto-provisioned via `corepack enable`)
 
 ## Install

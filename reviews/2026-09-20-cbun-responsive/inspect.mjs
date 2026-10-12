@@ -1,8 +1,25 @@
 import { chromium } from "@playwright/test";
 import { writeFileSync } from "node:fs";
 
-const phase = process.argv[2] || "before";
+const phaseArg = process.argv[2] || "before";
+if (phaseArg !== "before" && phaseArg !== "after") {
+  throw new Error(`Invalid phase "${phaseArg}". Use before or after.`);
+}
 const folder = "reviews/2026-09-20-cbun-responsive";
+const beforeScreenshots = new Map([
+  [390, `${folder}/before-390.png`],
+  [800, `${folder}/before-800.png`],
+  [1024, `${folder}/before-1024.png`],
+  [1440, `${folder}/before-1440.png`],
+]);
+const afterScreenshots = new Map([
+  [390, `${folder}/after-390.png`],
+  [800, `${folder}/after-800.png`],
+  [1024, `${folder}/after-1024.png`],
+  [1440, `${folder}/after-1440.png`],
+]);
+const screenshotPaths =
+  phaseArg === "before" ? beforeScreenshots : afterScreenshots;
 const browser = await chromium.launch();
 const rows = [];
 try {
@@ -43,16 +60,19 @@ try {
         };
       });
     rows.push({ width, ...geometry });
-    if ([390, 800, 1024, 1440].includes(width))
+    const screenshotPath = screenshotPaths.get(width);
+    if (screenshotPath)
       await page
         .locator(".cbun-flowchart-wrap")
-        .screenshot({ path: `${folder}/${phase}-${width}.png` });
+        .screenshot({ path: screenshotPath });
     await page.close();
   }
-  writeFileSync(
-    `${folder}/${phase}.json`,
-    JSON.stringify(rows, null, 2) + "\n",
-  );
+  const output = JSON.stringify(rows, null, 2) + "\n";
+  if (phaseArg === "before") {
+    writeFileSync(`${folder}/before.json`, output);
+  } else {
+    writeFileSync(`${folder}/after.json`, output);
+  }
   process.stdout.write(JSON.stringify(rows, null, 2) + "\n");
 } finally {
   await browser.close();

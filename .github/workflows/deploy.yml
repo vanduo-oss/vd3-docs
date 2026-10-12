@@ -44,6 +44,9 @@ jobs:
       # build cannot reach Pages. Custom domain vd3.vanduo.dev is served at the
       # site root, so one base-'/' build is both the gate artifact and the
       # Pages upload (a11y + size suites already assume base '/').
+      # Fail on moderate+ advisories except the reviewed, development-only
+      # braces exception documented in SECURITY-AUDIT.md.
+      - run: pnpm audit --audit-level=moderate --ignore GHSA-vfj7-8cjw-p6xm
       - run: pnpm run typecheck
 
       - name: Install Chromium for the a11y smoke
