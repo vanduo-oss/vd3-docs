@@ -368,6 +368,12 @@ html[data-theme="dark"][data-primary="black"] {
   );
   --docs-scrollbar-track: transparent;
   --vd-brand-accent: var(--vd-primary-8);
+
+  /* Ink (untinted) mark greys — shared by the site dock fallback and the
+     light-mode hero so both marks read the same. */
+  --docs-ink-mark-light: #a1a1aa;
+  --docs-ink-mark-dark: #71717a;
+  --docs-ink-mark-outer: #8a9199;
   --vd3-mark-inner-light: var(--vd-brand-accent);
   --vd3-mark-inner-dark: var(--vd-primary-9);
   --vd3-mark-outer-fill: color-mix(
@@ -378,6 +384,46 @@ html[data-theme="dark"][data-primary="black"] {
   --seemore-surface-motion-duration: 8s;
   --seemore-aurora-motion-duration: 14s;
   --seemore-noise-motion-duration: 2.5s;
+}
+
+/* Light + Ink: the hero mark follows the dock's untinted greys instead of
+   near-black --vd-primary-8/9. Covers stroke-draw (stroke uses the same vars). */
+html[data-theme="light"][data-primary="black"] .hero-title-logo-stage {
+  --vd3-mark-inner-light: color-mix(
+    in srgb,
+    var(--docs-ink-mark-light) 72%,
+    #fff
+  );
+  --vd3-mark-inner-dark: color-mix(
+    in srgb,
+    var(--docs-ink-mark-dark) 88%,
+    #000
+  );
+  --vd3-mark-outer-fill: color-mix(
+    in srgb,
+    var(--docs-ink-mark-outer) 78%,
+    #000
+  );
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme])[data-primary="black"] .hero-title-logo-stage {
+    --vd3-mark-inner-light: color-mix(
+      in srgb,
+      var(--docs-ink-mark-light) 72%,
+      #fff
+    );
+    --vd3-mark-inner-dark: color-mix(
+      in srgb,
+      var(--docs-ink-mark-dark) 88%,
+      #000
+    );
+    --vd3-mark-outer-fill: color-mix(
+      in srgb,
+      var(--docs-ink-mark-outer) 78%,
+      #000
+    );
+  }
 }
 
 .vd3-mark {
@@ -3091,6 +3137,14 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   /* Keep 90% of the previous full-span bar (cut 10%) on the long axis. */
   --vd-site-dock-length-ratio: 0.9;
+
+  /* Mark anchors — viewBox is 922×1100 centred at y=450.
+     Static: centre the visible ink bounds (y 136.6…709.8 → 423.2): 26.8/1100.
+     Spin:   centre the rotation origin (361,361):                    89/1100.
+     % of the svg's own box, so it tracks the rendered size exactly. */
+  --vd-site-dock-mark-shift-static: 2.44%;
+  --vd-site-dock-mark-shift-spin: 8.09%;
+  --vd-site-dock-mark-nudge-x: 0px;
 }
 
 /* Docs-only: deeper ink pill than package vd-dock-dark (#0a0a0a @ 90%).
@@ -3386,17 +3440,17 @@ a:hover .vd-card-interactive.vd-card-glow {
 .vd-site-dock .vd-site-dock-brand-mark {
   --vd3-mark-inner-light: color-mix(
     in srgb,
-    var(--vd-dock-tint, #a1a1aa) 72%,
+    var(--vd-dock-tint, var(--docs-ink-mark-light)) 72%,
     #fff
   );
   --vd3-mark-inner-dark: color-mix(
     in srgb,
-    var(--vd-dock-tint, #71717a) 88%,
+    var(--vd-dock-tint, var(--docs-ink-mark-dark)) 88%,
     #000
   );
   --vd3-mark-outer-fill: color-mix(
     in srgb,
-    var(--vd-dock-tint, #8a9199) 78%,
+    var(--vd-dock-tint, var(--docs-ink-mark-outer)) 78%,
     #000
   );
 
@@ -3406,11 +3460,10 @@ a:hover .vd-card-interactive.vd-card-glow {
   line-height: 0;
 }
 
-/* Horizontal edges (+ square morph waypoint): padded viewBox leaves ink mass
-   high; nudge scales with rendered mark size (0.1em was ~1.6px and did not
-   track --vd-dock-brand-size). */
-.vd-site-dock:not(.is-vertical) .vd-site-dock-brand-mark .vd3-mark {
-  transform: translateY(calc(var(--vd-dock-brand-size) * 0.075));
+.vd-site-dock .vd-site-dock-brand-mark .vd3-mark {
+  transform: translateX(var(--vd-site-dock-mark-nudge-x))
+    translateY(var(--vd-site-dock-mark-shift-static));
+  transition: transform 0.24s ease;
 }
 
 /* Brand mark: WAAPI drives --vd-site-dock-brand-angle (spin + settle). */
@@ -3428,6 +3481,10 @@ a:hover .vd-card-interactive.vd-card-glow {
 @media (prefers-reduced-motion: reduce) {
   .vd-site-dock .vd-dock-brand .vd3-mark-spin {
     --vd-site-dock-brand-angle: 0deg !important;
+  }
+
+  .vd-site-dock .vd-site-dock-brand-mark .vd3-mark {
+    transition: none;
   }
 }
 
@@ -3508,6 +3565,13 @@ a:hover .vd-card-interactive.vd-card-glow {
     --vd-dock-height: 4.65rem;
     --vd-dock-brand-size: 2.6rem;
 
+    /* Shared compact glyph sizes — nav ≈ logo ink (~22.8px), actions a hair less
+       (bold/outlined glyphs read heavier). */
+    --vd-site-dock-nav-glyph: 1.5rem;
+    --vd-site-dock-action-glyph: 1.4rem;
+    --vd-site-dock-action-btn: 2rem;
+    --vd-site-dock-mark-nudge-x: -0.2rem; /* existing left nudge, now a token */
+
     padding-inline: 0.5rem;
   }
 
@@ -3537,16 +3601,14 @@ a:hover .vd-card-interactive.vd-card-glow {
     gap: 0.35rem;
   }
 
-  /* Glyph right edge lines up with the logo svg's left edge.
-     Logo is nudged -0.2rem; the 2rem hit target is wider than the 1.05rem icon. */
+  /* Mirror the logo's leading gap on the trailing edge:
+     logo  = padding + svg side whitespace (0.2132 × size) + nudge-x
+     search = padding + (button − glyph) / 2 + margin  → solve for margin. */
   .vd-site-dock.vd-dock.is-horizontal .vd-site-dock-search {
-    margin-inline-end: calc(-0.2rem - (2rem - 1.05rem) / 2);
-  }
-
-  /* Nudge the brand toward the left edge of the pill. */
-  .vd-site-dock:not(.is-vertical) .vd-site-dock-brand-mark .vd3-mark {
-    transform: translateX(-0.2rem)
-      translateY(calc(var(--vd-dock-brand-size) * 0.075));
+    margin-inline-end: calc(
+      var(--vd-dock-brand-size) * 0.2132 + var(--vd-site-dock-mark-nudge-x) -
+        (var(--vd-site-dock-action-btn) - var(--vd-site-dock-action-glyph)) / 2
+    );
   }
 
   .vd-site-dock .vd-dock-brand {
@@ -3610,7 +3672,7 @@ a:hover .vd-card-interactive.vd-card-glow {
   }
 
   .vd-site-dock .vd-site-dock-nav-primary .vd-dock-item :is(.ph, .ph-fill) {
-    font-size: 1.9rem;
+    font-size: var(--vd-site-dock-nav-glyph);
   }
 
   .vd-site-dock-nav-primary .vd-dock-item .vd-dock-label {
@@ -3641,15 +3703,15 @@ a:hover .vd-card-interactive.vd-card-glow {
   }
 
   .vd-site-dock .vd-dock-actions button {
-    width: 2rem;
-    height: 2rem;
-    min-width: 2rem;
-    min-height: 2rem;
+    width: var(--vd-site-dock-action-btn);
+    height: var(--vd-site-dock-action-btn);
+    min-width: var(--vd-site-dock-action-btn);
+    min-height: var(--vd-site-dock-action-btn);
     font-size: 1rem;
   }
 
   .vd-site-dock .vd-dock-actions button i {
-    font-size: 1.05rem;
+    font-size: var(--vd-site-dock-action-glyph);
   }
 
   .vd-site-dock .vd-dock-actions .vd-theme-switcher,
@@ -3662,10 +3724,10 @@ a:hover .vd-card-interactive.vd-card-glow {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    min-width: 2rem;
-    min-height: 2rem;
+    width: var(--vd-site-dock-action-btn);
+    height: var(--vd-site-dock-action-btn);
+    min-width: var(--vd-site-dock-action-btn);
+    min-height: var(--vd-site-dock-action-btn);
     flex-shrink: 0;
     border: 0;
     border-radius: 0.75rem;
@@ -3698,7 +3760,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 
   .vd-site-dock .vd-dock-actions .vd-theme-switcher button i,
   .vd-site-dock .vd-dock-actions .vd-theme-customizer-trigger i {
-    font-size: 1.15rem;
+    font-size: var(--vd-site-dock-action-glyph);
     line-height: 1;
   }
 }
@@ -3719,9 +3781,10 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 /* Square morph waypoint: package centers .vd-dock-brand with inset 0.
-   Drop bar-only optical nudges on the mark so the spin reads dead center. */
+   The mark spins here, so anchor the rotation origin (361,361) — not the
+   viewBox centre — on the square's centre. No x-nudge in the square. */
 .vd-site-dock:is(.is-morphing, .is-square) .vd-site-dock-brand-mark .vd3-mark {
-  transform: none;
+  transform: translateY(var(--vd-site-dock-mark-shift-spin));
 }
 
 /* Navbar trigger button — chess-like borderless chrome (legacy demos) */

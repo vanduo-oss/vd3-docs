@@ -42,7 +42,7 @@ export const createApp = ViteSSG(
     const navigation = createNavigation(router, isClient);
     app.provide(navigationKey, navigation);
     app.onUnmount(navigation.dispose);
-    // Docs first-paint defaults: Ink in light, logo green in dark.
+    // Docs first-paint defaults: Ink in light, blue in dark.
     // Per-scheme primaries are persisted in the theme store. Per-mode neutral
     // (stone in light, charcoal in dark) is also handled there; the engine has
     // no NEUTRAL_DARK default. Dark + green still gets logo-green accent pins
