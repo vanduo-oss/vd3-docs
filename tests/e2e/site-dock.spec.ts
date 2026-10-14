@@ -7,7 +7,7 @@ async function cycleDockTo(
   edge: "bottom" | "left" | "top" | "right",
 ): Promise<void> {
   await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
-  await brand.click();
+  await brand.locator(".vd-site-dock-brand-mark").click();
   await expect(dock).toHaveClass(new RegExp(`vd-dock-edge-${edge}`), {
     timeout: 5000,
   });
@@ -28,7 +28,7 @@ test.describe("Site Oola dock chrome", () => {
     await expect(dock).toBeVisible();
     await expect(dock).toHaveClass(/vd-dock-edge-top/);
     await expect(dock).toHaveClass(/vd-dock-items-inline/);
-    await expect(dock).toHaveCSS("--vd-dock-radius", "1.5rem");
+    await expect(dock).toHaveCSS("--vd-dock-radius", "1.25rem");
     const home = dock.getByRole("button", { name: "Home" });
     const docs = dock.getByRole("button", { name: "Documentation" });
     await expect(home).toBeVisible();
@@ -518,7 +518,7 @@ test.describe("Site Oola dock chrome", () => {
       .toBe("");
 
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });
-    await brand.click({ force: true });
+    await brand.locator(".vd-site-dock-brand-mark").click({ force: true });
     await expect(dock).toHaveClass(/is-morphing/, { timeout: 2000 });
 
     const morphSpin = await brandAnimId();

@@ -543,8 +543,18 @@ html[data-theme="light"][data-primary="black"] .hero-title-logo-stage {
   overflow: visible;
 }
 
+/*
+ * Home hero: wrap matches painted ink (viewBox spheres ~631×573 of 922×1100),
+ * then 1.2× so the mark sits larger than the copy block it stays centered with.
+ * Stage scales by 1100/573 so the spheres fill the wrap, not the pad.
+ */
 #home .hero-title-logo-wrap {
-  margin-inline-end: -3.75em;
+  position: relative;
+  height: calc(var(--hero-copy-height) * 1.2);
+  width: calc(var(--hero-copy-height) * 631 / 573 * 1.2);
+  margin-inline-end: 1.1em;
+  transform: none;
+  overflow: visible;
 }
 
 .hero-title-logo-stage {
@@ -566,14 +576,26 @@ html[data-theme="light"][data-primary="black"] .hero-title-logo-stage {
 }
 
 #home .hero-title-logo-stage {
-  width: calc(
-    6.25em * var(--vd3-mark-view-size-ratio, 1.193) *
-      var(--vd3-mark-stage-scale, 1.85)
-  );
-  height: calc(
-    6.25em * var(--vd3-mark-view-size-ratio, 1.193) *
-      var(--vd3-mark-stage-scale, 1.85)
-  );
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(100% * 1100 / 573);
+  height: calc(100% * 1100 / 573);
+  transform: translate(-50%, -50%);
+}
+
+#home .hero-title-logo-stage .vd3-mark {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 0.25em 0.08em rgba(0, 0, 0, 0.16))
+    drop-shadow(0 0.5em 0.55em rgba(0, 0, 0, 0.11));
+}
+
+#home .hero-title .hero-title-text {
+  text-shadow:
+    0 0.14em 0.06em rgba(0, 0, 0, 0.16),
+    0 0.32em 0.35em rgba(0, 0, 0, 0.11);
 }
 
 .vd-navbar-brand-wrap > a.vd-navbar-brand-link {
@@ -704,25 +726,14 @@ html[data-theme="light"][data-primary="black"] .hero-title-logo-stage {
     flex-direction: column !important;
     align-items: center !important;
     line-height: 1;
-    gap: 0;
+    gap: 0.5rem;
   }
 
   .hero-title .hero-title-logo-wrap {
     transform: none !important;
     margin-right: 0 !important;
     margin-inline-end: 0 !important;
-
-    /* Stage scale + padded viewBox (-100 -100 922 1100) leave empty space
-       below the ink. Pull "vd3" up; 1em leftover matches the desktop
-       optical gap (~32px from sphere to wordmark). */
-    margin-bottom: calc(
-      1em -
-        (
-          6.25em * var(--vd3-mark-view-size-ratio, 1.193) *
-            (var(--vd3-mark-stage-scale, 1.85) - 1) / 2 + 6.25em *
-            var(--vd3-mark-view-size-ratio, 1.193) * 0.264
-        )
-    );
+    margin-bottom: 0;
   }
 
   .hero-title .hero-title-brand {
@@ -3147,18 +3158,17 @@ a:hover .vd-card-interactive.vd-card-glow {
   --vd-site-dock-mark-nudge-x: 0px;
 }
 
-/* Docs-only: deeper ink pill than package vd-dock-dark (#0a0a0a @ 90%).
-   90% mix / 0.90 glass alpha — a small step down from 97% / 0.98 so the
-   bar reads as glass without losing the solid navbar feel. Site dock is
+/* Docs-only site dock: fill alpha is half the previous 0.90 ink so the bar
+   is about twice as see-through. Tint, blur, and shadow stay. Site dock is
    always vd-dock-dark, so this covers light and dark page themes. */
 .vd-site-dock.vd-dock-dark.vd-glass-34 {
-  --vd-glass-bg-opacity: 0.9;
+  --vd-glass-bg-opacity: 0.45;
   --vd-glass-blur: 16px;
   --vd-glass-saturate: 1.15;
   --vd-glass-border-alpha: 0.1;
   --vd-glass-highlight-alpha: 0;
 
-  background: color-mix(in srgb, #030303 90%, transparent);
+  background: color-mix(in srgb, #030303 45%, transparent);
   background-image: none;
   border-color: rgb(255 255 255 / 10%);
   box-shadow:
@@ -3167,7 +3177,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 .vd-site-dock.vd-dock-dark.vd-dock-tint-accent[class*="vd-dock-tint-"] {
-  background: color-mix(in srgb, #030303 90%, transparent);
+  background: color-mix(in srgb, #030303 45%, transparent);
   background-image: none;
 }
 

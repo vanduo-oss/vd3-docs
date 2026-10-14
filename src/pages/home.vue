@@ -7,12 +7,9 @@ import {
   VD3_COMPONENT_EXPORTS,
   VD3_COMPOSABLE_MODULES,
 } from "@/constants/vd3Catalog";
-import { HERO_LOGO_FX, vd3MarkSize } from "@/utils/logoFx";
+import { HERO_LOGO_FX } from "@/utils/logoFx";
 import "@/styles/logo-fx.css";
 import "@/styles/hero-display-font.css";
-
-/** Shrink the established home hero mark by 5%. */
-const HERO_MARK_EM = 6.25 * 0.95;
 
 interface Feature {
   icon: string;
@@ -227,9 +224,7 @@ const swatches = [
                 class="hero-title-logo-stage logo-fx-tile"
                 :data-fx="HERO_LOGO_FX"
               >
-                <Vd3Mark
-                  :size="`calc(${vd3MarkSize(HERO_MARK_EM)} * var(--hero-mark-scale, 1))`"
-                />
+                <Vd3Mark size="100%" />
               </span>
             </span>
             <span class="hero-title-copy">
@@ -479,6 +474,11 @@ const swatches = [
   scroll-margin-top: var(--docs-main-offset);
 }
 
+.hero-title {
+  /* Wordmark 1.2em + tagline margin + tagline line box — logo wrap keys off this. */
+  --hero-copy-height: calc(1.2em + 0.5rem + 0.9375rem * 1.4);
+}
+
 .hero-title-ui {
   color: var(--vd-text-muted);
   font-size: 1.2em;
@@ -505,10 +505,6 @@ const swatches = [
 }
 
 @media (max-width: 600px) {
-  .hero-title {
-    --hero-mark-scale: 0.9;
-  }
-
   .hero-title-copy {
     align-items: center;
     text-align: center;

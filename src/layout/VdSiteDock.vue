@@ -14,13 +14,15 @@ import Vd3BrandMark from "@/components/Vd3BrandMark.vue";
 import VdThemeCustomizer from "@/overlays/VdThemeCustomizer.vue";
 import VdThemeSwitcher from "@/overlays/VdThemeSwitcher.vue";
 import {
-  DOCS_DOCK_RADIUS,
   DOCS_DOCK_TOOLTIP_DELAY_MS,
   useDocsColorScheme,
 } from "@/composables/useDocsColorScheme";
 import { playSiteDockNarrowBrandMorph } from "@/composables/siteDockNarrowBrandMorph";
 import { useDocsDockNarrow } from "@/composables/useDocsDockNarrow";
 import { useSiteDockBrandSpin } from "@/composables/useSiteDockBrandSpin";
+
+/** Site nav only. Home and playground docks keep DOCS_DOCK_RADIUS (1.5). */
+const SITE_DOCK_RADIUS = "1.25" as const;
 
 const SITE_DOCK_STORAGE_KEY = "vd3-docs-site-dock";
 
@@ -144,15 +146,28 @@ const onDockClick = (event: Event): void => {
 };
 
 /**
+ * The wordmark is inside the package brand button, whose click flips
+ * orientation. Swallow that click so only the logo mark toggles.
+ */
+const onBrandTitleClick = (event: Event): void => {
+  event.stopPropagation();
+  event.preventDefault();
+};
+
+/**
  * Docs-side narrow brand toggle while the compact strip is showing.
  * The package still locks edge cycling at 520px; this covers the rest
  * of the compact range up through tablet portrait.
  * playSiteDockNarrowBrandMorph mirrors desktop shrink→relocate timing.
  */
 const onBrandCapture = (event: Event): void => {
-  if (!isNarrow.value) return;
   const target = event.target;
   if (!(target instanceof Element)) return;
+  if (target.closest(".vd-site-dock-brand-title")) {
+    onBrandTitleClick(event);
+    return;
+  }
+  if (!isNarrow.value) return;
   if (!target.closest(".vd-dock-brand")) return;
 
   event.stopPropagation();
@@ -302,7 +317,7 @@ onUnmounted(() => {
     cycle="edges"
     persist
     :storage-key="SITE_DOCK_STORAGE_KEY"
-    :radius="DOCS_DOCK_RADIUS"
+    :radius="SITE_DOCK_RADIUS"
     :item-layout="itemLayout"
     :tint="dockAccent"
     tint-mode="accent"
@@ -317,6 +332,7 @@ onUnmounted(() => {
         v-if="!isNarrow && isHorizontalEdge"
         class="vd-site-dock-brand-title"
         aria-hidden="true"
+        @click.capture="onBrandTitleClick"
       >
         vd3
       </span>
