@@ -588,14 +588,14 @@ html[data-theme="light"][data-primary="black"] .hero-title-logo-stage {
   width: 100%;
   height: 100%;
   display: block;
-  filter: drop-shadow(0 0.25em 0.08em rgba(0, 0, 0, 0.16))
-    drop-shadow(0 0.5em 0.55em rgba(0, 0, 0, 0.11));
+  filter: drop-shadow(0 0.25em 0.08em rgb(0 0 0 / 16%))
+    drop-shadow(0 0.5em 0.55em rgb(0 0 0 / 11%));
 }
 
 #home .hero-title .hero-title-text {
   text-shadow:
-    0 0.14em 0.06em rgba(0, 0, 0, 0.16),
-    0 0.32em 0.35em rgba(0, 0, 0, 0.11);
+    0 0.14em 0.06em rgb(0 0 0 / 16%),
+    0 0.32em 0.35em rgb(0 0 0 / 11%);
 }
 
 .vd-navbar-brand-wrap > a.vd-navbar-brand-link {
