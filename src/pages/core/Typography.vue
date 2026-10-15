@@ -189,7 +189,7 @@ const apiRows: [string, string, string][] = [
   ],
   [
     'data-font="[name]"',
-    "Curated font stack on <html> (ubuntu, open-sans, lato, jetbrains-mono, system).",
+    "Curated font stack on <html> (ubuntu, open-sans, lato, nunito, jetbrains-mono, system).",
     "Attribute",
   ],
 ];
@@ -200,8 +200,8 @@ const apiRows: [string, string, string][] = [
     <h5 class="demo-title"><i class="ph ph-text-aa"></i>Typography</h5>
     <p class="vd-mb-8">
       A fluid, golden-ratio type system: ten size steps, φ-derived line-heights,
-      a tracking scale, and five runtime-switchable font families — all driven
-      by <code>--vd-*</code> tokens.
+      a tracking scale, and six runtime-switchable font families — all driven by
+      <code>--vd-*</code> tokens.
     </p>
 
     <!-- Type scale -->
@@ -420,7 +420,7 @@ const apiRows: [string, string, string][] = [
           </div>
           <div class="vd-card-body">
             <p class="vd-mb-5">
-              vd3 ships <strong>5 curated font options</strong>, switchable at
+              vd3 ships <strong>6 curated font options</strong>, switchable at
               runtime via the <code>data-font</code> attribute on
               <code>&lt;html&gt;</code> (also exposed by FontSwitcher and the
               Theme Customizer). The preference persists in
@@ -432,6 +432,7 @@ const apiRows: [string, string, string][] = [
                   <li><code>ubuntu</code> — default humanist sans-serif</li>
                   <li><code>open-sans</code> — neutral, highly readable</li>
                   <li><code>lato</code> — friendly, rounded sans-serif</li>
+                  <li><code>nunito</code> — rounded, friendly sans-serif</li>
                   <li><code>jetbrains-mono</code> — monospace for code</li>
                   <li>
                     <code>system</code> — native system stack (same as omitting

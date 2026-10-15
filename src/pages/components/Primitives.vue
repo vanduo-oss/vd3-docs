@@ -80,7 +80,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
             >
               Padded surface
             </VdBox>
-            <DocCodeSnippet :html="boxVue" />
+            <DocCodeSnippet :vue="boxVue" />
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
               <div class="primitive-demo-surface">Second</div>
               <div class="primitive-demo-surface">Third</div>
             </VdStack>
-            <DocCodeSnippet :html="stackVue" />
+            <DocCodeSnippet :vue="stackVue" />
           </div>
         </div>
       </div>
@@ -129,7 +129,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
               <span class="vd-chip">Tokens</span>
               <span class="vd-chip">Fibonacci</span>
             </VdInline>
-            <DocCodeSnippet :html="inlineVue" />
+            <DocCodeSnippet :vue="inlineVue" />
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
             >
               A centered column constrained to a readable measure.
             </VdCenter>
-            <DocCodeSnippet :html="centerVue" />
+            <DocCodeSnippet :vue="centerVue" />
           </div>
         </div>
       </div>
@@ -184,7 +184,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
                 Vertically centered content
               </p>
             </VdCover>
-            <DocCodeSnippet :html="coverVue" />
+            <DocCodeSnippet :vue="coverVue" />
           </div>
         </div>
       </div>
@@ -212,7 +212,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
             >
               <img src="/images/mountains-and-fog.jpg" alt="Mountains in fog" />
             </VdFrame>
-            <DocCodeSnippet :html="frameVue" />
+            <DocCodeSnippet :vue="frameVue" />
           </div>
         </div>
       </div>
@@ -242,7 +242,7 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
               <div class="primitive-demo-surface">Two</div>
               <div class="primitive-demo-surface">Three</div>
             </VdSwitcher>
-            <DocCodeSnippet :html="switcherVue" />
+            <DocCodeSnippet :vue="switcherVue" />
           </div>
         </div>
       </div>

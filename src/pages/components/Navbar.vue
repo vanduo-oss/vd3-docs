@@ -377,7 +377,7 @@ import { VdNavbar } from "@vanduo-oss/vd3";
               light, ~0.08 in dark — plus specular rim. Do not swap in
               <code>--vd-glass-bg-dark</code> for navbar chrome.
             </p>
-            <DocCodeSnippet class="vd-mt-4" :html="floatVue" />
+            <DocCodeSnippet class="vd-mt-4" :vue="floatVue" />
             <DocCodeSnippet class="vd-mt-3" :html="floatHtml" />
           </div>
         </div>
@@ -395,7 +395,7 @@ import { VdNavbar } from "@vanduo-oss/vd3";
               the collapsible menu — drop a <code>.vd-navbar-nav</code> list
               inside it:
             </p>
-            <DocCodeSnippet :html="usageVue" :default-open="true" />
+            <DocCodeSnippet :vue="usageVue" :default-open="true" />
           </div>
         </div>
       </div>
@@ -409,7 +409,7 @@ import { VdNavbar } from "@vanduo-oss/vd3";
               breakpoint the parent link toggles the submenu instead of
               navigating:
             </p>
-            <DocCodeSnippet :html="dropdownVue" />
+            <DocCodeSnippet :vue="dropdownVue" />
           </div>
         </div>
       </div>

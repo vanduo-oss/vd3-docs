@@ -72,14 +72,6 @@ html {
 
   font-family: var(--vd-font-family-sans);
 
-  /* Fatter defaults — map token names up one step so components inherit medium+ */
-  --vd-font-weight-light: 400;
-  --vd-font-weight-normal: 500;
-  --vd-font-weight-medium: 600;
-  --vd-font-weight-semibold: 700;
-  --vd-font-weight-bold: 800;
-  --vd-font-weight-extrabold: 800;
-
   /* Docs shell chrome — rem at 16px baseline, scales with font-size above.
      Offsets clear the fixed site dock (data-docs-dock) instead of a top navbar.
      Mobile default; desktop compact tokens apply from 768px up. */

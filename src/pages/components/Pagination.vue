@@ -233,7 +233,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+        <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">Data Attributes</h4>
         <div class="vd-table-responsive">

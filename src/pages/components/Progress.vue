@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VdProgress } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
@@ -7,6 +8,9 @@ import { VdProgress } from "@vanduo-oss/vd3";
 
 <template>
   <VdProgress :value="60" :max="100" label="Uploading" />
+  <VdProgress :value="75" variant="success" />
+  <VdProgress :value="45" variant="warning" size="lg" />
+  <VdProgress :value="90" variant="danger" size="xl" label="Almost there" />
   <VdProgress indeterminate label="Working…" />
 </template>`;
 
@@ -15,6 +19,11 @@ const vue3Api: [string, string][] = [
   [":max", "Maximum value (default 100)."],
   [":indeterminate", "Animated indeterminate bar (ignores value)."],
   [":label", "Accessible label / visible text for the bar."],
+  [
+    ":variant",
+    "primary | secondary | success | warning | danger | info (default primary).",
+  ],
+  [":size", "xs | sm | md | lg | xl (default md)."],
 ];
 
 const variantsHtml = `<!-- Primary (default) -->
@@ -65,12 +74,17 @@ const multipleHtml = `<!-- Multiple bars -->
        style="width: 82%;">82%</div>
 </div>`;
 
-const variants = [
-  { label: "Primary (default)", bar: "", width: "45%", mb: "vd-mb-5" },
-  { label: "Success", bar: "vd-progress-success", width: "75%", mb: "vd-mb-5" },
-  { label: "Warning", bar: "vd-progress-warning", width: "60%", mb: "vd-mb-5" },
-  { label: "Error", bar: "vd-progress-error", width: "90%", mb: "vd-mb-5" },
-  { label: "Info", bar: "vd-progress-info", width: "30%", mb: "vd-mb-0" },
+const variants: {
+  label: string;
+  value: number;
+  variant?: "primary" | "secondary" | "success" | "warning" | "danger" | "info";
+  mb: string;
+}[] = [
+  { label: "Primary (default)", value: 45, variant: undefined, mb: "vd-mb-5" },
+  { label: "Success", value: 75, variant: "success", mb: "vd-mb-5" },
+  { label: "Warning", value: 60, variant: "warning", mb: "vd-mb-5" },
+  { label: "Danger", value: 90, variant: "danger", mb: "vd-mb-5" },
+  { label: "Info", value: 30, variant: "info", mb: "vd-mb-0" },
 ];
 
 const cssVars: [string, string, string][] = [
@@ -128,13 +142,7 @@ const apiRows: [string, string][] = [
           <div class="vd-card-body">
             <template v-for="v in variants" :key="v.label">
               <p class="vd-text-sm vd-text-muted vd-mb-2">{{ v.label }}</p>
-              <div class="vd-progress" :class="v.mb">
-                <div
-                  class="vd-progress-bar"
-                  :class="v.bar"
-                  :style="`width: ${v.width};`"
-                ></div>
-              </div>
+              <VdProgress :value="v.value" :variant="v.variant" :class="v.mb" />
             </template>
           </div>
         </div>
@@ -146,25 +154,15 @@ const apiRows: [string, string][] = [
           <div class="vd-card-header"><h6>Sizes &amp; Striped</h6></div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-2">Extra Small (3px)</p>
-            <div class="vd-progress vd-progress-xs vd-mb-5">
-              <div class="vd-progress-bar" style="width: 60%"></div>
-            </div>
+            <VdProgress :value="60" size="xs" class="vd-mb-5" />
             <p class="vd-text-sm vd-text-muted vd-mb-2">Small (5px)</p>
-            <div class="vd-progress vd-progress-sm vd-mb-5">
-              <div class="vd-progress-bar" style="width: 60%"></div>
-            </div>
+            <VdProgress :value="60" size="sm" class="vd-mb-5" />
             <p class="vd-text-sm vd-text-muted vd-mb-2">Default (8px)</p>
-            <div class="vd-progress vd-mb-5">
-              <div class="vd-progress-bar" style="width: 60%"></div>
-            </div>
+            <VdProgress :value="60" class="vd-mb-5" />
             <p class="vd-text-sm vd-text-muted vd-mb-2">Large (13px)</p>
-            <div class="vd-progress vd-progress-lg vd-mb-5">
-              <div class="vd-progress-bar" style="width: 60%"></div>
-            </div>
+            <VdProgress :value="60" size="lg" class="vd-mb-5" />
             <p class="vd-text-sm vd-text-muted vd-mb-2">Extra Large (21px)</p>
-            <div class="vd-progress vd-progress-xl vd-mb-5">
-              <div class="vd-progress-bar" style="width: 60%">60%</div>
-            </div>
+            <VdProgress :value="60" size="xl" label="60%" class="vd-mb-5" />
             <p class="vd-text-sm vd-text-muted vd-mb-2">
               Striped &amp; Animated
             </p>
@@ -191,11 +189,7 @@ const apiRows: [string, string][] = [
             <p class="vd-text-sm vd-text-muted vd-mb-3">
               Use when the exact progress percentage is unknown.
             </p>
-            <div
-              class="vd-progress vd-progress-lg vd-progress-indeterminate vd-mb-0"
-            >
-              <div class="vd-progress-bar"></div>
-            </div>
+            <VdProgress indeterminate size="lg" />
           </div>
         </div>
         <DocCodeSnippet :html="indeterminateHtml" />
@@ -226,16 +220,9 @@ const apiRows: [string, string][] = [
               <div class="vd-progress-bar" style="width: 10%">10%</div>
             </div>
             <p class="vd-text-sm vd-text-muted vd-mb-3">
-              With percentage label (XL size only)
+              With percentage label (component)
             </p>
-            <div class="vd-progress vd-progress-xl vd-mb-0">
-              <div
-                class="vd-progress-bar vd-progress-success"
-                style="width: 82%"
-              >
-                82%
-              </div>
-            </div>
+            <VdProgress :value="82" variant="success" size="xl" label="82%" />
           </div>
         </div>
         <DocCodeSnippet :html="multipleHtml" />
@@ -290,7 +277,7 @@ const apiRows: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <h4>Usage</h4>
-            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+            <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">

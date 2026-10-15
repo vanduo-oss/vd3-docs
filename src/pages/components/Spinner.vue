@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
+import { VdSpinner } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
@@ -8,11 +9,21 @@ import { VdSpinner } from "@vanduo-oss/vd3";
 
 <template>
   <VdSpinner />
+  <VdSpinner size="xs" />
+  <VdSpinner size="sm" />
   <VdSpinner size="lg" label="Loading…" />
+  <VdSpinner size="xl" variant="success" />
+  <VdSpinner variant="warning" />
+  <VdSpinner variant="danger" />
+  <VdSpinner variant="info" />
 </template>`;
 
 const vue3Api: [string, string][] = [
-  [":size", "sm | md | lg (default md)."],
+  [":size", "xs | sm | md | lg | xl (default md)."],
+  [
+    ":variant",
+    "primary | secondary | success | warning | danger | info (default primary).",
+  ],
   [":label", "Accessible label (visually-hidden text for screen readers)."],
 ];
 
@@ -134,19 +145,19 @@ const flexRow =
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-3">Sizes</p>
             <div :style="flexRow">
-              <div class="vd-spinner vd-spinner-xs"></div>
-              <div class="vd-spinner vd-spinner-sm"></div>
-              <div class="vd-spinner"></div>
-              <div class="vd-spinner vd-spinner-lg"></div>
-              <div class="vd-spinner vd-spinner-xl"></div>
+              <VdSpinner size="xs" />
+              <VdSpinner size="sm" />
+              <VdSpinner />
+              <VdSpinner size="lg" />
+              <VdSpinner size="xl" />
             </div>
             <p class="vd-text-sm vd-text-muted vd-mb-3">Colors</p>
             <div :style="flexRow">
-              <div class="vd-spinner"></div>
-              <div class="vd-spinner vd-spinner-success"></div>
-              <div class="vd-spinner vd-spinner-warning"></div>
-              <div class="vd-spinner vd-spinner-error"></div>
-              <div class="vd-spinner vd-spinner-info"></div>
+              <VdSpinner />
+              <VdSpinner variant="success" />
+              <VdSpinner variant="warning" />
+              <VdSpinner variant="danger" />
+              <VdSpinner variant="info" />
               <div
                 class="vd-spinner vd-spinner-light"
                 style="
@@ -167,22 +178,22 @@ const flexRow =
               "
             >
               <button class="vd-btn vd-btn-primary" disabled>
-                <span
-                  class="vd-spinner vd-spinner-sm"
+                <VdSpinner
+                  size="sm"
                   style="
                     border-color: rgba(255, 255, 255, 0.3);
                     border-top-color: #fff;
                     vertical-align: middle;
                     margin-right: 0.5rem;
                   "
-                ></span>
+                />
                 Loading...
               </button>
               <button class="vd-btn vd-btn-outline" disabled>
-                <span
-                  class="vd-spinner vd-spinner-sm"
+                <VdSpinner
+                  size="sm"
                   style="vertical-align: middle; margin-right: 0.5rem"
-                ></span>
+                />
                 Saving
               </button>
             </div>
@@ -234,7 +245,7 @@ const flexRow =
                 border-radius: var(--vd-btn-border-radius);
               "
             >
-              <div class="vd-spinner vd-spinner-lg"></div>
+              <VdSpinner size="lg" />
             </div>
           </div>
         </div>
@@ -362,7 +373,7 @@ const flexRow =
           </div>
           <div class="vd-card-body">
             <h4>Usage</h4>
-            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+            <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">

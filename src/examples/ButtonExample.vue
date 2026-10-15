@@ -9,7 +9,7 @@ function save() {
 </script>
 
 <template>
-  <div class="vd-flex vd-flex-wrap vd-gap-3 vd-items-center">
+  <div class="vd-d-flex vd-flex-wrap vd-gap-3 items-center">
     <VdButton variant="primary" @click="save">Save</VdButton>
     <VdButton variant="ink" ring @click="save">Save with ring</VdButton>
     <span role="status">Saved {{ saves }} times</span>

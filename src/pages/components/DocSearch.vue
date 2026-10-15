@@ -375,7 +375,7 @@ const resultFields: [string, string][] = [
               highlighted and results are grouped by category.
             </p>
             <VdDocSearch :data="docs" placeholder="Search the docs… (⌘K)" />
-            <DocCodeSnippet :html="vue3Usage" />
+            <DocCodeSnippet :vue="vue3Usage" />
           </div>
         </div>
       </div>
@@ -527,7 +527,7 @@ const resultFields: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+        <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">Component API — props</h4>
         <div class="vd-table-responsive">

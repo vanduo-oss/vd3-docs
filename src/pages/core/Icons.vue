@@ -332,7 +332,7 @@ const vue3Api: [string, string][] = [
               Prefer the <code>VdIcon</code> component when you want typed props
               instead of raw Phosphor classes:
             </p>
-            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+            <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">Component API</h4>
             <div class="vd-table-responsive">

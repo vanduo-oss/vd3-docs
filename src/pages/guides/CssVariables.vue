@@ -31,8 +31,9 @@ const overrideCss = `/* Override tokens in your own stylesheet — cascades ever
 :root {
   --vd-color-primary: #6366f1;
   --vd-color-primary-dark: #4f46e5;
+  --vd-text-on-primary: #ffffff;
   --vd-radius-fib-5: 0.5rem;
-  --vd-font-family-base: 'Inter', sans-serif;
+  --vd-font-family-sans: 'Inter', sans-serif;
 }`;
 
 const scopedCss = `/* Scope overrides to a subtree — e.g. a "danger zone" panel */

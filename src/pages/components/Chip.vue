@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive } from "vue";
+import { VdChip } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const removed = reactive<Record<string, boolean>>({});
@@ -15,6 +16,9 @@ import { VdChip } from "@vanduo-oss/vd3";
   <VdChip variant="primary">Default</VdChip>
   <VdChip variant="success" outline>Outline</VdChip>
   <VdChip variant="danger" dismissible @dismiss="onRemove">Removable</VdChip>
+  <VdChip variant="info" avatar="/avatar.png" clickable @click="onClick">With avatar</VdChip>
+  <VdChip size="sm">Small</VdChip>
+  <VdChip size="lg">Large</VdChip>
 </template>`;
 
 const vue3Api: [string, string][] = [
@@ -22,7 +26,7 @@ const vue3Api: [string, string][] = [
     ":variant",
     'primary | secondary | success | warning | danger | info (default "primary").',
   ],
-  [":size", "sm | md | lg."],
+  [":size", 'sm | md | lg (default "md").'],
   [":outline", "Transparent background with a coloured border."],
   [":dismissible", "Renders a close button that emits dismiss."],
   [":clickable", "Makes the chip emit click on activation."],
@@ -78,13 +82,12 @@ const apiRows: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Chip Variants</h6></div>
           <div class="vd-card-body">
-            <span class="vd-chip">Default</span>
-            <span class="vd-chip vd-chip-primary">Primary</span>
-            <span class="vd-chip vd-chip-secondary">Secondary</span>
-            <span class="vd-chip vd-chip-success">Success</span>
-            <span class="vd-chip vd-chip-warning">Warning</span>
-            <span class="vd-chip vd-chip-danger">Danger</span>
-            <span class="vd-chip vd-chip-info">Info</span>
+            <VdChip>Primary</VdChip>
+            <VdChip variant="secondary">Secondary</VdChip>
+            <VdChip variant="success">Success</VdChip>
+            <VdChip variant="warning">Warning</VdChip>
+            <VdChip variant="danger">Danger</VdChip>
+            <VdChip variant="info">Info</VdChip>
           </div>
         </div>
       </div>
@@ -93,19 +96,13 @@ const apiRows: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Chip Sizes &amp; Outline</h6></div>
           <div class="vd-card-body">
-            <span class="vd-chip vd-chip-sm vd-chip-primary">Small</span>
-            <span class="vd-chip vd-chip-primary">Default</span>
-            <span class="vd-chip vd-chip-lg vd-chip-primary">Large</span>
+            <VdChip size="sm">Small</VdChip>
+            <VdChip>Default</VdChip>
+            <VdChip size="lg">Large</VdChip>
             <br /><br />
-            <span class="vd-chip vd-chip-outline vd-chip-primary"
-              >Outline Primary</span
-            >
-            <span class="vd-chip vd-chip-outline vd-chip-success"
-              >Outline Success</span
-            >
-            <span class="vd-chip vd-chip-outline vd-chip-danger"
-              >Outline Danger</span
-            >
+            <VdChip outline>Outline Primary</VdChip>
+            <VdChip variant="success" outline>Outline Success</VdChip>
+            <VdChip variant="danger" outline>Outline Danger</VdChip>
           </div>
         </div>
       </div>
@@ -116,42 +113,25 @@ const apiRows: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Dismissible Chips</h6></div>
           <div class="vd-card-body">
-            <span
-              v-if="!removed.a"
-              class="vd-chip vd-chip-primary vd-chip-dismissible"
-            >
+            <VdChip v-if="!removed.a" dismissible @dismiss="remove('a')">
               Removable
-              <button
-                type="button"
-                class="vd-chip-close"
-                aria-label="Remove"
-                @click="remove('a')"
-              ></button>
-            </span>
-            <span
+            </VdChip>
+            <VdChip
               v-if="!removed.b"
-              class="vd-chip vd-chip-success vd-chip-dismissible"
+              variant="success"
+              dismissible
+              @dismiss="remove('b')"
             >
               Tag
-              <button
-                type="button"
-                class="vd-chip-close"
-                aria-label="Remove"
-                @click="remove('b')"
-              ></button>
-            </span>
-            <span
+            </VdChip>
+            <VdChip
               v-if="!removed.c"
-              class="vd-chip vd-chip-info vd-chip-dismissible"
+              variant="info"
+              dismissible
+              @dismiss="remove('c')"
             >
               Category
-              <button
-                type="button"
-                class="vd-chip-close"
-                aria-label="Remove"
-                @click="remove('c')"
-              ></button>
-            </span>
+            </VdChip>
           </div>
         </div>
       </div>
@@ -162,7 +142,7 @@ const apiRows: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Usage</h6></div>
           <div class="vd-card-body">
-            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+            <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
           </div>
         </div>
       </div>

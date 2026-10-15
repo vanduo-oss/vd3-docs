@@ -195,7 +195,7 @@ const compareRows: [string, boolean | string, boolean | string][] = [
               navbar. Use <code>align="end"</code> to hang the menu off the
               toggle's trailing edge:
             </p>
-            <DocCodeSnippet :html="usageVue" :default-open="true" />
+            <DocCodeSnippet :vue="usageVue" :default-open="true" />
           </div>
         </div>
       </div>
@@ -208,7 +208,7 @@ const compareRows: [string, boolean | string, boolean | string][] = [
               System → Light → Dark on each click — best for minimal apps where
               a one-click toggle beats a menu:
             </p>
-            <DocCodeSnippet :html="cycleVue" />
+            <DocCodeSnippet :vue="cycleVue" />
             <p class="vd-mt-5 vd-text-sm vd-text-muted">
               The cycle button changes the theme immediately on each click, so
               it can flash between modes — prefer the menu in navbars.

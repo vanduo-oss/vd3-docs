@@ -492,7 +492,7 @@ const classRef: ClassRef[] = [
           <div class="vd-card-body">
             <h4>Usage</h4>
             <ButtonExample class="vd-mb-4" />
-            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+            <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">Classes</h4>
             <div class="vd-table-responsive">

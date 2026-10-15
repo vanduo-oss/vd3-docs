@@ -81,6 +81,18 @@ const groupsApi: [string, string][] = [
     "VdSelect",
     "v-model (string) · :options ({ value, label, disabled? }) · :name · :id · :placeholder · :disabled · :required",
   ],
+  [
+    "VdCheckbox",
+    "v-model (boolean) · :label · :disabled · :size (sm|md|lg) · :name · :id · default slot (label override)",
+  ],
+  [
+    "VdOtpInput",
+    "v-model (string) · :length (default 6) · :disabled · :name · :id · :labelledBy",
+  ],
+  [
+    "VdCustomSelect",
+    'v-model (string) · :options ({ value, label, disabled? }) · :id · :name · :placeholder (default "Select...")',
+  ],
 ];
 
 // VdInput component demo state (new ergonomics in @vanduo-oss/vd3 0.3.0).
@@ -176,8 +188,7 @@ const inputsHtml = `<!-- Text Input -->
 <!-- Custom Select -->
 <div class="vd-form-group">
   <label for="custom-select-input">Custom Select</label>
-  <select id="custom-select-input" class="vd-input vd-custom-select-input"
-      data-custom-select>
+  <select id="custom-select-input" class="vd-input vd-custom-select-input">
     <option>Choose an option</option>
     <option>Option 1</option>
   </select>
@@ -396,7 +407,7 @@ const classRef: [string, string, string][] = [
             </div>
 
             <h4 class="vd-mt-6">Usage</h4>
-            <DocCodeSnippet :html="vue3InputUsage" :default-open="true" />
+            <DocCodeSnippet :vue="vue3InputUsage" :default-open="true" />
 
             <h4 class="vd-mt-6">Component API</h4>
             <div class="vd-table-responsive">
@@ -481,7 +492,7 @@ const classRef: [string, string, string][] = [
             </div>
 
             <h4 class="vd-mt-6">Usage</h4>
-            <DocCodeSnippet :html="vue3Groups" :default-open="true" />
+            <DocCodeSnippet :vue="vue3Groups" :default-open="true" />
 
             <h4 class="vd-mt-6">Component API (Vue 3)</h4>
             <div class="vd-table-responsive">
@@ -568,7 +579,7 @@ const classRef: [string, string, string][] = [
             <p class="vd-text-sm vd-text-muted vd-mb-2">
               Custom-select wiring (other inputs are pure CSS):
             </p>
-            <DocCodeSnippet :html="vue3CustomSelect" />
+            <DocCodeSnippet :vue="vue3CustomSelect" />
             <DocCodeSnippet :html="inputsHtml" />
           </div>
         </div>

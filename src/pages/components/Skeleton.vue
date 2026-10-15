@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VdSkeleton } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
@@ -9,6 +10,9 @@ import { VdSkeleton } from "@vanduo-oss/vd3";
   <VdSkeleton shape="text" :lines="3" />
   <VdSkeleton shape="circle" size="lg" />
   <VdSkeleton shape="rect" width="200px" />
+  <VdSkeleton shape="rect" size="lg" width="300px" />
+  <VdSkeleton shape="card" size="md" />
+  <VdSkeleton shape="button" size="sm" />
 </template>`;
 
 const vue3Api: [string, string][] = [
@@ -162,21 +166,12 @@ const classRows: [string, string][] = [
           <div class="vd-card-header"><h6>Text &amp; Heading</h6></div>
           <div class="vd-card-body">
             <div class="vd-skeleton vd-skeleton-heading vd-mb-5"></div>
-            <div class="vd-skeleton vd-skeleton-text vd-mb-3"></div>
-            <div class="vd-skeleton vd-skeleton-text vd-mb-3"></div>
-            <div class="vd-skeleton vd-skeleton-text"></div>
+            <VdSkeleton shape="text" :lines="3" />
             <p class="vd-text-sm vd-text-muted vd-mt-5 vd-mb-3">Sizes</p>
-            <div
-              class="vd-skeleton vd-skeleton-text vd-skeleton-text-xs vd-mb-3"
-            ></div>
-            <div
-              class="vd-skeleton vd-skeleton-text vd-skeleton-text-sm vd-mb-3"
-            ></div>
-            <div class="vd-skeleton vd-skeleton-text vd-mb-3"></div>
-            <div
-              class="vd-skeleton vd-skeleton-text vd-skeleton-text-lg vd-mb-3"
-            ></div>
-            <div class="vd-skeleton vd-skeleton-text vd-skeleton-text-xl"></div>
+            <VdSkeleton shape="text" size="sm" class="vd-mb-3" />
+            <VdSkeleton shape="text" class="vd-mb-3" />
+            <VdSkeleton shape="text" size="lg" class="vd-mb-3" />
+            <VdSkeleton shape="text" size="xl" />
           </div>
         </div>
         <DocCodeSnippet :html="textHtml" />
@@ -197,22 +192,10 @@ const classRows: [string, string][] = [
                 margin-bottom: 1.5rem;
               "
             >
-              <div
-                class="vd-skeleton vd-skeleton-circle vd-skeleton-circle-xs"
-              ></div>
-              <div
-                class="vd-skeleton vd-skeleton-circle vd-skeleton-circle-sm"
-              ></div>
-              <div
-                class="vd-skeleton vd-skeleton-circle vd-skeleton-circle-md"
-              ></div>
-              <div class="vd-skeleton vd-skeleton-circle"></div>
-              <div
-                class="vd-skeleton vd-skeleton-circle vd-skeleton-circle-lg"
-              ></div>
-              <div
-                class="vd-skeleton vd-skeleton-circle vd-skeleton-circle-xl"
-              ></div>
+              <VdSkeleton shape="circle" size="sm" />
+              <VdSkeleton shape="circle" size="md" />
+              <VdSkeleton shape="circle" size="lg" />
+              <VdSkeleton shape="circle" size="xl" />
             </div>
             <p class="vd-text-sm vd-text-muted vd-mb-3">Rectangles (images)</p>
             <div
@@ -223,28 +206,15 @@ const classRows: [string, string][] = [
                 margin-bottom: 1.5rem;
               "
             >
-              <div
-                class="vd-skeleton vd-skeleton-rect vd-skeleton-rect-sm"
-                style="width: 120px"
-              ></div>
-              <div
-                class="vd-skeleton vd-skeleton-rect"
-                style="width: 120px"
-              ></div>
-              <div
-                class="vd-skeleton vd-skeleton-rect vd-skeleton-rect-lg"
-                style="width: 120px"
-              ></div>
+              <VdSkeleton shape="rect" size="sm" width="120px" />
+              <VdSkeleton shape="rect" width="120px" />
+              <VdSkeleton shape="rect" size="lg" width="120px" />
             </div>
             <p class="vd-text-sm vd-text-muted vd-mb-3">Form elements</p>
             <div class="vd-skeleton vd-skeleton-input vd-mb-3"></div>
-            <div class="vd-skeleton vd-skeleton-button vd-mb-3"></div>
-            <div
-              class="vd-skeleton vd-skeleton-button vd-skeleton-button-sm vd-mb-3"
-            ></div>
-            <div
-              class="vd-skeleton vd-skeleton-button vd-skeleton-button-lg"
-            ></div>
+            <VdSkeleton shape="button" class="vd-mb-3" />
+            <VdSkeleton shape="button" size="sm" class="vd-mb-3" />
+            <VdSkeleton shape="button" size="lg" />
           </div>
         </div>
         <DocCodeSnippet :html="shapesHtml" />
@@ -259,15 +229,7 @@ const classRows: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-3">Card placeholder</p>
-            <div class="vd-skeleton vd-skeleton-card vd-mb-5">
-              <div class="vd-skeleton vd-skeleton-heading vd-mb-3"></div>
-              <div class="vd-skeleton vd-skeleton-text vd-mb-2"></div>
-              <div class="vd-skeleton vd-skeleton-text vd-mb-2"></div>
-              <div
-                class="vd-skeleton vd-skeleton-text"
-                style="width: 80%"
-              ></div>
-            </div>
+            <VdSkeleton shape="card" class="vd-mb-5" />
             <p class="vd-text-sm vd-text-muted vd-mb-3">List placeholder</p>
             <div class="vd-skeleton vd-skeleton-list">
               <div
@@ -302,18 +264,16 @@ const classRows: [string, string][] = [
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-3">Grid layout</p>
             <div class="vd-skeleton vd-skeleton-grid vd-mb-5">
-              <div class="vd-skeleton vd-skeleton-rect"></div>
-              <div class="vd-skeleton vd-skeleton-rect"></div>
-              <div class="vd-skeleton vd-skeleton-rect"></div>
-              <div class="vd-skeleton vd-skeleton-rect"></div>
+              <VdSkeleton shape="rect" />
+              <VdSkeleton shape="rect" />
+              <VdSkeleton shape="rect" />
+              <VdSkeleton shape="rect" />
             </div>
             <p class="vd-text-sm vd-text-muted vd-mb-3">Width utilities</p>
-            <div
-              v-for="w in ['full', '3-4', '2-3', '1-2', '1-3', '1-4']"
-              :key="w"
-              class="vd-skeleton vd-skeleton-text vd-mb-3"
-              :class="`vd-skeleton-w-${w}`"
-            ></div>
+            <VdSkeleton shape="text" width="100%" class="vd-mb-3" />
+            <VdSkeleton shape="text" width="75%" class="vd-mb-3" />
+            <VdSkeleton shape="text" width="50%" class="vd-mb-3" />
+            <VdSkeleton shape="text" width="25%" class="vd-mb-3" />
             <p class="vd-text-sm vd-text-muted vd-mb-3 vd-mt-5">
               No animation (static)
             </p>
@@ -376,7 +336,7 @@ const classRows: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <h4>Usage</h4>
-            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+            <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">

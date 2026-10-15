@@ -170,7 +170,7 @@ const vue3Api: [string, string][] = [
               Items with an <code>href</code> navigate instead of emitting.
             </p>
             <VdMenu label="Resources" :items="linkItems" />
-            <DocCodeSnippet :html="vue3Usage" />
+            <DocCodeSnippet :vue="vue3Usage" />
           </div>
         </div>
       </div>
@@ -189,7 +189,7 @@ const vue3Api: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <h4>Usage</h4>
-        <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+        <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
         <h4 class="vd-mt-6">CSS Classes</h4>
         <div class="vd-table-responsive">

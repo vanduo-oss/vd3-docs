@@ -157,7 +157,7 @@ const people = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Usage</h6></div>
           <div class="vd-card-body">
-            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+            <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
           </div>
         </div>
       </div>

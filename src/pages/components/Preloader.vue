@@ -171,7 +171,7 @@ const vue3Api: [string, string][] = [
               These snippets rely only on classes from
               <code>@vanduo-oss/vd3/css</code>. No separate required CSS block.
             </p>
-            <DocCodeSnippet :html="vue3Usage" />
+            <DocCodeSnippet :vue="vue3Usage" />
             <h4 class="vd-mt-6">VdPreloader API (Vue 3)</h4>
             <div class="vd-table-responsive">
               <table class="vd-table vd-table-hover">

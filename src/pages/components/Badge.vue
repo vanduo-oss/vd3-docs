@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VdBadge } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 const vue3Usage = `<script setup lang="ts">
 import { VdBadge } from "@vanduo-oss/vd3";
@@ -8,6 +9,9 @@ import { VdBadge } from "@vanduo-oss/vd3";
   <VdBadge>Primary</VdBadge>            <!-- default variant is primary -->
   <VdBadge variant="success">Done</VdBadge>
   <VdBadge variant="danger" pill>Blocked</VdBadge>
+  <VdBadge variant="warning" outlined>Beta</VdBadge>
+  <VdBadge size="sm">Small</VdBadge>
+  <VdBadge size="lg">Large</VdBadge>
 </template>`;
 
 const vue3Api: [string, string][] = [
@@ -16,11 +20,9 @@ const vue3Api: [string, string][] = [
     'primary | secondary | success | warning | danger | info (default "primary"). The bare .vd-badge class is neutral/secondary, but the VdBadge component defaults to primary.',
   ],
   [":pill", "Fully-rounded pill shape."],
+  [":size", 'sm | md | lg (default "md"). Omit the class for md.'],
+  [":outlined", "Transparent background with colored border and text."],
   ["default slot", "Badge content."],
-  [
-    "(size / outline)",
-    "CSS-only classes (.vd-badge-sm / -lg / -outlined) that ship in vd3's CSS — not wrapped as VdBadge props.",
-  ],
 ];
 
 const variantsHtml = `<!-- Default (secondary color) -->
@@ -125,13 +127,13 @@ const varRows: [string, string][] = [
               align-items: center;
             "
           >
-            <span class="vd-badge">Default</span>
-            <span class="vd-badge vd-badge-primary">Primary</span>
-            <span class="vd-badge vd-badge-secondary">Secondary</span>
-            <span class="vd-badge vd-badge-success">Success</span>
-            <span class="vd-badge vd-badge-warning">Warning</span>
-            <span class="vd-badge vd-badge-danger">Danger</span>
-            <span class="vd-badge vd-badge-info">Info</span>
+            <VdBadge variant="secondary">Default</VdBadge>
+            <VdBadge>Primary</VdBadge>
+            <VdBadge variant="secondary">Secondary</VdBadge>
+            <VdBadge variant="success">Success</VdBadge>
+            <VdBadge variant="warning">Warning</VdBadge>
+            <VdBadge variant="danger">Danger</VdBadge>
+            <VdBadge variant="info">Info</VdBadge>
             <span class="vd-badge vd-badge-light">Light</span>
             <span class="vd-badge vd-badge-dark">Dark</span>
           </div>
@@ -154,11 +156,9 @@ const varRows: [string, string][] = [
                 margin-bottom: 1rem;
               "
             >
-              <span class="vd-badge vd-badge-pill vd-badge-primary">New</span>
-              <span class="vd-badge vd-badge-pill vd-badge-success">Done</span>
-              <span class="vd-badge vd-badge-pill vd-badge-danger"
-                >Blocked</span
-              >
+              <VdBadge pill>New</VdBadge>
+              <VdBadge variant="success" pill>Done</VdBadge>
+              <VdBadge variant="danger" pill>Blocked</VdBadge>
             </div>
             <p class="vd-text-sm vd-text-muted vd-mb-3">Outlined</p>
             <div
@@ -169,12 +169,8 @@ const varRows: [string, string][] = [
                 margin-bottom: 1rem;
               "
             >
-              <span class="vd-badge vd-badge-outlined vd-badge-primary"
-                >Pro</span
-              >
-              <span class="vd-badge vd-badge-outlined vd-badge-warning"
-                >Beta</span
-              >
+              <VdBadge outlined>Pro</VdBadge>
+              <VdBadge variant="warning" outlined>Beta</VdBadge>
             </div>
             <p class="vd-text-sm vd-text-muted vd-mb-3">Sizes</p>
             <div
@@ -185,9 +181,9 @@ const varRows: [string, string][] = [
                 align-items: center;
               "
             >
-              <span class="vd-badge vd-badge-sm vd-badge-primary">Small</span>
-              <span class="vd-badge vd-badge-primary">Default</span>
-              <span class="vd-badge vd-badge-lg vd-badge-primary">Large</span>
+              <VdBadge size="sm">Small</VdBadge>
+              <VdBadge>Default</VdBadge>
+              <VdBadge size="lg">Large</VdBadge>
             </div>
           </div>
         </div>
@@ -213,10 +209,10 @@ const varRows: [string, string][] = [
           >
             <button class="vd-btn vd-btn-primary" style="position: relative">
               Notifications
-              <span
-                class="vd-badge vd-badge-danger"
+              <VdBadge
+                variant="danger"
                 style="position: absolute; top: -6px; right: -6px"
-                >3</span
+                >3</VdBadge
               >
             </button>
             <button
@@ -224,18 +220,18 @@ const varRows: [string, string][] = [
               style="position: relative"
             >
               <i class="ph ph-envelope"></i>
-              <span
-                class="vd-badge vd-badge-pill vd-badge-primary"
-                style="position: absolute; top: -4px; right: -4px"
-                >12</span
+              <VdBadge pill style="position: absolute; top: -4px; right: -4px"
+                >12</VdBadge
               >
             </button>
             <span style="position: relative; display: inline-block">
               <i class="ph ph-shopping-cart" style="font-size: 1.5rem"></i>
-              <span
-                class="vd-badge vd-badge-sm vd-badge-success vd-badge-pill"
+              <VdBadge
+                variant="success"
+                size="sm"
+                pill
                 style="position: absolute; top: -4px; right: -8px"
-                >New</span
+                >New</VdBadge
               >
             </span>
           </div>
@@ -259,7 +255,7 @@ const varRows: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <h4>Usage</h4>
-            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+            <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
             <div class="vd-table-responsive">

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VdAvatar } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
@@ -9,6 +10,7 @@ import { VdAvatar } from "@vanduo-oss/vd3";
   <VdAvatar initials="AL" />
   <VdAvatar src="/ada.jpg" alt="Ada Lovelace" size="lg" status="online" />
   <VdAvatar initials="JS" variant="success" shape="rounded" />
+  <VdAvatar initials="AB" variant="danger" shape="square" size="xl" />
 </template>`;
 
 const vue3Api: [string, string][] = [
@@ -17,7 +19,7 @@ const vue3Api: [string, string][] = [
   [":size", "xs | sm | md | lg | xl | 2xl (default md)."],
   [
     ":variant",
-    "Initials background colour: primary | secondary | success | warning | error | info (default primary).",
+    "Initials background colour: primary | secondary | success | warning | error | danger | info (default primary).",
   ],
   [":shape", "circle | rounded | square (default circle)."],
   [":status", "online | offline | away | busy — renders a presence dot."],
@@ -60,36 +62,12 @@ const apiRows: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Avatar Sizes</h6></div>
           <div class="vd-card-body">
-            <span
-              class="vd-avatar vd-avatar-xs"
-              style="background: var(--vd-color-primary); color: white"
-              >XS</span
-            >
-            <span
-              class="vd-avatar vd-avatar-sm"
-              style="background: var(--vd-color-secondary); color: white"
-              >SM</span
-            >
-            <span
-              class="vd-avatar"
-              style="background: var(--vd-color-success); color: white"
-              >MD</span
-            >
-            <span
-              class="vd-avatar vd-avatar-lg"
-              style="background: var(--vd-color-warning); color: white"
-              >LG</span
-            >
-            <span
-              class="vd-avatar vd-avatar-xl"
-              style="background: var(--vd-color-error); color: white"
-              >XL</span
-            >
-            <span
-              class="vd-avatar vd-avatar-2xl"
-              style="background: var(--vd-color-info); color: white"
-              >2XL</span
-            >
+            <VdAvatar initials="XS" size="xs" variant="primary" />
+            <VdAvatar initials="SM" size="sm" variant="secondary" />
+            <VdAvatar initials="MD" variant="success" />
+            <VdAvatar initials="LG" size="lg" variant="warning" />
+            <VdAvatar initials="XL" size="xl" variant="danger" />
+            <VdAvatar initials="2XL" size="2xl" variant="info" />
           </div>
         </div>
       </div>
@@ -98,26 +76,20 @@ const apiRows: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Avatar with Status</h6></div>
           <div class="vd-card-body">
-            <span
-              class="vd-avatar vd-avatar-lg vd-avatar-status-online"
-              style="background: var(--vd-color-primary); color: white"
-              >JD</span
-            >
-            <span
-              class="vd-avatar vd-avatar-lg vd-avatar-status-offline"
-              style="background: var(--vd-color-secondary); color: white"
-              >AB</span
-            >
-            <span
-              class="vd-avatar vd-avatar-lg vd-avatar-status-busy"
-              style="background: var(--vd-color-success); color: white"
-              >CD</span
-            >
-            <span
-              class="vd-avatar vd-avatar-lg vd-avatar-status-away"
-              style="background: var(--vd-color-warning); color: white"
-              >EF</span
-            >
+            <VdAvatar
+              initials="JD"
+              size="lg"
+              variant="primary"
+              status="online"
+            />
+            <VdAvatar
+              initials="AB"
+              size="lg"
+              variant="secondary"
+              status="offline"
+            />
+            <VdAvatar initials="CD" size="lg" variant="success" status="busy" />
+            <VdAvatar initials="EF" size="lg" variant="warning" status="away" />
           </div>
         </div>
       </div>
@@ -129,31 +101,11 @@ const apiRows: [string, string, string][] = [
           <div class="vd-card-header"><h6>Avatar Group</h6></div>
           <div class="vd-card-body">
             <div class="vd-avatar-group">
-              <span
-                class="vd-avatar"
-                style="background: var(--vd-color-primary); color: white"
-                >A</span
-              >
-              <span
-                class="vd-avatar"
-                style="background: var(--vd-color-success); color: white"
-                >B</span
-              >
-              <span
-                class="vd-avatar"
-                style="background: var(--vd-color-warning); color: white"
-                >C</span
-              >
-              <span
-                class="vd-avatar"
-                style="background: var(--vd-color-error); color: white"
-                >D</span
-              >
-              <span
-                class="vd-avatar"
-                style="background: var(--vd-color-info); color: white"
-                >+5</span
-              >
+              <VdAvatar initials="A" variant="primary" />
+              <VdAvatar initials="B" variant="success" />
+              <VdAvatar initials="C" variant="warning" />
+              <VdAvatar initials="D" variant="danger" />
+              <VdAvatar initials="+5" variant="info" />
             </div>
           </div>
         </div>
@@ -165,7 +117,7 @@ const apiRows: [string, string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Usage</h6></div>
           <div class="vd-card-body">
-            <DocCodeSnippet :html="vue3Usage" :default-open="true" />
+            <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
           </div>
         </div>
       </div>
