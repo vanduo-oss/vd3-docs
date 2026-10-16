@@ -58,6 +58,82 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
+        <article class="version-card" id="vd3-1-8-0">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.8.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph-bold ph-calendar mr-1"></i>October 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <p>
+              Atomic layer parity, theme runtime resilience, and interaction
+              composable hardening.
+            </p>
+            <ul>
+              <li>
+                <strong>Layout Primitive Prop Parity:</strong>
+                <code>VdBox</code> gains <code>bg</code>, <code>round</code>,
+                and <code>border</code> props; <code>VdStack</code> gains
+                <code>align</code> and polymorphic <code>as</code> tag support;
+                <code>VdInline</code> gains <code>as</code>, <code>align</code>,
+                <code>justify</code>, and <code>wrap</code> props;
+                <code>VdCover</code> and <code>VdSwitcher</code> widen
+                <code>Gap</code> to <code>fib-13|21|34</code> and
+                <code>VdSwitcher</code> gains <code>as</code>;
+                <code>VdFrame</code> gains <code>21-9</code> aspect ratio and
+                <code>as</code>.
+              </li>
+              <li>
+                <strong>UI Atom Prop Parity:</strong>
+                <code>VdButton</code> gains <code>outline</code>,
+                <code>block</code>, <code>icon</code> props and
+                <code>aria-busy</code> reflection; <code>VdBadge</code> gains
+                <code>size</code> and <code>outlined</code>;
+                <code>VdSpinner</code> gains <code>xs</code> and
+                <code>xl</code> sizes plus <code>variant</code>;
+                <code>VdProgress</code> gains <code>variant</code> and
+                <code>size</code>.
+              </li>
+              <li>
+                <strong>Theme Runtime Fixes:</strong>
+                Explicit primary selection via <code>setPrimary()</code> now
+                persists across scheme flips, unrelated preference setters, and
+                page reloads (including <code>amber</code> in light mode and
+                <code>black</code> in dark mode). <code>loadPreference()</code>
+                validates fields against permitted options, and
+                <code>useThemeBridge</code> routes through the shared singleton.
+              </li>
+              <li>
+                <strong>Accessibility &amp; DOM Cleanups:</strong>
+                <code>VdSpinner</code> renders a single CSS border spinner with
+                visually-hidden status text; <code>VdChip</code> removes the
+                duplicate close glyph and supports keyboard activation;
+                <code>VdSelect</code> is a clean single-root element;
+                <code>VdAvatar</code> clips status dots correctly with fallback
+                error handling; <code>VdSkeleton</code> supports the
+                <code>rect</code> shape.
+              </li>
+              <li>
+                <strong>Composable Hardening:</strong>
+                <code>useValidate</code> resolves wrapper elements (such as
+                <code>VdInput</code>) for seamless delegated validation;
+                <code>useRipple</code> supports custom wave colors, centered
+                ripples, and reduced-motion preferences;
+                <code>useFocusTrap</code> filters hidden DOM elements;
+                <code>useKeyboardNav</code> synchronizes active focus and skips
+                disabled items.
+              </li>
+            </ul>
+          </div>
+        </article>
         <article class="version-card" id="vd3-1-7-6">
           <header class="version-header">
             <span
@@ -68,9 +144,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph-bold ph-calendar mr-1"></i>October 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <p>

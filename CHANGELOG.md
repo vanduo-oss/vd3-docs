@@ -7,9 +7,8 @@ It is not published to npm and keeps no package release history of its own.
 
 ### Changed
 
-- Dogfood the published registry package `@vanduo-oss/vd3@1.7.6`, including
-  its hardened sanitized-HTML installation and lazy-load lifecycle cleanup.
-  This is a docs-site dependency adoption, not a docs package release.
+- Dogfood `@vanduo-oss/vd3@1.8.0` with atomic layer parity, live Vue atom showcases,
+  corrected snippet tabs (`:vue`), updated guides, and refreshed search index.
 
 The user-facing release history of the packages this site documents —
 [`@vanduo-oss/vd3`](https://www.npmjs.com/package/@vanduo-oss/vd3),
