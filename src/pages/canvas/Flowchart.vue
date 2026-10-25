@@ -1,330 +1,87 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdFlowchart } from "@vanduo-oss/vd3-flowchart";
+import {
+  FLOWCHART_DOCUMENT_VERSION,
+  VD_FLOWCHART_VERSION,
+  VdFlowchart,
+  type FlowchartViewportEvent,
+  type VdFlowchartExposed,
+} from "@vanduo-oss/vd3-flowchart";
 
+/**
+ * One diagram, flat nodes. The small "Note" is a normal shape so Frame note
+ * can show a close scale. It is not a nested container.
+ */
 const seedDoc = {
-  version: "1.2.0",
+  version: FLOWCHART_DOCUMENT_VERSION,
   viewport: { x: 0, y: 0, scale: 1 },
   nodes: [
     {
-      id: "root",
+      id: "start",
       type: "circle",
-      x: 450,
-      y: 320,
-      width: 170,
-      height: 170,
-      text: "Project Ideas",
-      data: { level: 0 },
+      x: 48,
+      y: 72,
+      width: 128,
+      height: 128,
+      text: "Start",
     },
     {
-      id: "branch-design",
+      id: "review",
       type: "rounded-rect",
-      x: 657,
-      y: 153,
+      x: 240,
+      y: 88,
       width: 180,
-      height: 80,
-      text: "Design",
-      data: { level: 1 },
+      height: 96,
+      text: "Review",
     },
     {
-      id: "sub-design-ui",
+      id: "join",
+      type: "junction",
+      x: 480,
+      y: 122,
+      width: 28,
+      height: 28,
+      text: "",
+    },
+    {
+      id: "note",
       type: "rect",
-      x: 752,
-      y: -42,
-      width: 140,
-      height: 56,
-      text: "UI/UX",
-      data: { level: 2 },
-    },
-    {
-      id: "sub-design-branding",
-      type: "rect",
-      x: 833,
-      y: 9,
-      width: 140,
-      height: 56,
-      text: "Branding",
-      data: { level: 2 },
-    },
-    {
-      id: "sub-design-wireframes",
-      type: "rect",
-      x: 884,
-      y: 90,
-      width: 140,
-      height: 56,
-      text: "Wireframes",
-      data: { level: 2 },
-    },
-    {
-      id: "branch-development",
-      type: "rounded-rect",
-      x: 657,
-      y: 577,
-      width: 180,
-      height: 80,
-      text: "Development",
-      data: { level: 1 },
-    },
-    {
-      id: "sub-dev-frontend",
-      type: "rect",
-      x: 884,
-      y: 664,
-      width: 140,
-      height: 56,
-      text: "Frontend",
-      data: { level: 2 },
-    },
-    {
-      id: "sub-dev-backend",
-      type: "rect",
-      x: 833,
-      y: 745,
-      width: 140,
-      height: 56,
-      text: "Backend",
-      data: { level: 2 },
-    },
-    {
-      id: "sub-dev-devops",
-      type: "rect",
-      x: 752,
-      y: 796,
-      width: 140,
-      height: 56,
-      text: "DevOps",
-      data: { level: 2 },
-    },
-    {
-      id: "branch-marketing",
-      type: "rounded-rect",
-      x: 233,
-      y: 577,
-      width: 180,
-      height: 80,
-      text: "Marketing",
-      data: { level: 1 },
-    },
-    {
-      id: "sub-mkt-social",
-      type: "rect",
-      x: 178,
-      y: 796,
-      width: 140,
-      height: 56,
-      text: "Social Media",
-      data: { level: 2 },
-    },
-    {
-      id: "sub-mkt-seo",
-      type: "rect",
-      x: 97,
-      y: 745,
-      width: 140,
-      height: 56,
-      text: "SEO",
-      data: { level: 2 },
-    },
-    {
-      id: "sub-mkt-content",
-      type: "rect",
-      x: 46,
-      y: 664,
-      width: 140,
-      height: 56,
-      text: "Content",
-      data: { level: 2 },
-    },
-    {
-      id: "branch-research",
-      type: "rounded-rect",
-      x: 233,
-      y: 153,
-      width: 180,
-      height: 80,
-      text: "Research",
-      data: { level: 1 },
-    },
-    {
-      id: "sub-research-studies",
-      type: "rect",
-      x: 46,
-      y: 90,
-      width: 140,
-      height: 56,
-      text: "User Studies",
-      data: { level: 2 },
-    },
-    {
-      id: "sub-research-analytics",
-      type: "rect",
-      x: 97,
-      y: 9,
-      width: 140,
-      height: 56,
-      text: "Analytics",
-      data: { level: 2 },
-    },
-    {
-      id: "sub-research-trends",
-      type: "rect",
-      x: 178,
-      y: -42,
-      width: 140,
-      height: 56,
-      text: "Trends",
-      data: { level: 2 },
+      x: 560,
+      y: 133,
+      width: 6,
+      height: 6,
+      text: "Note",
     },
   ],
   edges: [
     {
-      id: "edge-1",
-      from: { nodeId: "root", port: "top" },
-      to: { nodeId: "branch-design", port: "bottom" },
+      id: "to-review",
+      from: { nodeId: "start", port: "right" },
+      to: { nodeId: "review", port: "left" },
       kind: "arrow",
       route: "curve",
-      strokeWidth: 3,
-      label: "",
     },
     {
-      id: "edge-2",
-      from: { nodeId: "branch-design", port: "top" },
-      to: { nodeId: "sub-design-ui", port: "bottom" },
+      id: "to-join",
+      from: { nodeId: "review", port: "right" },
+      to: { nodeId: "join", port: "left" },
       kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
+      route: "orthogonal",
     },
     {
-      id: "edge-3",
-      from: { nodeId: "branch-design", port: "top" },
-      to: { nodeId: "sub-design-branding", port: "bottom" },
+      id: "to-note",
+      from: { nodeId: "join", port: "right" },
+      to: { nodeId: "note", port: "left" },
       kind: "arrow",
       route: "curve",
-      strokeWidth: 2,
-      label: "",
-    },
-    {
-      id: "edge-4",
-      from: { nodeId: "branch-design", port: "right" },
-      to: { nodeId: "sub-design-wireframes", port: "left" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
-    },
-    {
-      id: "edge-5",
-      from: { nodeId: "root", port: "bottom" },
-      to: { nodeId: "branch-development", port: "top" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 3,
-      label: "",
-    },
-    {
-      id: "edge-6",
-      from: { nodeId: "branch-development", port: "right" },
-      to: { nodeId: "sub-dev-frontend", port: "left" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
-    },
-    {
-      id: "edge-7",
-      from: { nodeId: "branch-development", port: "bottom" },
-      to: { nodeId: "sub-dev-backend", port: "top" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
-    },
-    {
-      id: "edge-8",
-      from: { nodeId: "branch-development", port: "bottom" },
-      to: { nodeId: "sub-dev-devops", port: "top" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
-    },
-    {
-      id: "edge-9",
-      from: { nodeId: "root", port: "bottom" },
-      to: { nodeId: "branch-marketing", port: "top" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 3,
-      label: "",
-    },
-    {
-      id: "edge-10",
-      from: { nodeId: "branch-marketing", port: "bottom" },
-      to: { nodeId: "sub-mkt-social", port: "top" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
-    },
-    {
-      id: "edge-11",
-      from: { nodeId: "branch-marketing", port: "bottom" },
-      to: { nodeId: "sub-mkt-seo", port: "top" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
-    },
-    {
-      id: "edge-12",
-      from: { nodeId: "branch-marketing", port: "left" },
-      to: { nodeId: "sub-mkt-content", port: "right" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
-    },
-    {
-      id: "edge-13",
-      from: { nodeId: "root", port: "top" },
-      to: { nodeId: "branch-research", port: "bottom" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 3,
-      label: "",
-    },
-    {
-      id: "edge-14",
-      from: { nodeId: "branch-research", port: "left" },
-      to: { nodeId: "sub-research-studies", port: "right" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
-    },
-    {
-      id: "edge-15",
-      from: { nodeId: "branch-research", port: "top" },
-      to: { nodeId: "sub-research-analytics", port: "bottom" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
-    },
-    {
-      id: "edge-16",
-      from: { nodeId: "branch-research", port: "top" },
-      to: { nodeId: "sub-research-trends", port: "bottom" },
-      kind: "arrow",
-      route: "curve",
-      strokeWidth: 2,
-      label: "",
+      label: "detail",
     },
   ],
 };
+
+const editor = ref<VdFlowchartExposed | null>(null);
+const cameraScale = ref("1.0000");
 
 /* Full-screen editor mode — inset from the fixed site dock, which stays
    visible above the stage. */
@@ -355,11 +112,16 @@ function toggleFullscreen() {
 
 onBeforeUnmount(exitFullscreen);
 
-/** Align Arrange with the mind-map seed (Tree/Radial/Grid — three modes). */
-function onFlowchartReady(editor: {
-  layout?: (mode?: string, options?: { fit?: boolean }) => unknown;
-}) {
-  editor.layout?.("radial", { fit: true });
+function onViewport(payload: FlowchartViewportEvent) {
+  cameraScale.value = payload.viewport.scale.toFixed(4);
+}
+
+function showOverview() {
+  editor.value?.getInstance()?.zoomTo(0.05);
+}
+
+function frameNote() {
+  editor.value?.fitNode("note");
 }
 
 const installShell = `pnpm add @vanduo-oss/vd3-flowchart`;
@@ -371,15 +133,20 @@ import '@vanduo-oss/vd3-flowchart/css';
 const editor = ref<VdFlowchartExposed | null>(null);
 const readonly = ref(false);
 const document = ref<VdFlowchartDocument>({
-  nodes: [{ id: 'start', text: 'Start', x: 40, y: 100 }, { id: 'end', text: 'End', x: 300, y: 100 }],
-  edges: [{ id: 'next', from: { nodeId: 'start', port: 'right' }, to: { nodeId: 'end', port: 'left' } }],
+  nodes: [
+    { id: 'start', text: 'Start', x: 40, y: 100 },
+    { id: 'note', text: 'Note', x: 280, y: 120, width: 16, height: 16 },
+  ],
+  edges: [{ id: 'next', from: { nodeId: 'start', port: 'right' }, to: { nodeId: 'note', port: 'left' } }],
 });
 <\/script>
 <template>
   <button type="button" @click="readonly = !readonly">Toggle read-only</button>
-  <button type="button" :disabled="readonly" @click="editor?.undo()">Undo</button>
-  <VdFlowchart ref="editor" :data="document" :readonly="readonly" auto-fit
-    style="height: 560px" @change="document = $event.document" />
+  <button type="button" :disabled="!editor?.canUndo()" @click="editor?.undo()">Undo</button>
+  <button type="button" @click="editor?.fitNode('note')">Frame note</button>
+  <VdFlowchart ref="editor" :data="document" :readonly="readonly"
+    :min-scale="0.05" :max-scale="20" :min-node-size="6" :max-node-size="4800"
+    auto-fit style="height: 560px" @change="document = $event.document" />
 </template>`;
 
 const nodeTypes: [string, string][] = [
@@ -389,7 +156,10 @@ const nodeTypes: [string, string][] = [
   ["circle", "Start or end state"],
   ["textbox", "Notes or descriptive payload"],
   ["label", "Free text annotation"],
-  ["junction", "Fixed-size branch or merge point"],
+  [
+    "junction",
+    "Branch or merge point. Stays 28×28. Node-size bounds do not resize it.",
+  ],
 ];
 
 const vue3Api: [string, string][] = [
@@ -424,46 +194,77 @@ const vue3Api: [string, string][] = [
   ],
   [
     ":minimap",
-    "Show the overview minimap in the canvas corner; it hides below 480px wide (default true).",
+    "Show the overview minimap in the canvas corner. It is pointer-only, aria-hidden, and hides below 480px wide (default true).",
   ],
   [
     ":autoLayout",
     "Re-run the current tree or radial layout after keyboard or handle insertions, in the same undo step (default false).",
   ],
   [
-    "@change / @select / @viewport / @connect",
-    "Forwarded editor events (pan/zoom is not undoable).",
+    ":minScale / :maxScale",
+    "Camera bounds. Defaults are 0.35 and 3. Pass both ends. This demo uses 0.05 and 20. Omitting one end on a later update keeps that end's current value. An invalid pair (missing, non-finite, non-positive, or min not below max) falls back to the whole default pair.",
   ],
-  ["@ready", "Emitted once with the underlying VdFlowchart instance."],
+  [
+    ":minNodeSize / :maxNodeSize",
+    "Resizable-node sides. Defaults are 56 and 420. Pass both ends. This demo uses 6 and 4800. Junctions stay 28. The same omit-one-end and invalid-pair rules apply. Changing the bounds later does not resize nodes already on the canvas.",
+  ],
+  [
+    "@change",
+    "Document mutations and camera changes. Pan and zoom fire change as well as viewport. Pan and zoom are not undoable.",
+  ],
+  [
+    "@select / @viewport / @connect",
+    "Selection, camera, and edge-added events. viewport is the camera event. connect fires for every added edge, not only edges created with the pointer.",
+  ],
+  ["@ready", "Emitted once with the underlying VdFlowchart core instance."],
 ];
 
 const events: [string, string][] = [
   [
     "change",
-    "Document mutated (add/move/edit). Resize completion fires with reason: 'node:resize'.",
+    "A document mutation or a camera change. The payload includes reason and document. Resize completion uses reason node:resize. Pan and zoom also emit change; they are not history entries.",
   ],
   [
     "select",
-    "Selection changed; payload carries the primary selection snapshot and nodeIds for every selected node.",
+    "Selection changed. The payload carries the primary selection snapshot and nodeIds for every selected node.",
   ],
-  ["viewport", "Pan/zoom changed."],
-  ["connect", "A pointer-created edge connected two ports."],
+  [
+    "viewport",
+    "The camera event. The payload includes reason, viewport (x, y, and scale to four decimal places), and document. fitNode uses reason viewport:fit-node.",
+  ],
+  [
+    "connect",
+    "An edge was added. Pointer drags, handle clicks, keyboard insertion, Graph outline, and addEdge all emit it. It is not limited to pointer-created edges.",
+  ],
+  [
+    "history",
+    "Core only: editor.on('history', …) with reason, canUndo, and canRedo. The Vue component does not emit history. Read canUndo() and canRedo() from the template ref.",
+  ],
 ];
 
 const methods: [string, string][] = [
-  ["undo / redo", "Step through the whole-document history."],
+  ["undo() / redo()", "Step through the whole-document history."],
+  [
+    "canUndo() / canRedo()",
+    "Whether the template ref can step backward or forward. False when history is empty or disabled.",
+  ],
+  [
+    "fitNode(nodeId, padding?)",
+    "Frame one visible node. Padding is screen pixels and defaults to 48. Unknown or hidden nodes do nothing. Also available as getInstance().fitNode().",
+  ],
   [
     "layout(mode?)",
     "Auto-arrange nodes — exactly three modes: 'tree', 'radial', or 'grid' (default 'tree'). The toolbar select mirrors the active mode.",
   ],
   [
     "getInstance()",
-    "The underlying VdFlowchartCore — fitView(), toJSON(), addNode(), insertBranchNode(), insertSiblingNode(), selectNodes(), setCollapsed(), startEdgeLabelEdit(), etc.",
+    "The underlying core: fitView(), zoomTo(), fitNode(), toJSON(), load(), canUndo(), canRedo(), addNode(), addEdge(), insertBranchNode(), and the rest of the core API.",
   ],
 ];
 
 const shortcuts: [string, string][] = [
   ["Arrow keys", "Select the nearest node in that direction"],
+  ["Home / End", "Select the first or last visible node in document order"],
   ["Shift+Arrow", "Select a connection on that side (repeat to cycle)"],
   [
     "Enter, F2, or typing on a connection",
@@ -474,6 +275,7 @@ const shortcuts: [string, string][] = [
     "Add nodes to the selection, or select with a box",
   ],
   ["Cmd/Ctrl+A", "Select all nodes"],
+  ["Cmd/Ctrl+C / X / V", "Copy, cut, or paste the selection"],
   ["Cmd/Ctrl+/", "Collapse or expand the branch (or click its badge)"],
   ["Tab", "Add a child node and edit it"],
   ["Enter / Shift+Enter", "Add a sibling below / above and edit it"],
@@ -500,9 +302,15 @@ const shortcuts: [string, string][] = [
   <section id="vd-flowchart">
     <h5 class="demo-title"><i class="ph ph-flow-arrow"></i>Flowchart</h5>
     <p class="vd-mb-8">
-      <strong>VdFlowchart</strong> edits connected diagrams with layouts, inline
-      labels, and undo/redo. Save and restore documents as JSON. Try the editor
-      below; use Full screen for more space.
+      <strong>VdFlowchart</strong> edits a flat diagram of nodes and edges, with
+      layouts, inline labels, and undo/redo. This page runs package
+      <code>{{ VD_FLOWCHART_VERSION }}</code
+      >. The live editor opts into camera scales <code>0.05</code>–<code
+        >20</code
+      >
+      and resizable node sides <code>6</code>–<code>4800</code>. Defaults stay
+      <code>0.35</code>–<code>3</code> and <code>56</code>–<code>420</code> when
+      you omit both ends of a pair.
     </p>
 
     <div
@@ -511,43 +319,81 @@ const shortcuts: [string, string][] = [
     >
       <div class="vd-card-header flowchart-stage-header">
         <h6><i class="ph ph-flow-arrow"></i> Editor</h6>
-        <button
-          type="button"
-          class="vd-btn vd-btn-outline vd-btn-sm"
-          :aria-pressed="fullscreen"
-          @click="toggleFullscreen"
-        >
-          <i :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"></i>
-          {{ fullscreen ? "Exit full screen" : "Full screen" }}
-        </button>
+        <div class="flowchart-stage-actions">
+          <span class="flowchart-scale">
+            Scale
+            <output data-flowchart-scale>{{ cameraScale }}</output>
+          </span>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            data-flowchart-demo="overview"
+            @click="showOverview"
+          >
+            Overview
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            data-flowchart-demo="detail"
+            @click="frameNote"
+          >
+            Frame note
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            :aria-pressed="fullscreen"
+            @click="toggleFullscreen"
+          >
+            <i :class="fullscreen ? 'ph ph-arrows-in' : 'ph ph-arrows-out'"></i>
+            {{ fullscreen ? "Exit full screen" : "Full screen" }}
+          </button>
+        </div>
       </div>
       <div class="vd-card-body flowchart-stage-body">
         <VdFlowchart
+          ref="editor"
           :data="seedDoc"
+          :min-scale="0.05"
+          :max-scale="20"
+          :min-node-size="6"
+          :max-node-size="4800"
           auto-fit
           :style="fullscreen ? undefined : { minHeight: '420px' }"
-          @ready="onFlowchartReady"
+          @viewport="onViewport"
         />
       </div>
     </div>
 
     <p>
-      Hover a node to show a handle outside each side: drag a handle to connect,
-      or click it to add a connected node. To build a mind map from the
-      keyboard, select a node, press Tab for a child and Enter for a sibling,
-      type each label, and press Enter to save. Shift+drag on empty canvas
-      selects several nodes to move together, dragged nodes snap to their
-      neighbours, a selected parent's badge collapses its branch, and the
-      minimap in the corner pans the view. Press <kbd>?</kbd> in the editor for
-      every shortcut, or open Graph outline to read and create connections with
-      labelled controls.
+      <strong>Overview</strong> sets the camera to <code>0.05</code>.
+      <strong>Frame note</strong> calls <code>fitNode('note')</code> and frames
+      the small Note shape. Note is a normal node in the same diagram, not a
+      nested container. The editor toolbar still zooms, fits, and undoes. Hover
+      a node to show a handle outside each side: drag a handle to connect, or
+      click it to add a connected node.
+    </p>
+    <p>
+      A node smaller than its default size scales its text, wrapping, radius,
+      stroke, markers, curve arms, orthogonal routes, labels, and inline editor
+      with it. Review is a default-size step, so its chrome stays at the
+      default. Larger nodes do not grow that chrome. Junctions stay
+      <code>28×28</code>. With these wider camera bounds the background grid
+      covers 240,000 units and keeps a readable screen spacing. The default
+      <code>0.35</code>–<code>3</code> camera keeps the 12,000-unit grid.
     </p>
     <p class="vd-text-sm vd-text-muted">
-      Saved JSON uses document format 1.3.0 independently of the package
-      version; 1.3.0 adds <code>collapsed: true</code> on collapsed nodes, and
-      every older 1.x document still loads. Malformed or unsupported future
-      documents are rejected without replacing the current diagram. Catch errors
-      when calling <code>load()</code> directly.
+      Saved JSON uses document format
+      <code>{{ FLOWCHART_DOCUMENT_VERSION }}</code
+      >, which is separate from package <code>{{ VD_FLOWCHART_VERSION }}</code
+      >. Format 1.3.0 may write <code>collapsed: true</code> on a collapsed node
+      and does not add a parent id. <code>viewport.scale</code> is stored to
+      four decimal places; positions and sizes stay at two. Every older 1.x
+      document still loads. Malformed JSON and unsupported future versions throw
+      before the current diagram changes. Catch errors when calling
+      <code>load()</code> directly. This release does not add nested containers,
+      suggestion overlays, floating panels, or an export API.
     </p>
 
     <div class="vd-card vd-card-glow demo-card">
@@ -587,10 +433,22 @@ const shortcuts: [string, string][] = [
           </table>
         </div>
 
+        <h4 class="vd-mt-6">Ports</h4>
+        <p>
+          Edges attach on the four cardinal ports only:
+          <code>top</code>, <code>right</code>, <code>bottom</code>, and
+          <code>left</code>. Any other port name is dropped. When a port is
+          omitted, <code>from</code> falls back to <code>right</code> and
+          <code>to</code> falls back to <code>left</code>, unless
+          <code>autoPort</code> aims each end at the other node.
+        </p>
+
         <h4 class="vd-mt-6">Keyboard shortcuts</h4>
         <p>
           With the canvas focused and the default
-          <code>keyboard-shortcuts="mindmap"</code>:
+          <code>keyboard-shortcuts="mindmap"</code>. Home, End, and
+          Cmd/Ctrl+C/X/V work in <code>basic</code> as well. Copy, cut, and
+          paste are ignored while a field is being edited.
         </p>
         <div class="vd-table-responsive">
           <table class="vd-table vd-table-striped">
@@ -615,6 +473,19 @@ const shortcuts: [string, string][] = [
           added joins that step. Use
           <code>keyboard-shortcuts="basic"</code> when Tab must always move
           focus: Enter or F2 then edits a label and Ctrl/Cmd+Enter saves it.
+        </p>
+
+        <h4 class="vd-mt-6">Accessibility</h4>
+        <p>
+          The canvas is a keyboard surface (<code>tabindex="0"</code>). Arrow
+          keys, Home, and End move the selection when the canvas itself is
+          focused. Graph outline lists nodes and connections behind labelled
+          Edit and Connect controls. Press <kbd>?</kbd> for the shortcut dialog.
+          The minimap is pointer-only (click and drag) and
+          <code>aria-hidden</code>, so it is not a keyboard or screen-reader
+          control; use the canvas keys and Graph outline instead. These notes
+          describe the controls that ship. They are not a WCAG conformance
+          claim.
         </p>
 
         <h4 class="vd-mt-6">Node Types</h4>
@@ -688,6 +559,22 @@ const shortcuts: [string, string][] = [
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.flowchart-stage-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.flowchart-scale {
+  color: var(--vd-text-secondary);
+  font-size: 0.875rem;
+}
+
+.flowchart-scale output {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Flex-grow instead of height: 100% so the shell stays inside the padded

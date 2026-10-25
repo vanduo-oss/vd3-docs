@@ -1898,7 +1898,97 @@ useAffix(root);
             Dedicated SVG flowchart editor — nodes, edges, layout, undo/redo.
           </p>
         </div>
-        <article class="version-card">
+        <article class="version-card" id="flowchart-1-5-0">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.5.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>October 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Opt-in camera and node bounds</strong> —
+                  <code>minScale</code> / <code>maxScale</code> default to
+                  <code>0.35</code> and <code>3</code>;
+                  <code>minNodeSize</code> / <code>maxNodeSize</code> default to
+                  <code>56</code> and <code>420</code>. Hosts can pass both
+                  ends, for example <code>0.05</code>–<code>20</code> and
+                  <code>6</code>–<code>4800</code>. Document format stays
+                  <code>1.3.0</code>.
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-magnifying-glass-plus"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Opt-in bounds and fitNode</strong>
+                        <p>
+                          Pass both ends of a pair. Omitting one end on a later
+                          update keeps that end; an invalid pair falls back to
+                          the whole default pair. <code>fitNode(nodeId)</code>
+                          frames one visible node. Unknown or hidden nodes do
+                          nothing. Viewport scale is stored to four decimal
+                          places.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-resize"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Small-node rendering and adaptive grid</strong>
+                        <p>
+                          Nodes smaller than their default size scale text,
+                          wrapping, radius, stroke, markers, curve arms,
+                          orthogonal routes, labels, and inline editors. Larger
+                          nodes do not grow that chrome. Junctions stay 28.
+                          Wider camera bounds use a 240,000-unit grid; the
+                          default bounds keep the 12,000-unit grid.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Unchanged</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-file-code"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Document format 1.3.0</strong>
+                        <p>
+                          Package <code>1.5.0</code> still writes document
+                          format <code>1.3.0</code>. Older 1.x documents still
+                          load. No nested containers, suggestion overlays,
+                          floating panels, or export API.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card" id="flowchart-1-4-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -1908,9 +1998,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>October 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
