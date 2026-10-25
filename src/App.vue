@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { computed, onBeforeUnmount, onMounted } from "vue";
 import { RouterView, useRoute } from "vue-router";
 import { useHead } from "@unhead/vue";
 import VdSiteDock from "@/layout/VdSiteDock.vue";
@@ -10,24 +10,23 @@ import { useThemeStore } from "@/stores/theme";
 import { useSearchStore } from "@/stores/search";
 import NavigationStatus from "@/layout/NavigationStatus.vue";
 import { useNavigation } from "@/navigation";
+import { docsDocumentTitle } from "@/lib/document-title";
+import { installVd3Favicon } from "@/lib/vd3-favicon";
 
 const route = useRoute();
 const theme = useThemeStore();
 const search = useSearchStore();
 const { pending } = useNavigation();
+let disconnectFavicon = () => {};
 
 // ── Per-route SEO (baked into the SSG HTML via @unhead) ──────────────
 const BASE_URL = "https://vd3.vanduo.dev";
-const BRAND_TITLE = "vd3 — Fibonacci-Tuned Vue 3 Design System";
 const DEFAULT_DESCRIPTION =
   "vd3 is a Fibonacci-tuned Vue 3 design system: first-class components and composables on a golden-ratio scale with a single, consistent token set.";
 
-const pageTitle = computed(() => {
-  const t = route.meta?.title as string | undefined;
-  if (route.path === "/") return "vd3";
-  if (!t || t === "vd3 Docs") return BRAND_TITLE;
-  return `${t} — vd3`;
-});
+const pageTitle = computed(() =>
+  docsDocumentTitle(route.path, route.meta?.title as string | undefined),
+);
 const pageDescription = computed(() => {
   const d = route.meta?.description as string | undefined;
   if (d) return d;
@@ -54,8 +53,11 @@ useHead({
 onMounted(() => {
   theme.init();
   search.init();
+  disconnectFavicon = installVd3Favicon();
   document.documentElement.dataset.vdHydrated = "true";
 });
+
+onBeforeUnmount(() => disconnectFavicon());
 </script>
 
 <template>

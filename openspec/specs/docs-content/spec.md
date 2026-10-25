@@ -8,18 +8,10 @@ routes with no dual-engine or invented APIs.
 
 ### Requirement: displayed package strings name the vd3 line
 
-Every **displayed** package specifier in the docs — the string literals inside
-`DocCodeSnippet` props and the `<code>` spans of prose, i.e. the text a reader
-copies — SHALL name the vd3 line. `@vanduo-oss/vue` SHALL be shown as
-`@vanduo-oss/vd3`. Charts and flowchart install/import strings SHALL name
-`@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart` (plus `/css`).
-Hex-grid, music-player, code-editor, and draw SHALL show
-`@vanduo-oss/vdl-cbun/{hex-grid,music-player,code-editor,draw}` (and
-`.../css` / `.../hex-math`) on guides and `/cbun`. Displayed strings MUST NOT
-name the retired packages `@vanduo-oss/charts`, `@vanduo-oss/flowchart`,
-`@vanduo-oss/hex-grid`, `@vanduo-oss/music-player`, or `@vanduo-oss/vue`.
-Historical changelog cards MAY still mention `@vanduo-oss/vd3-cbun/*` as the
-published path for those past releases.
+Displayed install and import strings SHALL name the vd3 line:
+`@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`.
+They MUST NOT name retired packages or `@vanduo-oss/vdl-cbun`. Historical
+changelog cards MAY still name `@vanduo-oss/vd3-cbun`.
 
 #### Scenario: no old-line package name survives in any displayed string
 
@@ -37,13 +29,14 @@ published path for those past releases.
   `@vanduo-oss/vd3-flowchart`, with no `@vanduo-oss/vd3-cbun/{charts,flowchart}`
   and no retired `@vanduo-oss/{charts,flowchart}` string
 
-#### Scenario: remaining canvas widgets name vdl-cbun
+#### Scenario: guides do not install a removed labs bundle
 
 - **GIVEN** `/cbun`, Getting started, Installation, and the ecosystem guide
-- **WHEN** install/import strings for draw, hex-grid, code-editor, and
-  music-player are read
-- **THEN** they show `@vanduo-oss/vdl-cbun/<name>` (not `@vanduo-oss/vd3-cbun`)
-  and no `@vanduo-oss/<name>/vue` or bare-old-package string
+- **WHEN** install and import strings are read
+- **THEN** charts and flowchart name `@vanduo-oss/vd3-charts` and
+  `@vanduo-oss/vd3-flowchart`
+- **AND** those pages do not show `@vanduo-oss/vdl-cbun` or
+  `@vanduo-oss/vd3-cbun`
 
 ### Requirement: the vanilla-only guides are removed
 
@@ -96,14 +89,9 @@ current guide. Visiting `/guides/migration` SHALL 404 via the existing catch-all
 
 ### Requirement: the integration guide covers vd3 installation
 
-`guides/FrameworkIntegration.vue` SHALL be rewritten as **"Installation &
-Integration"** and SHALL document installing `@vanduo-oss/vd3`, the dedicated
-`@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart` packages when those
-widgets are needed, and `@vanduo-oss/vdl-cbun` for the remaining canvas
-widgets (documented on labs), importing `@vanduo-oss/vd3/css`, installing the
-`VanduoVue` plugin (`app.use(VanduoVue, { themeDefaults })`), and vite-ssg /
-SSR usage. It MUST NOT tell readers to run `Vanduo.init` after mount or load
-an IIFE bundle.
+The Installation guide SHALL show `pnpm add @vanduo-oss/vd3`, the charts and
+flowchart packages, `@vanduo-oss/vd3/css`, and `app.use(VanduoVue)`. It MUST
+NOT tell readers to install `@vanduo-oss/vdl-cbun` or load a vanilla runtime.
 
 #### Scenario: the integration guide installs the plugin, not a runtime
 
@@ -118,7 +106,7 @@ an IIFE bundle.
 - **GIVEN** `guides/FrameworkIntegration.vue` after this change
 - **WHEN** its canvas install and import snippets are read
 - **THEN** they name `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`
-  separately from `@vanduo-oss/vdl-cbun`
+  as separate packages and do not name `@vanduo-oss/vdl-cbun`
 
 ### Requirement: the home page drops dual-engine marketing
 
@@ -137,18 +125,10 @@ intro copy MUST NOT contain "both engines", "Vanilla + Vue", "two engines",
 
 ### Requirement: the changelog documents the vd3 line packages only
 
-The changelog SHALL document **package** releases for the vd3 line only.
-`pages/changelog.vue` SHALL use three columns naming only `@vanduo-oss/vd3`,
-`@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`; it MUST NOT name
-`@vanduo-oss/core`, `@vanduo-oss/framework`, `@vanduo-oss/vue`, or any of the
-four old ecosystem packages as package columns, MUST NOT carry a cbun column,
-and MUST NOT carry any `data-engine` attribute. The header copy SHALL name
-those three vd3-line packages. The latest inline cards SHALL identify
-`@vanduo-oss/vd3` `1.7.4`, `@vanduo-oss/vd3-charts` `1.1.1`, and
-`@vanduo-oss/vd3-flowchart` `1.4.0`. Historical charts/flowchart cards MAY
-mention `@vanduo-oss/vd3-cbun/charts` and `@vanduo-oss/vd3-cbun/flowchart` as
-prior published paths. Per the changelog-content policy the page tracks
-package releases only, never docs-site content.
+The changelog SHALL have three package columns: `@vanduo-oss/vd3` `1.8.0`,
+charts `1.1.1`, and flowchart `1.5.0`, each marked Latest once. It MUST NOT
+add a cbun column, a `data-engine` attribute, or retired package identities.
+It tracks package releases only.
 
 #### Scenario: the changelog names the vd3 packages and drops the old line
 
@@ -166,14 +146,42 @@ package releases only, never docs-site content.
 - **GIVEN** the changelog grid after this change
 - **WHEN** the `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`
   columns are read
-- **THEN** charts `v1.1.1` and flowchart `v1.4.0` are each marked Latest
+- **THEN** charts `v1.1.1` and flowchart `v1.5.0` are each marked Latest
+- **AND** flowchart `v1.4.0` is present and is not marked Latest
 
-#### Scenario: vd3 Latest is 1.7.4
+#### Scenario: vd3 Latest is 1.8.0
 
 - **GIVEN** the `@vanduo-oss/vd3` column on `/changelog`
 - **WHEN** its latest release card is read
-- **THEN** `v1.7.4` is marked Latest and documents the anchor sanitizer,
-  tooltip surface, global-search client mount, and shared foreground tokens
+- **THEN** `v1.8.0` is marked Latest and documents layout and UI atom prop
+  parity, theme runtime fixes, and composable hardening
+- **AND** `v1.7.5` and `v1.7.4` remain earlier cards and are not marked Latest
+
+### Requirement: the flowchart page documents package 1.5.0
+
+`/canvas/flowchart` SHALL dogfood `@vanduo-oss/vd3-flowchart` `1.5.0` with one
+live editor at camera `0.05`/`20` and node size `6`/`4800`, and SHALL document
+the legacy defaults, `fitNode`, history methods, cardinal ports, and document
+format `1.3.0`. The minimap SHALL stay
+pointer-only and `aria-hidden`. The page MUST NOT present nested containers,
+parent ids, ghost suggestions, floating panels, or an export API as shipped,
+and MUST NOT claim an infinite canvas or WCAG conformance.
+
+#### Scenario: the live editor opts into the wide bounds
+
+- **GIVEN** `/canvas/flowchart`
+- **WHEN** the live editor is rendered
+- **THEN** it passes camera bounds `0.05` and `20` and node-size bounds `6`
+  and `4800`
+- **AND** a control calls `fitNode` on one visible node
+
+#### Scenario: persistence and events stay within the shipped API
+
+- **GIVEN** the flowchart API tables
+- **WHEN** they are read
+- **THEN** they name document format `1.3.0`, package `1.5.0`, `fitNode`,
+  and the four cardinal ports
+- **AND** they do not claim WCAG conformance or an infinite canvas
 
 ### Requirement: Charts component page documents SVG role overrides
 
@@ -190,17 +198,9 @@ accessibility role API: core factories accept `role`, while Vue accepts
 
 ### Requirement: six component pages dogfood the real vd3 components
 
-Six currently class-only pages SHALL be upgraded to render the real shipped
-component: `Breadcrumb.vue` (`VdBreadcrumb`), `Fab.vue` (`VdFab`),
-`Footer.vue` (`VdFooter`), `Navbar.vue` (`VdNavbar`),
-`ThemeSwitcher.vue` (`VdThemeSwitcher`), and `ThemeCustomizer.vue`
-(`VdThemeCustomizer`). Each page SHALL import the component from
-`@vanduo-oss/vd3`, live-render it in at least the primary demo, and add a
-"Component API (Vue 3)" table whose props/emits/slots are transcribed **verbatim
-from the component source** — no prop, emit, slot, or CSS class not present in
-`@vanduo-oss/vd3` SHALL be documented. Any existing CSS-class reference SHALL be
-kept where the component wraps documented classes. Page section IDs SHALL be
-preserved so anchors and scrollspy stay stable.
+Breadcrumb, Fab, Footer, Navbar, Theme Switcher, and Theme Customizer SHALL
+live-render the matching `Vd*` component from `@vanduo-oss/vd3`. Their API
+tables SHALL list only props, emits, and slots that exist on that component.
 
 #### Scenario: each upgraded page renders the real component with a true API table
 
@@ -221,14 +221,9 @@ preserved so anchors and scrollspy stay stable.
 
 ### Requirement: the DocSearch page documents VdDocSearch and useDocSearch
 
-A new page `src/pages/components/DocSearch.vue` SHALL document the vd3 doc-search
-feature: it SHALL render a live `<VdDocSearch :data="docs">` over an inline
-`DocSearchDoc[]` fixture, list `VdDocSearch`'s props and emits, and list the
-`useDocSearch` controller surface (`query`, `results`, `isOpen`, `activeIndex`,
-`search`, `open`, `close`, `navigate`, `select`, `handleKeydown`, `highlight`).
-Every documented field SHALL match `@vanduo-oss/vd3`'s `VdDocSearch.vue` and
-`useDocSearch.ts`. The `/components/doc-search` route registration is reported to
-the wiring step; this change authors only the page.
+`DocSearch.vue` SHALL live-render `VdDocSearch` from `@vanduo-oss/vd3` and
+document only props, emits, and `useDocSearch` members that exist in that
+package.
 
 #### Scenario: the DocSearch page renders the real component and composable API
 
@@ -274,15 +269,8 @@ replace them).
 
 ### Requirement: moved widget pages MUST NOT remain as in-site routes
 
-The four widget doc pages that moved to labs — Draw, Hex Grid, Code Editor, and
-Music Player — MUST NOT remain as in-site routes. The SFCs
-`src/pages/canvas/Draw.vue`, `src/pages/canvas/Hex.vue`,
-`src/pages/editors/CodeEditor.vue`, and `src/pages/media/MusicPlayer.vue` MUST
-NOT exist. `src/nav.ts` and `src/router.ts` MUST NOT register
-`/canvas/draw`, `/canvas/hex`, `/editors/code-editor`, or
-`/media/music-player`. The search index MUST NOT surface those four routes.
-Full documentation lives on labs:
-`https://labs.vanduo.dev/#widgets/{draw,hex,code-editor,music-player}`.
+Draw, Hex Grid, Code Editor, and Music Player MUST NOT remain as in-site
+routes, nav entries, or search hits. Their page modules MUST NOT exist.
 
 #### Scenario: the four page modules and routes are gone
 
@@ -297,54 +285,28 @@ Full documentation lives on labs:
   `/editors/code-editor`, and `/media/music-player`
 - **THEN** there are zero route hits for those paths
 
-### Requirement: /cbun showcase splits vd3 and vdl lines
+### Requirement: /cbun showcases charts and flowchart
 
-`/cbun` (`src/pages/cbun.vue`) SHALL keep a visual **vd3 | vdl** separator
-between lines. The **vd3** line SHALL include charts and flowchart cards with
-live previews and Documentation links on this site (`/canvas/charts`,
-`/canvas/flowchart`). The **vdl** line SHALL include draw, hex-grid,
-music-player, and code-editor as **four stacked rows** (image left, short
-explanation right) using theme-aware screenshots (light + dark assets under
-`public/images/cbun/`, swapped via `html[data-theme]` /
-`prefers-color-scheme`) — NOT live `VdDraw` / `VdHexGrid` / `VdMusicPlayer` /
-`VdCodeEditor` mounts on this page. The vdl section SHALL expose exactly three
-outbound links for the whole section: Labs widgets
-(`https://labs.vanduo.dev/#widgets`), Labs GitHub
-(`https://github.com/vanduo-oss/labs`), and vdl-cbun GitHub
-(`https://github.com/vanduo-oss/vdl-cbun`) — not per-widget Documentation
-buttons. `CbunShowcaseRow` MUST still support external Documentation hrefs for
-any remaining external docs use. The page SHALL end with a **Why the split?**
-section that states attention is limited: the vd3 line
-(`@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`) stays reviewed,
-documented on this site, and published on npm; Labs / `@vanduo-oss/vdl-cbun`
-widgets are best-effort with no guarantee of steady updates.
+`/cbun` (`src/pages/cbun.vue`) SHALL present live charts and flowchart
+previews from `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`, with
+Documentation links on this site (`/canvas/charts`, `/canvas/flowchart`) and
+install snippets for those two packages. It MUST NOT mount a labs canvas
+bundle, MUST NOT depend on `@vanduo-oss/vdl-cbun`, and MUST NOT present a
+vd3-versus-labs split or a "Why the split?" section.
 
-#### Scenario: separator and vdl screenshot rows
+#### Scenario: both published canvas packages are previewed
 
-- **GIVEN** `/cbun` after this change
+- **GIVEN** `/cbun`
 - **WHEN** the page is rendered
-- **THEN** vd3 cards appear above a visual vd3|vdl separator, four stacked vdl
-  screenshot rows appear below it (draw, hex, music player, code editor), and
-  the vdl section shows exactly the three Labs / GitHub links above
-
-#### Scenario: Why the split explains limited attention
-
-- **GIVEN** `/cbun` after this change
-- **WHEN** the page is rendered
-- **THEN** a heading "Why the split?" appears after the vdl links
-- **AND** the section states that vd3 charts/flowchart are published on npm
-  with focused maintenance, and that Labs / vdl-cbun has no update guarantee
+- **THEN** a charts preview and a flowchart preview are present
+- **AND** each links to its documentation page on this site
+- **AND** the page does not mention `@vanduo-oss/vdl-cbun`
 
 ### Requirement: the About page is a vd3 overview, not vd2 founder copy
 
-The `/about` page ([src/pages/about.vue](../../../src/pages/about.vue)) SHALL present a
-plain-language overview of the standalone vd3 line and MUST NOT carry the pre-strip
-vd2 clone's founder's-message content (e.g. "The Shape of the Water") or any
-dual-engine / vanilla-engine framing. Its prose SHALL describe only real facts about
-`@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, `@vanduo-oss/vd3-flowchart`, and
-`@vanduo-oss/vdl-cbun` and MUST NOT invent component or composable APIs. All
-page styling SHALL remain scoped to `about.vue`; the change MUST NOT modify
-`app.css` or other shell/layout stylesheets.
+`/about` SHALL overview `@vanduo-oss/vd3`, charts, and flowchart without a
+founder's message, dual-engine framing, labs-bundle dependency, or invented
+APIs. Its styling SHALL stay in `about.vue`.
 
 #### Scenario: the page describes the vd3 package, not a founder's message
 - **WHEN** a reader opens `/about`
@@ -421,22 +383,9 @@ after the theme store commits.
 
 ### Requirement: first-visit default primary is green in dark
 
-The docs site SHALL default first-visit (unset) primary to Ink (`black`) in
-light and `green` in dark via `themeDefaults.PRIMARY_LIGHT` /
-`PRIMARY_DARK` at bootstrap and the matching `DOCS_DEFAULT_PRIMARY_*`
-constants. First visit SHALL persist both scheme defaults to
-`vanduo-primary-color-light` and `vanduo-primary-color-dark`, then apply the
-value for the resolved scheme.
-
-A lone legacy `vanduo-primary-color` SHALL be migrated: stored `blue` (the
-former shared docs default) remaps like a first visit; any other stored hue
-SHALL be kept as the current/last scheme's preference, and the other scheme
-SHALL receive its first-visit default. Per-scheme keys, once present, SHALL
-win over the legacy key.
-
-When dark mode is active and primary is `green` (an explicit user choice), the
-docs shell CSS SHALL still pin semantic primary tokens to the logo stop
-(`--vd-green-8` = `#2f9e44`) and its ramp companions.
+A first visit SHALL use primary Ink (`black`) in light and `green` in dark,
+and SHALL persist both scheme keys. A lone legacy primary SHALL migrate as
+the scenarios describe. Explicit dark `green` SHALL keep the logo green stop.
 
 #### Scenario: fresh light visit uses black and persists both scheme defaults
 
@@ -506,15 +455,8 @@ walkthroughs (not as “components”) and SHALL match `src/nav.ts`.
 
 ### Requirement: the Modal page renders the real VdModal
 
-`src/pages/components/Modal.vue` SHALL import and live-render `VdModal` from
-`@vanduo-oss/vd3`, driving it with only the real props (`open`, `title`, `size`
-of `sm`/`md`/`lg`, `closeOnBackdrop`) and handling `@update:open` / `@close`. The
-page SHALL NOT document a `data-modal` / `data-dismiss` attribute API, SHALL NOT
-list `modal:open` / `modal:close` events, and SHALL NOT hand-roll a
-`<div class="vd-modal is-open">` dialog. Any CSS-class reference SHALL describe
-the DOM the component actually renders (`.vd-modal`, `.vd-modal-open`,
-`.vd-modal-backdrop`, `.vd-modal-panel[-sm|-md|-lg]`, `.vd-modal-header`,
-`.vd-modal-title`, `.vd-modal-body`, `.vd-modal-footer`).
+The Modal page SHALL live-render `VdModal` with its real props and events. It
+MUST NOT document a `data-modal` attribute API or a hand-rolled dialog.
 
 #### Scenario: the modal page uses the component, not a vanilla attribute API
 
@@ -552,13 +494,9 @@ emits).
 
 ### Requirement: the Tree and Transfer pages document props, not data-attributes
 
-`src/pages/components/Tree.vue` and `src/pages/components/Transfer.vue` SHALL show
-their usage snippets as `<VdTree :nodes>` / `<VdTransfer :items>` component
-markup and SHALL NOT present `data-vd-tree` / `data-vd-transfer` auto-init markup
-or a Data-Attributes table describing such an API. The real `tree:check`,
-`tree:toggle`, and `transfer:change` CustomEvents (dispatched by the components)
-SHALL be retained in the events tables. Any CSS-class reference SHALL name only
-classes the component renders.
+Tree and Transfer SHALL show `<VdTree :nodes>` and `<VdTransfer :items>`.
+They MUST NOT document `data-vd-tree` or `data-vd-transfer` auto-init. Real
+component events SHALL stay in the tables.
 
 #### Scenario: tree/transfer snippets reference the real props
 
@@ -590,14 +528,9 @@ prop / emit / slot documented for these components SHALL exist on the installed
 
 ### Requirement: docs prose carries no dual-engine vanilla framing
 
-The Theme Customizer guide (`src/pages/guides/ThemeCustomizerGuide.vue`) SHALL
-list the real persisted `localStorage` keys — `vanduo-palette`,
-`vanduo-primary-color`, `vanduo-neutral-color`, `vanduo-radius`,
-`vanduo-font-preference`, `vanduo-theme-preference`. Across the touched pages
-(`Badge.vue`, `Button.vue`, `Primitives.vue`, and comments in `Tree.vue` /
-`Transfer.vue` / `Modal.vue`) "Vanilla-only" / "engine-specific" dual-engine
-framing SHALL be removed, reworded to name CSS-only classes that ship in vd3's
-CSS. `app.css` SHALL remain shell/layout-only.
+The Theme Customizer guide SHALL list the real `vanduo-*` storage keys.
+Touched component pages MUST NOT use dual-engine framing. `app.css` SHALL
+stay shell and layout only.
 
 #### Scenario: the guide lists the real storage keys
 
@@ -615,16 +548,9 @@ CSS. `app.css` SHALL remain shell/layout-only.
 
 ### Requirement: component demo pages open with a one-line intro
 
-Every component **demo** page under `src/pages/components/` that renders a
-`demo-title` — SHALL render exactly one one-line intro `<p>` directly
-under its `demo-title`, describing
-the component in plain language with no invented component or composable API. The
-intro `<p>` SHALL carry the spacing token `vd-mb-8` and SHALL NOT be muted
-(`vd-text-muted`), matching the majority convention across the demo family. The
-nine pages that previously lacked an intro — `Button`, `ButtonGroups`, `Chip`,
-`Collection`, `Scrollspy`, `Table`, `Avatar`, `Flow`, `Toast` — SHALL each gain
-one. This change SHALL NOT add or alter any heading, and the guide/effect prose
-pages (their own `vd-mb-6` lead convention) are out of scope.
+Each component demo page SHALL open with one plain-language intro paragraph
+using `vd-mb-8`, not muted. It MUST NOT invent an API. Guide pages are out
+of scope.
 
 #### Scenario: every component demo page has a normalized intro
 
@@ -749,14 +675,9 @@ document the modifier in its reference tables. Nav keywords SHALL include
 
 ### Requirement: ecosystem guide states legacy retirement without a migration page
 
-`/guides/vd3-ecosystem` (`Vd3Ecosystem.vue`) SHALL describe the vd3 line
-packages (docs, `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`,
-`@vanduo-oss/vd3-flowchart`) plus `@vanduo-oss/vdl-cbun` for the remaining
-canvas widgets (documented on labs) and MAY carry a short note that vanduo v2
-was retired and vd3 is the only maintained line. It MUST NOT use "maintenance
-mode" / "critical fixes" wording, MUST NOT name individual retired package
-slugs, and MUST NOT link to `/guides/migration`. The docs MUST NOT ship a
-migration page (existing no-migration requirement remains).
+The ecosystem guide SHALL name the docs site, `@vanduo-oss/vd3`, charts, and
+flowchart, and SHALL say these docs dogfood flowchart `1.5.0`. It MUST NOT
+name a templates app, `@vanduo-oss/vdl-cbun`, or link to `/guides/migration`.
 
 #### Scenario: retirement without migration
 
@@ -774,19 +695,15 @@ migration page (existing no-migration requirement remains).
 
 ### Requirement: the ecosystem guide describes the vd3 line packages
 
-`guides/Vd3Ecosystem.vue` SHALL describe the vd3 line — `vd3-docs` (the docs
-site), `vd3` (the Vue 3 component library with tokens and CSS),
-`vd3-charts` and `vd3-flowchart` (dedicated canvas widgets), and `vdl-cbun`
-(the labs canvas bundle: code-editor / draw / hex-grid / music-player,
-documented on labs). It MUST NOT present "pick an engine (Vanilla or Vue)"
-framing, the old four-separate-add-on-package install grid, or vanduo v2 /
-legacy-line migration teaching.
+`Vd3Ecosystem.vue` SHALL describe `vd3-docs`, `@vanduo-oss/vd3`, charts, and
+flowchart. It MUST NOT present a templates package, a labs bundle, or a
+vanilla-versus-Vue choice.
 
 #### Scenario: the ecosystem guide names the vd3 line packages
 
 - **GIVEN** `guides/Vd3Ecosystem.vue` after this change
 - **WHEN** it is read
 - **THEN** it names `vd3-docs`, `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`,
-  `@vanduo-oss/vd3-flowchart`, and `@vanduo-oss/vdl-cbun`, and contains no
-  "when to use the Vanilla engine" / "when to use the Vue 3 engine" choice
-  section and no vanduo v2 migration teaching
+  and `@vanduo-oss/vd3-flowchart`, says the docs dogfood flowchart `1.5.0`,
+  and contains no templates package, `@vanduo-oss/vdl-cbun`, or vanilla-versus-Vue
+  choice

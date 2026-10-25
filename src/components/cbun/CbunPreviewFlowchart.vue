@@ -52,15 +52,8 @@ const seedDoc = {
   ],
 };
 
-/** Matches the mobile chrome collapse in this wrapper's scoped CSS. */
-const MOBILE_SHOWCASE_MQ = "(max-width: 768px)";
-
 interface FlowchartShowcaseInstance {
   fitView?: () => void;
-  setViewport?: (viewport: { x: number; y: number; scale: number }) => void;
-  toJSON?: () => {
-    nodes?: Array<{ x: number; y: number; width: number; height: number }>;
-  };
   canvasEl?: HTMLElement;
 }
 
@@ -74,58 +67,6 @@ function stopObserving(): void {
 
 onBeforeUnmount(stopObserving);
 
-function isMobileShowcase(): boolean {
-  return (
-    typeof window !== "undefined" &&
-    window.matchMedia(MOBILE_SHOWCASE_MQ).matches
-  );
-}
-
-/**
- * Built-in fitView() always pads 80px and clamps to 35% — on a narrow
- * showcase canvas that leaves a tiny, left-weighted diagram. Re-center
- * with tighter padding after the mobile palette is hidden.
- */
-function applyShowcaseFit(
-  instance: FlowchartShowcaseInstance,
-  coreFit?: () => void,
-): void {
-  if (!isMobileShowcase()) {
-    coreFit?.();
-    return;
-  }
-  const width = instance.canvasEl?.clientWidth ?? 0;
-  const height = instance.canvasEl?.clientHeight ?? 0;
-  const nodes = instance.toJSON?.()?.nodes ?? [];
-  if (!instance.setViewport || !width || !height || !nodes.length) {
-    coreFit?.();
-    return;
-  }
-  let left = Infinity;
-  let top = Infinity;
-  let right = -Infinity;
-  let bottom = -Infinity;
-  for (const node of nodes) {
-    left = Math.min(left, node.x);
-    top = Math.min(top, node.y);
-    right = Math.max(right, node.x + node.width);
-    bottom = Math.max(bottom, node.y + node.height);
-  }
-  const contentWidth = Math.max(1, right - left);
-  const contentHeight = Math.max(1, bottom - top);
-  const padding = 28;
-  const scale = Math.min(
-    (width - padding * 2) / contentWidth,
-    (height - padding * 2) / contentHeight,
-    3,
-  );
-  instance.setViewport({
-    x: width / 2 - ((left + right) / 2) * scale,
-    y: height / 2 - ((top + bottom) / 2) * scale,
-    scale,
-  });
-}
-
 function onReady(instance: FlowchartShowcaseInstance | null): void {
   if (!instance) return;
   stopObserving();
@@ -134,18 +75,13 @@ function onReady(instance: FlowchartShowcaseInstance | null): void {
     "aria-label",
     "Diagram canvas. Arrow keys select nodes; Enter edits a label.",
   );
-  const coreFit = instance.fitView?.bind(instance);
-  if (coreFit) {
-    instance.fitView = () => {
-      applyShowcaseFit(instance, coreFit);
-    };
-  }
-  applyShowcaseFit(instance, coreFit);
+  const fit = () => instance.fitView?.();
+  fit();
   const scheduleFit = () => {
     if (fitFrame !== undefined) cancelAnimationFrame(fitFrame);
     fitFrame = requestAnimationFrame(() => {
       fitFrame = undefined;
-      applyShowcaseFit(instance, coreFit);
+      fit();
     });
   };
   // The showcase changes width when its outer row stacks/un-stacks. Observe

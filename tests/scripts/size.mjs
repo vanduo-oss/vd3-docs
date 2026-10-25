@@ -8,10 +8,11 @@ import { JSDOM } from "jsdom";
 // Lazy imports, font binaries, images and third-party requests are reported separately.
 const ROOT = resolve("dist");
 // v1.7.8 hybrid: homepage retains its 375 KiB gate; docs may load 15 small
-// references upfront. Flowchart 1.4.0 grows the canvas route ~5 KiB gzip past
-// the prior 390 KiB gate. Measured trade-off and all-eager comparison live in
-// reviews/2026-09-20-navigation/. Canvas stays lazy (not a blanket rollback).
-const MAX_INITIAL_GZIP_KIB = 400;
+// references upfront. Flowchart 1.4.0 moved the canvas route to a 400 KiB
+// gate. Package 1.5.0 adds about 2.2 KiB gzip in the editor, and
+// canvas/flowchart.html measured 401.1 KiB gzip on 2026-10-25, so the docs
+// gate is 404 KiB. Canvas stays lazy (not a blanket rollback).
+const MAX_INITIAL_GZIP_KIB = 404;
 const MAX_HOME_GZIP_KIB = 375;
 const MAX_SEARCH_BYTES = 350_000;
 const ROUTES = [

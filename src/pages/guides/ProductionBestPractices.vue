@@ -3,9 +3,9 @@ import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const pinShell = `# Pin exact versions so visual output is reproducible
-pnpm add @vanduo-oss/vd3@1.7.5
+pnpm add @vanduo-oss/vd3@1.8.0
 pnpm add @vanduo-oss/vd3-charts@1.1.1
-pnpm add @vanduo-oss/vd3-flowchart@1.4.0`;
+pnpm add @vanduo-oss/vd3-flowchart@1.5.0`;
 
 const entryJs = `// main.ts — CSS once, plugin once, named JS imports elsewhere
 import { createApp } from 'vue';
