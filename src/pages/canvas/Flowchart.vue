@@ -10,8 +10,8 @@ import {
 } from "@vanduo-oss/vd3-flowchart";
 
 /**
- * One flat diagram. Note is a small rectangle placed off the main row so
- * Frame note can fill the canvas with that shape alone.
+ * One flat diagram. Note is a small rectangle off the main row so the
+ * editor can show a shape below the default size.
  */
 const seedDoc = {
   version: FLOWCHART_DOCUMENT_VERSION,
@@ -112,10 +112,6 @@ function showOverview() {
   editor.value?.getInstance()?.zoomTo(0.05);
 }
 
-function frameNote() {
-  editor.value?.fitNode("note");
-}
-
 const installShell = `pnpm add @vanduo-oss/vd3-flowchart`;
 
 const vue3Usage = `<script setup lang="ts">
@@ -135,7 +131,7 @@ const document = ref<VdFlowchartDocument>({
 <template>
   <button type="button" @click="readonly = !readonly">Toggle read-only</button>
   <button type="button" :disabled="!editor?.canUndo()" @click="editor?.undo()">Undo</button>
-  <button type="button" @click="editor?.fitNode('note')">Frame note</button>
+  <button type="button" @click="editor?.fitNode('note')">Fit note</button>
   <VdFlowchart ref="editor" :data="document" :readonly="readonly"
     :min-scale="0.05" :max-scale="20" :min-node-size="6" :max-node-size="4800"
     auto-fit style="height: 560px" @change="document = $event.document" />
@@ -327,14 +323,6 @@ const shortcuts: [string, string][] = [
           <button
             type="button"
             class="vd-btn vd-btn-outline vd-btn-sm"
-            data-flowchart-demo="detail"
-            @click="frameNote"
-          >
-            Frame note
-          </button>
-          <button
-            type="button"
-            class="vd-btn vd-btn-outline vd-btn-sm"
             :aria-pressed="fullscreen"
             @click="toggleFullscreen"
           >
@@ -360,13 +348,10 @@ const shortcuts: [string, string][] = [
 
     <p>
       <strong>Overview</strong> sets the camera to <code>0.05</code>, so the
-      whole diagram is visible at once. <strong>Frame note</strong> calls
-      <code>fitNode('note')</code>, which centers the Note rectangle and zooms
-      until that shape fills the canvas. The Start, Review, and junction shapes
-      sit outside that view. Note is a normal rectangle, not a nested container.
-      The editor toolbar still zooms, fits, and undoes. Hover a node to show a
-      handle outside each side: drag a handle to connect, or click it to add a
-      connected node.
+      whole diagram is visible at once. The editor toolbar still zooms, fits,
+      and undoes. Note is a normal rectangle, not a nested container. Hover a
+      node to show a handle outside each side: drag a handle to connect, or
+      click it to add a connected node.
     </p>
     <p>
       A node smaller than its default size scales its text, wrapping, radius,

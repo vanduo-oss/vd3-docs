@@ -200,7 +200,8 @@ describe("VdFlowchart (@vanduo-oss/vd3-flowchart)", () => {
     expect(wrapper.find("[data-flowchart-demo='overview']").exists()).toBe(
       true,
     );
-    expect(wrapper.find("[data-flowchart-demo='detail']").exists()).toBe(true);
+    expect(wrapper.find("[data-flowchart-demo='detail']").exists()).toBe(false);
+    expect(wrapper.text()).not.toContain("Frame note");
     wrapper.unmount();
   });
 });
