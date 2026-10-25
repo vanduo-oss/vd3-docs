@@ -10,8 +10,8 @@ import {
 } from "@vanduo-oss/vd3-flowchart";
 
 /**
- * One diagram, flat nodes. The small "Note" is a normal shape so Frame note
- * can show a close scale. It is not a nested container.
+ * One flat diagram. Note is a small rectangle placed off the main row so
+ * Frame note can fill the canvas with that shape alone.
  */
 const seedDoc = {
   version: FLOWCHART_DOCUMENT_VERSION,
@@ -47,10 +47,10 @@ const seedDoc = {
     {
       id: "note",
       type: "rect",
-      x: 560,
-      y: 133,
-      width: 6,
-      height: 6,
+      x: 760,
+      y: 280,
+      width: 16,
+      height: 16,
       text: "Note",
     },
   ],
@@ -68,14 +68,6 @@ const seedDoc = {
       to: { nodeId: "join", port: "left" },
       kind: "arrow",
       route: "orthogonal",
-    },
-    {
-      id: "to-note",
-      from: { nodeId: "join", port: "right" },
-      to: { nodeId: "note", port: "left" },
-      kind: "arrow",
-      route: "curve",
-      label: "detail",
     },
   ],
 };
@@ -367,12 +359,14 @@ const shortcuts: [string, string][] = [
     </div>
 
     <p>
-      <strong>Overview</strong> sets the camera to <code>0.05</code>.
-      <strong>Frame note</strong> calls <code>fitNode('note')</code> and frames
-      the small Note shape. Note is a normal node in the same diagram, not a
-      nested container. The editor toolbar still zooms, fits, and undoes. Hover
-      a node to show a handle outside each side: drag a handle to connect, or
-      click it to add a connected node.
+      <strong>Overview</strong> sets the camera to <code>0.05</code>, so the
+      whole diagram is visible at once. <strong>Frame note</strong> calls
+      <code>fitNode('note')</code>, which centers the Note rectangle and zooms
+      until that shape fills the canvas. The Start, Review, and junction shapes
+      sit outside that view. Note is a normal rectangle, not a nested container.
+      The editor toolbar still zooms, fits, and undoes. Hover a node to show a
+      handle outside each side: drag a handle to connect, or click it to add a
+      connected node.
     </p>
     <p>
       A node smaller than its default size scales its text, wrapping, radius,
