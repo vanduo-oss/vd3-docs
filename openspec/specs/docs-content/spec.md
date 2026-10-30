@@ -126,7 +126,7 @@ intro copy MUST NOT contain "both engines", "Vanilla + Vue", "two engines",
 ### Requirement: the changelog documents the vd3 line packages only
 
 The changelog SHALL have three package columns: `@vanduo-oss/vd3` `1.8.0`,
-charts `1.1.1`, and flowchart `1.5.0`, each marked Latest once. It MUST NOT
+charts `1.2.0`, and flowchart `1.5.0`, each marked Latest once. It MUST NOT
 add a cbun column, a `data-engine` attribute, or retired package identities.
 It tracks package releases only.
 
@@ -146,8 +146,8 @@ It tracks package releases only.
 - **GIVEN** the changelog grid after this change
 - **WHEN** the `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`
   columns are read
-- **THEN** charts `v1.1.1` and flowchart `v1.5.0` are each marked Latest
-- **AND** flowchart `v1.4.0` is present and is not marked Latest
+- **THEN** charts `v1.2.0` and flowchart `v1.5.0` are each marked Latest
+- **AND** charts `v1.1.1` and flowchart `v1.4.0` are present and are not marked Latest
 
 #### Scenario: vd3 Latest is 1.8.0
 
@@ -156,6 +156,24 @@ It tracks package releases only.
 - **THEN** `v1.8.0` is marked Latest and documents layout and UI atom prop
   parity, theme runtime fixes, and composable hardening
 - **AND** `v1.7.5` and `v1.7.4` remain earlier cards and are not marked Latest
+
+### Requirement: changelog release cards follow a uniform icon-and-link structure
+
+Every `.version-card` on `/changelog` SHALL have a unique anchor `id`, a `.version-header` with version badge and `ph ph-calendar` month-year date matching the package `CHANGELOG.md`, and a `.version-body` using `.change-group` (`<h5>` + `ul.change-list`) and `.change-item` rows (`i.ph` icon + `<strong>` + `<p>`) with at least one `<RouterLink>`. Plain bullet lists and unshipped `ph-bold` classes MUST NOT be used.
+
+#### Scenario: every release card uses structured change groups, shipped icons, and route links
+
+- **GIVEN** all `.version-card` articles across the three columns on `/changelog`
+- **WHEN** their DOM structure is inspected
+- **THEN** every card has a unique `id` (`^(vd3|charts|flowchart)-\d+-\d+-\d+(-initial)?$`), a `.ph.ph-calendar` date icon, a `.vd-text-muted` lead summary, one or more `.change-group` sections with an `<h5>` heading and `ul.change-list > li.change-item` entries, and at least one `<RouterLink>` to a documented route
+- **AND** no card uses plain `<ul><li>` bullet dots or unshipped `ph-bold` icon classes
+
+#### Scenario: charts 1.2.0 release card carries the November 2026 release date
+
+- **GIVEN** `#charts-1-2-0` in the `@vanduo-oss/vd3-charts` column on `/changelog`
+- **WHEN** its header and body are read
+- **THEN** the header displays `v1.2.0`, `November 2026`, and `Latest`
+- **AND** its `.change-item` rows document Vue wrapper prop parity, `MutationObserver` theme reactivity on `document.documentElement` and `document.body`, polar and Cartesian `legend.position` options, CSS color strings in `color`, and typed wrapper click emits
 
 ### Requirement: the flowchart page documents package 1.5.0
 
@@ -185,9 +203,11 @@ and MUST NOT claim an infinite canvas or WCAG conformance.
 
 ### Requirement: Charts component page documents SVG role overrides
 
-The Charts page SHALL document the published `@vanduo-oss/vd3-charts@1.1.1`
-accessibility role API: core factories accept `role`, while Vue accepts
-`svgRole` so normal `role` continues to fall through to the wrapper root.
+The Charts page SHALL document the published `@vanduo-oss/vd3-charts@1.2.0`
+accessibility role API and Vue wrapper prop parity: core factories accept
+`role`, while Vue accepts `svgRole` so normal `role` continues to fall through
+to the wrapper root, and Vue wrappers expose all core styling, layout, and scale
+options.
 
 #### Scenario: Charts API distinguishes wrapper and SVG roles
 

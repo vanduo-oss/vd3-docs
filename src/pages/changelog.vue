@@ -66,72 +66,210 @@ useAffix(root);
               >v1.8.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>October 2026
+              <i class="ph ph-calendar mr-1"></i>October 2026
             </span>
             <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
               >Latest</span
             >
           </header>
           <div class="version-body">
-            <p>
-              Atomic layer parity, theme runtime resilience, and interaction
-              composable hardening.
-            </p>
-            <ul>
-              <li>
-                <strong>Layout Primitive Prop Parity:</strong>
-                <code>VdBox</code> gains <code>bg</code>, <code>round</code>,
-                and <code>border</code> props; <code>VdStack</code> gains
-                <code>align</code> and polymorphic <code>as</code> tag support;
-                <code>VdInline</code> gains <code>as</code>, <code>align</code>,
-                <code>justify</code>, and <code>wrap</code> props;
-                <code>VdCover</code> and <code>VdSwitcher</code> widen
-                <code>Gap</code> to <code>fib-13|21|34</code> and
-                <code>VdSwitcher</code> gains <code>as</code>;
-                <code>VdFrame</code> gains <code>21-9</code> aspect ratio and
-                <code>as</code>.
-              </li>
-              <li>
-                <strong>UI Atom Prop Parity:</strong>
-                <code>VdButton</code> gains <code>outline</code>,
-                <code>block</code>, <code>icon</code> props and
-                <code>aria-busy</code> reflection; <code>VdBadge</code> gains
-                <code>size</code> and <code>outlined</code>;
-                <code>VdSpinner</code> gains <code>xs</code> and
-                <code>xl</code> sizes plus <code>variant</code>;
-                <code>VdProgress</code> gains <code>variant</code> and
-                <code>size</code>.
-              </li>
-              <li>
-                <strong>Theme Runtime Fixes:</strong>
-                Explicit primary selection via <code>setPrimary()</code> now
-                persists across scheme flips, unrelated preference setters, and
-                page reloads (including <code>amber</code> in light mode and
-                <code>black</code> in dark mode). <code>loadPreference()</code>
-                validates fields against permitted options, and
-                <code>useThemeBridge</code> routes through the shared singleton.
-              </li>
-              <li>
-                <strong>Accessibility &amp; DOM Cleanups:</strong>
-                <code>VdSpinner</code> renders a single CSS border spinner with
-                visually-hidden status text; <code>VdChip</code> removes the
-                duplicate close glyph and supports keyboard activation;
-                <code>VdSelect</code> is a clean single-root element;
-                <code>VdAvatar</code> clips status dots correctly with fallback
-                error handling; <code>VdSkeleton</code> supports the
-                <code>rect</code> shape.
-              </li>
-              <li>
-                <strong>Composable Hardening:</strong>
-                <code>useValidate</code> resolves wrapper elements (such as
-                <code>VdInput</code>) for seamless delegated validation;
-                <code>useRipple</code> supports custom wave colors, centered
-                ripples, and reduced-motion preferences;
-                <code>useFocusTrap</code> filters hidden DOM elements;
-                <code>useKeyboardNav</code> synchronizes active focus and skips
-                disabled items.
-              </li>
-            </ul>
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong
+                    >Atomic layer prop parity, theme runtime resilience, and
+                    composable hardening</strong
+                  >
+                  — layout primitives and UI atoms gain full prop parity,
+                  explicit primary selections persist across theme flips, and
+                  form, overlay, and keyboard composables are hardened.
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-layout"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Layout primitive prop parity</strong>
+                        <p>
+                          <code>VdBox</code> gains <code>bg</code>,
+                          <code>round</code>, and <code>border</code> props;
+                          <code>VdStack</code> gains <code>align</code> and
+                          polymorphic <code>as</code> tag support;
+                          <code>VdInline</code> gains <code>as</code>,
+                          <code>align</code>, <code>justify</code>, and
+                          <code>wrap</code> props; <code>VdCover</code> and
+                          <code>VdSwitcher</code> widen <code>Gap</code> to
+                          <code>fib-13|21|34</code> and
+                          <code>VdSwitcher</code> gains <code>as</code>;
+                          <code>VdFrame</code> gains <code>21-9</code> aspect
+                          ratio and <code>as</code>. See
+                          <RouterLink to="/components/primitives"
+                            ><code>/components/primitives</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-toggle-right"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>UI atom prop parity &amp; form types</strong>
+                        <p>
+                          <RouterLink to="/components/button"
+                            ><code>VdButton</code></RouterLink
+                          >
+                          gains <code>outline</code>, <code>block</code>,
+                          <code>icon</code> props and
+                          <code>aria-busy</code> reflection;
+                          <RouterLink to="/components/badge"
+                            ><code>VdBadge</code></RouterLink
+                          >
+                          gains <code>size</code> and <code>outlined</code>;
+                          <RouterLink to="/components/spinner"
+                            ><code>VdSpinner</code></RouterLink
+                          >
+                          gains <code>xs</code> and <code>xl</code> sizes plus
+                          <code>variant</code>;
+                          <RouterLink to="/components/progress"
+                            ><code>VdProgress</code></RouterLink
+                          >
+                          gains <code>variant</code> and <code>size</code>; and
+                          <RouterLink to="/components/forms"
+                            >form option types</RouterLink
+                          >
+                          (<code>VdRadioOption</code>,
+                          <code>VdRadioGroupProps</code>,
+                          <code>VdSelectOption</code>,
+                          <code>VdSelectProps</code>) are re-exported from the
+                          package root.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-drop"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Ripple attributes &amp; Nunito font</strong>
+                        <p>
+                          <RouterLink to="/components/ripple"
+                            ><code>useRipple</code></RouterLink
+                          >
+                          supports custom wave colors
+                          (<code>data-vd-ripple-color</code>), centered ripples
+                          (<code>data-vd-ripple-centered</code>), touch/mouse
+                          deduplication, and reduced-motion preferences;
+                          <code>@font-face</code> declarations are added for
+                          <code>nunito</code> alongside the
+                          <code>data-font="system"</code> OS stack in
+                          <RouterLink to="/core/typography"
+                            ><code>/core/typography</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-palette"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Theme runtime, shadows &amp; neutral tokens</strong
+                        >
+                        <p>
+                          Explicit primary selection via
+                          <code>setPrimary()</code> now persists across scheme
+                          flips, unrelated preference setters, and page reloads
+                          (including <code>amber</code> in light mode and
+                          <code>black</code> in dark mode).
+                          <code>loadPreference()</code> validates fields against
+                          permitted options, <code>useThemeBridge</code> routes
+                          through the shared singleton,
+                          <code>data-neutral="gray"</code> uses palette-aware
+                          variables,
+                          <RouterLink to="/components/theme-customizer"
+                            ><code>VdThemeCustomizer</code></RouterLink
+                          >
+                          uses a 6-column neutral swatch grid, and system-theme
+                          dark shadow bleed in
+                          <RouterLink to="/core/shadows-glow"
+                            ><code>/core/shadows-glow</code></RouterLink
+                          >
+                          is resolved.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-wheelchair"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Accessibility &amp; DOM cleanups</strong>
+                        <p>
+                          <RouterLink to="/components/spinner"
+                            ><code>VdSpinner</code></RouterLink
+                          >
+                          renders a single CSS border spinner with
+                          visually-hidden status text;
+                          <RouterLink to="/components/chip"
+                            ><code>VdChip</code></RouterLink
+                          >
+                          removes the duplicate close glyph and supports
+                          keyboard activation; <code>VdSelect</code> is a clean
+                          single-root element;
+                          <RouterLink to="/components/avatar"
+                            ><code>VdAvatar</code></RouterLink
+                          >
+                          clips status dots cleanly with fallback error
+                          handling;
+                          <RouterLink to="/components/skeleton"
+                            ><code>VdSkeleton</code></RouterLink
+                          >
+                          supports the <code>rect</code> shape.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-keyboard"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Composable hardening</strong>
+                        <p>
+                          <RouterLink to="/components/form-validation"
+                            ><code>useValidate</code></RouterLink
+                          >
+                          resolves wrapper elements (such as
+                          <code>VdInput</code>) for seamless delegated
+                          validation; <code>useFocusTrap</code> filters hidden
+                          DOM elements; and
+                          <code>useKeyboardNav</code> synchronizes active focus
+                          and skips disabled items. See
+                          <RouterLink to="/guides/accessibility"
+                            ><code>/guides/accessibility</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </article>
         <article class="version-card" id="vd3-1-7-6">
@@ -142,40 +280,90 @@ useAffix(root);
               >v1.7.6</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>October 2026
+              <i class="ph ph-calendar mr-1"></i>October 2026
             </span>
           </header>
           <div class="version-body">
-            <p>
-              Runtime hardening for sanitized HTML installation and lazy-load
-              cleanup.
-            </p>
-            <ul>
-              <li>
-                Lazy-loaded responses and caller-supplied placeholders are
-                sanitized in a detached document, then installed with
-                <code>replaceChildren</code> instead of assigning untrusted
-                markup to <code>innerHTML</code>. Non-DOM environments fail
-                closed to escaped text.
-              </li>
-              <li>
-                Sanitized content follows the element and attribute allowlists:
-                event handlers and <code>style</code> are removed by default,
-                while explicitly allowed styles retain the sanitizer’s
-                dangerous-value scrub.
-              </li>
-              <li>
-                Each <code>useLazyLoad</code> instance owns its observers, fetch
-                abort controllers, and timers; unmount now disconnects
-                observations, aborts in-flight requests, and clears pending
-                timeouts.
-              </li>
-              <li>
-                Development dependencies and audit handling were refreshed while
-                retaining narrow exceptions for reviewed, development-only
-                advisories.
-              </li>
-            </ul>
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong
+                    >Sanitized HTML installation and lazy-load cleanup</strong
+                  >
+                  — detached-document parsing with
+                  <code>replaceChildren</code>, instance-scoped observer and
+                  abort cleanup in <code>useLazyLoad</code>, and refreshed audit
+                  gates.
+                </p>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-shield-check"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Detached-DOM HTML sanitization</strong>
+                        <p>
+                          Lazy-loaded responses and caller-supplied placeholders
+                          are sanitized in a detached document, then installed
+                          with <code>replaceChildren</code> instead of assigning
+                          untrusted markup to <code>innerHTML</code>. Non-DOM
+                          environments fail closed to escaped text, and
+                          sanitized content follows the element and attribute
+                          allowlists in
+                          <RouterLink to="/guides/security-practices"
+                            ><code>/guides/security-practices</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-arrows-clockwise"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Instance-scoped
+                          <code>useLazyLoad</code> lifecycle</strong
+                        >
+                        <p>
+                          Each
+                          <RouterLink to="/guides/lazy-loading"
+                            ><code>useLazyLoad</code></RouterLink
+                          >
+                          instance owns its observers, fetch abort controllers,
+                          and timers; unmount now disconnects observations,
+                          aborts in-flight requests, and clears pending
+                          timeouts.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-lock-key"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Dependency &amp; audit hardening</strong>
+                        <p>
+                          Development dependencies and lockfile floors were
+                          refreshed while retaining narrow exceptions for
+                          reviewed, development-only advisories. See
+                          <RouterLink to="/guides/production-best-practices"
+                            ><code
+                              >/guides/production-best-practices</code
+                            ></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </article>
         <article class="version-card" id="vd3-1-7-5">
@@ -186,62 +374,158 @@ useAffix(root);
               >v1.7.5</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>October 2026
+              <i class="ph ph-calendar mr-1"></i>October 2026
             </span>
           </header>
           <div class="version-body">
-            <p>Compatible fixes to the existing design system.</p>
-            <ul>
-              <li>
-                Opt out of automatic theme storage at bootstrap with
-                <code>themePersistence: false</code>; ordinary library
-                persistence remains the default.
-              </li>
-              <li>
-                Customizer fans report committed selections separately from
-                hover previews with <code>select:primary</code>.
-              </li>
-              <li>
-                Dock accent mode colors the brand and active icon; footer
-                columns lay out inside the wrapper and dark footer text stays
-                readable. Closed mobile Navbar menus stay hidden and within
-                bounds; desktop links remain exposed to assistive technology.
-              </li>
-              <li>
-                <code>VdSeparator</code> adds an optional theme-aware gradient
-                variant.
-              </li>
-              <li>
-                Primary and status RGB helpers follow the active palette; dark
-                alpha accents follow the selected primary.
-              </li>
-              <li>
-                Fibonacci light-theme hover fills use readable foreground
-                colors.
-              </li>
-              <li>
-                Open target-panel popovers follow scrolling and resizing
-                anchors, including when flipping is disabled. Dismissal keeps
-                ARIA closed if a positioning frame is still pending.
-              </li>
-              <li>
-                Standalone TypeScript linting, full-source coverage, CSS import
-                integrity, package size checks and typed recipes strengthen
-                release checks.
-              </li>
-              <li>
-                Public API and SSR guidance clarify shared module state and
-                storage-prefix limits.
-              </li>
-              <li>
-                Release tooling documents an exception for one unpatched
-                development dependency advisory, <code>CVE-2026-93687</code>;
-                all other moderate+ audit checks remain enabled.
-              </li>
-            </ul>
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong
+                    >Theme persistence control, customizer commit events, and
+                    component polish</strong
+                  >
+                  — opt-out <code>themePersistence</code>, committed swatch
+                  selection events, gradient <code>VdSeparator</code>, and fixes
+                  across Dock, Footer, Navbar, Popover, and Fibonacci contrast.
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-sliders-horizontal"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Bootstrap
+                          <code>themePersistence: false</code></strong
+                        >
+                        <p>
+                          Opt out of automatic theme storage at bootstrap with
+                          <code>themePersistence: false</code>; ordinary library
+                          persistence remains the default. See
+                          <RouterLink to="/guides/theme-customizer-guide"
+                            ><code
+                              >/guides/theme-customizer-guide</code
+                            ></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-swatches"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Customizer <code>select:primary</code> &amp; gradient
+                          <code>VdSeparator</code></strong
+                        >
+                        <p>
+                          <RouterLink to="/components/theme-customizer"
+                            ><code>VdThemeCustomizer</code></RouterLink
+                          >
+                          fans report committed selections separately from hover
+                          previews with <code>select:primary</code>, and
+                          <RouterLink to="/components/separator"
+                            ><code>VdSeparator</code></RouterLink
+                          >
+                          adds an optional theme-aware
+                          <code>gradient</code> variant.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-layout"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Dock, Footer &amp; Navbar chrome</strong>
+                        <p>
+                          <RouterLink to="/components/dock"
+                            ><code>VdDock</code></RouterLink
+                          >
+                          accent mode colors the brand and active icon;
+                          <RouterLink to="/components/footer"
+                            ><code>VdFooter</code></RouterLink
+                          >
+                          columns lay out inside the wrapper and dark footer
+                          text stays readable; closed mobile
+                          <RouterLink to="/components/navbar"
+                            ><code>VdNavbar</code></RouterLink
+                          >
+                          menus stay hidden and within bounds while desktop
+                          links remain exposed to assistive technology.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-palette"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Palette RGB helpers &amp; Fibonacci hover
+                          contrast</strong
+                        >
+                        <p>
+                          Primary and status RGB helpers follow the active
+                          <RouterLink to="/core/color-palette"
+                            >palette</RouterLink
+                          >, dark alpha accents follow the selected primary, and
+                          <RouterLink to="/guides/fibonacci"
+                            >Fibonacci</RouterLink
+                          >
+                          light-theme hover fills use readable foreground
+                          colors.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-chat-centered-text"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Popover anchor tracking, SSR guidance &amp; release
+                          checks</strong
+                        >
+                        <p>
+                          Open target-panel
+                          <RouterLink to="/components/popover"
+                            >popovers</RouterLink
+                          >
+                          follow scrolling and resizing anchors even when
+                          flipping is disabled, and dismissal keeps ARIA closed
+                          if a positioning frame is pending. Public API and
+                          <RouterLink to="/guides/framework-integration"
+                            >SSR guidance</RouterLink
+                          >
+                          clarify shared module state, and release tooling
+                          documents the dev-only
+                          <code>CVE-2026-93687</code> audit exception while
+                          keeping all other moderate+ checks enabled.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-7-4">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -249,7 +533,7 @@ useAffix(root);
               >v1.7.4</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>September 2026
+              <i class="ph ph-calendar mr-1"></i>September 2026
             </span>
           </header>
           <div class="version-body">
@@ -266,7 +550,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-shield-check"
+                        class="ph ph-shield-check"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -275,19 +559,26 @@ useAffix(root);
                           Allowed <code>&lt;a&gt;</code> attributes now use the
                           same whitelist as other tags. Event handler and
                           <code>style</code> attributes are stripped by default.
+                          See
+                          <RouterLink to="/guides/security-practices"
+                            ><code>/guides/security-practices</code></RouterLink
+                          >.
                         </p>
                       </div>
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-chat-teardrop-text"
+                        class="ph ph-chat-teardrop-text"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
                         <strong>Tooltip</strong>
                         <p>
-                          The trigger stays in normal flow; the tooltip is a
-                          separate surface with one placement contract,
+                          The trigger stays in normal flow; the
+                          <RouterLink to="/components/tooltip"
+                            >tooltip</RouterLink
+                          >
+                          is a separate surface with one placement contract,
                           hover/focus/Escape behavior, and
                           <code>aria-describedby</code>.
                         </p>
@@ -295,27 +586,34 @@ useAffix(root);
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-magnifying-glass"
+                        class="ph ph-magnifying-glass"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
                         <strong>Global search overlay</strong>
                         <p>
-                          The palette is client-mounted so SSG hydration cannot
-                          wipe a query typed into the server-rendered input.
+                          The
+                          <RouterLink to="/components/global-search"
+                            ><code>VdGlobalSearch</code></RouterLink
+                          >
+                          palette is client-mounted so SSG hydration cannot wipe
+                          a query typed into the server-rendered input.
                         </p>
                       </div>
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-circle-half"
+                        class="ph ph-circle-half"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
                         <strong>Shared foreground tokens</strong>
                         <p>
                           Muted text, syntax colors, and swatch ink stay
-                          distinguishable in default light/dark themes.
+                          distinguishable in default light/dark themes. See
+                          <RouterLink to="/core/color-palette"
+                            ><code>/core/color-palette</code></RouterLink
+                          >.
                         </p>
                       </div>
                     </li>
@@ -325,7 +623,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-7-3">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -333,7 +631,7 @@ useAffix(root);
               >v1.7.3</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>September 2026
+              <i class="ph ph-calendar mr-1"></i>September 2026
             </span>
           </header>
           <div class="version-body">
@@ -350,7 +648,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-code"
+                        class="ph ph-code"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -377,7 +675,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-circle-half"
+                        class="ph ph-circle-half"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -401,7 +699,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-7-2">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -409,7 +707,7 @@ useAffix(root);
               >v1.7.2</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>September 2026
+              <i class="ph ph-calendar mr-1"></i>September 2026
             </span>
           </header>
           <div class="version-body">
@@ -428,7 +726,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-circle-half"
+                        class="ph ph-circle-half"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -456,7 +754,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-7-1">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -464,7 +762,7 @@ useAffix(root);
               >v1.7.1</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>September 2026
+              <i class="ph ph-calendar mr-1"></i>September 2026
             </span>
           </header>
           <div class="version-body">
@@ -479,7 +777,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-code"
+                        class="ph ph-code"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -501,7 +799,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-7-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -509,7 +807,7 @@ useAffix(root);
               >v1.7.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+              <i class="ph ph-calendar mr-1"></i>August 2026
             </span>
           </header>
           <div class="version-body">
@@ -527,7 +825,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-magnifying-glass-plus"
+                        class="ph ph-magnifying-glass-plus"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -550,7 +848,7 @@ useAffix(root);
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-drop-half"
+                        class="ph ph-drop-half"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -571,7 +869,7 @@ useAffix(root);
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-swatches"
+                        class="ph ph-swatches"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -599,7 +897,7 @@ useAffix(root);
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-timer"
+                        class="ph ph-timer"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -629,7 +927,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-6-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -637,7 +935,7 @@ useAffix(root);
               >v1.6.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+              <i class="ph ph-calendar mr-1"></i>August 2026
             </span>
           </header>
           <div class="version-body">
@@ -654,7 +952,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-code"
+                        class="ph ph-code"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -678,7 +976,7 @@ useAffix(root);
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-drop"
+                        class="ph ph-drop"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -703,7 +1001,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-copy"
+                        class="ph ph-copy"
                         style="color: var(--vd-color-info)"
                       ></i>
                       <div>
@@ -726,7 +1024,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-5-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -734,7 +1032,7 @@ useAffix(root);
               >v1.5.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+              <i class="ph ph-calendar mr-1"></i>August 2026
             </span>
           </header>
           <div class="version-body">
@@ -750,7 +1048,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-rows"
+                        class="ph ph-rows"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -776,7 +1074,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-4-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -784,7 +1082,7 @@ useAffix(root);
               >v1.4.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+              <i class="ph ph-calendar mr-1"></i>August 2026
             </span>
           </header>
           <div class="version-body">
@@ -801,7 +1099,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-sign-in"
+                        class="ph ph-sign-in"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -824,7 +1122,7 @@ useAffix(root);
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-table"
+                        class="ph ph-table"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -850,7 +1148,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-3-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -858,7 +1156,7 @@ useAffix(root);
               >v1.3.0</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+              <i class="ph ph-calendar mr-1"></i>August 2026
             </span>
           </header>
           <div class="version-body">
@@ -867,7 +1165,8 @@ useAffix(root);
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
                   <strong>Seemore Glass</strong> — Fibonacci strength-step
                   frosted material — plus reusable
-                  <strong>decorative Surfaces</strong> for hero backdrops.
+                  <strong>decorative Surfaces</strong> and an opt-in
+                  <strong>floating navbar</strong> capsule.
                 </p>
 
                 <div class="change-group">
@@ -875,17 +1174,17 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-drop-half-bottom"
+                        class="ph ph-drop-half-bottom"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
                         <strong>Seemore Glass</strong>
                         <p>
                           Canonical modifiers
-                          <code>.vd-glass-{1,2,3,5,8,13,21}</code> bundle blur,
-                          tint, border, saturate, grain, and elevation. Base
-                          <code>.vd-glass</code> is step 5; legacy
-                          <code>sm|lg|xl</code> alias to 3/8/13. New
+                          <code>.vd-glass-{1,2,3,5,8,13,21,34,55,89}</code>
+                          bundle blur, tint, border, saturate, grain, and
+                          elevation. Base <code>.vd-glass</code> is step 5;
+                          legacy <code>sm|lg|xl</code> alias to 3/8/13. New
                           <code>.vd-glass-adaptive</code>, a11y media-query
                           hardening, and scroll glass that never transitions
                           <code>backdrop-filter</code>. See
@@ -897,7 +1196,7 @@ useAffix(root);
                     </li>
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-checkerboard"
+                        class="ph ph-checkerboard"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -912,13 +1211,32 @@ useAffix(root);
                         </p>
                       </div>
                     </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-app-window"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Floating navbar capsule</strong>
+                        <p>
+                          Opt-in <code>.vd-navbar-float</code> (and
+                          <RouterLink to="/components/navbar"
+                            ><code>VdNavbar</code></RouterLink
+                          >
+                          <code>float</code> prop) insets fixed/sticky top bars
+                          with responsive Fibonacci spacing and a capsule radius
+                          while preserving unprefixed
+                          <code>backdrop-filter</code> in Chromium.
+                        </p>
+                      </div>
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-2-3">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -926,7 +1244,7 @@ useAffix(root);
               >v1.2.3</span
             >
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
-              <i class="ph-bold ph-calendar mr-1"></i>August 2026
+              <i class="ph ph-calendar mr-1"></i>August 2026
             </span>
           </header>
           <div class="version-body">
@@ -944,7 +1262,7 @@ useAffix(root);
                   <ul class="change-list">
                     <li class="change-item">
                       <i
-                        class="ph-bold ph-hard-drives"
+                        class="ph ph-hard-drives"
                         style="color: var(--vd-color-primary)"
                       ></i>
                       <div>
@@ -971,7 +1289,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-2-2">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -1046,7 +1364,7 @@ useAffix(root);
           </div>
         </article>
 
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-2-1">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -1220,7 +1538,7 @@ useAffix(root);
           </div>
         </article>
 
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-2-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -1273,7 +1591,7 @@ useAffix(root);
           </div>
         </article>
 
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-1-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -1413,7 +1731,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="vd3-1-0-0">
           <header class="version-header version-initial">
             <span
               class="vd-badge vd-badge-primary"
@@ -1639,7 +1957,169 @@ useAffix(root);
             Dedicated SVG charts package — bar, line, area, scatter, donut, pie.
           </p>
         </div>
-        <article class="version-card">
+        <article class="version-card" id="charts-1-2-0">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.2.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>November 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong
+                    >Vue wrapper prop parity, CSS color strings, legend
+                    positioning, and automatic theme reactivity</strong
+                  >
+                  — <code>VdChart</code> and typed convenience wrappers expose
+                  all 14 core styling, layout, and scale options;
+                  <code>color</code> accepts CSS color strings and callbacks
+                  across Cartesian and polar charts; and charts observe theme
+                  token mutations automatically.
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-sliders-horizontal"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Full Vue wrapper prop parity</strong>
+                        <p>
+                          <RouterLink to="/canvas/charts"
+                            ><code>VdChart</code></RouterLink
+                          >
+                          and typed wrappers (<code>VdBarChart</code>,
+                          <code>VdLineChart</code>, <code>VdAreaChart</code>,
+                          <code>VdScatterChart</code>,
+                          <code>VdDonutChart</code>, <code>VdPieChart</code>)
+                          now declare, forward, and reactively watch
+                          <code>ariaLabel</code>, <code>margin</code>,
+                          <code>xScale</code>, <code>barPadding</code>,
+                          <code>stroke</code>, <code>strokeWidth</code>,
+                          <code>points</code>, <code>pointRadius</code>,
+                          <code>pointFill</code>, <code>pointOpacity</code>,
+                          <code>fill</code>, <code>fillOpacity</code>,
+                          <code>centerLabel</code>, and
+                          <code>centerSubLabel</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-moon-stars"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Automatic theme reactivity</strong>
+                        <p>
+                          <code>ChartInstance</code> observes
+                          <code>data-theme</code>, <code>data-primary</code>,
+                          <code>data-palette</code>, <code>data-neutral</code>,
+                          and <code>class</code> mutations on
+                          <code>document.documentElement</code> and
+                          <code>document.body</code> via
+                          <code>MutationObserver</code>, re-rendering
+                          automatically when resolved <code>--vd-*</code> tokens
+                          change. <code>refresh()</code> remains available for
+                          imperative redraws.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-palette"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Polar <code>color</code> &amp;
+                          <code>legend.position</code></strong
+                        >
+                        <p>
+                          <code>DonutChart</code> and <code>PieChart</code> now
+                          honor <code>color</code> (CSS color string, field
+                          name, or <code>(row) =&gt; color</code> callback) and
+                          <code
+                            >legend: { position: 'top' | 'bottom' | 'right'
+                            }</code
+                          >; Cartesian charts also honor
+                          <code
+                            >legend: { position: 'top' | 'bottom' | 'right'
+                            }</code
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-shield-check"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong>Release &amp; pack consumer checks</strong>
+                        <p>
+                          Added <code>pnpm run release:check</code>, packed
+                          tarball ESM/CJS consumer smoke verification, strict
+                          OpenSpec validation, and a Node
+                          <code>20.19.0</code> engine-floor CI job.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-paint-brush"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>CSS color strings in <code>color</code></strong>
+                        <p>
+                          Passing a CSS color string (such as
+                          <code>'#40c057'</code>, <code>'rgb(...)'</code>, or
+                          <code>'var(--vd-color-success)'</code>) to
+                          <code>color</code> now styles marks across bar, line,
+                          area, scatter, donut, and pie charts instead of
+                          treating the string as a row property name.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-cursor-click"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Typed wrapper click emits</strong>
+                        <p>
+                          <code>VdBarChart</code>..<code>VdPieChart</code>
+                          explicitly declare and forward
+                          <code>@bar-click</code>, <code>@point-click</code>,
+                          and <code>@slice-click</code>.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="version-card" id="charts-1-1-1">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -1649,9 +2129,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>September 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
@@ -1673,15 +2150,18 @@ useAffix(root);
                         <strong>Pie defaults</strong>
                         <p>
                           Omitting <code>innerRadiusRatio</code> (or removing
-                          the Vue prop) keeps a filled pie. Donut still opens a
-                          hole.
+                          the Vue prop on
+                          <RouterLink to="/canvas/charts"
+                            ><code>VdPieChart</code></RouterLink
+                          >) keeps a filled pie, while
+                          <code>VdDonutChart</code> still opens a center hole.
                         </p>
                       </div>
                     </li>
                     <li class="change-item">
                       <i
                         class="ph ph-arrows-clockwise"
-                        style="color: var(--vd-color-primary)"
+                        style="color: var(--vd-color-info)"
                       ></i>
                       <div>
                         <strong>Updates</strong>
@@ -1700,7 +2180,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="charts-1-1-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -1793,7 +2273,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="charts-1-0-1">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -1838,7 +2318,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="charts-1-0-0">
           <header class="version-header version-initial">
             <span
               class="vd-badge vd-badge-primary"
@@ -1936,19 +2416,21 @@ useAffix(root);
                       <div>
                         <strong>Opt-in bounds and fitNode</strong>
                         <p>
-                          Pass both ends of a pair. Omitting one end on a later
-                          update keeps that end; an invalid pair falls back to
-                          the whole default pair. <code>fitNode(nodeId)</code>
-                          frames one visible node. Unknown or hidden nodes do
-                          nothing. Viewport scale is stored to four decimal
-                          places.
+                          Pass both ends of a pair on
+                          <RouterLink to="/canvas/flowchart"
+                            ><code>VdFlowchart</code></RouterLink
+                          >. Omitting one end on a later update keeps that end;
+                          an invalid pair falls back to the whole default pair.
+                          <code>fitNode(nodeId)</code> frames one visible node.
+                          Unknown or hidden nodes do nothing. Viewport scale is
+                          stored to four decimal places.
                         </p>
                       </div>
                     </li>
                     <li class="change-item">
                       <i
                         class="ph ph-resize"
-                        style="color: var(--vd-color-primary)"
+                        style="color: var(--vd-color-info)"
                       ></i>
                       <div>
                         <strong>Small-node rendering and adaptive grid</strong>
@@ -1970,7 +2452,7 @@ useAffix(root);
                     <li class="change-item">
                       <i
                         class="ph ph-file-code"
-                        style="color: var(--vd-color-primary)"
+                        style="color: var(--vd-color-success)"
                       ></i>
                       <div>
                         <strong>Document format 1.3.0</strong>
@@ -2023,8 +2505,11 @@ useAffix(root);
                       <div>
                         <strong>Connection ports and mind-map keys</strong>
                         <p>
-                          Hover handles outside each side to connect or insert.
-                          Tab / Enter grow a mind map;
+                          Hover handles outside each side on
+                          <RouterLink to="/canvas/flowchart"
+                            ><code>VdFlowchart</code></RouterLink
+                          >
+                          to connect or insert. Tab / Enter grow a mind map;
                           <code>keyboardShortcuts: 'basic'</code> keeps the
                           1.3.0 keys.
                         </p>
@@ -2033,7 +2518,7 @@ useAffix(root);
                     <li class="change-item">
                       <i
                         class="ph ph-selection-all"
-                        style="color: var(--vd-color-primary)"
+                        style="color: var(--vd-color-info)"
                       ></i>
                       <div>
                         <strong>Multi-select and collapse</strong>
@@ -2066,7 +2551,7 @@ useAffix(root);
                     <li class="change-item">
                       <i
                         class="ph ph-file-code"
-                        style="color: var(--vd-color-primary)"
+                        style="color: var(--vd-color-warning)"
                       ></i>
                       <div>
                         <strong>Document format 1.3.0</strong>
@@ -2084,7 +2569,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="flowchart-1-3-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -2115,16 +2600,18 @@ useAffix(root);
                       <div>
                         <strong>Keyboard canvas navigation</strong>
                         <p>
-                          Arrows, Home/End, and Enter to edit, plus a native
-                          <strong>Graph outline</strong> with labelled
-                          Edit/Connect controls.
+                          Arrows, Home/End, and Enter to edit on
+                          <RouterLink to="/canvas/flowchart"
+                            ><code>VdFlowchart</code></RouterLink
+                          >, plus a native <strong>Graph outline</strong> with
+                          labelled Edit/Connect controls.
                         </p>
                       </div>
                     </li>
                     <li class="change-item">
                       <i
                         class="ph ph-file-code"
-                        style="color: var(--vd-color-primary)"
+                        style="color: var(--vd-color-info)"
                       ></i>
                       <div>
                         <strong><code>FLOWCHART_DOCUMENT_VERSION</code></strong>
@@ -2156,7 +2643,7 @@ useAffix(root);
                     <li class="change-item">
                       <i
                         class="ph ph-warning-circle"
-                        style="color: var(--vd-color-primary)"
+                        style="color: var(--vd-color-warning)"
                       ></i>
                       <div>
                         <strong>Malformed JSON</strong>
@@ -2170,7 +2657,7 @@ useAffix(root);
                     <li class="change-item">
                       <i
                         class="ph ph-prohibit"
-                        style="color: var(--vd-color-primary)"
+                        style="color: var(--vd-color-warning)"
                       ></i>
                       <div>
                         <strong>Self-connection</strong>
@@ -2180,7 +2667,7 @@ useAffix(root);
                     <li class="change-item">
                       <i
                         class="ph ph-arrows-out-cardinal"
-                        style="color: var(--vd-color-primary)"
+                        style="color: var(--vd-color-success)"
                       ></i>
                       <div>
                         <strong>Node drag</strong>
@@ -2196,7 +2683,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="flowchart-1-2-0">
           <header class="version-header">
             <span
               class="vd-badge vd-badge-primary"
@@ -2304,7 +2791,7 @@ useAffix(root);
             </div>
           </div>
         </article>
-        <article class="version-card">
+        <article class="version-card" id="flowchart-1-2-0-initial">
           <header class="version-header version-initial">
             <span
               class="vd-badge vd-badge-primary"

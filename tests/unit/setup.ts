@@ -1,7 +1,44 @@
 import { setThemePersistence } from "@vanduo-oss/vd3";
+import { vi } from "vitest";
+
+class MemoryStorage implements Storage {
+  get length(): number {
+    return Object.keys(this).length;
+  }
+  clear(): void {
+    for (const key of Object.keys(this)) {
+      delete (this as Record<string, unknown>)[key];
+    }
+  }
+  getItem(key: string): string | null {
+    return Object.prototype.hasOwnProperty.call(this, key)
+      ? String((this as Record<string, unknown>)[key])
+      : null;
+  }
+  key(index: number): string | null {
+    return Object.keys(this)[index] ?? null;
+  }
+  removeItem(key: string): void {
+    delete (this as Record<string, unknown>)[key];
+  }
+  setItem(key: string, value: string): void {
+    (this as Record<string, unknown>)[key] = String(value);
+  }
+}
+
+if (
+  typeof window !== "undefined" &&
+  typeof window.localStorage?.clear !== "function"
+) {
+  Object.defineProperty(window, "localStorage", {
+    value: new MemoryStorage(),
+    configurable: true,
+    writable: true,
+  });
+}
+
 // Match the docs bootstrap: saved preferences belong to the site dock.
 setThemePersistence(false);
-import { vi } from "vitest";
 
 class IntersectionObserverStub {
   readonly root: Element | null = null;
