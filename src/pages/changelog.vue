@@ -2026,9 +2026,9 @@ useAffix(root);
                           <code>ChartInstance</code> observes
                           <code>data-theme</code>, <code>data-primary</code>,
                           <code>data-palette</code>, <code>data-neutral</code>,
-                          and <code>class</code> mutations on
-                          <code>document.documentElement</code> and
-                          <code>document.body</code> via
+                          <code>class</code>, and <code>style</code> mutations
+                          on <code>document.documentElement</code> and the
+                          chart's target container via
                           <code>MutationObserver</code>, re-rendering
                           automatically when resolved <code>--vd-*</code> tokens
                           change. <code>refresh()</code> remains available for
@@ -2050,14 +2050,10 @@ useAffix(root);
                           <code>DonutChart</code> and <code>PieChart</code> now
                           honor <code>color</code> (CSS color string, field
                           name, or <code>(row) =&gt; color</code> callback) and
-                          <code
-                            >legend: { position: 'top' | 'bottom' | 'right'
-                            }</code
-                          >; Cartesian charts also honor
-                          <code
-                            >legend: { position: 'top' | 'bottom' | 'right'
-                            }</code
-                          >.
+                          <code>legend: { position: 'top' | 'right' }</code>;
+                          Cartesian charts now honor
+                          <code>legend: { position: 'right' }</code> in addition
+                          to <code>'top'</code>.
                         </p>
                       </div>
                     </li>
@@ -2110,6 +2106,93 @@ useAffix(root);
                           explicitly declare and forward
                           <code>@bar-click</code>, <code>@point-click</code>,
                           and <code>@slice-click</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-text-aa"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          ><code>centerLabel: true</code> renders the
+                          total</strong
+                        >
+                        <p>
+                          Passing <code>true</code> previously fell through to
+                          <code>String(true)</code> and drew the literal text
+                          <code>true</code> in the donut center.
+                          <code>true</code> now means "show the computed total";
+                          a string still overrides it and <code>false</code>
+                          still hides it.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-chart-bar"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          ><code>xScale: 'band'</code> is implemented</strong
+                        >
+                        <p>
+                          The option advertised <code>'band'</code> but fell
+                          through to the point scale. <code>'band'</code> now
+                          builds a real band scale, centers marks and axis ticks
+                          within each band, and keeps categorical tick labels.
+                          Bar charts continue to always use a band scale.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-polygon"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Multi-series area honors <code>fill</code></strong
+                        >
+                        <p>
+                          <code>fill: false</code> and a custom fill color were
+                          honored on single-series area charts but ignored on
+                          multi-series ones. Both paths now agree.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-sidebar"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Right-side legends reserve a gutter</strong>
+                        <p>
+                          Cartesian
+                          <code>legend: { position: 'right' }</code> previously
+                          drew inside the plot and overlapped marks near the
+                          right edge. The plot now reserves a gutter for it,
+                          matching donut and pie. Narrow charts fall back to the
+                          top legend.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-eye"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Theme observer coalesces and re-arms</strong>
+                        <p>
+                          The observer coalesces mutations into one theme
+                          resolution per animation frame, disconnects when the
+                          chart's target detaches, and
+                          <code>update()</code> re-arms it so a re-attached
+                          chart keeps theme reactivity.
                         </p>
                       </div>
                     </li>

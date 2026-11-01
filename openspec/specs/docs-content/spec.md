@@ -173,7 +173,7 @@ Every `.version-card` on `/changelog` SHALL have a unique anchor `id`, a `.versi
 - **GIVEN** `#charts-1-2-0` in the `@vanduo-oss/vd3-charts` column on `/changelog`
 - **WHEN** its header and body are read
 - **THEN** the header displays `v1.2.0`, `November 2026`, and `Latest`
-- **AND** its `.change-item` rows document Vue wrapper prop parity, `MutationObserver` theme reactivity on `document.documentElement` and `document.body`, polar and Cartesian `legend.position` options, CSS color strings in `color`, and typed wrapper click emits
+- **AND** its `.change-item` rows document Vue wrapper prop parity, `MutationObserver` theme reactivity on `document.documentElement` and the chart's target container (coalesced per frame, disconnect on detach, re-arm on `update()`), polar and Cartesian `legend.position` `'top' | 'right'`, CSS color strings in `color`, typed wrapper click emits, `centerLabel: true` rendering the computed total, implemented `xScale: 'band'` with centered marks and categorical tick labels, multi-series area `fill` parity, and a right legend that reserves a plot gutter
 
 ### Requirement: the flowchart page documents package 1.5.0
 

@@ -146,8 +146,8 @@ const onClick = (e: ClickEvent) => console.log('Clicked:', e.datum);
   />
 </template>`;
 
-const advancedUsage = `<!-- Multi-series grouped bars with legend -->
-<VdChart type="bar" :data="data" x="month" :legend="{ position: 'top' }"
+const advancedUsage = `<!-- Multi-series grouped bars with a right-side legend -->
+<VdChart type="bar" :data="data" x="month" :legend="{ position: 'right' }"
          :series="[{ name: 'Product', y: 'product' },
                    { name: 'Service', y: 'service' }]" />
 
@@ -160,9 +160,11 @@ const advancedUsage = `<!-- Multi-series grouped bars with legend -->
          :stroke-width="2.5"
          :annotations="[{ y: 200, label: 'Target', color: '#e5484d' }]" />
 
-<!-- Typed donut wrapper with custom center summary -->
+<!-- Typed donut: string centerLabel, or true for the computed total -->
 <VdDonutChart :data="donutData" label="channel" value="revenue"
-              center-label="$11.5k" center-sub-label="revenue" />`;
+              center-label="$11.5k" center-sub-label="revenue" />
+<VdDonutChart :data="donutData" label="channel" value="revenue"
+              :center-label="true" center-sub-label="total" />`;
 
 const chartTypes: [string, string][] = [
   [
@@ -465,22 +467,44 @@ const keyboardShortcuts: [string, string][] = [
           </div>
         </div>
       </div>
-      <div class="vd-col-12 vd-col-lg-6 vd-mb-4">
+      <div class="vd-col-12 vd-mb-4">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
             <h6><i class="ph ph-chart-donut"></i> Donut Chart</h6>
           </div>
           <div class="vd-card-body">
-            <VdDonutChart
-              :data="donutData"
-              label="channel"
-              value="revenue"
-              center-label="$11.5k"
-              center-sub-label="revenue"
-              title="Revenue mix"
-              :height="280"
-              @slice-click="onSliceClick"
-            />
+            <div class="vd-row">
+              <div class="vd-col-12 vd-col-md-6">
+                <p class="vd-text-muted vd-mb-2" style="font-size: 0.85rem">
+                  Custom <code>centerLabel</code> string
+                </p>
+                <VdDonutChart
+                  :data="donutData"
+                  label="channel"
+                  value="revenue"
+                  center-label="$11.5k"
+                  center-sub-label="revenue"
+                  title="Revenue mix"
+                  :height="280"
+                  @slice-click="onSliceClick"
+                />
+              </div>
+              <div class="vd-col-12 vd-col-md-6">
+                <p class="vd-text-muted vd-mb-2" style="font-size: 0.85rem">
+                  <code>centerLabel: true</code> shows the computed total
+                </p>
+                <VdDonutChart
+                  :data="donutData"
+                  label="channel"
+                  value="revenue"
+                  :center-label="true"
+                  center-sub-label="total"
+                  title="Revenue mix (auto total)"
+                  :height="280"
+                  @slice-click="onSliceClick"
+                />
+              </div>
+            </div>
             <div class="chart-status-bar vd-mt-2">
               <span class="status-chip">
                 <i class="ph ph-hand-pointing"></i>
@@ -548,7 +572,10 @@ const keyboardShortcuts: [string, string][] = [
       <div class="vd-col-12 vd-col-lg-4 vd-mb-4">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
-            <h6><i class="ph ph-chart-bar"></i> Multi-Series Grouped Bar</h6>
+            <h6>
+              <i class="ph ph-chart-bar"></i> Multi-Series Grouped Bar (right
+              legend)
+            </h6>
           </div>
           <div class="vd-card-body">
             <VdChart
@@ -556,7 +583,7 @@ const keyboardShortcuts: [string, string][] = [
               :data="seriesData"
               x="month"
               :series="series"
-              legend
+              :legend="{ position: 'right' }"
               title="Product vs service revenue"
               :height="280"
             />

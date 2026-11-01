@@ -45,6 +45,11 @@ describe("package changelog", () => {
     expect(headerText(chartsCards[0])).toContain("Latest");
     expect(chartsCards[0].text()).toContain("centerLabel");
     expect(chartsCards[0].text()).toContain("MutationObserver");
+    expect(chartsCards[0].text()).toContain("xScale: 'band'");
+    expect(chartsCards[0].text()).toContain("Multi-series area honors");
+    expect(chartsCards[0].text()).toContain("Right-side legends reserve");
+    expect(chartsCards[0].text()).toContain("coalesces");
+    expect(chartsCards[0].text()).toContain("update()");
     expect(headerText(chartsCards[1])).toContain("v1.1.1");
     expect(headerText(chartsCards[1])).not.toContain("Latest");
     expect(headerText(chartsCards[2])).toContain("v1.1.0");
