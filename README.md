@@ -1,5 +1,7 @@
 # vd3-docs — Vue 3 documentation site for the vd3 line
 
+<a href="https://snyk.io/?utm_source=open-source&utm_medium=pg-ptr&utm_campaign=ref-2501-osp&utm_content=pg-cta"><img src="https://raw.githubusercontent.com/vanduo-oss/vd3-docs/main/assets/scanned-by-snyk.png" alt="Scanned by Snyk" width="206" height="141"></a>
+
 `vd3-docs` is the Vue 3 + Vite + `vite-ssg` documentation and demo site for the
 **vd3 line** of Vanduo UI. It **dogfoods the published packages** — every page is
 a live demo built from the real, typed `Vd*` components and composables of
@@ -13,6 +15,12 @@ package builds; restore registry pins before release.
 
 The site is pre-rendered to static HTML with `vite-ssg` (one page per `nav.ts`
 route) and is `private` — it is **not** published to npm.
+
+## Security
+
+- **Open-source scanning** — this repo is monitored with
+  [Snyk](https://snyk.io/?utm_source=open-source&utm_medium=pg-ptr&utm_campaign=ref-2501-osp&utm_content=pg-cta)
+  (thanks for their support of open source).
 
 ## Stack
 

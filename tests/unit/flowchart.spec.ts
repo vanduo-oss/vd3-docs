@@ -86,7 +86,7 @@ describe("VdFlowchart (@vanduo-oss/vd3-flowchart)", () => {
   });
 
   it("keeps the legacy camera unless both ends of a valid pair are set", () => {
-    expect(VD_FLOWCHART_VERSION).toBe("1.5.0");
+    expect(VD_FLOWCHART_VERSION).toBe("1.5.1");
     expect(FLOWCHART_DOCUMENT_VERSION).toBe("1.3.0");
 
     const legacy = mountEditor();
@@ -179,10 +179,10 @@ describe("VdFlowchart (@vanduo-oss/vd3-flowchart)", () => {
     wrapper.unmount();
   });
 
-  it("documents the 1.5.0 editor without an infinite-canvas or WCAG claim", () => {
+  it("documents the 1.5.1 editor without an infinite-canvas or WCAG claim", () => {
     const wrapper = mount(FlowchartPage, { attachTo: document.body });
     const text = wrapper.text();
-    expect(text).toContain("1.5.0");
+    expect(text).toContain("1.5.1");
     expect(text).toContain("1.3.0");
     expect(text).toContain("0.05");
     expect(text).toContain("fitNode");

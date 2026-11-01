@@ -15,7 +15,7 @@ async function openFlowchart(page: Page, theme: "light" | "dark") {
 }
 
 for (const theme of ["light", "dark"] as const) {
-  test.describe(`flowchart 1.5.0 interaction (${theme})`, () => {
+  test.describe(`flowchart 1.5.1 interaction (${theme})`, () => {
     test("reaches both camera bounds from the editor zoom controls", async ({
       page,
     }) => {
