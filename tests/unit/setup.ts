@@ -2,27 +2,25 @@ import { setThemePersistence } from "@vanduo-oss/vd3";
 import { vi } from "vitest";
 
 class MemoryStorage implements Storage {
+  #store = new Map<string, string>();
+
   get length(): number {
-    return Object.keys(this).length;
+    return this.#store.size;
   }
   clear(): void {
-    for (const key of Object.keys(this)) {
-      delete (this as Record<string, unknown>)[key];
-    }
+    this.#store.clear();
   }
   getItem(key: string): string | null {
-    return Object.prototype.hasOwnProperty.call(this, key)
-      ? String((this as Record<string, unknown>)[key])
-      : null;
+    return this.#store.has(key) ? this.#store.get(key)! : null;
   }
   key(index: number): string | null {
-    return Object.keys(this)[index] ?? null;
+    return [...this.#store.keys()][index] ?? null;
   }
   removeItem(key: string): void {
-    delete (this as Record<string, unknown>)[key];
+    this.#store.delete(key);
   }
   setItem(key: string, value: string): void {
-    (this as Record<string, unknown>)[key] = String(value);
+    this.#store.set(key, String(value));
   }
 }
 

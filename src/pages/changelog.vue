@@ -313,8 +313,8 @@ useAffix(root);
                           environments fail closed to escaped text, and
                           sanitized content follows the element and attribute
                           allowlists in
-                          <RouterLink to="/guides/security-practices"
-                            ><code>/guides/security-practices</code></RouterLink
+                          <RouterLink to="/guides/security"
+                            ><code>/guides/security</code></RouterLink
                           >.
                         </p>
                       </div>
@@ -352,10 +352,8 @@ useAffix(root);
                           Development dependencies and lockfile floors were
                           refreshed while retaining narrow exceptions for
                           reviewed, development-only advisories. See
-                          <RouterLink to="/guides/production-best-practices"
-                            ><code
-                              >/guides/production-best-practices</code
-                            ></RouterLink
+                          <RouterLink to="/guides/production"
+                            ><code>/guides/production</code></RouterLink
                           >.
                         </p>
                       </div>
@@ -406,10 +404,8 @@ useAffix(root);
                           Opt out of automatic theme storage at bootstrap with
                           <code>themePersistence: false</code>; ordinary library
                           persistence remains the default. See
-                          <RouterLink to="/guides/theme-customizer-guide"
-                            ><code
-                              >/guides/theme-customizer-guide</code
-                            ></RouterLink
+                          <RouterLink to="/guides/theme-customizer"
+                            ><code>/guides/theme-customizer</code></RouterLink
                           >.
                         </p>
                       </div>
@@ -560,8 +556,8 @@ useAffix(root);
                           same whitelist as other tags. Event handler and
                           <code>style</code> attributes are stripped by default.
                           See
-                          <RouterLink to="/guides/security-practices"
-                            ><code>/guides/security-practices</code></RouterLink
+                          <RouterLink to="/guides/security"
+                            ><code>/guides/security</code></RouterLink
                           >.
                         </p>
                       </div>
