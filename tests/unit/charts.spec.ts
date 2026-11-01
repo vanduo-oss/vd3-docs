@@ -1,8 +1,17 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import { VdChart } from "@vanduo-oss/vd3-charts";
+import {
+  VD_CHARTS_VERSION,
+  VdChart,
+  VdDonutChart,
+  VdPieChart,
+} from "@vanduo-oss/vd3-charts";
 
 describe("VdChart (@vanduo-oss/vd3-charts integration)", () => {
+  it("resolves @vanduo-oss/vd3-charts v1.2.0", () => {
+    expect(VD_CHARTS_VERSION).toBe("1.2.0");
+  });
+
   it("mounts and renders an SVG into a .vd-chart container", async () => {
     const wrapper = mount(VdChart, {
       props: {
@@ -77,15 +86,16 @@ describe("VdChart (@vanduo-oss/vd3-charts integration)", () => {
   });
 
   it("renders a donut chart via label/value accessors", async () => {
-    const wrapper = mount(VdChart, {
+    const wrapper = mount(VdDonutChart, {
       props: {
-        type: "donut",
         data: [
           { channel: "A", revenue: 5 },
           { channel: "B", revenue: 7 },
         ],
         label: "channel",
         value: "revenue",
+        centerLabel: "$12k",
+        centerSubLabel: "revenue",
       },
       attachTo: document.body,
     });
@@ -93,6 +103,28 @@ describe("VdChart (@vanduo-oss/vd3-charts integration)", () => {
     expect(wrapper.find("svg").exists()).toBe(true);
     const svg = wrapper.find("svg");
     expect(svg.attributes("aria-roledescription")).toBe("donut chart");
+    expect(wrapper.text()).toContain("$12k");
+    expect(wrapper.text()).toContain("revenue");
+    wrapper.unmount();
+  });
+
+  it("forwards v1.2.0 mark styling props and CSS color strings", async () => {
+    const wrapper = mount(VdPieChart, {
+      props: {
+        data: [
+          { channel: "A", revenue: 5 },
+          { channel: "B", revenue: 7 },
+        ],
+        label: "channel",
+        value: "revenue",
+        color: "#40c057",
+      },
+      attachTo: document.body,
+    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find("path.vd-chart-slice").attributes("fill")).toBe(
+      "#40c057",
+    );
     wrapper.unmount();
   });
 });

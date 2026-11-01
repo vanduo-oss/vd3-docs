@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdChart, type ClickEvent } from "@vanduo-oss/vd3-charts";
+import {
+  VdChart,
+  VdDonutChart,
+  VdPieChart,
+  type ClickEvent,
+} from "@vanduo-oss/vd3-charts";
 
 // ---------------------------------------------------------------------------
 // Demo Datasets
@@ -141,8 +146,8 @@ const onClick = (e: ClickEvent) => console.log('Clicked:', e.datum);
   />
 </template>`;
 
-const advancedUsage = `<!-- Multi-series grouped bars with legend -->
-<VdChart type="bar" :data="data" x="month" legend
+const advancedUsage = `<!-- Multi-series grouped bars with a right-side legend -->
+<VdChart type="bar" :data="data" x="month" :legend="{ position: 'right' }"
          :series="[{ name: 'Product', y: 'product' },
                    { name: 'Service', y: 'service' }]" />
 
@@ -150,33 +155,40 @@ const advancedUsage = `<!-- Multi-series grouped bars with legend -->
 <VdChart type="bar" :data="profitLoss" x="quarter" y="profit"
          title="Quarterly Profit/Loss" />
 
-<!-- Annotations + target reference line -->
+<!-- Annotations + custom stroke / fill-opacity -->
 <VdChart type="line" :data="trend" x="week" y="mrr" :y-min="0" :y-max="300"
-         :annotations="[{ y: 200, label: 'Target', color: '#e5484d' }]" />`;
+         :stroke-width="2.5"
+         :annotations="[{ y: 200, label: 'Target', color: '#e5484d' }]" />
+
+<!-- Typed donut: string centerLabel, or true for the computed total -->
+<VdDonutChart :data="donutData" label="channel" value="revenue"
+              center-label="$11.5k" center-sub-label="revenue" />
+<VdDonutChart :data="donutData" label="channel" value="revenue"
+              :center-label="true" center-sub-label="total" />`;
 
 const chartTypes: [string, string][] = [
   [
-    'type="bar"',
+    'type="bar" / VdBarChart',
     "Category bars with band scale, axes, grid lines, negative y handling, keyboard arrow navigation, and data table fallback.",
   ],
   [
-    'type="line"',
+    'type="line" / VdLineChart',
     "Line path with interactive circle marks over category, numeric, or date-like x values.",
   ],
   [
-    'type="area"',
+    'type="area" / VdAreaChart',
     "Filled area path closing to zero baseline plus line path, sharing the cartesian scale engine.",
   ],
   [
-    'type="scatter"',
+    'type="scatter" / VdScatterChart',
     "Circle marks over 2D numeric, date-like, or categorical scales with point click handling.",
   ],
   [
-    'type="donut"',
-    "Arc slices with inner-radius ratio (default 0.62), percentage tooltips, center total summary, and legend.",
+    'type="donut" / VdDonutChart',
+    "Arc slices with inner-radius ratio (default 0.62), percentage tooltips, center total summary (or custom centerLabel / centerSubLabel), and legend.",
   ],
   [
-    'type="pie"',
+    'type="pie" / VdPieChart',
     'Solid pie wedges. Both VdChart type="pie" and VdPieChart default to an inner-radius ratio of 0.',
   ],
 ];
@@ -184,7 +196,7 @@ const chartTypes: [string, string][] = [
 const vue3Api: [string, string][] = [
   [
     ":type",
-    "'bar' | 'line' | 'area' | 'scatter' | 'donut' | 'pie' (default 'bar').",
+    "'bar' | 'line' | 'area' | 'scatter' | 'donut' | 'pie' (default 'bar'). Or import typed VdBarChart, VdLineChart, VdAreaChart, VdScatterChart, VdDonutChart, VdPieChart.",
   ],
   [":data", "Array of row objects."],
   [
@@ -194,11 +206,11 @@ const vue3Api: [string, string][] = [
   ["label / value", "Pie / donut accessors."],
   [
     "refresh() (template ref)",
-    "Redraw after changing CSS theme variables. Data and responsive prop changes update automatically.",
+    "Charts observe data-theme, data-primary, data-palette, data-neutral, class, and style mutations automatically. Call refresh() for imperative redraws.",
   ],
   [
-    "title / description",
-    "Rendered into SVG accessibility metadata (<title> and <desc> tags).",
+    "title / description / :aria-label",
+    "Rendered into SVG accessibility metadata (<title>, <desc>, and aria-label).",
   ],
   [
     ":data-table",
@@ -209,6 +221,10 @@ const vue3Api: [string, string][] = [
     "Hole size (0–0.9): donut defaults to 0.62; pie defaults to 0.",
   ],
   [
+    ":center-label / :center-sub-label",
+    'Custom center text and subtitle inside a donut hole (or :center-label="false" to hide).',
+  ],
+  [
     ":aria-role-description",
     "Custom ARIA role description override for the SVG shell (defaults to `${type} chart`).",
   ],
@@ -216,7 +232,10 @@ const vue3Api: [string, string][] = [
     ":svg-role",
     "Override the inner SVG graphics role. The standard role attribute still falls through to the wrapper root; core factories use the role option directly.",
   ],
-  [":height", "Container min-height in px (default 300)."],
+  [
+    ":width / :height / :margin",
+    "Explicit SVG width, container min-height in px (default 300), and plot margin override ({ top, right, bottom, left } or number).",
+  ],
   [
     ":theme / :tooltip / :responsive",
     "Theme overrides, custom/disabled tooltip, responsive resize observer.",
@@ -227,7 +246,19 @@ const vue3Api: [string, string][] = [
   ],
   [
     ":color",
-    "A CSS color string, category-field name, or per-datum (row) => color callback.",
+    "A CSS color string ('#40c057', 'rgb(...)', 'var(...)'), category-field name, or per-datum (row) => color callback across Cartesian and polar charts.",
+  ],
+  [
+    ":stroke / :stroke-width / :fill / :fill-opacity",
+    "Line and area mark styling overrides (stroke color, stroke width, area fill color/boolean, and area opacity).",
+  ],
+  [
+    ":points / :point-radius / :point-fill / :point-opacity",
+    "Point mark visibility (false hides line/area points), radius in px, fill color, and scatter point opacity.",
+  ],
+  [
+    ":bar-padding / :x-scale",
+    "Bar band padding (0–0.8, default 0.18) and horizontal scale type ('band' | 'point' | 'linear' | 'time').",
   ],
   [
     ":data-labels",
@@ -235,12 +266,16 @@ const vue3Api: [string, string][] = [
   ],
   [":annotations", "Reference lines: [{ y?, x?, label?, color?, dash? }]."],
   [
-    ":y-min / :y-max / :y-tick-count",
+    ":x-min / :x-max / :y-min / :y-max / :y-tick-count / :y-include-zero",
     "Pin axis bounds and tick density (supports negative floors and clamped baselines).",
   ],
   [
+    ":x-format / :y-format / :x-axis / :y-axis",
+    "Custom tick formatters and axis titles ({ label }).",
+  ],
+  [
     ":legend",
-    "true or { position: 'top' | 'right' } — shown by default for multi-series charts.",
+    "true, false, or { position: 'top' | 'right' } — shown by default for multi-series and polar charts.",
   ],
   [
     "@bar-click / @point-click / @slice-click",
@@ -424,27 +459,52 @@ const keyboardShortcuts: [string, string][] = [
               :data="areaData"
               x="month"
               y="sessions"
+              :fill-opacity="0.28"
+              :stroke-width="2.5"
               title="Sessions"
               :height="280"
             />
           </div>
         </div>
       </div>
-      <div class="vd-col-12 vd-col-lg-6 vd-mb-4">
+      <div class="vd-col-12 vd-mb-4">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
             <h6><i class="ph ph-chart-donut"></i> Donut Chart</h6>
           </div>
           <div class="vd-card-body">
-            <VdChart
-              type="donut"
-              :data="donutData"
-              label="channel"
-              value="revenue"
-              title="Revenue mix"
-              :height="280"
-              @slice-click="onSliceClick"
-            />
+            <div class="vd-row">
+              <div class="vd-col-12 vd-col-md-6">
+                <p class="vd-text-muted vd-mb-2" style="font-size: 0.85rem">
+                  Custom <code>centerLabel</code> string
+                </p>
+                <VdDonutChart
+                  :data="donutData"
+                  label="channel"
+                  value="revenue"
+                  center-label="$11.5k"
+                  center-sub-label="revenue"
+                  title="Revenue mix"
+                  :height="280"
+                  @slice-click="onSliceClick"
+                />
+              </div>
+              <div class="vd-col-12 vd-col-md-6">
+                <p class="vd-text-muted vd-mb-2" style="font-size: 0.85rem">
+                  <code>centerLabel: true</code> shows the computed total
+                </p>
+                <VdDonutChart
+                  :data="donutData"
+                  label="channel"
+                  value="revenue"
+                  :center-label="true"
+                  center-sub-label="total"
+                  title="Revenue mix (auto total)"
+                  :height="280"
+                  @slice-click="onSliceClick"
+                />
+              </div>
+            </div>
             <div class="chart-status-bar vd-mt-2">
               <span class="status-chip">
                 <i class="ph ph-hand-pointing"></i>
@@ -463,13 +523,11 @@ const keyboardShortcuts: [string, string][] = [
             <h6><i class="ph ph-chart-pie"></i> Pie Chart</h6>
           </div>
           <div class="vd-card-body">
-            <VdChart
-              type="pie"
+            <VdPieChart
               :data="donutData"
               label="channel"
               value="revenue"
               title="Revenue mix (pie)"
-              :inner-radius-ratio="0"
               :height="280"
               @slice-click="onSliceClick"
             />
@@ -514,7 +572,10 @@ const keyboardShortcuts: [string, string][] = [
       <div class="vd-col-12 vd-col-lg-4 vd-mb-4">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
-            <h6><i class="ph ph-chart-bar"></i> Multi-Series Grouped Bar</h6>
+            <h6>
+              <i class="ph ph-chart-bar"></i> Multi-Series Grouped Bar (right
+              legend)
+            </h6>
           </div>
           <div class="vd-card-body">
             <VdChart
@@ -522,7 +583,7 @@ const keyboardShortcuts: [string, string][] = [
               :data="seriesData"
               x="month"
               :series="series"
-              legend
+              :legend="{ position: 'right' }"
               title="Product vs service revenue"
               :height="280"
             />
@@ -645,15 +706,11 @@ const keyboardShortcuts: [string, string][] = [
         <DocCodeSnippet :shell="installShell" class="vd-mb-6" />
 
         <h4>Accessible Chart Usage</h4>
-        <DocCodeSnippet
-          :html="a11yUsage"
-          :default-open="true"
-          class="vd-mb-6"
-        />
+        <DocCodeSnippet :vue="a11yUsage" :default-open="true" class="vd-mb-6" />
 
         <h4>Advanced Features Usage</h4>
         <DocCodeSnippet
-          :html="advancedUsage"
+          :vue="advancedUsage"
           :default-open="false"
           class="vd-mb-6"
         />

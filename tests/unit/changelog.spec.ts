@@ -39,12 +39,23 @@ describe("package changelog", () => {
     expect(columns[0].text()).not.toContain("@vanduo-oss/vd3-cbun");
 
     const chartsCards = columns[1].findAll(".version-card");
-    expect(headerText(chartsCards[0])).toContain("v1.1.1");
+    expect(chartsCards[0].attributes("id")).toBe("charts-1-2-0");
+    expect(headerText(chartsCards[0])).toContain("v1.2.0");
+    expect(headerText(chartsCards[0])).toContain("November 2026");
     expect(headerText(chartsCards[0])).toContain("Latest");
-    expect(headerText(chartsCards[1])).toContain("v1.1.0");
+    expect(chartsCards[0].text()).toContain("centerLabel");
+    expect(chartsCards[0].text()).toContain("MutationObserver");
+    expect(chartsCards[0].text()).toContain("xScale: 'band'");
+    expect(chartsCards[0].text()).toContain("Multi-series area honors");
+    expect(chartsCards[0].text()).toContain("Right-side legends reserve");
+    expect(chartsCards[0].text()).toContain("coalesces");
+    expect(chartsCards[0].text()).toContain("update()");
+    expect(headerText(chartsCards[1])).toContain("v1.1.1");
     expect(headerText(chartsCards[1])).not.toContain("Latest");
-    expect(headerText(chartsCards[2])).toContain("v1.0.1");
+    expect(headerText(chartsCards[2])).toContain("v1.1.0");
     expect(headerText(chartsCards[2])).not.toContain("Latest");
+    expect(headerText(chartsCards[3])).toContain("v1.0.1");
+    expect(headerText(chartsCards[3])).not.toContain("Latest");
     expect(headerText(chartsCards.at(-1)!)).toContain("v1.0.0");
     expect(headerText(chartsCards.at(-1)!)).toContain("Initial");
     expect(
@@ -80,5 +91,63 @@ describe("package changelog", () => {
       "@vanduo-oss/vd3-charts",
       "@vanduo-oss/vd3-flowchart",
     ]);
+  });
+
+  it("enforces uniform card structure, shipped Phosphor icons, unique IDs, and RouterLinks across all entries", () => {
+    const wrapper = mount(ChangelogPage, {
+      global: { stubs: { RouterLink: RouterLinkStub } },
+    });
+
+    expect(wrapper.findAll(".ph-bold")).toHaveLength(0);
+
+    const allCards = wrapper.findAll(".version-card");
+    expect(allCards.length).toBeGreaterThanOrEqual(28);
+
+    const seenIds = new Set<string>();
+    for (const card of allCards) {
+      const id = card.attributes("id") ?? "";
+      expect(id).toMatch(/^(vd3|charts|flowchart)-\d+-\d+-\d+(-initial)?$/);
+      expect(seenIds.has(id)).toBe(false);
+      seenIds.add(id);
+
+      const header = card.find(".version-header");
+      expect(header.exists()).toBe(true);
+      expect(header.find("i.ph.ph-calendar").exists()).toBe(true);
+      expect(header.text()).toMatch(
+        /(January|February|March|April|May|June|July|August|September|October|November|December) 202\d\b/,
+      );
+
+      const body = card.find(".version-body");
+      expect(body.exists()).toBe(true);
+      expect(body.find("p.vd-text-muted").exists()).toBe(true);
+
+      const groups = body.findAll(".change-group");
+      expect(groups.length).toBeGreaterThanOrEqual(1);
+      for (const group of groups) {
+        expect(group.find("h5").exists()).toBe(true);
+        expect(group.find("ul.change-list").exists()).toBe(true);
+      }
+
+      const allUls = body.findAll("ul");
+      expect(allUls.length).toBe(groups.length);
+      for (const ul of allUls) {
+        expect(ul.classes()).toContain("change-list");
+      }
+
+      const allLis = body.findAll("li");
+      expect(allLis.length).toBeGreaterThanOrEqual(1);
+      for (const li of allLis) {
+        expect(li.classes()).toContain("change-item");
+        expect(li.find("i.ph").exists()).toBe(true);
+        expect(li.find("strong").exists()).toBe(true);
+        expect(li.find("p").exists()).toBe(true);
+      }
+
+      const links = card.findAllComponents(RouterLinkStub);
+      expect(links.length).toBeGreaterThanOrEqual(1);
+      for (const link of links) {
+        expect(String(link.props("to"))).toMatch(/^\//);
+      }
+    }
   });
 });

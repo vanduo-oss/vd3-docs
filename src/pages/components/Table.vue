@@ -280,7 +280,7 @@ const apiRows: [string, string, string][] = [
       <code>VdDataTable</code> — client search, sort, selection, and paging via
       <code>useTableState</code>. Apps own fetch. Cell slots compose
       <code>VdAvatar</code> / <code>VdBadge</code>; a dashboard recipe can sit a
-      cbun <code>VdChart</code> above the grid.
+      <code>VdChart</code> above the grid.
     </p>
 
     <div class="vd-row">

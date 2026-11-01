@@ -44,7 +44,7 @@ const repos: [string, string, string][] = [
   [
     "vd3-charts",
     "@vanduo-oss/vd3-charts",
-    "Dedicated SVG charts package (bar, line, area, scatter, donut, pie). Same tokens as vd3. These docs dogfood 1.1.1.",
+    "Dedicated SVG charts package (bar, line, area, scatter, donut, pie). Same tokens as vd3. These docs dogfood 1.2.0.",
   ],
   [
     "vd3-flowchart",

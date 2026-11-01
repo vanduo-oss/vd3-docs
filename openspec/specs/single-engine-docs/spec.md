@@ -6,14 +6,7 @@ stores, switches, or framing.
 ## Requirements
 ### Requirement: no dual-engine machinery in the codebase
 
-The site SHALL document a single engine (Vue 3). The dual-engine machinery MUST
-be deleted: `src/stores/engine.ts`, `src/components/EngineSwitch.vue`,
-`src/components/EngineBadge.vue`, and `src/components/engineSnippetGroup.ts` SHALL
-NOT exist, and no module under `src/` SHALL import `useEngineStore`,
-`EngineSwitch`, `EngineBadge`, `engineSnippetGroup`, or `ENGINE_SNIPPET_GROUP`.
-Any test that exercised the removed store/component (e.g.
-`tests/unit/engine.spec.ts`) SHALL be removed rather than left importing deleted
-modules.
+The site SHALL document a single engine (Vue 3). `src/stores/engine.ts`, `src/components/EngineSwitch.vue`, `src/components/EngineBadge.vue`, and `src/components/engineSnippetGroup.ts` SHALL NOT exist, no module under `src/` SHALL import `useEngineStore`, `EngineSwitch`, `EngineBadge`, `engineSnippetGroup`, or `ENGINE_SNIPPET_GROUP`, and tests for removed engine modules (`tests/unit/engine.spec.ts`) SHALL be removed.
 
 #### Scenario: engine modules and their references are gone
 
@@ -54,13 +47,7 @@ documentation content is lost, and no Vanilla branch survives.
 
 ### Requirement: engine-store consumers are de-wired and single-engine
 
-The consumers of the engine store SHALL no longer reference it or render an
-engine toggle. `App.vue`, `overlays/LiveCustomizer.vue`, `layout/VdSidebar.vue`,
-`components/DocCodeSnippet.vue`, and `components/customizer/CustomizerCode.vue`
-MUST NOT import `useEngineStore`. The in-sidebar `.doc-engine-toggle` and the
-in-customizer `.lcc-engine` toggles SHALL be removed, and the now-orphaned
-engine-toggle / `data-engine` CSS in `styles/docs.css` SHALL be removed.
-`styles/app.css` SHALL remain shell/layout-only.
+Consumers of the engine store (`App.vue`, `overlays/LiveCustomizer.vue`, `layout/VdSidebar.vue`, `components/DocCodeSnippet.vue`, `components/customizer/CustomizerCode.vue`) MUST NOT import `useEngineStore` or render an engine toggle. The `.doc-engine-toggle` and `.lcc-engine` toggles and orphaned engine-toggle / `data-engine` CSS in `styles/docs.css` SHALL be removed, while `styles/app.css` SHALL remain shell/layout-only.
 
 #### Scenario: no consumer imports the engine store
 
@@ -91,14 +78,7 @@ scope), and removing them keeps the single-engine nav model honest.
 
 ### Requirement: the changelog is single-engine and packages-only
 
-The changelog SHALL render only the vd3-line package history as inline release
-cards; it MUST NOT import or render Vanilla framework-history partials and MUST
-NOT run any `data-engine` filtering. The Vanilla partial file
-(`src/pages/changelog-content.html`) and the older Vue history partial
-(`src/pages/changelog-vue-content.html`) SHALL be deleted — history lives
-inline in `changelog.vue`. The header engine toggle SHALL be removed. Per the
-changelog-content policy the page tracks package releases only, never
-docs-site content.
+The changelog SHALL render only vd3-line package history as inline release cards in `changelog.vue`, without Vanilla/Vue HTML partials (`src/pages/changelog-content.html`, `src/pages/changelog-vue-content.html`), `data-engine` filtering, or a header engine toggle. Per the changelog-content policy, the page tracks package releases only, never docs-site content.
 
 #### Scenario: changelog drops the vanilla partial and filter
 

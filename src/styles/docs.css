@@ -2839,11 +2839,13 @@ a:hover .vd-card-interactive.vd-card-glow {
   padding: 1.5rem;
 }
 
-.change-category {
-  margin-bottom: 1.5rem;
+.change-category,
+.change-group {
+  margin-bottom: 1.25rem;
 }
 
-.change-category:last-child {
+.change-category:last-child,
+.change-group:last-child {
   margin-bottom: 0;
 }
 
@@ -2853,6 +2855,15 @@ a:hover .vd-card-interactive.vd-card-glow {
   gap: 0.5rem;
   margin-bottom: 1rem;
   font-size: 1.1rem;
+}
+
+.change-group h5 {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--vd-text-secondary);
 }
 
 .change-list {
@@ -2869,13 +2880,19 @@ a:hover .vd-card-interactive.vd-card-glow {
   border-bottom: 1px solid var(--vd-border-color);
 }
 
+.change-item:first-child {
+  padding-top: 0.35rem;
+}
+
 .change-item:last-child {
+  padding-bottom: 0;
   border-bottom: none;
 }
 
 .change-item i {
-  margin-top: 0.2rem;
+  margin-top: 0.15rem;
   flex-shrink: 0;
+  font-size: 1.15rem;
 }
 
 .change-item strong {
