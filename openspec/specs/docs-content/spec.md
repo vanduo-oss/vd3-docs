@@ -126,7 +126,7 @@ intro copy MUST NOT contain "both engines", "Vanilla + Vue", "two engines",
 ### Requirement: the changelog documents the vd3 line packages only
 
 The changelog SHALL have three package columns: `@vanduo-oss/vd3` `1.8.0`,
-charts `1.2.0`, and flowchart `1.5.0`, each marked Latest once. It MUST NOT
+charts `1.2.0`, and flowchart `1.5.1`, each marked Latest once. It MUST NOT
 add a cbun column, a `data-engine` attribute, or retired package identities.
 It tracks package releases only.
 
@@ -146,8 +146,8 @@ It tracks package releases only.
 - **GIVEN** the changelog grid after this change
 - **WHEN** the `@vanduo-oss/vd3-charts` and `@vanduo-oss/vd3-flowchart`
   columns are read
-- **THEN** charts `v1.2.0` and flowchart `v1.5.0` are each marked Latest
-- **AND** charts `v1.1.1` and flowchart `v1.4.0` are present and are not marked Latest
+- **THEN** charts `v1.2.0` and flowchart `v1.5.1` are each marked Latest
+- **AND** charts `v1.1.1` and flowchart `v1.5.0` are present and are not marked Latest
 
 #### Scenario: vd3 Latest is 1.8.0
 
@@ -175,9 +175,9 @@ Every `.version-card` on `/changelog` SHALL have a unique anchor `id`, a `.versi
 - **THEN** the header displays `v1.2.0`, `November 2026`, and `Latest`
 - **AND** its `.change-item` rows document Vue wrapper prop parity, `MutationObserver` theme reactivity on `document.documentElement` and the chart's target container (coalesced per frame, disconnect on detach, re-arm on `update()`), polar and Cartesian `legend.position` `'top' | 'right'`, CSS color strings in `color`, typed wrapper click emits, `centerLabel: true` rendering the computed total, implemented `xScale: 'band'` with centered marks and categorical tick labels, multi-series area `fill` parity, and a right legend that reserves a plot gutter
 
-### Requirement: the flowchart page documents package 1.5.0
+### Requirement: the flowchart page documents package 1.5.1
 
-`/canvas/flowchart` SHALL dogfood `@vanduo-oss/vd3-flowchart` `1.5.0` with one
+`/canvas/flowchart` SHALL dogfood `@vanduo-oss/vd3-flowchart` `1.5.1` with one
 live editor at camera `0.05`/`20` and node size `6`/`4800`, and SHALL document
 the legacy defaults, `fitNode`, history methods, cardinal ports, and document
 format `1.3.0`. The minimap SHALL stay
@@ -197,7 +197,7 @@ and MUST NOT claim an infinite canvas or WCAG conformance.
 
 - **GIVEN** the flowchart API tables
 - **WHEN** they are read
-- **THEN** they name document format `1.3.0`, package `1.5.0`, `fitNode`,
+- **THEN** they name document format `1.3.0`, package `1.5.1`, `fitNode`,
   and the four cardinal ports
 - **AND** they do not claim WCAG conformance or an infinite canvas
 
@@ -696,7 +696,7 @@ document the modifier in its reference tables. Nav keywords SHALL include
 ### Requirement: ecosystem guide states legacy retirement without a migration page
 
 The ecosystem guide SHALL name the docs site, `@vanduo-oss/vd3`, charts, and
-flowchart, and SHALL say these docs dogfood flowchart `1.5.0`. It MUST NOT
+flowchart, and SHALL say these docs dogfood flowchart `1.5.1`. It MUST NOT
 name a templates app, `@vanduo-oss/vdl-cbun`, or link to `/guides/migration`.
 
 #### Scenario: retirement without migration
@@ -724,6 +724,6 @@ vanilla-versus-Vue choice.
 - **GIVEN** `guides/Vd3Ecosystem.vue` after this change
 - **WHEN** it is read
 - **THEN** it names `vd3-docs`, `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`,
-  and `@vanduo-oss/vd3-flowchart`, says the docs dogfood flowchart `1.5.0`,
+  and `@vanduo-oss/vd3-flowchart`, says the docs dogfood flowchart `1.5.1`,
   and contains no templates package, `@vanduo-oss/vdl-cbun`, or vanilla-versus-Vue
   choice
