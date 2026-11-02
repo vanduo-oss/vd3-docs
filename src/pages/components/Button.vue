@@ -20,10 +20,9 @@ const vue3Api: [string, string][] = [
   ],
   [":type", 'button | submit | reset (default "button").'],
   ["@click", "Emitted on click (suppressed while disabled or loading)."],
-  [
-    "(outline / ghost-colour / icon)",
-    "CSS-only classes (.vd-btn-outline, .vd-btn-ghost-primary…, .vd-btn-icon) that ship in vd3's CSS — not wrapped as VdButton props.",
-  ],
+  [":outline", "Adds .vd-btn-outline. Default false."],
+  [":block", "Adds .vd-btn-block so the button fills its row. Default false."],
+  [":icon", "Adds .vd-btn-icon for a square icon button. Default false."],
 ];
 
 const variantsHtml = `<button class="vd-btn vd-btn-primary">Primary</button>
@@ -535,6 +534,48 @@ const classRef: ClassRef[] = [
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-row vd-mt-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>
+              <i
+                class="ph ph-wheelchair mr-2"
+                style="color: var(--vd-color-primary)"
+              ></i
+              >Accessibility
+            </h6>
+          </div>
+          <div class="vd-card-body">
+            <ul>
+              <li>
+                <code>VdButton</code> renders a native
+                <code>&lt;button&gt;</code> element (default
+                <code>type="button"</code>) with visible
+                <code>:focus-visible</code> outline rings.
+              </li>
+              <li>
+                Icon-only buttons (<code>.vd-btn-icon</code> or
+                <code>:icon="true"</code>) must provide an explicit
+                <code>aria-label</code> describing the action.
+              </li>
+              <li>
+                When <code>:loading="true"</code>, <code>VdButton</code> sets
+                <code>disabled</code>, marks the spinner
+                <code>aria-hidden="true"</code>, and suppresses
+                <code>@click</code> emissions.
+              </li>
+              <li>
+                Filled primary and status buttons use contrast-aware foreground
+                tokens (<code>--vd-text-on-primary</code> and
+                <code>--vd-text-on-status</code>) across light and dark themes.
+              </li>
+            </ul>
           </div>
         </div>
       </div>

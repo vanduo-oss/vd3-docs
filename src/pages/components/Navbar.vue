@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdNavbar } from "@vanduo-oss/vd3";
+import { useNavbarGlassScroll, VdNavbar } from "@vanduo-oss/vd3";
 
 // The live demos render the real VdNavbar. `@toggle` reports the mobile-menu
 // state (visible when the viewport is below the lg breakpoint / the hamburger
 // shows), and the dark variant is toggled to show the `dark` prop.
 const menuOpen = ref(false);
 const dark = ref(false);
+const glassRoot = ref<HTMLElement | null>(null);
+useNavbarGlassScroll(glassRoot);
 
 const usageVue = `<script setup lang="ts">
 import { VdNavbar } from "@vanduo-oss/vd3";
@@ -195,10 +197,28 @@ import { VdNavbar } from "@vanduo-oss/vd3";
     </ul>
   </VdNavbar>
 </template>`;
+
+const glassComposableJs = `import { ref } from "vue";
+import { useNavbarGlassScroll } from "@vanduo-oss/vd3";
+
+const navbarEl = ref<HTMLElement | null>(null);
+// Returns Ref<boolean> (true when window.scrollY exceeds data-scroll-threshold or navbar height)
+const isScrolled = useNavbarGlassScroll(navbarEl);`;
+
+const composableRows: [string, string][] = [
+  [
+    "useNavbarGlassScroll(navbarRef)",
+    'Composable for custom <nav class="vd-navbar vd-navbar-glass"> or .vd-navbar-transparent elements; returns Ref<boolean> indicating whether window.scrollY has passed the scroll threshold.',
+  ],
+  [
+    "data-scroll-threshold",
+    "Optional pixel threshold attribute on the navbar element read by useNavbarGlassScroll (falls back to navbar.offsetHeight || 60).",
+  ],
+];
 </script>
 
 <template>
-  <section id="navbar">
+  <section id="navbar" ref="glassRoot">
     <h5 class="demo-title"><i class="ph ph-list"></i>Navbar</h5>
     <p class="vd-mb-8">
       <strong>VdNavbar</strong> is a responsive top navigation bar with
@@ -565,6 +585,62 @@ import { VdNavbar } from "@vanduo-oss/vd3";
             </tbody>
           </table>
         </div>
+
+        <h4 class="vd-mt-6">Composable API (useNavbarGlassScroll)</h4>
+        <DocCodeSnippet :js="glassComposableJs" :default-open="true" />
+        <div class="vd-table-responsive vd-mt-3">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th style="width: 30%">Symbol / Attribute</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in composableRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-wheelchair mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i
+          >Accessibility
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <ul>
+          <li>
+            <code>VdNavbar</code> renders a semantic <code>&lt;nav&gt;</code>
+            landmark.
+          </li>
+          <li>
+            The mobile hamburger button sets
+            <code>:aria-label="toggleLabel"</code> (default
+            <code>"Toggle navigation"</code>) and
+            <code>:aria-expanded="isOpen"</code>.
+          </li>
+          <li>
+            Pressing <kbd>Escape</kbd> closes open dropdown menus and the mobile
+            navigation drawer.
+          </li>
+          <li>
+            Clicking outside the navbar or activating a navigation link (when
+            <code>closeOnNavigate</code> is true) automatically closes the
+            mobile menu and releases body scroll lock.
+          </li>
+        </ul>
       </div>
     </div>
   </section>

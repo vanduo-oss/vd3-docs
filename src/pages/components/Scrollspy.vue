@@ -1,19 +1,25 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useWaypoint } from "@vanduo-oss/vd3";
+import { useScrollspy, useWaypoint } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useWaypoint(root);
+const { activeId: headingId } = useScrollspy(["scrollspy"]);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
-import { useWaypoint } from "@vanduo-oss/vd3";
+import { useScrollspy, useWaypoint } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useWaypoint(root);   // wires [data-vd-waypoint-nav] inside root; cleanup on unmount
 
-// react to the active section changing
+// Or observe section IDs directly with useScrollspy:
+const { activeId } = useScrollspy(['overview', 'features', 'pricing'], {
+  offset: 96,
+});
+
+// react to the active section changing on a waypoint nav
 root.value?.addEventListener('waypoint:change', (e) => {
   console.log('active', e.detail.activeId);
 });`;
@@ -22,6 +28,14 @@ const vue3Api: [string, string][] = [
   [
     "useWaypoint(root)",
     "Composable — wires every [data-vd-waypoint-nav] inside the root ref; highlights the link of the topmost visible section. Call once in setup().",
+  ],
+  [
+    "useScrollspy(ids, options?)",
+    "Composable — observes document elements matching ids (string[]) via IntersectionObserver and returns { activeId: Ref<string | null> }.",
+  ],
+  [
+    "options.offset / options.rootMargin",
+    "Optional useScrollspy options: offset (number, default 96px) or custom IntersectionObserver rootMargin (default `-${offset}px 0px -60% 0px`).",
   ],
   [
     "(automatic cleanup)",
@@ -149,6 +163,9 @@ const events: [string, string, string][] = [
     <p class="vd-mb-8">
       Highlights the navigation entry for the section currently in view as the
       user scrolls, driven by the <code>useWaypoint</code> composable.
+      <code>useScrollspy</code> is the id-list helper:
+      <code>{{ headingId || "none" }}</code
+      >.
     </p>
 
     <div class="vd-row">

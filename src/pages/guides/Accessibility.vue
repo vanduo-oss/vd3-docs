@@ -58,6 +58,51 @@ const motionCss = `/* Effects (parallax, morph, glass) respect reduced-motion */
   .vd-parallax-layer { transform: none !important; }
 }`;
 
+const helpersSnippet = `import { ref } from "vue";
+import {
+  useClickOutside,
+  useFocusTrap,
+  useKeyboardNav,
+} from "@vanduo-oss/vd3";
+
+const dialogRef = ref<HTMLElement | null>(null);
+const menuRef = ref<HTMLElement | null>(null);
+const triggerRef = ref<HTMLElement | null>(null);
+const isOpen = ref(false);
+
+// 1. Keep Tab / Shift+Tab inside an open dialog
+const { active, activate, deactivate } = useFocusTrap(dialogRef);
+
+// 2. Roving Arrow / Home / End / Enter / Escape navigation across items
+const { activeIndex, setItems } = useKeyboardNav(menuRef, {
+  itemSelector: '[role="menuitem"]',
+  onSelect: (index) => console.log("Selected item", index),
+  onEscape: () => (isOpen.value = false),
+});
+
+// 3. Close when pointerdown lands outside all provided refs while enabled
+useClickOutside([menuRef, triggerRef], () => {
+  isOpen.value = false;
+}, isOpen);`;
+
+const helpersApi: [string, string, string][] = [
+  [
+    "useFocusTrap(container)",
+    "{ active: Ref<boolean>, activate(options?: { focus?: boolean }): void, deactivate(): void }",
+    "Traps Tab and Shift+Tab within visible focusable descendants of container. Moves focus to the first focusable element on activate() unless { focus: false } is passed.",
+  ],
+  [
+    "useKeyboardNav(container, options)",
+    "{ activeIndex: Ref<number>, setItems(count: number): void }",
+    "Wires ArrowDown/ArrowRight, ArrowUp/ArrowLeft, Home, End, Enter (options.onSelect), and Escape (options.onEscape) across elements matching options.itemSelector (skipping disabled items).",
+  ],
+  [
+    "useClickOutside(refs, handler, enabled)",
+    "void",
+    "Attaches a capture-phase pointerdown listener while enabled (Ref<boolean>) is true and invokes handler() when the event target is outside every element in refs (Ref<HTMLElement | null>[]).",
+  ],
+];
+
 const checklist: [string, string][] = [
   [
     "Keyboard reachable",
@@ -94,6 +139,10 @@ const dontUndo: [string, string][] = [
   [
     "Toast",
     "Mount VdToastContainer once so announcements go through its aria-live region. Prefer plain-text messages over HTML.",
+  ],
+  [
+    "Focus helpers",
+    "useFocusTrap keeps Tab inside a dialog. useKeyboardNav moves a roving index. useClickOutside closes a popover when the pointer leaves it. They are exported from @vanduo-oss/vd3.",
   ],
   [
     "Tabs",
@@ -162,6 +211,43 @@ const dontUndo: [string, string][] = [
             <DocCodeSnippet :css="motionCss" :default-open="true" />
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="vd-card demo-card vd-mb-6">
+      <div class="vd-card-header">
+        <h6>
+          <i class="ph ph-keyboard"></i> Focus &amp; Keyboard Composables API
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <p class="vd-mb-4">
+          <code>@vanduo-oss/vd3</code> exports the same low-level accessibility
+          composables used by its own modals, menus, lightboxes, and popovers:
+        </p>
+        <div class="vd-table-responsive vd-mb-4">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Composable</th>
+                <th>Returns</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in helpersApi" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>
+                  <code>{{ row[1] }}</code>
+                </td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <DocCodeSnippet :js="helpersSnippet" :default-open="true" />
       </div>
     </div>
 

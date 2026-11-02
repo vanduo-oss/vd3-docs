@@ -23,15 +23,15 @@ const pageHtml = `<!-- Page skeleton: navbar + main + footer -->
   </div>
 </footer>`;
 
-const cardGridHtml = `<!-- Card grid using grid primitives -->
-<div class="vd-grid vd-grid-cols-3 vd-gap-5">
-  <div class="vd-card"><div class="vd-card-body">One</div></div>
-  <div class="vd-card"><div class="vd-card-body">Two</div></div>
-  <div class="vd-card"><div class="vd-card-body">Three</div></div>
+const cardGridHtml = `<!-- 12-column row. Three equal cards from the md breakpoint up. -->
+<div class="vd-row vd-gap-5">
+  <div class="vd-col-12 vd-col-md-4"><div class="vd-card"><div class="vd-card-body">One</div></div></div>
+  <div class="vd-col-12 vd-col-md-4"><div class="vd-card"><div class="vd-card-body">Two</div></div></div>
+  <div class="vd-col-12 vd-col-md-4"><div class="vd-card"><div class="vd-card-body">Three</div></div></div>
 </div>`;
 
 const stackHtml = `<!-- Vertical stack with consistent spacing -->
-<div class="vd-stack vd-stack-4">
+<div class="vd-stack" data-gap="fib-13">
   <h2>Section heading</h2>
   <p>First paragraph.</p>
   <p>Second paragraph.</p>
@@ -44,8 +44,8 @@ const stackHtml = `<!-- Vertical stack with consistent spacing -->
 </div>`;
 
 const heroHtml = `<!-- Hero: glass panel with a heading + CTA -->
-<section class="vd-hero vd-glass">
-  <div class="vd-hero-content">
+<section class="vd-cover vd-glass" data-min="half" data-gap="fib-8">
+  <div class="vd-center" data-max="fib-610">
     <h1>vd3 UI</h1>
     <p>Essential just like water is.</p>
     <a href="/docs" class="vd-btn vd-btn-primary vd-btn-lg">Get started</a>
@@ -164,10 +164,16 @@ const splitLayoutHtml = `<!-- Two-column split: sidebar + content -->
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Card grid</h6></div>
           <div class="vd-card-body">
-            <div class="vd-grid vd-grid-cols-3 vd-gap-3">
-              <div class="vd-card"><div class="vd-card-body">One</div></div>
-              <div class="vd-card"><div class="vd-card-body">Two</div></div>
-              <div class="vd-card"><div class="vd-card-body">Three</div></div>
+            <div class="vd-row">
+              <div class="vd-col-12 vd-col-md-4">
+                <div class="vd-card"><div class="vd-card-body">One</div></div>
+              </div>
+              <div class="vd-col-12 vd-col-md-4">
+                <div class="vd-card"><div class="vd-card-body">Two</div></div>
+              </div>
+              <div class="vd-col-12 vd-col-md-4">
+                <div class="vd-card"><div class="vd-card-body">Three</div></div>
+              </div>
             </div>
           </div>
         </div>
@@ -178,7 +184,7 @@ const splitLayoutHtml = `<!-- Two-column split: sidebar + content -->
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Stack &amp; inline</h6></div>
           <div class="vd-card-body">
-            <div class="vd-stack vd-stack-4">
+            <div class="vd-stack" data-gap="fib-13">
               <h2>Section heading</h2>
               <p>First paragraph.</p>
               <p>Second paragraph.</p>
@@ -206,9 +212,11 @@ const splitLayoutHtml = `<!-- Two-column split: sidebar + content -->
                 <code>--vd-scale-*</code>) — no new tokens required.
               </li>
               <li>
-                Layout primitives (<code>.vd-grid</code>,
-                <code>.vd-stack</code>, <code>.vd-inline</code>) come from
-                <code>css/primitives/primitives.css</code>.
+                Layout primitives (<code>.vd-stack</code>,
+                <code>.vd-inline</code>, <code>.vd-cover</code>,
+                <code>.vd-center</code>) come from
+                <code>css/primitives/primitives.css</code>. Columns use
+                <code>.vd-row</code> and <code>.vd-col-*</code>.
               </li>
               <li>
                 Replace the placeholder content; the layout shells are

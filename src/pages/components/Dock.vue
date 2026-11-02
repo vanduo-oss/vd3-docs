@@ -8,6 +8,7 @@ import {
   VdDock,
   VdDockItem,
   VdIcon,
+  VdThemeCustomizer,
   VdThemeSwitcher,
   dockOrientationOf,
   dockPlacementOf,
@@ -38,9 +39,10 @@ const tint = ref<DockTint | "">(themeTint.value);
 const tintMode = ref<DockTintMode>("surface");
 const glass = ref<DockGlass>(34);
 const radius = ref<DockRadius>(DOCS_DOCK_RADIUS);
-const itemLayout = ref<DockItemLayout>("stack");
+const itemLayout = ref<DockItemLayout>("auto");
 const brandId = ref("u");
 const activeItem = ref("home");
+const showSwatches = ref(false);
 const expanded = ref(false);
 
 /** Same walk as VdDock cycle="edges": bottom → left → top → right → bottom. */
@@ -89,9 +91,10 @@ function resetPlayground(): void {
   tintMode.value = "surface";
   glass.value = 34;
   radius.value = DOCS_DOCK_RADIUS;
-  itemLayout.value = "stack";
+  itemLayout.value = "auto";
   brandId.value = "u";
   activeItem.value = "home";
+  showSwatches.value = false;
 }
 
 function onKeydown(event: KeyboardEvent): void {
@@ -120,9 +123,20 @@ onBeforeUnmount(exitExpanded);
 
 const liveSnippet = computed(() => {
   const tintLine = tint.value ? `\n  tint="${tint.value}"` : "";
+  const imports = showSwatches.value
+    ? "VdDock, VdDockItem, VdThemeCustomizer, VdThemeSwitcher"
+    : "VdDock, VdDockItem, VdThemeSwitcher";
+  const actionsBlock = showSwatches.value
+    ? `    <template #actions>
+      <VdThemeCustomizer variant="swatches" />
+      <VdThemeSwitcher :menu="false" />
+    </template>`
+    : `    <template #actions>
+      <VdThemeSwitcher :menu="false" />
+    </template>`;
   return `<script setup lang="ts">
 import { ref } from "vue";
-import { VdDock, VdDockItem } from "@vanduo-oss/vd3";
+import { ${imports} } from "@vanduo-oss/vd3";
 
 const orientation = ref("${orientation.value}");
 const placement = ref("${placement.value}");
@@ -135,7 +149,10 @@ const placement = ref("${placement.value}");
     position="contained"
     :glass="${glass.value}"
     radius="${radius.value}"
-    item-layout="${itemLayout.value}"${tintLine}
+    item-layout="${itemLayout.value}"
+    brand-spin
+    brand-corner="consistent"
+    cycle="edges"${tintLine}
     tint-mode="${tintMode.value}"
   >
     <template #brand>
@@ -144,6 +161,7 @@ const placement = ref("${placement.value}");
     <VdDockItem icon="house" label="Home" active />
     <VdDockItem icon="book-open-text" label="Docs" />
     <VdDockItem icon="info" label="About" />
+${actionsBlock}
   </VdDock>
 </template>`;
 });
@@ -208,7 +226,15 @@ const vue3Api: [string, string][] = [
   ],
   [
     ":itemLayout",
-    '"stack" icon-above-label (default) | "inline" icon-then-label.',
+    '"stack" icon-above-label (default) | "inline" icon-then-label | "auto" (inline on horizontal edges, icon-only stack with tooltips on vertical edges).',
+  ],
+  [
+    ":brandSpin",
+    "boolean (default false). Wraps #brand in .vd-dock-brand-spin and continuously spins it on hover, focus, and while morphing, then eases back upright to 0deg.",
+  ],
+  [
+    ":brandCorner",
+    '"mirror" (default, flips brand to the far corner on top/right edges) | "consistent" (keeps brand at the leading left/top corner on every edge).',
   ],
   [
     ":brandToggles",
@@ -222,19 +248,88 @@ const vue3Api: [string, string][] = [
     ":persist",
     'Opt-in. Writes getStoragePrefix() + "dock-orient" as the placement string. Default false.',
   ],
+  [
+    ":storageKey",
+    'Custom localStorage key when :persist="true" (defaults to getStoragePrefix() + "dock-orient").',
+  ],
   [":label", 'aria-label for the nav (default "Primary").'],
   [
     "#brand",
-    "Morph-origin corner. Demos use ū; swap any icon or wordmark. Bottom/left: brand left or bottom. Top/right: brand right or top.",
+    'Morph-origin corner. Demos use ū; swap any icon or wordmark. Bottom/left: brand left or bottom. Top/right: brand right or top (unless brandCorner="consistent").',
   ],
   ["default", "Items — VdDockItem or any .vd-dock-item."],
-  ["#actions", 'Trailing controls. Theme switcher should use :menu="false".'],
+  [
+    "#actions",
+    'Trailing controls (e.g. VdThemeCustomizer variant="swatches" and VdThemeSwitcher :menu="false").',
+  ],
 ];
 
 const itemApi: [string, string][] = [
   [":icon", "Phosphor name via VdIcon. Omit for a label-only item."],
   [":label", "Visible label and accessible name."],
   [":active", 'Adds .is-active and aria-current="page".'],
+  [
+    ":activeIconFill",
+    "boolean (default true). Renders the filled Phosphor icon variant when :active is true.",
+  ],
+  [
+    ":tooltip",
+    'string | boolean. When true, uses :label; when a string, uses that custom text; when omitted inside a dock with itemLayout="auto", automatically shows :label on vertical edges (left/right) using the .vd-tooltip-dock variant.',
+  ],
+  [
+    ":badge",
+    "string | number. Optional notification badge rendered in .vd-dock-badge.",
+  ],
+  [
+    ":href",
+    "string. When set, renders an <a> link instead of a <button> (unless overridden by :as).",
+  ],
+  [
+    ":as",
+    'string. Custom element or component tag (defaults to "a" when :href is passed, otherwise "button").',
+  ],
+];
+
+const orientationComposableApi: [string, string][] = [
+  [
+    "Options",
+    "UseDockOrientationOptions: { narrowQuery?: string, persist?: boolean, storageKey?: string, initial?: DockOrientation, initialPlacement?: DockPlacement }.",
+  ],
+  [
+    "State refs",
+    "placement (Ref<DockPlacement>), orientation (Ref<DockOrientation>), visualPhase (Ref<'horizontal' | 'square' | 'vertical'>), isMorphing (Ref<boolean>), isNarrow (Ref<boolean>).",
+  ],
+  [
+    "Computed helpers",
+    "dockClasses (is-horizontal, is-square, is-vertical, is-morphing, vd-dock-edge-*), orientClass, brandLabel, brandPressed, canToggle.",
+  ],
+  [
+    "Methods",
+    "toggle(), playTo(orientation), playToPlacement(placement, { interrupt? }), snapTo(orientation), snapToPlacement(placement).",
+  ],
+  [
+    "Exported helpers & constants",
+    "dockOrientationOf(placement), dockHorizontalOf(placement), dockPlacementOf(orientation, from), DOCK_PLACEMENTS, DOCK_PLACEMENT_PAIR, DOCK_MORPH_MS, DOCK_NARROW_QUERY, DOCK_ORIENT_SUFFIX, DOCK_TINTS, DOCK_TINT_MODES, DOCK_GLASS_STEPS, DOCK_RADIUS_OPTIONS.",
+  ],
+];
+
+const brandSpinApi: [string, string][] = [
+  [
+    "useDockBrandSpin(dockEl, enabled)",
+    "Composable that observes .vd-dock-brand pointer/focus events and dock .is-morphing state to animate .vd-dock-brand-spin via Web Animations API.",
+  ],
+  [
+    "ensureDockBrandSpin(spinEl, durationMs)",
+    "Starts or updates a continuous 360deg rotation on --vd-dock-brand-angle from the current angle.",
+  ],
+  [
+    "settleDockBrandSpin(spinEl, reducedMotion?)",
+    "Coasts the brand mark from its current --vd-dock-brand-angle back to 0deg upright (or snaps immediately when reducedMotion is true).",
+  ],
+  [
+    "Constants",
+    "DOCK_BRAND_ANGLE_VAR (--vd-dock-brand-angle), DOCK_SPIN_HOVER_MS (5000), DOCK_SPIN_MORPH_MS (900), DOCK_SPIN_SETTLE_MIN_MS (600), DOCK_SPIN_SETTLE_MAX_MS (1800).",
+  ],
 ];
 </script>
 
@@ -276,9 +371,10 @@ const itemApi: [string, string][] = [
             <p v-if="!expanded" class="vd-text-sm vd-text-muted vd-mb-4">
               Page-local knobs bound to real <code>VdDock</code> props — they do
               not write the site theme. Click ū (or your chosen brand) to cycle
-              bottom → left → top → right. On a narrow pane the playground shows
-              only the brand, centered. Toggle orientation still morphs the
-              pair. Full screen expands this playground only (not the browser).
+              bottom → left → top → right. The brand mark spins on hover and
+              while the dock morphs. Auto layout shows labels on horizontal
+              edges and icon-only items on vertical edges. Full screen expands
+              this playground only (not the browser).
             </p>
             <div class="dock-stage" data-dock-playground>
               <VdDock
@@ -290,6 +386,8 @@ const itemApi: [string, string][] = [
                 :glass="glass"
                 :radius="radius"
                 :item-layout="itemLayout"
+                brand-spin
+                brand-corner="consistent"
                 cycle="edges"
               >
                 <template #brand>
@@ -305,6 +403,7 @@ const itemApi: [string, string][] = [
                   @click="activeItem = item.id"
                 />
                 <template #actions>
+                  <VdThemeCustomizer v-if="showSwatches" variant="swatches" />
                   <VdThemeSwitcher :menu="false" />
                 </template>
               </VdDock>
@@ -429,6 +528,35 @@ const itemApi: [string, string][] = [
                     @click="itemLayout = 'inline'"
                   >
                     Inline
+                  </button>
+                  <button
+                    type="button"
+                    class="dock-chip"
+                    :class="{ 'is-active': itemLayout === 'auto' }"
+                    @click="itemLayout = 'auto'"
+                  >
+                    Auto
+                  </button>
+                </div>
+              </div>
+              <div class="dock-play-row">
+                <span class="dock-play-label">Swatches</span>
+                <div class="dock-play-chips">
+                  <button
+                    type="button"
+                    class="dock-chip"
+                    :class="{ 'is-active': !showSwatches }"
+                    @click="showSwatches = false"
+                  >
+                    Off
+                  </button>
+                  <button
+                    type="button"
+                    class="dock-chip"
+                    :class="{ 'is-active': showSwatches }"
+                    @click="showSwatches = true"
+                  >
+                    On
                   </button>
                 </div>
               </div>
@@ -581,7 +709,7 @@ const itemApi: [string, string][] = [
       </div>
     </div>
 
-    <div class="vd-row">
+    <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>VdDockItem API</h6></div>
@@ -602,6 +730,101 @@ const itemApi: [string, string][] = [
                 </tr>
               </tbody>
             </table>
+            <p class="vd-text-sm vd-text-muted vd-mt-3">
+              Dock items with tooltips automatically apply
+              <code>data-tooltip-variant="dock"</code> (styled by
+              <code>.vd-tooltip-dock</code>) and position the bubble away from
+              the active dock edge.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>useDockOrientation &amp; useDockBrandSpin API</h6>
+          </div>
+          <div class="vd-card-body">
+            <h6 class="vd-mb-2"><code>useDockOrientation(options?)</code></h6>
+            <table class="vd-table vd-mb-6">
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="row in orientationComposableApi" :key="row[0]">
+                  <td>
+                    <code>{{ row[0] }}</code>
+                  </td>
+                  <td>{{ row[1] }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h6 class="vd-mb-2">
+              <code>useDockBrandSpin(dockEl, enabled)</code>
+            </h6>
+            <table class="vd-table">
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="row in brandSpinApi" :key="row[0]">
+                  <td>
+                    <code>{{ row[0] }}</code>
+                  </td>
+                  <td>{{ row[1] }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-row">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header"><h6>Accessibility</h6></div>
+          <div class="vd-card-body">
+            <ul>
+              <li>
+                Renders a semantic
+                <code>&lt;nav :aria-label="label"&gt;</code> landmark (defaults
+                to <code>"Primary"</code>).
+              </li>
+              <li>
+                Active <code>VdDockItem</code> elements set
+                <code>aria-current="page"</code> and always carry
+                <code>:aria-label="label"</code> so icon-only vertical docks
+                remain fully labeled for screen readers.
+              </li>
+              <li>
+                The <code>#brand</code> corner button exposes
+                <code>:aria-pressed="brandPressed"</code> (true when vertical),
+                an orientation-aware <code>aria-label</code> (<code
+                  >"Use vertical dock"</code
+                >
+                / <code>"Use horizontal dock"</code>), and
+                <code>aria-disabled="true"</code> when toggling is disabled or
+                locked on narrow viewports.
+              </li>
+              <li>
+                Honors <code>prefers-reduced-motion: reduce</code>: orientation
+                changes skip the square morph timers via
+                <code>snapToPlacement()</code>, and
+                <code>settleDockBrandSpin()</code> immediately snaps
+                <code>--vd-dock-brand-angle</code> to <code>0deg</code>.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -789,20 +1012,9 @@ const itemApi: [string, string][] = [
 }
 
 @media (max-width: 520px) {
-  [data-dock-playground] :deep(.vd-dock .vd-dock-nav),
-  [data-dock-playground] :deep(.vd-dock .vd-dock-actions) {
-    display: none;
-  }
-
-  [data-dock-playground] :deep(.vd-dock) {
-    justify-content: center;
-    align-items: center;
-    gap: 0;
-  }
-
-  [data-dock-playground] :deep(.vd-dock .vd-dock-brand) {
-    margin: 0;
-    max-width: none;
+  [data-dock-playground] :deep(.vd-dock.is-horizontal .vd-dock-nav) {
+    min-width: 0;
+    overflow-x: auto;
   }
 }
 </style>

@@ -123,46 +123,91 @@ const apiRows: [string, string, string][] = [
       </div>
     </div>
 
-    <h4 id="api" class="docs-heading">API Reference</h4>
-    <div class="vd-table-responsive">
-      <table class="vd-table vd-table-hover">
-        <thead>
-          <tr>
-            <th style="width: 25%">Class Name</th>
-            <th style="width: 55%">Description</th>
-            <th style="width: 20%">Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in apiRows" :key="row[0]">
-            <td>
-              <code>{{ row[0] }}</code>
-            </td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div id="api" class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-list-dashes mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i
+          >API Reference
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <h4>CSS Classes</h4>
+        <div class="vd-table-responsive vd-mb-6">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 25%">Class Name</th>
+                <th style="width: 55%">Description</th>
+                <th style="width: 20%">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in apiRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Component API (Vue 3)</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 25%">Prop</th>
+                <th style="width: 75%">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <h4 class="docs-heading vd-mt-6">Component API (Vue 3)</h4>
-    <div class="vd-table-responsive" style="margin-bottom: 3rem">
-      <table class="vd-table vd-table-hover">
-        <thead>
-          <tr>
-            <th style="width: 25%">Prop</th>
-            <th style="width: 75%">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in vue3Api" :key="row[0]">
-            <td>
-              <code>{{ row[0] }}</code>
-            </td>
-            <td>{{ row[1] }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-wheelchair mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i
+          >Accessibility
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <ul>
+          <li>
+            Always pass a descriptive <code>:alt</code> when using
+            <code>:src</code> so screen readers announce the person or entity
+            represented by the image.
+          </li>
+          <li>
+            When rendering initials without an image,
+            <code>VdAvatar</code> exposes <code>role="img"</code> and uses
+            <code>:alt</code> (falling back to <code>:initials</code>) as its
+            <code>aria-label</code>.
+          </li>
+          <li>
+            Presence status dots (<code>online</code>, <code>offline</code>,
+            <code>busy</code>, <code>away</code>) are visual indicators; convey
+            critical availability state in adjacent text or an accessible label.
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 </template>

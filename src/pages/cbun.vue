@@ -59,7 +59,7 @@ const vd3Entries: CbunEntry[] = [
 
 <template>
   <section id="cbun">
-    <div class="about-header">
+    <div class="about-header vd-surface vd-surface-noise">
       <div class="vd-container-responsive">
         <h2 style="color: var(--vd-color-primary)">
           <i class="ph ph-tree-structure"></i> Canvas Components Bundle

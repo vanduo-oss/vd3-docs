@@ -1,26 +1,71 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useTabs } from "@vanduo-oss/vd3";
+import { useTabs, VdTabs } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
+const tab = ref("one");
 useTabs(root);
+
+const vdTabsSnippet = `<script setup lang="ts">
+import { ref } from 'vue';
+import { VdTabs } from '@vanduo-oss/vd3';
+
+const tab = ref('one');
+const tabs = [
+  { id: 'one', label: 'One' },
+  { id: 'two', label: 'Two' },
+];
+<\/script>
+
+<template>
+  <VdTabs v-model="tab" :tabs="tabs">
+    <p v-if="tab === 'one'">First pane from VdTabs.</p>
+    <p v-else>Second pane from VdTabs.</p>
+  </VdTabs>
+</template>`;
+
+const vdTabsComponentApi: [string, string][] = [
+  [
+    ":tabs",
+    "Array<{ id: string, label: string }> — tab buttons rendered in the tablist.",
+  ],
+  ["v-model (modelValue)", "string — active tab id."],
+  [
+    "default (slot)",
+    'Active tab panel content rendered inside role="tabpanel".',
+  ],
+];
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
 import { useTabs } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
-useTabs(root);   // wires [data-tab-target] inside root; cleanup on unmount`;
+const tabs = useTabs(root); // wires .vd-tabs / [data-tabs] inside root; cleanup on unmount
+
+// programmatic control: tabs.show(1) or tabs.refresh()`;
 
 const vue3Api: [string, string][] = [
   [
     "useTabs(root)",
-    "Composable — wires every [data-tab-target] trigger inside the root ref; clicking a tab shows its pane. Call once in setup().",
+    "Composable — wires every .vd-tabs / [data-tabs] container inside the root ref. Links are .vd-tab-link / [data-tab]; data-tab-target names the pane id. Returns a { show, refresh } controller.",
+  ],
+  [
+    "show(tab, container?)",
+    "Controller method — programmatically activates a tab by element reference or zero-based index.",
+  ],
+  [
+    "refresh()",
+    "Controller method — re-scans root and idempotently applies ARIA and listeners to newly added tab containers.",
+  ],
+  [
+    "tab:change",
+    "CustomEvent<{ tab: HTMLElement, pane: HTMLElement | null, tabId: string }> — bubbles from the .vd-tabs container when a tab is activated.",
   ],
   [
     "(automatic cleanup)",
-    "Click listeners are removed on component unmount — no manual teardown.",
+    "Delegated click and keydown listeners are removed on component unmount.",
   ],
 ];
 
@@ -124,9 +169,25 @@ const classRows: [string, string][] = [
     <p class="vd-mb-8">
       Organize content into switchable panes. Tabs support horizontal and
       vertical layouts, multiple visual styles (default underline, boxed, pills,
-      bordered), size variants, and fade animations — all CSS-driven with
-      optional JavaScript for pane switching.
+      bordered), size variants, and fade animations. The markup below is the
+      composable form. <code>VdTabs</code> is the component form.
     </p>
+    <div class="vd-card vd-card-glow demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>VdTabs Component</h6></div>
+      <div class="vd-card-body">
+        <VdTabs
+          v-model="tab"
+          :tabs="[
+            { id: 'one', label: 'One' },
+            { id: 'two', label: 'Two' },
+          ]"
+        >
+          <p class="vd-mb-0" v-if="tab === 'one'">First pane from VdTabs.</p>
+          <p class="vd-mb-0" v-else>Second pane from VdTabs.</p>
+        </VdTabs>
+        <DocCodeSnippet class="vd-mt-4" :vue="vdTabsSnippet" />
+      </div>
+    </div>
 
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12 vd-col-md-6">
@@ -536,7 +597,26 @@ const classRows: [string, string][] = [
                 </tbody>
               </table>
             </div>
-            <h4 class="vd-mt-6">Composable API</h4>
+            <h4 class="vd-mt-6">VdTabs Component API</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Prop / Slot</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="r in vdTabsComponentApi" :key="r[0]">
+                    <td>
+                      <code>{{ r[0] }}</code>
+                    </td>
+                    <td>{{ r[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <h4 class="vd-mt-6">Composable API &amp; Events (useTabs)</h4>
             <div class="vd-table-responsive">
               <table class="vd-table vd-table-striped">
                 <thead>

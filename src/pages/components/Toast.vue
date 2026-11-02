@@ -41,6 +41,13 @@ const apiRows: [string, string, string][] = [
     "5000",
   ],
   ["position", "Screen placement (e.g., top-right, bottom-left).", "top-right"],
+  [
+    "dismissible",
+    "Shows a close button. toast.dismiss(id) removes one toast.",
+    "true",
+  ],
+  ["showProgress", "Draws the remaining-time bar.", "true"],
+  ["solid", "Uses the solid status fill instead of the soft surface.", "false"],
 ];
 </script>
 
@@ -161,6 +168,21 @@ const apiRows: [string, string, string][] = [
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="vd-card demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>Mount the container once</h6></div>
+      <div class="vd-card-body">
+        <p>
+          <code>useToast()</code> only queues messages.
+          <code>VdToastContainer</code> teleports them to <code>body</code>.
+          These docs mount it in <code>App.vue</code>. Mount it once in your app
+          or the queue stays invisible.
+        </p>
+        <DocCodeSnippet
+          js="import { VdToastContainer } from '@vanduo-oss/vd3';"
+        />
+      </div>
     </div>
 
     <div class="vd-alert vd-alert-info vd-mb-6">

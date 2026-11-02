@@ -43,12 +43,8 @@ test("lightweight pages navigate without fetching JavaScript or CSS", async ({
   for (const slug of [
     "badge",
     "alert",
-    "card",
-    "dropdown",
-    "tabs",
     "accordion",
     "avatar",
-    "tooltip",
     "breadcrumb",
     "chip",
     "progress",

@@ -12,7 +12,7 @@ import "@/styles/hero-display-font.css";
 <template>
   <section id="about">
     <!-- Page Header -->
-    <div class="about-header">
+    <div class="about-header vd-surface vd-surface-noise">
       <div class="vd-container-responsive">
         <h2 style="color: var(--vd-color-primary)">
           <i class="ph ph-compass"></i> About

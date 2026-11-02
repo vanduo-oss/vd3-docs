@@ -154,34 +154,37 @@ console.log(checked); // ["users-read", "users-create"]
 const openHtml = `<!-- set "open": true on any node to expand it on render -->
 <VdTree :nodes="docs" />`;
 
-const structureHtml = `<!-- Rendered structure -->
+const structureHtml = `<!-- Rendered structure (VdTree + recursive VdTreeNode) -->
 <div class="vd-tree" role="tree">
-  <div class="vd-tree-node" role="treeitem" aria-expanded="true">
+  <li class="vd-tree-node is-open" role="treeitem" aria-expanded="true">
     <div class="vd-tree-node-content">
-      <span class="vd-tree-toggle">▶</span>
-      <input type="checkbox" class="vd-tree-checkbox" />
-      <span class="vd-tree-icon"></span>
-      <span class="vd-tree-label">Parent Node</span>
+      <button type="button" class="vd-tree-toggle" aria-label="Toggle"></button>
+      <input type="checkbox" class="vd-tree-checkbox" aria-label="Parent Node" />
+      <span class="vd-tree-icon ph ph-folder"></span>
+      <span class="vd-tree-label" tabindex="-1">Parent Node</span>
     </div>
-    <div class="vd-tree-children" role="group">
-      <div class="vd-tree-node" role="treeitem">
+    <ul class="vd-tree-children" role="group">
+      <li class="vd-tree-node" role="treeitem">
         <div class="vd-tree-node-content">
           <span class="vd-tree-toggle-placeholder"></span>
-          <span class="vd-tree-label">Leaf Node</span>
+          <span class="vd-tree-label" tabindex="-1">Leaf Node</span>
         </div>
-      </div>
-    </div>
-  </div>
+      </li>
+    </ul>
+  </li>
 </div>`;
 
 const cssClasses: [string, string][] = [
   [".vd-tree", "Auto-generated root container for the tree"],
-  [".vd-tree-node", "Individual tree node (may contain children)"],
+  [
+    ".vd-tree-node",
+    "Individual tree node <li> (renders .is-open when expanded)",
+  ],
   [
     ".vd-tree-node-content",
     "The clickable row wrapper (toggle + icon + label)",
   ],
-  [".vd-tree-toggle", "Expand/collapse arrow for branch nodes"],
+  [".vd-tree-toggle", "Expand/collapse <button> for branch nodes"],
   [
     ".vd-tree-toggle-placeholder",
     "Spacer that aligns leaf nodes with branch toggles",
@@ -194,26 +197,39 @@ const cssClasses: [string, string][] = [
   ],
   [
     ".vd-tree-children",
-    "Wrapper around child nodes (collapsed/expanded via CSS)",
+    "Child <ul> wrapper around nested VdTreeNode items (collapsed/expanded via CSS)",
   ],
 ];
 
 const nodeShape: [string, string, string][] = [
-  ["id", "string", "Unique identifier for the node"],
-  ["label", "string", "Display text"],
+  [
+    "id",
+    "string?",
+    "Optional unique identifier for the node (falls back to label or index)",
+  ],
+  ["label", "string?", "Display text and checkbox aria-label"],
   ["icon", "string?", 'CSS class(es) for an icon (e.g. "ph ph-folder")'],
-  ["open", "boolean?", "If true, node renders expanded on init"],
-  ["children", "Node[]?", "Nested child nodes (makes this a branch node)"],
+  [
+    "open",
+    "boolean?",
+    "If true, branch node renders expanded (.is-open) on init",
+  ],
+  [
+    "checked",
+    "boolean?",
+    "Initial or reactive checked state when checkbox mode is enabled",
+  ],
+  ["children", "TreeNode[]?", "Nested child nodes (makes this a branch node)"],
 ];
 
 const events: [string, string][] = [
   [
     "tree:check",
-    "Fired on the element when a checkbox changes. event.detail contains { checked: string[], node: string }",
+    "Fired on the element when a checkbox changes. event.detail contains { checked: string[], node: string | undefined }",
   ],
   [
     "tree:toggle",
-    "Fired when a node is expanded or collapsed. event.detail contains { id: string, open: boolean }",
+    "Fired when a node is expanded or collapsed. event.detail contains { id: string | undefined, open: boolean }",
   ],
 ];
 
@@ -233,19 +249,23 @@ const nodes = [
 const vue3Api: [string, string][] = [
   [
     ":nodes",
-    "Array of TreeNode objects ({ id, label, icon?, open?, children? }).",
+    "TreeNode[] — hierarchical array of { id?, label?, icon?, open?, checked?, children? }.",
   ],
   [
     ":checkbox / :cascade",
-    "Render checkboxes; cascade a parent check to descendants.",
+    "boolean — render checkboxes on every node; cascade (default true) propagates parent check changes to all descendants.",
+  ],
+  [
+    "VdTreeNode (:node, :checkbox, @toggle, @check)",
+    "Recursive child component used internally by VdTree and exported from @vanduo-oss/vd3 for custom tree compositions.",
   ],
   [
     "tree:check / tree:toggle",
-    "Native events on the root (detail shapes as documented below).",
+    "Native CustomEvents bubbling from the root element (detail shapes documented below).",
   ],
   [
     "ref.getChecked()",
-    "Exposed method — returns the array of checked node ids.",
+    "Exposed method — returns string[] of checked node ids (or labels).",
   ],
 ];
 </script>
@@ -430,27 +450,27 @@ const vue3Api: [string, string][] = [
       <div class="vd-card-body">
         <ul>
           <li>
-            The root container has <code>role="tree"</code>; each node has
-            <code>role="treeitem"</code>
+            The root container has <code>role="tree"</code>; each
+            <code>VdTreeNode</code> renders a
+            <code>&lt;li role="treeitem"&gt;</code> and wraps child lists in
+            <code>&lt;ul role="group"&gt;</code>.
           </li>
-          <li>Child groups are wrapped in <code>role="group"</code></li>
           <li>
             Branch nodes set <code>aria-expanded="true"</code> or
-            <code>"false"</code> to reflect open state
+            <code>"false"</code> to reflect open state, and toggle buttons carry
+            <code>aria-label="Toggle"</code>.
           </li>
           <li>
-            <kbd>↑</kbd> / <kbd>↓</kbd> navigate between visible nodes;
-            <kbd>→</kbd> expands a branch; <kbd>←</kbd> collapses it
+            Keyboard navigation on the tree: <kbd>ArrowDown</kbd> and
+            <kbd>ArrowUp</kbd> move focus between visible node rows;
+            <kbd>ArrowRight</kbd> expands a closed branch node;
+            <kbd>ArrowLeft</kbd> collapses an open branch node.
           </li>
           <li>
-            <kbd>Home</kbd> jumps to the first node; <kbd>End</kbd> jumps to the
-            last visible node
-          </li>
-          <li><kbd>Space</kbd> toggles the checkbox on checkbox trees</li>
-          <li><kbd>Enter</kbd> activates (selects/expands) the focused node</li>
-          <li>
-            Type-ahead: pressing a letter key jumps to the next node whose label
-            starts with that character
+            Native <code>&lt;button class="vd-tree-toggle"&gt;</code> and
+            <code>&lt;input type="checkbox" class="vd-tree-checkbox"&gt;</code>
+            controls support <kbd>Enter</kbd> and <kbd>Space</kbd> activation
+            with <code>:aria-label="node.label"</code> on checkboxes.
           </li>
         </ul>
       </div>

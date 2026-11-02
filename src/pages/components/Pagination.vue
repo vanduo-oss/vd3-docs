@@ -14,26 +14,26 @@ const alignRightPage = ref(3);
 const ellipsisPage = ref(10);
 const disabledPage = ref(3);
 
-const basicHtml = `<!-- Framework markup: the JS expands data-pagination into the list -->
-<ul class="vd-pagination"
-    data-pagination
-    data-total-pages="5"
-    data-current-page="1"></ul>`;
+const basicHtml = `<script setup lang="ts">
+import { ref } from 'vue';
+import { VdPagination } from '@vanduo-oss/vd3';
+const page = ref(1);
+<\/script>
 
-const sizesHtml = `<ul class="vd-pagination vd-pagination-sm" data-pagination data-total-pages="5"></ul>
-<ul class="vd-pagination"           data-pagination data-total-pages="5"></ul>
-<ul class="vd-pagination vd-pagination-lg" data-pagination data-total-pages="5"></ul>`;
+<template>
+  <VdPagination v-model="page" :total="5" />
+</template>`;
 
-const alignHtml = `<ul class="vd-pagination"               data-pagination data-total-pages="6"></ul>
-<ul class="vd-pagination vd-pagination-center" data-pagination data-total-pages="6"></ul>
-<ul class="vd-pagination vd-pagination-right"  data-pagination data-total-pages="6"></ul>`;
+const sizesHtml = `<VdPagination v-model="pageSm" :total="5" size="sm" />
+<VdPagination v-model="pageMd" :total="5" size="md" />
+<VdPagination v-model="pageLg" :total="5" size="lg" />`;
+
+const alignHtml = `<VdPagination v-model="pageLeft" :total="6" align="left" />
+<VdPagination v-model="pageCenter" :total="6" align="center" />
+<VdPagination v-model="pageRight" :total="6" align="right" />`;
 
 const ellipsisHtml = `<!-- Large sets collapse to first/last + a window around the current page -->
-<ul class="vd-pagination"
-    data-pagination
-    data-total-pages="20"
-    data-current-page="10"
-    data-max-visible="7"></ul>`;
+<VdPagination v-model="page" :total="20" :max-visible="7" />`;
 
 const jsHtml = `import { ref } from 'vue';
 
@@ -48,18 +48,49 @@ function onPage(p) {
   console.log('Now on page', p);
 }`;
 
-const props: [string, string, string][] = [
+const propsRows: [string, string, string, string][] = [
   [
-    "data-pagination",
-    "Activates the component on a .vd-pagination element",
-    "—",
+    "v-model (modelValue)",
+    "number",
+    "1",
+    "Two-way bound active page (1-indexed).",
   ],
-  ["data-total-pages", "Total number of pages to render", "1"],
-  ["data-current-page", "The initially active page", "1"],
+  [":total", "number", "—", "Total number of pages to render."],
   [
-    "data-max-visible",
-    "Maximum page links shown before collapsing to ellipses",
+    ":maxVisible",
+    "number",
     "7",
+    "Maximum page buttons shown before collapsing distant ranges to ellipses.",
+  ],
+  [
+    ":size",
+    '"sm" | "md" | "lg"',
+    '"md"',
+    "Size modifier applied to the pagination list.",
+  ],
+  [
+    ":align",
+    '"left" | "center" | "right"',
+    '"left"',
+    "Horizontal alignment modifier on the pagination list.",
+  ],
+  [
+    ":disabled",
+    "boolean",
+    "false",
+    "Disables all page and previous/next buttons.",
+  ],
+  [
+    "@update:modelValue",
+    "(page: number) => void",
+    "—",
+    "Emitted when the user selects a new page.",
+  ],
+  [
+    "pagination:change",
+    "CustomEvent<{ page: number, totalPages: number }>",
+    "—",
+    "Native DOM event bubbling from the pagination root when the page changes.",
   ],
 ];
 
@@ -84,13 +115,6 @@ const cssClasses: [string, string][] = [
   ],
 ];
 
-const events: [string, string][] = [
-  [
-    "pagination:change",
-    "Fired on the element when the page changes. event.detail contains { page, totalPages }",
-  ],
-];
-
 const vue3Usage = `<script setup lang="ts">
 import { VdPagination } from "@vanduo-oss/vd3";
 const page = ref(1);
@@ -99,20 +123,6 @@ const page = ref(1);
 <template>
   <VdPagination v-model="page" :total="20" :max-visible="7" />
 </template>`;
-
-const vue3Api: [string, string][] = [
-  ["v-model (modelValue)", "Two-way bound current page (number)."],
-  [":total", "Total number of pages."],
-  [":max-visible", "Max page links before collapsing to ellipses (default 7)."],
-  [
-    ":size / :align / :disabled",
-    "'sm'|'md'|'lg' size, 'left'|'center'|'right' align, and a disabled flag.",
-  ],
-  [
-    "@update:modelValue / pagination:change",
-    "Fired with the new page; a native pagination:change { page, totalPages } also bubbles.",
-  ],
-];
 </script>
 
 <template>
@@ -122,9 +132,10 @@ const vue3Api: [string, string][] = [
     </h5>
     <p class="vd-mb-8">
       Page-by-page navigation for lists, tables, and search results. The
-      <strong>VdPagination</strong> component renders a numbered control from a
-      few data attributes, automatically collapsing long ranges with ellipses
-      and emitting a <code>pagination:change</code> event as the user navigates.
+      <strong>VdPagination</strong> component renders a numbered control bound
+      via <code>v-model</code> and <code>:total</code>, automatically collapsing
+      long ranges with ellipses and emitting <code>@update:modelValue</code> and
+      a <code>pagination:change</code> event as the user navigates.
     </p>
 
     <!-- Basic -->
@@ -137,7 +148,7 @@ const vue3Api: [string, string][] = [
             <p class="vd-text-sm vd-text-muted vd-mt-3">
               Current page: {{ basicPage }}
             </p>
-            <DocCodeSnippet :html="basicHtml" />
+            <DocCodeSnippet :vue="basicHtml" />
           </div>
         </div>
       </div>
@@ -155,7 +166,7 @@ const vue3Api: [string, string][] = [
             <VdPagination v-model="sizeSmPage" :total="5" size="sm" />
             <VdPagination v-model="sizeMdPage" :total="5" size="md" />
             <VdPagination v-model="sizeLgPage" :total="5" size="lg" />
-            <DocCodeSnippet :html="sizesHtml" />
+            <DocCodeSnippet :vue="sizesHtml" />
           </div>
         </div>
       </div>
@@ -173,7 +184,7 @@ const vue3Api: [string, string][] = [
             <VdPagination v-model="alignLeftPage" :total="6" align="left" />
             <VdPagination v-model="alignCenterPage" :total="6" align="center" />
             <VdPagination v-model="alignRightPage" :total="6" align="right" />
-            <DocCodeSnippet :html="alignHtml" />
+            <DocCodeSnippet :vue="alignHtml" />
           </div>
         </div>
       </div>
@@ -189,15 +200,15 @@ const vue3Api: [string, string][] = [
           <div class="vd-card-header"><h6>Large Sets with Ellipsis</h6></div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-4">
-              With more than <code>data-max-visible</code> pages, the control
-              always shows the first and last page plus a window around the
-              current page, separated by “…”.
+              With more than <code>:max-visible</code> pages, the control always
+              shows the first and last page plus a window around the current
+              page, separated by “…”.
             </p>
             <VdPagination v-model="ellipsisPage" :total="20" :max-visible="7" />
             <p class="vd-text-sm vd-text-muted vd-mt-3">
               Current page: {{ ellipsisPage }}
             </p>
-            <DocCodeSnippet :html="ellipsisHtml" />
+            <DocCodeSnippet :vue="ellipsisHtml" />
           </div>
         </div>
       </div>
@@ -235,25 +246,29 @@ const vue3Api: [string, string][] = [
         <h4>Usage</h4>
         <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
-        <h4 class="vd-mt-6">Data Attributes</h4>
+        <h4 class="vd-mt-6">VdPagination Props &amp; Events</h4>
         <div class="vd-table-responsive">
           <table class="vd-table vd-table-striped">
             <thead>
               <tr>
-                <th>Attribute</th>
-                <th>Description</th>
+                <th>Prop / Event</th>
+                <th>Type</th>
                 <th>Default</th>
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="row in props" :key="row[0]">
+              <tr v-for="row in propsRows" :key="row[0]">
                 <td>
                   <code>{{ row[0] }}</code>
                 </td>
-                <td>{{ row[1] }}</td>
+                <td>
+                  <code>{{ row[1] }}</code>
+                </td>
                 <td>
                   <code>{{ row[2] }}</code>
                 </td>
+                <td>{{ row[3] }}</td>
               </tr>
             </tbody>
           </table>
@@ -279,48 +294,8 @@ const vue3Api: [string, string][] = [
           </table>
         </div>
 
-        <h4 class="vd-mt-6">Component API</h4>
-        <div class="vd-table-responsive">
-          <table class="vd-table vd-table-striped">
-            <thead>
-              <tr>
-                <th>Prop / event</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in vue3Api" :key="row[0]">
-                <td>
-                  <code>{{ row[0] }}</code>
-                </td>
-                <td>{{ row[1] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h4 class="vd-mt-6">Events</h4>
-        <div class="vd-table-responsive">
-          <table class="vd-table vd-table-striped">
-            <thead>
-              <tr>
-                <th>Event</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in events" :key="row[0]">
-                <td>
-                  <code>{{ row[0] }}</code>
-                </td>
-                <td>{{ row[1] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
         <h4 class="vd-mt-6">Programmatic Control</h4>
-        <DocCodeSnippet :html="jsHtml" />
+        <DocCodeSnippet :js="jsHtml" />
       </div>
     </div>
 

@@ -1,10 +1,46 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useSidenav } from "@vanduo-oss/vd3";
+import { useSidenav, VdOffcanvas } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
+const panelOpen = ref(false);
 useSidenav(root);
+
+const vdOffcanvasSnippet = `<script setup lang="ts">
+import { ref } from 'vue';
+import { VdOffcanvas } from '@vanduo-oss/vd3';
+
+const panelOpen = ref(false);
+<\/script>
+
+<template>
+  <button type="button" class="vd-btn vd-btn-outline" @click="panelOpen = true">
+    Open VdOffcanvas
+  </button>
+  <VdOffcanvas v-model="panelOpen" placement="right" title="Panel">
+    <p>VdOffcanvas traps focus and closes on Escape or the backdrop.</p>
+  </VdOffcanvas>
+</template>`;
+
+const vdOffcanvasApi: [string, string][] = [
+  [
+    "v-model (modelValue)",
+    "boolean — controls open/closed offcanvas visibility.",
+  ],
+  [":placement", '"right" (default) | "left" | "top" | "bottom".'],
+  [":title", "string — header title and accessible dialog aria-label."],
+  [
+    ":closeOnBackdrop",
+    "boolean (default true) — close when clicking the overlay backdrop.",
+  ],
+  [":closeOnEsc", "boolean (default true) — close when pressing Escape."],
+  ["@close", "Emitted when the offcanvas panel closes."],
+  [
+    "#header / default",
+    "Named #header slot for custom header content and default slot for panel body.",
+  ],
+];
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
@@ -104,6 +140,22 @@ const events: [string, string, string][] = [
       edge. Uses the existing <code>useSidenav</code> API with positional
       modifiers.
     </p>
+    <div class="vd-card vd-card-glow demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>VdOffcanvas Component</h6></div>
+      <div class="vd-card-body">
+        <button
+          type="button"
+          class="vd-btn vd-btn-outline"
+          @click="panelOpen = true"
+        >
+          Open VdOffcanvas
+        </button>
+        <VdOffcanvas v-model="panelOpen" placement="right" title="Panel">
+          <p>VdOffcanvas traps focus and closes on Escape or the backdrop.</p>
+        </VdOffcanvas>
+        <DocCodeSnippet class="vd-mt-4" :vue="vdOffcanvasSnippet" />
+      </div>
+    </div>
 
     <!-- Left + Right -->
     <div class="vd-row">
@@ -334,6 +386,26 @@ const events: [string, string, string][] = [
                 <td>
                   <code>{{ row[2] }}</code>
                 </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>VdOffcanvas Component API</h4>
+        <div class="vd-table-responsive vd-mb-6">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / Event / Slot</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vdOffcanvasApi" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
               </tr>
             </tbody>
           </table>

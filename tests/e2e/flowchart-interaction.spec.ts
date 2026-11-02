@@ -9,7 +9,7 @@ async function openFlowchart(page: Page, theme: "light" | "dark") {
   await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
   await expect(page.locator(".vd-flowchart-canvas")).toBeVisible();
   await expect(
-    page.locator(".vd-flowchart-node[data-node-id='note']"),
+    page.locator(".vd-flowchart-node[data-node-id='proc-8']"),
   ).toBeAttached();
   await expect(page.locator("[data-flowchart-scale]")).not.toHaveText("");
 }
@@ -50,7 +50,7 @@ for (const theme of ["light", "dark"] as const) {
       await page.keyboard.press("End");
       await expect(
         page.locator(".vd-flowchart-node.is-selected"),
-      ).toHaveAttribute("data-node-id", "note");
+      ).toHaveAttribute("data-node-id", "proc-8");
       await page.keyboard.press("?");
       await expect(
         page.getByRole("dialog", { name: "Keyboard shortcuts" }),
@@ -68,7 +68,7 @@ for (const theme of ["light", "dark"] as const) {
     test("keeps the diagram when JSON load is invalid", async ({ page }) => {
       await openFlowchart(page, theme);
       const json = page.getByRole("textbox", { name: "Flowchart JSON" });
-      await expect(json).toHaveValue(/"id": "note"/);
+      await expect(json).toHaveValue(/"id": "proc-8"/);
       const before = await json.inputValue();
       await json.fill("{");
       await page.locator("[data-json-action='load']").click();
@@ -76,7 +76,7 @@ for (const theme of ["light", "dark"] as const) {
         "current document was not changed",
       );
       await expect(
-        page.locator(".vd-flowchart-node[data-node-id='note']"),
+        page.locator(".vd-flowchart-node[data-node-id='proc-8']"),
       ).toBeAttached();
       await expect(
         page.locator(".vd-flowchart-node[data-node-id='start']"),

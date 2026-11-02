@@ -1,7 +1,10 @@
 import type { RouteRecordRaw } from "vue-router";
 // Small, frequently browsed component references are available immediately.
 // Optional demos and the rest of the catalog retain independent lazy imports.
-// Measurements and the explicit eager set: reviews/2026-09-20-navigation/.
+// The original 15-page eager set is recorded in reviews/2026-09-20-navigation/.
+// Card, Dropdown, Tabs, and Tooltip left that set once their references grew:
+// keeping them eager no longer fits the homepage (375 KiB) and flowchart
+// (404 KiB) gzip budgets. Hover and focus still prefetch those routes.
 const HomePage = () => import("@/pages/home.vue");
 const AboutPage = () => import("@/pages/about.vue");
 const ChangelogPage = () => import("@/pages/changelog.vue");
@@ -12,11 +15,11 @@ const NotFoundPage = () => import("@/pages/not-found.vue");
 import ButtonPage from "@/pages/components/Button.vue";
 import BadgePage from "@/pages/components/Badge.vue";
 import AlertPage from "@/pages/components/Alert.vue";
-import CardPage from "@/pages/components/Card.vue";
+const CardPage = () => import("@/pages/components/Card.vue");
 const ModalPage = () => import("@/pages/components/Modal.vue");
 const ToastPage = () => import("@/pages/components/Toast.vue");
-import TooltipPage from "@/pages/components/Tooltip.vue";
-import TabsPage from "@/pages/components/Tabs.vue";
+const TooltipPage = () => import("@/pages/components/Tooltip.vue");
+const TabsPage = () => import("@/pages/components/Tabs.vue");
 import AccordionPage from "@/pages/components/Accordion.vue";
 const FlowPage = () => import("@/pages/components/Flow.vue");
 import ProgressPage from "@/pages/components/Progress.vue";
@@ -56,7 +59,7 @@ const TransferPage = () => import("@/pages/components/Transfer.vue");
 const TreePage = () => import("@/pages/components/Tree.vue");
 const PaginationPage = () => import("@/pages/components/Pagination.vue");
 const ButtonGroupsPage = () => import("@/pages/components/ButtonGroups.vue");
-import DropdownPage from "@/pages/components/Dropdown.vue";
+const DropdownPage = () => import("@/pages/components/Dropdown.vue");
 const RipplePage = () => import("@/pages/components/Ripple.vue");
 const FabPage = () => import("@/pages/components/Fab.vue");
 const ExpandingCardsPage = () =>

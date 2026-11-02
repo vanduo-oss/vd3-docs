@@ -1,16 +1,48 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useFlow } from "@vanduo-oss/vd3";
+import { useFlow, VdFlow } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
+const slide = ref(0);
 useFlow(root);
+
+const vue3ComponentSnippet = `<script setup lang="ts">
+import { ref } from 'vue';
+import { VdFlow } from '@vanduo-oss/vd3';
+
+const slide = ref(0);
+<\/script>
+
+<template>
+  <VdFlow v-model="slide" :total="3">
+    <template #slide-0>First slide</template>
+    <template #slide-1>Second slide</template>
+    <template #slide-2>Third slide</template>
+  </VdFlow>
+</template>`;
+
+const vdFlowComponentApi: [string, string][] = [
+  ["v-model (modelValue)", "number — zero-based active slide index."],
+  [":total", "number — total number of slides to render."],
+  [
+    "#slide-{i}",
+    "Named scoped slot for slide i (0 to total - 1); receives { index }.",
+  ],
+  [
+    "Exposed (template ref)",
+    "{ go(index), prev(), next(), index: Ref<number> } — imperative slide controls.",
+  ],
+];
 
 const vue3Wiring = `import { ref } from 'vue';
 import { useFlow } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
-useFlow(root);   // wires every .vd-flow inside root; cleanup on unmount
+const flow = useFlow(root); // wires every .vd-flow inside root; cleanup on unmount
+
+// programmatic control via returned FlowApi:
+// flow.next(el), flow.prev(el), flow.goTo(el, 2), flow.refresh()
 
 // react to slide changes
 root.value?.addEventListener('flow:change', (e) => {
@@ -20,11 +52,23 @@ root.value?.addEventListener('flow:change', (e) => {
 const vue3Api: [string, string][] = [
   [
     "useFlow(root)",
-    "Composable — wires every .vd-flow inside the root ref (prev/next, indicators, keyboard, touch swipe, autoplay). Call once in setup().",
+    "Composable — wires every .vd-flow / .vd-carousel inside the root ref (prev/next, indicators, keyboard, touch swipe, autoplay) and returns a FlowApi controller.",
+  ],
+  [
+    "goTo(el, index)",
+    "FlowApi method — jump the given .vd-flow element to zero-based slide index (wraps when data-vd-loop is enabled, clamps otherwise).",
+  ],
+  [
+    "next(el) / prev(el)",
+    "FlowApi methods — step the given .vd-flow element forward or backward one slide.",
+  ],
+  [
+    "refresh()",
+    "FlowApi method — re-scans root for newly added .vd-flow elements and syncs slide/indicator ARIA.",
   ],
   [
     "(automatic cleanup)",
-    "Listeners and autoplay timers are cleared on component unmount.",
+    "Listeners, live regions, and autoplay timers are cleared on component unmount.",
   ],
 ];
 
@@ -120,6 +164,81 @@ const dataAttrs: [string, string, string][] = [
       A carousel for stepping through a sequence of slides, with previous and
       next controls and optional looping.
     </p>
+
+    <div class="vd-card vd-card-glow demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>VdFlow Component</h6></div>
+      <div class="vd-card-body">
+        <VdFlow v-model="slide" :total="3">
+          <template #slide-0>
+            <div
+              style="
+                background: linear-gradient(
+                  135deg,
+                  var(--vd-color-primary),
+                  var(--vd-color-info)
+                );
+                color: #fff;
+                padding: 2.5rem;
+                text-align: center;
+                border-radius: var(--vd-radius-fib-5);
+              "
+            >
+              <h4 style="margin: 0 0 0.35rem">First Slide</h4>
+              <p style="margin: 0; opacity: 0.85">
+                Controlled via <code>v-model</code> (slide {{ slide + 1 }} of 3)
+              </p>
+            </div>
+          </template>
+          <template #slide-1>
+            <div
+              style="
+                background: linear-gradient(
+                  135deg,
+                  var(--vd-color-success),
+                  var(--vd-color-primary)
+                );
+                color: #fff;
+                padding: 2.5rem;
+                text-align: center;
+                border-radius: var(--vd-radius-fib-5);
+              "
+            >
+              <h4 style="margin: 0 0 0.35rem">Second Slide</h4>
+              <p style="margin: 0; opacity: 0.85">
+                Rendered in named slot <code>#slide-1</code>
+              </p>
+            </div>
+          </template>
+          <template #slide-2>
+            <div
+              style="
+                background: linear-gradient(
+                  135deg,
+                  var(--vd-color-warning),
+                  var(--vd-color-error)
+                );
+                color: #fff;
+                padding: 2.5rem;
+                text-align: center;
+                border-radius: var(--vd-radius-fib-5);
+              "
+            >
+              <h4 style="margin: 0 0 0.35rem">Third Slide</h4>
+              <p style="margin: 0; opacity: 0.85">
+                Exposes <code>{ go, prev, next, index }</code> on template ref
+              </p>
+            </div>
+          </template>
+        </VdFlow>
+        <p class="vd-text-sm vd-text-muted vd-mt-3">
+          <code>v-model</code> is the slide index. Slots are
+          <code>#slide-0</code> through <code>#slide-n</code>. The exposed
+          controller is <code>go</code>, <code>prev</code>, <code>next</code>,
+          and <code>index</code>.
+        </p>
+        <DocCodeSnippet class="vd-mt-4" :vue="vue3ComponentSnippet" />
+      </div>
+    </div>
 
     <!-- Basic -->
     <div class="vd-row">
@@ -475,7 +594,27 @@ const dataAttrs: [string, string, string][] = [
           </table>
         </div>
 
-        <h4>Composable API</h4>
+        <h4>VdFlow Component API</h4>
+        <div class="vd-table-responsive vd-mb-6">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Prop / Slot / Exposed</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vdFlowComponentApi" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Composable API (useFlow)</h4>
         <div class="vd-table-responsive">
           <table class="vd-table vd-table-striped">
             <thead>
@@ -512,7 +651,7 @@ const dataAttrs: [string, string, string][] = [
                   Fired on the <code>.vd-flow</code> element after a slide
                   transition completes
                 </td>
-                <td><code>{ index, slide, direction }</code></td>
+                <td><code>{ current, previous, total }</code></td>
               </tr>
             </tbody>
           </table>

@@ -212,32 +212,29 @@ const vue3Api: [string, string][] = [
       <div class="vd-card-body">
         <ul>
           <li>
-            Each panel list has <code>role="listbox"</code> with
-            <code>aria-multiselectable="true"</code>
+            Each panel list renders
+            <code>&lt;ul role="listbox" aria-multiselectable="true"&gt;</code>,
+            and each item renders <code>&lt;li role="option"&gt;</code> with
+            <code>:aria-selected</code> reflecting its checked state.
           </li>
           <li>
-            Items use <code>role="option"</code> with
-            <code>aria-selected</code> reflecting checked state
+            Each row includes a native
+            <code>&lt;input type="checkbox" :aria-label="item.label"&gt;</code>
+            for assistive technology labelling.
           </li>
           <li>
-            Move buttons have descriptive <code>aria-label</code>s (e.g. "Move
-            selected to right")
-          </li>
-          <li>
-            <kbd>Space</kbd> toggles item selection; <kbd>↑</kbd>/<kbd>↓</kbd>
-            navigate the list
-          </li>
-          <li>
-            <kbd>Ctrl+A</kbd> selects all visible items in the focused panel
+            The transfer action buttons are native
+            <code>&lt;button type="button"&gt;</code> elements with
+            <code>aria-label="Move to target"</code> and
+            <code>aria-label="Move to source"</code>, automatically disabled
+            when no items are checked in the corresponding list.
           </li>
           <li>
             Search inputs are labelled with
-            <code>aria-label="Search source"</code> /
-            <code>"Search target"</code>
-          </li>
-          <li>
-            Panel headers use <code>aria-live="polite"</code> to announce count
-            changes
+            <code>aria-label="Search source"</code> and
+            <code>aria-label="Search target"</code>, and panel count badges use
+            <code>aria-live="polite"</code> to announce selection and total
+            counts.
           </li>
         </ul>
       </div>

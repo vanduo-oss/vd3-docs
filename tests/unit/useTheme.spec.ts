@@ -158,7 +158,7 @@ describe("useThemeStore", () => {
     // Reset restores the brand styling without erasing the saved dock color.
     expect(theme.primary).toBe("violet");
     expect(window.localStorage.getItem(primaryKeys().light)).toBe("violet");
-    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("blue");
+    expect(window.localStorage.getItem(primaryKeys().dark)).toBe("yellow");
   });
 
   it("init applies brand styles without writing storage and keeps an explicit dock primary", () => {
@@ -190,8 +190,10 @@ describe("useThemeStore", () => {
     window.localStorage.setItem("vanduo-primary-color", "blue");
     const theme = useThemeStore();
     theme.init();
-    expect(theme.primary).toBe("blue");
-    expect(document.documentElement.getAttribute("data-primary")).toBe("blue");
+    expect(theme.primary).toBe("yellow");
+    expect(document.documentElement.getAttribute("data-primary")).toBe(
+      "yellow",
+    );
     expect(window.localStorage.getItem(primaryKeys().light)).toBeNull();
     expect(window.localStorage.getItem(primaryKeys().dark)).toBeNull();
   });
@@ -231,11 +233,11 @@ describe("useThemeStore", () => {
     expect(theme.primary).toBe("rose");
 
     theme.setTheme("dark");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("yellow");
     theme.setPrimary("amber");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("yellow");
     theme.setPrimary("lime");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("yellow");
     theme.setPrimary("rose");
     expect(theme.primary).toBe("rose");
 
@@ -245,7 +247,7 @@ describe("useThemeStore", () => {
     expect(theme.primary).toBe("rose");
   });
 
-  it("defaults first-visit primary to black in light and blue in dark", () => {
+  it("defaults first-visit primary to black in light and yellow in dark", () => {
     const theme = useThemeStore();
     theme.init();
     expect(theme.primary).toBe("black");
@@ -254,16 +256,18 @@ describe("useThemeStore", () => {
     theme.setTheme("light");
     expect(theme.primary).toBe("black");
     theme.setTheme("dark");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("yellow");
     expect(window.localStorage.getItem(primaryKeys().light)).toBe("black");
   });
 
-  it("defaults first-visit dark (system) primary to blue and still persists light black", () => {
+  it("defaults first-visit dark (system) primary to yellow and still persists light black", () => {
     stubColorScheme(true);
     const theme = useThemeStore();
     theme.init();
-    expect(theme.primary).toBe("blue");
-    expect(document.documentElement.getAttribute("data-primary")).toBe("blue");
+    expect(theme.primary).toBe("yellow");
+    expect(document.documentElement.getAttribute("data-primary")).toBe(
+      "yellow",
+    );
     expect(window.localStorage.getItem(primaryKeys().light)).toBeNull();
     expect(window.localStorage.getItem(primaryKeys().dark)).toBeNull();
   });
@@ -307,7 +311,7 @@ describe("useThemeStore", () => {
     theme.setTheme("light");
     theme.setPrimary("violet");
     theme.setTheme("dark");
-    expect(theme.primary).toBe("blue");
+    expect(theme.primary).toBe("yellow");
     theme.setPrimary("green");
     theme.setTheme("light");
     expect(theme.primary).toBe("violet");

@@ -125,7 +125,7 @@ intro copy MUST NOT contain "both engines", "Vanilla + Vue", "two engines",
 
 ### Requirement: the changelog documents the vd3 line packages only
 
-The changelog SHALL have three package columns: `@vanduo-oss/vd3` `1.8.0`,
+The changelog SHALL have three package columns: `@vanduo-oss/vd3` `1.8.1`,
 charts `1.2.0`, and flowchart `1.5.1`, each marked Latest once. It MUST NOT
 add a cbun column, a `data-engine` attribute, or retired package identities.
 It tracks package releases only.
@@ -149,13 +149,14 @@ It tracks package releases only.
 - **THEN** charts `v1.2.0` and flowchart `v1.5.1` are each marked Latest
 - **AND** charts `v1.1.1` and flowchart `v1.5.0` are present and are not marked Latest
 
-#### Scenario: vd3 Latest is 1.8.0
+#### Scenario: vd3 Latest is 1.8.1
 
 - **GIVEN** the `@vanduo-oss/vd3` column on `/changelog`
 - **WHEN** its latest release card is read
-- **THEN** `v1.8.0` is marked Latest and documents layout and UI atom prop
-  parity, theme runtime fixes, and composable hardening
-- **AND** `v1.7.5` and `v1.7.4` remain earlier cards and are not marked Latest
+- **THEN** `v1.8.1` is marked Latest and documents `VdImageBox` gallery lightboxes,
+  Oola Dock polish and brand spin, and Tailwind CSS / Nuxt UI `@layer vd3`
+  coexistence
+- **AND** `v1.8.0`, `v1.7.5`, and `v1.7.4` remain earlier cards and are not marked Latest
 
 ### Requirement: changelog release cards follow a uniform icon-and-link structure
 
@@ -401,9 +402,9 @@ after the theme store commits.
 - **WHEN** the OS `prefers-color-scheme` is light
 - **THEN** `html[data-theme]` remains `dark`
 
-### Requirement: first-visit default primary is green in dark
+### Requirement: first-visit default primary is yellow in dark
 
-A first visit SHALL use primary Ink (`black`) in light and `green` in dark,
+A first visit SHALL use primary Ink (`black`) in light and `yellow` in dark,
 and SHALL persist both scheme keys. A lone legacy primary SHALL migrate as
 the scenarios describe. Explicit dark `green` SHALL keep the logo green stop.
 
@@ -412,14 +413,14 @@ the scenarios describe. Explicit dark `green` SHALL keep the logo green stop.
 - **GIVEN** a fresh visit with empty theme localStorage
 - **WHEN** the theme store initializes in light
 - **THEN** `data-primary` is `black` and both per-scheme keys are written
-  (`light` = `black`, `dark` = `green`)
+  (`light` = `black`, `dark` = `yellow`)
 
-#### Scenario: fresh dark visit uses green and persists both scheme defaults
+#### Scenario: fresh dark visit uses yellow and persists both scheme defaults
 
 - **GIVEN** a fresh visit with empty theme localStorage
 - **WHEN** the theme store initializes in dark
-- **THEN** `data-primary` is `green` and both per-scheme keys are written
-  (`light` = `black`, `dark` = `green`)
+- **THEN** `data-primary` is `yellow` and both per-scheme keys are written
+  (`light` = `black`, `dark` = `yellow`)
 
 #### Scenario: legacy explicit primary stays on the current scheme
 
@@ -436,22 +437,24 @@ the scenarios describe. Explicit dark `green` SHALL keep the logo green stop.
 - **THEN** dark uses its stored primary (`green` until they pick otherwise)
   and light remains violet
 
-### Requirement: integration snippets show docs bootstrap primary
+### Requirement: integration snippets show a bootstrap primary override
 
-Pages that document site bootstrap with `themeDefaults` SHALL show the docs
-site's real primary override: `PRIMARY_DARK` `"green"` in
-`guides/FrameworkIntegration.vue`, and `PRIMARY_LIGHT` `"black"` /
-`PRIMARY_DARK` `"green"` in `components/ThemeSwitcher.vue`. Generic teaching
-samples that demonstrate other hues (e.g. violet via `setThemeDefaults`)
-SHALL remain unchanged.
+Pages that document site bootstrap with `themeDefaults` SHALL show a concrete
+override: `PRIMARY_DARK` `"green"` in `guides/FrameworkIntegration.vue` and
+`guides/ProductionBestPractices.vue`, and `PRIMARY_LIGHT` `"black"` /
+`PRIMARY_DARK` `"green"` in `components/ThemeSwitcher.vue`. The docs site's
+own first-visit dark primary is `yellow` (`DOCS_DEFAULT_PRIMARY_DARK`) and is
+not copied into those teaching samples. Generic teaching samples that
+demonstrate other hues (e.g. violet via `setThemeDefaults`) SHALL remain
+unchanged.
 
-#### Scenario: FrameworkIntegration mirrors site bootstrap
+#### Scenario: FrameworkIntegration shows a primary override
 
 - **GIVEN** `guides/FrameworkIntegration.vue` after this change
 - **WHEN** its bootstrap code snippets are read
 - **THEN** `PRIMARY_DARK` is `"green"`
 
-#### Scenario: ThemeSwitcher mirrors site bootstrap
+#### Scenario: ThemeSwitcher shows a primary override
 
 - **GIVEN** `components/ThemeSwitcher.vue` after this change
 - **WHEN** its bootstrap code snippet is read
@@ -470,7 +473,7 @@ walkthroughs (not as “components”) and SHALL match `src/nav.ts`.
 
 - **GIVEN** `/docs-landing`, `/`, and `/about` after this change
 - **WHEN** their catalog copy is read
-- **THEN** each names 63 components and (where composables are stated) 39
+- **THEN** each names 64 components and (where composables are stated) 40
   composables, and `#docs-component-count` does not say “47+”
 
 ### Requirement: the Modal page renders the real VdModal
@@ -606,15 +609,21 @@ ThemeCustomizer. Library demo pages for Navbar/Footer MAY remain.
 ### Requirement: docs-landing resource strip
 
 `/docs-landing` SHALL expose a Resources strip with About (`/about`), GitHub,
-NPM, and License. External links MUST use `target="_blank"` and
-`rel="noopener"`.
+NPM, and License, and clicking GitHub, NPM, or License SHALL open a `VdModal`
+dialog presenting all three ecosystem packages (`@vanduo-oss/vd3`,
+`@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`) alongside the
+`vanduo-oss` organization links (`https://github.com/vanduo-oss` and
+`https://www.npmjs.com/org/vanduo-oss`). External links MUST use
+`target="_blank"` and `rel="noopener"`.
 
-#### Scenario: resource strip is present
+#### Scenario: resource strip and multi-package modals are present
 
 - **GIVEN** `/docs-landing`
-- **WHEN** the page is rendered
-- **THEN** About, GitHub, NPM, and License are reachable and externals carry
-  `rel=noopener`
+- **WHEN** the page is rendered and the GitHub, NPM, and License resource cards
+  are activated
+- **THEN** About, GitHub, NPM, and License are reachable, each modal lists
+  `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`,
+  and externals carry `rel=noopener`
 
 ### Requirement: global search component page
 

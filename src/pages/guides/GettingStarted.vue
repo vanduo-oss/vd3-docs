@@ -35,7 +35,13 @@ const nextLinks = [
   },
 ];
 
-const scaffoldShell = `pnpm create vite my-app --template vue-ts
+const scaffoldShell = `# Vite (Vue 3 + TypeScript)
+pnpm create vite my-app --template vue-ts
+cd my-app
+pnpm add @vanduo-oss/vd3
+
+# Or Nuxt
+npx nuxi@latest init my-app
 cd my-app
 pnpm add @vanduo-oss/vd3`;
 
@@ -67,10 +73,10 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      A five-minute path to a vd3-styled page with <strong>Vue 3</strong> —
-      Vite, one CSS import, the <code>VanduoVue</code> plugin, and a named
-      <code>VdCard</code> / <code>VdButton</code>. For plugin options, Nuxt, and
-      the canvas bundle, use
+      A five-minute path to a vd3-styled page with <strong>Vue 3</strong> — Vite
+      or Nuxt, one CSS import, the <code>VanduoVue</code> plugin, and a named
+      <code>VdCard</code> / <code>VdButton</code>. For plugin options, Nuxt,
+      Nuxt UI, and the canvas bundle, use
       <RouterLink to="/guides/framework-integration"
         >Installation &amp; Integration</RouterLink
       >.

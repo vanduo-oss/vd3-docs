@@ -168,6 +168,29 @@ const apiRows: [string, string][] = [
     "Playback controls (in the timeline's direct parent).",
   ],
 ];
+
+const composableRows: [string, string][] = [
+  [
+    "useTimeline(root, options?)",
+    "Scans root for .vd-timeline.vd-timeline-animated containers and returns a TimelineApi controller.",
+  ],
+  [
+    "UseTimelineOptions",
+    "{ staggerMs?: number (default 140), maxStaggerIndex?: number (default 7), playIntervalMs?: number (default 800) }.",
+  ],
+  [
+    "stepNext() / stepPrev()",
+    "TimelineApi methods — reveal the next unrevealed item or unreveal the last revealed item on .vd-timeline-playback containers.",
+  ],
+  [
+    "play() / pause()",
+    "TimelineApi methods — start or stop auto-advancing playback timelines.",
+  ],
+  [
+    "refresh()",
+    "TimelineApi method — re-scans root and wires .vd-timeline-animated containers added since mount.",
+  ],
+];
 </script>
 
 <template>
@@ -363,7 +386,8 @@ const apiRows: [string, string][] = [
             <h6><i class="ph ph-list-dashes"></i> API Reference</h6>
           </div>
           <div class="vd-card-body">
-            <div class="vd-table-responsive">
+            <h4>Classes &amp; Attributes</h4>
+            <div class="vd-table-responsive vd-mb-6">
               <table class="vd-table vd-table-striped">
                 <thead>
                   <tr>
@@ -373,6 +397,26 @@ const apiRows: [string, string][] = [
                 </thead>
                 <tbody>
                   <tr v-for="row in apiRows" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4>Composable API (useTimeline)</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in composableRows" :key="row[0]">
                     <td>
                       <code>{{ row[0] }}</code>
                     </td>

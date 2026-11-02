@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
+import { VdAlert } from "@vanduo-oss/vd3";
 
 const dismissed = ref(false);
+const componentDismissed = ref(false);
 
 const vue3Usage = `<script setup lang="ts">
 import { VdAlert } from "@vanduo-oss/vd3";
@@ -68,7 +70,7 @@ const dismissibleHtml = `<!-- Dismissible alert -->
 <div class="vd-alert vd-alert-primary">
   <i class="ph ph-info"></i>
   <div>
-    <h5 class="vd-alert-heading">New features</h5>
+    <h5 class="vd-alert-title">New features</h5>
     <p class="vd-mb-0 vd-text-sm">Dark mode and more.</p>
   </div>
 </div>`;
@@ -137,7 +139,7 @@ const classRows: [string, string][] = [
     ".vd-alert-link",
     "Styled link inside an alert with matching variant color.",
   ],
-  [".vd-alert-heading", "Heading style for titled alerts."],
+  [".vd-alert-title", "Heading style for titled alerts."],
   [".vd-alert-icon", "Flex container for the icon (auto-generated structure)."],
 ];
 </script>
@@ -227,7 +229,7 @@ const classRows: [string, string][] = [
             <div class="vd-alert vd-alert-primary vd-mb-0">
               <i class="ph ph-info"></i>
               <div>
-                <h5 class="vd-alert-heading">New features available</h5>
+                <h5 class="vd-alert-title">New features available</h5>
                 <p class="vd-mb-0 vd-text-sm">
                   Dark mode, custom themes, and more are now live.
                   <a href="#" class="vd-alert-link">Learn more</a>
@@ -287,7 +289,20 @@ const classRows: [string, string][] = [
             </h6>
           </div>
           <div class="vd-card-body">
-            <h4>Usage</h4>
+            <h4>VdAlert Component</h4>
+            <div class="vd-mb-4">
+              <VdAlert variant="success" title="Saved" class="vd-mb-3">
+                Your changes are saved via <code>&lt;VdAlert&gt;</code>.
+              </VdAlert>
+              <VdAlert
+                v-if="!componentDismissed"
+                variant="danger"
+                dismissible
+                @dismiss="componentDismissed = true"
+              >
+                Unable to connect to the server.
+              </VdAlert>
+            </div>
             <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
