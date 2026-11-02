@@ -125,7 +125,7 @@ intro copy MUST NOT contain "both engines", "Vanilla + Vue", "two engines",
 
 ### Requirement: the changelog documents the vd3 line packages only
 
-The changelog SHALL have three package columns: `@vanduo-oss/vd3` `1.8.0`,
+The changelog SHALL have three package columns: `@vanduo-oss/vd3` `1.8.1`,
 charts `1.2.0`, and flowchart `1.5.1`, each marked Latest once. It MUST NOT
 add a cbun column, a `data-engine` attribute, or retired package identities.
 It tracks package releases only.
@@ -149,13 +149,14 @@ It tracks package releases only.
 - **THEN** charts `v1.2.0` and flowchart `v1.5.1` are each marked Latest
 - **AND** charts `v1.1.1` and flowchart `v1.5.0` are present and are not marked Latest
 
-#### Scenario: vd3 Latest is 1.8.0
+#### Scenario: vd3 Latest is 1.8.1
 
 - **GIVEN** the `@vanduo-oss/vd3` column on `/changelog`
 - **WHEN** its latest release card is read
-- **THEN** `v1.8.0` is marked Latest and documents layout and UI atom prop
-  parity, theme runtime fixes, and composable hardening
-- **AND** `v1.7.5` and `v1.7.4` remain earlier cards and are not marked Latest
+- **THEN** `v1.8.1` is marked Latest and documents `VdImageBox` gallery lightboxes,
+  Oola Dock polish and brand spin, and Tailwind CSS / Nuxt UI `@layer vd3`
+  coexistence
+- **AND** `v1.8.0`, `v1.7.5`, and `v1.7.4` remain earlier cards and are not marked Latest
 
 ### Requirement: changelog release cards follow a uniform icon-and-link structure
 

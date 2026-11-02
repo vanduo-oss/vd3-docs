@@ -11,8 +11,9 @@ packages. Syntax highlighting comes from `@vanduo-oss/vd3/highlight`.
 ### Requirement: package identity and dependency targets
 
 `package.json` SHALL name the private site `@vanduo-oss/vd3-docs` and SHALL
-pin published `@vanduo-oss/vd3` `1.8.0`, charts `1.2.0` (or `link:../vd3-charts`
-during local release staging), and flowchart `1.5.1` with `save-exact=true`. It
+pin published `@vanduo-oss/vd3` `1.8.1` (or `link:../vd3` during local release
+staging), charts `1.2.0` (or `link:../vd3-charts` during local release
+staging), and flowchart `1.5.1` with `save-exact=true`. It
 MUST NOT declare retired, cbun, or labs packages, and the flowchart pin MUST
 NOT be `link:` or `file:`.
 
@@ -21,7 +22,7 @@ NOT be `link:` or `file:`.
 - **GIVEN** the site's `package.json` after this change
 - **WHEN** its `name`, `private`, and `dependencies` are inspected
 - **THEN** `name` is `@vanduo-oss/vd3-docs`, `private` is `true`, runtime
-  deps include `@vanduo-oss/vd3` (`1.8.0`), `@vanduo-oss/vd3-charts`
+  deps include `@vanduo-oss/vd3` (`1.8.1`), `@vanduo-oss/vd3-charts`
   (`1.2.0`), and `@vanduo-oss/vd3-flowchart` (`1.5.1`), there is no
   `@vanduo-oss/vd3-cbun`, `@vanduo-oss/vdl-cbun`, or
   `@vanduo-oss/vdl-hybrid-search`, and none of
@@ -31,7 +32,7 @@ NOT be `link:` or `file:`.
 
 #### Scenario: kit packages resolve for install
 
-- **GIVEN** the committed `package.json` targeting exact vd3 `1.8.0`,
+- **GIVEN** the committed `package.json` targeting exact vd3 `1.8.1`,
   exact `1.2.0` / `1.5.1` charts/flowchart, and `save-exact=true`
 - **WHEN** `pnpm install` runs from the docs repo
 - **THEN** those packages resolve from the registry

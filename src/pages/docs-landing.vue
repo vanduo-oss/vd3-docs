@@ -95,7 +95,7 @@ const cards: DocsCard[] = [
     highlights: [
       {
         icon: "ph-sparkle",
-        text: "vd3 1.8.0, charts 1.2.0, flowchart 1.5.1 — latest packages",
+        text: "vd3 1.8.1, charts 1.2.0, flowchart 1.5.1 — latest packages",
       },
       { icon: "ph-git-branch", text: "Release notes for @vanduo-oss/vd3" },
     ],
@@ -107,7 +107,7 @@ const cards: DocsCard[] = [
     tags: ["Releases", "Tokens", "Lifecycle"],
     meta: {
       icon: "ph-calendar-blank",
-      text: "Latest: vd3 1.8.0 · charts 1.2.0 · flowchart 1.5.1",
+      text: "Latest: vd3 1.8.1 · charts 1.2.0 · flowchart 1.5.1",
     },
   },
 ];

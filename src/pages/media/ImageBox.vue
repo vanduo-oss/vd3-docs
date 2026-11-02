@@ -137,13 +137,16 @@ root.value?.addEventListener('imageBox:change', (event) => {
       <div class="vd-card-body">
         <p class="vd-mb-4">
           Any element with <code>data-image-box</code> inside the root opens the
-          same viewer. Call <code>refresh()</code> after adding images, and
-          <code>next()</code> / <code>prev()</code> to step the open group.
+          same viewer. You can also launch the viewer programmatically with
+          <code>box.open(index)</code>, call <code>refresh()</code> after adding
+          images dynamically, or step an open viewer with <code>next()</code> /
+          <code>prev()</code>.
         </p>
         <div class="vd-inline" data-gap="fib-8">
           <img
             src="/images/expanding/1.jpg"
             alt="Tall pine forest canopy from below"
+            class="vd-rounded-md"
             data-image-box
             data-image-box-group="manual"
             data-image-box-caption="Forest canopy"
@@ -152,6 +155,7 @@ root.value?.addEventListener('imageBox:change', (event) => {
           <img
             src="/images/expanding/2.jpg"
             alt="Sunlit forest trees with warm lens flare"
+            class="vd-rounded-md"
             data-image-box
             data-image-box-group="manual"
             data-image-box-caption="Sunlit forest flare"
@@ -159,13 +163,20 @@ root.value?.addEventListener('imageBox:change', (event) => {
             style="width: 160px; height: 110px; object-fit: cover"
           />
         </div>
-        <div class="vd-mt-4">
+        <div class="vd-inline vd-mt-4" data-gap="fib-8">
           <button
             type="button"
-            class="vd-btn vd-btn-outline"
-            @click="box.next()"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            @click="box.open(0)"
           >
-            Next open image
+            <i class="ph ph-arrows-out-simple"></i> Open first image
+          </button>
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline vd-btn-sm"
+            @click="box.open(1)"
+          >
+            <i class="ph ph-arrows-out-simple"></i> Open second image
           </button>
         </div>
       </div>

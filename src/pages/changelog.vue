@@ -58,6 +58,148 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
+        <article class="version-card" id="vd3-1-8-1">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.8.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>November 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong
+                    >Gallery lightboxes, Oola Dock affordances, and Tailwind CSS
+                    &amp; Nuxt UI cascade layer coexistence</strong
+                  >
+                  — declarative <code>VdImageBox</code> galleries with grouped
+                  lightbox navigation, Oola Dock brand spin and auto edge
+                  layouts, and <code>@layer vd3</code> stylesheet wrapping with
+                  <code>useThemeBridge</code> dark-class sync.
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-image-square"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          ><code>VdImageBox</code> &amp; gallery
+                          lightbox</strong
+                        >
+                        <p>
+                          <RouterLink to="/media/image-box"
+                            ><code>VdImageBox</code></RouterLink
+                          >
+                          adds declarative <code>grid</code>,
+                          <code>masonry</code>, <code>bento</code>,
+                          <code>filmstrip</code>, and
+                          <code>single</code> gallery layouts;
+                          <code>useImageBox</code> adds
+                          <code>data-image-box-group</code> navigation with
+                          Prev/Next buttons, arrow keys, a
+                          <code>"1 / N"</code> counter,
+                          <code>imageBox:change</code> events, and an
+                          <code>{ open, close, next, prev, refresh }</code>
+                          controller; dialog focus is trapped via
+                          <code>useFocusTrap</code>, custom trigger
+                          <code>aria-label</code> attributes are preserved, and
+                          desktop lightbox bounds expand to
+                          <code>85vw</code> &times; <code>85vh</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-rows"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Oola Dock polish &amp; brand spin</strong>
+                        <p>
+                          <RouterLink to="/components/dock"
+                            ><code>VdDock</code></RouterLink
+                          >
+                          gains <code>itemLayout="auto"</code>,
+                          <code>brandCorner="consistent"</code>,
+                          <code>brandSpin</code> +
+                          <code>useDockBrandSpin</code> continuous brand
+                          rotation with upright ease-out settle, and a mobile
+                          horizontal touch scrollport;
+                          <code>VdDockItem</code> gains
+                          <code>activeIconFill</code>, automatic vertical
+                          <code>.vd-tooltip-dock</code> tooltips,
+                          <code>badge</code>, and polymorphic
+                          <code>href</code>/<code>as</code> support.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-squares-four"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Tailwind CSS &amp; Nuxt UI coexistence</strong>
+                        <p>
+                          Bundled CSS is wrapped in <code>@layer vd3</code>,
+                          grid column selectors use prefixed
+                          <code>[class*="vd-col-"]</code> matchers so Tailwind
+                          <code>col-span-*</code> utilities never collide, and
+                          <code>useThemeBridge</code> accepts
+                          <code>{ syncDarkClass: true }</code> to keep
+                          <code>data-theme</code> synchronized with
+                          <code>html.dark</code>. See
+                          <RouterLink to="/guides/framework-integration"
+                            ><code
+                              >/guides/framework-integration</code
+                            ></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-shield-check"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Dependency &amp; lockfile security refresh</strong
+                        >
+                        <p>
+                          Upgraded <code>vite</code> and
+                          <code>vitest</code> toolchain floors and regenerated
+                          the lockfile so patched transitive dependencies
+                          install cleanly. See
+                          <RouterLink to="/guides/security"
+                            ><code>/guides/security</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
         <article class="version-card" id="vd3-1-8-0">
           <header class="version-header">
             <span
@@ -68,9 +210,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>October 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
