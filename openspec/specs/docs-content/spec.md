@@ -402,9 +402,9 @@ after the theme store commits.
 - **WHEN** the OS `prefers-color-scheme` is light
 - **THEN** `html[data-theme]` remains `dark`
 
-### Requirement: first-visit default primary is green in dark
+### Requirement: first-visit default primary is yellow in dark
 
-A first visit SHALL use primary Ink (`black`) in light and `green` in dark,
+A first visit SHALL use primary Ink (`black`) in light and `yellow` in dark,
 and SHALL persist both scheme keys. A lone legacy primary SHALL migrate as
 the scenarios describe. Explicit dark `green` SHALL keep the logo green stop.
 
@@ -413,14 +413,14 @@ the scenarios describe. Explicit dark `green` SHALL keep the logo green stop.
 - **GIVEN** a fresh visit with empty theme localStorage
 - **WHEN** the theme store initializes in light
 - **THEN** `data-primary` is `black` and both per-scheme keys are written
-  (`light` = `black`, `dark` = `green`)
+  (`light` = `black`, `dark` = `yellow`)
 
-#### Scenario: fresh dark visit uses green and persists both scheme defaults
+#### Scenario: fresh dark visit uses yellow and persists both scheme defaults
 
 - **GIVEN** a fresh visit with empty theme localStorage
 - **WHEN** the theme store initializes in dark
-- **THEN** `data-primary` is `green` and both per-scheme keys are written
-  (`light` = `black`, `dark` = `green`)
+- **THEN** `data-primary` is `yellow` and both per-scheme keys are written
+  (`light` = `black`, `dark` = `yellow`)
 
 #### Scenario: legacy explicit primary stays on the current scheme
 
@@ -437,22 +437,24 @@ the scenarios describe. Explicit dark `green` SHALL keep the logo green stop.
 - **THEN** dark uses its stored primary (`green` until they pick otherwise)
   and light remains violet
 
-### Requirement: integration snippets show docs bootstrap primary
+### Requirement: integration snippets show a bootstrap primary override
 
-Pages that document site bootstrap with `themeDefaults` SHALL show the docs
-site's real primary override: `PRIMARY_DARK` `"green"` in
-`guides/FrameworkIntegration.vue`, and `PRIMARY_LIGHT` `"black"` /
-`PRIMARY_DARK` `"green"` in `components/ThemeSwitcher.vue`. Generic teaching
-samples that demonstrate other hues (e.g. violet via `setThemeDefaults`)
-SHALL remain unchanged.
+Pages that document site bootstrap with `themeDefaults` SHALL show a concrete
+override: `PRIMARY_DARK` `"green"` in `guides/FrameworkIntegration.vue` and
+`guides/ProductionBestPractices.vue`, and `PRIMARY_LIGHT` `"black"` /
+`PRIMARY_DARK` `"green"` in `components/ThemeSwitcher.vue`. The docs site's
+own first-visit dark primary is `yellow` (`DOCS_DEFAULT_PRIMARY_DARK`) and is
+not copied into those teaching samples. Generic teaching samples that
+demonstrate other hues (e.g. violet via `setThemeDefaults`) SHALL remain
+unchanged.
 
-#### Scenario: FrameworkIntegration mirrors site bootstrap
+#### Scenario: FrameworkIntegration shows a primary override
 
 - **GIVEN** `guides/FrameworkIntegration.vue` after this change
 - **WHEN** its bootstrap code snippets are read
 - **THEN** `PRIMARY_DARK` is `"green"`
 
-#### Scenario: ThemeSwitcher mirrors site bootstrap
+#### Scenario: ThemeSwitcher shows a primary override
 
 - **GIVEN** `components/ThemeSwitcher.vue` after this change
 - **WHEN** its bootstrap code snippet is read

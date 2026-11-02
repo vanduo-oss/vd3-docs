@@ -50,9 +50,10 @@ NOT be `link:` or `file:`.
 ### Requirement: single stylesheet and plugin entry with no vanilla runtime
 
 `main.ts` SHALL import the vd3, charts, and flowchart stylesheets and SHALL
-install `VanduoVue` with `PRIMARY_LIGHT` `"black"` and `PRIMARY_DARK`
-`"blue"`. It MUST NOT bootstrap a vanilla `window.Vanduo*` runtime or import
-cbun or labs CSS.
+install `VanduoVue` with `PRIMARY_LIGHT` from `DOCS_DEFAULT_PRIMARY_LIGHT`
+(`"black"`) and `PRIMARY_DARK` from `DOCS_DEFAULT_PRIMARY_DARK` (`"yellow"`).
+It MUST NOT bootstrap a vanilla `window.Vanduo*` runtime or import cbun or
+labs CSS.
 
 #### Scenario: entry installs the plugin without a runtime loader
 
@@ -60,8 +61,9 @@ cbun or labs CSS.
 - **WHEN** its imports and `createApp` setup are read
 - **THEN** stylesheet imports come from `@vanduo-oss/vd3/css`,
   `@vanduo-oss/vd3-charts/css`, and `@vanduo-oss/vd3-flowchart/css`,
-  `themeDefaults.PRIMARY_LIGHT` is `"black"`, `themeDefaults.PRIMARY_DARK` is
-  `"blue"`, and there is no `loadVanduoRuntime` import, no
+  `themeDefaults.PRIMARY_LIGHT` is `DOCS_DEFAULT_PRIMARY_LIGHT` (`"black"`),
+  `themeDefaults.PRIMARY_DARK` is `DOCS_DEFAULT_PRIMARY_DARK` (`"yellow"`),
+  and there is no `loadVanduoRuntime` import, no
   `@vanduo-oss/vdl-cbun` import, and no awaited client-only runtime-bootstrap
   block
 

@@ -8,15 +8,17 @@ intent-based prefetch, and the performance evidence required to change them.
 ## Requirements
 
 ### Requirement: Lightweight reference navigation avoids new page downloads
-The 15 measured lightweight reference routes SHALL be available without new
-JavaScript or CSS downloads after initial application readiness. Other routes
-MAY remain lazy, including canvas and changelog pages. SSG SHALL preserve all
-canonical routes and readable reference content.
+The 11 measured lightweight reference routes SHALL be available without new
+JavaScript or CSS downloads after initial application readiness. Card,
+Dropdown, Tabs, and Tooltip MAY stay lazy: their expanded references no longer
+fit the homepage and flowchart initial budgets, and sidebar hover or focus
+prefetches them. Other routes MAY remain lazy, including canvas and changelog
+pages. SSG SHALL preserve all canonical routes and readable reference content.
 
 #### Scenario: Browse component references
 - **GIVEN** a hydrated Button page and new asset requests blocked
-- **WHEN** the user visits Badge, Alert, Card, Dropdown, Tabs, Accordion, Avatar,
-  Tooltip, Breadcrumb, Chip, Progress, Spinner, Separator, Switch, and Button
+- **WHEN** the user visits Badge, Alert, Accordion, Avatar, Breadcrumb, Chip,
+  Progress, Spinner, Separator, Switch, and Button
 - **THEN** every requested page SHALL display without requesting new JS or CSS
 
 ### Requirement: Pending navigation remains understandable and recoverable
@@ -58,8 +60,9 @@ for reported saveData, slow-2g, or 2g connections.
 ### Requirement: Loading decisions use startup and navigation evidence
 Production build comparison SHALL record initial compressed asset size and
 click-to-content behavior under named browser/network/CPU conditions. Homepage
-initial JS/CSS SHALL remain below 375 KiB gzip and sampled docs routes below
-400 KiB. These limits exclude fonts, images and third-party resources.
+initial JS/CSS SHALL remain at or below 375 KiB gzip and sampled docs routes
+at or below 404 KiB gzip, matching `tests/scripts/size.mjs`. These limits
+exclude fonts, images and third-party resources.
 
 #### Scenario: Compare strategies
 - **GIVEN** baseline lazy, all-eager, and hybrid production builds

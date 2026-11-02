@@ -1,7 +1,10 @@
 import type { RouteRecordRaw } from "vue-router";
 // Small, frequently browsed component references are available immediately.
 // Optional demos and the rest of the catalog retain independent lazy imports.
-// Measurements and the explicit eager set: reviews/2026-09-20-navigation/.
+// The original 15-page eager set is recorded in reviews/2026-09-20-navigation/.
+// Card, Dropdown, Tabs, and Tooltip left that set once their references grew:
+// keeping them eager no longer fits the homepage (375 KiB) and flowchart
+// (404 KiB) gzip budgets. Hover and focus still prefetch those routes.
 const HomePage = () => import("@/pages/home.vue");
 const AboutPage = () => import("@/pages/about.vue");
 const ChangelogPage = () => import("@/pages/changelog.vue");
