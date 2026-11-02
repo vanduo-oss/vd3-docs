@@ -7,6 +7,10 @@ It is not published to npm and keeps no package release history of its own.
 
 ### Changed
 
+- Dogfood `@vanduo-oss/vd3@1.8.1` with `VdImageBox` gallery layouts (`grid`, `masonry`,
+  `bento`, `filmstrip`), `useImageBox` lightbox navigation, OolaDock parity (`brandSpin`,
+  `itemLayout="auto"`), `@layer vd3` Tailwind CSS / Nuxt UI coexistence guide, expanded
+  Security guide, completed component API/accessibility references, and refreshed search index.
 - Dogfood `@vanduo-oss/vd3@1.8.0` with atomic layer parity, live Vue atom showcases,
   corrected snippet tabs (`:vue`), updated guides, and refreshed search index.
 

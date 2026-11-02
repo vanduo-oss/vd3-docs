@@ -25,6 +25,12 @@ const base = import.meta.env.BASE_URL;
 
 const photoCards: PhotoCard[] = [
   {
+    img: `${base}images/forest-boardwalk.jpg`,
+    icon: "path",
+    title: "Pine boardwalk",
+    subtitle: "Wooden trail into the pines",
+  },
+  {
     img: `${base}images/expanding/0.jpg`,
     icon: "waves",
     title: "Quiet cove",

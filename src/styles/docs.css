@@ -1860,17 +1860,24 @@ footer.vd-glass::before {
   display: none;
 }
 
-/* Dark home + docs landing: glass cards + footer share the black canvas */
+/* Dark home + docs landing + guide links + modals: glass cards + footer share the black canvas */
 [data-theme="dark"] section#home .vd-card.vd-glass,
 [data-theme="dark"] section#docs-landing .vd-card.vd-glass,
+[data-theme="dark"] #docs-view .guide-links .vd-card.vd-glass,
+[data-theme="dark"] .guide-link,
+[data-theme="dark"] .guide-link-card,
+[data-theme="dark"] #template .vd-glass,
+[data-theme="dark"] .hero-search.vd-glass,
 [data-theme="dark"] footer.vd-footer.vd-glass {
   --vd-glass-bg-light: var(--vd-bg-primary);
   --vd-glass-bg-dark: var(--vd-bg-primary);
   --vd-glass-bg-opacity: 1;
+  --vd-glass-highlight-alpha: 0;
   --vd-card-bg: var(--vd-bg-primary);
 
   background: var(--vd-bg-primary);
   background-image: none;
+  border-color: var(--vd-border-color);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   box-shadow: none;
@@ -1878,13 +1885,68 @@ footer.vd-glass::before {
 
 [data-theme="dark"] section#home .vd-card.vd-glass::after,
 [data-theme="dark"] section#docs-landing .vd-card.vd-glass::after,
+[data-theme="dark"] #docs-view .guide-links .vd-card.vd-glass::after,
+[data-theme="dark"] .guide-link::after,
+[data-theme="dark"] .guide-link-card::after,
+[data-theme="dark"] #template .vd-glass::after,
+[data-theme="dark"] .hero-search.vd-glass::after,
 [data-theme="dark"] footer.vd-footer.vd-glass::after {
   display: none;
 }
 
 [data-theme="dark"] section#home .vd-card.vd-glass::before,
-[data-theme="dark"] section#docs-landing .vd-card.vd-glass::before {
+[data-theme="dark"] section#docs-landing .vd-card.vd-glass::before,
+[data-theme="dark"] #docs-view .guide-links .vd-card.vd-glass::before,
+[data-theme="dark"] .guide-link::before,
+[data-theme="dark"] .guide-link-card::before,
+[data-theme="dark"] #template .vd-glass::before,
+[data-theme="dark"] .hero-search.vd-glass::before {
   display: none;
+}
+
+[data-theme="dark"] .vd-modal-panel,
+[data-theme="dark"] .vd-modal-panel.vd-glass,
+[data-theme="dark"] .vd-modal-glass .vd-modal-panel,
+[data-theme="dark"] .vd-modal-content,
+[data-theme="dark"] .vd-modal-glass .vd-modal-content {
+  --vd-modal-bg: var(--vd-bg-primary);
+  --vd-glass-highlight-alpha: 0;
+
+  background: var(--vd-bg-primary);
+  background-image: none;
+  border-color: var(--vd-border-color);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: var(--vd-shadow-2xl);
+}
+
+[data-theme="dark"] .vd-modal-panel::before,
+[data-theme="dark"] .vd-modal-panel.vd-glass::before,
+[data-theme="dark"] .vd-modal-glass .vd-modal-panel::before,
+[data-theme="dark"] .vd-modal-panel::after,
+[data-theme="dark"] .vd-modal-panel.vd-glass::after,
+[data-theme="dark"] .vd-modal-glass .vd-modal-panel::after {
+  display: none;
+  opacity: 0;
+}
+
+[data-theme="dark"] .vd-modal-backdrop.vd-modal-glass-backdrop {
+  background-color: var(--vd-modal-backdrop-bg);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+[data-theme="dark"] #docs-view .guide-link:hover,
+[data-theme="dark"] #docs-view .guide-link:focus-visible,
+[data-theme="dark"] #docs-view .guide-link-card:hover,
+[data-theme="dark"] #docs-view .guide-link-card:focus-visible {
+  border-color: rgb(var(--vd-color-primary-rgb) / 45%);
+  box-shadow: none;
+}
+
+[data-theme="dark"] section.about-intro {
+  background: var(--vd-bg-primary);
+  background-image: none;
 }
 
 [data-theme="dark"] section#home .vd-card.vd-glass.vd-glass-floating:hover,
@@ -1900,14 +1962,21 @@ footer.vd-glass::before {
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) section#home .vd-card.vd-glass,
   :root:not([data-theme]) section#docs-landing .vd-card.vd-glass,
+  :root:not([data-theme]) #docs-view .guide-links .vd-card.vd-glass,
+  :root:not([data-theme]) .guide-link,
+  :root:not([data-theme]) .guide-link-card,
+  :root:not([data-theme]) #template .vd-glass,
+  :root:not([data-theme]) .hero-search.vd-glass,
   :root:not([data-theme]) footer.vd-footer.vd-glass {
     --vd-glass-bg-light: var(--vd-bg-primary);
     --vd-glass-bg-dark: var(--vd-bg-primary);
     --vd-glass-bg-opacity: 1;
+    --vd-glass-highlight-alpha: 0;
     --vd-card-bg: var(--vd-bg-primary);
 
     background: var(--vd-bg-primary);
     background-image: none;
+    border-color: var(--vd-border-color);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     box-shadow: none;
@@ -1915,13 +1984,68 @@ footer.vd-glass::before {
 
   :root:not([data-theme]) section#home .vd-card.vd-glass::after,
   :root:not([data-theme]) section#docs-landing .vd-card.vd-glass::after,
+  :root:not([data-theme]) #docs-view .guide-links .vd-card.vd-glass::after,
+  :root:not([data-theme]) .guide-link::after,
+  :root:not([data-theme]) .guide-link-card::after,
+  :root:not([data-theme]) #template .vd-glass::after,
+  :root:not([data-theme]) .hero-search.vd-glass::after,
   :root:not([data-theme]) footer.vd-footer.vd-glass::after {
     display: none;
   }
 
   :root:not([data-theme]) section#home .vd-card.vd-glass::before,
-  :root:not([data-theme]) section#docs-landing .vd-card.vd-glass::before {
+  :root:not([data-theme]) section#docs-landing .vd-card.vd-glass::before,
+  :root:not([data-theme]) #docs-view .guide-links .vd-card.vd-glass::before,
+  :root:not([data-theme]) .guide-link::before,
+  :root:not([data-theme]) .guide-link-card::before,
+  :root:not([data-theme]) #template .vd-glass::before,
+  :root:not([data-theme]) .hero-search.vd-glass::before {
     display: none;
+  }
+
+  :root:not([data-theme]) .vd-modal-panel,
+  :root:not([data-theme]) .vd-modal-panel.vd-glass,
+  :root:not([data-theme]) .vd-modal-glass .vd-modal-panel,
+  :root:not([data-theme]) .vd-modal-content,
+  :root:not([data-theme]) .vd-modal-glass .vd-modal-content {
+    --vd-modal-bg: var(--vd-bg-primary);
+    --vd-glass-highlight-alpha: 0;
+
+    background: var(--vd-bg-primary);
+    background-image: none;
+    border-color: var(--vd-border-color);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: var(--vd-shadow-2xl);
+  }
+
+  :root:not([data-theme]) .vd-modal-panel::before,
+  :root:not([data-theme]) .vd-modal-panel.vd-glass::before,
+  :root:not([data-theme]) .vd-modal-glass .vd-modal-panel::before,
+  :root:not([data-theme]) .vd-modal-panel::after,
+  :root:not([data-theme]) .vd-modal-panel.vd-glass::after,
+  :root:not([data-theme]) .vd-modal-glass .vd-modal-panel::after {
+    display: none;
+    opacity: 0;
+  }
+
+  :root:not([data-theme]) .vd-modal-backdrop.vd-modal-glass-backdrop {
+    background-color: var(--vd-modal-backdrop-bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  :root:not([data-theme]) #docs-view .guide-link:hover,
+  :root:not([data-theme]) #docs-view .guide-link:focus-visible,
+  :root:not([data-theme]) #docs-view .guide-link-card:hover,
+  :root:not([data-theme]) #docs-view .guide-link-card:focus-visible {
+    border-color: rgb(var(--vd-color-primary-rgb) / 45%);
+    box-shadow: none;
+  }
+
+  :root:not([data-theme]) section.about-intro {
+    background: var(--vd-bg-primary);
+    background-image: none;
   }
 
   :root:not([data-theme])
@@ -2356,13 +2480,61 @@ footer.vd-glass::before {
 /* Top banners: About and Changelog (and docs-landing via .about-header) */
 .about-header,
 .changelog-header {
+  --vd-surface-intensity: 0.65;
+  --vd-surface-contrast: 0.3;
+  --vd-surface-base: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--vd-color-primary) 16%, var(--vd-bg-primary)) 0%,
+    color-mix(in srgb, var(--vd-color-info) 10%, var(--vd-bg-secondary)) 100%
+  );
+
+  margin-inline: var(--vd-container-padding, 0.8125rem);
   padding: 144px 0 55px;
   text-align: center;
-  background: linear-gradient(
+  border-radius: var(--vd-card-border-radius, var(--vd-radius-lg));
+  border: none;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 12% 14%,
+      rgb(255 255 255 / calc(0.18 * var(--vd-surface-intensity))),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 82% 78%,
+      rgb(0 0 0 / calc(0.34 * var(--vd-surface-contrast))),
+      transparent 44%
+    ),
+    repeating-radial-gradient(
+      circle at 18% 15%,
+      rgb(255 255 255 / calc(0.065 * var(--vd-surface-intensity))) 0 2px,
+      rgb(0 0 0 / calc(0.055 * var(--vd-surface-contrast))) 2px 5px
+    ),
+    var(--vd-surface-base);
+}
+
+[data-theme="dark"] .about-header,
+[data-theme="dark"] .changelog-header {
+  --vd-surface-intensity: 0.72;
+  --vd-surface-contrast: 0.9;
+  --vd-surface-base: linear-gradient(
     135deg,
-    rgb(var(--vd-color-primary-rgb, var(--vd-color-primary-rgb)), 0.16) 0%,
-    rgb(var(--vd-color-info-rgb, var(--vd-color-info-rgb)), 0.1) 100%
+    color-mix(in srgb, var(--vd-color-primary) 22%, var(--vd-bg-secondary)) 0%,
+    color-mix(in srgb, var(--vd-color-primary) 6%, var(--vd-bg-primary)) 100%
   );
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .about-header,
+  :root:not([data-theme]) .changelog-header {
+    --vd-surface-intensity: 0.72;
+    --vd-surface-contrast: 0.9;
+    --vd-surface-base: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--vd-color-primary) 22%, var(--vd-bg-secondary)) 0%,
+      color-mix(in srgb, var(--vd-color-primary) 6%, var(--vd-bg-primary)) 100%
+    );
+  }
 }
 
 .about-header h1,
@@ -2468,6 +2640,24 @@ a:hover .vd-card-interactive.vd-card-glow {
     transparent
   );
   border-color: color-mix(in srgb, var(--vd-color-primary) 30%, transparent);
+  text-decoration: none;
+}
+
+#docs-landing .docs-landing-meta-link {
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+#docs-landing .docs-landing-meta-link:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--vd-color-primary) 18%,
+    transparent
+  );
+  border-color: color-mix(in srgb, var(--vd-color-primary) 50%, transparent);
+  transform: translateY(-1px);
 }
 
 #docs-landing .docs-landing-version {
@@ -2483,7 +2673,7 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 #docs-landing .docs-landing-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--vd-grid-gutter, 1.25rem);
   align-items: stretch;
 }
@@ -2640,10 +2830,6 @@ a:hover .vd-card-interactive.vd-card-glow {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  #docs-landing .docs-landing-link-components {
-    grid-column: 1 / -1;
-  }
-
   #docs-landing .docs-landing-resources-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2710,6 +2896,14 @@ a:hover .vd-card-interactive.vd-card-glow {
   color: #eab308 !important;
 }
 
+#docs-landing .docs-card-canvas .docs-landing-card-icon {
+  color: #10b981;
+}
+
+#docs-landing .docs-card-canvas:hover .docs-landing-card-icon {
+  color: #10b981 !important;
+}
+
 #docs-landing .docs-card-guides .docs-landing-card-icon {
   color: #22c55e;
 }
@@ -2756,6 +2950,112 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 #docs-landing .docs-card-license:hover .docs-landing-card-icon {
   color: #ec4899 !important;
+}
+
+.docs-resource-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.docs-resource-pkg-card,
+.docs-landing-modal-pkg {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1rem 1.125rem;
+  border-radius: var(--vd-radius-md, 0.625rem);
+  border: 1px solid color-mix(in srgb, var(--vd-border-color) 75%, transparent);
+  background: color-mix(in srgb, var(--vd-bg-secondary) 55%, transparent);
+}
+
+[data-theme="dark"] .docs-resource-pkg-card,
+[data-theme="dark"] .docs-landing-modal-pkg {
+  background: var(--vd-bg-primary);
+  background-image: none;
+  border: 1px solid var(--vd-border-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .docs-resource-pkg-card,
+  :root:not([data-theme]) .docs-landing-modal-pkg {
+    background: var(--vd-bg-primary);
+    background-image: none;
+    border: 1px solid var(--vd-border-color);
+  }
+}
+
+.docs-resource-pkg-header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.docs-resource-pkg-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, currentcolor 14%, transparent);
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.docs-resource-pkg-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.docs-resource-pkg-title code {
+  background: transparent;
+  padding: 0;
+  color: var(--vd-text-primary);
+  font-size: 0.95rem;
+}
+
+.docs-resource-pkg-desc {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--vd-text-secondary);
+}
+
+.docs-resource-pkg-install {
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.4rem;
+  background: color-mix(in srgb, var(--vd-bg-primary) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--vd-border-color) 65%, transparent);
+  font-size: 0.8rem;
+}
+
+.docs-resource-pkg-install code {
+  background: transparent;
+  padding: 0;
+  color: var(--vd-text-primary);
+}
+
+[data-theme="dark"] .docs-resource-pkg-install {
+  background: var(--vd-bg-secondary);
+  border: 1px solid var(--vd-border-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .docs-resource-pkg-install {
+    background: var(--vd-bg-secondary);
+    border: 1px solid var(--vd-border-color);
+  }
+}
+
+.docs-resource-pkg-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 @media (min-width: 768px) {
@@ -2912,6 +3212,22 @@ a:hover .vd-card-interactive.vd-card-glow {
     var(--vd-color-success-alpha-10),
     var(--vd-color-primary-alpha-10)
   );
+}
+
+[data-theme="dark"] .version-header,
+[data-theme="dark"] .version-initial {
+  background: var(--vd-bg-primary);
+  background-image: none;
+  border-bottom: 1px solid var(--vd-border-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .version-header,
+  :root:not([data-theme]) .version-initial {
+    background: var(--vd-bg-primary);
+    background-image: none;
+    border-bottom: 1px solid var(--vd-border-color);
+  }
 }
 
 /* ── Changelog: 3 columns (vd3 | charts | flowchart) ── */

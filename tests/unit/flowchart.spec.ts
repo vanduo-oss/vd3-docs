@@ -202,6 +202,22 @@ describe("VdFlowchart (@vanduo-oss/vd3-flowchart)", () => {
     );
     expect(wrapper.find("[data-flowchart-demo='detail']").exists()).toBe(false);
     expect(wrapper.text()).not.toContain("Frame note");
+    expect(
+      wrapper.find(".vd-flowchart-node[data-node-id='note']").exists(),
+    ).toBe(false);
+    expect(
+      wrapper.find(".vd-flowchart-node[data-node-id='proc-8']").exists(),
+    ).toBe(true);
+
+    const toolbarControls = wrapper.findAll(
+      ".vd-flowchart-toolbar button, .vd-flowchart-toolbar select[data-flowchart-arrange]",
+    );
+    expect(toolbarControls.length).toBeGreaterThan(0);
+    for (const control of toolbarControls) {
+      expect(control.attributes("data-tooltip")).toBeTruthy();
+      expect(control.attributes("data-tooltip-placement")).toBe("bottom");
+      expect(control.attributes("title")).toBeUndefined();
+    }
     wrapper.unmount();
   });
 });

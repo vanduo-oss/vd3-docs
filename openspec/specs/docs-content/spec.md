@@ -607,15 +607,21 @@ ThemeCustomizer. Library demo pages for Navbar/Footer MAY remain.
 ### Requirement: docs-landing resource strip
 
 `/docs-landing` SHALL expose a Resources strip with About (`/about`), GitHub,
-NPM, and License. External links MUST use `target="_blank"` and
-`rel="noopener"`.
+NPM, and License, and clicking GitHub, NPM, or License SHALL open a `VdModal`
+dialog presenting all three ecosystem packages (`@vanduo-oss/vd3`,
+`@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`) alongside the
+`vanduo-oss` organization links (`https://github.com/vanduo-oss` and
+`https://www.npmjs.com/org/vanduo-oss`). External links MUST use
+`target="_blank"` and `rel="noopener"`.
 
-#### Scenario: resource strip is present
+#### Scenario: resource strip and multi-package modals are present
 
 - **GIVEN** `/docs-landing`
-- **WHEN** the page is rendered
-- **THEN** About, GitHub, NPM, and License are reachable and externals carry
-  `rel=noopener`
+- **WHEN** the page is rendered and the GitHub, NPM, and License resource cards
+  are activated
+- **THEN** About, GitHub, NPM, and License are reachable, each modal lists
+  `@vanduo-oss/vd3`, `@vanduo-oss/vd3-charts`, and `@vanduo-oss/vd3-flowchart`,
+  and externals carry `rel=noopener`
 
 ### Requirement: global search component page
 

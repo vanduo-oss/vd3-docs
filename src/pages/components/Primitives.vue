@@ -35,7 +35,10 @@ const coverVue = `<VdCover min="half" gap="fib-5">
 
 // ── Frame ────────────────────────────────────────────────────
 const frameVue = `<VdFrame ratio="16-9">
-  <img src="/images/mountains-and-fog.jpg" alt="" />
+  <img src="/images/mountains-and-fog.jpg" alt="Mountains in fog" />
+</VdFrame>
+<VdFrame ratio="4-3">
+  <img src="/images/forest-boardwalk.jpg" alt="Pine forest boardwalk" />
 </VdFrame>`;
 
 // ── Switcher ─────────────────────────────────────────────────
@@ -202,16 +205,39 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
               Locks media to an aspect ratio with the <code>ratio</code> prop
               and crops to fit — no layout shift.
             </p>
-            <VdFrame
-              ratio="16-9"
-              style="
-                max-width: 420px;
-                margin-bottom: 1rem;
-                border-radius: var(--vd-card-border-radius);
-              "
+            <div
+              class="vd-inline"
+              data-gap="fib-13"
+              data-wrap="wrap"
+              style="margin-bottom: 1rem"
             >
-              <img src="/images/mountains-and-fog.jpg" alt="Mountains in fog" />
-            </VdFrame>
+              <VdFrame
+                ratio="16-9"
+                style="
+                  width: 320px;
+                  max-width: 100%;
+                  border-radius: var(--vd-card-border-radius);
+                "
+              >
+                <img
+                  src="/images/mountains-and-fog.jpg"
+                  alt="Mountains in fog"
+                />
+              </VdFrame>
+              <VdFrame
+                ratio="4-3"
+                style="
+                  width: 280px;
+                  max-width: 100%;
+                  border-radius: var(--vd-card-border-radius);
+                "
+              >
+                <img
+                  src="/images/forest-boardwalk.jpg"
+                  alt="Pine forest boardwalk"
+                />
+              </VdFrame>
+            </div>
             <DocCodeSnippet :vue="frameVue" />
           </div>
         </div>

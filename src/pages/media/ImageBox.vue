@@ -8,20 +8,26 @@ const box = useImageBox(root);
 
 const items: VdImageItem[] = [
   {
+    src: "/images/forest-boardwalk.jpg",
+    alt: "Wooden boardwalk trail through a sunlit pine forest",
+    caption: "Pine forest boardwalk",
+    orientation: "landscape",
+  },
+  {
     src: "/images/mountains-and-fog.jpg",
     alt: "Mountains above a fog bank",
     caption: "Mountain peaks above fog",
   },
   {
     src: "/images/expanding/0.jpg",
-    alt: "Coastal cliffs overlooking the sea",
-    caption: "Coastal cliffs",
+    alt: "Quiet cove with a wooden dock and lily pads",
+    caption: "Quiet cove",
     orientation: "portrait",
   },
   {
     src: "/images/expanding/1.jpg",
-    alt: "Tall pine forest canopy from below",
-    caption: "Forest canopy",
+    alt: "Low sun glowing across a forest lake through pine trees",
+    caption: "Lakeside glow",
   },
   {
     src: "/images/expanding/2.jpg",
@@ -32,12 +38,6 @@ const items: VdImageItem[] = [
     src: "/images/expanding/3.jpg",
     alt: "Yellow autumn leaf on a pine-needle forest floor",
     caption: "Autumn leaf on forest floor",
-  },
-  {
-    src: "/images/expanding/4.jpg",
-    alt: "White reindeer moss and lichen on a forest floor",
-    caption: "White reindeer moss",
-    orientation: "landscape",
   },
 ];
 
@@ -144,22 +144,22 @@ root.value?.addEventListener('imageBox:change', (event) => {
         </p>
         <div class="vd-inline" data-gap="fib-8">
           <img
-            src="/images/expanding/1.jpg"
-            alt="Tall pine forest canopy from below"
+            src="/images/forest-boardwalk.jpg"
+            alt="Wooden boardwalk trail through a sunlit pine forest"
             class="vd-rounded-md"
             data-image-box
             data-image-box-group="manual"
-            data-image-box-caption="Forest canopy"
+            data-image-box-caption="Pine forest boardwalk"
             style="width: 160px; height: 110px; object-fit: cover"
           />
           <img
-            src="/images/expanding/2.jpg"
-            alt="Sunlit forest trees with warm lens flare"
+            src="/images/expanding/4.jpg"
+            alt="White reindeer moss and lichen on a forest floor"
             class="vd-rounded-md"
             data-image-box
             data-image-box-group="manual"
-            data-image-box-caption="Sunlit forest flare"
-            aria-label="View the sunlit forest"
+            data-image-box-caption="White reindeer moss"
+            aria-label="View the reindeer moss"
             style="width: 160px; height: 110px; object-fit: cover"
           />
         </div>
@@ -595,7 +595,7 @@ root.value?.addEventListener('imageBox:change', (event) => {
             <code>data-image-box-group</code>, updating the
             <code>aria-live="polite"</code> counter
             (<code>.vd-image-box-counter</code>) and setting
-            <code>aria-selected="true"</code> on the active thumbnail.
+            <code>aria-current="true"</code> on the active thumbnail.
           </li>
           <li>
             Non-interactive triggers (such as <code>&lt;img&gt;</code>) receive
@@ -615,3 +615,55 @@ root.value?.addEventListener('imageBox:change', (event) => {
     </div>
   </section>
 </template>
+
+<style scoped>
+/* Keep gallery thumbnails in a single block flex column so below-captions
+   never overlap the next grid row, and scale column count on narrow screens. */
+:deep(.vd-image-box-figure) {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+:deep(.vd-image-box-thumb) {
+  height: auto;
+  border-radius: var(--vd-radius-md);
+}
+
+:deep(
+  .vd-image-gallery-bento .vd-image-box-figure:first-child .vd-image-box-thumb
+) {
+  flex: 1 1 auto;
+  height: 100%;
+}
+
+:deep(.vd-image-box-caption-below) {
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 767.98px) {
+  :deep(.vd-image-gallery-grid),
+  :deep(.vd-image-gallery-bento) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  :deep(.vd-image-gallery-masonry) {
+    columns: 2;
+  }
+
+  :deep(.vd-image-gallery-filmstrip .vd-image-box-figure) {
+    flex: 0 0 72%;
+  }
+}
+
+@media (max-width: 479.98px) {
+  :deep(.vd-image-gallery-grid) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  :deep(.vd-image-gallery-masonry) {
+    columns: 1;
+  }
+}
+</style>

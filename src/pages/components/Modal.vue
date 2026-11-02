@@ -84,7 +84,7 @@ const open = ref(false);
   <VdModal v-model:open="open" title="Modal Title" size="md">
     <p class="vd-mb-0">Modal content goes here.</p>
     <template #footer>
-      <button class="vd-btn vd-btn-outline-secondary" @click="open = false">
+      <button class="vd-btn vd-btn-outline" @click="open = false">
         Cancel
       </button>
       <button class="vd-btn vd-btn-primary" @click="open = false">Save</button>
@@ -577,9 +577,7 @@ const classRows: [string, string][] = [
       messages.
     </p>
     <template #footer>
-      <button class="vd-btn vd-btn-outline-secondary" @click="closeModal">
-        Cancel
-      </button>
+      <button class="vd-btn vd-btn-outline" @click="closeModal">Cancel</button>
       <button class="vd-btn vd-btn-primary" @click="closeModal">Confirm</button>
     </template>
   </VdModal>
@@ -620,9 +618,7 @@ const classRows: [string, string][] = [
       </div>
     </div>
     <template #footer>
-      <button class="vd-btn vd-btn-outline-secondary" @click="closeModal">
-        Cancel
-      </button>
+      <button class="vd-btn vd-btn-outline" @click="closeModal">Cancel</button>
       <button class="vd-btn vd-btn-primary" @click="closeModal">
         <i class="ph ph-paper-plane-tilt mr-1"></i>Send Invite
       </button>
@@ -726,9 +722,7 @@ A Fibonacci-scaled component library for modern web apps.</textarea>
       </div>
     </div>
     <template #footer>
-      <button class="vd-btn vd-btn-outline-secondary" @click="closeModal">
-        Cancel
-      </button>
+      <button class="vd-btn vd-btn-outline" @click="closeModal">Cancel</button>
       <button class="vd-btn vd-btn-primary" @click="closeModal">
         <i class="ph ph-floppy-disk mr-1"></i>Save Changes
       </button>
@@ -996,9 +990,7 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
       </div>
     </div>
     <template #footer>
-      <button class="vd-btn vd-btn-outline-secondary" @click="closeModal">
-        Close
-      </button>
+      <button class="vd-btn vd-btn-outline" @click="closeModal">Close</button>
       <button class="vd-btn vd-btn-primary" @click="closeModal">
         <i class="ph ph-floppy-disk mr-1"></i>Save draft
       </button>
@@ -1136,9 +1128,7 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
       </div>
     </div>
     <template #footer>
-      <button class="vd-btn vd-btn-outline-secondary" @click="closeModal">
-        Close
-      </button>
+      <button class="vd-btn vd-btn-outline" @click="closeModal">Close</button>
       <button class="vd-btn vd-btn-primary" @click="closeModal">Confirm</button>
     </template>
   </VdModal>
@@ -1164,9 +1154,7 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
       <strong>design-system-v2.fig</strong> and all associated assets.
     </p>
     <template #footer>
-      <button class="vd-btn vd-btn-outline-secondary" @click="closeModal">
-        Cancel
-      </button>
+      <button class="vd-btn vd-btn-outline" @click="closeModal">Cancel</button>
       <button class="vd-btn vd-btn-danger" @click="closeModal">
         <i class="ph ph-trash mr-1"></i>Delete Permanently
       </button>

@@ -32,7 +32,7 @@ useAffix(root);
 
 <template>
   <section id="changelog" ref="root">
-    <div class="changelog-header">
+    <div class="changelog-header vd-surface vd-surface-noise">
       <div class="vd-container-responsive">
         <h2 style="color: var(--vd-color-primary)">
           <i class="ph ph-scroll" style="color: var(--vd-color-primary)"></i>

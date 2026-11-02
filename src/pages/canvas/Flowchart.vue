@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import { useTooltips } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import {
   FLOWCHART_DOCUMENT_VERSION,
@@ -9,71 +10,324 @@ import {
   type VdFlowchartExposed,
 } from "@vanduo-oss/vd3-flowchart";
 
+type FlowchartInstance = NonNullable<
+  ReturnType<VdFlowchartExposed["getInstance"]>
+>;
+
 /**
- * One flat diagram. Note is a small rectangle off the main row so the
- * editor can show a shape below the default size.
+ * Branching workflow diagram — Start → Decision ("Yes" / "No"), with the
+ * approved branch fanning out into 8 parallel curved pipelines (keeping
+ * `start` first and `proc-8` last for keyboard Home/End navigation).
  */
 const seedDoc = {
   version: FLOWCHART_DOCUMENT_VERSION,
-  viewport: { x: 0, y: 0, scale: 1 },
   nodes: [
     {
       id: "start",
       type: "circle",
-      x: 48,
-      y: 72,
+      x: 127.35,
+      y: 403.04,
       width: 128,
       height: 128,
       text: "Start",
     },
     {
-      id: "review",
+      id: "decision",
+      type: "diamond",
+      x: 340.19,
+      y: 407.04,
+      width: 184,
+      height: 120,
+      text: "Decision",
+    },
+    {
+      id: "yes",
       type: "rounded-rect",
-      x: 240,
-      y: 88,
+      x: 342.19,
+      y: 226.69,
       width: 180,
       height: 96,
-      text: "Review",
+      text: "Yes",
     },
     {
-      id: "join",
-      type: "junction",
-      x: 480,
-      y: 122,
-      width: 28,
-      height: 28,
-      text: "",
+      id: "no",
+      type: "rounded-rect",
+      x: 344.19,
+      y: 611.97,
+      width: 180,
+      height: 96,
+      text: "No",
     },
     {
-      id: "note",
+      id: "proc-1",
       type: "rect",
-      x: 760,
-      y: 280,
-      width: 16,
-      height: 16,
-      text: "Note",
+      x: 1023.42,
+      y: -193.31,
+      width: 180,
+      height: 96,
+      text: "Validate tokens",
+    },
+    {
+      id: "proc-2",
+      type: "rect",
+      x: 1023.42,
+      y: -73.31,
+      width: 180,
+      height: 96,
+      text: "Build CSS layer",
+    },
+    {
+      id: "proc-3",
+      type: "rect",
+      x: 1023.42,
+      y: 46.69,
+      width: 180,
+      height: 96,
+      text: "Compile SFCs",
+    },
+    {
+      id: "proc-4",
+      type: "rect",
+      x: 1023.42,
+      y: 166.69,
+      width: 180,
+      height: 96,
+      text: "Emit TypeScript d.ts",
+    },
+    {
+      id: "proc-5",
+      type: "rect",
+      x: 1023.42,
+      y: 286.69,
+      width: 180,
+      height: 96,
+      text: "Check class coverage",
+    },
+    {
+      id: "proc-6",
+      type: "rect",
+      x: 1023.42,
+      y: 406.69,
+      width: 180,
+      height: 96,
+      text: "Run Vitest suite",
+    },
+    {
+      id: "proc-7",
+      type: "rect",
+      x: 1023.42,
+      y: 526.69,
+      width: 180,
+      height: 96,
+      text: "Verify bundle budget",
+    },
+    {
+      id: "proc-8",
+      type: "rect",
+      x: 1023.42,
+      y: 646.69,
+      width: 180,
+      height: 96,
+      text: "Publish release",
     },
   ],
   edges: [
     {
-      id: "to-review",
+      id: "edge-74",
       from: { nodeId: "start", port: "right" },
-      to: { nodeId: "review", port: "left" },
+      to: { nodeId: "decision", port: "left" },
       kind: "arrow",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
       route: "curve",
+      label: "",
     },
     {
-      id: "to-join",
-      from: { nodeId: "review", port: "right" },
-      to: { nodeId: "join", port: "left" },
+      id: "edge-264",
+      from: { nodeId: "decision", port: "bottom" },
+      to: { nodeId: "no", port: "top" },
       kind: "arrow",
-      route: "orthogonal",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
+      route: "curve",
+      label: "",
+    },
+    {
+      id: "edge-289",
+      from: { nodeId: "decision", port: "top" },
+      to: { nodeId: "yes", port: "bottom" },
+      kind: "arrow",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
+      route: "curve",
+      label: "",
+    },
+    {
+      id: "edge-374",
+      from: { nodeId: "yes", port: "right" },
+      to: { nodeId: "proc-1", port: "left" },
+      kind: "arrow",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
+      route: "curve",
+      label: "",
+    },
+    {
+      id: "edge-410",
+      from: { nodeId: "yes", port: "right" },
+      to: { nodeId: "proc-2", port: "left" },
+      kind: "arrow",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
+      route: "curve",
+      label: "",
+    },
+    {
+      id: "edge-435",
+      from: { nodeId: "yes", port: "right" },
+      to: { nodeId: "proc-3", port: "left" },
+      kind: "arrow",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
+      route: "curve",
+      label: "",
+    },
+    {
+      id: "edge-460",
+      from: { nodeId: "yes", port: "right" },
+      to: { nodeId: "proc-4", port: "left" },
+      kind: "arrow",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
+      route: "curve",
+      label: "",
+    },
+    {
+      id: "edge-485",
+      from: { nodeId: "yes", port: "right" },
+      to: { nodeId: "proc-5", port: "left" },
+      kind: "arrow",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
+      route: "curve",
+      label: "",
+    },
+    {
+      id: "edge-511",
+      from: { nodeId: "yes", port: "right" },
+      to: { nodeId: "proc-6", port: "left" },
+      kind: "arrow",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
+      route: "curve",
+      label: "",
+    },
+    {
+      id: "edge-537",
+      from: { nodeId: "yes", port: "right" },
+      to: { nodeId: "proc-7", port: "left" },
+      kind: "arrow",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
+      route: "curve",
+      label: "",
+    },
+    {
+      id: "edge-563",
+      from: { nodeId: "yes", port: "right" },
+      to: { nodeId: "proc-8", port: "left" },
+      kind: "arrow",
+      startMarker: "none",
+      endMarker: "arrow",
+      strokeWidth: 2.25,
+      route: "curve",
+      label: "",
     },
   ],
 };
 
+const stageRoot = ref<HTMLElement | null>(null);
 const editor = ref<VdFlowchartExposed | null>(null);
 const cameraScale = ref("1.0000");
+let fitFrame: number | undefined;
+let userAdjustedViewport = false;
+
+const TOOLBAR_TOOLTIPS: Record<string, string> = {
+  "zoom-out": "Zoom out (Cmd/Ctrl + -)",
+  "zoom-in": "Zoom in (Cmd/Ctrl + =)",
+  "reset-view": "Reset zoom to 100% (Cmd/Ctrl + 0)",
+  "zoom-reset": "Reset zoom to 100% (Cmd/Ctrl + 0)",
+  "fit-view": "Fit diagram to view (Shift + 1)",
+  undo: "Undo last change (Cmd/Ctrl + Z)",
+  redo: "Redo change (Shift + Cmd/Ctrl + Z)",
+  clear: "Clear canvas",
+  delete: "Delete selection (Delete / Backspace)",
+  outline: "Toggle graph outline",
+  minimap: "Toggle overview minimap",
+  shortcuts: "Keyboard shortcuts (?)",
+};
+
+function stampToolbarTooltips(): void {
+  const root = stageRoot.value;
+  if (!root) return;
+  const controls = root.querySelectorAll<HTMLElement>(
+    ".vd-flowchart-toolbar button, .vd-flowchart-toolbar select[data-flowchart-arrange]",
+  );
+  for (const control of controls) {
+    const action = control.getAttribute("data-flowchart-action") ?? "";
+    const isArrange = control.hasAttribute("data-flowchart-arrange");
+    const label = isArrange
+      ? "Auto-arrange layout (Tree, Radial, Grid)"
+      : TOOLBAR_TOOLTIPS[action] ||
+        control.getAttribute("data-tooltip") ||
+        control.getAttribute("title") ||
+        control.getAttribute("aria-label") ||
+        "";
+    if (label) {
+      control.setAttribute("data-tooltip", label);
+      control.setAttribute("data-tooltip-placement", "bottom");
+    }
+    control.removeAttribute("title");
+  }
+}
+
+function fitInitialView(instance?: FlowchartInstance | null): void {
+  const core = instance ?? editor.value?.getInstance();
+  if (!core) return;
+  core.fitView();
+  cameraScale.value = core.toJSON().viewport.scale.toFixed(4);
+}
+
+function onReady(instance: FlowchartInstance): void {
+  stampToolbarTooltips();
+  fitInitialView(instance);
+  if (typeof requestAnimationFrame === "function") {
+    if (fitFrame !== undefined) cancelAnimationFrame(fitFrame);
+    fitFrame = requestAnimationFrame(() => {
+      fitFrame = undefined;
+      if (!userAdjustedViewport) {
+        fitInitialView(instance);
+      }
+    });
+  }
+}
+
+onMounted(() => {
+  stampToolbarTooltips();
+  fitInitialView();
+});
+
+useTooltips(stageRoot);
 
 /* Full-screen editor mode — inset from the fixed site dock, which stays
    visible above the stage. */
@@ -102,13 +356,23 @@ function toggleFullscreen() {
   else enterFullscreen();
 }
 
-onBeforeUnmount(exitFullscreen);
+onBeforeUnmount(() => {
+  if (fitFrame !== undefined && typeof cancelAnimationFrame === "function") {
+    cancelAnimationFrame(fitFrame);
+    fitFrame = undefined;
+  }
+  exitFullscreen();
+});
 
 function onViewport(payload: FlowchartViewportEvent) {
   cameraScale.value = payload.viewport.scale.toFixed(4);
+  if (payload.reason && payload.reason !== "viewport:fit") {
+    userAdjustedViewport = true;
+  }
 }
 
 function showOverview() {
+  userAdjustedViewport = true;
   editor.value?.getInstance()?.zoomTo(0.05);
 }
 
@@ -302,6 +566,7 @@ const shortcuts: [string, string][] = [
     </p>
 
     <div
+      ref="stageRoot"
       class="vd-card demo-card vd-mb-6 flowchart-stage"
       :class="{ 'is-fullscreen docs-stage-fullscreen': fullscreen }"
     >
@@ -340,7 +605,8 @@ const shortcuts: [string, string][] = [
           :min-node-size="6"
           :max-node-size="4800"
           auto-fit
-          :style="fullscreen ? undefined : { minHeight: '420px' }"
+          :style="fullscreen ? undefined : { height: '560px' }"
+          @ready="onReady"
           @viewport="onViewport"
         />
       </div>
@@ -348,19 +614,21 @@ const shortcuts: [string, string][] = [
 
     <p>
       <strong>Overview</strong> sets the camera to <code>0.05</code>, so the
-      whole diagram is visible at once. The editor toolbar still zooms, fits,
-      and undoes. Note is a normal rectangle, not a nested container. Hover a
-      node to show a handle outside each side: drag a handle to connect, or
-      click it to add a connected node.
+      whole workspace is visible at once. The editor toolbar still zooms, fits,
+      and undoes. Every step is a flat node rather than a nested container.
+      Hover a node to show a handle outside each side: drag a handle to connect,
+      or click it to add a connected node.
     </p>
     <p>
-      A node smaller than its default size scales its text, wrapping, radius,
-      stroke, markers, curve arms, orthogonal routes, labels, and inline editor
-      with it. Review is a default-size step, so its chrome stays at the
-      default. Larger nodes do not grow that chrome. Junctions stay
-      <code>28×28</code>. With these wider camera bounds the background grid
-      covers 240,000 units and keeps a readable screen spacing. The default
-      <code>0.35</code>–<code>3</code> camera keeps the 12,000-unit grid.
+      A node resized smaller than its default size scales its text, wrapping,
+      radius, stroke, markers, curve arms, orthogonal routes, labels, and inline
+      editor with it. Default-size steps keep their standard chrome, and larger
+      nodes do not grow that chrome. Junctions stay <code>28×28</code>. With
+      these wider camera bounds the background grid covers 240,000 units and
+      keeps a readable screen spacing. The default <code>0.35</code>–<code
+        >3</code
+      >
+      camera keeps the 12,000-unit grid.
     </p>
     <p class="vd-text-sm vd-text-muted">
       Saved JSON uses document format

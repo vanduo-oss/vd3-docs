@@ -92,11 +92,11 @@ const groupHtml = `<div class="vd-card-group">
 
 const imageHtml = `<div class="vd-card">
   <div class="vd-card-image-container" style="position: relative;">
-    <img src="landscape.jpg" alt="Landscape" class="vd-card-image"
-         style="width: 100%; height: 160px; object-fit: cover;">
+    <img src="/images/forest-boardwalk.jpg" alt="Pine forest boardwalk" class="vd-card-image"
+         style="width: 100%; height: 180px; object-fit: cover;">
     <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem;
                 background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: white;">
-      <h5 class="vd-mb-0">Landscape</h5>
+      <h5 class="vd-mb-0">Forest boardwalk</h5>
     </div>
   </div>
   <div class="vd-card-body">
@@ -389,12 +389,12 @@ const classRef: [string, string, string][] = [
         <div class="vd-card">
           <div class="vd-card-image-container" style="position: relative">
             <img
-              src="/images/og-docs.png"
-              alt="Landscape"
+              src="/images/forest-boardwalk.jpg"
+              alt="Pine forest boardwalk"
               class="vd-card-image"
               style="
                 width: 100%;
-                height: 160px;
+                height: 180px;
                 object-fit: cover;
                 border-radius: var(--vd-card-border-radius)
                   var(--vd-card-border-radius) 0 0;
@@ -411,7 +411,7 @@ const classRef: [string, string, string][] = [
                 color: white;
               "
             >
-              <h5 class="vd-mb-0">Landscape</h5>
+              <h5 class="vd-mb-0">Forest boardwalk</h5>
             </div>
           </div>
           <div class="vd-card-body">

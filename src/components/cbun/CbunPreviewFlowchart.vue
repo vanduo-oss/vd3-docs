@@ -98,6 +98,7 @@ function onReady(instance: FlowchartShowcaseInstance | null): void {
   <div class="cbun-flowchart-wrap">
     <VdFlowchart
       :data="seedDoc"
+      :minimap="false"
       auto-fit
       :style="{ minHeight: '420px', height: '420px' }"
       @ready="onReady"

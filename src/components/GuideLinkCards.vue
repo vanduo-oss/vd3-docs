@@ -41,7 +41,7 @@ withDefaults(
               ? { href: link.to, target: '_blank', rel: 'noopener' }
               : { to: link.to }
           "
-          class="vd-card vd-glass vd-card-interactive guide-link"
+          class="vd-card vd-glass vd-card-interactive guide-link guide-link-card"
         >
           <span class="guide-link-icon">
             <i :class="`ph ${link.icon}`" aria-hidden="true"></i>
@@ -72,7 +72,8 @@ withDefaults(
   gap: 1rem;
 }
 
-.guide-link {
+.guide-link,
+.guide-link-card {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -88,7 +89,9 @@ withDefaults(
 }
 
 .guide-link:hover,
-.guide-link:focus-visible {
+.guide-link:focus-visible,
+.guide-link-card:hover,
+.guide-link-card:focus-visible {
   transform: translateY(-2px);
   border-color: rgba(var(--vd-color-primary-rgb), 0.45);
 }
