@@ -334,6 +334,9 @@ function closeResourceModal(): void {
 
 function onResourceCardClick(event: MouseEvent, card: ResourceCard): void {
   if (!card.modal) return;
+  // Modified and non-primary clicks keep the anchor's open-in-new-tab behavior.
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.button !== 0)
+    return;
   event.preventDefault();
   openResourceModal(card.modal);
 }

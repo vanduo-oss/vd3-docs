@@ -208,7 +208,6 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
             <div
               class="vd-inline"
               data-gap="fib-13"
-              data-wrap="wrap"
               style="margin-bottom: 1rem"
             >
               <VdFrame

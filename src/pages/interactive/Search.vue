@@ -162,16 +162,11 @@ registry.register({
                 aria-label="Filter demo items"
               />
             </div>
-            <ul
-              class="vd-collection"
-              role="listbox"
-              aria-label="Filtered search items"
-            >
+            <ul class="vd-collection" aria-label="Filtered search items">
               <li
                 v-for="item in filteredDemoItems"
                 :key="item.title"
                 class="vd-collection-item vd-search-item"
-                role="option"
               >
                 <div class="vd-collection-content">
                   <div class="vd-collection-title">{{ item.title }}</div>

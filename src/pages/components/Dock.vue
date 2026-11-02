@@ -149,7 +149,10 @@ const placement = ref("${placement.value}");
     position="contained"
     :glass="${glass.value}"
     radius="${radius.value}"
-    item-layout="${itemLayout.value}"${tintLine}
+    item-layout="${itemLayout.value}"
+    brand-spin
+    brand-corner="consistent"
+    cycle="edges"${tintLine}
     tint-mode="${tintMode.value}"
   >
     <template #brand>

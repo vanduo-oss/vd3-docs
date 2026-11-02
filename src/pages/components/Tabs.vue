@@ -42,14 +42,14 @@ const vue3Wiring = `import { ref } from 'vue';
 import { useTabs } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
-const tabs = useTabs(root); // wires [data-tab-target] inside root; cleanup on unmount
+const tabs = useTabs(root); // wires .vd-tabs / [data-tabs] inside root; cleanup on unmount
 
 // programmatic control: tabs.show(1) or tabs.refresh()`;
 
 const vue3Api: [string, string][] = [
   [
     "useTabs(root)",
-    "Composable — wires every .vd-tabs / [data-tabs] container inside the root ref and returns a { show, refresh } controller.",
+    "Composable — wires every .vd-tabs / [data-tabs] container inside the root ref. Links are .vd-tab-link / [data-tab]; data-tab-target names the pane id. Returns a { show, refresh } controller.",
   ],
   [
     "show(tab, container?)",

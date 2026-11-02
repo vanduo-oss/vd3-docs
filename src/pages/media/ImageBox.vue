@@ -6,36 +6,40 @@ import { VdImageBox, useImageBox, type VdImageItem } from "@vanduo-oss/vd3";
 const root = ref<HTMLElement | null>(null);
 const box = useImageBox(root);
 
+// Vite rebases <img src> in templates, not strings passed into VdImageBox.
+// BASE_URL is always trailing-slashed (`/` locally, `/vd3-docs/` on project pages).
+const base = import.meta.env.BASE_URL;
+
 const items: VdImageItem[] = [
   {
-    src: "/images/forest-boardwalk.jpg",
+    src: `${base}images/forest-boardwalk.jpg`,
     alt: "Wooden boardwalk trail through a sunlit pine forest",
     caption: "Pine forest boardwalk",
     orientation: "landscape",
   },
   {
-    src: "/images/mountains-and-fog.jpg",
+    src: `${base}images/mountains-and-fog.jpg`,
     alt: "Mountains above a fog bank",
     caption: "Mountain peaks above fog",
   },
   {
-    src: "/images/expanding/0.jpg",
+    src: `${base}images/expanding/0.jpg`,
     alt: "Quiet cove with a wooden dock and lily pads",
     caption: "Quiet cove",
     orientation: "portrait",
   },
   {
-    src: "/images/expanding/1.jpg",
+    src: `${base}images/expanding/1.jpg`,
     alt: "Low sun glowing across a forest lake through pine trees",
     caption: "Lakeside glow",
   },
   {
-    src: "/images/expanding/2.jpg",
+    src: `${base}images/expanding/2.jpg`,
     alt: "Sunlit forest trees with warm lens flare",
     caption: "Sunlit forest flare",
   },
   {
-    src: "/images/expanding/3.jpg",
+    src: `${base}images/expanding/3.jpg`,
     alt: "Yellow autumn leaf on a pine-needle forest floor",
     caption: "Autumn leaf on forest floor",
   },
