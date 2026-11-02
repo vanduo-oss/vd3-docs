@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
+import { VdAlert } from "@vanduo-oss/vd3";
 
 const dismissed = ref(false);
+const componentDismissed = ref(false);
 
 const vue3Usage = `<script setup lang="ts">
 import { VdAlert } from "@vanduo-oss/vd3";
@@ -287,7 +289,20 @@ const classRows: [string, string][] = [
             </h6>
           </div>
           <div class="vd-card-body">
-            <h4>Usage</h4>
+            <h4>VdAlert Component</h4>
+            <div class="vd-mb-4">
+              <VdAlert variant="success" title="Saved" class="vd-mb-3">
+                Your changes are saved via <code>&lt;VdAlert&gt;</code>.
+              </VdAlert>
+              <VdAlert
+                v-if="!componentDismissed"
+                variant="danger"
+                dismissible
+                @dismiss="componentDismissed = true"
+              >
+                Unable to connect to the server.
+              </VdAlert>
+            </div>
             <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>

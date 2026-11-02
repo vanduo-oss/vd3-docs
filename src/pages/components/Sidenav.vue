@@ -7,6 +7,38 @@ const root = ref<HTMLElement | null>(null);
 const sidenavOpen = ref(false);
 useSidenav(root);
 
+const vdSidenavSnippet = `<script setup lang="ts">
+import { ref } from 'vue';
+import { VdSidenav } from '@vanduo-oss/vd3';
+
+const sidenavOpen = ref(false);
+<\/script>
+
+<template>
+  <button type="button" class="vd-btn vd-btn-primary" @click="sidenavOpen = true">
+    Open VdSidenav
+  </button>
+  <VdSidenav v-model="sidenavOpen" placement="left" title="Library sidenav">
+    <p>VdSidenav is the Vue wrapper. Placement is left, right, top, or bottom.</p>
+  </VdSidenav>
+</template>`;
+
+const vdSidenavApi: [string, string][] = [
+  ["v-model (modelValue)", "boolean — controls open/closed drawer visibility."],
+  [":placement", '"left" (default) | "right" | "top" | "bottom".'],
+  [":title", "string — optional header heading and accessible aria-label."],
+  [
+    ":closeOnBackdrop",
+    "boolean (default true) — close when clicking the overlay backdrop.",
+  ],
+  [":closeOnEsc", "boolean (default true) — close when pressing Escape."],
+  ["@close", "Emitted whenever the drawer closes."],
+  [
+    "#header / default / #footer",
+    "Named slots for custom header content, scrollable body content, and footer actions.",
+  ],
+];
+
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
 import { useSidenav } from "@vanduo-oss/vd3";
@@ -110,24 +142,32 @@ const apiRows: [string, string, string][] = [
       Create overlay, push, or fixed side drawers with canonical
       <code>vd-sidenav-*</code> variants.
     </p>
-    <button
-      type="button"
-      class="vd-btn vd-btn-primary vd-mb-6"
-      @click="sidenavOpen = true"
-    >
-      Open VdSidenav
-    </button>
-    <VdSidenav v-model="sidenavOpen" title="Library sidenav">
-      <p>
-        VdSidenav is the Vue wrapper. Placement is left, right, top, or bottom.
-      </p>
-    </VdSidenav>
-
     <!-- Rendered Demo -->
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12 vd-col-md-6">
         <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Sidenav Demo</h6></div>
+          <div class="vd-card-header"><h6>VdSidenav Component</h6></div>
+          <div class="vd-card-body">
+            <button
+              type="button"
+              class="vd-btn vd-btn-primary"
+              @click="sidenavOpen = true"
+            >
+              Open VdSidenav
+            </button>
+            <VdSidenav v-model="sidenavOpen" title="Library sidenav">
+              <p>
+                VdSidenav is the Vue wrapper. Placement is left, right, top, or
+                bottom.
+              </p>
+            </VdSidenav>
+            <DocCodeSnippet class="vd-mt-4" :vue="vdSidenavSnippet" />
+          </div>
+        </div>
+      </div>
+      <div class="vd-col-12 vd-col-md-6">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header"><h6>Composable Sidenav Demo</h6></div>
           <div class="vd-card-body">
             <button
               class="vd-btn vd-btn-primary"
@@ -237,31 +277,94 @@ const apiRows: [string, string, string][] = [
       </div>
     </div>
 
-    <h4 class="docs-heading">Wiring</h4>
-    <div style="margin-bottom: 2rem">
-      <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
+    <div id="api" class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-list-dashes mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i
+          >API Reference
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <h4>Wiring</h4>
+        <DocCodeSnippet :js="vue3Wiring" :default-open="true" />
+
+        <h4 class="vd-mt-6">VdSidenav Component API</h4>
+        <div class="vd-table-responsive vd-mb-6">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th style="width: 30%">Prop / Event / Slot</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vdSidenavApi" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>CSS Classes &amp; Data Attributes</h4>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 25%">Class Name / Attribute</th>
+                <th style="width: 55%">Description</th>
+                <th style="width: 20%">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in apiRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <h4 id="api" class="docs-heading">API Reference</h4>
-    <div class="vd-table-responsive" style="margin-bottom: 3rem">
-      <table class="vd-table vd-table-hover">
-        <thead>
-          <tr>
-            <th style="width: 25%">Class Name / Attribute</th>
-            <th style="width: 55%">Description</th>
-            <th style="width: 20%">Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in apiRows" :key="row[0]">
-            <td>
-              <code>{{ row[0] }}</code>
-            </td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-wheelchair mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i
+          >Accessibility
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <ul>
+          <li>
+            <code>VdSidenav</code> renders a semantic
+            <code>&lt;aside&gt;</code> with
+            <code>:aria-label="title || 'Side navigation'"</code> and a close
+            button labeled <code>aria-label="Close"</code>.
+          </li>
+          <li>
+            Pressing <kbd>Escape</kbd> (when <code>closeOnEsc</code> is enabled)
+            or clicking the backdrop (when <code>closeOnBackdrop</code> is
+            enabled) closes the drawer and releases body scroll lock.
+          </li>
+          <li>
+            Composable <code>useSidenav</code> triggers synchronize
+            <code>aria-expanded</code> with the open state and trap/restore
+            focus when closing via <kbd>Escape</kbd>.
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 </template>

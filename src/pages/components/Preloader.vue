@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
+import { VdPreloader } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 
 const vue3Usage = `<script setup lang="ts">
@@ -165,12 +166,49 @@ const vue3Api: [string, string][] = [
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Copy-paste patterns</h6></div>
+          <div class="vd-card-header">
+            <h6>VdPreloader Component &amp; Copy-Paste Patterns</h6>
+          </div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-3">
-              These snippets rely only on classes from
-              <code>@vanduo-oss/vd3/css</code>. No separate required CSS block.
+              Live <code>&lt;VdPreloader&gt;</code> instances (styled with
+              <code>position: relative</code> here so they stay contained inside
+              the demo card rather than covering the viewport):
             </p>
+            <div
+              class="vd-mb-4"
+              style="
+                display: flex;
+                gap: 1.5rem;
+                flex-wrap: wrap;
+                align-items: center;
+              "
+            >
+              <VdPreloader
+                text="Loading…"
+                style="
+                  position: relative;
+                  inset: auto;
+                  min-height: 7rem;
+                  min-width: 11rem;
+                  border: 1px solid var(--vd-border-color);
+                  border-radius: var(--vd-radius-fib-5);
+                "
+              />
+              <VdPreloader
+                variant="success"
+                size="lg"
+                text="Syncing data"
+                style="
+                  position: relative;
+                  inset: auto;
+                  min-height: 7rem;
+                  min-width: 11rem;
+                  border: 1px solid var(--vd-border-color);
+                  border-radius: var(--vd-radius-fib-5);
+                "
+              />
+            </div>
             <DocCodeSnippet :vue="vue3Usage" />
             <h4 class="vd-mt-6">VdPreloader API (Vue 3)</h4>
             <div class="vd-table-responsive">

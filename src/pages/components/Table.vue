@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdAvatar, VdBadge, VdDataTable } from "@vanduo-oss/vd3";
+import { VdAvatar, VdBadge, VdDataTable, VdTable } from "@vanduo-oss/vd3";
 import type { DataTableColumn } from "@vanduo-oss/vd3";
 import { VdChart } from "@vanduo-oss/vd3-charts";
 
@@ -197,6 +197,57 @@ const emptyApi: [string, string][] = [
   ["#action", "Optional call-to-action slot."],
 ];
 
+const tableStateApi: [string, string][] = [
+  [
+    "options.rows",
+    "Ref<readonly T[]> | (() => readonly T[]) — source row array.",
+  ],
+  [
+    "options.getRowId",
+    "(row: T, index: number) => string — unique row identifier resolver.",
+  ],
+  [
+    "options.pageSize",
+    "Ref<number> | number (default 10) — rows per page in client mode.",
+  ],
+  [
+    "options.searchKeys",
+    "readonly string[] | Ref<readonly string[] | undefined> | (() => readonly string[] | undefined) — keys to match against search query (defaults to all row values).",
+  ],
+  [
+    "options.manual",
+    "Ref<boolean> | boolean (default false) — bypasses client filter/sort/slice when rows are already paginated server-side.",
+  ],
+  [
+    "viewRows / total / totalPages",
+    "Ref<T[]> of current page rows, Ref<number> filtered row count, and Ref<number> total page count.",
+  ],
+  [
+    "page / search / sort",
+    "Reactive controls: page (Ref<number>), search (Ref<string>), and sort (Ref<{ key: string, dir: 'asc' | 'desc' | 'none' }>).",
+  ],
+  [
+    "selectedIds / toggle(id) / toggleAll()",
+    "Selection state (Ref<string[]>) and helpers to toggle one row or all visible rows.",
+  ],
+  [
+    "allVisibleSelected / someVisibleSelected",
+    "Computed Ref<boolean> flags for header select-all checkbox checked and indeterminate states.",
+  ],
+];
+
+const simpleColumns = [
+  { key: "service", label: "Service" },
+  { key: "region", label: "Region" },
+  { key: "uptime", label: "Uptime" },
+];
+
+const simpleRows = [
+  { service: "API Gateway", region: "eu-central", uptime: "99.98%" },
+  { service: "Auth Worker", region: "us-east", uptime: "99.95%" },
+  { service: "Realtime Hub", region: "ap-south", uptime: "99.99%" },
+];
+
 const borderedHtml = `<!-- Bordered Table -->
 <table class="vd-table vd-table-bordered">
   <thead>
@@ -280,15 +331,37 @@ const apiRows: [string, string, string][] = [
       <code>VdDataTable</code> — client search, sort, selection, and paging via
       <code>useTableState</code>. Apps own fetch. Cell slots compose
       <code>VdAvatar</code> / <code>VdBadge</code>; a dashboard recipe can sit a
-      <code>VdChart</code> above the grid.
-      <code>useTableState</code> takes <code>rows</code>, <code>getRowId</code>,
-      <code>pageSize</code>, <code>searchKeys</code>, and <code>manual</code>,
-      and returns <code>viewRows</code>, <code>total</code>,
-      <code>totalPages</code>, <code>page</code>, <code>search</code>,
-      <code>sort</code>, <code>selectedIds</code>, <code>toggle</code>,
-      <code>toggleAll</code>, <code>allVisibleSelected</code>, and
-      <code>someVisibleSelected</code>.
+      <code>VdChart</code> above the grid. <code>useTableState</code> takes
+      <code>rows</code>, <code>getRowId</code>, <code>pageSize</code>,
+      <code>searchKeys</code>, and <code>manual</code>, and returns
+      <code>viewRows</code>, <code>total</code>, <code>totalPages</code>,
+      <code>page</code>, <code>search</code>, <code>sort</code>,
+      <code>selectedIds</code>, <code>toggle</code>, <code>toggleAll</code>,
+      <code>allVisibleSelected</code>, and <code>someVisibleSelected</code>.
     </p>
+
+    <div class="vd-row">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header"><h6>VdTable (Presentational)</h6></div>
+          <div class="vd-card-body">
+            <p class="vd-text-sm vd-text-muted vd-mb-3">
+              Lightweight presentational wrapper that renders a responsive
+              <code>.vd-table</code> with optional <code>striped</code>,
+              <code>bordered</code>, <code>hover</code>, and
+              <code>caption</code> props.
+            </p>
+            <VdTable
+              :columns="simpleColumns"
+              :rows="simpleRows"
+              striped
+              hover
+              caption="Service status overview"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="vd-row">
       <div class="vd-col-12">
@@ -512,86 +585,161 @@ const apiRows: [string, string, string][] = [
       </div>
     </div>
 
-    <h4 id="api" class="docs-heading">API Reference</h4>
-    <div class="vd-table-responsive" style="margin-bottom: 3rem">
-      <table class="vd-table vd-table-hover">
-        <thead>
-          <tr>
-            <th style="width: 25%">Class Name</th>
-            <th style="width: 55%">Description</th>
-            <th style="width: 20%">Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in apiRows" :key="row[0]">
-            <td>
-              <code>{{ row[0] }}</code>
-            </td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div id="api" class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header"><h6>CSS Classes</h6></div>
+      <div class="vd-card-body">
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 25%">Class Name</th>
+                <th style="width: 55%">Description</th>
+                <th style="width: 20%">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in apiRows" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <h4 class="docs-heading vd-mt-6">VdTable API (Vue 3)</h4>
-    <div class="vd-table-responsive" style="margin-bottom: 3rem">
-      <table class="vd-table vd-table-hover">
-        <thead>
-          <tr>
-            <th style="width: 25%">Prop</th>
-            <th style="width: 75%">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in vue3Api" :key="row[0]">
-            <td>
-              <code>{{ row[0] }}</code>
-            </td>
-            <td>{{ row[1] }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header"><h6>VdTable API (Vue 3)</h6></div>
+      <div class="vd-card-body">
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 25%">Prop</th>
+                <th style="width: 75%">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vue3Api" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <h4 class="docs-heading vd-mt-6">VdDataTable API (Vue 3)</h4>
-    <div class="vd-table-responsive" style="margin-bottom: 3rem">
-      <table class="vd-table vd-table-hover">
-        <thead>
-          <tr>
-            <th style="width: 25%">Prop / slot / event</th>
-            <th style="width: 75%">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in dataTableApi" :key="row[0]">
-            <td>
-              <code>{{ row[0] }}</code>
-            </td>
-            <td>{{ row[1] }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header"><h6>VdDataTable API (Vue 3)</h6></div>
+      <div class="vd-card-body">
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 25%">Prop / slot / event</th>
+                <th style="width: 75%">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in dataTableApi" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <h4 class="docs-heading vd-mt-6">VdEmptyState API (Vue 3)</h4>
-    <div class="vd-table-responsive" style="margin-bottom: 3rem">
-      <table class="vd-table vd-table-hover">
-        <thead>
-          <tr>
-            <th style="width: 25%">Prop / slot</th>
-            <th style="width: 75%">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in emptyApi" :key="row[0]">
-            <td>
-              <code>{{ row[0] }}</code>
-            </td>
-            <td>{{ row[1] }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6>useTableState(options) Composable API</h6>
+      </div>
+      <div class="vd-card-body">
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 30%">Option / Return Member</th>
+                <th style="width: 70%">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in tableStateApi" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header"><h6>VdEmptyState API (Vue 3)</h6></div>
+      <div class="vd-card-body">
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-hover">
+            <thead>
+              <tr>
+                <th style="width: 25%">Prop / slot</th>
+                <th style="width: 75%">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in emptyApi" :key="row[0]">
+                <td>
+                  <code>{{ row[0] }}</code>
+                </td>
+                <td>{{ row[1] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-wheelchair mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i
+          >Accessibility
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <ul>
+          <li>
+            <code>VdTable</code> and <code>VdDataTable</code> render semantic
+            <code>&lt;table&gt;</code>, <code>&lt;caption&gt;</code>, and
+            <code>&lt;th scope="col"&gt;</code> header cells.
+          </li>
+          <li>
+            Sortable column headers in <code>VdDataTable</code> use
+            <code>&lt;button type="button"&gt;</code> triggers and expose
+            <code>aria-sort="ascending" | "descending" | "none"</code> on the
+            parent <code>&lt;th&gt;</code>.
+          </li>
+          <li>
+            Row selection checkboxes and the header select-all checkbox provide
+            explicit <code>aria-label</code> attributes (e.g.
+            <code>"Select all rows"</code> and <code>"Select row {id}"</code>)
+            along with indeterminate state support.
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 </template>

@@ -51,31 +51,64 @@ const root = ref<HTMLElement | null>(null);
 usePopover(root);   // wires every [data-vd-bubble] inside root; cleanup on unmount`;
 
 const classRows: [string, string][] = [
-  [".vd-bubble-content", "Generated popover container."],
+  [".vd-bubble-content", "Generated popover bubble container."],
   [".vd-popover-content", "Alias for .vd-bubble-content."],
-  [".vd-bubble-header", "Header bar (present only with a title)."],
-  [".vd-bubble-title", "Title text inside the header."],
+  [
+    ".vd-popover-panel",
+    "Target-panel popover container referenced by data-vd-popover-target.",
+  ],
+  [".vd-popover-trigger", "Optional trigger class for target-panel popovers."],
+  [
+    ".vd-bubble-header",
+    "Header bar (present only when data-vd-bubble-title is set; wraps the title <span> and close button).",
+  ],
   [".vd-bubble-close", "Close button rendered in the header."],
   [".vd-bubble-body", "Body content area."],
 ];
 
 const attrRows: [string, string][] = [
-  ["data-vd-bubble", "Popover text. Required. (alias: data-vd-popover)"],
+  [
+    "data-vd-bubble",
+    "Popover text for attribute-built bubbles. (alias: data-vd-popover)",
+  ],
   [
     "data-vd-bubble-placement",
     "top | right | bottom | left. Default: bottom. (alias: data-vd-popover-placement)",
   ],
   [
     "data-vd-bubble-title",
-    "Adds a header with the given title + a close button.",
+    "Adds a .vd-bubble-header with the given title and a close button. (alias: data-vd-popover-title)",
   ],
-  ["data-vd-bubble-html", "Render trusted HTML content (sanitised)."],
+  [
+    "data-vd-bubble-html",
+    "Render trusted HTML content sanitised via sanitizeHtml. (alias: data-vd-popover-html)",
+  ],
+  [
+    "data-vd-bubble-allow-svg",
+    "Boolean attribute allowing <svg> tags inside data-vd-bubble-html. (alias: data-vd-popover-allow-svg)",
+  ],
+  [
+    "data-vd-popover-target",
+    "CSS selector pointing to an authored .vd-popover-panel element.",
+  ],
+  [
+    "data-vd-popover-trigger",
+    'Space-separated trigger modes for target panels: "click", "hover", "focus" (default "click focus").',
+  ],
+  [
+    "data-vd-popover-flip",
+    'Set to "false" to disable automatic viewport overflow flipping on target panels (default "true").',
+  ],
 ];
 
 const jsRows: [string, string][] = [
   [
-    "usePopover(root)",
-    "Wire every [data-vd-bubble] / popover trigger inside root; returns a controller. Call once in setup().",
+    "usePopover(root, options?)",
+    "Wire every [data-vd-bubble] and [data-vd-popover-target] trigger inside root; returns a UsePopoverController.",
+  ],
+  [
+    "UsePopoverOptions",
+    "{ placement?: 'top' | 'bottom' | 'left' | 'right' ('bottom'), trigger?: string ('click focus'), flip?: boolean (true), hoverLeaveDelay?: number (80) }.",
   ],
   [
     "controller.show(trigger)",
@@ -96,8 +129,22 @@ const jsRows: [string, string][] = [
 ];
 
 const eventRows: [string, string][] = [
-  ["bubble:show", "Fired on the trigger when its popover opens."],
-  ["bubble:hide", "Fired on the trigger when its popover closes."],
+  [
+    "bubble:show",
+    "Fired on an attribute-built bubble trigger when its bubble opens ({ trigger, placement }).",
+  ],
+  [
+    "bubble:hide",
+    "Fired on an attribute-built bubble trigger when its bubble closes ({ trigger }).",
+  ],
+  [
+    "popover:show",
+    "Fired on a target-panel trigger when its panel opens ({ trigger, placement }).",
+  ],
+  [
+    "popover:hide",
+    "Fired on a target-panel trigger when its panel closes ({ trigger }).",
+  ],
 ];
 </script>
 

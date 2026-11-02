@@ -79,14 +79,37 @@ const attrRows: [string, string][] = [
 
 const jsRows: [string, string][] = [
   [
-    "useSpotlight(root)",
-    "Wire every [data-vd-spotlight] trigger within root; returns a controller. Call once in setup().",
+    "useSpotlight(root, options?)",
+    "Wire every [data-vd-spotlight] trigger within root; returns a SpotlightApi controller. Call once in setup().",
+  ],
+  [
+    "UseSpotlightOptions",
+    "{ tooltipGap?: number (12), viewportMargin?: number (8), settleFrames?: number (30), labels?: { back?, skip?, next?, done? } }.",
   ],
   [
     "controller.start(steps, opts?)",
-    "Start a tour from an array of step objects.",
+    "Start a tour from an array of SpotlightStep objects ({ target, title?, description?, content? }). Optional { trigger } restores focus on stop.",
   ],
-  ["controller.stop()", "End the active tour and remove the overlay."],
+  [
+    "controller.stop()",
+    "End the active tour, remove the overlay/cutout, and restore focus to the trigger.",
+  ],
+  [
+    "controller.next() / controller.prev()",
+    "Advance to the next step or return to the previous step of the active tour.",
+  ],
+  [
+    "controller.refresh()",
+    "Re-scan root and wire [data-vd-spotlight] triggers added after mount.",
+  ],
+  [
+    "spotlight:step",
+    "CustomEvent<{ index, step, total, data }> dispatched on document whenever a step is shown.",
+  ],
+  [
+    "spotlight:end",
+    "CustomEvent<{ completedSteps, total, completed }> dispatched on document when the tour ends.",
+  ],
 ];
 </script>
 
@@ -272,16 +295,20 @@ const jsRows: [string, string][] = [
           <div class="vd-card-body">
             <ul>
               <li>
-                The overlay traps focus on the active step's controls;
-                <kbd>Tab</kbd> cycles Back / Skip / Next.
+                The step tooltip renders with <code>role="dialog"</code>,
+                <code>aria-modal="true"</code>, and wires the step title and
+                description via <code>aria-labelledby</code> and
+                <code>aria-describedby</code>.
               </li>
               <li>
-                <kbd>Escape</kbd> ends the tour; <kbd>←</kbd> / <kbd>→</kbd>
-                step between targets.
+                Pressing <kbd>Escape</kbd> (or clicking the overlay / Skip /
+                Done buttons) closes the tour and restores focus to the trigger
+                element that launched it.
               </li>
               <li>
-                The highlighted target is scrolled into view and announced via
-                the tooltip's <code>role="dialog"</code>.
+                The active target receives <code>.vd-spotlight-target</code> and
+                is scrolled smoothly into view while the body-level cutout
+                (<code>aria-hidden="true"</code>) tracks its bounding box.
               </li>
             </ul>
           </div>

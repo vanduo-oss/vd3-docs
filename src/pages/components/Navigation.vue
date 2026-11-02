@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { useNavbarGlassScroll, VdPagination } from "@vanduo-oss/vd3";
 import { useSidenav } from "@vanduo-oss/vd3";
@@ -71,14 +72,8 @@ const paginationHtml = `<!-- CSS-only pagination (server-rendered) -->
   </ul>
 </nav>
 
-<!-- JavaScript-driven pagination -->
-<nav aria-label="Page navigation (interactive)">
-  <ul class="vd-pagination"
-      data-pagination
-      data-total-pages="12"
-      data-current-page="3"
-      data-max-visible="7"></ul>
-</nav>`;
+<!-- Vue 3 VdPagination component -->
+<VdPagination v-model="page" :total="12" :max-visible="7" />`;
 
 const navbarHtml = `<header class="vd-navbar vd-navbar-fixed vd-navbar-glass">
   <div class="vd-navbar-container">
@@ -290,15 +285,31 @@ const stickyHtml = `<!-- Pin inside a framed scroller, not the page viewport -->
           <div class="vd-card-header"><h6>See also</h6></div>
           <div class="vd-card-body">
             <ul>
-              <li><a href="/components/navbar">Navbar — full page</a></li>
-              <li><a href="/components/sidenav">Sidenav — full page</a></li>
               <li>
-                <a href="/components/pagination">Pagination — full page</a>
+                <RouterLink to="/components/navbar">
+                  Navbar — full page
+                </RouterLink>
               </li>
               <li>
-                <a href="/components/breadcrumb">Breadcrumb — full page</a>
+                <RouterLink to="/components/sidenav">
+                  Sidenav — full page
+                </RouterLink>
               </li>
-              <li><a href="/components/sticky">Sticky — full page</a></li>
+              <li>
+                <RouterLink to="/components/pagination">
+                  Pagination — full page
+                </RouterLink>
+              </li>
+              <li>
+                <RouterLink to="/components/breadcrumb">
+                  Breadcrumb — full page
+                </RouterLink>
+              </li>
+              <li>
+                <RouterLink to="/components/sticky">
+                  Sticky — full page
+                </RouterLink>
+              </li>
             </ul>
           </div>
         </div>

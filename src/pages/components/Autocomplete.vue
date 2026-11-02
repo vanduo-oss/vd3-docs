@@ -82,11 +82,15 @@ const cssClasses: [string, string][] = [
 const dataAttrs: [string, string][] = [
   [
     "data-vd-suggest",
-    "Activates the component. Optionally holds an inline JSON array of strings",
+    "Activates the component. Optionally holds an inline JSON array of strings (or { label, text, value } objects)",
   ],
   [
     "data-vd-suggest-url",
-    "URL to fetch suggestions from a JSON endpoint. Overrides inline data",
+    "URL to fetch suggestions from a JSON endpoint (same-origin by default). Overrides inline data",
+  ],
+  [
+    "data-vd-suggest-allowlist",
+    'Comma-separated list of allowed external origins for data-vd-suggest-url (e.g. "https://api.example.com")',
   ],
   [
     "data-vd-suggest-min-chars",
@@ -98,7 +102,7 @@ const dataAttrs: [string, string][] = [
 const events: [string, string][] = [
   [
     "suggest:select",
-    "Fired on the input when the user picks a suggestion. event.detail contains the selected value string",
+    "Fired on the input when the user picks a suggestion. event.detail contains { value, item, index }",
   ],
 ];
 </script>

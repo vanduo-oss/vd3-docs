@@ -129,6 +129,30 @@ const checkboxApi: [string, string][] = [
   [":size", "'sm' | 'md' | 'lg' (default 'md')."],
   [":disabled / :name / :id", "Forwarded to the native checkbox."],
 ];
+
+const authCardApi: [string, string][] = [
+  [
+    ":title",
+    'string (default "") — heading text rendered in .vd-auth-heading when #title is not overridden.',
+  ],
+  [
+    ":glass",
+    "boolean (default true) — enables frosted glass card treatment when framed.",
+  ],
+  [
+    ":elevated",
+    "boolean (default true) — enables elevated card shadow when framed.",
+  ],
+  [
+    ":framed",
+    'boolean (default true) — wraps the card in VdCover + VdCenter (max="fib-377"). When false, renders a bare VdStack for embedding inside existing containers.',
+  ],
+  ["#brand", "Optional brand/avatar header slot (.vd-auth-brand)."],
+  ["#title", "Optional custom title slot (.vd-auth-title); overrides :title."],
+  ["#alert", "Optional alert banner slot (.vd-auth-alert) above the form."],
+  ["default", "Main authentication form or body content."],
+  ["#footer", "Optional footer links/actions slot (.vd-auth-footer)."],
+];
 </script>
 
 <template>
@@ -315,7 +339,7 @@ const checkboxApi: [string, string][] = [
     </div>
 
     <h4 class="docs-heading">VdCheckbox API</h4>
-    <div class="vd-table-responsive" style="margin-bottom: 3rem">
+    <div class="vd-table-responsive" style="margin-bottom: 2rem">
       <table class="vd-table vd-table-hover">
         <thead>
           <tr>
@@ -332,6 +356,62 @@ const checkboxApi: [string, string][] = [
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <h4 class="docs-heading">VdAuthCard API</h4>
+    <div class="vd-table-responsive" style="margin-bottom: 2rem">
+      <table class="vd-table vd-table-hover">
+        <thead>
+          <tr>
+            <th style="width: 35%">Prop / slot</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="row in authCardApi" :key="row[0]">
+            <td>
+              <code>{{ row[0] }}</code>
+            </td>
+            <td>{{ row[1] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6>
+          <i
+            class="ph ph-wheelchair mr-2"
+            style="color: var(--vd-color-primary)"
+          ></i
+          >Accessibility
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <ul>
+          <li>
+            All form inputs bind explicit <code>&lt;label&gt;</code> elements,
+            appropriate <code>autocomplete</code> tokens (<code>username</code>,
+            <code>email</code>, <code>current-password</code>,
+            <code>new-password</code>), and <code>aria-invalid</code> /
+            <code>aria-describedby</code> validation states via
+            <code>useValidate</code>.
+          </li>
+          <li>
+            Error and status banners render inside <code>VdAlert</code> with
+            <code>role="alert"</code> so assistive technologies announce
+            authentication failures immediately.
+          </li>
+          <li>
+            <code>VdOtpInput</code> renders a <code>role="group"</code> with
+            per-digit <code>aria-label="Digit {i} of {length}"</code>,
+            <code>inputmode="numeric"</code>,
+            <code>autocomplete="one-time-code"</code> on the first cell, arrow
+            key navigation, and multi-digit paste distribution.
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 </template>

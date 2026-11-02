@@ -1,10 +1,71 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { useSearch } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
-useSearch(root);
+const registry = useSearch(root);
+
+const demoQuery = ref("");
+const DEMO_SOURCE_NAME = "search-page-demo";
+const demoCatalog = [
+  {
+    title: "VdDock",
+    subtitle: "Morphing edge navigation bar",
+    href: "/components/dock",
+  },
+  {
+    title: "VdDataTable",
+    subtitle: "Sortable, searchable, selectable data grid",
+    href: "/components/table",
+  },
+  {
+    title: "VdImageBox",
+    subtitle: "Grid, masonry, bento, and filmstrip lightbox",
+    href: "/media/image-box",
+  },
+  {
+    title: "useThemePreference",
+    subtitle: "Reactive palette, primary, neutral, and radius state",
+    href: "/guides/css-variables",
+  },
+  {
+    title: "VdFlowchart",
+    subtitle: "Interactive node-and-edge canvas editor",
+    href: "/canvas/flowchart",
+  },
+];
+
+const filteredDemoItems = computed(() => {
+  const q = demoQuery.value.trim().toLowerCase();
+  if (!q) return demoCatalog;
+  return demoCatalog.filter(
+    (item) =>
+      item.title.toLowerCase().includes(q) ||
+      item.subtitle.toLowerCase().includes(q),
+  );
+});
+
+onMounted(() => {
+  registry.unregister(DEMO_SOURCE_NAME);
+  registry.register({
+    name: DEMO_SOURCE_NAME,
+    label: "Demo Components",
+    limit: 5,
+    fetch: (q) => {
+      const lower = q.toLowerCase();
+      return demoCatalog.filter(
+        (item) =>
+          item.title.toLowerCase().includes(lower) ||
+          item.subtitle.toLowerCase().includes(lower),
+      );
+    },
+  });
+});
+
+onUnmounted(() => {
+  registry.unregister(DEMO_SOURCE_NAME);
+});
 
 const vue3Wiring = `import { ref, onMounted } from 'vue';
 import { useSearch } from "@vanduo-oss/vd3";
@@ -82,6 +143,57 @@ registry.register({
     </p>
 
     <div class="vd-row vd-mb-6" ref="root">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6><i class="ph ph-Sliders"></i> Live Search Filter Demo</h6>
+          </div>
+          <div class="vd-card-body">
+            <p class="vd-text-sm vd-text-muted vd-mb-3">
+              Type below to filter the live catalog items registered with
+              <code>useSearch</code>:
+            </p>
+            <div class="vd-form-group vd-mb-4">
+              <input
+                v-model="demoQuery"
+                type="search"
+                class="vd-input vd-search-input"
+                placeholder="Filter components (e.g. dock, table, lightbox)…"
+                aria-label="Filter demo items"
+              />
+            </div>
+            <ul
+              class="vd-collection"
+              role="listbox"
+              aria-label="Filtered search items"
+            >
+              <li
+                v-for="item in filteredDemoItems"
+                :key="item.title"
+                class="vd-collection-item vd-search-item"
+                role="option"
+              >
+                <div class="vd-collection-content">
+                  <div class="vd-collection-title">{{ item.title }}</div>
+                  <div class="vd-collection-text">{{ item.subtitle }}</div>
+                </div>
+                <div class="vd-collection-action">
+                  <code>{{ item.href }}</code>
+                </div>
+              </li>
+              <li
+                v-if="filteredDemoItems.length === 0"
+                class="vd-collection-item vd-text-muted"
+              >
+                No matching items for "{{ demoQuery }}".
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-row vd-mb-6">
       <div class="vd-col-12">
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Result shape</h6></div>

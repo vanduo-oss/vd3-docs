@@ -202,25 +202,24 @@ const vue3Api: [string, string][] = [
       <div class="vd-card-body">
         <ul>
           <li>
-            The container has <code>role="radiogroup"</code> with an
-            <code>aria-label</code> like "Rating: 3 out of 5"
+            The container renders <code>role="radiogroup"</code> with
+            <code>aria-label="Rating"</code>.
           </li>
           <li>
-            Each star has <code>role="radio"</code> with
-            <code>aria-checked</code> and <code>aria-label</code> (e.g. "3
-            stars")
+            Each star button has <code>role="radio"</code> with
+            <code>aria-checked</code>, <code>aria-label</code> (e.g.
+            <code>"1 star"</code>, <code>"3 stars"</code>), and roving
+            <code>tabindex</code> (<code>0</code> on the active/first star,
+            <code>-1</code> on the rest).
           </li>
           <li>
-            <kbd>←</kbd> / <kbd>→</kbd> arrow keys change the value;
-            <kbd>Home</kbd> sets to 1; <kbd>End</kbd> sets to max
+            <kbd>ArrowRight</kbd> / <kbd>ArrowUp</kbd> increment the rating and
+            <kbd>ArrowLeft</kbd> / <kbd>ArrowDown</kbd> decrement it, moving DOM
+            focus to the newly selected star.
           </li>
           <li>
-            Read-only ratings use <code>aria-readonly="true"</code> and are not
-            focusable
-          </li>
-          <li>
-            The widget is fully operable without a mouse via <kbd>Tab</kbd> +
-            arrow keys
+            When <code>readonly</code> is set, all star buttons receive
+            <code>tabindex="-1"</code> and ignore pointer and keyboard changes.
           </li>
         </ul>
       </div>

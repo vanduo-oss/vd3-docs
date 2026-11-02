@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
+import { VdCard } from "@vanduo-oss/vd3";
 const morphFlipped = ref(false);
 
 const vue3Usage = `<script setup lang="ts">
@@ -476,7 +477,18 @@ const classRef: [string, string, string][] = [
             </h6>
           </div>
           <div class="vd-card-body">
-            <h4>Usage</h4>
+            <h4>VdCard Component</h4>
+            <div class="vd-mb-4" style="max-width: 24rem">
+              <VdCard interactive>
+                <template #header><h6>Project</h6></template>
+                Rendered with the <code>&lt;VdCard&gt;</code> Vue 3 component.
+                <template #footer>
+                  <button type="button" class="vd-btn vd-btn-primary vd-btn-sm">
+                    Open
+                  </button>
+                </template>
+              </VdCard>
+            </div>
             <DocCodeSnippet :vue="vue3Usage" :default-open="true" />
 
             <h4 class="vd-mt-6">CSS Classes</h4>
@@ -520,6 +532,42 @@ const classRef: [string, string, string][] = [
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-row vd-mt-6">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card">
+          <div class="vd-card-header">
+            <h6>
+              <i
+                class="ph ph-wheelchair mr-2"
+                style="color: var(--vd-color-primary)"
+              ></i
+              >Accessibility
+            </h6>
+          </div>
+          <div class="vd-card-body">
+            <ul>
+              <li>
+                When using <code>.vd-card-interactive</code> or
+                <code>&lt;VdCard interactive&gt;</code> as a clickable surface,
+                provide <code>role="button"</code>, <code>tabindex="0"</code>,
+                and <kbd>Enter</kbd> / <kbd>Space</kbd> key handlers (or place a
+                primary link/button inside the card).
+              </li>
+              <li>
+                <code>.vd-card-glass</code> honors
+                <code>prefers-reduced-transparency</code> by falling back to a
+                higher-opacity surface token.
+              </li>
+              <li>
+                Always supply meaningful <code>alt</code> text on
+                <code>.vd-card-image</code> media elements.
+              </li>
+            </ul>
           </div>
         </div>
       </div>

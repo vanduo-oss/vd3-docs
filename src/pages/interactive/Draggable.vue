@@ -72,10 +72,46 @@ const apiRows: [string, string][] = [
   [".is-disabled", "Prevents dragging the element."],
 ];
 
+const composableRows: [string, string][] = [
+  [
+    "useDraggable(root)",
+    "Scans root for .vd-draggable / [data-draggable] items, .vd-draggable-container, and .vd-drop-zone elements, and returns a DraggableApi controller.",
+  ],
+  [
+    "makeDraggable(target, options?)",
+    "DraggableApi method — promotes an element or selector to .vd-draggable (optional { data } sets data-draggable) and wires drag/touch/keyboard listeners.",
+  ],
+  [
+    "removeDraggable(target)",
+    "DraggableApi method — tears down listeners and removes .vd-draggable / draggable / data-draggable from the target.",
+  ],
+  [
+    "refresh()",
+    "DraggableApi method — re-scans root to wire newly added draggable items, sortable containers, and drop zones.",
+  ],
+];
+
 const eventRows: [string, string][] = [
-  ["draggable:start", "Fired on the element when a drag begins."],
-  ["draggable:drag", "Fired continuously while dragging."],
-  ["draggable:end", "Fired when the drag ends (after any reorder/drop)."],
+  [
+    "draggable:start",
+    "Fired on the element when a drag begins ({ element, data, position }).",
+  ],
+  [
+    "draggable:drag",
+    "Fired continuously while dragging ({ element, data, position, delta }).",
+  ],
+  [
+    "draggable:end",
+    "Fired when the drag ends ({ element, data, position, delta }).",
+  ],
+  [
+    "draggable:drop",
+    "Fired on the .vd-drop-zone when an item is dropped ({ zone, element, data, position }).",
+  ],
+  [
+    "draggable:reorder",
+    "Fired on the item when reordered via keyboard arrow keys ({ element, direction: 'up' | 'down' }).",
+  ],
 ];
 </script>
 
@@ -267,6 +303,25 @@ const eventRows: [string, string][] = [
                 </tbody>
               </table>
             </div>
+            <h4 class="vd-mt-6">Composable API (DraggableApi)</h4>
+            <div class="vd-table-responsive">
+              <table class="vd-table vd-table-striped">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in composableRows" :key="row[0]">
+                    <td>
+                      <code>{{ row[0] }}</code>
+                    </td>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <h4 class="vd-mt-6">Events</h4>
             <div class="vd-table-responsive">
               <table class="vd-table vd-table-striped">
@@ -313,8 +368,11 @@ const eventRows: [string, string][] = [
                 keyboard interaction.
               </li>
               <li>
-                Drag uses pointer/touch events (not legacy HTML5 DnD) for
-                consistent behaviour across devices.
+                Uses native HTML5 Drag and Drop (<code>draggable="true"</code>,
+                <code>dragstart</code>/<code>dragover</code>/<code>drop</code>)
+                paired with a touch fallback (<code>touchmove</code> with a
+                <code>.vd-drag-feedback</code> ghost) and keyboard arrow-key
+                reordering.
               </li>
             </ul>
           </div>

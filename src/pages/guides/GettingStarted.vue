@@ -35,7 +35,13 @@ const nextLinks = [
   },
 ];
 
-const scaffoldShell = `pnpm create vite my-app --template vue-ts
+const scaffoldShell = `# Vite (Vue 3 + TypeScript)
+pnpm create vite my-app --template vue-ts
+cd my-app
+pnpm add @vanduo-oss/vd3
+
+# Or Nuxt
+npx nuxi@latest init my-app
 cd my-app
 pnpm add @vanduo-oss/vd3`;
 

@@ -83,6 +83,19 @@ useThemeBridge(
   { syncDarkClass: true },
 );`;
 
+const nuxtSsrHeadJs = `// app.vue — stamp data-theme on <html> during SSR via useHead + explicit imports
+<script setup lang="ts">
+import { VdButton, VdCard } from '@vanduo-oss/vd3';
+import { useColorMode, useHead } from '#imports';
+
+const colorMode = useColorMode();
+useHead({
+  htmlAttrs: {
+    'data-theme': () => (colorMode.value === 'dark' ? 'dark' : 'light'),
+  },
+});
+<\/script>`;
+
 const pluginOptions: [string, string, string][] = [
   [
     "themeDefaults",
@@ -287,10 +300,11 @@ export default defineNuxtConfig({
         <p class="vd-mt-4">
           Scaffold with <code>npx nuxi@latest init my-app</code>, then
           <code>pnpm add @vanduo-oss/vd3</code>. Named imports stay explicit —
-          vd3 does not ship a Nuxt module. To avoid a flash of the wrong theme,
-          set <code>data-theme</code> from the same preference your color-mode
-          module will use before the first paint.
+          vd3 does not ship a Nuxt auto-import module. To avoid a flash of the
+          wrong theme during SSR, stamp <code>data-theme</code> on
+          <code>&lt;html&gt;</code> with <code>useHead</code>:
         </p>
+        <DocCodeSnippet class="vd-mt-3" :js="nuxtSsrHeadJs" />
         <p class="vd-text-sm vd-text-muted vd-mt-3">
           More on the bridge:
           <RouterLink to="/guides/css-variables"

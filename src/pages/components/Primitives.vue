@@ -248,25 +248,236 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
       </div>
     </div>
 
-    <div class="vd-card demo-card vd-mb-6">
-      <div class="vd-card-header"><h6>Props</h6></div>
+    <div class="vd-card vd-card-glow demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>Props &amp; Data Attributes</h6></div>
       <div class="vd-card-body">
-        <p>
-          Every primitive accepts <code>as</code> for the rendered tag.
-          Spacing values are Fibonacci steps: <code>0</code>,
-          <code>fib-1</code> through <code>fib-55</code>, and the larger cover
-          mins <code>fib-377</code>, <code>fib-610</code>, and
-          <code>fib-987</code> where that prop allows them.
+        <p class="vd-mb-4">
+          Every primitive accepts <code>as</code> (default <code>"div"</code>)
+          for the rendered HTML tag and stamps its props onto matching
+          <code>data-*</code> attributes so the same CSS rules power both Vue
+          components and static markup.
         </p>
-        <ul>
-          <li><code>VdBox</code>: <code>pad</code>, <code>bg</code>, <code>round</code>, <code>border</code>.</li>
-          <li><code>VdStack</code>: <code>gap</code>, <code>align</code>.</li>
-          <li><code>VdInline</code>: <code>gap</code>, <code>align</code>, <code>justify</code>, <code>wrap</code>.</li>
-          <li><code>VdCenter</code>: <code>max</code>, <code>pad</code>, <code>axis</code>.</li>
-          <li><code>VdCover</code>: <code>min</code>, <code>pad</code>.</li>
-          <li><code>VdFrame</code>: <code>ratio</code>, including <code>21-9</code>.</li>
-          <li><code>VdSwitcher</code>: <code>threshold</code>, <code>gap</code>.</li>
-        </ul>
+        <div class="vd-table-responsive">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Primitive</th>
+                <th>Prop</th>
+                <th>Data Attribute</th>
+                <th>Allowed Values (Default)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="5"><code>VdBox</code> (<code>.vd-box</code>)</td>
+                <td><code>as</code></td>
+                <td>—</td>
+                <td>
+                  <code>keyof HTMLElementTagNameMap</code> (<code>"div"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>pad</code></td>
+                <td><code>data-pad</code></td>
+                <td>
+                  <code
+                    >"0" | "fib-1" | "fib-2" | "fib-3" | "fib-5" | "fib-8" |
+                    "fib-13" | "fib-21" | "fib-34" | "fib-55"</code
+                  >
+                  (<code>"fib-8"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>bg</code></td>
+                <td><code>data-bg</code></td>
+                <td>
+                  <code
+                    >"primary" | "secondary" | "tertiary" | "dark" |
+                    "darker"</code
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><code>round</code></td>
+                <td><code>data-round</code></td>
+                <td>
+                  <code
+                    >"none" | "sm" | "md" | "lg" | "xl" | "2xl" | "full"</code
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><code>border</code></td>
+                <td><code>data-border</code></td>
+                <td><code>boolean</code> (<code>false</code>)</td>
+              </tr>
+              <tr>
+                <td rowspan="3">
+                  <code>VdStack</code> (<code>.vd-stack</code>)
+                </td>
+                <td><code>as</code></td>
+                <td>—</td>
+                <td>
+                  <code>keyof HTMLElementTagNameMap</code> (<code>"div"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>gap</code></td>
+                <td><code>data-gap</code></td>
+                <td>
+                  <code>"0" | "fib-1" … "fib-55"</code> (<code>"fib-8"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>align</code></td>
+                <td><code>data-align</code></td>
+                <td><code>"start" | "center" | "end" | "stretch"</code></td>
+              </tr>
+              <tr>
+                <td rowspan="5">
+                  <code>VdInline</code> (<code>.vd-inline</code>)
+                </td>
+                <td><code>as</code></td>
+                <td>—</td>
+                <td>
+                  <code>keyof HTMLElementTagNameMap</code> (<code>"div"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>gap</code></td>
+                <td><code>data-gap</code></td>
+                <td>
+                  <code>"0" | "fib-1" … "fib-55"</code> (<code>"fib-5"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>align</code></td>
+                <td><code>data-align</code></td>
+                <td>
+                  <code
+                    >"start" | "center" | "end" | "baseline" | "stretch"</code
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><code>justify</code></td>
+                <td><code>data-justify</code></td>
+                <td>
+                  <code
+                    >"start" | "center" | "end" | "between" | "around" |
+                    "evenly"</code
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><code>wrap</code></td>
+                <td><code>data-wrap</code></td>
+                <td><code>"nowrap"</code></td>
+              </tr>
+              <tr>
+                <td rowspan="3">
+                  <code>VdCenter</code> (<code>.vd-center</code>)
+                </td>
+                <td><code>as</code></td>
+                <td>—</td>
+                <td>
+                  <code>keyof HTMLElementTagNameMap</code> (<code>"div"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>max</code></td>
+                <td><code>data-max</code></td>
+                <td>
+                  <code>"fib-377" | "fib-610" | "fib-987"</code>
+                  (<code>"fib-610"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>axis</code></td>
+                <td><code>data-axis</code></td>
+                <td><code>"both" | "horizontal" | "vertical"</code></td>
+              </tr>
+              <tr>
+                <td rowspan="3">
+                  <code>VdCover</code> (<code>.vd-cover</code>)
+                </td>
+                <td><code>as</code></td>
+                <td>—</td>
+                <td>
+                  <code>keyof HTMLElementTagNameMap</code> (<code>"div"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>min</code></td>
+                <td><code>data-min</code></td>
+                <td>
+                  <code>"screen" | "half" | "fib-610" | "fib-987"</code>
+                  (<code>"fib-610"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>gap</code></td>
+                <td><code>data-gap</code></td>
+                <td>
+                  <code
+                    >"fib-3" | "fib-5" | "fib-8" | "fib-13" | "fib-21" |
+                    "fib-34"</code
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td rowspan="2">
+                  <code>VdFrame</code> (<code>.vd-frame</code>)
+                </td>
+                <td><code>as</code></td>
+                <td>—</td>
+                <td>
+                  <code>keyof HTMLElementTagNameMap</code> (<code>"div"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>ratio</code></td>
+                <td><code>data-ratio</code></td>
+                <td>
+                  <code
+                    >"golden" | "golden-portrait" | "square" | "16-9" | "4-3" |
+                    "3-2" | "21-9"</code
+                  >
+                  (<code>"golden"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td rowspan="3">
+                  <code>VdSwitcher</code> (<code>.vd-switcher</code>)
+                </td>
+                <td><code>as</code></td>
+                <td>—</td>
+                <td>
+                  <code>keyof HTMLElementTagNameMap</code> (<code>"div"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>threshold</code></td>
+                <td><code>data-threshold</code></td>
+                <td>
+                  <code>"fib-377" | "fib-610" | "fib-987"</code>
+                  (<code>"fib-610"</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><code>gap</code></td>
+                <td><code>data-gap</code></td>
+                <td>
+                  <code
+                    >"fib-3" | "fib-5" | "fib-8" | "fib-13" | "fib-21" |
+                    "fib-34"</code
+                  >
+                  (<code>"fib-5"</code>)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
