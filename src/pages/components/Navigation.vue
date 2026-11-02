@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useNavbarGlassScroll } from "@vanduo-oss/vd3";
+import { useNavbarGlassScroll, VdPagination } from "@vanduo-oss/vd3";
 import { useSidenav } from "@vanduo-oss/vd3";
 
 const navRoot = ref<HTMLElement | null>(null);
+const navPage = ref(3);
 useNavbarGlassScroll(navRoot);
 
 const sidenavRoot = ref<HTMLElement | null>(null);
@@ -221,19 +222,10 @@ const stickyHtml = `<!-- Pin inside a framed scroller, not the page viewport -->
           <div class="vd-card-header"><h6>Pagination (JavaScript)</h6></div>
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-3">
-              Add <code>data-pagination</code> on the list; set
-              <code>data-total-pages</code>, <code>data-current-page</code>, and
-              optional <code>data-max-visible</code>.
+              Pagination is the <code>VdPagination</code> component. Bind
+              <code>v-model</code> and <code>:total</code>.
             </p>
-            <nav aria-label="Page navigation (interactive demo)" @click.prevent>
-              <ul
-                class="vd-pagination"
-                data-pagination
-                data-total-pages="12"
-                data-current-page="3"
-                data-max-visible="7"
-              ></ul>
-            </nav>
+            <VdPagination v-model="navPage" :total="12" :max-visible="7" />
           </div>
         </div>
       </div>

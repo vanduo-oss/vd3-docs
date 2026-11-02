@@ -78,7 +78,10 @@ import { useThemeBridge } from '@vanduo-oss/vd3';
 import { useColorMode } from '#imports';
 
 const colorMode = useColorMode();
-useThemeBridge(computed(() => colorMode.preference as 'light' | 'dark' | 'system'));`;
+useThemeBridge(
+  computed(() => colorMode.preference as 'light' | 'dark' | 'system'),
+  { syncDarkClass: true },
+);`;
 
 const pluginOptions: [string, string, string][] = [
   [
@@ -91,7 +94,25 @@ const pluginOptions: [string, string, string][] = [
     "string",
     'localStorage key prefix for theme preferences (default "vanduo-"). Applied synchronously on install, before the first storage read. Use a unique prefix when two apps share an origin so keys do not collide. Example: "my-app-" → my-app-theme-preference, my-app-palette, …',
   ],
+  [
+    "themePersistence",
+    "boolean",
+    "When false, theme changes still apply on the document but are not written to localStorage. Default true.",
+  ],
 ];
+
+const nuxtUiCss = `/* assets/css/main.css */
+@layer vd3, base, components, utilities;
+
+@import '@vanduo-oss/vd3/css' layer(vd3);
+@import 'tailwindcss';`;
+
+const nuxtUiConfig = `// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@nuxt/ui', '@nuxtjs/color-mode'],
+  css: ['~/assets/css/main.css'],
+  colorMode: { classSuffix: '' },
+});`;
 </script>
 
 <template>
@@ -263,12 +284,46 @@ const pluginOptions: [string, string, string][] = [
           instead of adding a second toggle:
         </p>
         <DocCodeSnippet :js="nuxtBridgeJs" />
+        <p class="vd-mt-4">
+          Scaffold with <code>npx nuxi@latest init my-app</code>, then
+          <code>pnpm add @vanduo-oss/vd3</code>. Named imports stay explicit —
+          vd3 does not ship a Nuxt module. To avoid a flash of the wrong theme,
+          set <code>data-theme</code> from the same preference your color-mode
+          module will use before the first paint.
+        </p>
         <p class="vd-text-sm vd-text-muted vd-mt-3">
           More on the bridge:
           <RouterLink to="/guides/css-variables"
             >CSS variables &amp; theming</RouterLink
           >.
         </p>
+      </div>
+    </div>
+
+    <div class="vd-card demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6><i class="ph ph-squares-four"></i> Nuxt UI and Tailwind CSS</h6>
+      </div>
+      <div class="vd-card-body">
+        <p>
+          vd3 and Nuxt UI are meant to sit in the same Nuxt app. Nuxt UI
+          components are <code>U*</code> and tokens are <code>--ui-*</code>. vd3
+          components are <code>Vd*</code> and tokens are <code>--vd-*</code>.
+          Use vd3 where you want Fibonacci spacing, Seemore glass, the dock,
+          charts, or flowchart, and Nuxt UI where its form, overlay, and
+          dashboard components already fit. Neither library replaces the other.
+        </p>
+        <p class="vd-mt-4">
+          Put vd3 in a cascade layer so Tailwind utilities win when both set the
+          same property. Prefer prefixed vd3 utilities (<code>vd-mt-4</code>,
+          <code>vd-col-6</code>) next to Tailwind's own (<code>mt-4</code>,
+          <code>col-span-6</code>). Sync <code>@nuxtjs/color-mode</code> with
+          <code>useThemeBridge</code> and <code>syncDarkClass: true</code> so
+          <code>data-theme</code> and the <code>dark</code> class move together.
+        </p>
+        <DocCodeSnippet :js="nuxtUiConfig" :default-open="true" />
+        <DocCodeSnippet class="vd-mt-3" :css="nuxtUiCss" />
+        <DocCodeSnippet class="vd-mt-3" :js="nuxtBridgeJs" />
       </div>
     </div>
 

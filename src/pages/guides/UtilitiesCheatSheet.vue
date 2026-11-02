@@ -76,6 +76,11 @@ const layout: [string, string][] = [
   ["justify-between", "justify-content: space-between"],
   ["items-center", "align-items: center (no vd- prefix)."],
   ["items-start", "align-items: flex-start"],
+  ["img-fluid", "Responsive image, max-width 100% (media.css)."],
+  ["aspect-video", "16:9 frame. Also aspect-square, aspect-4-3, aspect-golden."],
+  ["vd-transition-all", "Transition helper from utilities/transitions.css."],
+  ["scale-100", "Transform helper from utilities/transforms.css."],
+  ["vd-d-print-none", "Hide in print. Also vd-d-print-block and vd-d-print-inline."],
 ];
 
 const color: [string, string][] = [

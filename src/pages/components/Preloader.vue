@@ -252,9 +252,9 @@ const vue3Api: [string, string][] = [
           <tr>
             <td><code>VdPreloader</code> component</td>
             <td>
-              Drives modern <code>.vd-progress-bar[data-progress]</code> and
-              legacy <code>.progress-bar[data-progress]</code> for
-              compatibility.
+              Page-level spinner shell: <code>variant</code>, <code>size</code>,
+              <code>theme</code>, and <code>text</code>. Determinate bars live
+              on <code>VdProgress</code>.
             </td>
           </tr>
         </tbody>

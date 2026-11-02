@@ -96,6 +96,10 @@ const dontUndo: [string, string][] = [
     "Mount VdToastContainer once so announcements go through its aria-live region. Prefer plain-text messages over HTML.",
   ],
   [
+    "Focus helpers",
+    "useFocusTrap keeps Tab inside a dialog. useKeyboardNav moves a roving index. useClickOutside closes a popover when the pointer leaves it. They are exported from @vanduo-oss/vd3.",
+  ],
+  [
     "Tabs",
     'Keep role="tablist" / aria-selected. Do not restyle a row of divs and drop arrow-key roving.',
   ],

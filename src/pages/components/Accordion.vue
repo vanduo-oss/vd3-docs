@@ -33,7 +33,7 @@ const apiRows = [
     <div class="vd-card demo-card vd-mb-6">
       <div class="vd-card-body"><AccordionExample /></div>
     </div>
-    <DocCodeSnippet :html="example" :default-open="true" />
+    <DocCodeSnippet :vue="example" :default-open="true" />
     <div class="vd-card demo-card vd-mt-6">
       <div class="vd-card-header"><h6>Component API</h6></div>
       <div class="vd-card-body">
@@ -53,6 +53,20 @@ const apiRows = [
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+    <div class="vd-card demo-card vd-mt-6">
+      <div class="vd-card-header"><h6>CSS collapsible</h6></div>
+      <div class="vd-card-body">
+        <p>
+          The stylesheet also ships <code>.vd-collapsible</code> for markup that
+          is not the Vue component: <code>.vd-collapsible-item</code>,
+          <code>.vd-collapsible-header</code>,
+          <code>.vd-collapsible-body</code>, plus
+          <code>.vd-collapsible-bordered</code>,
+          <code>.vd-collapsible-flush</code>, <code>.vd-collapsible-sm</code>,
+          and <code>.vd-collapsible-lg</code>.
+        </p>
       </div>
     </div>
     <div class="vd-card demo-card vd-mt-6">

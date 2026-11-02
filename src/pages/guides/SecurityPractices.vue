@@ -185,6 +185,20 @@ const practices: [string, string][] = [
       </div>
     </div>
 
+    <div class="vd-card demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>HTML sanitizer</h6></div>
+      <div class="vd-card-body">
+        <p>
+          <code>sanitizeHtml</code> strips unsafe markup before it is inserted.
+          <code>installSanitizedHtml</code> wires that policy for vd3 call sites.
+          <code>installTrustedHtml</code> is the explicit opt-out for content you
+          already trust. <code>SanitizeOptions</code> accepts
+          <code>allowSvg</code> and <code>allowStyle</code>. Leave
+          <code>allowStyle</code> off for anything a user can type.
+        </p>
+      </div>
+    </div>
+
     <div class="vd-card demo-card">
       <div class="vd-card-header">
         <h6><i class="ph ph-list-checks"></i> Checklist</h6>

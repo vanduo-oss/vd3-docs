@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useWaypoint } from "@vanduo-oss/vd3";
+import { useScrollspy, useWaypoint } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useWaypoint(root);
+const { activeId: headingId } = useScrollspy(["scrollspy"]);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
 const vue3Wiring = `import { ref } from 'vue';
@@ -149,6 +150,9 @@ const events: [string, string, string][] = [
     <p class="vd-mb-8">
       Highlights the navigation entry for the section currently in view as the
       user scrolls, driven by the <code>useWaypoint</code> composable.
+      <code>useScrollspy</code> is the id-list helper:
+      <code>{{ headingId || "none" }}</code
+      >.
     </p>
 
     <div class="vd-row">

@@ -1,195 +1,202 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useImageBox } from "@vanduo-oss/vd3";
+import { VdImageBox, useImageBox, type VdImageItem } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
-useImageBox(root);
+const box = useImageBox(root);
 
-// `data-image-box-full-src` is read verbatim by the runtime lightbox, so Vite
-// cannot rebase it the way it does `<img src>`. Prefix the deploy base (`/`
-// locally and on vd3.vanduo.dev) so click-to-zoom loads the full image.
-const base = import.meta.env.BASE_URL;
-
-const vue3Wiring = `import { ref } from 'vue';
-import { useImageBox } from "@vanduo-oss/vd3";
-
-const root = ref<HTMLElement | null>(null);
-useImageBox(root);   // wires every [data-image-box] inside root`;
-
-const apiRows: [string, string][] = [
-  [
-    ".vd-image-box-trigger",
-    "Class on the thumbnail <img>. Adds a zoom-in cursor and hover scale.",
-  ],
-  ["data-image-box", "Marks the element as a lightbox trigger (required)."],
-  [
-    "data-image-box-full-src",
-    "URL of the full-resolution image shown in the overlay.",
-  ],
-  ["data-image-box-caption", "Caption text rendered beneath the full image."],
-  [".vd-image-box-caption", "Generated caption element inside the overlay."],
+const items: VdImageItem[] = [
+  {
+    src: "/images/mountains-and-fog.jpg",
+    alt: "Mountains above a fog bank",
+    caption: "Ridge light",
+  },
+  {
+    src: "/images/expanding/0.jpg",
+    alt: "Coastal cliffs",
+    caption: "Cliff path",
+    orientation: "portrait",
+  },
+  {
+    src: "/images/expanding/1.jpg",
+    alt: "Forest canopy",
+    caption: "Canopy",
+  },
+  {
+    src: "/images/expanding/2.jpg",
+    alt: "Desert dunes",
+    caption: "Dunes",
+  },
+  {
+    src: "/images/expanding/3.jpg",
+    alt: "Lake reflection",
+    caption: "Still water",
+  },
+  {
+    src: "/images/expanding/4.jpg",
+    alt: "Night city",
+    caption: "Night city",
+    orientation: "landscape",
+  },
 ];
 
-const basicHtml = `<!-- The thumbnail <img> is the trigger -->
-<img src="/images/thumb.jpg" alt="Sunset over the lake"
-     class="vd-image-box-trigger vd-rounded-md vd-shadow"
-     data-image-box
-     data-image-box-full-src="/images/full.jpg"
-     data-image-box-caption="Sunset over the lake"
-     tabindex="0" role="button"
-     aria-label="View full image" />`;
+const componentSnippet = `<script setup lang="ts">
+import { VdImageBox, type VdImageItem } from '@vanduo-oss/vd3';
+
+const items: VdImageItem[] = [
+  { src: '/photos/ridge.jpg', alt: 'Ridge', caption: 'Ridge light' },
+  { src: '/photos/cliff.jpg', alt: 'Cliff', caption: 'Cliff path', orientation: 'portrait' },
+];
+<\/script>
+
+<template>
+  <VdImageBox :items="items" layout="masonry" :columns="3" ratio="4-3" caption-display="overlay" />
+</template>`;
+
+const composableSnippet = `import { ref } from 'vue';
+import { useImageBox } from '@vanduo-oss/vd3';
+
+const root = ref<HTMLElement | null>(null);
+const box = useImageBox(root);
+
+// box.open(), box.next(), box.prev(), box.close(), box.refresh()
+root.value?.addEventListener('imageBox:change', (event) => {
+  console.log(event.detail.index, event.detail.total);
+});`;
 </script>
 
 <template>
-  <section id="image-box" ref="root">
-    <h5 class="demo-title"><i class="ph ph-image-square"></i>Image Box</h5>
+  <section id="image-box">
+    <h5 class="demo-title">
+      <i class="ph ph-image-square"></i>Image galleries
+    </h5>
     <p class="vd-mb-8">
-      Click-to-zoom lightbox for images. Add <code>data-image-box</code> to any
-      thumbnail <code>&lt;img&gt;</code> and the framework opens a focus-trapped
-      overlay showing <code>data-image-box-full-src</code> with an optional
-      caption. <kbd>Escape</kbd> or a backdrop click closes it.
+      <code>VdImageBox</code> lays thumbnails out as a grid, masonry, bento, or
+      filmstrip and opens a shared lightbox. Arrow keys, on-screen controls, and
+      the <code>useImageBox</code> controller move through images that share a
+      group. Escape or a backdrop click closes it and returns focus to the
+      thumbnail.
     </p>
 
-    <!-- Lightbox gallery -->
-    <div class="vd-row vd-mb-6">
-      <div class="vd-col-12">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header"><h6>Lightbox Gallery</h6></div>
-          <div class="vd-card-body">
-            <p class="vd-text-muted vd-mb-4">
-              Click (or focus + <kbd>Enter</kbd>) any thumbnail to open it.
-            </p>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap">
-              <img
-                src="/images/vilnius-balloons_small.jpg"
-                alt="Hot air balloons over Vilnius at sunset"
-                class="vd-image-box-trigger vd-rounded-md vd-shadow"
-                data-image-box
-                :data-image-box-full-src="`${base}images/vilnius-balloons.jpg`"
-                data-image-box-caption="Hot Air Balloons at Sunset — Vilnius"
-                style="width: 220px; height: 150px; object-fit: cover"
-                tabindex="0"
-                role="button"
-                aria-label="View hot air balloons over Vilnius full image"
-              />
-              <img
-                src="/images/french-bulldog.jpg"
-                alt="French Bulldog portrait"
-                class="vd-image-box-trigger vd-rounded-md vd-shadow"
-                data-image-box
-                :data-image-box-full-src="`${base}images/french-bulldog.jpg`"
-                data-image-box-caption="French Bulldog — Pet Photography"
-                style="width: 150px; height: 150px; object-fit: cover"
-                tabindex="0"
-                role="button"
-                aria-label="View French Bulldog full image"
-              />
-              <img
-                src="/images/wild-blueberries.jpg"
-                alt="Wild blueberries on the forest floor"
-                class="vd-image-box-trigger vd-rounded-md vd-shadow"
-                data-image-box
-                :data-image-box-full-src="`${base}images/wild-blueberries.jpg`"
-                data-image-box-caption="Wild Blueberries — Forest Photography"
-                style="width: 220px; height: 150px; object-fit: cover"
-                tabindex="0"
-                role="button"
-                aria-label="View Wild Blueberries full image"
-              />
-              <img
-                src="/images/portrait-orientation_small.JPG"
-                alt="Portrait-orientation photo"
-                class="vd-image-box-trigger vd-rounded-md vd-shadow"
-                data-image-box
-                :data-image-box-full-src="`${base}images/portrait-orientation_small.JPG`"
-                data-image-box-caption="Portrait Orientation — Mobile Photo"
-                style="width: 120px; height: 150px; object-fit: cover"
-                tabindex="0"
-                role="button"
-                aria-label="View portrait-orientation full image"
-              />
-            </div>
-          </div>
-        </div>
-        <DocCodeSnippet :html="basicHtml" />
+    <div class="vd-card vd-card-glow demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>Grid</h6></div>
+      <div class="vd-card-body">
+        <VdImageBox
+          :items="items"
+          layout="grid"
+          :columns="3"
+          ratio="4-3"
+          caption-display="below"
+          group="grid"
+        />
       </div>
     </div>
 
-    <!-- Engine wiring -->
-    <div class="vd-row vd-mb-6">
-      <div class="vd-col-12">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header">
-            <h6><i class="ph ph-code"></i> Engine wiring</h6>
-          </div>
-          <div class="vd-card-body">
-            <DocCodeSnippet :js="vue3Wiring" />
-          </div>
-        </div>
+    <div class="vd-card vd-card-glow demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>Masonry</h6></div>
+      <div class="vd-card-body">
+        <VdImageBox
+          :items="items"
+          layout="masonry"
+          :columns="3"
+          ratio="auto"
+          caption-display="overlay"
+          group="masonry"
+        />
       </div>
     </div>
 
-    <!-- API Reference -->
-    <div class="vd-row vd-mb-6">
-      <div class="vd-col-12">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header">
-            <h6><i class="ph ph-list-dashes"></i> API Reference</h6>
-          </div>
-          <div class="vd-card-body">
-            <div class="vd-table-responsive">
-              <table class="vd-table vd-table-striped">
-                <thead>
-                  <tr>
-                    <th>Class / Attribute</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in apiRows" :key="row[0]">
-                    <td>
-                      <code>{{ row[0] }}</code>
-                    </td>
-                    <td>{{ row[1] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+    <div class="vd-card vd-card-glow demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>Bento</h6></div>
+      <div class="vd-card-body">
+        <VdImageBox
+          :items="items.slice(0, 5)"
+          layout="bento"
+          ratio="4-3"
+          group="bento"
+        />
       </div>
     </div>
 
-    <!-- Accessibility -->
-    <div class="vd-row vd-mb-6">
-      <div class="vd-col-12">
-        <div class="vd-card vd-card-glow demo-card">
-          <div class="vd-card-header">
-            <h6><i class="ph ph-wheelchair"></i> Accessibility</h6>
-          </div>
-          <div class="vd-card-body">
-            <ul>
-              <li>
-                Triggers get <code>role="button"</code> +
-                <code>tabindex="0"</code>; <kbd>Enter</kbd> / <kbd>Space</kbd>
-                open the overlay.
-              </li>
-              <li>
-                The overlay traps focus and returns it to the thumbnail on
-                close.
-              </li>
-              <li>
-                Always provide a meaningful <code>alt</code> on the underlying
-                <code>&lt;img&gt;</code>.
-              </li>
-              <li>
-                A broken image URL falls back to a placeholder
-                (<code>.is-broken</code>) instead of an empty box.
-              </li>
-            </ul>
-          </div>
+    <div class="vd-card vd-card-glow demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>Filmstrip</h6></div>
+      <div class="vd-card-body">
+        <VdImageBox
+          :items="items"
+          layout="filmstrip"
+          ratio="16-9"
+          group="filmstrip"
+        />
+      </div>
+    </div>
+    <DocCodeSnippet :vue="componentSnippet" />
+
+    <div class="vd-card vd-card-glow demo-card vd-mt-6" ref="root">
+      <div class="vd-card-header"><h6>Composable triggers</h6></div>
+      <div class="vd-card-body">
+        <p class="vd-mb-4">
+          Any element with <code>data-image-box</code> inside the root opens the
+          same viewer. Call <code>refresh()</code> after adding images, and
+          <code>next()</code> / <code>prev()</code> to step the open group.
+        </p>
+        <div class="vd-inline" data-gap="fib-8">
+          <img
+            src="/images/expanding/1.jpg"
+            alt="Forest canopy"
+            data-image-box
+            data-image-box-group="manual"
+            data-image-box-caption="Canopy"
+            style="width: 160px; height: 110px; object-fit: cover"
+          />
+          <img
+            src="/images/expanding/2.jpg"
+            alt="Desert dunes"
+            data-image-box
+            data-image-box-group="manual"
+            data-image-box-caption="Dunes"
+            aria-label="View the dunes"
+            style="width: 160px; height: 110px; object-fit: cover"
+          />
         </div>
+        <div class="vd-mt-4">
+          <button
+            type="button"
+            class="vd-btn vd-btn-outline"
+            @click="box.next()"
+          >
+            Next open image
+          </button>
+        </div>
+      </div>
+    </div>
+    <DocCodeSnippet :js="composableSnippet" />
+
+    <div class="vd-card demo-card vd-mt-6">
+      <div class="vd-card-header"><h6>Layouts and lightbox</h6></div>
+      <div class="vd-card-body">
+        <ul>
+          <li>
+            <code>layout</code>: <code>grid</code>, <code>masonry</code>,
+            <code>bento</code>, <code>filmstrip</code>, or <code>single</code>.
+          </li>
+          <li>
+            <code>columns</code> is 2, 3, or 4. <code>ratio</code> is
+            <code>auto</code>, <code>1-1</code>, <code>4-3</code>,
+            <code>16-9</code>, <code>3-4</code>, or <code>golden</code>.
+          </li>
+          <li>
+            <code>caption-display</code>: <code>lightbox</code>,
+            <code>overlay</code>, or <code>below</code>.
+          </li>
+          <li>
+            The viewer caps images at
+            <code>--vd-image-box-max-width: 85vw</code> and <code>85vh</code>.
+            Tab stays inside the dialog. Arrow keys move within the group and
+            dispatch <code>imageBox:change</code> with
+            <code>{ index, total, src, trigger }</code>.
+          </li>
+        </ul>
       </div>
     </div>
   </section>

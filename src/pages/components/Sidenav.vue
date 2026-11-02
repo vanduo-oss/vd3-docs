@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useSidenav } from "@vanduo-oss/vd3";
+import { useSidenav, VdSidenav } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
+const sidenavOpen = ref(false);
 useSidenav(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
@@ -109,6 +110,18 @@ const apiRows: [string, string, string][] = [
       Create overlay, push, or fixed side drawers with canonical
       <code>vd-sidenav-*</code> variants.
     </p>
+    <button
+      type="button"
+      class="vd-btn vd-btn-primary vd-mb-6"
+      @click="sidenavOpen = true"
+    >
+      Open VdSidenav
+    </button>
+    <VdSidenav v-model="sidenavOpen" title="Library sidenav">
+      <p>
+        VdSidenav is the Vue wrapper. Placement is left, right, top, or bottom.
+      </p>
+    </VdSidenav>
 
     <!-- Rendered Demo -->
     <div class="vd-row vd-mb-6">

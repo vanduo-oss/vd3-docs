@@ -14,11 +14,15 @@ const alignRightPage = ref(3);
 const ellipsisPage = ref(10);
 const disabledPage = ref(3);
 
-const basicHtml = `<!-- Framework markup: the JS expands data-pagination into the list -->
-<ul class="vd-pagination"
-    data-pagination
-    data-total-pages="5"
-    data-current-page="1"></ul>`;
+const basicHtml = `<script setup lang="ts">
+import { ref } from 'vue';
+import { VdPagination } from '@vanduo-oss/vd3';
+const page = ref(1);
+<\/script>
+
+<template>
+  <VdPagination v-model="page" :total="5" />
+</template>`;
 
 const sizesHtml = `<ul class="vd-pagination vd-pagination-sm" data-pagination data-total-pages="5"></ul>
 <ul class="vd-pagination"           data-pagination data-total-pages="5"></ul>

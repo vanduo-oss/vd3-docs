@@ -470,7 +470,7 @@ walkthroughs (not as “components”) and SHALL match `src/nav.ts`.
 
 - **GIVEN** `/docs-landing`, `/`, and `/about` after this change
 - **WHEN** their catalog copy is read
-- **THEN** each names 63 components and (where composables are stated) 39
+- **THEN** each names 64 components and (where composables are stated) 40
   composables, and `#docs-component-count` does not say “47+”
 
 ### Requirement: the Modal page renders the real VdModal

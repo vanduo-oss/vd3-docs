@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useTabs } from "@vanduo-oss/vd3";
+import { useTabs, VdTabs } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
+const tab = ref("one");
 useTabs(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
@@ -124,9 +125,20 @@ const classRows: [string, string][] = [
     <p class="vd-mb-8">
       Organize content into switchable panes. Tabs support horizontal and
       vertical layouts, multiple visual styles (default underline, boxed, pills,
-      bordered), size variants, and fade animations — all CSS-driven with
-      optional JavaScript for pane switching.
+      bordered), size variants, and fade animations. The markup below is the
+      composable form. <code>VdTabs</code> is the component form.
     </p>
+    <VdTabs
+      v-model="tab"
+      class="vd-mb-6"
+      :tabs="[
+        { id: 'one', label: 'One' },
+        { id: 'two', label: 'Two' },
+      ]"
+    >
+      <p v-if="tab === 'one'">First pane from VdTabs.</p>
+      <p v-else>Second pane from VdTabs.</p>
+    </VdTabs>
 
     <div class="vd-row vd-mb-6">
       <div class="vd-col-12 vd-col-md-6">

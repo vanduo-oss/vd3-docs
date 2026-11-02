@@ -47,8 +47,8 @@ const apiRows: [string, string, string][] = [
     "Modifier",
   ],
   [
-    ".vd-chip-outline-[variant]",
-    "Outline color modifier featuring a transparent background with colored border.",
+    ".vd-chip-outline.vd-chip-[variant]",
+    "Outline treatment: pair .vd-chip-outline with a variant class such as .vd-chip-primary.",
     "Modifier",
   ],
   [

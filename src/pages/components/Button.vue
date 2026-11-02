@@ -20,10 +20,9 @@ const vue3Api: [string, string][] = [
   ],
   [":type", 'button | submit | reset (default "button").'],
   ["@click", "Emitted on click (suppressed while disabled or loading)."],
-  [
-    "(outline / ghost-colour / icon)",
-    "CSS-only classes (.vd-btn-outline, .vd-btn-ghost-primary…, .vd-btn-icon) that ship in vd3's CSS — not wrapped as VdButton props.",
-  ],
+  [":outline", "Adds .vd-btn-outline. Default false."],
+  [":block", "Adds .vd-btn-block so the button fills its row. Default false."],
+  [":icon", "Adds .vd-btn-icon for a square icon button. Default false."],
 ];
 
 const variantsHtml = `<button class="vd-btn vd-btn-primary">Primary</button>

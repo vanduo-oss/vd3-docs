@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdNavbar } from "@vanduo-oss/vd3";
+import { useNavbarGlassScroll, VdNavbar } from "@vanduo-oss/vd3";
 
 // The live demos render the real VdNavbar. `@toggle` reports the mobile-menu
 // state (visible when the viewport is below the lg breakpoint / the hamburger
 // shows), and the dark variant is toggled to show the `dark` prop.
 const menuOpen = ref(false);
 const dark = ref(false);
+const glassRoot = ref<HTMLElement | null>(null);
+useNavbarGlassScroll(glassRoot);
 
 const usageVue = `<script setup lang="ts">
 import { VdNavbar } from "@vanduo-oss/vd3";
@@ -198,7 +200,7 @@ import { VdNavbar } from "@vanduo-oss/vd3";
 </script>
 
 <template>
-  <section id="navbar">
+  <section id="navbar" ref="glassRoot">
     <h5 class="demo-title"><i class="ph ph-list"></i>Navbar</h5>
     <p class="vd-mb-8">
       <strong>VdNavbar</strong> is a responsive top navigation bar with

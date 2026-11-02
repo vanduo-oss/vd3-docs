@@ -38,7 +38,7 @@ const tint = ref<DockTint | "">(themeTint.value);
 const tintMode = ref<DockTintMode>("surface");
 const glass = ref<DockGlass>(34);
 const radius = ref<DockRadius>(DOCS_DOCK_RADIUS);
-const itemLayout = ref<DockItemLayout>("stack");
+const itemLayout = ref<DockItemLayout>("auto");
 const brandId = ref("u");
 const activeItem = ref("home");
 const expanded = ref(false);
@@ -89,7 +89,7 @@ function resetPlayground(): void {
   tintMode.value = "surface";
   glass.value = 34;
   radius.value = DOCS_DOCK_RADIUS;
-  itemLayout.value = "stack";
+  itemLayout.value = "auto";
   brandId.value = "u";
   activeItem.value = "home";
 }
@@ -276,9 +276,10 @@ const itemApi: [string, string][] = [
             <p v-if="!expanded" class="vd-text-sm vd-text-muted vd-mb-4">
               Page-local knobs bound to real <code>VdDock</code> props — they do
               not write the site theme. Click ū (or your chosen brand) to cycle
-              bottom → left → top → right. On a narrow pane the playground shows
-              only the brand, centered. Toggle orientation still morphs the
-              pair. Full screen expands this playground only (not the browser).
+              bottom → left → top → right. The brand mark spins on hover and
+              while the dock morphs. Auto layout shows labels on horizontal
+              edges and icon-only items on vertical edges. Full screen expands
+              this playground only (not the browser).
             </p>
             <div class="dock-stage" data-dock-playground>
               <VdDock
@@ -290,6 +291,8 @@ const itemApi: [string, string][] = [
                 :glass="glass"
                 :radius="radius"
                 :item-layout="itemLayout"
+                brand-spin
+                brand-corner="consistent"
                 cycle="edges"
               >
                 <template #brand>
@@ -429,6 +432,14 @@ const itemApi: [string, string][] = [
                     @click="itemLayout = 'inline'"
                   >
                     Inline
+                  </button>
+                  <button
+                    type="button"
+                    class="dock-chip"
+                    :class="{ 'is-active': itemLayout === 'auto' }"
+                    @click="itemLayout = 'auto'"
+                  >
+                    Auto
                   </button>
                 </div>
               </div>
@@ -789,20 +800,9 @@ const itemApi: [string, string][] = [
 }
 
 @media (max-width: 520px) {
-  [data-dock-playground] :deep(.vd-dock .vd-dock-nav),
-  [data-dock-playground] :deep(.vd-dock .vd-dock-actions) {
-    display: none;
-  }
-
-  [data-dock-playground] :deep(.vd-dock) {
-    justify-content: center;
-    align-items: center;
-    gap: 0;
-  }
-
-  [data-dock-playground] :deep(.vd-dock .vd-dock-brand) {
-    margin: 0;
-    max-width: none;
+  [data-dock-playground] :deep(.vd-dock.is-horizontal .vd-dock-nav) {
+    min-width: 0;
+    overflow-x: auto;
   }
 }
 </style>

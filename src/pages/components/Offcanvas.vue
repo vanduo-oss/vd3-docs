@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useSidenav } from "@vanduo-oss/vd3";
+import { useSidenav, VdOffcanvas } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
+const panelOpen = ref(false);
 useSidenav(root);
 
 // Engine-specific wiring (the markup, classes and data-* are identical).
@@ -104,6 +105,16 @@ const events: [string, string, string][] = [
       edge. Uses the existing <code>useSidenav</code> API with positional
       modifiers.
     </p>
+    <button
+      type="button"
+      class="vd-btn vd-btn-outline vd-mb-6"
+      @click="panelOpen = true"
+    >
+      Open VdOffcanvas
+    </button>
+    <VdOffcanvas v-model="panelOpen" placement="right" title="Panel">
+      <p>VdOffcanvas traps focus and closes on Escape or the backdrop.</p>
+    </VdOffcanvas>
 
     <!-- Left + Right -->
     <div class="vd-row">

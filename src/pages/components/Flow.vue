@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useFlow } from "@vanduo-oss/vd3";
+import { useFlow, VdFlow } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
+const slide = ref(0);
 useFlow(root);
 
 const vue3Wiring = `import { ref } from 'vue';
@@ -120,6 +121,23 @@ const dataAttrs: [string, string, string][] = [
       A carousel for stepping through a sequence of slides, with previous and
       next controls and optional looping.
     </p>
+
+    <div class="vd-card demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>VdFlow</h6></div>
+      <div class="vd-card-body">
+        <VdFlow v-model="slide" :total="3">
+          <template #slide-0><p>First slide</p></template>
+          <template #slide-1><p>Second slide</p></template>
+          <template #slide-2><p>Third slide</p></template>
+        </VdFlow>
+        <p class="vd-text-sm vd-text-muted vd-mt-3">
+          <code>v-model</code> is the slide index. Slots are
+          <code>#slide-0</code> through <code>#slide-n</code>. The exposed
+          controller is <code>go</code>, <code>prev</code>, <code>next</code>,
+          and <code>index</code>.
+        </p>
+      </div>
+    </div>
 
     <!-- Basic -->
     <div class="vd-row">
@@ -512,7 +530,7 @@ const dataAttrs: [string, string, string][] = [
                   Fired on the <code>.vd-flow</code> element after a slide
                   transition completes
                 </td>
-                <td><code>{ index, slide, direction }</code></td>
+                <td><code>{ current, previous, total }</code></td>
               </tr>
             </tbody>
           </table>
