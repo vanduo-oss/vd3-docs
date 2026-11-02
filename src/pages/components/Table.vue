@@ -281,6 +281,13 @@ const apiRows: [string, string, string][] = [
       <code>useTableState</code>. Apps own fetch. Cell slots compose
       <code>VdAvatar</code> / <code>VdBadge</code>; a dashboard recipe can sit a
       <code>VdChart</code> above the grid.
+      <code>useTableState</code> takes <code>rows</code>, <code>getRowId</code>,
+      <code>pageSize</code>, <code>searchKeys</code>, and <code>manual</code>,
+      and returns <code>viewRows</code>, <code>total</code>,
+      <code>totalPages</code>, <code>page</code>, <code>search</code>,
+      <code>sort</code>, <code>selectedIds</code>, <code>toggle</code>,
+      <code>toggleAll</code>, <code>allVisibleSelected</code>, and
+      <code>someVisibleSelected</code>.
     </p>
 
     <div class="vd-row">

@@ -247,6 +247,28 @@ const switcherVue = `<VdSwitcher threshold="fib-610" gap="fib-5">
         </div>
       </div>
     </div>
+
+    <div class="vd-card demo-card vd-mb-6">
+      <div class="vd-card-header"><h6>Props</h6></div>
+      <div class="vd-card-body">
+        <p>
+          Every primitive accepts <code>as</code> for the rendered tag.
+          Spacing values are Fibonacci steps: <code>0</code>,
+          <code>fib-1</code> through <code>fib-55</code>, and the larger cover
+          mins <code>fib-377</code>, <code>fib-610</code>, and
+          <code>fib-987</code> where that prop allows them.
+        </p>
+        <ul>
+          <li><code>VdBox</code>: <code>pad</code>, <code>bg</code>, <code>round</code>, <code>border</code>.</li>
+          <li><code>VdStack</code>: <code>gap</code>, <code>align</code>.</li>
+          <li><code>VdInline</code>: <code>gap</code>, <code>align</code>, <code>justify</code>, <code>wrap</code>.</li>
+          <li><code>VdCenter</code>: <code>max</code>, <code>pad</code>, <code>axis</code>.</li>
+          <li><code>VdCover</code>: <code>min</code>, <code>pad</code>.</li>
+          <li><code>VdFrame</code>: <code>ratio</code>, including <code>21-9</code>.</li>
+          <li><code>VdSwitcher</code>: <code>threshold</code>, <code>gap</code>.</li>
+        </ul>
+      </div>
+    </div>
   </section>
 </template>
 

@@ -69,7 +69,7 @@ const loginApi: [string, string][] = [
   ],
   [
     ":title / :glass / :elevated / :framed",
-    "Forwarded to VdAuthCard. Docs demos set framed false.",
+    "Forwarded to VdAuthCard (slots #brand, #title, #alert, default, #footer). Docs demos set framed false.",
   ],
   [
     ":avatarSrc / :avatarInitials",
