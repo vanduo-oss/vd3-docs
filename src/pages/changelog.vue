@@ -58,6 +58,81 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
+        <article class="version-card" id="vd3-1-8-2">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.8.2</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>November 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Text fonts leave the package</strong>
+                  — <code>data-font</code> still switches the stack, and apps
+                  host only the faces they offer.
+                </p>
+                <div class="change-group">
+                  <h5>Changed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-text-aa"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Bundled text fonts removed</strong>
+                        <p>
+                          <code>fonts/</code> and
+                          <code>css/core/fonts.css</code> are gone from the
+                          package and from <code>dist/</code>. Built-in
+                          <code>data-font</code> keys still switch
+                          <code>--vd-font-family-*</code> stacks. Host the faces
+                          yourself, or use <code>system</code>. See
+                          <RouterLink to="/core/typography"
+                            ><code>/core/typography</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-paint-roller"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Custom font catalogs</strong>
+                        <p>
+                          <code>app.use(VanduoVue, { fontOptions })</code>,
+                          <code>setFontOptions()</code> /
+                          <code>getFontOptions()</code>, and
+                          <RouterLink to="/components/theme-customizer"
+                            ><code>VdThemeCustomizer</code></RouterLink
+                          >
+                          props <code>fonts</code> and <code>showFont</code> let
+                          an app offer any faces. A font entry may set
+                          <code>family</code> and <code>mono</code> to apply
+                          those stacks inline; omit them to keep the stylesheet
+                          <code>[data-font]</code> rules.
+                          <code>system</code> and the configured default font
+                          stay valid when they are absent from the catalog.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
         <article class="version-card" id="vd3-1-8-1">
           <header class="version-header">
             <span
@@ -68,9 +143,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>November 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">

@@ -7,6 +7,8 @@ It is not published to npm and keeps no package release history of its own.
 
 ### Changed
 
+- Note on the typography page that text fonts leave the package in v1.8.2, and
+  document that release on the changelog page.
 - Dogfood `@vanduo-oss/vd3@1.8.1` with `VdImageBox` gallery layouts (`grid`, `masonry`,
   `bento`, `filmstrip`), `useImageBox` lightbox navigation, OolaDock parity (`brandSpin`,
   `itemLayout="auto"`), `@layer vd3` Tailwind CSS / Nuxt UI coexistence guide, expanded
