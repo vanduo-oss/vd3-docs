@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { onUnmounted, ref } from "vue";
+import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { VdSwitch, setGridSystem, useGrid } from "@vanduo-oss/vd3";
+import { useGrid } from "@vanduo-oss/vd3";
+import { useActiveBreakpoint } from "@/composables/useActiveBreakpoint";
 
 // Container-scoped grid switcher. `useGrid(containerRef)` flips the
 // `.vd-grid-standard` / `.vd-grid-fibonacci` class on this one element, keeps
@@ -11,17 +12,33 @@ import { VdSwitch, setGridSystem, useGrid } from "@vanduo-oss/vd3";
 // `.vd-row` with Fibonacci proportions — no page-local reimplementation needed.
 const gridDemo = ref<HTMLElement | null>(null);
 const { mode, toggle } = useGrid(gridDemo);
+const breakpoint = useActiveBreakpoint();
 
-// Document-level default. `setGridSystem("fibonacci")` stamps
-// `data-grid="fibonacci"` on <html>, restyling every `.vd-row` on the page
-// (except rows inside an explicit `.vd-grid-standard` container). It is NOT
-// persisted, so we reset it on unmount and never leak it to other routes.
-const docFibonacci = ref(false);
-const setDocGrid = (on: boolean): void => {
-  docFibonacci.value = on;
-  setGridSystem(on ? "fibonacci" : "standard");
-};
-onUnmounted(() => setGridSystem("standard"));
+const basicsHtml = `<div class="vd-container-responsive">
+  <!-- Spans in a row add up to 12 -->
+  <div class="vd-row">
+    <div class="vd-col-8">Main (8)</div>
+    <div class="vd-col-4">Aside (4)</div>
+  </div>
+
+  <!-- vd-col-auto shrinks to fit its content -->
+  <div class="vd-row">
+    <div class="vd-col-auto">Auto</div>
+    <div class="vd-col-6">Six</div>
+  </div>
+</div>`;
+
+const basicsRows: Array<{
+  spans: number[];
+  tone: "primary" | "info" | "success" | "secondary" | "warning" | "error";
+}> = [
+  { spans: [12], tone: "primary" },
+  { spans: [6, 6], tone: "info" },
+  { spans: [4, 4, 4], tone: "success" },
+  { spans: [3, 3, 3, 3], tone: "secondary" },
+  { spans: [8, 4], tone: "warning" },
+  { spans: [2, 8, 2], tone: "error" },
+];
 
 const useGridSnippet = `<script setup lang="ts">
 import { ref } from "vue";
@@ -92,27 +109,27 @@ const containers = [
   {
     cls: "vd-container-sm",
     bg: "vd-bg-primary",
-    desc: "fixed from 576px (540px, scales up)",
+    desc: "max 521px from 576px, then grows with each breakpoint",
   },
   {
     cls: "vd-container-md",
     bg: "vd-bg-secondary",
-    desc: "fixed from 768px (720px, scales up)",
+    desc: "max 610px from 768px, then grows",
   },
   {
     cls: "vd-container-lg",
     bg: "vd-bg-info",
-    desc: "fixed from 992px (960px, scales up)",
+    desc: "max 987px from 992px, then grows",
   },
   {
     cls: "vd-container-xl",
     bg: "vd-bg-success",
-    desc: "fixed from 1200px (1140px, scales up)",
+    desc: "max 1364px from 1200px, then grows",
   },
   {
     cls: "vd-container-2xl",
     bg: "vd-bg-warning",
-    desc: "fixed from 1400px (1320px)",
+    desc: "max 1597px from 1400px",
   },
 ];
 </script>
@@ -125,6 +142,53 @@ const containers = [
       proportional layouts, responsive containers, order utilities, and an
       interactive toggle between standard and Fibonacci modes.
     </p>
+
+    <!-- 12-column basics -->
+    <div class="vd-row">
+      <div class="vd-col-12">
+        <div class="vd-card vd-card-glow demo-card vd-mb-8">
+          <div class="vd-card-header"><h6>12-column basics</h6></div>
+          <div class="vd-card-body">
+            <p class="vd-mb-5 vd-text-sm vd-text-muted">
+              Put a <code>.vd-row</code> inside a container and give each child
+              a <code>.vd-col-{1-12}</code> span. Spans in a row add up to 12;
+              anything beyond wraps to the next line. Columns carry the
+              <code>--vd-grid-gutter</code> (13px) as padding, so style an inner
+              element rather than the column itself.
+            </p>
+            <div class="grid-basics-stack">
+              <div v-for="(row, r) in basicsRows" :key="r" class="vd-row">
+                <div
+                  v-for="(span, c) in row.spans"
+                  :key="c"
+                  :class="`vd-col-${span}`"
+                >
+                  <div
+                    class="grid-basics-cell"
+                    :class="`grid-basics-cell-${row.tone}`"
+                  >
+                    <code>.vd-col-{{ span }}</code>
+                  </div>
+                </div>
+              </div>
+              <div class="vd-row">
+                <div class="vd-col-auto">
+                  <div class="grid-basics-cell grid-basics-cell-secondary">
+                    <code>.vd-col-auto</code>
+                  </div>
+                </div>
+                <div class="vd-col-6">
+                  <div class="grid-basics-cell grid-basics-cell-info">
+                    <code>.vd-col-6</code>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <DocCodeSnippet class="vd-mt-5" :html="basicsHtml" />
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Standard vs Fibonacci -->
     <div class="vd-row">
@@ -203,9 +267,15 @@ const containers = [
         <div class="vd-card vd-card-glow demo-card vd-mb-8">
           <div class="vd-card-header"><h6>2XL Breakpoint (1400px)</h6></div>
           <div class="vd-card-body">
-            <p class="vd-mb-5 vd-text-sm vd-text-muted">
-              The grid now supports all 6 breakpoints: base, sm (576px), md
-              (768px), lg (992px), xl (1200px), and 2xl (1400px).
+            <p class="vd-mb-3 vd-text-sm vd-text-muted">
+              The grid supports 6 breakpoints: base, sm (576px), md (768px), lg
+              (992px), xl (1200px), and 2xl (1400px). These twelve columns go 1
+              → 2 → 3 → 4 → 6 → 12 per row as the viewport widens — resize the
+              window to watch them reflow.
+            </p>
+            <p class="vd-mb-5 vd-text-sm">
+              Current breakpoint:
+              <span class="vd-badge vd-badge-primary">{{ breakpoint }}</span>
             </p>
             <div class="vd-row">
               <div
@@ -216,7 +286,7 @@ const containers = [
                 <div
                   :class="`vd-bg-${bg} vd-p-3 vd-mb-3 vd-rounded-md vd-text-center vd-text-sm`"
                 >
-                  2xl-1
+                  {{ i + 1 }}
                 </div>
               </div>
             </div>
@@ -659,27 +729,19 @@ const containers = [
             <h6>Document-Level Default (setGridSystem)</h6>
           </div>
           <div class="vd-card-body">
-            <div class="vd-alert vd-alert-warning vd-mb-5" role="alert">
-              <i class="ph ph-warning"></i>
-              Heads up — this stamps <code>data-grid="fibonacci"</code> on
-              <code>&lt;html&gt;</code> and reflows <strong>every</strong>
-              <code>.vd-row</code> on this page (including the docs sidebar
-              layout) into Fibonacci proportions. It resets automatically when
-              you navigate away.
-            </div>
             <p class="vd-mb-5 vd-text-sm vd-text-muted">
               Call <code>setGridSystem</code> once at app bootstrap to make
               Fibonacci the default everywhere, mirroring how the theme layer
-              stamps <code>data-theme</code>. Wrap any subtree that must stay
-              12-column in a <code>.vd-grid-standard</code> container — the
-              closest explicit container wins.
+              stamps <code>data-theme</code>. It sets
+              <code>data-grid="fibonacci"</code> on <code>&lt;html&gt;</code>,
+              so <strong>every</strong> <code>.vd-row</code> — including your
+              app shell — reflows into Fibonacci proportions. Wrap any subtree
+              that must stay 12-column in a
+              <code>.vd-grid-standard</code> container; the closest explicit
+              container wins. For a single section, prefer the scoped
+              <code>useGrid</code> toggle above.
             </p>
-            <VdSwitch
-              :model-value="docFibonacci"
-              label="Apply Fibonacci to the whole document"
-              @update:model-value="setDocGrid"
-            />
-            <DocCodeSnippet class="vd-mt-5" :js="setGridSnippet" />
+            <DocCodeSnippet :js="setGridSnippet" />
           </div>
         </div>
       </div>
@@ -738,3 +800,59 @@ const containers = [
     </div>
   </section>
 </template>
+
+<style scoped>
+.grid-basics-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.grid-basics-cell {
+  --cell-accent: var(--vd-color-primary);
+
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--vd-btn-border-radius, 0.375rem);
+  background: color-mix(
+    in srgb,
+    var(--cell-accent) 22%,
+    var(--vd-bg-secondary)
+  );
+  border: 1px solid color-mix(in srgb, var(--cell-accent) 62%, transparent);
+  color: var(--vd-text-primary);
+  text-align: center;
+  font-size: var(--vd-font-size-sm);
+  font-weight: 600;
+}
+
+.grid-basics-cell code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: 0.82rem;
+}
+
+.grid-basics-cell-primary {
+  --cell-accent: var(--vd-color-primary);
+}
+
+.grid-basics-cell-info {
+  --cell-accent: var(--vd-color-info);
+}
+
+.grid-basics-cell-success {
+  --cell-accent: var(--vd-color-success);
+}
+
+.grid-basics-cell-secondary {
+  --cell-accent: var(--vd-color-secondary);
+}
+
+.grid-basics-cell-warning {
+  --cell-accent: var(--vd-color-warning);
+}
+
+.grid-basics-cell-error {
+  --cell-accent: var(--vd-color-error);
+}
+</style>

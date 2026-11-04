@@ -141,7 +141,7 @@ const dataAttrs: [string, string, string][] = [
   [
     "data-vd-waypoint-offset",
     "Pixel offset from the top to trigger activation earlier or later",
-    "0",
+    "80",
   ],
   ["data-vd-scrollspy-nav", "Alias for data-vd-waypoint-nav", "—"],
 ];
@@ -468,8 +468,10 @@ const events: [string, string, string][] = [
       <div class="vd-card-body">
         <ul>
           <li>
-            Navigation container uses <code>role="navigation"</code> with
-            <code>aria-label="Table of contents"</code>
+            Wrap the links in a <code>&lt;nav&gt;</code> with a descriptive
+            <code>aria-label</code> (for example
+            <code>aria-label="Table of contents"</code>) — the composable does
+            not add a landmark role for you
           </li>
           <li>
             Active link receives <code>aria-current="true"</code> in addition to
@@ -515,6 +517,7 @@ const events: [string, string, string][] = [
   color: var(--vd-text-secondary);
   text-decoration: none;
   border-left: 2px solid transparent;
+  border-radius: var(--vd-btn-border-radius);
   transition:
     color 0.2s ease,
     background-color 0.2s ease,
@@ -526,19 +529,33 @@ const events: [string, string, string][] = [
   background: var(--vd-bg-secondary);
 }
 
+#scrollspy .waypoint-demo-sidebar-nav a.is-active {
+  color: var(--vd-waypoint-active-color);
+  font-weight: 600;
+  border-left-color: var(--vd-waypoint-active-color);
+  background: color-mix(
+    in srgb,
+    var(--vd-waypoint-active-color) 10%,
+    transparent
+  );
+}
+
 #scrollspy .waypoint-demo-scroll {
   overflow-y: auto;
-  max-height: 280px;
+  max-height: 320px;
   padding-right: 1rem;
   scroll-behavior: smooth;
 }
 
 #scrollspy .waypoint-demo-section {
-  padding-bottom: 2rem;
+  min-height: 150px;
+  margin-bottom: 2rem;
 }
 
 #scrollspy .waypoint-demo-section:last-child {
-  padding-bottom: 0;
+  min-height: auto;
+  margin-bottom: 0;
+  padding-bottom: 10rem;
 }
 
 #scrollspy .waypoint-demo-section-title {

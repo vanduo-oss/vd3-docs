@@ -125,7 +125,7 @@ describe("docs-landing resources", () => {
     expect(wrapper.text()).toContain(`${guideCount} guided walkthroughs`);
     expect(wrapper.text()).toContain(`Documentation v${__APP_VERSION__}`);
     expect(wrapper.text()).toContain(
-      "Latest: vd3 1.8.1 · charts 1.2.0 · flowchart 1.5.1",
+      "Latest: vd3 1.8.2 · charts 1.2.0 · flowchart 1.5.1",
     );
   });
 });

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
-import { useGlass, VdModal, VdSwitch } from "@vanduo-oss/vd3";
+import { useGlass, VdModal } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 useGlass(root);
@@ -98,137 +98,21 @@ const activeMeta = computed(
   () => fibSteps.find((s) => s.step === activeStep.value) ?? fibSteps[3],
 );
 
-const stageFading = ref(false);
-const stepFading = ref(false);
-const autoplay = ref(true);
-/** Docs-only surface pattern motion (default on; user can disable). */
-const surfaceMotion = ref(true);
-const prefersReducedMotion = ref(false);
-
-/** Fibonacci-flavored dwell (~3.2s steps, ~2.6s surfaces). */
-const STEP_INTERVAL_MS = 3200;
-const SURFACE_INTERVAL_MS = 2600;
-const MANUAL_PAUSE_MS = 8000;
-
-let stepTimer: ReturnType<typeof setInterval> | null = null;
-let surfaceTimer: ReturnType<typeof setInterval> | null = null;
-let manualResumeTimer: ReturnType<typeof setTimeout> | null = null;
-let fadeClearTimer: ReturnType<typeof setTimeout> | null = null;
-let motionMq: MediaQueryList | null = null;
-let onMotionChange: (() => void) | null = null;
-
 const stageClass = computed(
   () =>
-    `vd-surface vd-surface-${surfaceVariant.value} vd-surface-5 seemore-stage${
-      surfaceMotion.value ? " seemore-surface-motion" : ""
-    }${stageFading.value ? " is-crossfading" : ""}`,
+    `vd-surface vd-surface-${surfaceVariant.value} vd-surface-5 seemore-stage`,
 );
 
-const explorerStageClass = computed(
-  () =>
-    `vd-surface vd-surface-mesh vd-surface-5 seemore-stage${
-      surfaceMotion.value ? " seemore-surface-motion" : ""
-    }`,
-);
-
-const pulseFade = (target: "stage" | "step"): void => {
-  if (prefersReducedMotion.value) return;
-  if (target === "stage") stageFading.value = true;
-  else stepFading.value = true;
-  if (fadeClearTimer) clearTimeout(fadeClearTimer);
-  fadeClearTimer = setTimeout(() => {
-    stageFading.value = false;
-    stepFading.value = false;
-  }, 420);
-};
-
-const advanceStep = (): void => {
-  const idx = fibSteps.findIndex((s) => s.step === activeStep.value);
-  const next = fibSteps[(idx + 1) % fibSteps.length];
-  pulseFade("step");
-  activeStep.value = next.step;
-};
-
-const advanceSurface = (): void => {
-  const idx = surfaceOptions.findIndex((s) => s.id === surfaceVariant.value);
-  const next = surfaceOptions[(idx + 1) % surfaceOptions.length];
-  pulseFade("stage");
-  surfaceVariant.value = next.id;
-};
-
-const clearTimers = (): void => {
-  if (stepTimer) clearInterval(stepTimer);
-  if (surfaceTimer) clearInterval(surfaceTimer);
-  stepTimer = null;
-  surfaceTimer = null;
-};
-
-const startAutoplay = (): void => {
-  clearTimers();
-  if (!autoplay.value || prefersReducedMotion.value) return;
-  stepTimer = setInterval(advanceStep, STEP_INTERVAL_MS);
-  surfaceTimer = setInterval(advanceSurface, SURFACE_INTERVAL_MS);
-};
-
-const pauseAutoplayBriefly = (): void => {
-  autoplay.value = false;
-  clearTimers();
-  if (manualResumeTimer) clearTimeout(manualResumeTimer);
-  if (prefersReducedMotion.value) return;
-  manualResumeTimer = setTimeout(() => {
-    autoplay.value = true;
-    startAutoplay();
-  }, MANUAL_PAUSE_MS);
-};
-
-const toggleAutoplay = (): void => {
-  if (manualResumeTimer) clearTimeout(manualResumeTimer);
-  autoplay.value = !autoplay.value;
-  if (autoplay.value) startAutoplay();
-  else clearTimers();
-};
+const explorerStageClass =
+  "vd-surface vd-surface-mesh vd-surface-5 seemore-stage";
 
 const selectStep = (step: number): void => {
-  pulseFade("step");
   activeStep.value = step;
-  pauseAutoplayBriefly();
 };
 
 const selectSurface = (id: SurfaceId): void => {
-  pulseFade("stage");
   surfaceVariant.value = id;
-  pauseAutoplayBriefly();
 };
-
-watch(autoplay, (on) => {
-  if (on) startAutoplay();
-  else clearTimers();
-});
-
-onMounted(() => {
-  motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
-  onMotionChange = (): void => {
-    prefersReducedMotion.value = motionMq!.matches;
-    if (motionMq!.matches) {
-      autoplay.value = false;
-      surfaceMotion.value = false;
-      clearTimers();
-    } else if (autoplay.value) {
-      startAutoplay();
-    }
-  };
-  onMotionChange();
-  motionMq.addEventListener("change", onMotionChange);
-});
-
-onUnmounted(() => {
-  if (motionMq && onMotionChange) {
-    motionMq.removeEventListener("change", onMotionChange);
-  }
-  clearTimers();
-  if (manualResumeTimer) clearTimeout(manualResumeTimer);
-  if (fadeClearTimer) clearTimeout(fadeClearTimer);
-});
 
 const vue3Wiring = `import { ref } from 'vue';
 import { useGlass, useNavbarGlassScroll } from "@vanduo-oss/vd3";
@@ -413,34 +297,10 @@ const glassComponents = [
                 />
                 {{ opt.label }}
               </label>
-              <div class="seemore-controls-end">
-                <VdSwitch
-                  id="seemore-hero-motion"
-                  v-model="surfaceMotion"
-                  size="sm"
-                  label="Motion"
-                  :disabled="prefersReducedMotion"
-                />
-                <button
-                  type="button"
-                  class="seemore-play-btn"
-                  :aria-pressed="autoplay"
-                  :aria-label="autoplay ? 'Pause autoplay' : 'Play autoplay'"
-                  @click="toggleAutoplay"
-                >
-                  <i
-                    class="ph"
-                    :class="autoplay ? 'ph-pause' : 'ph-play'"
-                    aria-hidden="true"
-                  ></i>
-                  {{ autoplay ? "Pause" : "Play" }}
-                </button>
-              </div>
             </div>
             <div :class="stageClass">
               <div
                 class="vd-glass vd-glass-8 vd-glass-tinted seemore-hero-panel"
-                :class="{ 'is-crossfading': stepFading }"
               >
                 <h4 class="seemore-hero-title">GlassSurface</h4>
                 <p>
@@ -458,13 +318,6 @@ const glassComponents = [
                 </div>
               </div>
             </div>
-            <p
-              v-if="prefersReducedMotion"
-              class="vd-text-muted vd-mt-3"
-              style="font-size: 0.8rem; margin-bottom: 0"
-            >
-              Autoplay paused — <code>prefers-reduced-motion</code> is on.
-            </p>
           </div>
         </div>
       </div>
@@ -497,11 +350,10 @@ const glassComponents = [
           </div>
           <div class="vd-card-body">
             <p class="vd-text-muted vd-mb-4">
-              Steps auto-advance so you can watch thickness change. Click any
-              step to jump (pauses briefly). Default
-              <code>.vd-glass</code> is step <strong>5</strong>. Past 21, blur
-              rises only a little — tint, edge, and elevation do the heavy
-              lifting through <strong>89</strong>.
+              Click any step to preview how thickness changes across the scale.
+              Default <code>.vd-glass</code> is step <strong>5</strong>. Past
+              21, blur rises only a little — tint, edge, and elevation do the
+              heavy lifting through <strong>89</strong>.
             </p>
             <div class="seemore-step-rail vd-mb-4">
               <button
@@ -514,39 +366,13 @@ const glassComponents = [
               >
                 {{ s.step }}
               </button>
-              <div class="seemore-controls-end">
-                <VdSwitch
-                  id="seemore-explorer-motion"
-                  v-model="surfaceMotion"
-                  size="sm"
-                  label="Motion"
-                  :disabled="prefersReducedMotion"
-                />
-                <button
-                  type="button"
-                  class="seemore-play-btn"
-                  :aria-pressed="autoplay"
-                  :aria-label="autoplay ? 'Pause autoplay' : 'Play autoplay'"
-                  @click="toggleAutoplay"
-                >
-                  <i
-                    class="ph"
-                    :class="autoplay ? 'ph-pause' : 'ph-play'"
-                    aria-hidden="true"
-                  ></i>
-                  {{ autoplay ? "Pause" : "Play" }}
-                </button>
-              </div>
             </div>
             <div class="vd-row" style="align-items: stretch">
               <div class="vd-col-12 vd-col-lg-7">
                 <div :class="explorerStageClass">
                   <div
                     class="vd-glass seemore-hero-panel"
-                    :class="[
-                      `vd-glass-${activeStep}`,
-                      { 'is-crossfading': stepFading },
-                    ]"
+                    :class="`vd-glass-${activeStep}`"
                   >
                     <h4 class="seemore-hero-title">
                       .vd-glass-{{ activeStep }}
@@ -697,8 +523,8 @@ const glassComponents = [
                 tint
               </li>
               <li>
-                <code>prefers-reduced-motion</code> — floating / scroll proxies
-                stop; explorer autoplay pauses
+                <code>prefers-reduced-motion</code> — floating / scroll proxy
+                transitions stop
               </li>
               <li>
                 <code>@supports not (backdrop-filter)</code> — solid
@@ -954,34 +780,6 @@ const glassComponents = [
 .seemore-chip input {
   accent-color: var(--vd-color-primary);
 }
-.seemore-play-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.75rem;
-  border-radius: var(--vd-radius-fib-5, 0.5rem);
-  border: 1px solid var(--vd-border-color);
-  background: var(--vd-bg-secondary);
-  color: var(--vd-text-primary);
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-.seemore-controls-end {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-left: auto;
-}
-.seemore-controls-end :deep(.vd-form-switch) {
-  margin: 0;
-  font-size: 0.82rem;
-  gap: 0.4rem;
-}
-.seemore-play-btn[aria-pressed="true"] {
-  border-color: var(--vd-color-primary);
-  color: var(--vd-color-primary);
-}
 .seemore-stage {
   min-height: 16rem;
   border-radius: var(--vd-radius-fib-8, 0.75rem);
@@ -991,16 +789,11 @@ const glassComponents = [
   justify-content: center;
   transition: opacity 0.4s ease;
 }
-.seemore-stage.is-crossfading,
-.seemore-hero-panel.is-crossfading {
-  opacity: 0.62;
-}
 .seemore-hero-panel {
   max-width: 32rem;
   width: 100%;
   border-radius: var(--vd-radius-fib-8, 0.75rem);
   padding: 1.5rem;
-  /* Calm step/surface swaps: opacity + soft chrome only — no transform bounce */
   transform: none !important;
   transition:
     opacity 0.45s ease,
@@ -1185,10 +978,6 @@ const glassComponents = [
   .seemore-stage,
   .seemore-hero-panel {
     transition: none;
-  }
-  .seemore-stage.is-crossfading,
-  .seemore-hero-panel.is-crossfading {
-    opacity: 1;
   }
 }
 </style>

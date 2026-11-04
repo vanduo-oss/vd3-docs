@@ -7,7 +7,10 @@ import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 const fib = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144];
 const fibStep = ref(5);
 const fibPx = computed(() => fib[fibStep.value] ?? 13);
-const fibToken = computed(() => `--vd-space-fib-${fibPx.value}`);
+// --vd-space-fib-* tokens stop at 55; larger steps are conceptual only.
+const fibToken = computed(() =>
+  fibPx.value <= 55 ? `--vd-space-fib-${fibPx.value}` : "no token (> 55)",
+);
 const fibRatio = computed(() => {
   const prev = fib[fibStep.value - 1];
   if (!prev) return "base step";
@@ -194,6 +197,11 @@ const aspectBadge = (v: "success" | "secondary"): string =>
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Fibonacci Spacing Scale</h6></div>
           <div class="vd-card-body">
+            <p class="vd-text-sm vd-text-muted vd-mb-3">
+              Bar widths are a conceptual px demo of the sequence. The shipped
+              <code>--vd-space-fib-*</code> tokens are rem values that stop at
+              55 (see the snippet below).
+            </p>
             <div class="vd-d-flex vd-flex-col vd-gap-2">
               <div
                 v-for="n in fibScale"
@@ -219,8 +227,9 @@ const aspectBadge = (v: "success" | "secondary"): string =>
             <p class="vd-text-sm vd-mb-3">sm — base / sqrt(phi)</p>
             <p class="vd-text-base vd-mb-3">base — 16px</p>
             <p class="vd-text-lg vd-mb-3">lg — base x sqrt(phi)</p>
-            <p class="vd-text-xl vd-mb-3">xl — base x phi</p>
-            <p class="vd-text-2xl vd-mb-3">2xl — base x phi^2</p>
+            <p class="vd-text-xl vd-mb-3">xl — base x phi (≈26px)</p>
+            <p class="vd-text-2xl vd-mb-3">2xl — base x phi^1.5 (≈33px)</p>
+            <p class="vd-text-3xl vd-mb-3">3xl — base x phi^2 (≈42px)</p>
           </div>
         </div>
       </div>

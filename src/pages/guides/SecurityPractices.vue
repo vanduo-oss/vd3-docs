@@ -339,8 +339,10 @@ const practices: [string, string][] = [
               <code>@vanduo-oss/vd3</code> ships with a
               <strong>zero-runtime-dependency</strong> posture:
               <code>vue &gt;= 3.3</code> is its sole peer dependency, and all UI
-              fonts and Phosphor icon weights are self-hosted in the package
-              with zero external CDN requests at runtime.
+              Phosphor icon weights are self-hosted in the package. Text fonts
+              are not bundled — host them yourself, as this site does for the
+              theme-customizer faces — with zero external CDN requests at
+              runtime.
             </p>
             <DocCodeSnippet :shell="supplyChainShell" :default-open="true" />
             <p class="vd-text-sm vd-text-muted vd-mt-3">

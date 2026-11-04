@@ -78,5 +78,17 @@ test.describe('VdWaypoint interaction', () => {
     const sections = page.locator('#waypoint-demo-scroll [id]');
     await expect(sections.first()).toBeVisible();
     expect(await sections.count()).toBeGreaterThan(1);
+
+    const apiLink = nav.locator('a[href="#wp-section-api"]');
+    await apiLink.click();
+    await expect(apiLink).toHaveClass(/is-active/);
+    expect(await page.evaluate(() => window.scrollY)).toBe(0);
+    await expect
+      .poll(() =>
+        page
+          .locator('#waypoint-demo-scroll')
+          .evaluate((el) => Math.round(el.scrollTop)),
+      )
+      .toBeGreaterThan(0);
   });
 });

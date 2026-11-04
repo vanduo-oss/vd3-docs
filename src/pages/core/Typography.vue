@@ -419,11 +419,28 @@ const apiRows: [string, string, string][] = [
             <h6>Font families &amp; runtime switching</h6>
           </div>
           <div class="vd-card-body">
+            <div class="vd-alert vd-alert-info vd-mb-5">
+              <i class="ph ph-info"></i>
+              <div>
+                <strong>Fonts are no longer bundled (v1.8.2).</strong>
+                <code>data-font</code> still switches the stack. The
+                <code>.woff2</code> files are yours to host — only the faces you
+                offer, or <code>system</code> if you want no files at all.
+                <p class="vd-mb-0 vd-mt-2">
+                  That keeps the package smaller, so installs do not carry
+                  families a page never downloads. It also keeps font licensing,
+                  subsetting, and weight updates in the app instead of inside
+                  the library. Register any family with
+                  <code>fontOptions</code> or the Theme Customizer
+                  <code>fonts</code> prop.
+                </p>
+              </div>
+            </div>
             <p class="vd-mb-5">
               vd3 ships <strong>6 curated font options</strong>, switchable at
               runtime via the <code>data-font</code> attribute on
-              <code>&lt;html&gt;</code> (also exposed by FontSwitcher and the
-              Theme Customizer). The preference persists in
+              <code>&lt;html&gt;</code> (also exposed by the Theme Customizer).
+              The preference persists in
               <code>localStorage.vanduo-font-preference</code>.
             </p>
             <div class="vd-row vd-gap-fib-21">

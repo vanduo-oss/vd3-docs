@@ -58,6 +58,193 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
+        <article class="version-card" id="vd3-1-8-2">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.8.2</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>November 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Text fonts leave the package</strong>
+                  — <code>data-font</code> still switches the stack, and apps
+                  host only the faces they offer.
+                </p>
+                <div class="change-group">
+                  <h5>Changed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-text-aa"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Bundled text fonts removed</strong>
+                        <p>
+                          <code>fonts/</code> and
+                          <code>css/core/fonts.css</code> are gone from the
+                          package and from <code>dist/</code>. Built-in
+                          <code>data-font</code> keys still switch
+                          <code>--vd-font-family-*</code> stacks. Host the faces
+                          yourself, or use <code>system</code>. See
+                          <RouterLink to="/core/typography"
+                            ><code>/core/typography</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-paint-roller"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Custom font catalogs</strong>
+                        <p>
+                          <code>app.use(VanduoVue, { fontOptions })</code>,
+                          <code>setFontOptions()</code> /
+                          <code>getFontOptions()</code>, and
+                          <RouterLink to="/components/theme-customizer"
+                            ><code>VdThemeCustomizer</code></RouterLink
+                          >
+                          props <code>fonts</code> and <code>showFont</code> let
+                          an app offer any faces. A font entry may set
+                          <code>family</code> and <code>mono</code> to apply
+                          those stacks inline; omit them to keep the stylesheet
+                          <code>[data-font]</code> rules.
+                          <code>system</code> and the configured default font
+                          stay valid when they are absent from the catalog.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-sidebar"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Sidenav &amp; waypoint link polish</strong>
+                        <p>
+                          <RouterLink to="/components/sidenav"
+                            ><code>.vd-sidenav-link</code></RouterLink
+                          >
+                          gains an icon/text gap, a 1.25rem icon box, weight 500
+                          (600 when active), and a rounded highlight;
+                          <code>.vd-waypoint-border</code> links also follow
+                          <code>--vd-btn-border-radius</code>.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-calendar-dots"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Datepicker popup sizing &amp; weekday
+                          alignment</strong
+                        >
+                        <p>
+                          <RouterLink to="/components/datepicker"
+                            ><code>useDatepicker</code></RouterLink
+                          >
+                          keeps <code>.vd-datepicker-popup</code> calendar-sized
+                          and anchored to the input’s left edge instead of
+                          stretching to wide inputs, and
+                          <code>.vd-datepicker-weekdays</code> /
+                          <code>.vd-datepicker-row</code> share 7 equal
+                          <code>--vd-dp-cell-size</code> tracks so weekday
+                          labels sit directly above their date columns.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-arrows-out"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Offcanvas &amp; Sidenav body padding</strong>
+                        <p>
+                          <RouterLink to="/components/offcanvas"
+                            ><code>.vd-sidenav-body</code></RouterLink
+                          >
+                          adds horizontal
+                          <code>--vd-sidenav-padding-x</code> spacing so prose
+                          and custom content no longer touch the panel edges; a
+                          direct <code>.vd-sidenav-nav</code> is inset so its
+                          rounded highlights align with the header.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-map-trifold"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Waypoint overflow-container scrolling</strong>
+                        <p>
+                          <RouterLink to="/components/scrollspy"
+                            ><code>useWaypoint</code></RouterLink
+                          >
+                          scrolls the resolved
+                          <code>data-vd-waypoint-nav</code> container on link
+                          click instead of scrolling the document via
+                          <code>scrollIntoView()</code>, and respects
+                          <code>prefers-reduced-motion</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-lock-open"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Sidenav scroll lock &amp; trigger state</strong>
+                        <p>
+                          <RouterLink to="/components/sidenav"
+                            ><code>VdSidenav</code></RouterLink
+                          >
+                          releases the body scroll lock when unmounted while
+                          open, and <code>useSidenav</code> triggers get
+                          <code>aria-controls</code> plus an
+                          <code>aria-expanded</code> that tracks every
+                          open/close path. The datepicker range tint now uses
+                          <code>--vd-color-primary-alpha-10</code>, and
+                          un-tinted
+                          <RouterLink to="/components/badge"
+                            ><code>.vd-badge-outlined</code></RouterLink
+                          >
+                          badges use <code>--vd-text-secondary</code> /
+                          <code>--vd-border-color</code> so they stay legible in
+                          dark mode.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
         <article class="version-card" id="vd3-1-8-1">
           <header class="version-header">
             <span
@@ -68,9 +255,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>November 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
