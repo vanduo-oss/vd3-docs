@@ -9,6 +9,24 @@ It is not published to npm and keeps no package release history of its own.
 
 - Note on the typography page that text fonts leave the package in v1.8.2, and
   document that release on the changelog page.
+- Remove docs-only surface motion toggles and autoplay from the Glass and
+  Surfaces pages so demos show the static surfaces shipped in `@vanduo-oss/vd3`.
+- Rework the Scrollspy sidebar demo geometry and active-link styling so all
+  four sections can be scrolled and highlighted inside the demo container.
+- Self-host the Zen Dots display face used by the dock, home, and About
+  wordmarks, and drop the unused Roboto, Noto Sans, and Inter font rules.
+- Stop underlining `vd-*` component links under the prose-link rule, and make
+  the Sidenav demo's active item interactive.
+- Rewrite the First Layout guide as a step-by-step walkthrough with an app
+  shell, layout recipes, and common pitfalls. Fix the Fibonacci guide's layout
+  demo, which stacked every column at full width.
+- Grid System: add a 12-column basics card and a live breakpoint badge, correct
+  the container widths, and remove the whole-document Fibonacci switch, which
+  reflowed the docs shell. Golden Ratio: correct the φ type-scale labels and
+  the spacing-token names.
+- Correct accessibility and default-value claims on the Scrollspy, Datepicker,
+  Offcanvas, and Sidenav pages, and clear the moderate audit findings with
+  `fast-uri`, `glob`, and `minimatch` overrides.
 - Dogfood `@vanduo-oss/vd3@1.8.1` with `VdImageBox` gallery layouts (`grid`, `masonry`,
   `bento`, `filmstrip`), `useImageBox` lightbox navigation, OolaDock parity (`brandSpin`,
   `itemLayout="auto"`), `@layer vd3` Tailwind CSS / Nuxt UI coexistence guide, expanded

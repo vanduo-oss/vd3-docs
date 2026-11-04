@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@unhead/vue": "2.1.15",
-    "@vanduo-oss/vd3": "1.8.1",
+    "@vanduo-oss/vd3": "1.8.2",
     "@vanduo-oss/vd3-charts": "1.2.0",
     "@vanduo-oss/vd3-flowchart": "1.5.1",
     "animejs": "4.5.0",

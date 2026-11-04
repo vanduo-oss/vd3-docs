@@ -271,57 +271,51 @@ const relatedComponents = [
       <div class="vd-card-body">
         <p class="vd-mb-4">
           Swap a single row class to get golden proportions — no custom CSS.
-          Width rules only apply to children with <code>vd-col-fib-*</code>:
+          Width rules only apply to children with <code>vd-col-fib-*</code>; put
+          your styled content <em>inside</em> each column, as below:
         </p>
 
         <p class="vd-text-sm vd-text-muted vd-mb-2">4-column (1 : 2 : 3 : 5)</p>
-        <div class="vd-row-fib-4 fib-demo-row vd-mb-3">
-          <div
-            class="vd-col-fib-1 fib-block"
-            style="background: var(--vd-color-error)"
-          >
-            1
+        <div class="vd-row-fib-4 vd-mb-3">
+          <div class="vd-col-fib-1">
+            <div class="fib-block" style="background: var(--vd-color-error)">
+              1
+            </div>
           </div>
-          <div
-            class="vd-col-fib-2 fib-block"
-            style="background: var(--vd-color-warning)"
-          >
-            2
+          <div class="vd-col-fib-2">
+            <div class="fib-block" style="background: var(--vd-color-warning)">
+              2
+            </div>
           </div>
-          <div
-            class="vd-col-fib-3 fib-block"
-            style="background: var(--vd-color-info)"
-          >
-            3
+          <div class="vd-col-fib-3">
+            <div class="fib-block" style="background: var(--vd-color-info)">
+              3
+            </div>
           </div>
-          <div
-            class="vd-col-fib-5 fib-block"
-            style="background: var(--vd-color-primary)"
-          >
-            5
+          <div class="vd-col-fib-5">
+            <div class="fib-block" style="background: var(--vd-color-primary)">
+              5
+            </div>
           </div>
         </div>
         <DocCodeSnippet :html="fib4Html" class="vd-mb-6" />
 
         <p class="vd-text-sm vd-text-muted vd-mb-2">3-column (3 : 5 : 8)</p>
-        <div class="vd-row-fib-3-alt fib-demo-row vd-mb-3">
-          <div
-            class="vd-col-fib-3 fib-block"
-            style="background: var(--vd-color-success)"
-          >
-            3
+        <div class="vd-row-fib-3-alt vd-mb-3">
+          <div class="vd-col-fib-3">
+            <div class="fib-block" style="background: var(--vd-color-success)">
+              3
+            </div>
           </div>
-          <div
-            class="vd-col-fib-5 fib-block"
-            style="background: var(--vd-color-primary)"
-          >
-            5
+          <div class="vd-col-fib-5">
+            <div class="fib-block" style="background: var(--vd-color-primary)">
+              5
+            </div>
           </div>
-          <div
-            class="vd-col-fib-8 fib-block"
-            style="background: var(--vd-color-info)"
-          >
-            8
+          <div class="vd-col-fib-8">
+            <div class="fib-block" style="background: var(--vd-color-info)">
+              8
+            </div>
           </div>
         </div>
         <DocCodeSnippet :html="fib3Html" class="vd-mb-6" />
@@ -450,10 +444,6 @@ const relatedComponents = [
 .fib-block-flat {
   background: var(--vd-color-primary);
   opacity: 0.7;
-}
-
-.fib-demo-row {
-  gap: 4px;
 }
 
 /* Proportional spacing bars */

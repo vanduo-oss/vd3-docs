@@ -5,6 +5,7 @@ import { useSidenav, VdSidenav } from "@vanduo-oss/vd3";
 
 const root = ref<HTMLElement | null>(null);
 const sidenavOpen = ref(false);
+const activeDemoItem = ref<"home" | "profile" | "settings">("home");
 useSidenav(root);
 
 const vdSidenavSnippet = `<script setup lang="ts">
@@ -184,18 +185,36 @@ const apiRows: [string, string, string][] = [
           </div>
           <div class="vd-sidenav-body">
             <ul class="vd-sidenav-nav">
-              <li class="vd-sidenav-item active">
-                <a class="vd-sidenav-link" href="#" @click.prevent
+              <li
+                class="vd-sidenav-item"
+                :class="{ active: activeDemoItem === 'home' }"
+              >
+                <a
+                  class="vd-sidenav-link"
+                  href="#"
+                  @click.prevent="activeDemoItem = 'home'"
                   ><i class="ph ph-house"></i> Home</a
                 >
               </li>
-              <li class="vd-sidenav-item">
-                <a class="vd-sidenav-link" href="#" @click.prevent
+              <li
+                class="vd-sidenav-item"
+                :class="{ active: activeDemoItem === 'profile' }"
+              >
+                <a
+                  class="vd-sidenav-link"
+                  href="#"
+                  @click.prevent="activeDemoItem = 'profile'"
                   ><i class="ph ph-user"></i> Profile</a
                 >
               </li>
-              <li class="vd-sidenav-item">
-                <a class="vd-sidenav-link" href="#" @click.prevent
+              <li
+                class="vd-sidenav-item"
+                :class="{ active: activeDemoItem === 'settings' }"
+              >
+                <a
+                  class="vd-sidenav-link"
+                  href="#"
+                  @click.prevent="activeDemoItem = 'settings'"
                   ><i class="ph ph-gear"></i> Settings</a
                 >
               </li>
@@ -359,9 +378,12 @@ const apiRows: [string, string, string][] = [
             enabled) closes the drawer and releases body scroll lock.
           </li>
           <li>
-            Composable <code>useSidenav</code> triggers synchronize
-            <code>aria-expanded</code> with the open state and trap/restore
-            focus when closing via <kbd>Escape</kbd>.
+            Composable <code>useSidenav</code> triggers receive
+            <code>aria-controls</code> and an <code>aria-expanded</code> that
+            stays in sync with every open/close path (toggle, close button,
+            backdrop, <kbd>Escape</kbd>). The drawer itself does not trap focus;
+            reach for <code>VdOffcanvas</code> when you need modal dialog
+            behavior.
           </li>
         </ul>
       </div>

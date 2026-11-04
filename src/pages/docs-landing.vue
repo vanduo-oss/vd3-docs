@@ -128,7 +128,7 @@ const cards: DocsCard[] = [
     highlights: [
       {
         icon: "ph-sparkle",
-        text: "vd3 1.8.1, charts 1.2.0, flowchart 1.5.1 — latest packages",
+        text: "vd3 1.8.2, charts 1.2.0, flowchart 1.5.1 — latest packages",
       },
       {
         icon: "ph-git-branch",
@@ -143,7 +143,7 @@ const cards: DocsCard[] = [
     tags: ["Releases", "Tokens", "Lifecycle"],
     meta: {
       icon: "ph-calendar-blank",
-      text: "Latest: vd3 1.8.1 · charts 1.2.0 · flowchart 1.5.1",
+      text: "Latest: vd3 1.8.2 · charts 1.2.0 · flowchart 1.5.1",
     },
   },
 ];
@@ -169,7 +169,7 @@ interface EcosystemPackage {
 const ecosystemPackages: EcosystemPackage[] = [
   {
     name: "@vanduo-oss/vd3",
-    version: "1.8.1",
+    version: "1.8.2",
     icon: "ph-cube",
     accent: "#eab308",
     summary: `${VD3_COMPONENT_EXPORTS} Vue 3 components, ${VD3_COMPOSABLE_MODULES} composables, and Fibonacci token CSS.`,

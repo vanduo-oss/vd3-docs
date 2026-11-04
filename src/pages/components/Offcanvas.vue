@@ -471,22 +471,26 @@ const events: [string, string, string][] = [
       <div class="vd-card-body">
         <ul>
           <li>
-            Offcanvas uses <code>role="dialog"</code> and
-            <code>aria-modal="true"</code> when open
+            <code>VdOffcanvas</code> renders <code>role="dialog"</code> with
+            <code>aria-modal="true"</code>, traps focus inside the panel while
+            open, and returns focus to the previously focused element on close
+          </li>
+          <li>
+            <code>useSidenav</code> panels get
+            <code>role="navigation"</code> and a synced
+            <code>aria-hidden</code>; they do not trap focus — use
+            <code>VdOffcanvas</code> when the panel needs modal dialog semantics
           </li>
           <li>
             Close button includes <code>aria-label="Close"</code> for assistive
             technology
           </li>
-          <li>
-            Focus is trapped within the panel while open and returned to the
-            trigger on close
-          </li>
           <li>Pressing <kbd>Escape</kbd> closes the offcanvas panel</li>
           <li>Overlay backdrop blocks interaction with the page beneath</li>
           <li>
-            The trigger button uses <code>aria-expanded</code> reflecting
-            open/closed state
+            <code>[data-sidenav-toggle]</code> triggers receive
+            <code>aria-controls</code> and an <code>aria-expanded</code> that
+            tracks the open/closed state
           </li>
         </ul>
       </div>

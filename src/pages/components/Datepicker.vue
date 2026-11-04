@@ -61,7 +61,7 @@ const navHtml = `<input type="text"
 const cssClasses: [string, string][] = [
   [
     ".vd-datepicker-popup",
-    "The floating calendar container positioned below the input",
+    "The calendar-sized floating container anchored below the input's left edge",
   ],
   [
     ".vd-datepicker-header",
@@ -78,7 +78,7 @@ const cssClasses: [string, string][] = [
   [".vd-datepicker-day", "Individual day cell button"],
   [
     ".vd-datepicker-day.is-today",
-    "Highlights today's date with a ring indicator",
+    "Highlights today's date with a bold, primary-colored number",
   ],
   [
     ".vd-datepicker-day.is-selected",

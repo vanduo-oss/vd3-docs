@@ -127,6 +127,118 @@ useAffix(root);
                         </p>
                       </div>
                     </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-sidebar"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Sidenav &amp; waypoint link polish</strong>
+                        <p>
+                          <RouterLink to="/components/sidenav"
+                            ><code>.vd-sidenav-link</code></RouterLink
+                          >
+                          gains an icon/text gap, a 1.25rem icon box, weight 500
+                          (600 when active), and a rounded highlight;
+                          <code>.vd-waypoint-border</code> links also follow
+                          <code>--vd-btn-border-radius</code>.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-calendar-dots"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Datepicker popup sizing &amp; weekday
+                          alignment</strong
+                        >
+                        <p>
+                          <RouterLink to="/components/datepicker"
+                            ><code>useDatepicker</code></RouterLink
+                          >
+                          keeps <code>.vd-datepicker-popup</code> calendar-sized
+                          and anchored to the input’s left edge instead of
+                          stretching to wide inputs, and
+                          <code>.vd-datepicker-weekdays</code> /
+                          <code>.vd-datepicker-row</code> share 7 equal
+                          <code>--vd-dp-cell-size</code> tracks so weekday
+                          labels sit directly above their date columns.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-arrows-out"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Offcanvas &amp; Sidenav body padding</strong>
+                        <p>
+                          <RouterLink to="/components/offcanvas"
+                            ><code>.vd-sidenav-body</code></RouterLink
+                          >
+                          adds horizontal
+                          <code>--vd-sidenav-padding-x</code> spacing so prose
+                          and custom content no longer touch the panel edges; a
+                          direct <code>.vd-sidenav-nav</code> is inset so its
+                          rounded highlights align with the header.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-map-trifold"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Waypoint overflow-container scrolling</strong>
+                        <p>
+                          <RouterLink to="/components/scrollspy"
+                            ><code>useWaypoint</code></RouterLink
+                          >
+                          scrolls the resolved
+                          <code>data-vd-waypoint-nav</code> container on link
+                          click instead of scrolling the document via
+                          <code>scrollIntoView()</code>, and respects
+                          <code>prefers-reduced-motion</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-lock-open"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong>Sidenav scroll lock &amp; trigger state</strong>
+                        <p>
+                          <RouterLink to="/components/sidenav"
+                            ><code>VdSidenav</code></RouterLink
+                          >
+                          releases the body scroll lock when unmounted while
+                          open, and <code>useSidenav</code> triggers get
+                          <code>aria-controls</code> plus an
+                          <code>aria-expanded</code> that tracks every
+                          open/close path. The datepicker range tint now uses
+                          <code>--vd-color-primary-alpha-10</code>, and
+                          un-tinted
+                          <RouterLink to="/components/badge"
+                            ><code>.vd-badge-outlined</code></RouterLink
+                          >
+                          badges use <code>--vd-text-secondary</code> /
+                          <code>--vd-border-color</code> so they stay legible in
+                          dark mode.
+                        </p>
+                      </div>
+                    </li>
                   </ul>
                 </div>
               </div>
