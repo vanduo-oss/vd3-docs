@@ -3,9 +3,12 @@ import { onBeforeUnmount, onMounted, ref } from "vue";
 import { useTooltips } from "@vanduo-oss/vd3";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import {
+  FLOWCHART_COLOR_PRESETS,
   FLOWCHART_DOCUMENT_VERSION,
   VD_FLOWCHART_VERSION,
   VdFlowchart,
+  type FlowchartColorPreset,
+  type FlowchartSelectEvent,
   type FlowchartViewportEvent,
   type VdFlowchartExposed,
 } from "@vanduo-oss/vd3-flowchart";
@@ -30,6 +33,7 @@ const seedDoc = {
       width: 128,
       height: 128,
       text: "Start",
+      color: "primary",
     },
     {
       id: "decision",
@@ -39,6 +43,7 @@ const seedDoc = {
       width: 184,
       height: 120,
       text: "Decision",
+      color: "warning",
     },
     {
       id: "yes",
@@ -48,6 +53,7 @@ const seedDoc = {
       width: 180,
       height: 96,
       text: "Yes",
+      color: "success",
     },
     {
       id: "no",
@@ -57,6 +63,7 @@ const seedDoc = {
       width: 180,
       height: 96,
       text: "No",
+      color: "danger",
     },
     {
       id: "proc-1",
@@ -142,6 +149,7 @@ const seedDoc = {
       strokeWidth: 2.25,
       route: "curve",
       label: "",
+      color: "primary",
     },
     {
       id: "edge-264",
@@ -153,6 +161,8 @@ const seedDoc = {
       strokeWidth: 2.25,
       route: "curve",
       label: "",
+      color: "danger",
+      strokeStyle: "dashed",
     },
     {
       id: "edge-289",
@@ -164,6 +174,7 @@ const seedDoc = {
       strokeWidth: 2.25,
       route: "curve",
       label: "",
+      color: "success",
     },
     {
       id: "edge-374",
@@ -270,12 +281,149 @@ const TOOLBAR_TOOLTIPS: Record<string, string> = {
   "fit-view": "Fit diagram to view (Shift + 1)",
   undo: "Undo last change (Cmd/Ctrl + Z)",
   redo: "Redo change (Shift + Cmd/Ctrl + Z)",
+  "color-popover": "Color selection",
   clear: "Clear canvas",
   delete: "Delete selection (Delete / Backspace)",
   outline: "Toggle graph outline",
   minimap: "Toggle overview minimap",
   shortcuts: "Keyboard shortcuts (?)",
 };
+
+const colorPresets = FLOWCHART_COLOR_PRESETS;
+const activePreset = ref<FlowchartColorPreset>("default");
+const selectionSummary = ref("Select a node or edge to color or reorder");
+const hasSelection = ref(false);
+const selectedNodeLocked = ref(false);
+
+const SWATCH_COLORS: Record<
+  FlowchartColorPreset,
+  { fill: string; border: string }
+> = {
+  default: { fill: "var(--vd-bg-primary)", border: "var(--vd-border-color)" },
+  primary: {
+    fill: "var(--vd-flowchart-palette-primary-fill)",
+    border: "var(--vd-flowchart-palette-primary-stroke)",
+  },
+  secondary: {
+    fill: "var(--vd-flowchart-palette-secondary-fill)",
+    border: "var(--vd-flowchart-palette-secondary-stroke)",
+  },
+  success: {
+    fill: "var(--vd-flowchart-palette-success-fill)",
+    border: "var(--vd-flowchart-palette-success-stroke)",
+  },
+  warning: {
+    fill: "var(--vd-flowchart-palette-warning-fill)",
+    border: "var(--vd-flowchart-palette-warning-stroke)",
+  },
+  danger: {
+    fill: "var(--vd-flowchart-palette-danger-fill)",
+    border: "var(--vd-flowchart-palette-danger-stroke)",
+  },
+  info: {
+    fill: "var(--vd-flowchart-palette-info-fill)",
+    border: "var(--vd-flowchart-palette-info-stroke)",
+  },
+  violet: {
+    fill: "var(--vd-flowchart-palette-violet-fill)",
+    border: "var(--vd-flowchart-palette-violet-stroke)",
+  },
+  teal: {
+    fill: "var(--vd-flowchart-palette-teal-fill)",
+    border: "var(--vd-flowchart-palette-teal-stroke)",
+  },
+  orange: {
+    fill: "var(--vd-flowchart-palette-orange-fill)",
+    border: "var(--vd-flowchart-palette-orange-stroke)",
+  },
+  pink: {
+    fill: "var(--vd-flowchart-palette-pink-fill)",
+    border: "var(--vd-flowchart-palette-pink-stroke)",
+  },
+  neutral: {
+    fill: "var(--vd-flowchart-palette-neutral-fill)",
+    border: "var(--vd-flowchart-palette-neutral-stroke)",
+  },
+};
+
+function onSelect(payload: FlowchartSelectEvent) {
+  if (!payload.selection) {
+    hasSelection.value = false;
+    activePreset.value = "default";
+    selectedNodeLocked.value = false;
+    selectionSummary.value = "Select a node or edge to color or reorder";
+    return;
+  }
+  hasSelection.value = true;
+  if (payload.nodeIds.length > 1) {
+    selectionSummary.value = `${payload.nodeIds.length} nodes selected`;
+    activePreset.value =
+      (payload.selection.kind === "node" && payload.selection.node.color) ||
+      "default";
+    selectedNodeLocked.value = Boolean(
+      payload.selection.kind === "node" && payload.selection.node.locked,
+    );
+    return;
+  }
+  if (payload.selection.kind === "node") {
+    const node = payload.selection.node;
+    selectionSummary.value = `Node: ${node.text || node.id}`;
+    activePreset.value = node.color || "default";
+    selectedNodeLocked.value = Boolean(node.locked);
+  } else {
+    const edge = payload.selection.edge;
+    selectionSummary.value = `Edge: ${edge.id}`;
+    const c = edge.color as FlowchartColorPreset | undefined;
+    activePreset.value = c && colorPresets.includes(c) ? c : "default";
+    selectedNodeLocked.value = false;
+  }
+}
+
+function applyPresetColor(preset: FlowchartColorPreset) {
+  const core = editor.value?.getInstance();
+  if (!core) return;
+  if (!hasSelection.value) {
+    core.selectNode("decision");
+  }
+  editor.value?.setSelectionColor(preset);
+  activePreset.value = preset;
+}
+
+function applyPipelinePalette() {
+  const core = editor.value?.getInstance();
+  if (!core) return;
+  const paletteCycle: FlowchartColorPreset[] = [
+    "info",
+    "teal",
+    "primary",
+    "secondary",
+    "violet",
+    "pink",
+    "orange",
+    "success",
+  ];
+  paletteCycle.forEach((preset, idx) => {
+    core.setNodeColor(`proc-${idx + 1}`, preset);
+  });
+}
+
+function resetAllColors() {
+  const core = editor.value?.getInstance();
+  if (!core) return;
+  const doc = core.toJSON();
+  doc.nodes.forEach((n) => core.setNodeColor(n.id, "default"));
+  doc.edges.forEach((e) => core.setEdgeColor(e.id, "default"));
+  activePreset.value = "default";
+}
+
+function toggleLockSelected() {
+  if (!editor.value) return;
+  editor.value.toggleNodeLocked();
+  const snap = editor.value.getInstance()?.toJSON();
+  const selectedId = editor.value.getInstance()?.getSelectedNodeIds()[0];
+  const node = snap?.nodes.find((n) => n.id === selectedId);
+  selectedNodeLocked.value = Boolean(node?.locked);
+}
 
 function stampToolbarTooltips(): void {
   const root = stageRoot.value;
@@ -509,6 +657,30 @@ const methods: [string, string][] = [
     "Auto-arrange nodes — exactly three modes: 'tree', 'radial', or 'grid' (default 'tree'). The toolbar select mirrors the active mode.",
   ],
   [
+    "setNodeColor(id, color) / setEdgeColor(id, color)",
+    "Apply one of the 12 theme-adaptive color presets (FLOWCHART_COLOR_PRESETS) or a custom CSS color override ({ fill, stroke, textColor } on nodes; CSS color string on edges). Pass 'default' or null to reset.",
+  ],
+  [
+    "setSelectionColor(color) / clearSelectionColor()",
+    "Color or reset the active selection (single node, multi-node selection, or edge) in a single undoable step.",
+  ],
+  [
+    "bringToFront() / bringForward() / sendBackward() / sendToBack()",
+    "Reorder the active selection (or an explicit node/edge id) in the SVG stacking layer and serialized document order.",
+  ],
+  [
+    "alignNodes(alignment) / distributeNodes(axis)",
+    "Align multi-selected nodes ('left' | 'center' | 'right' | 'top' | 'middle' | 'bottom') or distribute 3+ nodes ('horizontal' | 'vertical').",
+  ],
+  [
+    "setNodeLocked(id?, locked?) / toggleNodeLocked(id?)",
+    "Lock or unlock nodes against dragging, resizing, nudging, inline editing, and deletion.",
+  ],
+  [
+    "exportSvg(options?)",
+    "Serialize the visible diagram to a cropped, standalone <svg> string with inlined colors.",
+  ],
+  [
     "getInstance()",
     "The underlying core: fitView(), zoomTo(), fitNode(), toJSON(), load(), canUndo(), canRedo(), addNode(), addEdge(), insertBranchNode(), and the rest of the core API.",
   ],
@@ -529,6 +701,11 @@ const shortcuts: [string, string][] = [
   ["Cmd/Ctrl+A", "Select all nodes"],
   ["Cmd/Ctrl+C / X / V", "Copy, cut, or paste the selection"],
   ["Cmd/Ctrl+/", "Collapse or expand the branch (or click its badge)"],
+  [
+    "Cmd/Ctrl + ] / [",
+    "Bring forward / send backward (add Shift for front / back)",
+  ],
+  ["Cmd/Ctrl+L", "Lock or unlock the selected node(s)"],
   ["Tab", "Add a child node and edit it"],
   ["Enter / Shift+Enter", "Add a sibling below / above and edit it"],
   ["F2, Space, or start typing", "Edit the label"],
@@ -597,6 +774,115 @@ const shortcuts: [string, string][] = [
         </div>
       </div>
       <div class="vd-card-body flowchart-stage-body">
+        <div
+          class="flowchart-demo-stylebar"
+          role="toolbar"
+          aria-label="Coloring and layer order controls"
+          data-flowchart-stylebar
+        >
+          <div class="flowchart-stylebar-group">
+            <span class="flowchart-stylebar-label">
+              <i class="ph ph-palette"></i> Color
+            </span>
+            <div class="flowchart-stylebar-swatches">
+              <button
+                v-for="preset in colorPresets"
+                :key="preset"
+                type="button"
+                class="flowchart-demo-swatch"
+                :class="{ 'is-active': activePreset === preset }"
+                :data-demo-color-preset="preset"
+                :aria-label="`Apply ${preset} color`"
+                :aria-pressed="activePreset === preset"
+                :style="{
+                  backgroundColor: SWATCH_COLORS[preset].fill,
+                  borderColor: SWATCH_COLORS[preset].border,
+                }"
+                @click="applyPresetColor(preset)"
+              ></button>
+            </div>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              data-flowchart-demo="color-pipeline"
+              @click="applyPipelinePalette"
+            >
+              Color pipeline
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              data-flowchart-demo="reset-colors"
+              @click="resetAllColors"
+            >
+              Reset theme default
+            </button>
+          </div>
+
+          <div class="flowchart-stylebar-group">
+            <span class="flowchart-stylebar-label">
+              <i class="ph ph-stack"></i> Layer
+            </span>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              data-flowchart-demo="bring-to-front"
+              :disabled="!hasSelection"
+              @click="editor?.bringToFront()"
+            >
+              Front
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              data-flowchart-demo="bring-forward"
+              :disabled="!hasSelection"
+              @click="editor?.bringForward()"
+            >
+              Forward
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              data-flowchart-demo="send-backward"
+              :disabled="!hasSelection"
+              @click="editor?.sendBackward()"
+            >
+              Backward
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              data-flowchart-demo="send-to-back"
+              :disabled="!hasSelection"
+              @click="editor?.sendToBack()"
+            >
+              Back
+            </button>
+            <button
+              type="button"
+              class="vd-btn vd-btn-outline vd-btn-sm"
+              data-flowchart-demo="toggle-lock"
+              :disabled="!hasSelection"
+              :aria-pressed="selectedNodeLocked"
+              @click="toggleLockSelected"
+            >
+              <i
+                :class="
+                  selectedNodeLocked ? 'ph ph-lock-key-open' : 'ph ph-lock-key'
+                "
+              ></i>
+              {{ selectedNodeLocked ? "Unlock" : "Lock" }}
+            </button>
+            <span
+              class="flowchart-stylebar-status"
+              data-flowchart-selection-status
+            >
+              {{ selectionSummary }}
+            </span>
+          </div>
+        </div>
+
         <VdFlowchart
           ref="editor"
           :data="seedDoc"
@@ -607,6 +893,7 @@ const shortcuts: [string, string][] = [
           auto-fit
           :style="fullscreen ? undefined : { height: '560px' }"
           @ready="onReady"
+          @select="onSelect"
           @viewport="onViewport"
         />
       </div>
@@ -634,13 +921,16 @@ const shortcuts: [string, string][] = [
       Saved JSON uses document format
       <code>{{ FLOWCHART_DOCUMENT_VERSION }}</code
       >, which is separate from package <code>{{ VD_FLOWCHART_VERSION }}</code
-      >. Format 1.3.0 may write <code>collapsed: true</code> on a collapsed node
-      and does not add a parent id. <code>viewport.scale</code> is stored to
-      four decimal places; positions and sizes stay at two. Every older 1.x
-      document still loads. Malformed JSON and unsupported future versions throw
-      before the current diagram changes. Catch errors when calling
-      <code>load()</code> directly. This release does not add nested containers,
-      suggestion overlays, floating panels, or an export API.
+      >. Format 1.3.0 writes optional <code>collapsed: true</code>,
+      <code>color</code>, <code>fill</code>, <code>stroke</code>,
+      <code>textColor</code>, and <code>locked: true</code> on nodes and
+      <code>color</code>, <code>strokeStyle</code> on edges only when
+      non-default, and does not add a parent id. <code>viewport.scale</code> is
+      stored to four decimal places; positions and sizes stay at two. Every
+      older 1.x document still loads. Malformed JSON and unsupported future
+      versions throw before the current diagram changes. Catch errors when
+      calling <code>load()</code> directly. Use <code>exportSvg()</code> to
+      export a cropped standalone SVG string.
     </p>
 
     <div class="vd-card vd-card-glow demo-card">
@@ -822,6 +1112,72 @@ const shortcuts: [string, string][] = [
 
 .flowchart-scale output {
   font-variant-numeric: tabular-nums;
+}
+
+.flowchart-demo-stylebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 0.85rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--vd-border-color);
+  border-radius: 8px;
+  background: var(--vd-bg-secondary);
+}
+
+.flowchart-stylebar-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.flowchart-stylebar-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--vd-text-secondary);
+  margin-right: 0.25rem;
+}
+
+.flowchart-stylebar-swatches {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.flowchart-demo-swatch {
+  appearance: none;
+  width: 1.45rem;
+  height: 1.45rem;
+  padding: 0;
+  border: 2px solid var(--vd-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.flowchart-demo-swatch:hover {
+  transform: scale(1.1);
+}
+
+.flowchart-demo-swatch.is-active {
+  box-shadow:
+    0 0 0 2px var(--vd-bg-primary),
+    0 0 0 4px var(--vd-color-primary);
+}
+
+.flowchart-stylebar-status {
+  font-size: 0.78rem;
+  color: var(--vd-text-muted);
+  margin-left: 0.35rem;
 }
 
 /* Flex-grow instead of height: 100% so the shell stays inside the padded

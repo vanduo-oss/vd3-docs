@@ -18,6 +18,9 @@ export default defineConfig({
   },
   test: {
     environment: "jsdom",
+    // Node 26 exposes an experimental localStorage that stays undefined unless
+    // --localstorage-file is set, and that getter blocks jsdom's storage.
+    execArgv: ["--no-experimental-webstorage"],
     globals: true,
     include: ["tests/unit/**/*.spec.ts"],
     setupFiles: ["./tests/unit/setup.ts"],

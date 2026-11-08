@@ -130,7 +130,7 @@ requirement SHALL NOT hardcode a fixed route count.
 
 - **GIVEN** the published vd3 packages installed (or the sibling trees built and
   linked for local unreleased work)
-- **WHEN** `pnpm build` runs (Node 24)
+- **WHEN** `pnpm build` runs (Node 26)
 - **THEN** `vite-ssg build` prerenders every `src/nav.ts` route without error, the
   sitemap is generated, and `vue-tsc` typechecking reports no dangling imports to
   removed packages

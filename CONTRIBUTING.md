@@ -12,7 +12,7 @@ Thanks for your interest in `vd3-docs`.
 
 ### Prerequisites
 
-- **Node.js ≥ 24** (matches `engines.node` in `package.json`).
+- **Node.js ≥ 26** (matches `engines.node` in `package.json`).
 - **Corepack enabled** (ships with Node.js, activates pnpm):
   ```sh
   corepack enable

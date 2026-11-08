@@ -128,7 +128,7 @@ const cards: DocsCard[] = [
     highlights: [
       {
         icon: "ph-sparkle",
-        text: "vd3 1.8.2, charts 1.2.0, flowchart 1.5.1 — latest packages",
+        text: "vd3 1.8.2, charts 1.2.0, flowchart 1.6.0 — latest packages",
       },
       {
         icon: "ph-git-branch",
@@ -143,7 +143,7 @@ const cards: DocsCard[] = [
     tags: ["Releases", "Tokens", "Lifecycle"],
     meta: {
       icon: "ph-calendar-blank",
-      text: "Latest: vd3 1.8.2 · charts 1.2.0 · flowchart 1.5.1",
+      text: "Latest: vd3 1.8.2 · charts 1.2.0 · flowchart 1.6.0",
     },
   },
 ];
@@ -200,7 +200,7 @@ const ecosystemPackages: EcosystemPackage[] = [
   },
   {
     name: "@vanduo-oss/vd3-flowchart",
-    version: "1.5.1",
+    version: "1.6.0",
     icon: "ph-flow-arrow",
     accent: "#06b6d4",
     summary:
