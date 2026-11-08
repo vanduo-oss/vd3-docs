@@ -32,8 +32,8 @@ importers:
         specifier: 1.2.0
         version: 1.2.0(vue@3.5.43(typescript@6.0.3))
       '@vanduo-oss/vd3-flowchart':
-        specifier: 1.5.1
-        version: 1.5.1(vue@3.5.43(typescript@6.0.3))
+        specifier: 1.6.0
+        version: 1.6.0(vue@3.5.43(typescript@6.0.3))
       animejs:
         specifier: 4.5.0
         version: 4.5.0
@@ -715,8 +715,8 @@ packages:
     peerDependencies:
       vue: '>=3.3.0'
 
-  '@vanduo-oss/vd3-flowchart@1.5.1':
-    resolution: {integrity: sha512-G8eOXYMonaY7KoRi9BGF45LdtNG4vtCPHRnnaVwBoAqFsAjod84AHROHPCmXGE6Hh3WH6LaKjiQLCEE5Z1oXAw==}
+  '@vanduo-oss/vd3-flowchart@1.6.0':
+    resolution: {integrity: sha512-rYuf/nd7+TRXwJE0su3OtHfHboMywuLjTQLJFIJqwhbCyanlptNXXLbHz+7+EIWtXLk0Jd2EJ2pvpa7z/tuF/w==}
     engines: {node: '>=20.19.0', pnpm: '>=10'}
     peerDependencies:
       vue: '>=3.3.0'
@@ -2706,7 +2706,7 @@ snapshots:
     dependencies:
       vue: 3.5.43(typescript@6.0.3)
 
-  '@vanduo-oss/vd3-flowchart@1.5.1(vue@3.5.43(typescript@6.0.3))':
+  '@vanduo-oss/vd3-flowchart@1.6.0(vue@3.5.43(typescript@6.0.3))':
     dependencies:
       vue: 3.5.43(typescript@6.0.3)
 

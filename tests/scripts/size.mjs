@@ -11,8 +11,10 @@ const ROOT = resolve("dist");
 // references upfront. Flowchart 1.4.0 moved the canvas route to a 400 KiB
 // gate. Package 1.5.0 adds about 2.2 KiB gzip in the editor, and
 // canvas/flowchart.html measured 401.1 KiB gzip on 2026-10-25, so the docs
-// gate is 404 KiB. Canvas stays lazy (not a blanket rollback).
-const MAX_INITIAL_GZIP_KIB = 404;
+// gate was 404 KiB. Flowchart 1.6.0 plus the color and arrange demo measured
+// 410.7 KiB gzip on 2026-11-08, so the docs gate is 414 KiB. Canvas stays
+// lazy (not a blanket rollback).
+const MAX_INITIAL_GZIP_KIB = 414;
 const MAX_HOME_GZIP_KIB = 375;
 const MAX_SEARCH_BYTES = 350_000;
 const ROUTES = [

@@ -86,7 +86,7 @@ describe("VdFlowchart (@vanduo-oss/vd3-flowchart)", () => {
   });
 
   it("keeps the legacy camera unless both ends of a valid pair are set", () => {
-    expect(VD_FLOWCHART_VERSION).toBe("1.5.1");
+    expect(VD_FLOWCHART_VERSION).toBe("1.6.0");
     expect(FLOWCHART_DOCUMENT_VERSION).toBe("1.3.0");
 
     const legacy = mountEditor();
@@ -179,14 +179,17 @@ describe("VdFlowchart (@vanduo-oss/vd3-flowchart)", () => {
     wrapper.unmount();
   });
 
-  it("documents the 1.5.1 editor without an infinite-canvas or WCAG claim", () => {
+  it("documents the 1.6.0 editor without an infinite-canvas or WCAG claim and renders the Coloring & Arrange Toolbar", async () => {
     const wrapper = mount(FlowchartPage, { attachTo: document.body });
     const text = wrapper.text();
-    expect(text).toContain("1.5.1");
+    expect(text).toContain("1.6.0");
     expect(text).toContain("1.3.0");
     expect(text).toContain("0.05");
     expect(text).toContain("fitNode");
     expect(text).toContain("canUndo");
+    expect(text).toContain("setSelectionColor");
+    expect(text).toContain("bringToFront");
+    expect(text).toContain("exportSvg");
     expect(text).toContain("top");
     expect(text).toContain("right");
     expect(text).toContain("bottom");
@@ -208,6 +211,35 @@ describe("VdFlowchart (@vanduo-oss/vd3-flowchart)", () => {
     expect(
       wrapper.find(".vd-flowchart-node[data-node-id='proc-8']").exists(),
     ).toBe(true);
+
+    const stylebar = wrapper.find("[data-flowchart-stylebar]");
+    expect(stylebar.exists()).toBe(true);
+    expect(stylebar.findAll("[data-demo-color-preset]").length).toBe(12);
+    expect(
+      stylebar.find("[data-flowchart-demo='bring-to-front']").exists(),
+    ).toBe(true);
+    expect(stylebar.find("[data-flowchart-demo='send-to-back']").exists()).toBe(
+      true,
+    );
+    expect(
+      stylebar.find("[data-flowchart-demo='color-pipeline']").exists(),
+    ).toBe(true);
+    expect(stylebar.find("[data-flowchart-demo='reset-colors']").exists()).toBe(
+      true,
+    );
+    expect(stylebar.find("[data-flowchart-demo='toggle-lock']").exists()).toBe(
+      true,
+    );
+
+    // Apply a preset color via the demo stylebar (selects 'decision' when no selection is active)
+    await stylebar
+      .find("[data-demo-color-preset='violet']")
+      .trigger("click");
+    expect(
+      wrapper
+        .find(".vd-flowchart-node[data-node-id='decision']")
+        .attributes("data-color"),
+    ).toBe("violet");
 
     const toolbarControls = wrapper.findAll(
       ".vd-flowchart-toolbar button, .vd-flowchart-toolbar select[data-flowchart-arrange]",

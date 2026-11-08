@@ -2780,6 +2780,126 @@ useAffix(root);
             Dedicated SVG flowchart editor — nodes, edges, layout, undo/redo.
           </p>
         </div>
+        <article class="version-card" id="flowchart-1-6-0">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.6.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>November 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong
+                    >Theme-adaptive color presets, layer order, alignment, edge
+                    stroke styles, node locking, SVG export, and exact arrowhead
+                    docking</strong
+                  >
+                  — color nodes and edges with 12 light/dark-aware semantic
+                  presets or custom CSS overrides, reorder layers, align and
+                  distribute multi-selections, lock nodes, export standalone
+                  SVGs, and dock arrowheads cleanly at shape borders. Document
+                  format stays <code>1.3.0</code>.
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-palette"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >12 theme-adaptive color presets and custom
+                          overrides</strong
+                        >
+                        <p>
+                          <code>FLOWCHART_COLOR_PRESETS</code> adds
+                          <code>default</code>, <code>primary</code>,
+                          <code>secondary</code>, <code>success</code>,
+                          <code>warning</code>, <code>danger</code>,
+                          <code>info</code>, <code>violet</code>,
+                          <code>teal</code>, <code>orange</code>,
+                          <code>pink</code>, and <code>neutral</code> for nodes
+                          and edges, plus optional custom <code>fill</code>,
+                          <code>stroke</code>, and <code>textColor</code>
+                          overrides. Includes a built-in toolbar color popover,
+                          Inspector swatches, and programmatic
+                          <code>setNodeColor</code>, <code>setEdgeColor</code>,
+                          <code>setSelectionColor</code>, and
+                          <code>clearSelectionColor</code>. See
+                          <RouterLink to="/canvas/flowchart"
+                            >Flowchart</RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-stack"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Layer order, multi-select align/distribute, stroke
+                          styles, node locking, and SVG export</strong
+                        >
+                        <p>
+                          Reorder overlapping nodes and edges via
+                          <code>bringToFront</code>, <code>bringForward</code>,
+                          <code>sendBackward</code>, and
+                          <code>sendToBack</code> (<code>Cmd/Ctrl+]</code> /
+                          <code>[</code>); align and distribute multi-selected
+                          nodes with <code>alignNodes</code> and
+                          <code>distributeNodes</code>; style edges with
+                          <code>FLOWCHART_EDGE_STROKE_STYLES</code>
+                          (<code>solid</code>, <code>dashed</code>,
+                          <code>dotted</code>, <code>animated</code>); lock
+                          nodes via <code>setNodeLocked</code> /
+                          <code>toggleNodeLocked</code>
+                          (<code>Cmd/Ctrl+L</code>); and export standalone SVGs
+                          with <code>exportSvg()</code>.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-flow-arrow"
+                        style="color: var(--vd-color-success)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Arrowheads stop cleanly at outer shape
+                          borders</strong
+                        >
+                        <p>
+                          Edge path endpoints retract by the active arrowhead
+                          and outer stroke geometry (including diamond miter
+                          vertices) so marker tips meet node borders without
+                          poking underneath semi-transparent fills.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
         <article class="version-card" id="flowchart-1-5-1">
           <header class="version-header">
             <span
@@ -2790,9 +2910,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>November 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
