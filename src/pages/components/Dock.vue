@@ -62,16 +62,25 @@ const demoItems = [
   { id: "about", icon: "info", label: "About" },
 ] as const;
 
+const dockRef = ref<{ playToPlacement?: (edge: DockPlacement) => void } | null>(
+  null,
+);
+
 function setPlacement(edge: DockPlacement): void {
-  placement.value = edge;
-  orientation.value = dockOrientationOf(edge);
+  if (placement.value === edge) return;
+  if (dockRef.value?.playToPlacement) {
+    dockRef.value.playToPlacement(edge);
+  } else {
+    placement.value = edge;
+    orientation.value = dockOrientationOf(edge);
+  }
 }
 
 function toggleOrientation(): void {
   const next: DockOrientation =
     orientation.value === "horizontal" ? "vertical" : "horizontal";
-  orientation.value = next;
-  placement.value = dockPlacementOf(next, placement.value);
+  const nextEdge = dockPlacementOf(next, placement.value);
+  setPlacement(nextEdge);
 }
 
 function setTint(next: DockTint | ""): void {
@@ -84,8 +93,12 @@ watch(themeTint, (next) => {
 });
 
 function resetPlayground(): void {
-  orientation.value = "horizontal";
-  placement.value = "bottom";
+  if (placement.value !== "bottom" && dockRef.value?.playToPlacement) {
+    dockRef.value.playToPlacement("bottom");
+  } else {
+    orientation.value = "horizontal";
+    placement.value = "bottom";
+  }
   tintFollowsTheme.value = true;
   tint.value = themeTint.value;
   tintMode.value = "surface";
@@ -200,7 +213,7 @@ const tintModeSnippet = `<template>
 const vue3Api: [string, string][] = [
   [
     "v-model:orientation",
-    '"horizontal" | "vertical". Brand click morphs through a square waypoint (480ms / 720ms) on the current pair.',
+    '"horizontal" | "vertical". Brand click morphs through a square waypoint (377ms / 610ms) on the current pair.',
   ],
   [
     "v-model:placement",
@@ -378,6 +391,7 @@ const brandSpinApi: [string, string][] = [
             </p>
             <div class="dock-stage" data-dock-playground>
               <VdDock
+                ref="dockRef"
                 v-model:orientation="orientation"
                 v-model:placement="placement"
                 position="contained"

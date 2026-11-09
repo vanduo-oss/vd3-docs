@@ -60,4 +60,21 @@ test.describe('Fibonacci Motion System', () => {
     await toggleBtn.click();
     await expect(expandContent).toBeVisible();
   });
+
+  test('morphs Oola Dock through square waypoint between edges', async ({ page }) => {
+    await page.goto('/components/dock');
+
+    const dock = page.locator('[data-dock-playground] .vd-dock');
+    await expect(dock).toBeVisible();
+    await expect(dock).toHaveClass(/vd-dock-edge-bottom/);
+
+    // Click 'left' chip in playground Place controls
+    const leftChip = page.locator('.dock-play-chips button', { hasText: 'left' });
+    await leftChip.click();
+
+    // Verify dock transitions to left edge
+    await expect(dock).toHaveClass(/vd-dock-edge-left/, { timeout: 3000 });
+    await expect(dock).toHaveClass(/is-vertical/);
+  });
 });
+

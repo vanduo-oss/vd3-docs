@@ -27,10 +27,14 @@ type MorphPatch = Partial<{
 }>;
 
 function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
+  if (typeof window === "undefined") return false;
+  const mode =
+    typeof document !== "undefined"
+      ? document.documentElement.getAttribute("data-motion")
+      : null;
+  if (mode === "off" || mode === "reduce") return true;
+  if (mode === "full") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 function hasExpose(field: unknown): boolean {
