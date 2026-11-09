@@ -1,6 +1,8 @@
 import {
   DOCK_MORPH_MS,
+  dockMorphCornerOf,
   dockOrientationOf,
+  type DockCorner,
   type DockOrientation,
   type DockPlacement,
   type DockVisualPhase,
@@ -10,6 +12,7 @@ export type SiteDockMorphApi = {
   snapToPlacement?: (target: DockPlacement) => void;
   isMorphing?: unknown;
   visualPhase?: unknown;
+  morphCorner?: unknown;
   placement?: unknown;
   orientation?: unknown;
 };
@@ -22,6 +25,7 @@ export type SiteDockNarrowBrandMorphOptions = {
 type MorphPatch = Partial<{
   isMorphing: boolean;
   visualPhase: DockVisualPhase;
+  morphCorner: DockCorner | null;
   placement: DockPlacement;
   orientation: DockOrientation;
 }>;
@@ -92,8 +96,14 @@ export function playSiteDockNarrowBrandMorph(
   }
 
   const nextOrientation = dockOrientationOf(target);
+  const currentPlacement = readExpose<DockPlacement>(api.placement) ?? "top";
+  const corner = dockMorphCornerOf(currentPlacement, target);
 
-  writeMorphApi(api, { isMorphing: true, visualPhase: "square" });
+  writeMorphApi(api, {
+    isMorphing: true,
+    visualPhase: "square",
+    morphCorner: corner,
+  });
 
   window.setTimeout(() => {
     writeMorphApi(api, {
@@ -104,7 +114,7 @@ export function playSiteDockNarrowBrandMorph(
     options.onApplied?.();
 
     window.setTimeout(() => {
-      writeMorphApi(api, { isMorphing: false });
+      writeMorphApi(api, { isMorphing: false, morphCorner: null });
       options.onSettled?.();
     }, DOCK_MORPH_MS.grow);
   }, DOCK_MORPH_MS.shrink);

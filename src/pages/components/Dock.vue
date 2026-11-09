@@ -164,7 +164,6 @@ const placement = ref("${placement.value}");
     radius="${radius.value}"
     item-layout="${itemLayout.value}"
     brand-spin
-    brand-corner="consistent"
     cycle="edges"${tintLine}
     tint-mode="${tintMode.value}"
   >
@@ -401,7 +400,6 @@ const brandSpinApi: [string, string][] = [
                 :radius="radius"
                 :item-layout="itemLayout"
                 brand-spin
-                brand-corner="consistent"
                 cycle="edges"
               >
                 <template #brand>

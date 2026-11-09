@@ -72,9 +72,31 @@ test.describe('Fibonacci Motion System', () => {
     const leftChip = page.locator('.dock-play-chips button', { hasText: 'left' });
     await leftChip.click();
 
-    // Verify dock transitions to left edge
+    // Verify dock transitions to left edge and finishes morph
     await expect(dock).toHaveClass(/vd-dock-edge-left/, { timeout: 3000 });
     await expect(dock).toHaveClass(/is-vertical/);
+    await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 3000 });
+
+    // Click 'top' chip
+    const topChip = page.locator('.dock-play-chips button', { hasText: 'top' });
+    await topChip.click();
+    await expect(dock).toHaveClass(/vd-dock-edge-top/, { timeout: 3000 });
+    await expect(dock).toHaveClass(/is-horizontal/);
+    await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 3000 });
+
+    // Click 'right' chip
+    const rightChip = page.locator('.dock-play-chips button', { hasText: 'right' });
+    await rightChip.click();
+    await expect(dock).toHaveClass(/vd-dock-edge-right/, { timeout: 3000 });
+    await expect(dock).toHaveClass(/is-vertical/);
+    await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 3000 });
+
+    // Click 'bottom' chip
+    const bottomChip = page.locator('.dock-play-chips button', { hasText: 'bottom' });
+    await bottomChip.click();
+    await expect(dock).toHaveClass(/vd-dock-edge-bottom/, { timeout: 3000 });
+    await expect(dock).toHaveClass(/is-horizontal/);
+    await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 3000 });
   });
 });
 
