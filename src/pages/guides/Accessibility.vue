@@ -4,6 +4,13 @@ import GuideLinkCards from "@/components/GuideLinkCards.vue";
 
 const relatedComponents = [
   {
+    to: "/core/motion",
+    icon: "ph-wave-sine",
+    title: "Motion",
+    desc: "Fibonacci motion system with accessible reduced-motion modes.",
+    badge: "Core",
+  },
+  {
     to: "/components/modal",
     icon: "ph-rectangle",
     title: "Modal",
@@ -53,9 +60,26 @@ const ariaHtml = `<!-- Icon-only controls need an accessible name; VdButton does
 
 <nav class="vd-pagination" aria-label="Pagination">…</nav>`;
 
-const motionCss = `/* Effects (parallax, morph, glass) respect reduced-motion */
+const motionCss = `/* All vd3 components and utilities automatically adapt to reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .vd-parallax-layer { transform: none !important; }
+  :root:not([data-motion="full"]) {
+    --vd-duration-instant: 0ms;
+    --vd-duration-fast: 89ms;
+    --vd-duration-snappy: 89ms;
+    --vd-duration-normal: 89ms;
+    --vd-duration-moderate: 89ms;
+    --vd-duration-slow: 89ms;
+    --vd-duration-gentle: 89ms;
+  }
+}
+
+/* User overrides via html[data-motion]:
+   - data-motion="reduce": disables spatial movement, keeps 89ms opacity crossfades
+   - data-motion="off": disables transitions completely (0ms)
+   - data-motion="full": plays full animations regardless of OS preference */
+html[data-motion="off"] * {
+  transition-duration: 0ms !important;
+  animation-duration: 0ms !important;
 }`;
 
 const helpersSnippet = `import { ref } from "vue";
@@ -205,8 +229,12 @@ const dontUndo: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <p>
-              The effects composables already guard this; do the same in custom
-              CSS:
+              vd3 respects user motion preference across all components,
+              primitives (<code>VdExpandTransition</code>,
+              <code>VdTransition</code>), and theme customizer controls. Users
+              with motion sensitivities can choose between OS-driven behavior
+              (<code>auto</code>), subtle opacity crossfades
+              (<code>reduce</code>), or zero transitions (<code>off</code>):
             </p>
             <DocCodeSnippet :css="motionCss" :default-open="true" />
           </div>

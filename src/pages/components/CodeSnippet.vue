@@ -34,6 +34,10 @@ const vue3Api: [string, string][] = [
     "Chrome mode: show the toggle and start from `defaultOpen` (default true).",
   ],
   [
+    ":animated",
+    "Chrome mode: smooth height expansion on expand/collapse using Fibonacci timing (default true).",
+  ],
+  [
     ":highlight",
     "Optional `(code, language) => escaped HTML`. These docs pass `@vanduo-oss/vd3/highlight`; without it the snippet is plain text. Copy always uses the raw source.",
   ],

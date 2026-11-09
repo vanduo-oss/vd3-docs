@@ -35,6 +35,10 @@ const vdOffcanvasApi: [string, string][] = [
     "boolean (default true) — close when clicking the overlay backdrop.",
   ],
   [":closeOnEsc", "boolean (default true) — close when pressing Escape."],
+  [
+    ":animated",
+    "boolean (default true) — smooth sliding transition using Fibonacci timing and golden easing.",
+  ],
   ["@close", "Emitted when the offcanvas panel closes."],
   [
     "#header / default",

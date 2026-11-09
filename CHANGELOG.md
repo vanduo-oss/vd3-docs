@@ -3,6 +3,22 @@
 `@vanduo-oss/vd3-docs` is the **private** documentation site for the vd3 line.
 It is not published to npm and keeps no package release history of its own.
 
+## [1.8.0] - 2026-11-09
+
+### Added
+
+- **Motion Foundation Page** (`/core/motion`): Interactive Fibonacci duration ladder (`55ms` to `987ms`), golden easing curves comparison (`--vd-ease-out`, `--vd-ease-in`, `--vd-ease-in-out`, `--vd-ease-linear`), `<VdExpandTransition>` live adaptive sizing demo, `<VdTransition>` presets sandbox, and live Motion mode selector (`auto`, `full`, `reduce`, `off`).
+- E2E Playwright test suite (`tests/e2e/motion.spec.ts`) validating motion mode switching, attribute state, duration ladders, and expand/collapse transitions.
+
+### Changed
+
+- Adopt `@vanduo-oss/vd3@1.9.0` with the built-in Fibonacci motion system: unfoldable components (`VdAccordion`, `VdCodeSnippet`, `VdTree`, `VdNavbar`, `VdModal`, `VdOffcanvas`, `VdSidenav`, `VdTabs`, `VdAlert`, `VdChip`) now transition smoothly by default.
+- Document `:animated` prop across Accordion, Alert, Chip, Modal, Offcanvas, Sidenav, Tabs, Tree, and CodeSnippet reference pages.
+- Add Fibonacci motion sections and token reference tables to `Fibonacci.vue`, `CssVariables.vue`, and `Accessibility.vue`.
+- Updated catalog constants (`66` component exports, `41` composable modules).
+- Refreshed canonical search index with the new `/core/motion` route.
+- Removed unused `animejs` dependency from `package.json`.
+
 ## Unreleased
 
 ### Changed

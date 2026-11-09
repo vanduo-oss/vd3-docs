@@ -1605,6 +1605,8 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
 
   .doc-nav.is-open {
     display: block;
+    animation: vdFadeIn var(--vd-duration-normal, 233ms)
+      var(--vd-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
     margin-top: 0.375rem;
     padding: 0.375rem 0;
     width: calc(100% - 0.75rem);

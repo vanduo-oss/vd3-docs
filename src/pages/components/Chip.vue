@@ -29,6 +29,10 @@ const vue3Api: [string, string][] = [
   [":size", 'sm | md | lg (default "md").'],
   [":outline", "Transparent background with a coloured border."],
   [":dismissible", "Renders a close button that emits dismiss."],
+  [
+    ":animated",
+    "Enable smooth WAAPI collapse animation on dismiss. Default true.",
+  ],
   [":clickable", "Makes the chip emit click on activation."],
   [":avatar", "Image src rendered as a leading avatar."],
   ["default slot", "Chip label."],

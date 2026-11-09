@@ -123,6 +123,10 @@ const propRows: [string, string][] = [
     "glass",
     "boolean — frosted glass panel + backdrop (`.vd-modal-glass` / `.vd-modal-glass-backdrop`, default false).",
   ],
+  [
+    "animated",
+    "boolean — enable smooth scale & fade transition using Fibonacci timing (default true).",
+  ],
 ];
 
 const eventRows: [string, string][] = [

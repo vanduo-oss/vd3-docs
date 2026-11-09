@@ -92,6 +92,13 @@ const fib3Html = `<!-- 3-column Fibonacci (3:5:8) — children need vd-col-fib-*
 
 const relatedComponents = [
   {
+    to: "/core/motion",
+    icon: "ph-wave-sine",
+    title: "Motion",
+    desc: "Fibonacci duration ladder (55ms - 987ms) and golden easing curves.",
+    badge: "Core",
+  },
+  {
     to: "/core/golden-ratio",
     icon: "ph-shapes",
     title: "Golden ratio",
@@ -395,6 +402,75 @@ const relatedComponents = [
             </p>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Fibonacci in Motion -->
+    <div class="vd-card vd-card-glow demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6>
+          <i class="ph ph-wave-sine"></i> Fibonacci in Motion &amp; Animation
+        </h6>
+      </div>
+      <div class="vd-card-body">
+        <p>
+          The same harmonic principle governs vd3's animation system. Rather
+          than arbitrary <code>200ms</code> or <code>300ms</code> timings,
+          durations step through literal Fibonacci millisecond values:
+        </p>
+        <div class="vd-table-responsive vd-mb-4">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Duration</th>
+                <th>Token</th>
+                <th>Role in Design System</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>55ms</code></td>
+                <td><code>--vd-duration-instant</code></td>
+                <td>Active states, tap feedback, button presses</td>
+              </tr>
+              <tr>
+                <td><code>89ms</code></td>
+                <td><code>--vd-duration-fast</code></td>
+                <td>Toggles, checkmarks, reduced-motion crossfades</td>
+              </tr>
+              <tr>
+                <td><code>144ms</code></td>
+                <td><code>--vd-duration-snappy</code></td>
+                <td>Tooltips, small badges, micro-unfolds (&lt; 80px)</td>
+              </tr>
+              <tr>
+                <td><code>233ms</code></td>
+                <td><code>--vd-duration-normal</code></td>
+                <td>Dropdowns, popovers, select menus, chip dismiss</td>
+              </tr>
+              <tr>
+                <td><code>377ms</code></td>
+                <td><code>--vd-duration-moderate</code></td>
+                <td>Drawers, modals, offcanvas, alerts (&lt; 450px)</td>
+              </tr>
+              <tr>
+                <td><code>610ms</code></td>
+                <td><code>--vd-duration-slow</code></td>
+                <td>Accordions, code snippets, large panels (&gt; 450px)</td>
+              </tr>
+              <tr>
+                <td><code>987ms</code></td>
+                <td><code>--vd-duration-gentle</code></td>
+                <td>Page transitions, hero unfolds, choreographies</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="vd-mb-0">
+          Learn more about adaptive height calculations and golden easing curves
+          on the
+          <RouterLink to="/core/motion">Motion foundation page</RouterLink>.
+        </p>
       </div>
     </div>
 

@@ -34,9 +34,6 @@ importers:
       '@vanduo-oss/vd3-flowchart':
         specifier: 1.6.0
         version: 1.6.0(vue@3.5.43(typescript@6.0.3))
-      animejs:
-        specifier: 4.5.0
-        version: 4.5.0
       fuse.js:
         specifier: 7.5.0
         version: 7.5.0
@@ -876,17 +873,6 @@ packages:
 
   alien-signals@3.2.1:
     resolution: {integrity: sha512-I8FjmltrfnDFoZedi5CG8DghVYNhzb/Ijluz7tCSJH0xpd0484Kowhbb1XDYOxfJpU1p5wnM2X54dA+IfGyD1g==}
-
-  animejs@4.5.0:
-    resolution: {integrity: sha512-NQimYX+lz8WaXonGS9zVVoviCIAjONeJayxacUditaivYLqyXgGjFKjuyl0aUUhFKm5MriX9ty1TGovNzoJQWA==}
-    peerDependencies:
-      '@types/three': '>=0.150.0'
-      three: '>=0.150.0'
-    peerDependenciesMeta:
-      '@types/three':
-        optional: true
-      three:
-        optional: true
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -2917,8 +2903,6 @@ snapshots:
       require-from-string: 2.0.2
 
   alien-signals@3.2.1: {}
-
-  animejs@4.5.0: {}
 
   ansi-regex@5.0.1: {}
 
