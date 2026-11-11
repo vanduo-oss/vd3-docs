@@ -1779,10 +1779,30 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
   width: 100%;
 }
 
+.hero-zone.hero-zone-grid {
+  max-width: none;
+  margin: calc(-1 * var(--docs-main-offset, 0px)) 0 0;
+  border-bottom: 1px solid var(--vd-border-color);
+}
+
+#hero.home-hero-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: calc(var(--docs-main-offset, 0px) + 144px);
+  padding-bottom: calc(2.5rem + var(--vd-spacing-6, 1.5rem)) !important;
+  background-color: var(--vd-bg-primary);
+  color: var(--vd-text-primary);
+}
+
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 100%;
+  max-width: 1100px;
   width: 100%;
   padding: 2rem;
   margin: 0 auto;
@@ -1794,13 +1814,107 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
   margin-bottom: 6rem !important;
 }
 
+.hero-proof-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  margin-top: 3.25rem;
+}
+
+.hero-proof-lead {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--vd-text-primary);
+}
+
+.hero-proof-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hero-proof-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-primary);
+  color: var(--vd-text-secondary);
+  font-family: var(--vd-font-family-mono);
+  font-size: 0.775rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
 .hero-content .vd-mt-6 {
-  margin-top: 10rem;
+  margin-top: 2.75rem;
 }
 
 /* Hero bottom padding: sized so gap to search bar matches CTA button spacing (--vd-spacing-6) */
 .hero-zone #hero {
   padding-bottom: calc(2rem + var(--vd-spacing-6, 1.5rem)) !important;
+}
+
+/* ── Home: Theme-Reactive Surfaces & Parallax ───────────────────────── */
+#home .vd-parallax-bg.vd-surface {
+  position: absolute;
+  inset: -18% 0;
+  width: 100%;
+  height: 136%;
+  min-height: 0;
+  z-index: 0;
+  background-repeat: repeat;
+  pointer-events: none;
+}
+
+html[data-motion="reduce"] #home .vd-parallax-bg,
+html[data-motion="off"] #home .vd-parallax-bg {
+  transform: none !important;
+  will-change: auto;
+}
+
+/* Native vd3 surface palettes (matching /effects/surfaces) blended with a
+   subtle tint of the active --vd-color-primary token. */
+#home .home-surface-grid {
+  --vd-surface-intensity: 1.15;
+  --vd-surface-contrast: 1.15;
+  --vd-surface-base: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--vd-color-primary) 16%, #111827) 0%,
+    color-mix(in srgb, var(--vd-color-primary) 12%, #1f2937) 50%,
+    color-mix(in srgb, var(--vd-color-primary) 18%, #0f766e) 100%
+  );
+}
+
+#home .home-surface-dots {
+  --vd-surface-intensity: 1.08;
+  --vd-surface-contrast: 1.05;
+  --vd-surface-base: linear-gradient(
+    125deg,
+    color-mix(in srgb, var(--vd-color-primary) 16%, #0ea5e9) 0%,
+    color-mix(in srgb, var(--vd-color-primary) 18%, #6366f1) 45%,
+    color-mix(in srgb, var(--vd-color-primary) 16%, #a855f7) 100%
+  );
+}
+
+#home .home-surface-noise {
+  --vd-surface-intensity: 1.1;
+  --vd-surface-contrast: 1.05;
+  --vd-surface-base: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--vd-color-primary) 16%, #334155) 0%,
+    color-mix(in srgb, var(--vd-color-primary) 18%, #4338ca) 48%,
+    color-mix(in srgb, var(--vd-color-primary) 16%, #be185d) 100%
+  );
 }
 
 /* ── Global ambient gradient — all pages ──────────────────────────── */
@@ -2019,10 +2133,10 @@ footer.vd-glass::before {
    Slimmer padding, ~0.925rem bold type, 2px border + ring. Hero keeps its
    own 3:2:1 grid / ring-offset width math below; other groups stay auto-width. */
 #home .hero-cta-buttons .vd-btn,
+#home .home-stage-ctas .vd-btn,
 #home .seemore-home-cta .vd-btn,
 #home .oola-home-cta .vd-btn,
-#home #cta .vd-btn,
-#home-features .feature-morph-link {
+#home #cta .vd-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2040,6 +2154,7 @@ footer.vd-glass::before {
 /* 2px inner / 2px outer / 6px gap — double outline reads thicker.
    Pin ring color so hover fill cannot wash the outer ring out. */
 #home .hero-cta-buttons .vd-btn-outline.vd-btn-ring,
+#home .home-stage-ctas .vd-btn-outline.vd-btn-ring,
 #home .seemore-home-cta .vd-btn-outline.vd-btn-ring,
 #home .oola-home-cta .vd-btn-outline.vd-btn-ring,
 #home #cta .vd-btn-outline.vd-btn-ring {
@@ -2052,6 +2167,9 @@ footer.vd-glass::before {
 
 #home
   .hero-cta-buttons
+  .vd-btn-outline.vd-btn-ring:hover:not(:disabled, .disabled, .is-disabled),
+#home
+  .home-stage-ctas
   .vd-btn-outline.vd-btn-ring:hover:not(:disabled, .disabled, .is-disabled),
 #home
   .seemore-home-cta
@@ -2103,124 +2221,573 @@ footer.vd-glass::before {
   vertical-align: middle;
 }
 
-/* Seemore / Oola: flex gap spaces the pair. Ring-then-ink should not
-   inherit the default .vd-btn+.vd-btn left bump; a trailing ring still
-   keeps ring-offset clearance. */
+/* Seemore / Oola / Stage actions: flex gap spaces the buttons. */
+#home .home-stage-ctas .vd-btn + .vd-btn,
 #home .seemore-home-cta .vd-btn + .vd-btn,
 #home .oola-home-cta .vd-btn + .vd-btn {
   margin-left: 0;
 }
 
+#home .home-stage-ctas .vd-btn + .vd-btn-ring,
 #home .seemore-home-cta .vd-btn + .vd-btn-ring,
 #home .oola-home-cta .vd-btn + .vd-btn-ring {
   margin-left: var(--vd-btn-ring-offset, 8px);
 }
 
-.feature-icon {
-  font-size: 2.5rem;
-  color: var(--vd-color-primary);
+/* ── Home: 3 Surface + Seemore Glass Stages (Grid, Dots, Noise) ───────── */
+.home-stage-section {
+  padding-top: var(--vd-space-fib-55, 3.4375rem);
+}
+
+.home-stage-section-last {
+  padding-bottom: 5rem;
+}
+
+.home-stage-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 610px;
+  display: flex;
+  align-items: stretch;
+  border-radius: var(--vd-radius-fib-21, 1.3125rem);
+  border: 1px solid var(--vd-border-color);
+  box-shadow: var(--vd-shadow-xl);
+}
+
+.home-stage-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.618fr);
+  gap: var(--vd-space-fib-34, 2.125rem);
+  align-items: stretch;
+  padding: clamp(1.75rem, 3.8vw, 3.4375rem);
+}
+
+.home-stage-grid.is-reversed {
+  grid-template-columns: minmax(0, 1.618fr) minmax(0, 1fr);
+}
+
+/* Paired floating Seemore Glass panels over vibrant .vd-surface-* backdrops */
+#home .home-glass-panel {
+  border-radius: var(--vd-radius-fib-13, 0.875rem);
+  padding: clamp(1.5rem, 2.8vw, 2.25rem);
+  background: color-mix(in srgb, var(--vd-bg-primary) 92%, transparent);
+  backdrop-filter: blur(var(--vd-glass-blur-8, 16px)) saturate(165%);
+  -webkit-backdrop-filter: blur(var(--vd-glass-blur-8, 16px)) saturate(165%);
+  border: 1px solid
+    color-mix(in srgb, var(--vd-border-color) 70%, rgb(255 255 255 / 45%));
+  box-shadow:
+    0 18px 42px -12px rgb(0 0 0 / 28%),
+    0 1px 0 0 rgb(255 255 255 / 22%) inset;
+  color: var(--vd-text-primary);
+}
+
+[data-theme="dark"] #home .home-glass-panel {
+  background: color-mix(in srgb, var(--vd-bg-primary) 90%, transparent);
+  border-color: color-mix(
+    in srgb,
+    var(--vd-border-color) 75%,
+    rgb(255 255 255 / 20%)
+  );
+  box-shadow:
+    0 22px 48px -12px rgb(0 0 0 / 55%),
+    0 1px 0 0 rgb(255 255 255 / 10%) inset;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) #home .home-glass-panel {
+    background: color-mix(in srgb, var(--vd-bg-primary) 90%, transparent);
+    border-color: color-mix(
+      in srgb,
+      var(--vd-border-color) 75%,
+      rgb(255 255 255 / 20%)
+    );
+    box-shadow:
+      0 22px 48px -12px rgb(0 0 0 / 55%),
+      0 1px 0 0 rgb(255 255 255 / 10%) inset;
+  }
+}
+
+.home-stage-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.home-stage-header-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
-/* Home: feature morph cards */
-#home-features .feature-morph-card {
-  cursor: pointer;
-  min-height: 18rem;
-  padding: 2rem;
-  position: relative;
+.home-stage-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-secondary);
+  color: var(--vd-text-primary);
+  font-family: var(--vd-font-family-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-#home-features .feature-morph-card .feature-morph-face {
+.home-stage-eyebrow i {
+  color: var(--vd-color-primary);
+  font-size: 0.95rem;
+}
+
+.home-surface-tag {
+  font-family: var(--vd-font-family-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.22rem 0.55rem;
+  border-radius: var(--vd-radius-fib-3, 4px);
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-secondary);
+  color: var(--vd-text-secondary);
+}
+
+.home-stage-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.6rem, 2.4vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--vd-text-primary);
+}
+
+.home-stage-lead {
+  margin: 0 0 1.15rem;
+  font-size: 0.975rem;
+  line-height: 1.65;
+  color: var(--vd-text-secondary);
+}
+
+.home-stage-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.home-stage-list li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: 0.89rem;
+  line-height: 1.55;
+  color: var(--vd-text-secondary);
+}
+
+.home-stage-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.58em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--vd-color-primary);
+}
+
+.home-stage-list strong {
+  color: var(--vd-text-primary);
+}
+
+.home-stage-ctas {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.35rem;
+  overflow: visible;
+}
+
+.home-stage-ctas .vd-btn {
+  padding-inline: 1rem;
+  white-space: nowrap;
+}
+
+.home-stage-ctas .vd-btn i {
+  font-size: 1.2em;
+  margin-right: 0.45em;
+}
+
+/* ── Home: Showcase Glass Panels (.home-spec-panel) ──────────────────── */
+.home-spec-panel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.home-spec-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.home-spec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.home-spec-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--vd-text-primary);
+}
+
+.home-spec-title i {
+  color: var(--vd-color-primary);
+  font-size: 1.15rem;
+}
+
+.home-spec-badge {
+  font-family: var(--vd-font-family-mono);
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--vd-radius-fib-3, 4px);
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-secondary);
+  color: var(--vd-text-secondary);
+}
+
+.home-spec-link {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--vd-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.home-spec-link:hover,
+.home-spec-link:focus-visible {
+  color: var(--vd-color-primary);
+}
+
+.home-spec-divider {
+  border: 0;
+  height: 1px;
+  width: 100%;
+  margin: 0;
+  background-color: var(--vd-border-color);
+}
+
+/* Section 1: Fibonacci duration ladder & spatial chips */
+.home-fib-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.home-fib-row {
+  display: grid;
+  grid-template-columns: 4.75rem minmax(0, 1fr) 3.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.home-fib-name {
+  font-family: var(--vd-font-family-mono);
+  color: var(--vd-text-secondary);
+  font-weight: 500;
+  background: transparent;
+  padding: 0;
+}
+
+.home-fib-track {
+  position: relative;
+  height: 0.55rem;
+  border-radius: 999px;
+  background-color: var(--vd-bg-secondary);
+  border: 1px solid var(--vd-border-color);
+  overflow: hidden;
+}
+
+.home-fib-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background-color: var(--vd-color-primary);
+}
+
+.home-fib-ms {
+  text-align: right;
+  font-family: var(--vd-font-family-mono);
+  font-size: 0.775rem;
+  color: var(--vd-text-primary);
+  background: transparent;
+  padding: 0;
+}
+
+.home-spec-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.15rem;
+  font-size: 0.775rem;
+  color: var(--vd-text-secondary);
+}
+
+.home-spatial-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.home-spatial-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-secondary);
+}
+
+.home-spatial-token {
+  font-family: var(--vd-font-family-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--vd-text-primary);
+  background: transparent;
+  padding: 0;
+}
+
+.home-spatial-px {
+  font-family: var(--vd-font-family-mono);
+  font-size: 0.75rem;
+  color: var(--vd-text-secondary);
+}
+
+/* Section 2: Swatch strip, Seemore Glass tiers & root attributes */
+.home-swatch-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.home-swatch-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.35rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  font-size: 0.775rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.home-glass-tiers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.home-glass-tier-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.7rem 0.75rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-secondary);
+}
+
+.home-glass-tier-codes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.home-glass-tier-codes code {
+  font-family: var(--vd-font-family-mono);
+  font-size: 0.7rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--vd-radius-fib-3, 4px);
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-primary);
+  color: var(--vd-text-primary);
+}
+
+.home-glass-tier-label {
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: var(--vd-text-primary);
+}
+
+.home-glass-tier-detail {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--vd-text-secondary);
+}
+
+.home-attr-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding-top: 0.15rem;
+}
+
+.home-attr-pill {
+  font-family: var(--vd-font-family-mono);
+  font-size: 0.725rem;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-secondary);
+  color: var(--vd-text-secondary);
+}
+
+/* Section 3: Ecosystem package list & Phosphor Icon weights */
+.home-pkg-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.home-pkg-item {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-secondary);
+  color: var(--vd-text-primary);
+  text-decoration: none;
+  transition:
+    border-color var(--vd-duration-fast, 89ms) var(--vd-ease-out, ease),
+    transform var(--vd-duration-fast, 89ms) var(--vd-ease-out, ease);
+}
+
+.home-pkg-item:hover,
+.home-pkg-item:focus-visible {
+  border-color: var(--vd-color-primary);
+  text-decoration: none;
+}
+
+.home-pkg-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  background-color: var(--vd-bg-primary);
+  border: 1px solid var(--vd-border-color);
+  color: var(--vd-color-primary);
+  font-size: 1.15rem;
+}
+
+.home-pkg-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.home-pkg-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.home-pkg-name {
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: var(--vd-text-primary);
+  background: transparent;
+  padding: 0;
+}
+
+.home-pkg-version {
+  font-family: var(--vd-font-family-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.08rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-primary);
+  color: var(--vd-text-secondary);
+}
+
+.home-pkg-meta {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--vd-text-secondary);
+}
+
+.home-pkg-summary {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--vd-text-secondary);
+}
+
+.home-pkg-arrow {
+  color: var(--vd-text-secondary);
+  font-size: 0.95rem;
+  margin-top: 0.15rem;
+}
+
+.home-pkg-item:hover .home-pkg-arrow,
+.home-pkg-item:focus-visible .home-pkg-arrow {
+  color: var(--vd-color-primary);
+}
+
+.home-icon-weights {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.home-icon-weight-pill {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 1.25rem;
-  text-align: center;
-}
-
-#home-features .feature-morph-card .feature-morph-title {
-  color: var(--vd-color-primary);
-  margin: 0;
-}
-
-#home-features .feature-morph-card .feature-morph-body {
-  color: var(--vd-text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.55;
-  margin: 0;
-}
-
-/* Front-face summary: a step below the revealed body copy, so the grid
-   still reads top to bottom without opening a single card. */
-#home-features .feature-morph-card .feature-morph-teaser {
-  color: var(--vd-text-secondary);
-  font-size: 0.85rem;
-  line-height: 1.5;
-  max-width: 22ch;
-  margin: 0;
-}
-
-#home-features .feature-morph-card .feature-morph-hint {
-  display: inline-flex;
-  align-items: center;
   gap: 0.3rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.75;
+  padding: 0.55rem 0.35rem;
+  border-radius: var(--vd-radius-fib-5, 0.5rem);
+  border: 1px solid var(--vd-border-color);
+  background-color: var(--vd-bg-secondary);
+  color: var(--vd-text-primary);
+  font-size: 0.725rem;
+  font-weight: 500;
 }
 
-/* Home: "Read the guide" link on the revealed card face.
-   Type / padding come from the shared #home marketing CTA rules. */
-#home-features .feature-morph-card .feature-morph-link {
-  margin-top: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  width: auto;
-  align-self: center;
-  white-space: nowrap;
-  padding-inline: 1rem;
-}
-
-/* The morph faces set pointer-events:none; re-enable the link, but only on the
-   visible (current) face so the hidden face never intercepts clicks. */
-#home-features .feature-morph-card .vd-morph-current .feature-morph-link {
-  pointer-events: auto;
-}
-
-#home-features .feature-morph-card .feature-morph-link .ph-arrow-right {
-  transition: transform 0.18s ease;
-}
-
-#home-features .feature-morph-card .feature-morph-link:hover .ph-arrow-right,
-#home-features
-  .feature-morph-card
-  .feature-morph-link:focus-visible
-  .ph-arrow-right {
-  transform: translateX(3px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #home-features .feature-morph-card .feature-morph-link .ph-arrow-right {
-    transition: none;
-  }
-
-  #home-features .feature-morph-card .feature-morph-link:hover .ph-arrow-right {
-    transform: none;
-  }
-}
-
-/* Home: icons section */
-.icons-section-title,
-.icons-section-subtitle {
-  text-align: center;
-}
-
-.icons-card {
-  padding: 2rem;
+.home-icon-weight-pill i {
+  font-size: 1.35rem;
+  color: var(--vd-color-primary);
 }
 
 .home-card-no-glow {
@@ -2230,86 +2797,6 @@ footer.vd-glass::before {
 
 .home-card-no-glow:hover {
   border-color: var(--vd-card-border-color);
-}
-
-#cta .vd-card > .vd-btn {
-  width: auto;
-  max-width: 100%;
-  align-self: center;
-  white-space: nowrap;
-  padding-inline: var(--vd-spacing-8, 2rem);
-}
-
-.icons-weights {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.icons-weight-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.icons-weight-item i {
-  font-size: 48px;
-}
-
-.icons-sample-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  margin: 0 auto;
-  max-width: 900px;
-}
-
-.icons-footer {
-  margin-top: 2.5rem;
-  text-align: center;
-}
-
-/* Home: Open Color section */
-.open-color-title,
-.open-color-subtitle {
-  text-align: center;
-}
-
-.open-color-card {
-  padding: 2rem;
-}
-
-.open-color-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 1rem;
-}
-
-.open-color-swatch {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 64px;
-  border-radius: var(--vd-card-border-radius);
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--vd-color-white);
-  letter-spacing: 0.02em;
-}
-
-.open-color-swatch.is-light {
-  color: var(--vd-color-gray-900);
-  border: 1px solid rgb(255 255 255 / 10%);
-}
-
-.open-color-footer {
-  margin-top: 1.5rem;
-  text-align: center;
 }
 
 /* Philosophy cards (docs page #docs/philosophy) */
@@ -2833,8 +3320,9 @@ a:hover .vd-card-interactive.vd-card-glow {
     justify-content: center;
   }
 
-  /* Marketing pages: CBUN needs a wider mobile gutter than the
+  /* Marketing pages: Home and CBUN need a wider mobile gutter than the
      base vd-container-responsive 13px padding (matches About's ~1.5rem feel). */
+  #home .vd-container-responsive,
   #cbun .vd-container-responsive {
     padding-inline: max(
       var(--vd-space-fib-21, 1.3125rem),
@@ -4629,6 +5117,13 @@ html[data-theme="light"] .tc-fan-item {
     padding-bottom: 60px !important;
   }
 
+  #hero.home-hero-stage {
+    padding-top: calc(
+      var(--docs-main-offset, 0px) + var(--docs-hero-mobile-padding-top)
+    ) !important;
+    padding-bottom: 60px !important;
+  }
+
   .hero-content h1 {
     flex-direction: column;
     gap: 0.5rem;
@@ -4637,6 +5132,10 @@ html[data-theme="light"] .tc-fan-item {
   .hero-content h1 svg {
     margin-right: 0 !important;
     transform: none !important;
+  }
+
+  .hero-proof-strip {
+    margin-top: 2.25rem;
   }
 
   .hero-cta-buttons {
@@ -4668,6 +5167,27 @@ html[data-theme="light"] .tc-fan-item {
     display: none;
   }
 
+  .home-icon-weights {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .home-swatch-strip,
+  .home-spatial-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-glass-tiers {
+    grid-template-columns: 1fr;
+  }
+
+  .home-stage-card {
+    min-height: 0;
+  }
+
+  .home-stage-grid {
+    padding: 1.25rem;
+  }
+
   #cta .vd-card > .vd-btn {
     width: 100%;
     max-width: none;
@@ -4675,7 +5195,7 @@ html[data-theme="light"] .tc-fan-item {
 }
 
 /* Home marketing CTAs — one stacked column width ≤991.98px.
-   Hero / Oola / Seemore / #cta pills share the page container column
+   Hero / Stage / Oola / Seemore / #cta pills share the page container column
    so Getting Started and Documentation match. */
 @media (max-width: 991.98px) {
   #home {
@@ -4691,13 +5211,35 @@ html[data-theme="light"] .tc-fan-item {
     );
   }
 
+  .home-stage-grid,
+  .home-stage-grid.is-reversed {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .home-stage-grid.is-reversed .home-stage-copy {
+    order: 1;
+  }
+
+  .home-stage-grid.is-reversed .home-spec-panel {
+    order: 2;
+  }
+
   #home .hero-cta-buttons,
+  #home .home-stage-ctas,
   #home .oola-home-cta,
   #home .seemore-home-cta {
     flex-flow: column nowrap;
     align-items: center;
     box-sizing: border-box;
     padding-inline: var(--home-cta-mobile-side);
+  }
+
+  #home .home-stage-ctas {
+    display: flex;
+    width: 100%;
+    gap: 0.875rem;
+    padding-inline: var(--home-cta-ring-inset);
   }
 
   /* Break out of .hero-content 2rem pad to the container gutter. */
@@ -4721,6 +5263,7 @@ html[data-theme="light"] .tc-fan-item {
   }
 
   #home .hero-cta-buttons .vd-btn,
+  #home .home-stage-ctas .vd-btn,
   #home .oola-home-cta .vd-btn,
   #home .seemore-home-cta .vd-btn,
   #home #cta .vd-btn {
@@ -4738,6 +5281,8 @@ html[data-theme="light"] .tc-fan-item {
 
   #home .hero-cta-buttons .vd-btn-ring,
   #home .hero-cta-buttons .vd-btn + .vd-btn-ring,
+  #home .home-stage-ctas .vd-btn-ring,
+  #home .home-stage-ctas .vd-btn + .vd-btn-ring,
   #home .oola-home-cta .vd-btn-ring,
   #home .seemore-home-cta .vd-btn-ring,
   #home #cta .vd-btn-ring {
