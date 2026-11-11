@@ -256,6 +256,10 @@ const vue3Api: [string, string][] = [
     "boolean — render checkboxes on every node; cascade (default true) propagates parent check changes to all descendants.",
   ],
   [
+    ":animated",
+    "boolean (default true) — smooth height expansion animation on node open/close using Fibonacci timing.",
+  ],
+  [
     "VdTreeNode (:node, :checkbox, @toggle, @check)",
     "Recursive child component used internally by VdTree and exported from @vanduo-oss/vd3 for custom tree compositions.",
   ],

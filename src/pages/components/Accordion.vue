@@ -11,6 +11,10 @@ const apiRows = [
   ["v-model", "An array of open item IDs, or one ID when exclusive is true."],
   [":exclusive", "Allow one open panel at a time. Default false."],
   [
+    ":animated",
+    "Enable smooth transitional height expansion with Fibonacci timing. Default true.",
+  ],
+  [
     "@update:modelValue",
     "Emits the new array or single ID; closing the exclusive panel emits an empty string.",
   ],

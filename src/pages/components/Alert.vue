@@ -26,6 +26,10 @@ const vue3Api: [string, string][] = [
   ],
   [":title", "Optional bold title rendered above the slot content."],
   [":dismissible", "Renders a close button that emits dismiss."],
+  [
+    ":animated",
+    "Enable smooth WAAPI collapse animation on dismiss. Default true.",
+  ],
   ["default slot", "Alert body content."],
   ["@dismiss", "Emitted when the close button is clicked."],
 ];

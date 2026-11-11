@@ -444,9 +444,7 @@ override: `PRIMARY_DARK` `"green"` in `guides/FrameworkIntegration.vue` and
 `guides/ProductionBestPractices.vue`, and `PRIMARY_LIGHT` `"black"` /
 `PRIMARY_DARK` `"green"` in `components/ThemeSwitcher.vue`. The docs site's
 own first-visit dark primary is `yellow` (`DOCS_DEFAULT_PRIMARY_DARK`) and is
-not copied into those teaching samples. Generic teaching samples that
-demonstrate other hues (e.g. violet via `setThemeDefaults`) SHALL remain
-unchanged.
+not copied into those teaching samples.
 
 #### Scenario: FrameworkIntegration shows a primary override
 
@@ -459,6 +457,15 @@ unchanged.
 - **GIVEN** `components/ThemeSwitcher.vue` after this change
 - **WHEN** its bootstrap code snippet is read
 - **THEN** `PRIMARY_LIGHT` is `"black"` and `PRIMARY_DARK` is `"green"`
+
+#### Scenario: Extended contract
+
+- **WHEN** the remaining contract for this requirement is applied
+- **THEN** the following behavior holds
+
+Generic teaching samples that
+demonstrate other hues (e.g. violet via `setThemeDefaults`) SHALL remain
+unchanged.
 
 ### Requirement: marketing catalog counts match the published barrel
 

@@ -33,6 +33,10 @@ const vdSidenavApi: [string, string][] = [
     "boolean (default true) — close when clicking the overlay backdrop.",
   ],
   [":closeOnEsc", "boolean (default true) — close when pressing Escape."],
+  [
+    ":animated",
+    "boolean (default true) — smooth sliding transition using Fibonacci timing and golden easing.",
+  ],
   ["@close", "Emitted whenever the drawer closes."],
   [
     "#header / default / #footer",

@@ -40,6 +40,7 @@ export const ROUTES: readonly Route[] = [
   { path: '/core/golden-ratio', label: 'core-golden-ratio' },
   { path: '/core/grid-system', label: 'core-grid-system' },
   { path: '/core/shadows-glow', label: 'core-shadows-glow' },
+  { path: '/core/motion', label: 'core-motion' },
   { path: '/components/theme-switcher', label: 'components-theme-switcher' },
   { path: '/components/theme-customizer', label: 'components-theme-customizer' },
   { path: '/components/button', label: 'components-button' },

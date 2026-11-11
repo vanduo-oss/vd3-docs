@@ -44,6 +44,9 @@ describe("docs-landing resources", () => {
     expect(githubDialog.classes()).not.toContain("vd-modal-glass");
     expect(githubDialog.findAll(".docs-landing-modal-pkg").length).toBe(3);
     expect(
+      githubDialog.find(".docs-landing-modal-pkg .vd-badge").text(),
+    ).toBe("v1.9.0");
+    expect(
       githubDialog.find(".vd-modal-footer button.vd-btn-outline").exists(),
     ).toBe(true);
     expect(githubDialog.text()).toContain("@vanduo-oss/vd3");
@@ -125,7 +128,7 @@ describe("docs-landing resources", () => {
     expect(wrapper.text()).toContain(`${guideCount} guided walkthroughs`);
     expect(wrapper.text()).toContain(`Documentation v${__APP_VERSION__}`);
     expect(wrapper.text()).toContain(
-      "Latest: vd3 1.8.2 · charts 1.2.0 · flowchart 1.6.0",
+      "Latest: vd3 1.9.0 · charts 1.2.0 · flowchart 1.6.0",
     );
   });
 });

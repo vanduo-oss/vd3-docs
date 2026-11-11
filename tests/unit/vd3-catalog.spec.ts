@@ -12,8 +12,8 @@ describe("vd3 catalog constants", () => {
   it("matches Vd* default exports on the published barrel", () => {
     const components = Object.keys(vd3).filter((k) => k.startsWith("Vd"));
     expect(components).toHaveLength(VD3_COMPONENT_EXPORTS);
-    expect(VD3_COMPONENT_EXPORTS).toBe(64);
-    expect(VD3_COMPOSABLE_MODULES).toBe(40);
+    expect(VD3_COMPONENT_EXPORTS).toBe(66);
+    expect(VD3_COMPOSABLE_MODULES).toBe(41);
   });
 
   it("home and about use the same catalog numbers", () => {

@@ -1,6 +1,8 @@
 import {
   DOCK_MORPH_MS,
+  dockMorphCornerOf,
   dockOrientationOf,
+  type DockCorner,
   type DockOrientation,
   type DockPlacement,
   type DockVisualPhase,
@@ -10,6 +12,7 @@ export type SiteDockMorphApi = {
   snapToPlacement?: (target: DockPlacement) => void;
   isMorphing?: unknown;
   visualPhase?: unknown;
+  morphCorner?: unknown;
   placement?: unknown;
   orientation?: unknown;
 };
@@ -22,15 +25,20 @@ export type SiteDockNarrowBrandMorphOptions = {
 type MorphPatch = Partial<{
   isMorphing: boolean;
   visualPhase: DockVisualPhase;
+  morphCorner: DockCorner | null;
   placement: DockPlacement;
   orientation: DockOrientation;
 }>;
 
 function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
+  if (typeof window === "undefined") return false;
+  const mode =
+    typeof document !== "undefined"
+      ? document.documentElement.getAttribute("data-motion")
+      : null;
+  if (mode === "off" || mode === "reduce") return true;
+  if (mode === "full") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 function hasExpose(field: unknown): boolean {
@@ -88,8 +96,14 @@ export function playSiteDockNarrowBrandMorph(
   }
 
   const nextOrientation = dockOrientationOf(target);
+  const currentPlacement = readExpose<DockPlacement>(api.placement) ?? "top";
+  const corner = dockMorphCornerOf(currentPlacement, target);
 
-  writeMorphApi(api, { isMorphing: true, visualPhase: "square" });
+  writeMorphApi(api, {
+    isMorphing: true,
+    visualPhase: "square",
+    morphCorner: corner,
+  });
 
   window.setTimeout(() => {
     writeMorphApi(api, {
@@ -100,7 +114,7 @@ export function playSiteDockNarrowBrandMorph(
     options.onApplied?.();
 
     window.setTimeout(() => {
-      writeMorphApi(api, { isMorphing: false });
+      writeMorphApi(api, { isMorphing: false, morphCorner: null });
       options.onSettled?.();
     }, DOCK_MORPH_MS.grow);
   }, DOCK_MORPH_MS.shrink);

@@ -5,6 +5,13 @@ import { RouterLink } from "vue-router";
 
 const relatedComponents = [
   {
+    to: "/core/motion",
+    icon: "ph-wave-sine",
+    title: "Motion",
+    desc: "Fibonacci duration tokens and golden easing curves.",
+    badge: "Core",
+  },
+  {
     to: "/core/color-palette",
     icon: "ph-palette",
     title: "Color palette",
@@ -185,6 +192,88 @@ const tiers: [string, string][] = [
           Pass a <code>Ref&lt;'light' | 'dark' | 'system'&gt;</code>. The bridge
           re-syncs on mount and whenever the ref changes — useful for SSR / Nuxt
           apps where the host framework owns color mode.
+        </p>
+      </div>
+    </div>
+
+    <div id="motion-tokens" class="vd-card demo-card vd-mt-6">
+      <div class="vd-card-header">
+        <h6><i class="ph ph-wave-sine"></i> Motion &amp; Animation Tokens</h6>
+      </div>
+      <div class="vd-card-body">
+        <p>
+          vd3 transitions are driven by <code>--vd-duration-*</code> tokens
+          based on the Fibonacci sequence and <code>--vd-ease-*</code> tokens
+          based on golden-ratio cubic-bezier curves:
+        </p>
+        <div class="vd-table-responsive vd-mb-4">
+          <table class="vd-table vd-table-striped">
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Default Value</th>
+                <th>Recommended Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>--vd-duration-instant</code></td>
+                <td><code>55ms</code></td>
+                <td>Active states, tap feedback</td>
+              </tr>
+              <tr>
+                <td><code>--vd-duration-fast</code></td>
+                <td><code>89ms</code></td>
+                <td>Toggles, icons, reduced-motion crossfades</td>
+              </tr>
+              <tr>
+                <td><code>--vd-duration-snappy</code></td>
+                <td><code>144ms</code></td>
+                <td>Tooltips, small badges</td>
+              </tr>
+              <tr>
+                <td><code>--vd-duration-normal</code></td>
+                <td><code>233ms</code></td>
+                <td>Dropdowns, selects, chips</td>
+              </tr>
+              <tr>
+                <td><code>--vd-duration-moderate</code></td>
+                <td><code>377ms</code></td>
+                <td>Drawers, modals, offcanvas</td>
+              </tr>
+              <tr>
+                <td><code>--vd-duration-slow</code></td>
+                <td><code>610ms</code></td>
+                <td>Accordions, code snippets, large unfolds</td>
+              </tr>
+              <tr>
+                <td><code>--vd-duration-gentle</code></td>
+                <td><code>987ms</code></td>
+                <td>Page transitions, hero unfolds</td>
+              </tr>
+              <tr>
+                <td><code>--vd-ease-out</code></td>
+                <td><code>cubic-bezier(0.16, 1, 0.3, 1)</code></td>
+                <td>Entrances, reveals, unfolds (golden curve)</td>
+              </tr>
+              <tr>
+                <td><code>--vd-ease-in</code></td>
+                <td><code>cubic-bezier(0.7, 0, 0.84, 0)</code></td>
+                <td>Exits, dismissals, closing dialogs</td>
+              </tr>
+              <tr>
+                <td><code>--vd-ease-in-out</code></td>
+                <td><code>cubic-bezier(0.65, 0, 0.35, 1)</code></td>
+                <td>Symmetric transitions (tabs, loops)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="vd-text-sm vd-text-muted vd-mb-0">
+          Override any duration token globally on <code>:root</code> or locally
+          within a component wrapper. See the
+          <RouterLink to="/core/motion">Motion foundation guide</RouterLink> for
+          live demos.
         </p>
       </div>
     </div>

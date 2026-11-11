@@ -107,6 +107,7 @@ const IconsPage = () => import("@/pages/core/Icons.vue");
 const GoldenRatioPage = () => import("@/pages/core/GoldenRatio.vue");
 const GridSystemPage = () => import("@/pages/core/GridSystem.vue");
 const ShadowsGlowPage = () => import("@/pages/core/ShadowsGlow.vue");
+const MotionPage = () => import("@/pages/core/Motion.vue");
 
 import { nav } from "@/nav";
 
@@ -176,6 +177,7 @@ const componentPages: Record<string, ReturnType<typeof definePage>> = {
   "golden-ratio": GoldenRatioPage,
   "grid-system": GridSystemPage,
   "shadows-glow": ShadowsGlowPage,
+  motion: MotionPage,
   "layout-primitives": PrimitivesPage,
   glass: GlassPage,
   surfaces: SurfacesPage,

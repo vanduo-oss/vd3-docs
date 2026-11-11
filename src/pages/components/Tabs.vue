@@ -32,6 +32,10 @@ const vdTabsComponentApi: [string, string][] = [
   ],
   ["v-model (modelValue)", "string — active tab id."],
   [
+    ":animated",
+    "boolean (default true) — smooth fade crossfade transition between tab panels.",
+  ],
+  [
     "default (slot)",
     'Active tab panel content rendered inside role="tabpanel".',
   ],
