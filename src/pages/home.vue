@@ -269,7 +269,7 @@ const iconWeights = [
               </ul>
 
               <div class="home-stage-ctas">
-                <RouterLink to="/core/motion" class="vd-btn vd-btn-outline">
+                <RouterLink to="/core/motion" class="vd-btn vd-btn-ink">
                   <i class="ph ph-waveform" aria-hidden="true"></i> Motion
                   System
                 </RouterLink>
@@ -523,10 +523,7 @@ const iconWeights = [
               </ul>
 
               <div class="home-stage-ctas">
-                <RouterLink
-                  to="/effects/surfaces"
-                  class="vd-btn vd-btn-outline"
-                >
+                <RouterLink to="/effects/surfaces" class="vd-btn vd-btn-ink">
                   <i class="ph ph-checkerboard" aria-hidden="true"></i>
                   Surfaces Demo
                 </RouterLink>
@@ -602,7 +599,7 @@ const iconWeights = [
               </ul>
 
               <div class="home-stage-ctas">
-                <RouterLink to="/docs-landing" class="vd-btn vd-btn-outline">
+                <RouterLink to="/docs-landing" class="vd-btn vd-btn-ink">
                   <i class="ph ph-book-open" aria-hidden="true"></i> Explore
                   Documentation
                 </RouterLink>
