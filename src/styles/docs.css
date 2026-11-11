@@ -2308,6 +2308,14 @@ footer.vd-glass::before {
   }
 }
 
+/* Ecosystem only. The Phosphor row is the last flex item, so glass padding
+   is the only air under it. Use the stage grid's fib-55 inset on both
+   columns so the bottom gap matches that rhythm and the copy card does
+   not open a hole between its list and actions. */
+#home #home-ecosystem .home-glass-panel {
+  padding-bottom: clamp(1.75rem, 3.8vw, var(--vd-space-fib-55, 3.4375rem));
+}
+
 .home-stage-copy {
   display: flex;
   flex-direction: column;
@@ -2693,6 +2701,15 @@ footer.vd-glass::before {
 .home-pkg-item:focus-visible {
   border-color: var(--vd-color-primary);
   text-decoration: none;
+}
+
+/* Light cards: a 1px primary border is easy to miss. Thicken the same
+   token on hover only. Shrink padding by the extra 2px so the border box
+   and hit area stay put. Dark hover stays the 1px color change above. */
+:root[data-theme="light"] #home .home-pkg-item:hover {
+  border-width: 3px;
+  padding-block: calc(0.75rem - 2px);
+  padding-inline: calc(0.85rem - 2px);
 }
 
 .home-pkg-icon {
