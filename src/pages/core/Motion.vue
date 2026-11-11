@@ -388,7 +388,9 @@ onMounted(() => {
               the matching Fibonacci duration.
             </p>
 
-            <div class="vd-d-flex vd-gap-4 vd-mb-4 items-center vd-flex-wrap">
+            <div
+              class="motion-expand-controls vd-d-flex vd-gap-4 vd-mb-4 items-center vd-flex-wrap"
+            >
               <VdButton
                 size="sm"
                 variant="primary"
@@ -708,6 +710,16 @@ onMounted(() => {
 /* Cards inside vd-row columns stretch to equal height (vd-h-100 does not exist) */
 .demo-card {
   height: 100%;
+}
+
+/*
+ * .vd-btn keeps a 0.5rem block-end margin, and .vd-btn-group > .vd-btn
+ * clears it. That extra margin made this flex line taller than the group,
+ * so items-center dropped the group by half the margin (~4px). Gap already
+ * spaces wrapped rows.
+ */
+.motion-expand-controls :deep(.vd-btn) {
+  margin-block-end: 0;
 }
 
 .motion-sequence-highlight {
