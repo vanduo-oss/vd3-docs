@@ -30,6 +30,10 @@ blob-report/
 *.swp
 *.swo
 
+# Local agent-tooling overlays (Augmentation MCP / Agentation toolbar);
+# personal dev-session files, not project config
+vite.config.agentation.ts
+
 # Visual-parity: commit Chromium Desktop darwin only (test:e2e default).
 # Mobile project snapshots from test:e2e:full stay local.
 tests/e2e/visual-parity.spec.ts-snapshots/*-Chromium-Mobile-darwin.png
