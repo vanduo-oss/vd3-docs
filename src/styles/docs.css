@@ -2239,8 +2239,11 @@ footer.vd-glass::before {
   padding-top: var(--vd-space-fib-55, 3.4375rem);
 }
 
-.home-stage-section-last {
-  padding-bottom: 5rem;
+/* section:last-of-type { padding-bottom: 0 } outranks a single class, so the
+   old 5rem never applied and the last stage sat flush with the page end.
+   Close it with the same fib-55 inset the stages use above. */
+#home .home-stage-section-last {
+  padding-bottom: var(--vd-space-fib-55, 3.4375rem);
 }
 
 .home-stage-card {
