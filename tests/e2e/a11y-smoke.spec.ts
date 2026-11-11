@@ -30,6 +30,7 @@ const ROUTES: readonly Route[] = [
   },
   { path: "/components/theme-switcher", label: "components-theme-switcher" },
   { path: "/core/color-palette", label: "core-color-palette" },
+  { path: "/core/motion", label: "core-motion" },
   // Rich-ARIA widget archetype: VdTree renders a role=tree / role=treeitem
   // hierarchy with aria-expanded / aria-selected, exercising the composite-
   // widget rules (aria-required-children, roles, focus) the flat pages don't.

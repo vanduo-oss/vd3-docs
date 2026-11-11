@@ -18,6 +18,8 @@ It is not published to npm and keeps no package release history of its own.
 - Updated catalog constants (`66` component exports, `41` composable modules).
 - Refreshed canonical search index with the new `/core/motion` route.
 - Removed unused `animejs` dependency from `package.json`.
+- **Dock 4-corner waypoint morph.** The dock demo and playground morph through a square waypoint at 377ms shrink and 610ms grow, anchored on the shared corner of the two edges.
+- **Motion page layout repair.** The Motion foundation page uses real vd3 layout classes, a query container for the easing demo, and a neutral surface for the live motion controls so the duration ladder, easing tracks, and mode switcher stay readable.
 
 ## Unreleased
 
