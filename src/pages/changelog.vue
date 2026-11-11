@@ -58,6 +58,167 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
+        <article class="version-card" id="vd3-1-9-0">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.9.0</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>November 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Fibonacci motion system</strong>
+                  — tokenized durations and golden easing, with
+                  <code>VdTransition</code>, <code>VdExpandTransition</code>,
+                  and <code>useMotion</code>, plus a dock that morphs through a
+                  corner waypoint.
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-wave-sine"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Fibonacci &amp; golden-ratio motion</strong>
+                        <p>
+                          Built-in durations match Fibonacci milliseconds
+                          (<code>55</code>, <code>89</code>, <code>144</code>,
+                          <code>233</code>, <code>377</code>, <code>610</code>,
+                          <code>987</code>) and golden easing curves
+                          (<code>--vd-ease-out</code>,
+                          <code>--vd-ease-in</code>,
+                          <code>--vd-ease-in-out</code>,
+                          <code>--vd-ease-linear</code>).
+                          <code>scripts/check-motion-tokens.mjs</code> rejects
+                          transition durations that skip
+                          <code>--vd-duration-*</code> tokens. See
+                          <RouterLink to="/core/motion"
+                            ><code>/core/motion</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-arrows-out"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          ><code>VdTransition</code> &amp;
+                          <code>VdExpandTransition</code></strong
+                        >
+                        <p>
+                          <RouterLink to="/core/motion"
+                            ><code>VdTransition</code></RouterLink
+                          >
+                          wraps Vue <code>&lt;Transition&gt;</code> with presets
+                          <code>fade</code>, <code>scale</code>,
+                          <code>slide-up</code>, <code>slide-down</code>,
+                          <code>slide-left</code>, and
+                          <code>slide-right</code>.
+                          <code>VdExpandTransition</code> is a WAAPI
+                          height/opacity expand that picks a Fibonacci duration
+                          with <code>fibDurationForHeight</code>, cancels
+                          in-flight animations, and falls back under reduced
+                          motion.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-sliders-horizontal"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          ><code>useMotion</code> &amp; default
+                          transitions</strong
+                        >
+                        <p>
+                          <RouterLink to="/core/motion"
+                            ><code>useMotion</code></RouterLink
+                          >
+                          manages <code>auto</code>, <code>full</code>,
+                          <code>reduce</code>, and <code>off</code> with
+                          SSR-safe hydration, localStorage persistence, and
+                          <code>useReducedMotion()</code>.
+                          <RouterLink to="/components/theme-customizer"
+                            ><code>VdThemeCustomizer</code></RouterLink
+                          >
+                          adds segmented motion buttons through
+                          <code>showMotion</code>. Smooth transitions are on by
+                          default for overlays, navigation, and form controls.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Changed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-corners-out"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Dock 4-corner waypoint morph</strong>
+                        <p>
+                          <RouterLink to="/components/dock"
+                            ><code>VdDock</code></RouterLink
+                          >
+                          placement changes travel through a square waypoint
+                          anchored by <code>dockMorphCornerOf</code> on the
+                          shared corner of the two edges (bottom-left,
+                          top-left, top-right, or bottom-right), with fallbacks
+                          for non-adjacent pairs. Shrink is 377ms and grow is
+                          610ms (<code>DOCK_MORPH_MS</code>,
+                          <code>--vd-duration-slow</code> and
+                          <code>--vd-duration-slower</code>).
+                          <code>data-motion="reduce"</code>,
+                          <code>data-motion="off"</code>, and
+                          <code>prefers-reduced-motion</code> snap to the
+                          target edge.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-timer"
+                        style="color: var(--vd-color-warning)"
+                      ></i>
+                      <div>
+                        <strong>Fibonacci duration retoken</strong>
+                        <p>
+                          190+ hardcoded transition durations across component
+                          and effect CSS now use Fibonacci tokens and golden
+                          easing. The legacy universal reduced-motion duration
+                          override is replaced by
+                          <code>[data-motion="reduce|off"]</code> switches, and
+                          legacy <code>--vd-transition-*</code> properties stay
+                          compatible.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
         <article class="version-card" id="vd3-1-8-2">
           <header class="version-header">
             <span
@@ -68,9 +229,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>November 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
