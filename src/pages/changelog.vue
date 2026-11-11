@@ -127,8 +127,7 @@ useAffix(root);
                           wraps Vue <code>&lt;Transition&gt;</code> with presets
                           <code>fade</code>, <code>scale</code>,
                           <code>slide-up</code>, <code>slide-down</code>,
-                          <code>slide-left</code>, and
-                          <code>slide-right</code>.
+                          <code>slide-left</code>, and <code>slide-right</code>.
                           <code>VdExpandTransition</code> is a WAAPI
                           height/opacity expand that picks a Fibonacci duration
                           with <code>fibDurationForHeight</code>, cancels
@@ -182,16 +181,16 @@ useAffix(root);
                           >
                           placement changes travel through a square waypoint
                           anchored by <code>dockMorphCornerOf</code> on the
-                          shared corner of the two edges (bottom-left,
-                          top-left, top-right, or bottom-right), with fallbacks
-                          for non-adjacent pairs. Shrink is 377ms and grow is
-                          610ms (<code>DOCK_MORPH_MS</code>,
+                          shared corner of the two edges (bottom-left, top-left,
+                          top-right, or bottom-right), with fallbacks for
+                          non-adjacent pairs. Shrink is 377ms and grow is 610ms
+                          (<code>DOCK_MORPH_MS</code>,
                           <code>--vd-duration-slow</code> and
                           <code>--vd-duration-slower</code>).
                           <code>data-motion="reduce"</code>,
                           <code>data-motion="off"</code>, and
-                          <code>prefers-reduced-motion</code> snap to the
-                          target edge.
+                          <code>prefers-reduced-motion</code> snap to the target
+                          edge.
                         </p>
                       </div>
                     </li>
