@@ -2415,21 +2415,6 @@ footer.vd-glass::before {
   margin-top: auto;
   padding-top: 0.35rem;
   overflow: visible;
-
-  /* Same 6px gap + 2px stroke as the home outline ring above.
-     .vd-btn-ring sets --vd-btn-ring-offset on itself, so siblings cannot
-     inherit it. Publish it on the group for the non-ring indent below. */
-  --vd-btn-ring-gap: 6px;
-  --vd-btn-ring-width: 2px;
-  --vd-btn-ring-offset: calc(var(--vd-btn-ring-gap) + var(--vd-btn-ring-width));
-}
-
-/* The ring's margin insets only .vd-btn-ring, so a wrapping ink button
-   started on the ring's outer edge. Shift non-ring controls by that outset
-   so their border matches the ringed button's border. A row can mix both,
-   so this follows .vd-btn-ring rather than source order. */
-#home .home-stage-ctas .vd-btn:not(.vd-btn-ring) {
-  margin-left: var(--vd-btn-ring-offset);
 }
 
 .home-stage-ctas .vd-btn {
@@ -3894,6 +3879,18 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 /* ── Global Search ──────────────────────────────── */
 
+/* Published vd3 1.9.0 sets transform:none !important on .vd-dock inside
+   @layer vd3 when motion is off. Horizontal placement is translateX(-50%),
+   so that rule slides the site dock off center. The override has to live in
+   the same layer: an unlayered !important loses to a layered one. Vertical
+   and square states already rest at transform:none. */
+@layer vd3 {
+  html[data-motion="off"]
+    .vd-site-dock.is-horizontal:not(.is-square, .is-morphing) {
+    transform: translateX(-50%) !important;
+  }
+}
+
 /* Site dock action chrome (search + theme + customizer).
    Consume --vd-dock-tint so dark-mode chrome matches light + brand/active. */
 .vd-site-dock .vd-dock-actions {
@@ -5292,13 +5289,6 @@ html[data-theme="light"] .tc-fan-item {
     max-width: none;
     margin-left: 0;
     margin-right: 0;
-  }
-
-  /* Stacked column: ring margin is cleared above and the group padding
-     already reserves the outset, so the desktop non-ring indent would
-     shove full-width buttons past the column. */
-  #home .home-stage-ctas .vd-btn:not(.vd-btn-ring) {
-    margin-left: 0;
   }
 
   #home .hero-cta-buttons .vd-btn-ring,
