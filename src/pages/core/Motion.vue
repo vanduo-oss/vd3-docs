@@ -243,8 +243,8 @@ onMounted(() => {
 
     <!-- Philosophical overview & AnimeJS comparison -->
     <div class="vd-row vd-mb-6">
-      <div class="vd-col-12 vd-col-lg-7 vd-mb-4 vd-mb-lg-0">
-        <div class="vd-card vd-card-glow demo-card vd-h-100">
+      <div class="vd-col-12 vd-col-lg-7 vd-mb-4 mb-lg-0">
+        <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header">
             <h6>Harmonic Fibonacci Timing</h6>
           </div>
@@ -254,7 +254,7 @@ onMounted(() => {
               <code>300ms</code>, vd3 synchronizes every transition to
               consecutive terms of the Fibonacci sequence:
             </p>
-            <div class="vd-text-center vd-my-4">
+            <div class="vd-text-center vd-mt-4 vd-mb-4">
               <span class="motion-sequence-highlight">
                 55ms → 89ms → 144ms → 233ms → 377ms → 610ms → 987ms
               </span>
@@ -269,7 +269,7 @@ onMounted(() => {
       </div>
 
       <div class="vd-col-12 vd-col-lg-5">
-        <div class="vd-card demo-card vd-h-100">
+        <div class="vd-card demo-card">
           <div class="vd-card-header">
             <h6>Lightweight vs External Engines</h6>
           </div>
@@ -297,11 +297,11 @@ onMounted(() => {
     <!-- Duration Ladder Demo -->
     <div class="vd-card vd-card-glow demo-card vd-mb-8">
       <div
-        class="vd-card-header vd-d-flex vd-justify-between vd-items-center vd-flex-wrap"
+        class="vd-card-header vd-d-flex justify-between items-center vd-flex-wrap vd-gap-4"
       >
         <h6>Fibonacci Duration Ladder</h6>
         <VdButton size="sm" variant="primary" outline @click="triggerLadder">
-          <i class="ph ph-play vd-mr-1"></i> Replay ladder
+          <i class="ph ph-play mr-1"></i> Replay ladder
         </VdButton>
       </div>
       <div class="vd-card-body">
@@ -338,11 +338,11 @@ onMounted(() => {
     <!-- Golden Easing Demo -->
     <div class="vd-card vd-card-glow demo-card vd-mb-8">
       <div
-        class="vd-card-header vd-d-flex vd-justify-between vd-items-center vd-flex-wrap"
+        class="vd-card-header vd-d-flex justify-between items-center vd-flex-wrap vd-gap-4"
       >
         <h6>Golden Easing Curves</h6>
         <VdButton size="sm" variant="primary" outline @click="triggerEasings">
-          <i class="ph ph-play vd-mr-1"></i> Compare curves
+          <i class="ph ph-play mr-1"></i> Compare curves
         </VdButton>
       </div>
       <div class="vd-card-body">
@@ -376,8 +376,8 @@ onMounted(() => {
     <!-- Interactive Component Transitions -->
     <div class="vd-row vd-mb-8">
       <!-- VdExpandTransition Demo -->
-      <div class="vd-col-12 vd-col-lg-6 vd-mb-6 vd-mb-lg-0">
-        <div class="vd-card demo-card vd-h-100">
+      <div class="vd-col-12 vd-col-lg-6 vd-mb-6 mb-lg-0">
+        <div class="vd-card demo-card">
           <div class="vd-card-header">
             <h6>&lt;VdExpandTransition&gt;</h6>
           </div>
@@ -388,9 +388,7 @@ onMounted(() => {
               the matching Fibonacci duration.
             </p>
 
-            <div
-              class="vd-d-flex vd-gap-2 vd-mb-4 vd-items-center vd-flex-wrap"
-            >
+            <div class="vd-d-flex vd-gap-4 vd-mb-4 items-center vd-flex-wrap">
               <VdButton
                 size="sm"
                 variant="primary"
@@ -484,7 +482,7 @@ onMounted(() => {
 
       <!-- VdTransition Preset Demo -->
       <div class="vd-col-12 vd-col-lg-6">
-        <div class="vd-card demo-card vd-h-100">
+        <div class="vd-card demo-card">
           <div class="vd-card-header">
             <h6>&lt;VdTransition&gt; Presets</h6>
           </div>
@@ -494,9 +492,7 @@ onMounted(() => {
               presets configured with Fibonacci tokens.
             </p>
 
-            <div
-              class="vd-d-flex vd-gap-2 vd-mb-4 vd-items-center vd-flex-wrap"
-            >
+            <div class="vd-d-flex vd-gap-4 vd-mb-4 items-center vd-flex-wrap">
               <VdButton
                 size="sm"
                 variant="primary"
@@ -507,7 +503,7 @@ onMounted(() => {
 
               <select
                 v-model="currentPreset"
-                class="vd-form-select vd-form-select-sm"
+                class="vd-input vd-input-sm"
                 style="max-width: 140px"
                 aria-label="Transition preset"
               >
@@ -518,7 +514,7 @@ onMounted(() => {
 
               <select
                 v-model="presetDuration"
-                class="vd-form-select vd-form-select-sm"
+                class="vd-input vd-input-sm"
                 style="max-width: 140px"
                 aria-label="Transition duration"
               >
@@ -562,8 +558,8 @@ onMounted(() => {
         </p>
 
         <div class="vd-row vd-mb-6">
-          <div class="vd-col-12 vd-col-md-6 vd-mb-4 vd-mb-md-0">
-            <div class="vd-p-4 vd-rounded vd-border vd-bg-primary">
+          <div class="vd-col-12 vd-col-md-6 vd-mb-4 mb-md-0">
+            <div class="vd-p-4 vd-rounded vd-border vd-bg-light">
               <h6 class="vd-mb-3">Live Motion Controller</h6>
               <div class="vd-btn-group vd-mb-3" role="group">
                 <button
@@ -620,7 +616,7 @@ onMounted(() => {
                 <div>
                   Current mode: <code>data-motion="{{ motionMode }}"</code>
                 </div>
-                <div class="vd-mt-1">
+                <div class="mt-1">
                   Active motion state:
                   <span
                     class="vd-badge"
@@ -709,6 +705,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* Cards inside vd-row columns stretch to equal height (vd-h-100 does not exist) */
+.demo-card {
+  height: 100%;
+}
+
 .motion-sequence-highlight {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -826,6 +827,8 @@ onMounted(() => {
   display: flex;
   align-items: center;
   padding: 0 4px;
+  /* Makes 100cqw below resolve to the track width, not the viewport */
+  container-type: inline-size;
 }
 
 .motion-easing-ball {
@@ -843,24 +846,17 @@ onMounted(() => {
   animation-fill-mode: forwards;
 }
 
+/* Travel to the end of the track, hold, then return to the start */
 @keyframes ballSlide {
-  from {
+  0% {
     transform: translateX(0);
   }
-  to {
+  45%,
+  55% {
     transform: translateX(calc(100cqw - 28px));
   }
-}
-
-/* Fallback if cqw is not supported */
-@supports not (transform: translateX(calc(100cqw - 28px))) {
-  @keyframes ballSlide {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(calc(100% - 20px));
-    }
+  100% {
+    transform: translateX(0);
   }
 }
 
