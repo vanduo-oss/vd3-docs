@@ -3888,6 +3888,59 @@ html:is([data-primary="black"], [data-primary="cyan"])
   --vd-dock-tint: #56d4ca;
 }
 
+/* Light glass is gray, so #56d4ca plus the idle fade sinks the nav and
+   action icons. Use the lockup's light-lobe cyan, flat, on those controls.
+   The wordmark and mark stay on the lockup colors. */
+html[data-theme="light"]:is([data-primary="black"], [data-primary="cyan"])
+  .vd-site-dock.vd-site-dock {
+  --vd-dock-tint: #bbfff8;
+}
+
+html[data-theme="light"]:is([data-primary="black"], [data-primary="cyan"])
+  .vd-site-dock
+  :is(
+    .vd-dock-item,
+    .vd-dock-item:not(.is-active),
+    .vd-dock-actions button,
+    .vd-dock-actions .vd-theme-customizer-trigger
+  ) {
+  color: var(--vd-dock-tint);
+  opacity: 1;
+}
+
+html[data-theme="light"]:is([data-primary="black"], [data-primary="cyan"])
+  .vd-site-dock
+  .vd-dock-item
+  :is(.ph, .ph-fill, .vd-dock-label) {
+  opacity: 1;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]):is([data-primary="black"], [data-primary="cyan"])
+    .vd-site-dock.vd-site-dock {
+    --vd-dock-tint: #bbfff8;
+  }
+
+  :root:not([data-theme]):is([data-primary="black"], [data-primary="cyan"])
+    .vd-site-dock
+    :is(
+      .vd-dock-item,
+      .vd-dock-item:not(.is-active),
+      .vd-dock-actions button,
+      .vd-dock-actions .vd-theme-customizer-trigger
+    ) {
+    color: var(--vd-dock-tint);
+    opacity: 1;
+  }
+
+  :root:not([data-theme]):is([data-primary="black"], [data-primary="cyan"])
+    .vd-site-dock
+    .vd-dock-item
+    :is(.ph, .ph-fill, .vd-dock-label) {
+    opacity: 1;
+  }
+}
+
 /* Site dock action chrome (search + theme + customizer).
    Consume --vd-dock-tint so dark-mode chrome matches light + brand/active. */
 .vd-site-dock .vd-dock-actions {
