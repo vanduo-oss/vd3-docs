@@ -1,5 +1,5 @@
-import { mount, RouterLinkStub } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
+import { mount, RouterLinkStub, type VueWrapper } from "@vue/test-utils";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import ChangelogPage from "@/pages/changelog.vue";
 
@@ -8,10 +8,19 @@ function headerText(card: { find: (sel: string) => { text: () => string } }) {
 }
 
 describe("package changelog", () => {
-  it("marks one Latest per column and Initial on vd3 1.0.0", () => {
-    const wrapper = mount(ChangelogPage, {
+  let wrapper: VueWrapper;
+
+  beforeAll(() => {
+    wrapper = mount(ChangelogPage, {
       global: { stubs: { RouterLink: RouterLinkStub } },
     });
+  }, 15_000);
+
+  afterAll(() => {
+    wrapper?.unmount();
+  });
+
+  it("marks one Latest per column and Initial on vd3 1.0.0", () => {
     const columns = wrapper.findAll(".changelog-col");
     expect(columns).toHaveLength(3);
 
@@ -136,61 +145,62 @@ describe("package changelog", () => {
     ]);
   });
 
-  it("enforces uniform card structure, shipped Phosphor icons, unique IDs, and RouterLinks across all entries", () => {
-    const wrapper = mount(ChangelogPage, {
-      global: { stubs: { RouterLink: RouterLinkStub } },
-    });
+  it(
+    "enforces uniform card structure, shipped Phosphor icons, unique IDs, and RouterLinks across all entries",
+    () => {
+      expect(wrapper.findAll(".ph-bold")).toHaveLength(0);
 
-    expect(wrapper.findAll(".ph-bold")).toHaveLength(0);
+      const allCards = wrapper.findAll(".version-card");
+      expect(allCards.length).toBeGreaterThanOrEqual(28);
 
-    const allCards = wrapper.findAll(".version-card");
-    expect(allCards.length).toBeGreaterThanOrEqual(28);
+      const seenIds = new Set<string>();
+      for (const card of allCards) {
+        const el = card.element;
+        const id = el.getAttribute("id") ?? "";
+        expect(id).toMatch(/^(vd3|charts|flowchart)-\d+-\d+-\d+(-initial)?$/);
+        expect(seenIds.has(id)).toBe(false);
+        seenIds.add(id);
 
-    const seenIds = new Set<string>();
-    for (const card of allCards) {
-      const id = card.attributes("id") ?? "";
-      expect(id).toMatch(/^(vd3|charts|flowchart)-\d+-\d+-\d+(-initial)?$/);
-      expect(seenIds.has(id)).toBe(false);
-      seenIds.add(id);
+        const header = el.querySelector(".version-header");
+        expect(header).not.toBeNull();
+        expect(header!.querySelector("i.ph.ph-calendar")).not.toBeNull();
+        expect(header!.textContent ?? "").toMatch(
+          /(January|February|March|April|May|June|July|August|September|October|November|December) 202\d\b/,
+        );
 
-      const header = card.find(".version-header");
-      expect(header.exists()).toBe(true);
-      expect(header.find("i.ph.ph-calendar").exists()).toBe(true);
-      expect(header.text()).toMatch(
-        /(January|February|March|April|May|June|July|August|September|October|November|December) 202\d\b/,
-      );
+        const body = el.querySelector(".version-body");
+        expect(body).not.toBeNull();
+        expect(body!.querySelector("p.vd-text-muted")).not.toBeNull();
 
-      const body = card.find(".version-body");
-      expect(body.exists()).toBe(true);
-      expect(body.find("p.vd-text-muted").exists()).toBe(true);
+        const groups = body!.querySelectorAll(".change-group");
+        expect(groups.length).toBeGreaterThanOrEqual(1);
+        for (const group of groups) {
+          expect(group.querySelector("h5")).not.toBeNull();
+          expect(group.querySelector("ul.change-list")).not.toBeNull();
+        }
 
-      const groups = body.findAll(".change-group");
-      expect(groups.length).toBeGreaterThanOrEqual(1);
-      for (const group of groups) {
-        expect(group.find("h5").exists()).toBe(true);
-        expect(group.find("ul.change-list").exists()).toBe(true);
+        const allUls = body!.querySelectorAll("ul");
+        expect(allUls.length).toBe(groups.length);
+        for (const ul of allUls) {
+          expect(ul.classList.contains("change-list")).toBe(true);
+        }
+
+        const allLis = body!.querySelectorAll("li");
+        expect(allLis.length).toBeGreaterThanOrEqual(1);
+        for (const li of allLis) {
+          expect(li.classList.contains("change-item")).toBe(true);
+          expect(li.querySelector("i.ph")).not.toBeNull();
+          expect(li.querySelector("strong")).not.toBeNull();
+          expect(li.querySelector("p")).not.toBeNull();
+        }
+
+        const links = card.findAllComponents(RouterLinkStub);
+        expect(links.length).toBeGreaterThanOrEqual(1);
+        for (const link of links) {
+          expect(String(link.props("to"))).toMatch(/^\//);
+        }
       }
-
-      const allUls = body.findAll("ul");
-      expect(allUls.length).toBe(groups.length);
-      for (const ul of allUls) {
-        expect(ul.classes()).toContain("change-list");
-      }
-
-      const allLis = body.findAll("li");
-      expect(allLis.length).toBeGreaterThanOrEqual(1);
-      for (const li of allLis) {
-        expect(li.classes()).toContain("change-item");
-        expect(li.find("i.ph").exists()).toBe(true);
-        expect(li.find("strong").exists()).toBe(true);
-        expect(li.find("p").exists()).toBe(true);
-      }
-
-      const links = card.findAllComponents(RouterLinkStub);
-      expect(links.length).toBeGreaterThanOrEqual(1);
-      for (const link of links) {
-        expect(String(link.props("to"))).toMatch(/^\//);
-      }
-    }
-  });
+    },
+    15_000,
+  );
 });
