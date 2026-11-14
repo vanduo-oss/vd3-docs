@@ -134,7 +134,7 @@ const sections: [string, [string, string][]][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      A quick reference to vd3 utility classes from
+      A quick reference to VD3 UI utility classes from
       <code>helpers.css</code>, <code>typography.css</code>,
       <code>colors.css</code>, and <code>shadow.css</code>. These are pure CSS
       and work the same in static HTML and Vue templates. Spacing, gaps, and

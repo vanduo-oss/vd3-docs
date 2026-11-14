@@ -7,7 +7,7 @@ import { useSuggest } from "@vanduo-oss/vd3";
 const suggestRoot = ref<HTMLElement | null>(null);
 useSuggest(suggestRoot);
 
-const cspHtml = `<!-- vd3 ships no inline scripts, but theme apply writes an inline custom property.
+const cspHtml = `<!-- VD3 UI ships no inline scripts, but theme apply writes an inline custom property.
      Allow that write (or theming / radius scale will not apply). -->
 <meta http-equiv="Content-Security-Policy"
   content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">`;
@@ -158,7 +158,7 @@ const practices: [string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      vd3 is presentation-layer code, but a few habits keep an app safe. The
+      VD3 UI is presentation-layer code, but a few habits keep an app safe. The
       library is conservative about where it will fetch or render external
       content — copy the samples below as they are; a stricter CSP than this
       will blank the theme.

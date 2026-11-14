@@ -7,8 +7,6 @@ import {
   VD3_COMPONENT_EXPORTS,
   VD3_COMPOSABLE_MODULES,
 } from "@/constants/vd3Catalog";
-import { HERO_LOGO_FX } from "@/utils/logoFx";
-import "@/styles/logo-fx.css";
 import "@/styles/hero-display-font.css";
 
 const homeRoot = ref<HTMLElement | null>(null);
@@ -158,16 +156,13 @@ const iconWeights = [
             style="display: flex; align-items: center; justify-content: center"
           >
             <span class="hero-title-logo-wrap">
-              <span
-                class="hero-title-logo-stage logo-fx-tile"
-                :data-fx="HERO_LOGO_FX"
-              >
+              <span class="hero-title-logo-stage">
                 <Vd3Mark size="100%" />
               </span>
             </span>
             <span class="hero-title-copy">
               <span class="hero-title-text">
-                <span class="hero-title-brand">vd3</span>
+                <span class="hero-title-brand">VD3</span>
                 <span class="hero-title-ui">UI</span>
               </span>
               <span class="hero-tagline">
@@ -607,7 +602,7 @@ const iconWeights = [
                   <i class="ph ph-graph" aria-hidden="true"></i> Canvas Bundle
                 </RouterLink>
                 <RouterLink to="/about" class="vd-btn vd-btn-ink">
-                  <i class="ph ph-compass" aria-hidden="true"></i> About vd3
+                  <i class="ph ph-compass" aria-hidden="true"></i> About VD3 UI
                 </RouterLink>
               </div>
             </div>

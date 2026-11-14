@@ -5,7 +5,7 @@ import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 const issues: [string, string, string][] = [
   [
     "Components look unstyled",
-    "The vd3 stylesheet is not loaded.",
+    "The VD3 UI stylesheet is not loaded.",
     "Add import '@vanduo-oss/vd3/css'; once in your entry file (or '@vanduo-oss/vd3/css/core' if you supply your own icon fonts).",
   ],
   [
@@ -70,7 +70,7 @@ useSuggest(root); // only needed for [data-vd-suggest] markup
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      The most common issues when building with vd3, and the one-line fix for
+      The most common issues when building with VD3 UI, and the one-line fix for
       each. Most trace back to a missing CSS import, mixing the Vd* component
       model with class-markup composables, or touching the DOM during server
       rendering.
@@ -104,7 +104,7 @@ useSuggest(root); // only needed for [data-vd-suggest] markup
         <p class="vd-text-sm vd-text-muted vd-mt-3">
           Still stuck? The
           <RouterLink to="/guides/runtime-architecture"
-            >vd3 Architecture</RouterLink
+            >VD3 UI Architecture</RouterLink
           >
           guide explains the wiring model in depth.
         </p>

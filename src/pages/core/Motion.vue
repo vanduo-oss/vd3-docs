@@ -235,7 +235,7 @@ onMounted(() => {
   <section id="motion-system">
     <h5 class="demo-title"><i class="ph ph-wave-sine"></i>Motion</h5>
     <p class="vd-mb-8">
-      vd3 provides a harmonic, lightweight motion system built on the Fibonacci
+      VD3 UI provides a harmonic, lightweight motion system built on the Fibonacci
       ladder and golden ratio curves. Transitional animations are enabled by
       default across all unfoldable and moving components—delivering fluid,
       natural physics without heavy external runtimes.
@@ -251,7 +251,7 @@ onMounted(() => {
           <div class="vd-card-body">
             <p>
               Rather than picking arbitrary timings like <code>200ms</code> or
-              <code>300ms</code>, vd3 synchronizes every transition to
+              <code>300ms</code>, VD3 UI synchronizes every transition to
               consecutive terms of the Fibonacci sequence:
             </p>
             <div class="vd-text-center vd-mt-4 vd-mb-4">
@@ -284,9 +284,9 @@ onMounted(() => {
             </div>
             <p class="vd-text-sm">
               <strong>Need complex keyframe sequencing or SVG morphing?</strong>
-              vd3 does not bundle heavy animation engines. You can install
+              VD3 UI does not bundle heavy animation engines. You can install
               <code>animejs</code> or GSAP whenever specialized timelines or
-              canvas physics are required; vd3's components seamlessly integrate
+              canvas physics are required; VD3 UI's components seamlessly integrate
               alongside them.
             </p>
           </div>
@@ -554,7 +554,7 @@ onMounted(() => {
       </div>
       <div class="vd-card-body">
         <p class="vd-mb-4">
-          vd3 respects user intent at all times. Motion is fully customizable
+          VD3 UI respects user intent at all times. Motion is fully customizable
           via <code>setMotion()</code>, <code>useReducedMotion()</code>, and the
           <code>&lt;VdThemeCustomizer&gt;</code> component.
         </p>

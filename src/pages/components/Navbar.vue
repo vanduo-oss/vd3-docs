@@ -18,7 +18,7 @@ import { VdNavbar } from "@vanduo-oss/vd3";
 <template>
   <VdNavbar position="sticky">
     <template #brand>
-      <a href="/">vd3</a>
+      <a href="/">VD3 UI</a>
     </template>
 
     <!-- Default slot: the collapsible menu content -->
@@ -189,7 +189,7 @@ import { VdNavbar } from "@vanduo-oss/vd3";
 <template>
   <VdNavbar variant="glass" position="fixed" float>
     <template #brand>
-      <a href="/">vd3</a>
+      <a href="/">VD3 UI</a>
     </template>
     <ul class="vd-navbar-nav">
       <li><a class="vd-nav-link active" href="/">Docs</a></li>
@@ -313,7 +313,7 @@ const composableRows: [string, string][] = [
             >
               <VdNavbar :dark="dark">
                 <template #brand>
-                  <a href="#" @click.prevent>vd3</a>
+                  <a href="#" @click.prevent>VD3 UI</a>
                 </template>
                 <ul class="vd-navbar-nav">
                   <li>
@@ -372,7 +372,7 @@ const composableRows: [string, string][] = [
                 float
               >
                 <template #brand>
-                  <a href="#" @click.prevent>vd3</a>
+                  <a href="#" @click.prevent>VD3 UI</a>
                 </template>
                 <ul class="vd-navbar-nav">
                   <li>

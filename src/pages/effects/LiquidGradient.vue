@@ -95,7 +95,7 @@ const tokenRows: [string, string, string][] = [
     <h5 class="demo-title"><i class="ph ph-wave-sine"></i>Liquid Gradient</h5>
     <p class="vd-mb-6">
       Interactive liquid atmosphere rendered with vanilla WebGL (no Three.js).
-      Colors follow vd3 <strong>primary</strong>, <strong>neutral</strong>, and
+      Colors follow VD3 UI <strong>primary</strong>, <strong>neutral</strong>, and
       background tokens and update live with light/dark theme changes. Move the
       pointer over the demo to ripple the surface.
     </p>
@@ -298,7 +298,7 @@ const tokenRows: [string, string, string][] = [
                 rel="noopener noreferrer"
                 >“Interactive Liquid Gradient using Three.js”</a
               >
-              by Cameron Knight. vd3 ships a vanilla WebGL reimplementation
+              by Cameron Knight. VD3 UI ships a vanilla WebGL reimplementation
               bound to theme tokens and <code>--vd-liquid-*</code> knobs — no
               Three.js CDN.
             </p>

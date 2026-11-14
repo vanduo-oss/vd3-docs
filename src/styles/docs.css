@@ -457,46 +457,6 @@ html[data-theme="dark"][data-primary="black"] {
   );
 }
 
-/* Light + Ink: the hero mark follows the dock's untinted greys instead of
-   near-black --vd-primary-8/9. Covers stroke-draw (stroke uses the same vars). */
-html[data-theme="light"][data-primary="black"] .hero-title-logo-stage {
-  --vd3-mark-inner-light: color-mix(
-    in srgb,
-    var(--docs-ink-mark-light) 72%,
-    #fff
-  );
-  --vd3-mark-inner-dark: color-mix(
-    in srgb,
-    var(--docs-ink-mark-dark) 88%,
-    #000
-  );
-  --vd3-mark-outer-fill: color-mix(
-    in srgb,
-    var(--docs-ink-mark-outer) 78%,
-    #000
-  );
-}
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme])[data-primary="black"] .hero-title-logo-stage {
-    --vd3-mark-inner-light: color-mix(
-      in srgb,
-      var(--docs-ink-mark-light) 72%,
-      #fff
-    );
-    --vd3-mark-inner-dark: color-mix(
-      in srgb,
-      var(--docs-ink-mark-dark) 88%,
-      #000
-    );
-    --vd3-mark-outer-fill: color-mix(
-      in srgb,
-      var(--docs-ink-mark-outer) 78%,
-      #000
-    );
-  }
-}
-
 .vd3-mark {
   transition: filter 0.35s ease;
 }
@@ -532,12 +492,12 @@ html[data-theme="light"][data-primary="black"] .hero-title-logo-stage {
 /* Michroma — navbar brand and hero title (home page only) */
 .vd-navbar-brand-wrap > a {
   font-family: Michroma, sans-serif;
-  text-transform: lowercase;
+  text-transform: none;
 }
 
 #home .hero-title {
   font-family: Michroma, sans-serif;
-  text-transform: lowercase;
+  text-transform: none;
   width: 100%;
   box-sizing: border-box;
   justify-content: center;
@@ -740,7 +700,7 @@ html[data-theme="light"][data-primary="black"] .hero-title-logo-stage {
 
 .vd-footer-brand-title {
   font-family: Michroma, sans-serif;
-  text-transform: lowercase;
+  text-transform: none;
   font-weight: 400;
   font-size: calc(var(--vd-font-size-xl) * 1.25);
   line-height: 1;
@@ -4241,18 +4201,18 @@ html[data-motion="off"] .vd-site-dock .vd-dock-links .vd-dock-item {
   gap: 0.3rem;
 }
 
-/* Desktop horizontal: Zen Dots wordmark beside the mark (matches home hero). */
+/* Desktop horizontal: Audiowide wordmark beside the mark. */
 @media (min-width: 768px) {
   .vd-site-dock.vd-dock.is-horizontal .vd-site-dock-brand-title {
-    font-family: "Zen Dots", sans-serif;
+    font-family: 'Audiowide', sans-serif;
     font-weight: 400;
     font-size: 1.15rem;
     line-height: 1;
 
     /* Ink primary: no --vd-dock-tint — match brand mark greys, not page accent. */
     color: var(--vd-dock-tint, color-mix(in srgb, #8a9199 78%, #000));
-    text-transform: lowercase;
-    letter-spacing: 0.04em;
+    text-transform: none;
+    letter-spacing: 0.01em;
     flex-shrink: 0;
     translate: 0 0.05rem;
   }
@@ -4267,25 +4227,7 @@ html[data-motion="off"] .vd-site-dock .vd-dock-links .vd-dock-item {
   width: 100%;
 }
 
-/* Ink dock: brand mark tracks --vd-dock-tint (same hue as active nav icon).
-   When primary is Ink (black), accent is unset — soft grey chrome. */
 .vd-site-dock .vd-site-dock-brand-mark {
-  --vd3-mark-inner-light: color-mix(
-    in srgb,
-    var(--vd-dock-tint, var(--docs-ink-mark-light)) 72%,
-    #fff
-  );
-  --vd3-mark-inner-dark: color-mix(
-    in srgb,
-    var(--vd-dock-tint, var(--docs-ink-mark-dark)) 88%,
-    #000
-  );
-  --vd3-mark-outer-fill: color-mix(
-    in srgb,
-    var(--vd-dock-tint, var(--docs-ink-mark-outer)) 78%,
-    #000
-  );
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -4307,7 +4249,7 @@ html[data-motion="off"] .vd-site-dock .vd-dock-links .vd-dock-item {
 
 .vd-site-dock .vd-dock-brand .vd3-mark-spin {
   transform: rotate(var(--vd-site-dock-brand-angle));
-  transform-origin: 361px 361px;
+  transform-origin: center;
 }
 
 @media (prefers-reduced-motion: reduce) {

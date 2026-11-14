@@ -258,7 +258,7 @@ export const buildRoutes = (): RouteRecordRaw[] => {
   routes.push({
     path: "/guides/vanduo-ecosystem",
     redirect: "/guides/vd3-ecosystem",
-    meta: { title: "vd3 ecosystem", keywords: [] },
+    meta: { title: "VD3 UI Ecosystem", keywords: [] },
   });
 
   // Legacy alias — Icon lived under Primitives but duplicated /core/icons.

@@ -47,7 +47,7 @@ const relatedComponents = [
   },
 ];
 
-const focusCss = `/* vd3 ships visible focus rings — never remove them outright */
+const focusCss = `/* VD3 UI ships visible focus rings — never remove them outright */
 .vd-btn:focus-visible {
   outline: 2px solid var(--vd-color-primary);
   outline-offset: 2px;
@@ -60,7 +60,7 @@ const ariaHtml = `<!-- Icon-only controls need an accessible name; VdButton does
 
 <nav class="vd-pagination" aria-label="Pagination">…</nav>`;
 
-const motionCss = `/* All vd3 components and utilities automatically adapt to reduced motion */
+const motionCss = `/* All VD3 UI components and utilities automatically adapt to reduced motion */
 @media (prefers-reduced-motion: reduce) {
   :root:not([data-motion="full"]) {
     --vd-duration-instant: 0ms;
@@ -190,7 +190,7 @@ const dontUndo: [string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      vd3's components ship with sensible roles, labels, focus styles, and
+      VD3 UI's components ship with sensible roles, labels, focus styles, and
       motion guards. Accessibility is mostly about <em>not undoing</em> those
       defaults as you compose — and filling the gaps only you can: meaningful
       labels, alt text, and logical structure.
@@ -229,7 +229,7 @@ const dontUndo: [string, string][] = [
           </div>
           <div class="vd-card-body">
             <p>
-              vd3 respects user motion preference across all components,
+              VD3 UI respects user motion preference across all components,
               primitives (<code>VdExpandTransition</code>,
               <code>VdTransition</code>), and theme customizer controls. Users
               with motion sensitivities can choose between OS-driven behavior

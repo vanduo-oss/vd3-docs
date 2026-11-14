@@ -87,11 +87,11 @@ theme.setTheme('dark');`;
 <template>
   <section id="runtime-architecture">
     <h5 class="demo-title">
-      <i class="ph ph-circuitry"></i>vd3 Architecture
+      <i class="ph ph-circuitry"></i>VD3 UI Architecture
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      vd3 combines design tokens, CSS, and typed Vue components. Import the
+      VD3 UI combines design tokens, CSS, and typed Vue components. Import the
       components you use and one stylesheet. The layers below explain how they
       fit together.
     </p>
@@ -215,7 +215,7 @@ theme.setTheme('dark');`;
         {
           to: '/guides/vd3-ecosystem',
           icon: 'ph-stack',
-          title: 'vd3 ecosystem',
+          title: 'VD3 UI Ecosystem',
           desc: 'How the design system, charts, flowchart, and docs fit together.',
           badge: 'Guide',
         },

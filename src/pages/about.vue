@@ -5,7 +5,6 @@ import {
   VD3_COMPONENT_EXPORTS,
   VD3_COMPOSABLE_MODULES,
 } from "@/constants/vd3Catalog";
-import "@/styles/logo-fx.css";
 import "@/styles/hero-display-font.css";
 </script>
 
@@ -18,7 +17,7 @@ import "@/styles/hero-display-font.css";
           <i class="ph ph-compass"></i> About
         </h2>
         <p class="vd-text-lg vd-text-muted">
-          What vd3 UI is, and the ideas behind it
+          What VD3 UI is, and the ideas behind it
         </p>
       </div>
     </div>
@@ -28,15 +27,12 @@ import "@/styles/hero-display-font.css";
       <div class="about-intro-inner">
         <div class="about-intro-brand-wrap">
           <div class="vd-footer-brand about-intro-brand">
-            <span
-              class="about-intro-logo-stage logo-fx-tile"
-              data-fx="stagger-pulse"
-            >
+            <span class="about-intro-logo-stage">
               <Vd3Mark size="8.125rem" />
             </span>
             <h3 class="vd-footer-brand-title">
               <span class="hero-title-text">
-                <span class="hero-title-brand">vd3</span>
+                <span class="hero-title-brand">VD3 UI</span>
               </span>
             </h3>
           </div>
@@ -50,7 +46,7 @@ import "@/styles/hero-display-font.css";
         <div class="about-intro-body">
           <h3>What it is</h3>
           <p>
-            vd3 UI is the standalone Vue&nbsp;3 design system and component
+            VD3 UI is the standalone Vue&nbsp;3 design system and component
             library from <code>vanduo-oss</code>. It ships everything in a
             single package — design tokens, a full CSS layer, and typed
             <code>&lt;Vd*&gt;</code> components with matching
@@ -112,7 +108,7 @@ import "@/styles/hero-display-font.css";
 
           <h3>Open source</h3>
           <p>
-            vd3 is MIT-licensed and free to use. The source is public on
+            VD3 UI is MIT-licensed and free to use. The source is public on
             <a
               href="https://github.com/vanduo-oss"
               target="_blank"

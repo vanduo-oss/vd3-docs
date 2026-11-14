@@ -113,7 +113,7 @@ const leading = [
   },
 ];
 const leadingText =
-  "vd3 keeps vertical rhythm tied to the golden ratio so dense headings and body copy feel balanced without hand-tuning every block.";
+  "VD3 UI keeps vertical rhythm tied to the golden ratio so dense headings and body copy feel balanced without hand-tuning every block.";
 
 const tracking = [
   { label: "tighter · −0.05em", ls: "var(--vd-letter-spacing-tighter)" },
@@ -369,7 +369,7 @@ const apiRows: [string, string, string][] = [
                 <span class="vd-text-sm vd-text-muted">{{ row.label }}</span
                 ><br />
                 <span class="vd-text-lg" :style="`letter-spacing: ${row.ls};`"
-                  >vd3</span
+                  >VD3 UI</span
                 >
               </div>
             </div>
@@ -437,7 +437,7 @@ const apiRows: [string, string, string][] = [
               </div>
             </div>
             <p class="vd-mb-5">
-              vd3 ships <strong>6 curated font options</strong>, switchable at
+              VD3 UI ships <strong>6 curated font options</strong>, switchable at
               runtime via the <code>data-font</code> attribute on
               <code>&lt;html&gt;</code> (also exposed by the Theme Customizer).
               The preference persists in

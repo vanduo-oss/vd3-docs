@@ -21,36 +21,22 @@ describe("vd3 favicon", () => {
     expect(svg).not.toContain("alert");
   });
 
-  it("recolors the icon from data-primary and ignores an injected value", () => {
+  it("leaves the static favicon href intact and does not dynamically mutate it", () => {
     const doc = createFaviconDocument();
     doc.documentElement.setAttribute("data-primary", "green");
     const disconnect = installVd3Favicon(doc as unknown as Document);
     const link = doc.querySelector('link[rel="icon"]') as {
       getAttribute(name: string): string | null;
     };
+    expect(link.getAttribute("href")).toBe("/favicon.svg");
     expect(link.getAttribute("type")).toBe("image/svg+xml");
-    expect(decodeURIComponent(link.getAttribute("href") ?? "")).toContain(
-      'fill="rgb(24, 76, 34)"',
-    );
 
     doc.documentElement.setAttribute("data-primary", "red");
-    const red = decodeURIComponent(link.getAttribute("href") ?? "");
-    expect(red).toContain('fill="rgb(120, 24, 24)"');
-    expect(red).not.toContain("rgb(24, 76, 34)");
-
-    doc.documentElement.setAttribute("data-primary", "injected");
-    const injected = decodeURIComponent(link.getAttribute("href") ?? "");
-    expect(injected).toContain(`fill="${VD3_FAVICON_FALLBACK.outer}"`);
-    expect(injected).toContain(
-      `stop-color="${VD3_FAVICON_FALLBACK.innerLight}"`,
-    );
-    expect(injected).not.toContain("<script");
+    expect(link.getAttribute("href")).toBe("/favicon.svg");
 
     disconnect();
     doc.documentElement.setAttribute("data-primary", "blue");
-    expect(decodeURIComponent(link.getAttribute("href") ?? "")).toContain(
-      `fill="${VD3_FAVICON_FALLBACK.outer}"`,
-    );
+    expect(link.getAttribute("href")).toBe("/favicon.svg");
   });
 });
 

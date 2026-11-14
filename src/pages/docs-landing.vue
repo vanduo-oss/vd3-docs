@@ -48,7 +48,7 @@ const cards: DocsCard[] = [
     cardClass: "docs-card-components",
     icon: "ph-cube",
     title: "Components",
-    desc: "Explore the building blocks of vd3 UI.",
+    desc: "Explore the building blocks of VD3 UI.",
     highlights: [
       { icon: "ph-check-circle", text: "Live demos with copy-paste snippets" },
       {
@@ -102,7 +102,7 @@ const cards: DocsCard[] = [
     cardClass: "docs-card-guides",
     icon: "ph-compass",
     title: "Guides",
-    desc: "Step-by-step tutorials to master the vd3 ecosystem.",
+    desc: "Step-by-step tutorials to master the VD3 UI ecosystem.",
     highlights: [
       { icon: "ph-rocket-launch", text: "Quick start & zero-to-ship setup" },
       { icon: "ph-shield-check", text: "Security, lifecycle, and production" },
@@ -128,11 +128,11 @@ const cards: DocsCard[] = [
     highlights: [
       {
         icon: "ph-sparkle",
-        text: "vd3 1.9.1, charts 1.2.0, flowchart 1.6.0 — latest packages",
+        text: "VD3 UI 1.9.1, charts 1.2.0, flowchart 1.6.0 — latest packages",
       },
       {
         icon: "ph-git-branch",
-        text: "Release notes for vd3, charts & flowchart",
+        text: "Release notes for VD3 UI, charts & flowchart",
       },
     ],
     miniIcons: [
@@ -143,7 +143,7 @@ const cards: DocsCard[] = [
     tags: ["Releases", "Tokens", "Lifecycle"],
     meta: {
       icon: "ph-calendar-blank",
-      text: "Latest: vd3 1.9.1 · charts 1.2.0 · flowchart 1.6.0",
+      text: "Latest: VD3 UI 1.9.1 · charts 1.2.0 · flowchart 1.6.0",
     },
   },
 ];
@@ -239,7 +239,7 @@ const resources: ResourceCard[] = [
     linkClass: "docs-landing-link-about",
     cardClass: "docs-card-about",
     icon: "ph-info",
-    desc: "The project and how the vd3 ecosystem is organized.",
+    desc: "The project and how the VD3 UI ecosystem is organized.",
     highlights: [
       { icon: "ph-users", text: "Who builds the framework" },
       { icon: "ph-tree-structure", text: "How the 3 packages fit together" },
@@ -291,7 +291,7 @@ const resources: ResourceCard[] = [
       },
     ],
     miniIcons: [
-      { title: "vd3", icon: "ph-cube" },
+      { title: "VD3 UI", icon: "ph-cube" },
       { title: "Charts", icon: "ph-chart-bar" },
       { title: "Flowchart", icon: "ph-flow-arrow" },
     ],
@@ -305,12 +305,12 @@ const resources: ResourceCard[] = [
     linkClass: "docs-landing-link-license",
     cardClass: "docs-card-license",
     icon: "ph-scales",
-    desc: "Permissive MIT license across the entire vd3 ecosystem.",
+    desc: "Permissive MIT license across the entire VD3 UI ecosystem.",
     highlights: [
       { icon: "ph-check-circle", text: "Use, modify, and distribute freely" },
       {
         icon: "ph-file-text",
-        text: "Covers vd3, vd3-charts & vd3-flowchart",
+        text: "Covers VD3 UI, vd3-charts & vd3-flowchart",
       },
     ],
     miniIcons: [
@@ -351,7 +351,7 @@ function onResourceCardClick(event: MouseEvent, card: ResourceCard): void {
           <i class="ph ph-book-open-text"></i> Documentation
         </h2>
         <p class="vd-text-lg vd-text-muted">
-          Explore the vd3 Ecosystem — UI Components, SVG Charts, Interactive
+          Explore the VD3 UI Ecosystem — UI Components, SVG Charts, Interactive
           Flowchart, Guides, and Changelog
         </p>
       </div>
@@ -529,7 +529,7 @@ function onResourceCardClick(event: MouseEvent, card: ResourceCard): void {
     @close="closeResourceModal"
   >
     <p class="vd-text-sm vd-text-muted vd-mb-4">
-      The vd3 ecosystem is developed across three focused open-source
+      The VD3 UI ecosystem is developed across three focused open-source
       repositories under the <strong>vanduo-oss</strong> GitHub organization.
     </p>
     <div class="docs-resource-modal-list">
@@ -691,7 +691,7 @@ function onResourceCardClick(event: MouseEvent, card: ResourceCard): void {
     @close="closeResourceModal"
   >
     <p class="vd-text-sm vd-text-muted vd-mb-4">
-      All three packages in the vd3 ecosystem are released under the permissive
+      All three packages in the VD3 UI ecosystem are released under the permissive
       <strong>MIT License</strong>. You are free to use, copy, modify, merge,
       publish, and distribute them in personal and commercial projects, provided
       the copyright and license notice are preserved.

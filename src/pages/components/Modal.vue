@@ -683,7 +683,7 @@ const classRows: [string, string][] = [
               type="text"
               id="m-name"
               class="vd-input"
-              value="vd3 Design System"
+              value="VD3 UI Design System"
             />
           </div>
           <div class="vd-form-group vd-mb-0">
@@ -813,7 +813,7 @@ A Fibonacci-scaled component library for modern web apps.</textarea>
                   id="xl-title"
                   type="text"
                   class="vd-input"
-                  value="vd3 1.2.1 — Modal XL + Glass"
+                  value="VD3 UI 1.2.1 — Modal XL + Glass"
                 />
               </div>
               <div class="vd-form-group vd-mb-3">

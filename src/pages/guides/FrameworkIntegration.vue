@@ -30,7 +30,7 @@ import { VdCard, VdButton } from '@vanduo-oss/vd3';
 
 <template>
   <VdCard>
-    <h1>Build fast with vd3</h1>
+    <h1>Build fast with VD3 UI</h1>
     <p class="vd-text-lg vd-text-muted">First-class Vue 3 components.</p>
     <VdButton variant="primary" size="lg">Get started</VdButton>
   </VdCard>
@@ -72,7 +72,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   });
 });`;
 
-const nuxtBridgeJs = `// Optional: keep vd3 in sync with @nuxtjs/color-mode
+const nuxtBridgeJs = `// Optional: keep VD3 UI in sync with @nuxtjs/color-mode
 import { computed } from 'vue';
 import { useThemeBridge } from '@vanduo-oss/vd3';
 import { useColorMode } from '#imports';
@@ -138,7 +138,7 @@ export default defineNuxtConfig({
       Reference for installing <code>@vanduo-oss/vd3</code>: plugin options, the
       optional canvas bundle, vite-ssg, and Nuxt. For a five-minute first page,
       start at
-      <RouterLink to="/guides/getting-started">Getting started</RouterLink>. vd3
+      <RouterLink to="/guides/getting-started">Getting started</RouterLink>. VD3 UI
       is Vue 3 only.
     </p>
 
@@ -300,7 +300,7 @@ export default defineNuxtConfig({
         <p class="vd-mt-4">
           Scaffold with <code>npx nuxi@latest init my-app</code>, then
           <code>pnpm add @vanduo-oss/vd3</code>. Named imports stay explicit —
-          vd3 does not ship a Nuxt auto-import module. To avoid a flash of the
+          VD3 UI does not ship a Nuxt auto-import module. To avoid a flash of the
           wrong theme during SSR, stamp <code>data-theme</code> on
           <code>&lt;html&gt;</code> with <code>useHead</code>:
         </p>
@@ -320,16 +320,16 @@ export default defineNuxtConfig({
       </div>
       <div class="vd-card-body">
         <p>
-          vd3 and Nuxt UI are meant to sit in the same Nuxt app. Nuxt UI
-          components are <code>U*</code> and tokens are <code>--ui-*</code>. vd3
+          VD3 UI and Nuxt UI are meant to sit in the same Nuxt app. Nuxt UI
+          components are <code>U*</code> and tokens are <code>--ui-*</code>. VD3 UI
           components are <code>Vd*</code> and tokens are <code>--vd-*</code>.
-          Use vd3 where you want Fibonacci spacing, Seemore glass, the dock,
+          Use VD3 UI where you want Fibonacci spacing, Seemore glass, the dock,
           charts, or flowchart, and Nuxt UI where its form, overlay, and
           dashboard components already fit. Neither library replaces the other.
         </p>
         <p class="vd-mt-4">
-          Put vd3 in a cascade layer so Tailwind utilities win when both set the
-          same property. Prefer prefixed vd3 utilities (<code>vd-mt-4</code>,
+          Put VD3 UI in a cascade layer so Tailwind utilities win when both set the
+          same property. Prefer prefixed VD3 UI utilities (<code>vd-mt-4</code>,
           <code>vd-col-6</code>) next to Tailwind's own (<code>mt-4</code>,
           <code>col-span-6</code>). Sync <code>@nuxtjs/color-mode</code> with
           <code>useThemeBridge</code> and <code>syncDarkClass: true</code> so
@@ -349,13 +349,13 @@ export default defineNuxtConfig({
           to: '/guides/getting-started',
           icon: 'ph-rocket-launch',
           title: 'Getting started',
-          desc: 'Scaffold a Vue app and add vd3 in a few minutes.',
+          desc: 'Scaffold a Vue app and add VD3 UI in a few minutes.',
           badge: 'Guide',
         },
         {
           to: '/guides/runtime-architecture',
           icon: 'ph-circuitry',
-          title: 'vd3 Architecture',
+          title: 'VD3 UI Architecture',
           desc: 'Tokens to CSS to components — how the package is built.',
           badge: 'Guide',
         },

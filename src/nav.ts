@@ -565,7 +565,7 @@ export const nav: NavTree = {
             },
             {
               id: "runtime-architecture",
-              title: "vd3 Architecture",
+              title: "VD3 UI Architecture",
               route: "/guides/runtime-architecture",
               icon: "cpu",
               keywords: ["runtime", "architecture", "css", "js"],
@@ -635,7 +635,7 @@ export const nav: NavTree = {
             },
             {
               id: "vd3-ecosystem",
-              title: "vd3 ecosystem",
+              title: "VD3 UI Ecosystem",
               route: "/guides/vd3-ecosystem",
               icon: "globe",
               keywords: ["ecosystem", "tools", "projects", "vd3"],

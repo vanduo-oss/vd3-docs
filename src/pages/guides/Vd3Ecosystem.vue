@@ -8,7 +8,7 @@ const nextLinks = [
     to: "/guides/getting-started",
     icon: "ph-rocket-launch",
     title: "Getting started",
-    desc: "Scaffold a Vue app and add vd3 in a few minutes.",
+    desc: "Scaffold a Vue app and add VD3 UI in a few minutes.",
     badge: "Guide",
   },
   {
@@ -21,7 +21,7 @@ const nextLinks = [
   {
     to: "/guides/runtime-architecture",
     icon: "ph-stack",
-    title: "vd3 architecture",
+    title: "VD3 UI Architecture",
     desc: "Tokens → generated CSS → components & composables.",
     badge: "Guide",
   },
@@ -44,12 +44,12 @@ const repos: [string, string, string][] = [
   [
     "vd3-charts",
     "@vanduo-oss/vd3-charts",
-    "Dedicated SVG charts package (bar, line, area, scatter, donut, pie). Same tokens as vd3. These docs dogfood 1.2.0.",
+    "Dedicated SVG charts package (bar, line, area, scatter, donut, pie). Same tokens as VD3 UI. These docs dogfood 1.2.0.",
   ],
   [
     "vd3-flowchart",
     "@vanduo-oss/vd3-flowchart",
-    "Dedicated SVG flowchart editor. Same tokens as vd3. These docs dogfood 1.6.0.",
+    "Dedicated SVG flowchart editor. Same tokens as VD3 UI. These docs dogfood 1.6.0.",
   ],
   [
     "vd3-docs",
@@ -76,7 +76,7 @@ import { VdFlowchart } from '@vanduo-oss/vd3-flowchart';`;
 <template>
   <section id="vd3-ecosystem">
     <h5 class="demo-title">
-      <i class="ph ph-planet"></i>vd3 ecosystem
+      <i class="ph ph-planet"></i>VD3 UI Ecosystem
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
@@ -89,7 +89,7 @@ import { VdFlowchart } from '@vanduo-oss/vd3-flowchart';`;
       <div class="vd-col-12">
         <div class="vd-card demo-card">
           <div class="vd-card-header">
-            <h6><i class="ph ph-git-branch"></i> The vd3 line</h6>
+            <h6><i class="ph ph-git-branch"></i> The VD3 UI line</h6>
           </div>
           <div class="vd-card-body">
             <div class="vd-table-responsive">

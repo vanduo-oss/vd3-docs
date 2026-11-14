@@ -198,7 +198,7 @@ const tactics: [string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      vd3 ships <strong>useLazyLoad</strong>, an IntersectionObserver composable
+      VD3 UI ships <strong>useLazyLoad</strong>, an IntersectionObserver composable
       that defers work until an element scrolls into view — either firing a
       callback (<code>observe</code>) or fetching-and-injecting a content
       section (<code>loadSection</code>). Pair it with the bundler tactics below

@@ -261,7 +261,7 @@ const glassComponents = [
       <i class="ph ph-drop-half-bottom"></i>Seemore Glass
     </h5>
     <p class="vd-mb-6">
-      Seemore Glass is vd3’s frosted material system: every strength step
+      Seemore Glass is VD3 UI’s frosted material system: every strength step
       follows the Fibonacci sequence so blur, tint, edge, and elevation move
       together — the same harmonic language as the rest of the kit. Opt in with
       <code>.vd-glass</code> and a step class; stage demos on package

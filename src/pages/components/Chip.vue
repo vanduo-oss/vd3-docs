@@ -42,7 +42,7 @@ const vue3Api: [string, string][] = [
 const apiRows: [string, string, string][] = [
   [
     ".vd-chip",
-    "Base component class required for all vd3 chips and tags.",
+    "Base component class required for all VD3 UI chips and tags.",
     "Component",
   ],
   [

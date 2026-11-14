@@ -56,11 +56,11 @@ export const createApp = ViteSSG(
       },
     });
 
-    // vd3 is fully standalone: the components/composables are pure Vue with no
+    // VD3 UI is fully standalone: the components/composables are pure Vue with no
     // window.Vanduo* IIFE runtime to bootstrap, so there is nothing to load here.
 
     // Page <title> is managed per route by @unhead in App.vue (so it stays in
-    // sync with the SSG-baked title and the "— vd3" suffix).
+    // sync with the SSG-baked title and the "— VD3 UI" suffix).
 
     if (import.meta.env.SSR && initialState) {
       initialState.pinia = {};

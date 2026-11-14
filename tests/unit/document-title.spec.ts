@@ -3,15 +3,15 @@ import { docsDocumentTitle } from "@/lib/document-title";
 
 describe("docs document title", () => {
   it("matches the home hero", () => {
-    expect(docsDocumentTitle("/")).toBe("vd3 UI");
+    expect(docsDocumentTitle("/")).toBe("VD3 UI");
   });
 
-  it("keeps section titles on the vd3 suffix", () => {
+  it("keeps section titles on the VD3 UI suffix", () => {
     expect(docsDocumentTitle("/canvas/flowchart", "Flowchart")).toBe(
-      "Flowchart — vd3",
+      "Flowchart — VD3 UI",
     );
     expect(docsDocumentTitle("/about")).toBe(
-      "vd3 — Fibonacci-Tuned Vue 3 Design System",
+      "VD3 UI — Fibonacci-Tuned Vue 3 Design System",
     );
   });
 });

@@ -213,7 +213,7 @@ const pitfalls = [
   },
   {
     title: "Style an inner element, not the column",
-    body: "vd3's CSS ships in @layer vd3, so a width or padding you set on a column in your own CSS silently wins over the grid. Wrap content in a card or div and style that instead.",
+    body: "VD3 UI's CSS ships in @layer vd3, so a width or padding you set on a column in your own CSS silently wins over the grid. Wrap content in a card or div and style that instead.",
   },
   {
     title: "Start mobile-first",
@@ -229,7 +229,7 @@ const pitfalls = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      vd3's layout system is plain CSS — a 12-column responsive grid inside a
+      VD3 UI's layout system is plain CSS — a 12-column responsive grid inside a
       container, with mobile-first breakpoints and a constant 13px gutter. This
       guide builds a real page step by step: container, rows and columns,
       breakpoints, then a full app shell with <code>VdNavbar</code> and

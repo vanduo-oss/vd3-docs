@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { RouterView, useRoute } from "vue-router";
 import { useHead } from "@unhead/vue";
 import VdSiteDock from "@/layout/VdSiteDock.vue";
@@ -11,18 +11,16 @@ import { useSearchStore } from "@/stores/search";
 import NavigationStatus from "@/layout/NavigationStatus.vue";
 import { useNavigation } from "@/navigation";
 import { docsDocumentTitle } from "@/lib/document-title";
-import { installVd3Favicon } from "@/lib/vd3-favicon";
 
 const route = useRoute();
 const theme = useThemeStore();
 const search = useSearchStore();
 const { pending } = useNavigation();
-let disconnectFavicon = () => {};
 
 // ── Per-route SEO (baked into the SSG HTML via @unhead) ──────────────
 const BASE_URL = "https://vd3.vanduo.dev";
 const DEFAULT_DESCRIPTION =
-  "vd3 is a Fibonacci-tuned Vue 3 design system: first-class components and composables on a golden-ratio scale with a single, consistent token set.";
+  "VD3 UI is a Fibonacci-tuned Vue 3 design system: first-class components and composables on a golden-ratio scale with a single, consistent token set.";
 
 const pageTitle = computed(() =>
   docsDocumentTitle(route.path, route.meta?.title as string | undefined),
@@ -32,7 +30,7 @@ const pageDescription = computed(() => {
   if (d) return d;
   const t = route.meta?.title as string | undefined;
   return t && route.path !== "/"
-    ? `${t} in vd3 — the Fibonacci-tuned Vue 3 design system with first-class components and a single consistent token set.`
+    ? `${t} in VD3 UI — the Fibonacci-tuned Vue 3 design system with first-class components and a single consistent token set.`
     : DEFAULT_DESCRIPTION;
 });
 const canonical = computed(() => `${BASE_URL}${route.path}`);
@@ -53,11 +51,8 @@ useHead({
 onMounted(() => {
   theme.init();
   search.init();
-  disconnectFavicon = installVd3Favicon();
   document.documentElement.dataset.vdHydrated = "true";
 });
-
-onBeforeUnmount(() => disconnectFavicon());
 </script>
 
 <template>

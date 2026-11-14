@@ -30,7 +30,7 @@ const vd3Entries: CbunEntry[] = [
       "SVG-first rendering — no canvas, no d3 dependency",
       "Labelled marks and keyboard navigation",
       "A data table for every chart type",
-      "Reads the same --vd-* tokens as the rest of vd3",
+      "Reads the same --vd-* tokens as the rest of VD3 UI",
     ],
     docsTo: "/canvas/charts",
     preview: CbunPreviewCharts,

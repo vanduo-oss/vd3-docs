@@ -288,7 +288,7 @@ const aspectBadge = (v: "success" | "secondary"): string =>
           </div>
           <div class="vd-card-body">
             <p class="vd-mb-5">
-              vd3 is Fibonacci/φ-first in its <em>design language</em>, and
+              VD3 UI is Fibonacci/φ-first in its <em>design language</em>, and
               pragmatically conventional where familiarity beats math. We'd
               rather be honest than dogmatic.
             </p>

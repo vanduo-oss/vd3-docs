@@ -88,7 +88,7 @@ const tiers: [string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      Every color, space, radius, and font in vd3 is a CSS custom property
+      Every color, space, radius, and font in VD3 UI is a CSS custom property
       (<code>--vd-*</code>). Override them in your own stylesheet and the whole
       system updates — no recompile, no JavaScript. This token layer ships with
       <code>@vanduo-oss/vd3</code>.
@@ -184,7 +184,7 @@ const tiers: [string, string][] = [
           Already have a light/dark toggle (e.g.
           <code>@nuxtjs/color-mode</code>, a Pinia store, or your own ref)? The
           <code>useThemeBridge</code> composable from
-          <code>@vanduo-oss/vd3</code> keeps vd3 in sync with it instead of
+          <code>@vanduo-oss/vd3</code> keeps VD3 UI in sync with it instead of
           adding a second source of truth.
         </p>
         <DocCodeSnippet :js="bridgeJs" :default-open="true" />
@@ -202,7 +202,7 @@ const tiers: [string, string][] = [
       </div>
       <div class="vd-card-body">
         <p>
-          vd3 transitions are driven by <code>--vd-duration-*</code> tokens
+          VD3 UI transitions are driven by <code>--vd-duration-*</code> tokens
           based on the Fibonacci sequence and <code>--vd-ease-*</code> tokens
           based on golden-ratio cubic-bezier curves:
         </p>

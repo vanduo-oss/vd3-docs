@@ -8,7 +8,7 @@ import { useActiveBreakpoint } from "@/composables/useActiveBreakpoint";
 // Container-scoped grid switcher. `useGrid(containerRef)` flips the
 // `.vd-grid-standard` / `.vd-grid-fibonacci` class on this one element, keeps
 // `data-layout-mode` + the region `aria-label` in sync, and dispatches a
-// `grid:modechange` event. The real vd3 grid CSS then lays out each child
+// `grid:modechange` event. The real VD3 UI grid CSS then lays out each child
 // `.vd-row` with Fibonacci proportions — no page-local reimplementation needed.
 const gridDemo = ref<HTMLElement | null>(null);
 const { mode, toggle } = useGrid(gridDemo);
@@ -609,7 +609,7 @@ const containers = [
               <code>.vd-grid-fibonacci</code> class, keeps
               <code>data-layout-mode</code> plus the region
               <code>aria-label</code> in sync, and dispatches a
-              <code>grid:modechange</code> event. The real vd3 grid CSS then
+              <code>grid:modechange</code> event. The real VD3 UI grid CSS then
               lays out each child <code>.vd-row</code> by its column count —
               golden ratio (2&nbsp;cols), 2:3:5 (3&nbsp;cols), or 1:2:3:5
               (4&nbsp;cols).

@@ -67,89 +67,11 @@ export function vd3FaviconDataUrl(
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(buildVd3FaviconSvg(outer, innerLight, innerDark))}`;
 }
 
-type ColorProperty = "color" | "backgroundColor" | "borderTopColor";
-
-function readToken(
-  root: Element,
-  token: string,
-  property: ColorProperty,
-): string {
-  const doc = root.ownerDocument;
-  const getStyle = doc?.defaultView?.getComputedStyle;
-  if (
-    !doc ||
-    typeof getStyle !== "function" ||
-    typeof doc.createElement !== "function"
-  ) {
-    return "";
-  }
-  const probe = doc.createElement("span");
-  if (probe.style) {
-    probe.style[property] = `var(${token})`;
-    probe.style.display = "none";
-  }
-  try {
-    root.appendChild(probe);
-    return sanitizeCssColor(getStyle(probe)[property]);
-  } catch {
-    return "";
-  } finally {
-    probe.remove?.();
-  }
-}
-
-function iconLink(doc: Document): HTMLLinkElement {
-  const existing = doc.querySelector('link[rel="icon"]');
-  if (
-    existing &&
-    typeof (existing as HTMLElement).setAttribute === "function"
-  ) {
-    return existing as HTMLLinkElement;
-  }
-  const link = doc.createElement("link");
-  link.setAttribute("rel", "icon");
-  link.setAttribute("type", "image/svg+xml");
-  doc.head.appendChild(link);
-  return link;
-}
-
 /**
- * Point the SVG favicon at the current mark colors and keep it in sync
- * when the dock changes `data-primary`.
+ * Neutralized for static branding: brand marks and favicons use fixed
+ * pearl-mint colors across all themes. Does not observe mutations or
+ * alter favicon href.
  */
-export function installVd3Favicon(doc: Document = document): () => void {
-  if (
-    !doc?.documentElement ||
-    !doc.head ||
-    typeof doc.querySelector !== "function"
-  ) {
-    return () => {};
-  }
-  const link = iconLink(doc);
-  const sync = (): void => {
-    const root = doc.documentElement;
-    const outer =
-      readToken(root, "--vd3-mark-outer-fill", "color") ||
-      VD3_FAVICON_FALLBACK.outer;
-    const innerLight =
-      readToken(root, "--vd3-mark-inner-light", "backgroundColor") ||
-      VD3_FAVICON_FALLBACK.innerLight;
-    const innerDark =
-      readToken(root, "--vd3-mark-inner-dark", "borderTopColor") ||
-      VD3_FAVICON_FALLBACK.innerDark;
-    const href = vd3FaviconDataUrl(outer, innerLight, innerDark);
-    if (link.getAttribute("href") !== href) link.setAttribute("href", href);
-    if (link.getAttribute("type") !== "image/svg+xml") {
-      link.setAttribute("type", "image/svg+xml");
-    }
-  };
-  sync();
-  const Observer = doc.defaultView?.MutationObserver;
-  if (typeof Observer !== "function") return () => {};
-  const observer = new Observer(sync);
-  observer.observe(doc.documentElement, {
-    attributes: true,
-    attributeFilter: ["data-primary", "data-theme", "data-palette"],
-  });
-  return () => observer.disconnect();
+export function installVd3Favicon(_doc: Document = document): () => void {
+  return () => {};
 }

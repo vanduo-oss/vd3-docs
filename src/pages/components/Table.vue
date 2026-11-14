@@ -287,7 +287,7 @@ const hoverHtml = `<!-- Hover Table -->
 const apiRows: [string, string, string][] = [
   [
     ".vd-table",
-    "Base component class required for all vd3 tables.",
+    "Base component class required for all VD3 UI tables.",
     "Component",
   ],
   [
@@ -434,7 +434,7 @@ const apiRows: [string, string, string][] = [
           <div class="vd-card-body">
             <p class="vd-text-sm vd-text-muted vd-mb-3">
               Composition only — charts come from
-              <code>@vanduo-oss/vd3-charts</code>; the table stays in vd3.
+              <code>@vanduo-oss/vd3-charts</code>; the table stays in VD3 UI.
             </p>
             <VdChart
               type="bar"

@@ -21,7 +21,7 @@ ${links.map((link) => `        <li class="vd-footer-list-item"><a class="vd-foot
 const coreHtml = `<footer class="vd-footer vd-footer-3col">
   <div class="vd-footer-container">
 ${exampleSections}
-    <div class="vd-footer-copyright">© 2026 vd3 — built with vd3.</div>
+    <div class="vd-footer-copyright">© 2026 VD3 UI — built with VD3 UI.</div>
   </div>
 </footer>`;
 const vue3Usage = `<script setup lang="ts">
@@ -31,7 +31,7 @@ import { VdFooter } from "@vanduo-oss/vd3";
 <template>
   <VdFooter :columns="3">
 ${exampleSections}
-    <template #copyright>© 2026 vd3 — built with vd3.</template>
+    <template #copyright>© 2026 VD3 UI — built with VD3 UI.</template>
   </VdFooter>
 </template>`;
 
@@ -177,7 +177,7 @@ const apiRows: [string, string, string][] = [
                     </li>
                   </ul>
                 </div>
-                <template #copyright> © 2026 vd3 — built with vd3. </template>
+                <template #copyright> © 2026 VD3 UI — built with VD3 UI. </template>
               </VdFooter>
             </div>
           </div>
@@ -235,7 +235,7 @@ const apiRows: [string, string, string][] = [
                     </li>
                   </ul>
                 </div>
-                <template #copyright> © 2026 vd3. MIT licensed. </template>
+                <template #copyright> © 2026 VD3 UI. MIT licensed. </template>
               </VdFooter>
             </div>
           </div>

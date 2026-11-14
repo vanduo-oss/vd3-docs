@@ -39,7 +39,7 @@ useAffix(root);
           Changelog
         </h2>
         <p class="vd-text-lg vd-text-muted">
-          Release notes for the <strong>vd3 line packages</strong> —
+          Release notes for the <strong>VD3 UI line packages</strong> —
           <code>@vanduo-oss/vd3</code> (the Vue 3 design system and component
           library), <code>@vanduo-oss/vd3-charts</code>, and
           <code>@vanduo-oss/vd3-flowchart</code>.
@@ -1564,7 +1564,7 @@ useAffix(root);
                 <p class="vd-text-muted" style="margin: 0 0 1.25rem">
                   <strong>Snippet chrome</strong> and an
                   <strong>ink</strong> button — tabbed View Code, Copy in the
-                  header, and a 2px outline variant. vd3 still does not
+                  header, and a 2px outline variant. VD3 UI still does not
                   tokenize.
                 </p>
                 <div class="change-group">
@@ -2534,7 +2534,7 @@ useAffix(root);
                       <div>
                         <strong>Standalone by design</strong>
                         <p>
-                          vd3 is pure Vue: there is no separate client-side
+                          VD3 UI is pure Vue: there is no separate client-side
                           runtime to bootstrap and no global window objects —
                           theming and interactivity live entirely in typed
                           composables and the <code>VanduoVue</code> plugin.
