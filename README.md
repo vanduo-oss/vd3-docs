@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../vd3-ui-logo/vd3-ui-lockup-dark.svg" alt="VD3 UI" width="360">
+  <img src="./public/brand/vd3-ui/vd3-ui-lockup-dark.svg" alt="VD3 UI" width="360">
 </p>
 
 # vd3-docs
