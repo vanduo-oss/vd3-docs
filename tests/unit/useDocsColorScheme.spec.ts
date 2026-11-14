@@ -50,9 +50,9 @@ describe("docs dock theme defaults", () => {
   });
 
   it("falls back to scheme default accent for unknown primaries", () => {
-    expect(docsDockAccent("dark", "amber")).toBe("yellow");
+    expect(docsDockAccent("dark", "amber")).toBe("teal");
     expect(docsDockAccent("light", "amber")).toBe("");
-    expect(docsDockAccent("dark", "")).toBe("yellow");
+    expect(docsDockAccent("dark", "")).toBe("teal");
     expect(docsDockAccent("light", "")).toBe("");
   });
 

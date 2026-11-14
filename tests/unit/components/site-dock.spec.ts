@@ -99,9 +99,7 @@ describe("VdSiteDock", () => {
     expect(wrapper.find(".vd-dock").classes()).toContain("vd-dock-fixed");
 
     const home = wrapper.get('button.vd-dock-item[aria-label="Home"]');
-    const docs = wrapper.get(
-      'button.vd-dock-item[aria-label="Documentation"]',
-    );
+    const docs = wrapper.get('button.vd-dock-item[aria-label="Documentation"]');
     const cbun = wrapper.get(
       'button.vd-dock-item[aria-label="Canvas Components"]',
     );
@@ -119,9 +117,7 @@ describe("VdSiteDock", () => {
 
   it("navigates when a dock item is clicked", async () => {
     const { wrapper, router } = await mountDock();
-    const docs = wrapper.get(
-      'button.vd-dock-item[aria-label="Documentation"]',
-    );
+    const docs = wrapper.get('button.vd-dock-item[aria-label="Documentation"]');
     await docs.trigger("click");
     await flushPromises();
     expect(router.currentRoute.value.path).toBe("/docs-landing");
@@ -143,11 +139,11 @@ describe("VdSiteDock", () => {
     expect(document.documentElement.getAttribute("data-docs-dock")).toBeNull();
   });
 
-  it("uses radius 1.25 and inline item layout on horizontal top default edge", async () => {
+  it("uses radius 1.5 and inline item layout on horizontal top default edge", async () => {
     const { wrapper } = await mountDock();
     const dock = wrapper.find(".vd-dock");
     expect(dock.attributes("style") ?? "").toMatch(
-      /--vd-dock-radius:\s*1\.25(?:rem)?/,
+      /--vd-dock-radius:\s*1\.5(?:rem)?/,
     );
     expect(dock.classes()).toContain("vd-dock-items-inline");
     expect(dock.classes()).not.toContain("vd-dock-items-stack");
@@ -269,7 +265,9 @@ describe("VdSiteDock", () => {
           .attributes("data-tooltip"),
       ).toBe("Canvas Components");
       expect(
-        wrapper.get('button[aria-label="Open global search"]').attributes("data-tooltip"),
+        wrapper
+          .get('button[aria-label="Open global search"]')
+          .attributes("data-tooltip"),
       ).toBeUndefined();
       expect(
         wrapper.find(".vd-dock-brand").attributes("data-tooltip"),

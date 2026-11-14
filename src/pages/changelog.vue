@@ -143,16 +143,59 @@ useAffix(root);
                       ></i>
                       <div>
                         <strong
-                          >Dock <code>data-motion="off"</code> centering</strong
+                          >Dock <code>data-motion="off"</code> centering &amp;
+                          resting scale</strong
                         >
                         <p>
                           <RouterLink to="/components/dock"
                             ><code>VdDock</code></RouterLink
                           >
                           now scopes
-                          <code>html[data-motion="off"]</code> transform
-                          overrides to dock items, nav, and actions so the dock
-                          retains its centering transform when motion is off.
+                          <code>html[data-motion="off"]</code> transform resets
+                          to dock nav and actions and preserves resting
+                          <code>.vd-dock-item</code> hierarchy scale across
+                          <code>reduce</code>, <code>off</code>, and
+                          <code>prefers-reduced-motion</code> (suppressing only
+                          hover magnification), so the dock stays centered and
+                          items never shift size between motion modes.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-caret-down"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Native select indicator &amp; font-select chevron
+                          spacing</strong
+                        >
+                        <p>
+                          Added <code>-webkit-appearance: none</code>,
+                          <code>::picker-icon</code> suppression, and
+                          <code>.tc-font-select</code> right-chevron padding so
+                          WebKit and Chromium webviews render a single
+                          right-aligned caret on one line without a duplicate
+                          native arrow.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-moon"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Fibonacci dark neutral scale calibration</strong
+                        >
+                        <p>
+                          Calibrated neutral lightness stops
+                          (<code>NEUTRAL_L_RAMP</code>,
+                          <code>0.980</code> &rarr; <code>0.180</code>) so
+                          Fibonacci dark-mode surfaces and borders stay obsidian
+                          dark without greyish washout.
                         </p>
                       </div>
                     </li>

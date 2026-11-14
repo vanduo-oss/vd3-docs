@@ -4029,9 +4029,41 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vd-site-dock .vd-dock-links .vd-dock-item {
+  :root:not([data-motion="full"]) .vd-site-dock .vd-dock-links .vd-dock-item {
     transition: none;
   }
+
+  :root:not([data-motion="full"])
+    .vd-site-dock
+    .vd-dock-links
+    .vd-dock-item:hover:not(.is-active),
+  :root:not([data-motion="full"])
+    .vd-site-dock
+    .vd-dock-links
+    .vd-dock-item:focus-visible:not(.is-active) {
+    transform: scale(0.92);
+  }
+}
+
+html[data-motion="reduce"] .vd-site-dock .vd-dock-links .vd-dock-item {
+  transition:
+    opacity var(--vd-duration-instant, 89ms) ease,
+    color var(--vd-duration-instant, 89ms) ease;
+}
+
+html[data-motion="off"] .vd-site-dock .vd-dock-links .vd-dock-item {
+  transition: none;
+}
+
+:is(html[data-motion="reduce"], html[data-motion="off"])
+  .vd-site-dock
+  .vd-dock-links
+  .vd-dock-item:hover:not(.is-active),
+:is(html[data-motion="reduce"], html[data-motion="off"])
+  .vd-site-dock
+  .vd-dock-links
+  .vd-dock-item:focus-visible:not(.is-active) {
+  transform: scale(0.92);
 }
 
 /* Vertical edges: icon-only nav (labels via tooltip). */

@@ -16,8 +16,8 @@ export type DocsSchemePrimaries = {
 /** Light-mode docs first-visit default — Ink (`black`). */
 export const DOCS_DEFAULT_PRIMARY_LIGHT = "black";
 
-/** Dark-mode docs first-visit default — yellow. */
-export const DOCS_DEFAULT_PRIMARY_DARK = "yellow";
+/** Dark-mode docs first-visit default — cyan. */
+export const DOCS_DEFAULT_PRIMARY_DARK = "cyan";
 
 /**
  * Former shared docs default written to the single `vanduo-primary-color` key.
