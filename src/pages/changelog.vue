@@ -58,6 +58,110 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
+        <article class="version-card" id="vd3-1-9-1">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.9.1</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>November 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong>Fibonacci palette &amp; customizer polish</strong>
+                  — full 17-hue Fibonacci color scales with cusp-anchored WCAG
+                  contrast, crimson <code>20deg</code> red/danger,
+                  <code>VdThemeCustomizer</code> layout and dark-mode contrast
+                  fixes, and <code>VdDock</code> motion-off centering.
+                </p>
+                <div class="change-group">
+                  <h5>Changed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-palette"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong>Fibonacci palette upgrade</strong>
+                        <p>
+                          Scaled chromatic OKLCH peak chroma by
+                          <code>1.618</code>, shifted <code>red</code> /
+                          <code>danger</code> / <code>error</code> to crimson
+                          (<code>20deg</code>) with &ge; 4.5:1 WCAG contrast on
+                          filled surfaces, added cusp-anchored step-6 lightness
+                          for warm/mid hues, and generated native
+                          <code>--vd-fib-&lt;hue&gt;-0..9</code> scales across
+                          all 17 chromatic customizer hues. See
+                          <RouterLink to="/core/color-palette"
+                            ><code>/core/color-palette</code></RouterLink
+                          >.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-sliders-horizontal"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Theme Customizer layout, contrast &amp; swatch
+                          sync</strong
+                        >
+                        <p>
+                          <RouterLink to="/components/theme-customizer"
+                            ><code>VdThemeCustomizer</code></RouterLink
+                          >
+                          uses a <code>3 x 2</code> neutral grid to stop
+                          horizontal overflow, restores high-contrast dark-mode
+                          active motion buttons, syncs color swatches and fan
+                          items to <code>--vd-fib-&lt;hue&gt;-6</code> under
+                          <code>data-palette="fibonacci"</code>, and adjusts
+                          hover ink for Fibonacci <code>amber</code>,
+                          <code>yellow</code>, and <code>lime</code>.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-corners-out"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Dock <code>data-motion="off"</code> centering</strong
+                        >
+                        <p>
+                          <RouterLink to="/components/dock"
+                            ><code>VdDock</code></RouterLink
+                          >
+                          now scopes
+                          <code>html[data-motion="off"]</code> transform
+                          overrides to dock items, nav, and actions so the dock
+                          retains its centering transform when motion is off.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
         <article class="version-card" id="vd3-1-9-0">
           <header class="version-header">
             <span
@@ -68,9 +172,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>November 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">

@@ -3899,18 +3899,6 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 /* ── Global Search ──────────────────────────────── */
 
-/* Published vd3 1.9.0 sets transform:none !important on .vd-dock inside
-   @layer vd3 when motion is off. Horizontal placement is translateX(-50%),
-   so that rule slides the site dock off center. The override has to live in
-   the same layer: an unlayered !important loses to a layered one. Vertical
-   and square states already rest at transform:none. */
-@layer vd3 {
-  html[data-motion="off"]
-    .vd-site-dock.is-horizontal:not(.is-square, .is-morphing) {
-    transform: translateX(-50%) !important;
-  }
-}
-
 /* Site dock action chrome (search + theme + customizer).
    Consume --vd-dock-tint so dark-mode chrome matches light + brand/active. */
 .vd-site-dock .vd-dock-actions {

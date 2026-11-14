@@ -3,6 +3,13 @@
 `@vanduo-oss/vd3-docs` is the **private** documentation site for the vd3 line.
 It is not published to npm and keeps no package release history of its own.
 
+## Unreleased
+
+### Changed
+
+- Adopt `@vanduo-oss/vd3@1.9.1`: full 17-hue Fibonacci palette scales with crimson `20deg` red/danger and >= 4.5:1 fill contrast, `VdThemeCustomizer` 3×2 neutral grid and swatch sync, and `VdDock` `data-motion="off"` centering fix.
+- Remove the temporary `vd3 1.9.0` dock centering override in `src/styles/docs.css` and update package version references and changelog entries to `v1.9.1`.
+
 ## [1.8.0] - 2026-11-09
 
 ### Added

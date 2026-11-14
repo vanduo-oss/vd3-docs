@@ -7,11 +7,11 @@ import { JSDOM } from "jsdom";
 // Covers local initial JS/CSS, including static imports and modulepreloads.
 // Lazy imports, font binaries, images and third-party requests are reported separately.
 const ROOT = resolve("dist");
-// v1.8.0 motion system: @vanduo-oss/vd3@1.9.0 adds ~3.7 KiB gzip for the
-// Fibonacci motion system (VdExpandTransition, VdTransition, motion tokens).
-// Homepage measured 376.1 KiB gzip, flowchart measured 417.0 KiB gzip.
-const MAX_INITIAL_GZIP_KIB = 420;
-const MAX_HOME_GZIP_KIB = 380;
+// v1.9.1 Fibonacci palette: @vanduo-oss/vd3@1.9.1 adds ~1.5 KiB gzip for the
+// 17-hue Fibonacci scales and customizer bindings.
+// Homepage measured 380.7 KiB gzip, flowchart measured 421.1 KiB gzip.
+const MAX_INITIAL_GZIP_KIB = 424;
+const MAX_HOME_GZIP_KIB = 384;
 const MAX_SEARCH_BYTES = 350_000;
 const ROUTES = [
   "index.html",
