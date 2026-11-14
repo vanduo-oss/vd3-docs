@@ -21,8 +21,8 @@ import { playSiteDockNarrowBrandMorph } from "@/composables/siteDockNarrowBrandM
 import { useDocsDockNarrow } from "@/composables/useDocsDockNarrow";
 import { useSiteDockBrandSpin } from "@/composables/useSiteDockBrandSpin";
 
-/** Site nav only. Home and playground docks keep DOCS_DOCK_RADIUS (1.5). */
-const SITE_DOCK_RADIUS = "1.25" as const;
+/** Site nav keeps 1.5rem radius, matching home and playground docks (DOCS_DOCK_RADIUS). */
+const SITE_DOCK_RADIUS = "1.5" as const;
 
 const SITE_DOCK_STORAGE_KEY = "vd3-docs-site-dock";
 

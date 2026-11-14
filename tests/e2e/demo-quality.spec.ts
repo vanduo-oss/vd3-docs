@@ -25,7 +25,14 @@ test("demo fonts, mode, radius and Reset are temporary; dock choices alone survi
   await page.getByRole("button", { name: "open()", exact: true }).click();
   const panel = page.locator(".vd-theme-customizer-panel.is-open");
   await expect(panel).toBeVisible();
-  await expect(panel.getByText("Palette", { exact: true })).toHaveCount(0);
+  await expect(panel.getByText("Palette", { exact: true })).toHaveCount(1);
+  await panel
+    .getByRole("button", { name: "Fibonacci", exact: true })
+    .click();
+  await expect(page.locator("html")).toHaveAttribute(
+    "data-palette",
+    "fibonacci",
+  );
   await panel.locator("select").selectOption("jetbrains-mono");
   await panel.getByRole("button", { name: "0.125", exact: true }).click();
   await panel.getByRole("button", { name: "Zinc", exact: true }).click();
@@ -114,17 +121,15 @@ test("dock accent follows hue, labels stay neutral, miniature brands cannot morp
     stage
       .locator(".vd-dock-item.is-active > i")
       .evaluate((el) => getComputedStyle(el).color);
-  const label = await stage
-    .locator(".vd-dock-item.is-active .vd-dock-label")
-    .evaluate((el) => getComputedStyle(el).color);
+  const stageLabel = stage.locator(".vd-dock-item.is-active .vd-dock-label");
+  await expect
+    .poll(() => stageLabel.evaluate((el) => getComputedStyle(el).color))
+    .not.toMatch(/^oklab\(/);
+  const label = await stageLabel.evaluate((el) => getComputedStyle(el).color);
   const violet = await color();
   await page.getByRole("button", { name: "orange", exact: true }).click();
   await expect.poll(color).not.toBe(violet);
-  expect(
-    await stage
-      .locator(".vd-dock-item.is-active .vd-dock-label")
-      .evaluate((el) => getComputedStyle(el).color),
-  ).toBe(label);
+  await expect.poll(() => stageLabel.evaluate((el) => getComputedStyle(el).color)).toBe(label);
   const mini = page.locator(".dock-stage-sm .vd-dock");
   await expect(mini).toHaveCount(10);
   for (const item of await mini.all()) {

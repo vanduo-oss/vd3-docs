@@ -28,7 +28,7 @@ test.describe("Site Oola dock chrome", () => {
     await expect(dock).toBeVisible();
     await expect(dock).toHaveClass(/vd-dock-edge-top/);
     await expect(dock).toHaveClass(/vd-dock-items-inline/);
-    await expect(dock).toHaveCSS("--vd-dock-radius", "1.25rem");
+    await expect(dock).toHaveCSS("--vd-dock-radius", "1.5rem");
     const home = dock.getByRole("button", { name: "Home" });
     const docs = dock.getByRole("button", { name: "Documentation" });
     await expect(home).toBeVisible();
@@ -37,9 +37,9 @@ test.describe("Site Oola dock chrome", () => {
     await expect(home.locator(".vd-dock-label")).toHaveText("Home");
     await expect(docs.locator(".vd-dock-label")).toHaveText("Documentation");
     await expect(
-      dock.getByRole("button", { name: "Canvas Components" }).locator(
-        ".vd-dock-label",
-      ),
+      dock
+        .getByRole("button", { name: "Canvas Components" })
+        .locator(".vd-dock-label"),
     ).toHaveText("Canvas Components");
     await expect(
       dock.getByRole("button", { name: "Open global search" }),
@@ -118,8 +118,7 @@ test.describe("Site Oola dock chrome", () => {
         homeRect.left >= primaryRect.left - 1 &&
         homeRect.right <= primaryRect.right + 1;
       const homeInScrollport =
-        homeRect.right > navRect.left + 1 &&
-        homeRect.left < navRect.right - 1;
+        homeRect.right > navRect.left + 1 && homeRect.left < navRect.right - 1;
       return navCentered && homeInPrimary && homeInScrollport;
     });
     expect(aligned).toBe(true);

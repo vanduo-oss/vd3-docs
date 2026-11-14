@@ -3899,18 +3899,6 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 /* ── Global Search ──────────────────────────────── */
 
-/* Published vd3 1.9.0 sets transform:none !important on .vd-dock inside
-   @layer vd3 when motion is off. Horizontal placement is translateX(-50%),
-   so that rule slides the site dock off center. The override has to live in
-   the same layer: an unlayered !important loses to a layered one. Vertical
-   and square states already rest at transform:none. */
-@layer vd3 {
-  html[data-motion="off"]
-    .vd-site-dock.is-horizontal:not(.is-square, .is-morphing) {
-    transform: translateX(-50%) !important;
-  }
-}
-
 /* Site dock action chrome (search + theme + customizer).
    Consume --vd-dock-tint so dark-mode chrome matches light + brand/active. */
 .vd-site-dock .vd-dock-actions {
@@ -4041,9 +4029,41 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vd-site-dock .vd-dock-links .vd-dock-item {
+  :root:not([data-motion="full"]) .vd-site-dock .vd-dock-links .vd-dock-item {
     transition: none;
   }
+
+  :root:not([data-motion="full"])
+    .vd-site-dock
+    .vd-dock-links
+    .vd-dock-item:hover:not(.is-active),
+  :root:not([data-motion="full"])
+    .vd-site-dock
+    .vd-dock-links
+    .vd-dock-item:focus-visible:not(.is-active) {
+    transform: scale(0.92);
+  }
+}
+
+html[data-motion="reduce"] .vd-site-dock .vd-dock-links .vd-dock-item {
+  transition:
+    opacity var(--vd-duration-instant, 89ms) ease,
+    color var(--vd-duration-instant, 89ms) ease;
+}
+
+html[data-motion="off"] .vd-site-dock .vd-dock-links .vd-dock-item {
+  transition: none;
+}
+
+:is(html[data-motion="reduce"], html[data-motion="off"])
+  .vd-site-dock
+  .vd-dock-links
+  .vd-dock-item:hover:not(.is-active),
+:is(html[data-motion="reduce"], html[data-motion="off"])
+  .vd-site-dock
+  .vd-dock-links
+  .vd-dock-item:focus-visible:not(.is-active) {
+  transform: scale(0.92);
 }
 
 /* Vertical edges: icon-only nav (labels via tooltip). */

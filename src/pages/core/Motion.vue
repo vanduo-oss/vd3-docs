@@ -854,7 +854,7 @@ onMounted(() => {
 
 .motion-easing-ball.is-animating {
   animation-name: ballSlide;
-  animation-duration: 987ms;
+  animation-duration: 4181ms;
   animation-fill-mode: forwards;
 }
 

@@ -59,7 +59,7 @@ import { VdThemeCustomizer } from "@vanduo-oss/vd3";
 
 <template>
   <!-- Renders its own trigger button + teleported panel -->
-  <VdThemeCustomizer :show-palette="false" />
+  <VdThemeCustomizer />
 <\/template>`;
 
 const controlVue = `import { ref } from "vue";
@@ -282,7 +282,7 @@ const storageRows: [string, string, string][] = [
         <div
           class="vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center theme-customizer-demo-row"
         >
-          <VdThemeCustomizer ref="customizerRef" :show-palette="false" />
+          <VdThemeCustomizer ref="customizerRef" />
           <div
             class="theme-customizer-demo-actions vd-d-flex vd-flex-wrap vd-gap-3 vd-align-items-center"
           >
@@ -308,8 +308,7 @@ const storageRows: [string, string, string][] = [
         </p>
         <p class="vd-text-sm vd-text-muted vd-mt-2">
           Demo changes are temporary and reset on page reload. Only choices made
-          in the site dock are saved. Palette selection is hidden in this demo
-          to preserve the docs appearance.
+          in the site dock are saved.
         </p>
       </div>
     </div>

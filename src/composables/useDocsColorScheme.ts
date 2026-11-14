@@ -72,7 +72,7 @@ export function docsDockAccent(
   if ((DOCK_TINTS as readonly string[]).includes(fallback)) {
     return fallback as DockTint;
   }
-  return DOCS_DEFAULT_PRIMARY_DARK;
+  return DOCS_FAN_DOCK_ACCENT[fallback] ?? "";
 }
 
 /** Site / story docks always use untinted ink frost. */

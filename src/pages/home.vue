@@ -110,7 +110,7 @@ interface EcosystemPkg {
 const ecosystemPackages: EcosystemPkg[] = [
   {
     name: "@vanduo-oss/vd3",
-    version: "v1.9.0",
+    version: "v1.9.1",
     icon: "ph-cube",
     meta: `${VD3_COMPONENT_EXPORTS} components · ${VD3_COMPOSABLE_MODULES} composables`,
     summary:
