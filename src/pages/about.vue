@@ -32,7 +32,8 @@ import "@/styles/hero-display-font.css";
             </span>
             <h3 class="vd-footer-brand-title">
               <span class="hero-title-text">
-                <span class="hero-title-brand">VD3 UI</span>
+                <span class="hero-title-brand">VD3</span>
+                <span class="hero-title-ui">UI</span>
               </span>
             </h3>
           </div>

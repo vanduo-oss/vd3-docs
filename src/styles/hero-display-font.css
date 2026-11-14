@@ -1,4 +1,4 @@
-/* ── Hero display font (Zen Dots) ──────────────────
+/* ── Hero display font (Audiowide) ──────────────────
    Display-only for home / About "vd3" wordmarks. Not the docs UI font.
    Self-hosted at /fonts/zen-dots/zen-dots-regular.woff2 (declared in docs.css). */
 
@@ -6,6 +6,6 @@
 #home .hero-title .hero-title-brand,
 #about .vd-footer-brand-title .hero-title-text,
 #about .vd-footer-brand-title .hero-title-brand {
-  font-family: "Zen Dots", sans-serif;
+  font-family: Audiowide, sans-serif;
   font-weight: 400;
 }

@@ -693,7 +693,7 @@ const iconWeights = [
 }
 
 .hero-title-ui {
-  color: var(--vd-text-muted);
+  color: var(--docs-brand-ui-text);
   font-size: 1.2em;
   line-height: 1;
   text-transform: uppercase;

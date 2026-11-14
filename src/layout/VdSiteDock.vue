@@ -334,7 +334,7 @@ onUnmounted(() => {
         aria-hidden="true"
         @click.capture="onBrandTitleClick"
       >
-        VD3 UI
+        VD3 <span class="brand-ui">UI</span>
       </span>
     </template>
 

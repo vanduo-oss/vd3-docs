@@ -443,6 +443,10 @@ html[data-theme="dark"][data-primary="black"] {
   --docs-scrollbar-track: transparent;
   --vd-brand-accent: var(--vd-primary-8);
 
+  /* Brand cyan text (public/brand/vd3-ui lockups), independent of primary. */
+  --docs-brand-cyan-text: #176e69;
+  --docs-brand-ui-text: #184f51;
+
   /* Ink (untinted) mark greys — shared by the site dock fallback and the
      light-mode hero so both marks read the same. */
   --docs-ink-mark-light: #a1a1aa;
@@ -455,6 +459,18 @@ html[data-theme="dark"][data-primary="black"] {
     var(--vd-primary-7) 85%,
     var(--vd-primary-9)
   );
+}
+
+:root[data-theme="dark"] {
+  --docs-brand-cyan-text: #56d4ca;
+  --docs-brand-ui-text: #d5fff8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --docs-brand-cyan-text: #56d4ca;
+    --docs-brand-ui-text: #d5fff8;
+  }
 }
 
 .vd3-mark {
@@ -549,8 +565,13 @@ html[data-theme="dark"][data-primary="black"] {
 .hero-title-brand {
   font-weight: 400;
   line-height: 1;
-  color: var(--vd-brand-accent);
+  color: var(--docs-brand-cyan-text);
   transition: color 0.35s ease;
+}
+
+.hero-title-ui {
+  font-family: inherit;
+  color: var(--docs-brand-ui-text);
 }
 
 .hero-title-text {
@@ -3859,6 +3880,14 @@ a:hover .vd-card-interactive.vd-card-glow {
 
 /* ── Global Search ──────────────────────────────── */
 
+/* Default brand cyan (Ink + cyan primaries) for dock text/icons in both themes;
+   dock frost is dark in light and dark mode, so the light brand cyan reads on it.
+   Other user-picked primaries keep following their own accent. */
+html:is([data-primary="black"], [data-primary="cyan"])
+  .vd-site-dock.vd-site-dock {
+  --vd-dock-tint: #56d4ca;
+}
+
 /* Site dock action chrome (search + theme + customizer).
    Consume --vd-dock-tint so dark-mode chrome matches light + brand/active. */
 .vd-site-dock .vd-dock-actions {
@@ -4210,12 +4239,16 @@ html[data-motion="off"] .vd-site-dock .vd-dock-links .vd-dock-item {
     line-height: 1;
 
     /* Ink primary: no --vd-dock-tint — match brand mark greys, not page accent. */
-    color: var(--vd-dock-tint, color-mix(in srgb, #8a9199 78%, #000));
+    color: #56d4ca;
     text-transform: none;
     letter-spacing: 0.01em;
     flex-shrink: 0;
     translate: 0 0.05rem;
   }
+}
+
+.vd-site-dock .vd-site-dock-brand-title .brand-ui {
+  color: #d5fff8;
 }
 
 .vd-site-dock:is(.is-morphing, .is-square) .vd-site-dock-brand-title {
