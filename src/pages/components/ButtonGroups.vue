@@ -192,8 +192,8 @@ const apiRows: [string, string, string][] = [
               </table>
             </div>
             <p class="vd-text-sm vd-text-muted vd-mt-4 vd-mb-0">
-              The raw <code>.vd-btn-group</code> classes below ship in VD3 UI's CSS
-              and back the same layout for non-Vue markup.
+              The raw <code>.vd-btn-group</code> classes below ship in VD3 UI's
+              CSS and back the same layout for non-Vue markup.
             </p>
           </div>
         </div>

@@ -138,8 +138,8 @@ export default defineNuxtConfig({
       Reference for installing <code>@vanduo-oss/vd3</code>: plugin options, the
       optional canvas bundle, vite-ssg, and Nuxt. For a five-minute first page,
       start at
-      <RouterLink to="/guides/getting-started">Getting started</RouterLink>. VD3 UI
-      is Vue 3 only.
+      <RouterLink to="/guides/getting-started">Getting started</RouterLink>. VD3
+      UI is Vue 3 only.
     </p>
 
     <div class="vd-alert vd-alert-info vd-mb-6">
@@ -300,8 +300,8 @@ export default defineNuxtConfig({
         <p class="vd-mt-4">
           Scaffold with <code>npx nuxi@latest init my-app</code>, then
           <code>pnpm add @vanduo-oss/vd3</code>. Named imports stay explicit —
-          VD3 UI does not ship a Nuxt auto-import module. To avoid a flash of the
-          wrong theme during SSR, stamp <code>data-theme</code> on
+          VD3 UI does not ship a Nuxt auto-import module. To avoid a flash of
+          the wrong theme during SSR, stamp <code>data-theme</code> on
           <code>&lt;html&gt;</code> with <code>useHead</code>:
         </p>
         <DocCodeSnippet class="vd-mt-3" :js="nuxtSsrHeadJs" />
@@ -321,15 +321,16 @@ export default defineNuxtConfig({
       <div class="vd-card-body">
         <p>
           VD3 UI and Nuxt UI are meant to sit in the same Nuxt app. Nuxt UI
-          components are <code>U*</code> and tokens are <code>--ui-*</code>. VD3 UI
-          components are <code>Vd*</code> and tokens are <code>--vd-*</code>.
+          components are <code>U*</code> and tokens are <code>--ui-*</code>. VD3
+          UI components are <code>Vd*</code> and tokens are <code>--vd-*</code>.
           Use VD3 UI where you want Fibonacci spacing, Seemore glass, the dock,
           charts, or flowchart, and Nuxt UI where its form, overlay, and
           dashboard components already fit. Neither library replaces the other.
         </p>
         <p class="vd-mt-4">
-          Put VD3 UI in a cascade layer so Tailwind utilities win when both set the
-          same property. Prefer prefixed VD3 UI utilities (<code>vd-mt-4</code>,
+          Put VD3 UI in a cascade layer so Tailwind utilities win when both set
+          the same property. Prefer prefixed VD3 UI utilities
+          (<code>vd-mt-4</code>,
           <code>vd-col-6</code>) next to Tailwind's own (<code>mt-4</code>,
           <code>col-span-6</code>). Sync <code>@nuxtjs/color-mode</code> with
           <code>useThemeBridge</code> and <code>syncDarkClass: true</code> so

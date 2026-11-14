@@ -87,11 +87,7 @@ const markStyle = computed(() => ({
           type="matrix"
           values="0 0 0 0 0.0901961 0 0 0 0 0.431373 0 0 0 0 0.411765 0 0 0 0.26 0"
         />
-        <feBlend
-          mode="normal"
-          in2="shape"
-          result="effect2_innerShadow"
-        />
+        <feBlend mode="normal" in2="shape" result="effect2_innerShadow" />
         <feColorMatrix
           in="SourceAlpha"
           type="matrix"
@@ -159,11 +155,7 @@ const markStyle = computed(() => ({
           type="matrix"
           values="0 0 0 0 0.0901961 0 0 0 0 0.431373 0 0 0 0 0.411765 0 0 0 0.26 0"
         />
-        <feBlend
-          mode="normal"
-          in2="shape"
-          result="effect2_innerShadow"
-        />
+        <feBlend mode="normal" in2="shape" result="effect2_innerShadow" />
         <feColorMatrix
           in="SourceAlpha"
           type="matrix"
@@ -231,11 +223,7 @@ const markStyle = computed(() => ({
           type="matrix"
           values="0 0 0 0 0.0901961 0 0 0 0 0.431373 0 0 0 0 0.411765 0 0 0 0.26 0"
         />
-        <feBlend
-          mode="normal"
-          in2="shape"
-          result="effect2_innerShadow"
-        />
+        <feBlend mode="normal" in2="shape" result="effect2_innerShadow" />
         <feColorMatrix
           in="SourceAlpha"
           type="matrix"
@@ -303,11 +291,7 @@ const markStyle = computed(() => ({
           type="matrix"
           values="0 0 0 0 0.0901961 0 0 0 0 0.431373 0 0 0 0 0.411765 0 0 0 0.26 0"
         />
-        <feBlend
-          mode="normal"
-          in2="shape"
-          result="effect2_innerShadow"
-        />
+        <feBlend mode="normal" in2="shape" result="effect2_innerShadow" />
         <feColorMatrix
           in="SourceAlpha"
           type="matrix"
@@ -375,11 +359,7 @@ const markStyle = computed(() => ({
           type="matrix"
           values="0 0 0 0 0.0901961 0 0 0 0 0.431373 0 0 0 0 0.411765 0 0 0 0.26 0"
         />
-        <feBlend
-          mode="normal"
-          in2="shape"
-          result="effect2_innerShadow"
-        />
+        <feBlend mode="normal" in2="shape" result="effect2_innerShadow" />
         <feColorMatrix
           in="SourceAlpha"
           type="matrix"
@@ -447,11 +427,7 @@ const markStyle = computed(() => ({
           type="matrix"
           values="0 0 0 0 0.0901961 0 0 0 0 0.431373 0 0 0 0 0.411765 0 0 0 0.26 0"
         />
-        <feBlend
-          mode="normal"
-          in2="shape"
-          result="effect2_innerShadow"
-        />
+        <feBlend mode="normal" in2="shape" result="effect2_innerShadow" />
         <feColorMatrix
           in="SourceAlpha"
           type="matrix"
@@ -519,11 +495,7 @@ const markStyle = computed(() => ({
           type="matrix"
           values="0 0 0 0 0.0901961 0 0 0 0 0.431373 0 0 0 0 0.411765 0 0 0 0.26 0"
         />
-        <feBlend
-          mode="normal"
-          in2="shape"
-          result="effect2_innerShadow"
-        />
+        <feBlend mode="normal" in2="shape" result="effect2_innerShadow" />
         <feColorMatrix
           in="SourceAlpha"
           type="matrix"
@@ -591,11 +563,7 @@ const markStyle = computed(() => ({
           type="matrix"
           values="0 0 0 0 0.0901961 0 0 0 0 0.431373 0 0 0 0 0.411765 0 0 0 0.26 0"
         />
-        <feBlend
-          mode="normal"
-          in2="shape"
-          result="effect2_innerShadow"
-        />
+        <feBlend mode="normal" in2="shape" result="effect2_innerShadow" />
         <feColorMatrix
           in="SourceAlpha"
           type="matrix"
@@ -663,11 +631,7 @@ const markStyle = computed(() => ({
           type="matrix"
           values="0 0 0 0 0.0901961 0 0 0 0 0.431373 0 0 0 0 0.411765 0 0 0 0.26 0"
         />
-        <feBlend
-          mode="normal"
-          in2="shape"
-          result="effect2_innerShadow"
-        />
+        <feBlend mode="normal" in2="shape" result="effect2_innerShadow" />
         <feColorMatrix
           in="SourceAlpha"
           type="matrix"

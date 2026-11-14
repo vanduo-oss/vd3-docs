@@ -235,10 +235,10 @@ onMounted(() => {
   <section id="motion-system">
     <h5 class="demo-title"><i class="ph ph-wave-sine"></i>Motion</h5>
     <p class="vd-mb-8">
-      VD3 UI provides a harmonic, lightweight motion system built on the Fibonacci
-      ladder and golden ratio curves. Transitional animations are enabled by
-      default across all unfoldable and moving components—delivering fluid,
-      natural physics without heavy external runtimes.
+      VD3 UI provides a harmonic, lightweight motion system built on the
+      Fibonacci ladder and golden ratio curves. Transitional animations are
+      enabled by default across all unfoldable and moving components—delivering
+      fluid, natural physics without heavy external runtimes.
     </p>
 
     <!-- Philosophical overview & AnimeJS comparison -->
@@ -286,8 +286,8 @@ onMounted(() => {
               <strong>Need complex keyframe sequencing or SVG morphing?</strong>
               VD3 UI does not bundle heavy animation engines. You can install
               <code>animejs</code> or GSAP whenever specialized timelines or
-              canvas physics are required; VD3 UI's components seamlessly integrate
-              alongside them.
+              canvas physics are required; VD3 UI's components seamlessly
+              integrate alongside them.
             </p>
           </div>
         </div>

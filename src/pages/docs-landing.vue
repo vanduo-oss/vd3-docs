@@ -691,7 +691,8 @@ function onResourceCardClick(event: MouseEvent, card: ResourceCard): void {
     @close="closeResourceModal"
   >
     <p class="vd-text-sm vd-text-muted vd-mb-4">
-      All three packages in the VD3 UI ecosystem are released under the permissive
+      All three packages in the VD3 UI ecosystem are released under the
+      permissive
       <strong>MIT License</strong>. You are free to use, copy, modify, merge,
       publish, and distribute them in personal and commercial projects, provided
       the copyright and license notice are preserved.

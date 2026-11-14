@@ -63,9 +63,9 @@ const practices: [string, string][] = [
       <code class="vd-text-sm">Guide</code>
     </h5>
     <p class="vd-mb-6">
-      How to ship an app that consumes VD3 UI: pin versions, import CSS once, keep
-      JS named so it tree-shakes, and keep DOM work off the server. This is not
-      a runbook for building these docs.
+      How to ship an app that consumes VD3 UI: pin versions, import CSS once,
+      keep JS named so it tree-shakes, and keep DOM work off the server. This is
+      not a runbook for building these docs.
     </p>
 
     <div class="vd-row vd-mb-6">

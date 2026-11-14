@@ -437,8 +437,8 @@ const apiRows: [string, string, string][] = [
               </div>
             </div>
             <p class="vd-mb-5">
-              VD3 UI ships <strong>6 curated font options</strong>, switchable at
-              runtime via the <code>data-font</code> attribute on
+              VD3 UI ships <strong>6 curated font options</strong>, switchable
+              at runtime via the <code>data-font</code> attribute on
               <code>&lt;html&gt;</code> (also exposed by the Theme Customizer).
               The preference persists in
               <code>localStorage.vanduo-font-preference</code>.

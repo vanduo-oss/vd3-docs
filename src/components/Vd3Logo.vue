@@ -26,10 +26,7 @@ const src = computed(() => {
 });
 
 const imageStyle = computed(() => ({
-  width:
-    typeof props.width === "number"
-      ? `${props.width}px`
-      : props.width,
+  width: typeof props.width === "number" ? `${props.width}px` : props.width,
 }));
 </script>
 

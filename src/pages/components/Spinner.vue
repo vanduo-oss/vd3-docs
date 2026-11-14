@@ -129,9 +129,9 @@ const flexRow =
   <section id="spinner">
     <h5 class="demo-title"><i class="ph ph-spinner"></i>Spinners</h5>
     <p class="vd-mb-8">
-      Canonical reference for VD3 UI loading spinners: border spinner, dot bounce,
-      growing pulse, sizes and color modifiers, plus the signature quad-grid
-      loader (<code>.vd-dynamic-loader*</code>). Styles ship in
+      Canonical reference for VD3 UI loading spinners: border spinner, dot
+      bounce, growing pulse, sizes and color modifiers, plus the signature
+      quad-grid loader (<code>.vd-dynamic-loader*</code>). Styles ship in
       <code>@vanduo-oss/vd3/css</code> — copy HTML only; no extra layout CSS is
       required. For loading UX patterns (progress handoff, placeholders), see
       <RouterLink to="/components/preloader">Preloader</RouterLink>.

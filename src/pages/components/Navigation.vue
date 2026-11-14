@@ -110,9 +110,9 @@ const stickyHtml = `<!-- Pin inside a framed scroller, not the page viewport -->
   <section id="navigation">
     <h5 class="demo-title"><i class="ph ph-compass"></i>Navigation</h5>
     <p class="vd-mb-8">
-      Catalog of VD3 UI's navigation primitives — breadcrumbs, pagination, navbar,
-      sidenav, and sticky. Each component has its own dedicated page for full
-      API + demos; this page is a quick-reference index.
+      Catalog of VD3 UI's navigation primitives — breadcrumbs, pagination,
+      navbar, sidenav, and sticky. Each component has its own dedicated page for
+      full API + demos; this page is a quick-reference index.
     </p>
 
     <div class="vd-row vd-mb-6">
