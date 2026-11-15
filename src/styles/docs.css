@@ -4466,7 +4466,10 @@ html[data-motion="off"] .vd-site-dock .vd-dock-links .vd-dock-item {
      reset --vd-dock-morph to the package shrink/grow pair. */
   .vd-site-dock.vd-dock.is-morphing {
     --vd-dock-morph: var(--vd-duration-slower, 0.61s);
-    --vd-dock-morph-ease: var(--vd-ease-in-out, cubic-bezier(0.618, 0, 0.382, 1));
+    --vd-dock-morph-ease: var(
+      --vd-ease-in-out,
+      cubic-bezier(0.618, 0, 0.382, 1)
+    );
   }
 
   /* Package square sets max-width to the dock height. `none` cannot
