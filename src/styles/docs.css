@@ -788,6 +788,16 @@ html[data-theme="dark"][data-primary="black"] {
     margin-bottom: 0;
   }
 
+  /* Stage is 1100/573 of the wrap and centered, so the stacked title paints
+     the mark over the wordmark. Shift up by half that excess, then a little
+     more so the mark's drop shadow clears the letters. */
+  #home .hero-title-logo-stage {
+    transform: translate(
+      -50%,
+      calc(-50% - (1 - 573 / 1100) / 2 * 100% - 0.65rem)
+    );
+  }
+
   .hero-title .hero-title-brand {
     line-height: 1;
   }
@@ -1554,6 +1564,12 @@ input.doc-sidebar-filter-input::-webkit-search-cancel-button {
   .doc-nav {
     position: relative;
     z-index: 1;
+  }
+
+  /* Filter stays on the desktop column only. The tablet card is the
+     mode switch and the contents toggle. */
+  .doc-sidebar-filter {
+    display: none;
   }
 
   .doc-water-toggle-wrapper {
@@ -3777,10 +3793,6 @@ a:hover .vd-card-interactive.vd-card-glow {
 }
 
 @media (max-width: 767.98px) {
-  .doc-sidebar-filter {
-    display: none;
-  }
-
   .doc-water-toggle {
     min-height: 2.3rem;
     padding: 0.5rem 0.875rem;
@@ -4448,6 +4460,40 @@ html[data-motion="off"] .vd-site-dock .vd-dock-links .vd-dock-item {
 
   html[data-docs-dock="top"] .vd-site-dock.vd-dock-edge-top:not(.is-square) {
     top: max(var(--vd-dock-inset), env(safe-area-inset-top, 0px));
+  }
+
+  /* Shrink, slide, grow. Beat .vd-dock.is-square / .is-horizontal, which
+     reset --vd-dock-morph to the package shrink/grow pair. */
+  .vd-site-dock.vd-dock.is-morphing {
+    --vd-dock-morph: var(--vd-duration-slower, 0.61s);
+    --vd-dock-morph-ease: var(--vd-ease-in-out, cubic-bezier(0.618, 0, 0.382, 1));
+  }
+
+  /* Package square sets max-width to the dock height. `none` cannot
+     interpolate to a length, so the used width would snap shut. */
+  .vd-site-dock.vd-dock.is-morphing.is-square {
+    max-width: none;
+  }
+
+  /* Both corners use `top` so the square can slide. Package corners switch
+     top/bottom through `auto`, which does not interpolate. */
+  .vd-site-dock.vd-dock.is-morphing.vd-dock-corner-top-left,
+  .vd-site-dock.vd-dock.is-morphing.vd-dock-corner-bottom-left {
+    left: var(--vd-dock-inset);
+    right: auto;
+    bottom: auto;
+    transform: none;
+  }
+
+  .vd-site-dock.vd-dock.is-morphing.vd-dock-corner-top-left {
+    top: max(var(--vd-dock-inset), env(safe-area-inset-top, 0px));
+  }
+
+  .vd-site-dock.vd-dock.is-morphing.vd-dock-corner-bottom-left {
+    top: calc(
+      100dvh - var(--vd-dock-height) -
+        max(var(--vd-dock-inset), env(safe-area-inset-bottom, 0px))
+    );
   }
 
   .vd-site-dock .vd-dock-brand,

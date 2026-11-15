@@ -553,6 +553,12 @@ test.describe("Site Oola dock chrome", () => {
         if (element.classList.contains("is-square")) {
           element.setAttribute("data-test-saw-square", "true");
         }
+        if (
+          element.classList.contains("is-square") &&
+          element.classList.contains("vd-dock-corner-bottom-left")
+        ) {
+          element.setAttribute("data-test-saw-travel", "true");
+        }
       };
       new MutationObserver(recordMorphState).observe(element, {
         attributes: true,
@@ -563,6 +569,9 @@ test.describe("Site Oola dock chrome", () => {
     await brand.click({ force: true });
     await expect(dock).toHaveAttribute("data-test-saw-morphing", "true");
     await expect(dock).toHaveAttribute("data-test-saw-square", "true");
+    await expect(dock).toHaveAttribute("data-test-saw-travel", "true", {
+      timeout: 5000,
+    });
 
     await expect(dock).toHaveClass(/vd-dock-edge-bottom/, { timeout: 5000 });
     await expect(dock).not.toHaveClass(/is-morphing/, { timeout: 5000 });

@@ -158,7 +158,7 @@ const onBrandTitleClick = (event: Event): void => {
  * Docs-side narrow brand toggle while the compact strip is showing.
  * The package still locks edge cycling at 520px; this covers the rest
  * of the compact range up through tablet portrait.
- * playSiteDockNarrowBrandMorph mirrors desktop shrink→relocate timing.
+ * playSiteDockNarrowBrandMorph shrinks, slides, then grows top ↔ bottom.
  */
 const onBrandCapture = (event: Event): void => {
   const target = event.target;
