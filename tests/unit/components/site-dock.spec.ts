@@ -321,7 +321,14 @@ describe("VdSiteDock", () => {
   });
 
   it("persists bottom when the brand toggles on narrow from top", async () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({
+      toFake: [
+        "setTimeout",
+        "clearTimeout",
+        "requestAnimationFrame",
+        "cancelAnimationFrame",
+      ],
+    });
     localStorage.removeItem("vd3-docs-site-dock");
 
     const { wrapper } = await mountDock({ narrow: true });
@@ -329,7 +336,8 @@ describe("VdSiteDock", () => {
     expect(wrapper.find(".vd-dock").classes()).toContain("vd-dock-edge-top");
 
     await wrapper.find(".vd-dock-brand").trigger("click");
-    await vi.advanceTimersByTimeAsync(480 + 720 + 50);
+    // Two frames arm the shrink, then three 610ms beats slide and grow.
+    await vi.advanceTimersByTimeAsync(16 + 16 + 610 * 3 + 50);
     await flushPromises();
 
     expect(localStorage.getItem("vd3-docs-site-dock")).toBe("bottom");
