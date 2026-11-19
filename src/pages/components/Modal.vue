@@ -3,18 +3,18 @@ import { computed, ref } from "vue";
 import DocCodeSnippet from "@/components/DocCodeSnippet.vue";
 import { VdModal, VdSlider, VdSwitch } from "@vanduo-oss/vd3";
 
-type ModalId = "sm" | "md" | "lg" | "xl" | "glass" | "static" | null;
+type ModalId = "sm" | "md" | "lg" | "xl" | "2xl" | "glass" | "static" | null;
 
 const active = ref<ModalId>(null);
 const lgTab = ref<"general" | "design" | "notify">("general");
 const xlTab = ref<"overview" | "changelog" | "team">("overview");
 
-/** Framework glass token defaults (`tokens.css` — Seemore step 5). */
+/** Default glass studio values tuned for visible live refraction in light & dark themes. */
 const GLASS_DEFAULTS = {
-  blur: 8,
-  saturate: 1.7,
-  bgOpacity: 0.2,
-  borderAlpha: 0.24,
+  blur: 16,
+  saturate: 2.05,
+  bgOpacity: 0.32,
+  borderAlpha: 0.36,
 } as const;
 
 const glassBlur = ref<number>(GLASS_DEFAULTS.blur);
@@ -26,7 +26,7 @@ const glassDeepShadow = ref(false);
 
 const glassDemoStyle = computed(() => {
   const bgOpacity = glassHighContrast.value ? 0.82 : glassBgOpacity.value;
-  const borderAlpha = glassHighContrast.value ? 0.26 : glassBorderAlpha.value;
+  const borderAlpha = glassHighContrast.value ? 0.36 : glassBorderAlpha.value;
   const style: Record<string, string> = {
     "--vd-glass-blur": `${glassBlur.value}px`,
     "--vd-glass-saturate": String(glassSaturate.value),
@@ -34,7 +34,7 @@ const glassDemoStyle = computed(() => {
     "--vd-glass-border-alpha": String(borderAlpha),
   };
   if (glassDeepShadow.value) {
-    style["--vd-glass-shadow"] = "0 16px 48px rgba(0, 0, 0, 0.35)";
+    style["--vd-glass-shadow"] = "0 20px 55px rgba(0, 0, 0, 0.42)";
   }
   return style;
 });
@@ -49,24 +49,46 @@ const resetGlassDemo = (): void => {
 };
 
 const applySoftFrost = (): void => {
-  glassBlur.value = 6;
+  glassBlur.value = 8;
   glassSaturate.value = 1.4;
-  glassBgOpacity.value = 0.55;
-  glassBorderAlpha.value = 0.18;
+  glassBgOpacity.value = 0.22;
+  glassBorderAlpha.value = 0.24;
   glassHighContrast.value = false;
+  glassDeepShadow.value = false;
 };
 
 const applyHeavyFrost = (): void => {
   glassBlur.value = 28;
-  glassSaturate.value = 2.2;
-  glassBgOpacity.value = 0.78;
-  glassBorderAlpha.value = 0.18;
+  glassSaturate.value = 2.4;
+  glassBgOpacity.value = 0.65;
+  glassBorderAlpha.value = 0.42;
   glassHighContrast.value = false;
+  glassDeepShadow.value = true;
+};
+
+const applyCrystalClear = (): void => {
+  glassBlur.value = 12;
+  glassSaturate.value = 2.2;
+  glassBgOpacity.value = 0.1;
+  glassBorderAlpha.value = 0.45;
+  glassHighContrast.value = false;
+  glassDeepShadow.value = true;
 };
 
 const openModal = (id: Exclude<ModalId, null>): void => {
   active.value = id;
 };
+
+const openGlassPreset = (
+  preset: "default" | "soft" | "heavy" | "crystal",
+): void => {
+  if (preset === "soft") applySoftFrost();
+  else if (preset === "heavy") applyHeavyFrost();
+  else if (preset === "crystal") applyCrystalClear();
+  else resetGlassDemo();
+  openModal("glass");
+};
+
 const closeModal = (): void => {
   active.value = null;
 };
@@ -92,18 +114,21 @@ const open = ref(false);
   </VdModal>
 </template>`;
 
-const glassSnippet = `<VdModal
+const glassSnippet = computed(
+  () => `<VdModal
   v-model:open="open"
   title="Glass Modal"
   glass
   :style="{
-    '--vd-glass-blur': '20px',
-    '--vd-glass-saturate': '2',
-    '--vd-glass-bg-opacity': '0.72',
+    '--vd-glass-blur': '${glassBlur.value}px',
+    '--vd-glass-saturate': '${glassSaturate.value}',
+    '--vd-glass-bg-opacity': '${glassHighContrast.value ? 0.82 : glassBgOpacity.value}',
+    '--vd-glass-border-alpha': '${glassHighContrast.value ? 0.36 : glassBorderAlpha.value}',
   }"
 >
-  <p class="vd-mb-0">Override glass tokens on the modal root.</p>
-</VdModal>`;
+  <p class="vd-mb-0">Live tokens apply immediately on the glass panel.</p>
+</VdModal>`,
+);
 
 const propRows: [string, string][] = [
   [
@@ -114,7 +139,18 @@ const propRows: [string, string][] = [
     "title",
     'string — header title; also used as the dialog aria-label (falls back to "Dialog").',
   ],
-  ["size", '"sm" | "md" | "lg" | "xl" — panel width (default "md").'],
+  [
+    "size",
+    '"sm" | "md" | "lg" | "xl" | "2xl" — landscape Fibonacci width tier (default "md"; "2xl" fills 95% of viewport in golden ratio).',
+  ],
+  [
+    "golden",
+    "boolean — maintain a 1.618:1 landscape Golden Ratio minimum proportion clamped to the viewport (default true).",
+  ],
+  [
+    "stableHeight",
+    "boolean — keep panel height steady when switching tabs so dialogs do not jump (default true).",
+  ],
   [
     "closeOnBackdrop",
     "boolean — whether a backdrop click closes the modal (default true).",
@@ -125,7 +161,11 @@ const propRows: [string, string][] = [
   ],
   [
     "animated",
-    "boolean — enable smooth scale & fade transition using Fibonacci timing (default true).",
+    "boolean — enable smooth Fibonacci scale & fade transition (233ms enter, 144ms fade-out; default true).",
+  ],
+  [
+    "duration",
+    "number — optional transition duration override in milliseconds.",
   ],
 ];
 
@@ -151,25 +191,42 @@ const cssVars: [string, string, string][] = [
   ["--vd-modal-header-padding", "1.3125rem", "Header padding"],
   ["--vd-modal-body-padding", "1.3125rem", "Body padding"],
   ["--vd-modal-footer-padding", "1.3125rem", "Footer padding"],
-  ["--vd-modal-width-sm", "233px", "Small width (fib 13)"],
-  ["--vd-modal-width", "377px", "Default width (fib 14)"],
-  ["--vd-modal-width-lg", "610px", "Large width (fib 15)"],
-  ["--vd-modal-width-xl", "987px", "Extra-large width (fib 16)"],
+  ["--vd-modal-golden-ratio", "1.618034", "Default landscape proportion ratio"],
+  [
+    "--vd-modal-max-height",
+    "min(95dvh, calc(100dvh - 2*margin))",
+    "Viewport-safe maximum height",
+  ],
+  ["--vd-modal-width-sm", "377px", "Small width (fib 14, golden 233px tall)"],
+  ["--vd-modal-width", "610px", "Default width (fib 15, golden 377px tall)"],
+  ["--vd-modal-width-lg", "987px", "Large width (fib 16, golden 610px tall)"],
+  ["--vd-modal-width-xl", "1280px", "Extra-large wide workspace width"],
+  [
+    "--vd-modal-width-2xl",
+    "min(95dvw, 95dvh × φ)",
+    "95% viewport-bounded golden width",
+  ],
+  ["--vd-modal-enter-duration", "233ms (--vd-duration-233)", "Enter timing"],
+  [
+    "--vd-modal-leave-duration",
+    "144ms (--vd-duration-144)",
+    "Smooth exit timing",
+  ],
   ["--vd-modal-z-index", "1050", "Modal stacking"],
   ["--vd-modal-backdrop-z-index", "1040", "Backdrop stacking"],
-  ["--vd-glass-blur", "12px", "Glass panel blur (backdrop uses half)"],
-  ["--vd-glass-saturate", "1.8", "Glass backdrop-filter saturation"],
+  ["--vd-glass-blur", "16px", "Glass modal blur (backdrop uses 55%)"],
+  ["--vd-glass-saturate", "2.05", "Glass backdrop-filter saturation"],
   [
     "--vd-glass-bg-opacity",
-    "0.65",
-    "Glass panel fill opacity (feeds --vd-glass-bg-light)",
+    "0.42 (0.18 dark)",
+    "Glass modal panel fill opacity",
   ],
   [
     "--vd-glass-border-alpha",
-    "0.18",
-    "Glass panel border alpha (feeds --vd-glass-border-light)",
+    "0.4 (0.34 dark)",
+    "Glass modal panel border alpha",
   ],
-  ["--vd-glass-shadow", "0 8px 32px …", "Glass panel box-shadow"],
+  ["--vd-glass-shadow", "0 14px 40px …", "Glass panel box-shadow"],
 ];
 
 const classRows: [string, string][] = [
@@ -184,11 +241,19 @@ const classRows: [string, string][] = [
   ],
   [
     ".vd-modal-panel",
-    "The centered dialog panel holding the header, body, and footer.",
+    "The centered dialog panel holding the header, scrollable body, and pinned footer.",
   ],
   [
-    ".vd-modal-panel-sm / -md / -lg / -xl",
-    "Panel width matching the size prop.",
+    ".vd-modal-panel-sm / -md / -lg / -xl / -2xl",
+    "Panel width & golden ratio sizing matching the size prop.",
+  ],
+  [
+    ".vd-modal-auto-height",
+    'Opt-out modifier added when :golden="false" (lets short modals shrink to content).',
+  ],
+  [
+    ".vd-modal-dynamic-height",
+    'Opt-out modifier added when :stable-height="false" (lets tab switches resize height).',
   ],
   [
     ".vd-modal-glass",
@@ -203,8 +268,8 @@ const classRows: [string, string][] = [
     "Header bar with the title and the auto-rendered close button.",
   ],
   [".vd-modal-title", "Heading element populated from the title prop."],
-  [".vd-modal-body", "Body region (the default slot)."],
-  [".vd-modal-footer", "Footer action bar (the footer slot)."],
+  [".vd-modal-body", "Scrollable body region (the default slot)."],
+  [".vd-modal-footer", "Pinned footer action bar (the footer slot)."],
 ];
 </script>
 
@@ -212,13 +277,13 @@ const classRows: [string, string][] = [
   <section id="modals">
     <h5 class="demo-title"><i class="ph ph-squares-four"></i>Modals</h5>
     <p class="vd-mb-8">
-      <strong>VdModal</strong> renders an overlay dialog for confirmations,
-      forms, and focused tasks. Drive it from a boolean with
-      <code>v-model:open</code>, choose one of four size tiers (or
-      <code>glass</code> for a frosted panel), and fill the body /
-      <code>#footer</code> slots — the header title and close button are
-      rendered for you. It teleports to <code>&lt;body&gt;</code>, traps Escape,
-      and closes on a backdrop click unless you opt out.
+      <strong>VdModal</strong> renders a viewport-safe overlay dialog sized by
+      the Fibonacci ladder and landscape Golden Ratio (1.618:1) by default.
+      Drive it from a boolean with <code>v-model:open</code>, choose one of five
+      size tiers (<code>sm</code> through <code>2xl</code>), or add
+      <code>glass</code> for a frosted panel. Tabbed bodies keep a steady height
+      without jumping, and closing triggers an immediate smooth Fibonacci
+      fade-out.
     </p>
 
     <!-- Sizes -->
@@ -236,16 +301,22 @@ const classRows: [string, string][] = [
             "
           >
             <button class="vd-btn vd-btn-primary" @click="openModal('sm')">
-              Small (233px)
+              Small (377px · φ)
             </button>
             <button class="vd-btn vd-btn-primary" @click="openModal('md')">
-              Default (377px)
+              Default (610px · φ)
             </button>
             <button class="vd-btn vd-btn-primary" @click="openModal('lg')">
-              Large (610px)
+              Large (987px · φ)
             </button>
             <button class="vd-btn vd-btn-primary" @click="openModal('xl')">
-              Extra Large (987px)
+              Extra Large (1280px · φ)
+            </button>
+            <button
+              class="vd-btn vd-btn-outline-primary"
+              @click="openModal('2xl')"
+            >
+              Screen 2XL (95% Viewport · φ)
             </button>
           </div>
         </div>
@@ -259,116 +330,67 @@ const classRows: [string, string][] = [
         <div class="vd-card vd-card-glow demo-card">
           <div class="vd-card-header"><h6>Glass Modal</h6></div>
           <div class="vd-card-body">
-            <p class="vd-text-sm vd-text-muted vd-mb-4">
+            <p class="vd-text-sm vd-text-muted vd-mb-6">
               Pass <code>:glass="true"</code> for a frosted panel and blurred
-              backdrop (<code>.vd-modal-glass</code>). Set tokens here, then
-              open — the same controls are inside the dialog for live tweaking
-              over page content.
+              backdrop (<code>.vd-modal-glass</code>). Open the live Glass
+              Studio below and pull any slider while the modal is open — every
+              <code>--vd-glass-*</code> token updates immediately in real time.
             </p>
 
-            <div class="glass-demo-controls vd-mb-4">
-              <div class="vd-row vd-gap-3">
-                <div class="vd-col-12 vd-col-md-6">
-                  <VdSlider
-                    v-model="glassBlur"
-                    id="glass-blur-page"
-                    label="Blur"
-                    :min="0"
-                    :max="40"
-                    :step="1"
-                    show-value
-                  />
-                  <p class="vd-text-sm vd-text-muted vd-mt-1 vd-mb-0">
-                    <code>--vd-glass-blur</code> (backdrop uses half)
-                  </p>
+            <div class="glass-refraction-stage vd-mb-6">
+              <div class="glass-refraction-orb glass-refraction-orb-a" />
+              <div class="glass-refraction-orb glass-refraction-orb-b" />
+              <div class="glass-refraction-orb glass-refraction-orb-c" />
+              <div class="glass-refraction-stage-content">
+                <div class="glass-stage-badges">
+                  <span class="vd-badge vd-badge-primary"
+                    >blur {{ glassBlur }}px</span
+                  >
+                  <span class="vd-badge vd-badge-info"
+                    >saturate {{ glassSaturate }}</span
+                  >
+                  <span class="vd-badge vd-badge-secondary"
+                    >opacity
+                    {{ glassHighContrast ? 0.82 : glassBgOpacity }}</span
+                  >
+                  <span class="vd-badge vd-badge-outlined"
+                    >border
+                    {{ glassHighContrast ? 0.36 : glassBorderAlpha }}</span
+                  >
                 </div>
-                <div class="vd-col-12 vd-col-md-6">
-                  <VdSlider
-                    v-model="glassSaturate"
-                    id="glass-saturate-page"
-                    label="Saturation"
-                    :min="1"
-                    :max="3"
-                    :step="0.1"
-                    show-value
-                  />
-                  <p class="vd-text-sm vd-text-muted vd-mt-1 vd-mb-0">
-                    <code>--vd-glass-saturate</code>
-                  </p>
+                <div class="glass-stage-actions">
+                  <button
+                    type="button"
+                    class="vd-btn vd-btn-primary"
+                    @click="openModal('glass')"
+                  >
+                    <i class="ph ph-sparkle mr-1"></i>Open Live Glass Studio
+                  </button>
+                  <button
+                    type="button"
+                    class="vd-btn vd-btn-sm vd-btn-outline-secondary"
+                    @click="openGlassPreset('soft')"
+                  >
+                    Soft Frost
+                  </button>
+                  <button
+                    type="button"
+                    class="vd-btn vd-btn-sm vd-btn-outline-secondary"
+                    @click="openGlassPreset('heavy')"
+                  >
+                    Heavy Frost
+                  </button>
+                  <button
+                    type="button"
+                    class="vd-btn vd-btn-sm vd-btn-outline-secondary"
+                    @click="openGlassPreset('crystal')"
+                  >
+                    Crystal Clear
+                  </button>
                 </div>
-                <div class="vd-col-12 vd-col-md-6">
-                  <VdSlider
-                    v-model="glassBgOpacity"
-                    id="glass-bg-opacity-page"
-                    label="Panel opacity"
-                    :min="0.2"
-                    :max="0.95"
-                    :step="0.05"
-                    show-value
-                    :disabled="glassHighContrast"
-                  />
-                  <p class="vd-text-sm vd-text-muted vd-mt-1 vd-mb-0">
-                    <code>--vd-glass-bg-opacity</code>
-                  </p>
-                </div>
-                <div class="vd-col-12 vd-col-md-6">
-                  <VdSlider
-                    v-model="glassBorderAlpha"
-                    id="glass-border-alpha-page"
-                    label="Border alpha"
-                    :min="0"
-                    :max="0.5"
-                    :step="0.01"
-                    show-value
-                    :disabled="glassHighContrast"
-                  />
-                  <p class="vd-text-sm vd-text-muted vd-mt-1 vd-mb-0">
-                    <code>--vd-glass-border-alpha</code>
-                  </p>
-                </div>
-              </div>
-
-              <div class="vd-d-flex vd-flex-wrap vd-gap-4 items-center vd-mt-4">
-                <VdSwitch
-                  v-model="glassHighContrast"
-                  id="glass-high-contrast-page"
-                  label="High contrast"
-                />
-                <VdSwitch
-                  v-model="glassDeepShadow"
-                  id="glass-deep-shadow-page"
-                  label="Deep shadow"
-                />
-              </div>
-
-              <div class="vd-d-flex vd-flex-wrap vd-gap-2 items-center vd-mt-3">
-                <button
-                  type="button"
-                  class="vd-btn vd-btn-sm vd-btn-outline-secondary"
-                  @click="applySoftFrost"
-                >
-                  Soft frost
-                </button>
-                <button
-                  type="button"
-                  class="vd-btn vd-btn-sm vd-btn-outline-secondary"
-                  @click="applyHeavyFrost"
-                >
-                  Heavy frost
-                </button>
-                <button
-                  type="button"
-                  class="vd-btn vd-btn-sm vd-btn-ghost"
-                  @click="resetGlassDemo"
-                >
-                  Reset
-                </button>
               </div>
             </div>
 
-            <button class="vd-btn vd-btn-primary" @click="openModal('glass')">
-              Open Glass Modal
-            </button>
             <DocCodeSnippet :html="glassSnippet" />
           </div>
         </div>
@@ -594,11 +616,11 @@ const classRows: [string, string][] = [
     @update:open="closeModal"
     @close="closeModal"
   >
-    <p class="vd-mb-4">
-      The default modal width (377px) is ideal for focused tasks — quick forms,
-      confirmations, and short workflows.
+    <p class="vd-mb-6">
+      The default modal width (610px, Golden Ratio 377px min-height) is ideal
+      for focused tasks — forms, confirmations, and short workflows.
     </p>
-    <div class="vd-form-group vd-mb-3">
+    <div class="vd-form-group vd-mb-6">
       <label class="vd-label" for="m-email">Email address</label>
       <input
         type="email"
@@ -607,7 +629,7 @@ const classRows: [string, string][] = [
         placeholder="colleague@company.com"
       />
     </div>
-    <div class="vd-form-group vd-mb-4">
+    <div class="vd-form-group vd-mb-6">
       <label class="vd-label" for="m-role">Role</label>
       <select id="m-role" class="vd-input">
         <option>Editor</option>
@@ -629,7 +651,7 @@ const classRows: [string, string][] = [
     </template>
   </VdModal>
 
-  <!-- Large (lg): tabs -->
+  <!-- Large (lg): tabs (stable height by default) -->
   <VdModal
     :open="active === 'lg'"
     title="Project Settings"
@@ -637,14 +659,18 @@ const classRows: [string, string][] = [
     @update:open="closeModal"
     @close="closeModal"
   >
-    <p class="vd-mb-4">
-      Large modals (610px) give room for structured content — tabbed settings,
-      multi-section forms, and rich previews.
+    <p class="vd-mb-6">
+      Large modals (987px, Fibonacci 16) give room for structured content —
+      tabbed settings keep a rock-solid height with zero layout jumping when
+      switching tabs.
     </p>
     <div class="vd-tabs vd-tabs-pills">
       <ul class="vd-tab-list" role="tablist">
         <li class="vd-tab-item" role="presentation">
           <button
+            type="button"
+            role="tab"
+            :aria-selected="lgTab === 'general'"
             class="vd-tab-link"
             :class="{ 'is-active': lgTab === 'general' }"
             @click="lgTab = 'general'"
@@ -654,6 +680,9 @@ const classRows: [string, string][] = [
         </li>
         <li class="vd-tab-item" role="presentation">
           <button
+            type="button"
+            role="tab"
+            :aria-selected="lgTab === 'design'"
             class="vd-tab-link"
             :class="{ 'is-active': lgTab === 'design' }"
             @click="lgTab = 'design'"
@@ -663,6 +692,9 @@ const classRows: [string, string][] = [
         </li>
         <li class="vd-tab-item" role="presentation">
           <button
+            type="button"
+            role="tab"
+            :aria-selected="lgTab === 'notify'"
             class="vd-tab-link"
             :class="{ 'is-active': lgTab === 'notify' }"
             @click="lgTab = 'notify'"
@@ -677,7 +709,7 @@ const classRows: [string, string][] = [
           :class="{ 'is-active': lgTab === 'general' }"
           role="tabpanel"
         >
-          <div class="vd-form-group vd-mb-3">
+          <div class="vd-form-group vd-mb-6">
             <label class="vd-label" for="m-name">Project name</label>
             <input
               type="text"
@@ -710,14 +742,14 @@ A Fibonacci-scaled component library for modern web apps.</textarea>
           role="tabpanel"
         >
           <ul style="list-style: none; padding: 0; margin: 0">
-            <li class="vd-d-flex vd-align-items-center vd-gap-2 vd-mb-3">
+            <li class="vd-d-flex vd-align-items-center vd-gap-5 vd-mb-6">
               <i
                 class="ph ph-check-circle"
                 style="color: var(--vd-color-success)"
               ></i
               ><span>Email me when a teammate joins</span>
             </li>
-            <li class="vd-d-flex vd-align-items-center vd-gap-2 vd-mb-0">
+            <li class="vd-d-flex vd-align-items-center vd-gap-5 vd-mb-0">
               <i class="ph ph-circle"></i
               ><span>Push notifications for mentions</span>
             </li>
@@ -733,7 +765,7 @@ A Fibonacci-scaled component library for modern web apps.</textarea>
     </template>
   </VdModal>
 
-  <!-- Extra Large (xl): dense multi-section dialog -->
+  <!-- Extra Large (xl): dense multi-section dialog (stable tabs) -->
   <VdModal
     :open="active === 'xl'"
     title="Release Overview"
@@ -741,20 +773,21 @@ A Fibonacci-scaled component library for modern web apps.</textarea>
     @update:open="closeModal"
     @close="closeModal"
   >
-    <p class="vd-mb-3">
-      The extra-large modal (987px, Fibonacci 16) suits wide, multi-column
-      workflows — release dashboards, comparison tables, and dense settings.
+    <p class="vd-mb-6">
+      The extra-large modal (1280px, clamped gracefully to your viewport) suits
+      wide, multi-column workflows — release dashboards, comparison tables, and
+      dense tabbed views with zero height jump.
     </p>
-    <div class="vd-d-flex vd-flex-wrap items-center vd-gap-2 vd-mb-4">
+    <div class="vd-d-flex vd-flex-wrap items-center vd-gap-5 vd-mb-8">
       <span class="vd-badge vd-badge-success">Stable</span>
-      <span class="vd-badge vd-badge-primary">v1.2.1</span>
+      <span class="vd-badge vd-badge-primary">v1.9.2</span>
       <span class="vd-badge vd-badge-outlined vd-badge-secondary"
         >14 commits</span
       >
       <span class="vd-badge vd-badge-info">3 contributors</span>
     </div>
 
-    <div class="vd-tabs vd-tabs-pills vd-mb-4">
+    <div class="vd-tabs vd-tabs-pills vd-mb-6">
       <ul class="vd-tab-list" role="tablist">
         <li class="vd-tab-item" role="presentation">
           <button
@@ -800,23 +833,23 @@ A Fibonacci-scaled component library for modern web apps.</textarea>
           role="tabpanel"
         >
           <div class="vd-row">
-            <div class="vd-col-12 vd-col-md-6 vd-mb-4">
-              <h6 class="vd-mb-3">Release notes</h6>
-              <p class="vd-text-sm vd-text-muted vd-mb-3">
+            <div class="vd-col-12 vd-col-md-6 vd-mb-6">
+              <h6 class="vd-mb-6">Release notes</h6>
+              <p class="vd-text-sm vd-text-muted vd-mb-6">
                 Ship a roomier dialog for side-by-side layouts. Pair tabs with
                 short forms so reviewers can skim status and edit metadata in
-                one place.
+                one place without vertical layout jumps.
               </p>
-              <div class="vd-form-group vd-mb-3">
+              <div class="vd-form-group vd-mb-6">
                 <label class="vd-label" for="xl-title">Release title</label>
                 <input
                   id="xl-title"
                   type="text"
                   class="vd-input"
-                  value="VD3 UI 1.2.1 — Modal XL + Glass"
+                  value="VD3 UI 1.9.2 — Golden Modals + Live Glass"
                 />
               </div>
-              <div class="vd-form-group vd-mb-3">
+              <div class="vd-form-group vd-mb-6">
                 <label class="vd-label" for="xl-channel">Channel</label>
                 <select id="xl-channel" class="vd-input">
                   <option>Stable</option>
@@ -827,37 +860,39 @@ A Fibonacci-scaled component library for modern web apps.</textarea>
               <div class="vd-form-group vd-mb-0">
                 <label class="vd-label" for="xl-summary">Summary</label>
                 <textarea id="xl-summary" class="vd-input" rows="3">
-Extra-large modal width, glass variant for frosted dialogs, and denser docs demos.</textarea>
+Viewport-bounded Golden Ratio proportions, stable tab heights, 2xl near-fullscreen size, and instant Fibonacci fade-out.</textarea>
               </div>
             </div>
-            <div class="vd-col-12 vd-col-md-6 vd-mb-4">
-              <h6 class="vd-mb-3">Highlights</h6>
+            <div class="vd-col-12 vd-col-md-6 vd-mb-6">
+              <h6 class="vd-mb-6">Highlights</h6>
               <ul style="list-style: none; padding: 0; margin: 0">
-                <li class="vd-d-flex items-start vd-gap-2 vd-mb-3">
+                <li class="vd-d-flex items-start vd-gap-5 vd-mb-6">
                   <i
                     class="ph ph-check-circle"
                     style="color: var(--vd-color-success); margin-top: 0.125rem"
                   ></i>
                   <div>
-                    <strong>size=&quot;xl&quot;</strong>
+                    <strong>size=&quot;xl&quot; &amp; &quot;2xl&quot;</strong>
                     <p class="vd-text-sm vd-text-muted vd-mb-0">
-                      Maps to <code>.vd-modal-panel-xl</code> (987px).
+                      Maps to <code>.vd-modal-panel-xl</code> (1280px) and
+                      <code>.vd-modal-panel-2xl</code> (95% viewport golden).
                     </p>
                   </div>
                 </li>
-                <li class="vd-d-flex items-start vd-gap-2 vd-mb-3">
+                <li class="vd-d-flex items-start vd-gap-5 vd-mb-6">
                   <i
                     class="ph ph-check-circle"
                     style="color: var(--vd-color-success); margin-top: 0.125rem"
                   ></i>
                   <div>
-                    <strong>Glass prop</strong>
+                    <strong>Stable tabbed height</strong>
                     <p class="vd-text-sm vd-text-muted vd-mb-0">
-                      Frosted panel + blurred backdrop in one boolean.
+                      Sizes once to the tallest tab so switching tabs never
+                      jumps.
                     </p>
                   </div>
                 </li>
-                <li class="vd-d-flex items-start vd-gap-2 vd-mb-0">
+                <li class="vd-d-flex items-start vd-gap-5 vd-mb-0">
                   <i
                     class="ph ph-check-circle"
                     style="color: var(--vd-color-success); margin-top: 0.125rem"
@@ -865,16 +900,17 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
                   <div>
                     <strong>Focus &amp; Escape</strong>
                     <p class="vd-text-sm vd-text-muted vd-mb-0">
-                      Dialog focus trap and Escape-to-close stay unchanged.
+                      Focus trap ignores hidden tab panes and closes smoothly on
+                      Escape.
                     </p>
                   </div>
                 </li>
               </ul>
-              <div class="vd-alert vd-alert-primary vd-mt-4 vd-mb-0">
+              <div class="vd-alert vd-alert-primary vd-mt-6 vd-mb-0">
                 <i class="ph ph-rocket-launch"></i>
                 <div>
-                  Use XL when a single column would force awkward scrolling —
-                  keep related controls visible together.
+                  Every modal automatically fits inside the viewport and scrolls
+                  internally inside <code>.vd-modal-body</code>.
                 </div>
               </div>
             </div>
@@ -897,32 +933,34 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
               </thead>
               <tbody>
                 <tr>
-                  <td>Add <code>size=&quot;xl&quot;</code> panel width</td>
+                  <td>
+                    Landscape Golden Ratio default + <code>2xl</code> tier
+                  </td>
                   <td>
                     <span class="vd-badge vd-badge-success">Feature</span>
                   </td>
                   <td>Design Systems</td>
                 </tr>
                 <tr>
-                  <td>Expose <code>glass</code> on <code>VdModal</code></td>
+                  <td>Viewport-fit cap + internal body scroll</td>
                   <td>
                     <span class="vd-badge vd-badge-success">Feature</span>
                   </td>
                   <td>Design Systems</td>
                 </tr>
                 <tr>
-                  <td>Enrich Modal docs XL demo</td>
+                  <td>Stable tab sizing across panes</td>
                   <td>
-                    <span class="vd-badge vd-badge-info">Docs</span>
+                    <span class="vd-badge vd-badge-info">Polish</span>
                   </td>
-                  <td>Docs</td>
+                  <td>Design Systems</td>
                 </tr>
                 <tr>
-                  <td>Clarify static-backdrop copy</td>
+                  <td>Immediate 144ms Fibonacci fade-out</td>
                   <td>
-                    <span class="vd-badge vd-badge-secondary">Polish</span>
+                    <span class="vd-badge vd-badge-secondary">Fix</span>
                   </td>
-                  <td>Docs</td>
+                  <td>Motion</td>
                 </tr>
               </tbody>
             </table>
@@ -934,8 +972,8 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
           :class="{ 'is-active': xlTab === 'team' }"
           role="tabpanel"
         >
-          <div class="vd-row">
-            <div class="vd-col-12 vd-col-md-4 vd-mb-3">
+          <div class="vd-row vd-mb-6">
+            <div class="vd-col-12 vd-col-md-4 vd-mb-5">
               <div class="vd-form-group vd-mb-0">
                 <label class="vd-label" for="xl-reviewer"
                   >Primary reviewer</label
@@ -948,7 +986,7 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
                 />
               </div>
             </div>
-            <div class="vd-col-12 vd-col-md-4 vd-mb-3">
+            <div class="vd-col-12 vd-col-md-4 vd-mb-5">
               <div class="vd-form-group vd-mb-0">
                 <label class="vd-label" for="xl-qa">QA contact</label>
                 <input
@@ -959,7 +997,7 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
                 />
               </div>
             </div>
-            <div class="vd-col-12 vd-col-md-4 vd-mb-3">
+            <div class="vd-col-12 vd-col-md-4 vd-mb-5">
               <div class="vd-form-group vd-mb-0">
                 <label class="vd-label" for="xl-window">Ship window</label>
                 <select id="xl-window" class="vd-input">
@@ -971,20 +1009,20 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
             </div>
           </div>
           <ul style="list-style: none; padding: 0; margin: 0">
-            <li class="vd-d-flex items-center justify-between vd-mb-3">
-              <span class="vd-d-flex items-center vd-gap-2">
+            <li class="vd-d-flex items-center justify-between vd-mb-6">
+              <span class="vd-d-flex items-center vd-gap-5">
                 <i class="ph ph-user-circle"></i>Alex Rivera
               </span>
               <span class="vd-badge vd-badge-primary">Owner</span>
             </li>
-            <li class="vd-d-flex items-center justify-between vd-mb-3">
-              <span class="vd-d-flex items-center vd-gap-2">
+            <li class="vd-d-flex items-center justify-between vd-mb-6">
+              <span class="vd-d-flex items-center vd-gap-5">
                 <i class="ph ph-user-circle"></i>Sam Chen
               </span>
               <span class="vd-badge vd-badge-outlined">Reviewer</span>
             </li>
             <li class="vd-d-flex items-center justify-between vd-mb-0">
-              <span class="vd-d-flex items-center vd-gap-2">
+              <span class="vd-d-flex items-center vd-gap-5">
                 <i class="ph ph-user-circle"></i>Jordan Lee
               </span>
               <span class="vd-badge vd-badge-outlined">QA</span>
@@ -1001,23 +1039,131 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
     </template>
   </VdModal>
 
-  <!-- Glass -->
+  <!-- Screen 2XL (2xl): 95% viewport golden studio -->
+  <VdModal
+    :open="active === '2xl'"
+    title="Workspace Studio — 95% Golden Viewport"
+    size="2xl"
+    @update:open="closeModal"
+    @close="closeModal"
+  >
+    <p class="vd-mb-6">
+      <code>size="2xl"</code> expands up to
+      <strong>95% of your viewport</strong>
+      while locking its bounding frame to the landscape Golden Ratio
+      (<code>1.618:1</code>). Header and footer stay pinned while rich workspace
+      content scrolls cleanly inside the modal body.
+    </p>
+
+    <div class="vd-row vd-mb-6">
+      <div class="vd-col-12 vd-col-md-4 vd-mb-5">
+        <div class="vd-card vd-h-100">
+          <div class="vd-card-body">
+            <span class="vd-badge vd-badge-primary vd-mb-5">Golden Ratio</span>
+            <h6 class="vd-mb-5">1.618 : 1</h6>
+            <p class="vd-text-sm vd-text-muted vd-mb-0">
+              Computed as <code>min(95dvw, 95dvh × φ)</code> wide by
+              <code>min(95dvh, 95dvw / φ)</code> tall.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="vd-col-12 vd-col-md-4 vd-mb-5">
+        <div class="vd-card vd-h-100">
+          <div class="vd-card-body">
+            <span class="vd-badge vd-badge-success vd-mb-5">Viewport Fit</span>
+            <h6 class="vd-mb-5">Always Bounded</h6>
+            <p class="vd-text-sm vd-text-muted vd-mb-0">
+              Safe <code>margin: auto</code> centering prevents top-edge
+              clipping even on compact laptop screens.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="vd-col-12 vd-col-md-4 vd-mb-5">
+        <div class="vd-card vd-h-100">
+          <div class="vd-card-body">
+            <span class="vd-badge vd-badge-info vd-mb-5">Scroll Guard</span>
+            <h6 class="vd-mb-5">Overscroll Contained</h6>
+            <p class="vd-text-sm vd-text-muted vd-mb-0">
+              <code>overscroll-behavior: contain</code> isolates wheel and touch
+              scroll inside the dialog.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-table-responsive">
+      <table class="vd-table vd-table-striped vd-mb-0">
+        <thead>
+          <tr>
+            <th>Size Tier</th>
+            <th>Width</th>
+            <th>Golden Height Floor</th>
+            <th>Best For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>sm</code></td>
+            <td>377px (fib 14)</td>
+            <td>233px (fib 13)</td>
+            <td>Confirmations, short prompts, side-by-side actions</td>
+          </tr>
+          <tr>
+            <td><code>md</code></td>
+            <td>610px (fib 15)</td>
+            <td>377px (fib 14)</td>
+            <td>Focused forms, invitations, alerts</td>
+          </tr>
+          <tr>
+            <td><code>lg</code></td>
+            <td>987px (fib 16)</td>
+            <td>610px (fib 15)</td>
+            <td>Tabbed settings, multi-section inspectors</td>
+          </tr>
+          <tr>
+            <td><code>xl</code></td>
+            <td>1280px</td>
+            <td>791px (clamped to viewport)</td>
+            <td>Release dashboards, multi-column comparisons</td>
+          </tr>
+          <tr>
+            <td><code>2xl</code></td>
+            <td>min(95dvw, 95dvh × φ)</td>
+            <td>min(95dvh, 95dvw / φ)</td>
+            <td>Near-fullscreen studios, canvases, large data editors</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <template #footer>
+      <button class="vd-btn vd-btn-outline" @click="closeModal">Cancel</button>
+      <button class="vd-btn vd-btn-primary" @click="closeModal">
+        Apply Workspace
+      </button>
+    </template>
+  </VdModal>
+
+  <!-- Glass: immediate live token playground -->
   <VdModal
     :open="active === 'glass'"
-    title="Glass Modal"
+    title="Live Glass Studio"
     size="lg"
     glass
     :style="glassDemoStyle"
     @update:open="closeModal"
     @close="closeModal"
   >
-    <p class="vd-mb-3 vd-text-sm vd-text-muted">
-      Same tokens as the docs card — adjust here to preview the frost over the
-      page behind this dialog.
+    <p class="vd-mb-6 vd-text-sm">
+      Pull any slider or toggle below — the frosted surface and backdrop update
+      immediately over the page behind this dialog.
     </p>
 
-    <div class="glass-demo-controls vd-mb-4">
-      <div class="vd-row vd-gap-3">
+    <div class="glass-demo-controls vd-mb-6">
+      <div class="vd-row vd-gap-6">
         <div class="vd-col-12 vd-col-md-6">
           <VdSlider
             v-model="glassBlur"
@@ -1028,8 +1174,8 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
             :step="1"
             show-value
           />
-          <p class="vd-text-sm vd-text-muted vd-mt-1 vd-mb-0">
-            <code>--vd-glass-blur</code> · backdrop uses half
+          <p class="vd-text-sm vd-text-muted vd-mt-5 vd-mb-0">
+            <code>--vd-glass-blur</code> · backdrop uses 55%
           </p>
         </div>
         <div class="vd-col-12 vd-col-md-6">
@@ -1042,7 +1188,7 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
             :step="0.1"
             show-value
           />
-          <p class="vd-text-sm vd-text-muted vd-mt-1 vd-mb-0">
+          <p class="vd-text-sm vd-text-muted vd-mt-5 vd-mb-0">
             <code>--vd-glass-saturate</code>
           </p>
         </div>
@@ -1051,13 +1197,13 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
             v-model="glassBgOpacity"
             id="glass-bg-opacity"
             label="Panel opacity"
-            :min="0.2"
+            :min="0.05"
             :max="0.95"
             :step="0.05"
             show-value
             :disabled="glassHighContrast"
           />
-          <p class="vd-text-sm vd-text-muted vd-mt-1 vd-mb-0">
+          <p class="vd-text-sm vd-text-muted vd-mt-5 vd-mb-0">
             <code>--vd-glass-bg-opacity</code>
             <template v-if="glassHighContrast">
               · locked at 0.82 by high contrast
@@ -1070,21 +1216,21 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
             id="glass-border-alpha"
             label="Border alpha"
             :min="0"
-            :max="0.5"
-            :step="0.01"
+            :max="0.8"
+            :step="0.02"
             show-value
             :disabled="glassHighContrast"
           />
-          <p class="vd-text-sm vd-text-muted vd-mt-1 vd-mb-0">
+          <p class="vd-text-sm vd-text-muted vd-mt-5 vd-mb-0">
             <code>--vd-glass-border-alpha</code>
             <template v-if="glassHighContrast">
-              · locked at 0.26 by high contrast
+              · locked at 0.36 by high contrast
             </template>
           </p>
         </div>
       </div>
 
-      <div class="vd-d-flex vd-flex-wrap vd-gap-4 items-center vd-mt-4 vd-mb-3">
+      <div class="vd-d-flex vd-flex-wrap vd-gap-6 items-center vd-mt-6 vd-mb-6">
         <VdSwitch
           v-model="glassHighContrast"
           id="glass-high-contrast"
@@ -1097,7 +1243,7 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
         />
       </div>
 
-      <div class="vd-d-flex vd-flex-wrap vd-gap-2">
+      <div class="vd-d-flex vd-flex-wrap vd-gap-5">
         <button
           type="button"
           class="vd-btn vd-btn-sm vd-btn-outline-secondary"
@@ -1114,6 +1260,13 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
         </button>
         <button
           type="button"
+          class="vd-btn vd-btn-sm vd-btn-outline-secondary"
+          @click="applyCrystalClear"
+        >
+          Crystal clear
+        </button>
+        <button
+          type="button"
           class="vd-btn vd-btn-sm vd-btn-ghost"
           @click="resetGlassDemo"
         >
@@ -1125,10 +1278,13 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
     <div class="vd-alert vd-alert-info vd-mb-0">
       <i class="ph ph-drop"></i>
       <div>
-        Live: blur {{ glassBlur }}px · saturate {{ glassSaturate }} · opacity
-        {{ glassHighContrast ? 0.82 : glassBgOpacity }} · border
-        {{ glassHighContrast ? 0.26 : glassBorderAlpha
-        }}<template v-if="glassDeepShadow"> · deep shadow</template>
+        Live CSS tokens: <code>blur: {{ glassBlur }}px</code> ·
+        <code>saturate: {{ glassSaturate }}</code> ·
+        <code>bg-opacity: {{ glassHighContrast ? 0.82 : glassBgOpacity }}</code>
+        ·
+        <code
+          >border-alpha: {{ glassHighContrast ? 0.36 : glassBorderAlpha }}</code
+        ><template v-if="glassDeepShadow"> · <code>deep shadow</code></template>
       </div>
     </div>
     <template #footer>
@@ -1146,14 +1302,14 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
     @update:open="closeModal"
     @close="closeModal"
   >
-    <div class="vd-alert vd-alert-warning vd-mb-4">
+    <div class="vd-alert vd-alert-warning vd-mb-6">
       <i class="ph ph-warning"></i>
       <div>
         <strong>This action cannot be undone.</strong> Clicking the backdrop
         will not close this modal — you must choose explicitly.
       </div>
     </div>
-    <p class="vd-mb-3">
+    <p class="vd-mb-5">
       You are about to permanently delete
       <strong>design-system-v2.fig</strong> and all associated assets.
     </p>
@@ -1165,3 +1321,74 @@ Extra-large modal width, glass variant for frosted dialogs, and denser docs demo
     </template>
   </VdModal>
 </template>
+
+<style scoped>
+.glass-refraction-stage {
+  position: relative;
+  overflow: hidden;
+  min-height: 8.5rem;
+  display: flex;
+  align-items: center;
+  border-radius: var(--vd-border-radius-lg, 0.75rem);
+  border: 1px solid var(--vd-border-color);
+  padding: 1.625rem;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--vd-color-primary) 18%, transparent),
+    color-mix(in srgb, var(--vd-color-info, #3b82f6) 14%, transparent)
+  );
+}
+
+.glass-refraction-stage-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.glass-stage-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+  margin-bottom: 1.3125rem;
+}
+
+.glass-stage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.glass-refraction-orb {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(14px);
+  opacity: 0.7;
+}
+
+.glass-refraction-orb-a {
+  width: 8rem;
+  height: 8rem;
+  top: -2rem;
+  left: -1rem;
+  background: var(--vd-color-primary);
+}
+
+.glass-refraction-orb-b {
+  width: 7rem;
+  height: 7rem;
+  bottom: -2.5rem;
+  right: 2rem;
+  background: #a855f7;
+}
+
+.glass-refraction-orb-c {
+  width: 5.5rem;
+  height: 5.5rem;
+  top: 0.5rem;
+  right: -1rem;
+  background: #10b981;
+}
+</style>

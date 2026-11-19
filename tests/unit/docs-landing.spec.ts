@@ -45,7 +45,7 @@ describe("docs-landing resources", () => {
     expect(githubDialog.findAll(".docs-landing-modal-pkg").length).toBe(3);
     expect(
       githubDialog.find(".docs-landing-modal-pkg .vd-badge").text(),
-    ).toBe("v1.9.1");
+    ).toBe("v1.9.2");
     expect(
       githubDialog.find(".vd-modal-footer button.vd-btn-outline").exists(),
     ).toBe(true);
@@ -128,7 +128,7 @@ describe("docs-landing resources", () => {
     expect(wrapper.text()).toContain(`${guideCount} guided walkthroughs`);
     expect(wrapper.text()).toContain(`Documentation v${__APP_VERSION__}`);
     expect(wrapper.text()).toContain(
-      "Latest: VD3 UI 1.9.1 · charts 1.2.0 · flowchart 1.6.0",
+      "Latest: VD3 UI 1.9.2 · charts 1.2.0 · flowchart 1.6.0",
     );
   });
 });

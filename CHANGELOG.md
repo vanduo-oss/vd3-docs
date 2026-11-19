@@ -7,6 +7,13 @@ It is not published to npm and keeps no package release history of its own.
 
 ### Changed
 
+- Adopt `@vanduo-oss/vd3@1.9.2`: Golden Ratio (`1.618:1`) landscape modal proportions and Fibonacci width ladder (`377px` / `610px` / `987px` / `1280px` + `size="2xl"` 95% viewport golden tier), viewport-bounded height with internal body scroll and `overscroll-behavior: contain`, stable tab sizing without height jumping (`stableHeight` default `true` + CSS Grid tab stacking), immediate `144ms` Fibonacci fade-out on close, and dark-mode glass token inheritance.
+- Redesign the `/components/modal` demos with a `2xl` Workspace Studio, generous Fibonacci spacing across modal headers/badges/tabs, a streamlined Live Glass Studio that updates `--vd-glass-*` tokens in real time, and `v1.9.2` changelog and version updates.
+
+## [1.9.1] - 2026-11-14
+
+### Changed
+
 - Adopt `@vanduo-oss/vd3@1.9.1`: full 17-hue Fibonacci palette scales with crimson `20deg` red/danger and >= 4.5:1 fill contrast, `VdThemeCustomizer` 3×2 neutral grid and swatch sync, and `VdDock` `data-motion="off"` centering fix.
 - Remove the temporary `vd3 1.9.0` dock centering override in `src/styles/docs.css` and update package version references and changelog entries to `v1.9.1`.
 
