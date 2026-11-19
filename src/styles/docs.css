@@ -1972,11 +1972,8 @@ footer.vd-glass::before {
   display: none;
 }
 
-[data-theme="dark"] .vd-modal-panel,
-[data-theme="dark"] .vd-modal-panel.vd-glass,
-[data-theme="dark"] .vd-modal-glass .vd-modal-panel,
-[data-theme="dark"] .vd-modal-content,
-[data-theme="dark"] .vd-modal-glass .vd-modal-content {
+[data-theme="dark"] .vd-modal:not(.vd-modal-glass) .vd-modal-panel,
+[data-theme="dark"] .vd-modal:not(.vd-modal-glass) .vd-modal-content {
   --vd-modal-bg: var(--vd-bg-primary);
   --vd-glass-highlight-alpha: 0;
 
@@ -1988,20 +1985,10 @@ footer.vd-glass::before {
   box-shadow: var(--vd-shadow-2xl);
 }
 
-[data-theme="dark"] .vd-modal-panel::before,
-[data-theme="dark"] .vd-modal-panel.vd-glass::before,
-[data-theme="dark"] .vd-modal-glass .vd-modal-panel::before,
-[data-theme="dark"] .vd-modal-panel::after,
-[data-theme="dark"] .vd-modal-panel.vd-glass::after,
-[data-theme="dark"] .vd-modal-glass .vd-modal-panel::after {
+[data-theme="dark"] .vd-modal:not(.vd-modal-glass) .vd-modal-panel::before,
+[data-theme="dark"] .vd-modal:not(.vd-modal-glass) .vd-modal-panel::after {
   display: none;
   opacity: 0;
-}
-
-[data-theme="dark"] .vd-modal-backdrop.vd-modal-glass-backdrop {
-  background-color: var(--vd-modal-backdrop-bg);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
 }
 
 [data-theme="dark"] #docs-view .guide-link:hover,
@@ -2071,11 +2058,8 @@ footer.vd-glass::before {
     display: none;
   }
 
-  :root:not([data-theme]) .vd-modal-panel,
-  :root:not([data-theme]) .vd-modal-panel.vd-glass,
-  :root:not([data-theme]) .vd-modal-glass .vd-modal-panel,
-  :root:not([data-theme]) .vd-modal-content,
-  :root:not([data-theme]) .vd-modal-glass .vd-modal-content {
+  :root:not([data-theme]) .vd-modal:not(.vd-modal-glass) .vd-modal-panel,
+  :root:not([data-theme]) .vd-modal:not(.vd-modal-glass) .vd-modal-content {
     --vd-modal-bg: var(--vd-bg-primary);
     --vd-glass-highlight-alpha: 0;
 
@@ -2087,20 +2071,14 @@ footer.vd-glass::before {
     box-shadow: var(--vd-shadow-2xl);
   }
 
-  :root:not([data-theme]) .vd-modal-panel::before,
-  :root:not([data-theme]) .vd-modal-panel.vd-glass::before,
-  :root:not([data-theme]) .vd-modal-glass .vd-modal-panel::before,
-  :root:not([data-theme]) .vd-modal-panel::after,
-  :root:not([data-theme]) .vd-modal-panel.vd-glass::after,
-  :root:not([data-theme]) .vd-modal-glass .vd-modal-panel::after {
+  :root:not([data-theme])
+    .vd-modal:not(.vd-modal-glass)
+    .vd-modal-panel::before,
+  :root:not([data-theme])
+    .vd-modal:not(.vd-modal-glass)
+    .vd-modal-panel::after {
     display: none;
     opacity: 0;
-  }
-
-  :root:not([data-theme]) .vd-modal-backdrop.vd-modal-glass-backdrop {
-    background-color: var(--vd-modal-backdrop-bg);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
 
   :root:not([data-theme]) #docs-view .guide-link:hover,

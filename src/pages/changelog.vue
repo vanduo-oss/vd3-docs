@@ -58,6 +58,170 @@ useAffix(root);
             The standalone Vue 3 design system &amp; component library.
           </p>
         </div>
+        <article class="version-card" id="vd3-1-9-2">
+          <header class="version-header">
+            <span
+              class="vd-badge vd-badge-primary"
+              style="font-size: 1rem; padding: 0.5rem 1rem"
+              >v1.9.2</span
+            >
+            <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
+              <i class="ph ph-calendar mr-1"></i>November 2026
+            </span>
+            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
+              >Latest</span
+            >
+          </header>
+          <div class="version-body">
+            <div class="vd-row">
+              <div class="vd-col-12">
+                <p class="vd-text-muted" style="margin: 0 0 1.25rem">
+                  <strong
+                    >Golden Ratio modals, stable tab heights &amp; instant exit
+                    motion</strong
+                  >
+                  — viewport-bounded landscape modal sizing across five
+                  Fibonacci tiers (<code>sm</code> through <code>2xl</code>),
+                  steady tabbed modal geometry, instant <code>144ms</code>
+                  Fibonacci fade-out, and reactive dark-mode glass tokens.
+                </p>
+                <div class="change-group">
+                  <h5>Added</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-arrows-out"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          ><code>size="2xl"</code> 95% viewport Golden Ratio
+                          tier</strong
+                        >
+                        <p>
+                          Added <code>size="2xl"</code> on
+                          <RouterLink to="/components/modal"
+                            ><code>VdModal</code></RouterLink
+                          >
+                          along with <code>.vd-modal-panel-2xl</code> and
+                          <code>--vd-modal-width-2xl</code>, computing
+                          <code>min(95dvw, 95dvh × φ)</code> wide by
+                          <code>min(95dvh, 95dvw / φ)</code> tall so large
+                          studios stay bounded inside any viewport.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-frame-corners"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Default <code>golden</code> &amp;
+                          <code>stableHeight</code> modal props</strong
+                        >
+                        <p>
+                          <RouterLink to="/components/modal"
+                            ><code>VdModal</code></RouterLink
+                          >
+                          maintains landscape Golden Ratio proportions (<code
+                            >golden = true</code
+                          >, opt out via <code>.vd-modal-auto-height</code>) and
+                          locks tabbed heights against jumping (<code
+                            >stableHeight = true</code
+                          >, opt out via <code>.vd-modal-dynamic-height</code>)
+                          backed by CSS Grid tab stacking
+                          (<code>.vd-tabs-stable</code>) in
+                          <RouterLink to="/components/tabs"
+                            ><code>Tabs</code></RouterLink
+                          >
+                          and <code>ResizeObserver</code> floor tracking.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Changed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-layout"
+                        style="color: var(--vd-color-primary)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Fibonacci modal width ladder &amp; viewport
+                          containment</strong
+                        >
+                        <p>
+                          Shifted default modal widths up one Fibonacci step
+                          (<code>sm: 377px</code>, <code>md: 610px</code>,
+                          <code>lg: 987px</code>, <code>xl: 1280px</code>),
+                          clamped panel height to
+                          <code>--vd-modal-max-height</code> with safe
+                          <code>margin: auto</code> centering, kept side-by-side
+                          <code>.vd-modal-footer</code> actions, contained
+                          scroll via <code>overscroll-behavior: contain</code>,
+                          and gave <code>.vd-tab-content</code>
+                          <code>21px</code>
+                          Fibonacci top padding.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="change-group">
+                  <h5>Fixed</h5>
+                  <ul class="change-list">
+                    <li class="change-item">
+                      <i
+                        class="ph ph-corners-out"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Immediate Fibonacci fade-out on modal close</strong
+                        >
+                        <p>
+                          Fixed the specificity collision between
+                          <code>.vd-modal.vd-modal-open</code> and
+                          <code>.vd-fade-leave-to</code> so modals start fading
+                          out immediately over
+                          <code>--vd-duration-144</code> (<code>144ms</code>)
+                          without a frozen close delay while honoring
+                          reduced-motion modes.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="change-item">
+                      <i
+                        class="ph ph-drop"
+                        style="color: var(--vd-color-info)"
+                      ></i>
+                      <div>
+                        <strong
+                          >Dark-mode glass token inheritance &amp; tab focus
+                          trap</strong
+                        >
+                        <p>
+                          Moved dark-theme
+                          <code>--vd-glass-bg-opacity</code> and
+                          <code>--vd-glass-border-alpha</code> defaults to
+                          <code>.vd-modal-glass</code> so live inline overrides
+                          inherit into <code>.vd-modal-panel</code>, and updated
+                          <code>useFocusTrap</code> to skip inactive
+                          <code>.vd-tab-pane:not(.is-active)</code> controls.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
         <article class="version-card" id="vd3-1-9-1">
           <header class="version-header">
             <span
@@ -68,9 +232,6 @@ useAffix(root);
             <span style="color: var(--vd-text-secondary); font-size: 0.95rem">
               <i class="ph ph-calendar mr-1"></i>November 2026
             </span>
-            <span class="vd-badge vd-badge-outline" style="font-size: 0.75rem"
-              >Latest</span
-            >
           </header>
           <div class="version-body">
             <div class="vd-row">
